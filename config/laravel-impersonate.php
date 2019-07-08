@@ -22,5 +22,4 @@ return [
      * Use 'back' to redirect to the previous page
      */
     'leave_redirect_to' => '/admin/user',
-
 ];
