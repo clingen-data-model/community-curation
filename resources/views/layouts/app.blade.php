@@ -50,6 +50,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(\Auth::user()->hasPermissionTo('administer'))
+                                    <a class="dropdown-item" href="/admin">
+                                        Admin
+                                    </a>
+                                    @endif
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -67,6 +73,7 @@
             </div>
         </nav>
 
+        @include('partials.impersonate')
         <main class="py-4">
             @yield('content')
         </main>
