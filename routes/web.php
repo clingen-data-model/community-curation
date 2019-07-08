@@ -15,3 +15,11 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 Route::redirect('/home', '/');
+
+Route::group([
+        'middleware' => [
+            'auth'
+        ]
+    ], function () {
+        Route::impersonate();
+    });
