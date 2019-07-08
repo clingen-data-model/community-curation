@@ -1,4 +1,4 @@
-@if(\Auth::user()->canImpersonate() && !\Auth::user()->isImpersonated())
+@if(!\Auth::guest() && \Auth::user()->canImpersonate() && !\Auth::user()->isImpersonated())
     <div class="alert alert-warning clearfix text-right">
         <div class="container">
             <div class="form-inline float-right">
