@@ -1,0 +1,101 @@
+.sirs-survey{
+  // font-size: 16px;
+}
+
+.question-block{
+  position: relative;
+  // background: #fafafa;
+  margin: 0 0 0;
+  border-top: solid 1px #eee;
+  padding: .75em 0;
+}
+
+.question-block.sub-question{
+  margin-top: 0;
+  padding-left: 1em;
+  border-top: none;
+}
+
+label{
+  font-weight: normal;
+}
+
+.question-block.has-errors{
+  // @extend .alert;
+  // @extend .alert-danger;
+}
+
+.question-answers{
+  margin: .5em auto
+}
+
+.error-block{
+  @extend .alert;
+  @extend .alert-danger;
+  font-size: 12px;
+  padding: .5em
+}
+.error-block>.error-list{
+}
+
+.question-block.vertical .btn-group{
+  @extend .btn-group-vertical;
+}
+
+.likert-container
+{
+  margin-bottom: 2.5rem;
+
+  .likert-prompt
+  {
+    margin-bottom: .25rem
+  }
+
+  & > table {
+    margin-bottom: .25rem;
+    margin-left: 1.5rem;
+    width: 90%;  
+  }
+  
+  & > table thead th {
+    border-top: none;
+    font-size: .8rem;
+    font-weight: normal;
+  }
+  
+  & > table tbody th {
+    padding: .5rem;
+  }
+  
+  & > table th:first-child {
+    width: 50%;
+  }
+}
+
+
+
+// response data view
+  #page-nav.affix {
+    top: 10px;
+  }
+  .nav li.active {
+    border-bottom: 3px solid #f0f;
+  }
+
+.list-no-indent{
+  padding-left: 1em;
+}
+
+.separator-bottom{
+  margin-bottom: 1em;
+  border-bottom: solid 1px $gray-lighter;
+  padding-bottom: 1em;
+}
+
+.finalized-response-warning{
+  @extend .alert;
+  @extend .alert-warning;
+  padding: .7em;
+  margin: 0;
+  margin-right: 1em;
+}
