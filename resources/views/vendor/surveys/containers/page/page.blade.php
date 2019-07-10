@@ -6,16 +6,18 @@
   <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
   <div class="panel panel-default card">
     <div class="panel-heading card-header">
-      <div class="pull-right float-right" style="margin-top: 4px;">
-        
-        @if($context['response']->finalized_at)
-          <small class="finalized-response-warning">
-            <strong>This response was finalized on {{$context['response']->finalized_at->format('m/d/Y')}}</strong>
-          </small>
-        @endif
+      @if (!\Auth::guest() && \Auth::user()->can('view survey data'))
+        <div class="pull-right float-right" style="margin-top: 4px;">
+          
+          @if($context['response']->finalized_at)
+            <small class="finalized-response-warning">
+              <strong>This response was finalized on {{$context['response']->finalized_at->format('m/d/Y')}}</strong>
+            </small>
+          @endif        
 
-        <a href="{{route('surveys.responses.show', [$context['survey']['object']->slug, $context['response']->id])}}" class="btn btn-sm btn-default">View Data</a>
-      </div>
+          <a href="{{route('surveys.responses.show', [$context['survey']['object']->slug, $context['response']->id])}}" class="btn btn-sm btn-default">View Data</a>
+        </div>
+      @endif
       <h4>
         @if ($context['response']->respondent)
           {{$context['response']->respondent->full_name ?? 'Respondent:'.$context['response']->respondent->id}} 
