@@ -12,7 +12,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $programmer = User::firstOrcreate(['email' => 'sirs@unc.edu'],[
+        User::unguard();
+        $programmer = User::firstOrCreate(['id'=>1],[
+            'id' => 1,
             'name' => 'Sirs Programmer',
             'email' => 'sirs@unc.edu',
             'password' => \Hash::make('tester')
