@@ -3,21 +3,24 @@
 namespace App;
 
 use Backpack\CRUD\CrudTrait;
-use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use RevisionableTrait;
     use Notifiable;
     use CrudTrait;
     use Impersonate;
     use LogsActivity;
     use HasRoles;
 
+    protected $revisionCreationsEnabled = true;
+    
     /**
      * The attributes that are mass assignable.
      *
