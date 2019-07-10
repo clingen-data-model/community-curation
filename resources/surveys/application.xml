@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<survey name="Application" title="Application" version="1">
+    <page name="introduction" title="Introduction">
+        <html>
+            <content>
+                <![CDATA[
+                    <p>
+                        Thank you for your interest in volunteering as a curator for ClinGen.
+                    </p>
+
+                    <p>
+                        Please tell us more about your interests, expertise, and desired level of involvement so we can pair you with an appropriate curation activity and/or Expert Panel. 
+                    </p>   
+
+                    <p>
+                        Background training within your assigned curation activity will be provided. These training sessions are held quarterly. Once you submit this form, you will be added to the list to be notified of the next training session(s).
+                    </p>
+                ]]>
+            </content>
+        </html>
+    </page>
+
+    <page name="demographic" title="Demographic Questions">
+        <question name="applicant_name" id="applicant_name" required="true">
+            <question-text>Name*</question-text>
+        </question>
+        <question name="institution" id="institution" required="true">
+            <question-text>Institution*</question-text>
+        </question>
+        <question name="address" id="address">
+            <question-text>Address</question-text>
+        </question>
+        <question name="email" id="email" required="true">
+            <question-text>Email address*</question-text>
+        </question>
+        <multiple-choice name="timezone" id="timezone" num-selectable="1">
+            <template source="questions.multiple_choice.select"></template>
+            <question-text>
+                <![CDATA[What time zone are you in?]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@timezones"></data-source>
+            </options>
+        </multiple-choice>
+    </page>
+    
+    <page name="education" title="Education and Certification Questions">
+        <question-group name="highest-ed-grp" id="highest-ed-grp">
+            <multiple-choice name="highest_ed" id="highest_ed" num-selectable="1">
+                <question-text>
+                    <![CDATA[What is your highest level of education?*]]>
+                </question-text>
+                <options>
+                    <option name="highest_ed1">
+                        <value>1</value>
+                        <label>Some high school education</label>
+                    </option>
+                    <option name="highest_ed2">
+                        <value>2</value>
+                        <label>High school diploma</label>
+                    </option>
+                    <option name="highest_ed3">
+                        <value>3</value>
+                        <label>Bachelor's degree</label>
+                    </option>
+                    <option name="highest_ed4">
+                        <value>4</value>
+                        <label>Master's degree</label>
+                    </option>
+                    <option name="highest_ed5">
+                        <label>M.D.</label>
+                        <value>5</value>
+                    </option>
+                    <option name="highest_ed5">
+                        <label>Ph.D.</label>
+                        <value>6</value>
+                    </option>
+                    <option name="highest_ed6" show="highest_ed_other">
+                        <value>100</value>
+                        <label>Other</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            <question name="highest_ed_other" id="highest_ed_other"></question>
+        </question-group>
+
+        <question name="adv_cert" id="adv_cert">
+            <template source="questions.text.large_text"></template>
+            <question-text>If you have an advanced genetic certification or fellowship (i.e. CGC or FACMG), please indicate:</question-text>
+        </question>
+
+        <question-group name="self_desc_grp" id="self_desc_grp" class="">
+            <multiple-choice name="self_desc" id="self_desc" num-selectable="1">
+                <question-text>
+                    <![CDATA[I am a... (choose one that most accurately describes yourself)*]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@selfDescriptions"></data-source>
+                    <option name="self_desc_other" show="self_desc_other_detail">
+                        <value>100</value>
+                        <label>Other</label>
+                    </option>
+                </options>
+            </multiple-choice>
+
+            <question name="self_desc_other" id="self_desc_other_detail">
+            </question>
+        </question-group>
+    </page>
+
+    <page name="outreach" title="Outreach and Motivation Questions">
+        <question-group name="ad_campaign_grp" id="ad_campaign_grp" class="">
+            <multiple-choice name="ad_campaign" id="ad_campaign" num-selectable="10" data-format="json">
+                <question-text>
+                    <![CDATA[How did you find out about the ClinGen volunteer efforts?*]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@adCampaigns"></data-source>
+                    <option name="ad_campaign_other" show="ad_campaign_other_detail">
+                        <value>100</value>
+                        <label>Other</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            <question name="ad_campaign_other_detail" id="ad_campaign_other_detail">
+            </question>
+        </question-group>
+
+        <question-group name="motivation-grp" id="motivation-grp">
+            <multiple-choice name="motivation" id="motivation" num-selectable="10" data-format="json">
+                <question-text>
+                    <![CDATA[What motivated you to volunteer in ClinGen curation efforts?*]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@motivations"></data-source>
+                    <option name="motivation_other" show="motivation_other_detail">
+                        <value>100</value>
+                        <label>Other</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            <question name="motivation_other_detail" id="motivation_other_detail">
+            </question>
+        </question-group>
+
+        <question-group name="goals-grp" id="goals-grp">
+            <multiple-choice name="goals" id="goals" num-selectable="10" data-format="json">
+                <question-text>
+                    <![CDATA[What would you like to accomplish by volunteering with ClinGen? Do you have any specific goals?]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@goals"></data-source>
+                    <option name="goals_other" show="goals_other_detail">
+                        <value>100</value>
+                        <label>Other</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            <question name="goals_other_detail" id="goals_other_detail">
+            </question>
+        </question-group>
+
+        <multiple-choice name="interests" id="interests" num-selectable="10" data-format="json">
+            <question-text>
+                <![CDATA[Are there any genes and/or disease areas you are particularly interested in?]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@interests"></data-source>
+            </options>
+        </multiple-choice>
+    </page>
+
+    <page name="commitment" title="Vollunteer Commitment Question">
+        <multiple-choice name="volunteer_type" id="volunteer_type" num-selectable="1">
+            <question-text>
+                <![CDATA[How would you describe the amount of time you are able to commit to ClinGen curation activities?*]]>
+            </question-text>
+            <options>
+                <option name="volunteer_typeBaseline">
+                    <value>1</value>
+                    <label>I am more interested in participating as time allows. I am willing to read scientific articles and identify evidence that may be useful for ClinGen curation activities at my own pace, and not be a formal member of any specific </label>
+                </option>
+                <option name="volunteer_typeComprehensive">
+                    <value>2</value>
+                    <label>I am more interested in becoming an active member of a curation group. I am willing to attend conference calls, as well as spend time outside of calls performing curation and entering information into ClinGen interfaces (estimated 8-10 hours of participation per month). </label>
+                </option>
+            </options>
+        </multiple-choice>
+    </page>
+    
+</survey>

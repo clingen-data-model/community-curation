@@ -16,10 +16,10 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 Route::redirect('/home', '/');
 
-Route::group([
-        'middleware' => [
-            'auth'
-        ]
-    ], function () {
-        Route::impersonate();
-    });
+Route::group(['middleware' => ['auth']], function () {
+    Route::impersonate();
+});
+
+Route::get('apply/{responseId?}','ApplicationController@show')->name('application.show');
+Route::post('apply/{responseId?}', 'ApplicationController@store')->name('application.store');
+`
