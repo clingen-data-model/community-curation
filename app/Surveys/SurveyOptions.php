@@ -7,6 +7,7 @@ use App\Campaign;
 use App\Interest;
 use App\Motivation;
 use App\SelfDescription;
+use App\CurationActivity;
 
 class SurveyOptions
 {
@@ -28,6 +29,12 @@ class SurveyOptions
         return $options;
     }
     
+    public function curationActivities()
+    {
+        CurationActivity::select('id', 'name')->get();
+    }
+    
+
     public function selfDescriptions()
     {
         return SelfDescription::select('id', 'name')->get();
