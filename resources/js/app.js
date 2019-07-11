@@ -6,6 +6,11 @@
 
 require('./bootstrap');
 
+require('sirs-skiptrigger')
+require('mutually-exclusive')
+window.datepicker = require('bootstrap-datepicker');
+window.timepicker = require('timepicker');
+
 window.Vue = require('vue');
 
 /**

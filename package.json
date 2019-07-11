@@ -12,15 +12,21 @@
     "devDependencies": {
         "axios": "^0.19",
         "bootstrap": "^4.1.0",
+        "bootstrap-datepicker": "^1.8.0",
+        "bootstrap-vue": "^2.0.0-rc.20",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
+        "mutually-exclusive": "^1.0.1",
         "popper.js": "^1.12",
-        "resolve-url-loader": "^2.3.1",
-        "sass": "^1.15.2",
-        "sass-loader": "^7.1.0",
+        "resolve-url-loader": "3.1.0",
+        "sass": "^1.22.3",
+        "sass-loader": "7.*",
+        "sirs-skiptrigger": "^1.1.2",
+        "timepicker": "^1.11.15",
         "vue": "^2.5.17",
-        "sirs-skiptrigger": "^1.1.2"
-    }
+        "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {}
 }
