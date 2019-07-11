@@ -10,7 +10,7 @@
                         In order to best place your efforts, we ask if you would please prioritize your top three curation activites(s) 
                         and expert panel(s) of choice. Further, please indicate any prior experience and willingness to participate in more than one. 
                         
-                        Note, you are not obligated to participate in more than one, as each curation effort will have its own training session(s).
+                        Note, you are not obligated to participate in more than one, as each curation activity will have its own training session(s).
                     </p>
 
                     <p>
@@ -32,7 +32,7 @@
         <question-group name="first-choice-grp" id="first-choice-grp">
             <multiple-choice name="effort_1" id="effort_1" num-selectable="1">
                 <question-text>
-                    <![CDATA[Curation Effort]]>
+                    <![CDATA[Curation Activity]]>
                 </question-text>
                 <options>
                     <data-source URI="App\Surveys\SurveyOptions::efforts"></data-source>
@@ -109,7 +109,7 @@
             <question-group name="second-choice-grp" id="second-choice-grp">
                 <multiple-choice name="effort_2" id="effort_2" num-selectable="1">
                     <question-text>
-                        <![CDATA[Curation Effort]]>
+                        <![CDATA[Curation Activity]]>
                     </question-text>
                     <options>
                         <data-source URI="App\Surveys\SurveyOptions::efforts"></data-source>
@@ -167,7 +167,7 @@
             <question-group name="third-choice-grp" id="third-choice-grp">
                 <multiple-choice name="effort_3" id="effort_3" num-selectable="1">
                     <question-text>
-                        <![CDATA[Curation Effort]]>
+                        <![CDATA[Curation Activity]]>
                     </question-text>
                     <options>
                         <data-source URI="App\Surveys\SurveyOptions::efforts"></data-source>
