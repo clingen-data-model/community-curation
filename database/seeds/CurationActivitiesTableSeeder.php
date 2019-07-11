@@ -16,7 +16,7 @@ class CurationActivitiesTableSeeder extends Seeder
             1 => 'Actionability',
             2 => 'Dosage',
             3 => 'Gene',
-            4 => 'Somatic Variant'
+            4 => 'Somatic Variant',
             5 => 'Variant',
         ];
 
