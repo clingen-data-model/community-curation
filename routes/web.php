@@ -22,4 +22,3 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('apply/{responseId?}','ApplicationController@show')->name('application.show');
 Route::post('apply/{responseId?}', 'ApplicationController@store')->name('application.store');
-`
