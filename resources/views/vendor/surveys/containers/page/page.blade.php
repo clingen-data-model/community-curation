@@ -1,4 +1,4 @@
-@extends('surveys::default_layout')
+@extends('layouts.survey')
 
 @section('content')
 <br>
@@ -76,19 +76,7 @@
 </div>
 @endsection
 
-@push('styles')
-  <style>
-    .notification{
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: none;
-      margin: auto;
-    }
-  </style>
-@endpush
-
-@push('js')
+@push('scripts')
   @include('surveys::js.plugins')
   @include('surveys::js.autosave')
 @endpush
