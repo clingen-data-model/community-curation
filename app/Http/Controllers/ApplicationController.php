@@ -31,6 +31,7 @@ class ApplicationController extends Controller
         $survey = class_survey()::findBySlug('application1');
         $survey->getSurveyDocument()->validate();
         
+
         $response = $this->getResponseObject($request);
         $control = new ApplicationControlService($request, $response);
         return $control->saveAndContinue();
@@ -42,7 +43,7 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $id = null)
     {
         $response = $this->getResponseObject($request, $id);
 
