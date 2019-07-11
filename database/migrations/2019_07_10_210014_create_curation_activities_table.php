@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEffortsTable extends Migration
+class CreateCurationActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +17,7 @@ class CreateEffortsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
