@@ -4,6 +4,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <a href="/apply" class="btn btn-lg btn-primary form-control">
+                        Take the volunteer application survey
+                    </a>
+                </div>
+            </div>
+
+            <div class="mb-4 text-center">OR</div>
+
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
