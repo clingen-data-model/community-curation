@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Carbon;
 
 class ApplicationTest extends TestCase
 {
@@ -62,6 +63,23 @@ class ApplicationTest extends TestCase
 
     }
     
+    /**
+     * @test
+     */
+    public function creates_a_new_volunteer_user_on_finalized()
+    {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->volunteer_type   = 1;
+        $rsp->finalize();
+
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'billy pilgrim',
+            'email' => 'test@test.com'
+        ]);
+    }
     
     
     

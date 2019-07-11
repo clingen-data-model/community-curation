@@ -178,11 +178,11 @@
             <options>
                 <option name="volunteer_typeBaseline">
                     <value>1</value>
-                    <label>I am more interested in participating as time allows. I am willing to read scientific articles and identify evidence that may be useful for ClinGen curation activities at my own pace, and not be a formal member of any specific </label>
+                    <label>Basline</label>
                 </option>
                 <option name="volunteer_typeComprehensive">
                     <value>2</value>
-                    <label>I am more interested in becoming an active member of a curation group. I am willing to attend conference calls, as well as spend time outside of calls performing curation and entering information into ClinGen interfaces (estimated 8-10 hours of participation per month). </label>
+                    <label>Comprehensive</label>
                 </option>
             </options>
         </multiple-choice>

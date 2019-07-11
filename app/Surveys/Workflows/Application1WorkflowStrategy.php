@@ -2,6 +2,7 @@
 
 namespace App\Surveys\Workflows;
 
+use App\User;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
 /**
@@ -21,14 +22,15 @@ class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
 {
     public function finalized()
     {
-        if (is_null($this->respondent)) {
-                $volunteer = User::create([
+        if (is_null($this->response->respondent)) {
+            $volunteer = User::create([
                 'name' => $this->response->applicant_name,
                 'email' => $this->response->email,
                 'password' => \Hash::make(uniqid())
             ]);
             $volunteer->assignRole('volunteer');
         }
+        session()->forget('application-survey');
     }
 } // END class SurveyResponseTypeWorkflowStrategy
 
