@@ -20,7 +20,7 @@ use Sirs\Surveys\SurveyResponseWorkflowStrategy;
  **/
 class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
 {
-    public function finalized()
+    public function finalizing()
     {
         if (is_null($this->response->respondent)) {
             $volunteer = User::create([
@@ -29,7 +29,10 @@ class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
                 'password' => \Hash::make(uniqid())
             ]);
             $volunteer->assignRole('volunteer');
+            $this->response->respondent_type = User::class;
+            $this->response->respondent_id = $volunteer->id;
         }
+
         session()->forget('application-survey');
     }
 } // END class SurveyResponseTypeWorkflowStrategy

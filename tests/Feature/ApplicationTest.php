@@ -2,15 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Carbon;
 
 class ApplicationTest extends TestCase
 {
-    // use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function setUp():void
     {
@@ -66,8 +67,29 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function creates_a_new_volunteer_user_on_finalized()
+    public function redirects_to_priorities_survey_for_new_respondent_if_comprehensive_volunteer()
     {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->email = 'beans@test.com';
+        $rsp->volunteer_type   = 2;
+        $rsp->save();
+
+        $httpResponse = $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
+            ->assertStatus(302);
+
+        $volunteer = $rsp->fresh()->respondent;
+
+        $httpResponse->assertRedirect('/app-user/'.$volunteer->id.'/survey/priorities1/new');        
+    }
+    
+
+    /**
+     * @test
+     */
+    public function creates_a_new_volunteer_user_on_finalized_and_sets_as_respondent()
+    {
+
         $rsp = $this->survey->getNewResponse(null);
         $rsp->applicant_name = 'billy pilgrim';
         $rsp->email = 'test@test.com';
@@ -79,6 +101,10 @@ class ApplicationTest extends TestCase
             'name' => 'billy pilgrim',
             'email' => 'test@test.com'
         ]);
+
+        $user = User::where('email', 'test@test.com')->first();
+        $this->assertEquals('App\User', $rsp->fresh()->respondent_type);
+        $this->assertEquals($user->id, $rsp->fresh()->respondent_id);
     }
     
     

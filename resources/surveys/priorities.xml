@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<survey name="Preferences" title="Preferences" version="1">
-    <page name="Priorities" title="Volunteer Prioritization and group interest">
+<survey name="priorities" title="Priorities" version="1">
+    <page name="Priorities" title="Volunteer Prioritization and Group Interest">
         <html>
             <content>
                 <![CDATA[
@@ -29,27 +29,44 @@
             </content>
         </html>
 
-        <question-group name="first-choice-grp" id="first-choice-grp">
-            <multiple-choice name="effort_1" id="effort_1" num-selectable="1">
+        <question-group name="first-choice-grp" id="first-choice-grp" class="mb-4 priority-group">
+            <html>
+                <content>
+                    <![CDATA[<h4>First Choice</h4>]]>
+                </content>
+            </html>
+            
+            <!-- Disabled so that we can wait for panels from the server.  See resources/js/app.js -->
+            <multiple-choice 
+                name="curation_activity_1" 
+                id="curation_activity_1" 
+                num-selectable="1" 
+                class="form-inline curation-activity-question" 
+                disabled="1" 
+                required="1"
+            >
+                <template source="questions.multiple_choice.select"></template>
                 <question-text>
                     <![CDATA[Curation Activity]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions::efforts"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
                 </options>
             </multiple-choice>
             
-            <multiple-choice name="panel_1" id="panel_1" num-selectable="1">
+            <multiple-choice name="panel_1" id="panel_1" num-selectable="1" class="form-inline panel-question" required="1">
+                <template source="questions.multiple_choice.select"></template>
                 <question-text>
                     <![CDATA[Expert Panel]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions::expertPanels"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
                 </options>
             </multiple-choice>
 
-            <question-group name="effort_experience_1_grp" id="effort_experience_1_grp" class="">                
-                <multiple-choice name="effort_experience_1" id="effort_experience_1" num-selectable="1">
+            <question-group name="effort_experience_1_grp" id="effort_experience_1_grp" class="with-followup">                
+                <multiple-choice name="effort_experience_1" id="effort_experience_1" num-selectable="1" class="form-inline">
+                    <template source="questions.multiple_choice.radio_group"></template>
                     <question-text>Do you have any previous experience with the type of curation effort?</question-text>
                     <options>
                         <option name="effort_experience_1_1" show="effort_experience_1_detail">
@@ -62,13 +79,14 @@
                         </option>
                     </options>
                 </multiple-choice>
-                <question name="effort_experience_1_detail" id="effort_experience_1_detail">
-                    <question-text>Experience Details</question-text>
+                <question name="effort_experience_1_detail" id="effort_experience_1_detail" class="form-inline followup">
+                    <question-text>Details</question-text>
                 </question>
             </question-group>
 
-            <question-group name="activity_experience_1_grp" id="activity_experience_1_grp" class="">                
-                <multiple-choice name="activity_experience_1" id="activity_experience_1" num-selectable="1">
+            <question-group name="activity_experience_1_grp" id="activity_experience_1_grp" class="with-followup">
+                <multiple-choice name="activity_experience_1" id="activity_experience_1" num-selectable="1" class="form-inline">
+                    <template source="questions.multiple_choice.radio_group"></template>
                     <question-text>Do you have any previous experience with the type of curation activity?</question-text>
                     <options>
                         <option name="activity_experience_1_1" show="activity_experience_1_detail">
@@ -81,13 +99,14 @@
                         </option>
                     </options>
                 </multiple-choice>
-                <question name="activity_experience_1_detail" id="activity_experience_1_detail">
-                    <question-text>Experience Details</question-text>
+                <question name="activity_experience_1_detail" id="activity_experience_1_detail" class="form-inline followup">
+                    <question-text>Details</question-text>
                 </question>
             </question-group>
         </question-group>
 
         <multiple-choice name="additional_priority" id="additional_priority" num-selectable="1">
+            <template source="questions.multiple_choice.radio_group"></template>
             <question-text>Are you interested/able to work on more than one curation activity? Please note that this would likely increase your time commitment.</question-text>
             <options>
                 <option name="additional_priority_1" show="more-priorities-grp">
@@ -105,28 +124,44 @@
             </options>
         </multiple-choice>
 
-        <question-group name="more-priorities-grp" id="more-priorities-grp">
-            <question-group name="second-choice-grp" id="second-choice-grp">
-                <multiple-choice name="effort_2" id="effort_2" num-selectable="1">
+        <question-group name="more-priorities-grp" id="more-priorities-grp" class="indent">
+            <question-group name="choice-grp-2" id="choice-grp-2" class="mb-4 priority-group">
+                <html>
+                    <content>
+                        <![CDATA[<h4 class="border-bottom">Second Choice</h4>]]>
+                    </content>
+                </html>
+                <!-- Disabled so that we can wait for panels from the server.  See resources/js/app.js -->
+                <multiple-choice 
+                    name="curation_activity_2" 
+                    id="curation_activity_2" 
+                    num-selectable="1" 
+                    class="form-inline curation-activity-question" 
+                    disabled="1"
+                    validation-rules="different:curation_activity_1"
+                >
+                    <template source="questions.multiple_choice.select"></template>
                     <question-text>
                         <![CDATA[Curation Activity]]>
                     </question-text>
                     <options>
-                        <data-source URI="App\Surveys\SurveyOptions::efforts"></data-source>
+                        <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
                     </options>
                 </multiple-choice>
                 
-                <multiple-choice name="panel_2" id="panel_2" num-selectable="1">
+                <multiple-choice name="panel_2" id="panel_2" num-selectable="1" class="form-inline panel-question">
+                    <template source="questions.multiple_choice.select"></template>
                     <question-text>
                         <![CDATA[Expert Panel]]>
                     </question-text>
                     <options>
-                        <data-source URI="App\Surveys\SurveyOptions::expertPanels"></data-source>
+                        <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
                     </options>
                 </multiple-choice>
                 
-                <question-group name="effort_experience_2_grp" id="effort_experience_2_grp" class="">
-                    <multiple-choice name="effort_experience_2" id="effort_experience_2" num-selectable="1">
+                <question-group name="effort_experience_2_grp" id="effort_experience_2_grp" class="with-followup">
+                    <multiple-choice name="effort_experience_2" id="effort_experience_2" num-selectable="1" class="form-inline">
+                        <template source="questions.multiple_choice.radio_group"></template>
                         <question-text>Do you have any previous experience with the type of curation effort?</question-text>
                         <options>
                             <option name="effort_experience_2_1" show="effort_experience_2_detail">
@@ -139,13 +174,14 @@
                             </option>
                         </options>
                     </multiple-choice>
-                    <question name="effort_experience_2_detail" id="effort_experience_2_detail">
-                        <question-text>Experience Details</question-text>
+                    <question name="effort_experience_2_detail" id="effort_experience_2_detail" class="form-inline followup">
+                        <question-text>Details</question-text>
                     </question>
                 </question-group>
                 
-                <question-group name="activity_experience_2_grp" id="activity_experience_2_grp" class="">
-                    <multiple-choice name="activity_experience_2" id="activity_experience_2" num-selectable="1">
+                <question-group name="activity_experience_2_grp" id="activity_experience_2_grp" class="with-followup">            
+                    <multiple-choice name="activity_experience_2" id="activity_experience_2" num-selectable="1" class="form-inline">
+                        <template source="questions.multiple_choice.radio_group"></template>
                         <question-text>Do you have any previous experience with the type of curation activity?</question-text>
                         <options>
                             <option name="activity_experience_2_1" show="activity_experience_2_detail">
@@ -158,33 +194,49 @@
                             </option>
                         </options>
                     </multiple-choice>
-                    <question name="activity_experience_2_detail" id="activity_experience_2_detail">
-                        <question-text>Experience Details</question-text>
+                    <question name="activity_experience_2_detail" id="activity_experience_2_detail" class="form-inline followup">
+                        <question-text>Details</question-text>
                     </question>
                 </question-group>
             </question-group>
 
-            <question-group name="third-choice-grp" id="third-choice-grp">
-                <multiple-choice name="effort_3" id="effort_3" num-selectable="1">
+            <question-group name="priority-grp-3" id="priority-grp-3" class="mb-4 priority-group">
+                <html>
+                    <content>
+                        <![CDATA[<h4 class="border-bottom">Third Choice</h4>]]>
+                    </content>
+                </html>
+                <!-- Disabled so that we can wait for panels from the server.  See resources/js/app.js -->
+                <multiple-choice 
+                    name="curation_activity_3" 
+                    id="curation_activity_3" 
+                    num-selectable="1" 
+                    class="form-inline curation-activity-question" 
+                    disabled="1"
+                    validation-rules="different:curation_activity_1|different:curation_activity_2"
+                >
+                    <template source="questions.multiple_choice.select"></template>
                     <question-text>
                         <![CDATA[Curation Activity]]>
                     </question-text>
                     <options>
-                        <data-source URI="App\Surveys\SurveyOptions::efforts"></data-source>
+                        <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
                     </options>
                 </multiple-choice>
                 
-                <multiple-choice name="panel_3" id="panel_3" num-selectable="1">
+                <multiple-choice name="panel_3" id="panel_3" num-selectable="1" class="form-inline panel-question">
+                    <template source="questions.multiple_choice.select"></template>
                     <question-text>
                         <![CDATA[Expert Panel]]>
                     </question-text>
                     <options>
-                        <data-source URI="App\Surveys\SurveyOptions::expertPanels"></data-source>
+                        <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
                     </options>
                 </multiple-choice>
                 
-                <question-group name="effort_experience_3_grp" id="effort_experience_3_grp" class="">
-                    <multiple-choice name="effort_experience_3" id="effort_experience_3" num-selectable="1">
+                <question-group name="effort_experience_3_grp" id="effort_experience_3_grp" class="with-followup">
+                    <multiple-choice name="effort_experience_3" id="effort_experience_3" num-selectable="1" class="form-inline">
+                        <template source="questions.multiple_choice.radio_group"></template>
                         <question-text>Do you have any previous experience with the type of curation effort?</question-text>
                         <options>
                             <option name="effort_experience_3_1" show="effort_experience_3_detail">
@@ -197,13 +249,14 @@
                             </option>
                         </options>
                     </multiple-choice>
-                    <question name="effort_experience_3_detail" id="effort_experience_3_detail">
-                        <question-text>Experience Details</question-text>
+                    <question name="effort_experience_3_detail" id="effort_experience_3_detail" class="form-inline followup">
+                        <question-text>Details</question-text>
                     </question>
                 </question-group>
                 
-                <question-group name="activity_experience_3_grp" id="activity_experience_3_grp" class="">
-                    <multiple-choice name="activity_experience_3" id="activity_experience_3" num-selectable="1">
+                <question-group name="activity_experience_3_grp" id="activity_experience_3_grp" class="with-followup">
+                    <multiple-choice name="activity_experience_3" id="activity_experience_3" num-selectable="1" class="form-inline">
+                        <template source="questions.multiple_choice.radio_group"></template>
                         <question-text>Do you have any previous experience with the type of curation activity?</question-text>
                         <options>
                             <option name="activity_experience_3_1" show="activity_experience_3_detail">
@@ -216,13 +269,13 @@
                             </option>
                         </options>
                     </multiple-choice>
-                    <question name="activity_experience_3_detail" id="activity_experience_3_detail">
-                        <question-text>Experience Details</question-text>
+                    <question name="activity_experience_3_detail" id="activity_experience_3_detail" class="form-inline followup">
+                        <question-text>Details</question-text>
                     </question>
                 </question-group>
             </question-group>
         </question-group>
-        
+
         <multiple-choice name="outside_panel" id="outside_panel" num-selectable="1">
             <question-text>If you indicated a preference for a certain expert panel, or to work within a certain disease area (e.g. cancer, neurodevelopmental disorders, cardiovascular diseases, etc.), would you still be willing to volunteer if there were no available opportunities in this area?</question-text>
             <options>

@@ -31,9 +31,14 @@ class SurveyOptions
     
     public function curationActivities()
     {
-        CurationActivity::select('id', 'name')->get();
+        return CurationActivity::select('id', 'name')->get();
     }
     
+
+    public function expertPanels()
+    {
+        return $this->getDummyData();
+    }
 
     public function selfDescriptions()
     {
