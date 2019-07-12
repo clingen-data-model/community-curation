@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "axios": "^0.19",
-        "bootstrap": "^4.1.0",
+        "bootstrap": "^4.3.1",
         "bootstrap-datepicker": "^1.8.0",
         "bootstrap-vue": "^2.0.0-rc.20",
         "cross-env": "^5.1",
