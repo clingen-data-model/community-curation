@@ -31,6 +31,8 @@ return [
         'time' => 'questions.time.time'
     ],
     'validation_messages' => [
+        'curation_activity_2.different' => 'You have already selected this curation activity',
+        'curation_activity_3.different' => 'You have already selected this curation activity',
         // 'my_field.validation_rule' => 'My custom mssage',
     ],
     'datasource_cachelife' => 1200,
