@@ -19,10 +19,10 @@
         </div>
       @endif
       <h4>
-        @if ($context['response']->respondent)
+        {{-- @if ($context['response']->respondent)
           {{$context['response']->respondent->full_name ?? 'Respondent:'.$context['response']->respondent->id}} 
           - 
-        @endif
+        @endif --}}
         @if ($renderable->title)
           {{$renderable->title}}
         @endif

@@ -29,3 +29,55 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+
+function clearChildren(el) {
+    let child = el.lastElementChild;
+    while (child) {
+        el.removeChild(child);
+        child = el.lastElementChild;
+    }
+}
+
+function createOption({value, label}) {
+    let option  = document.createElement('option');
+    option.setAttribute('value', value);
+    option.innerText = label;
+    return option;
+}
+
+async function getPanels() {
+    let activityPanels = await axios.get('/api/expert-panels')
+        .then(response => {
+            return panels = response.data
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    return activityPanels;
+}
+
+let panels = getPanels();
+panels.then( () => {
+    Array.from(document.querySelectorAll('select.curation-activity-question'))
+        .forEach(question => {
+            question.disabled = false;
+        })
+})
+
+let selectedActivities = {};
+document.addEventListener('DOMContentLoaded', () => {
+    const curationActivityQuestions = Array.from(document.querySelectorAll('select.curation-activity-question'));
+    
+    curationActivityQuestions
+        .forEach(question => {
+            question.addEventListener('change', (evt) => {
+                // Update options for expert panel selection
+                const activityPanels = panels.filter(panel => panel.curation_activity_id == question.value);
+                const panelQuestion = question.parentElement.parentElement.parentElement.querySelector('select.panel-question');
+                clearChildren(panelQuestion);
+                panelQuestion.appendChild(createOption({ value: '', label: 'Select...' }))
+                activityPanels.forEach(panel => panelQuestion.appendChild(createOption({ value: panel.id, label: panel.name })))
+            });
+        });
+});
