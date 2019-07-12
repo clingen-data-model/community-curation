@@ -26,13 +26,13 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id = null)
     {
         $survey = class_survey()::findBySlug('application1');
         $survey->getSurveyDocument()->validate();
         
 
-        $response = $this->getResponseObject($request);
+        $response = $this->getResponseObject($request, $id);
         $control = new ApplicationControlService($request, $response);
         return $control->saveAndContinue();
     }
