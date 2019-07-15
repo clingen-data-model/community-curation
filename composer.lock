@@ -3515,12 +3515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/shepsweb/sirs-surveys.git",
-                "reference": "a70c193a410a7cad4356836b2f4a0e1529f52643"
+                "reference": "37481e8b4c313eb272ff0f1b3e918a3abebd8695"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/shepsweb/sirs-surveys/get/a70c193a410a7cad4356836b2f4a0e1529f52643.zip",
-                "reference": "a70c193a410a7cad4356836b2f4a0e1529f52643",
+                "url": "https://bitbucket.org/shepsweb/sirs-surveys/get/37481e8b4c313eb272ff0f1b3e918a3abebd8695.zip",
+                "reference": "37481e8b4c313eb272ff0f1b3e918a3abebd8695",
                 "shasum": ""
             },
             "require": {
@@ -3566,7 +3566,7 @@
             ],
             "description": "Package for rapidly building surveys with data dictionaries and response storage",
             "homepage": "https://bitbucket.org/shepsweb/sirs-surveys",
-            "time": "2019-07-15T14:12:18+00:00"
+            "time": "2019-07-15T18:58:56+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",

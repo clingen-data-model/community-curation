@@ -33,7 +33,7 @@
   @endslot
 
   @slot('errors-block')
-    @if ( isset($context['errors']) 
+    @if (isset($context['errors']) 
           && count(array_intersect( array_keys($context['errors']->getMessages()), $renderable->getOptionNames() )) > 0 )
       <div class="error-block">
         <ul class="error-list list-unstyled">
