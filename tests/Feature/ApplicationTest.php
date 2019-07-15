@@ -60,8 +60,6 @@ class ApplicationTest extends TestCase
              ->assertSee('response_id: '.$rsp->id);
                 
         $this->assertEquals(session()->get('application-response')->id, $rsp->id);
-
-
     }
     
     /**
@@ -80,7 +78,7 @@ class ApplicationTest extends TestCase
 
         $volunteer = $rsp->fresh()->respondent;
 
-        $httpResponse->assertRedirect('/app-user/'.$volunteer->id.'/survey/priorities1/new');        
+        $httpResponse->assertRedirect('/app-user/'.$volunteer->id.'/survey/priorities1/new');
     }
     
 
@@ -89,7 +87,6 @@ class ApplicationTest extends TestCase
      */
     public function creates_a_new_volunteer_user_on_finalized_and_sets_as_respondent()
     {
-
         $rsp = $this->survey->getNewResponse(null);
         $rsp->applicant_name = 'billy pilgrim';
         $rsp->email = 'test@test.com';
@@ -107,6 +104,33 @@ class ApplicationTest extends TestCase
         $this->assertEquals($user->id, $rsp->fresh()->respondent_id);
     }
     
-    
-    
+    /**
+     * @test
+     */
+    public function removes_response_from_session_if_baseline()
+    {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->volunteer_type   = 1;
+        $rsp->finalize();
+
+        $this->assertNUll(session()->get('application-response'));
+        $this->assertFalse(session()->has('application-response'));
+    }
+
+    /**
+     * @test
+     */
+    public function redirects_to_thank_you_if_baseline()
+    {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->volunteer_type   = 1;
+        $rsp->save();
+
+        $httpResponse = $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
+            ->assertRedirect('apply/thank-you');
+    }    
 }
