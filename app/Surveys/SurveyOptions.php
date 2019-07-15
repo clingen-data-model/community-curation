@@ -8,6 +8,7 @@ use App\Interest;
 use App\Motivation;
 use App\SelfDescription;
 use App\CurationActivity;
+use App\ExpertPanel;
 
 class SurveyOptions
 {
@@ -16,7 +17,7 @@ class SurveyOptions
         $zones = timezone_abbreviations_list();
         $options = [];
         $count = 1;
-        foreach($zones as $zone => $items) {
+        foreach ($zones as $zone => $items) {
             if (strlen($zone) == 1) {
                 continue;
             }
@@ -34,25 +35,24 @@ class SurveyOptions
         return CurationActivity::select('id', 'name')->get();
     }
     
-
     public function expertPanels()
     {
-        return $this->getDummyData();
+        return ExpertPanel::select('id', 'name')->get();
     }
 
     public function selfDescriptions()
     {
-        return SelfDescription::select('id', 'name')->get();
+        return SelfDescription::select('id', 'name')->withoutOther()->get();
     }
 
     public function adCampaigns()
     {
-        return Campaign::select('id', 'name')->get();
+        return Campaign::select('id', 'name')->withoutOther()->get();
     }
 
     public function motivations()
     {
-        return Motivation::select('id', 'name')->get();
+        return Motivation::select('id', 'name')->withoutOther()->get();
     }
 
     public function interests()
@@ -62,7 +62,7 @@ class SurveyOptions
     
     public function goals()
     {
-        return Goal::select('id', 'name')->get();
+        return Goal::select('id', 'name')->withoutOther()->get();
     }
 
     private function getDummyData()
@@ -78,5 +78,4 @@ class SurveyOptions
             ],
         ];
     }
-    
 }

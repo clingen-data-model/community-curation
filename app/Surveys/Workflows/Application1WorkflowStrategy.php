@@ -6,7 +6,7 @@ use App\User;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
 /**
- * Extends SurveyResponseWorkflowStrategy (implements SurveyTypeWorkflowStrategyInterface).  
+ * Extends SurveyResponseWorkflowStrategy (implements SurveyTypeWorkflowStrategyInterface).
  * You can override the following public methods:
  *     run()
  *     attended()
@@ -16,7 +16,7 @@ use Sirs\Surveys\SurveyResponseWorkflowStrategy;
  *     wasRescheduled()
  *     statusWasUpdated()
  * Instance vars include $this->response and $this->event.
- * 
+ *
  **/
 class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
 {
@@ -33,8 +33,6 @@ class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
             $this->response->respondent_id = $volunteer->id;
         }
 
-        session()->forget('application-survey');
+        session()->forget('application-response');
     }
 } // END class SurveyResponseTypeWorkflowStrategy
-
-?>

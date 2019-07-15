@@ -20,5 +20,9 @@ class ExpertPanel extends Model
     {
         return $this->belongsTo(CurationActivity::class);
     }
-    
+
+    public function scopeForCurationActivity($query, $param)
+    {
+        return $query->where('curation_activity_id', $param);
+    }
 }
