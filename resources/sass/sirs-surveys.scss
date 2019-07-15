@@ -133,8 +133,18 @@ label,
 }
 
 .with-followup {
+  margin-bottom: 1.75rem;
+
   & .question-block {
     margin-bottom: .125rem;
+  }
+
+  & .question-answers {
+    margin: .125rem auto 0;
+    
+    & label:last-child {
+      margin-bottom: .125rem;
+    }
   }
 }
 

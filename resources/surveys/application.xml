@@ -45,7 +45,7 @@
     </page>
     
     <page name="education" title="Education and Certification Questions">
-        <question-group name="highest-ed-grp" id="highest-ed-grp">
+        <question-group name="highest-ed-grp" id="highest-ed-grp" class="with-followup">
             <multiple-choice name="highest_ed" id="highest_ed" num-selectable="1">
                 <question-text>
                     <![CDATA[What is your highest level of education?*]]>
@@ -81,7 +81,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="highest_ed_other" id="highest_ed_other"></question>
+            <question name="highest_ed_other" id="highest_ed_other" class="followup" placeholder="Details"></question>
         </question-group>
 
         <question name="adv_cert" id="adv_cert">
@@ -89,7 +89,7 @@
             <question-text>If you have an advanced genetic certification or fellowship (i.e. CGC or FACMG), please indicate:</question-text>
         </question>
 
-        <question-group name="self_desc_grp" id="self_desc_grp" class="">
+        <question-group name="self_desc_grp" id="self_desc_grp" class="with-followup">
             <multiple-choice name="self_desc" id="self_desc" num-selectable="1">
                 <question-text>
                     <![CDATA[I am a... (choose one that most accurately describes yourself)*]]>
@@ -103,13 +103,13 @@
                 </options>
             </multiple-choice>
 
-            <question name="self_desc_other" id="self_desc_other_detail">
+            <question name="self_desc_other" id="self_desc_other_detail" class="followup" placeholder="Details">
             </question>
         </question-group>
     </page>
 
     <page name="outreach" title="Outreach and Motivation Questions">
-        <question-group name="ad_campaign_grp" id="ad_campaign_grp" class="">
+        <question-group name="ad_campaign_grp" id="ad_campaign_grp" class="with-followup">
             <multiple-choice name="ad_campaign" id="ad_campaign" num-selectable="10" data-format="json">
                 <question-text>
                     <![CDATA[How did you find out about the ClinGen volunteer efforts?*]]>
@@ -122,11 +122,11 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="ad_campaign_other_detail" id="ad_campaign_other_detail">
+            <question name="ad_campaign_other_detail" id="ad_campaign_other_detail" class="followup" placeholder="Details">
             </question>
         </question-group>
 
-        <question-group name="motivation-grp" id="motivation-grp">
+        <question-group name="motivation-grp" id="motivation-grp" class="with-followup">
             <multiple-choice name="motivation" id="motivation" num-selectable="10" data-format="json">
                 <question-text>
                     <![CDATA[What motivated you to volunteer in ClinGen curation efforts?*]]>
@@ -139,11 +139,11 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="motivation_other_detail" id="motivation_other_detail">
+            <question name="motivation_other_detail" id="motivation_other_detail" class="followup" placeholder="Details">
             </question>
         </question-group>
 
-        <question-group name="goals-grp" id="goals-grp">
+        <question-group name="goals-grp" id="goals-grp" class="with-followup">
             <multiple-choice name="goals" id="goals" num-selectable="10" data-format="json">
                 <question-text>
                     <![CDATA[What would you like to accomplish by volunteering with ClinGen? Do you have any specific goals?]]>
@@ -156,7 +156,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="goals_other_detail" id="goals_other_detail">
+            <question name="goals_other_detail" id="goals_other_detail" class="followup" placeholder="Details">
             </question>
         </question-group>
 
