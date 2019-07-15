@@ -35,7 +35,7 @@ return [
         'curation_activity_3.different' => 'You have already selected this curation activity',
         // 'my_field.validation_rule' => 'My custom mssage',
     ],
-    'datasource_cachelife' => 1200,
+    'datasource_cachelife' => env('SURVEY_DATASOURCR_CACHE_LIFE', 1200),
     'bindings' => [
         'models' => [
             'Survey' => App\Survey::class,
