@@ -45,6 +45,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    static public function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if ($model->password == null) {
+                $model->password = uniqid();
+            }
+        });
+    }
+
     public function canImpersonate()
     {
         return $this->can('impersonate');
