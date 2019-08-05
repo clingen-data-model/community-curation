@@ -13,6 +13,8 @@ Route::group([
 ], function () { // custom admin routes
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     CRUD::resource('/user', 'UserCrudController');
+    CRUD::resource('/working-group', 'WorkingGroupCrudController');
+    CRUD::resource('/expert-panel', 'ExpertPanelCrudController');
 }); // this should be the absolute last line of this file
 
 route::redirect('/admin/login', '/login');
