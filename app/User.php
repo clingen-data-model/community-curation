@@ -20,6 +20,8 @@ class User extends Authenticatable
     use HasRoles;
 
     protected $revisionCreationsEnabled = true;
+
+    protected $allPermissions;
     
     /**
      * The attributes that are mass assignable.
@@ -84,5 +86,25 @@ class User extends Authenticatable
         return true;
     }
     
+
+    public function hasPermissionTo($permString)
+    {
+        return $this->getAllPermissions()->contains('name', $permString);
+    }
+   
+    public function getAllPermissions() 
+    {
+        if (is_null($this->allPermissions)) {
+            $permissions = $this->permissions;
+
+            if ($this->roles) {
+                $permissions = $permissions->merge($this->getPermissionsViaRoles());
+            }
+
+            $this->allPermissions = $permissions->sort()->values();
+        }
+        
+        return $this->allPermissions;
+    }
     
 }

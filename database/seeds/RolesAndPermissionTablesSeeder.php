@@ -17,17 +17,23 @@ class RolesAndPermissionTablesSeeder extends Seeder
         app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
         $this->createPermissionGroup('users', ['list','create','update','delete']);
+        $this->createPermissionGroup('expert-panels', ['list','create','update','delete']);
+        $this->createPermissionGroup('working-groups', ['list','create','update','delete']);
 
         $administerPermission = Permission::firstOrCreate(['name' => 'administer']);
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
 
         $programmer = Role::firstOrCreate(['name' => 'programmer']);
         $this->giveActionPermissionsToRole($programmer, 'users', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'expert-panels', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'working-groups', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($programmer, $administerPermission);
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'expert-panels', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'working-groups', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
 

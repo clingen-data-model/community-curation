@@ -13,8 +13,15 @@ class ExpertPanel extends Model
 
     protected $fillable = [
         'name',
-        'curation_activity_id'
+        'curation_activity_id',
+        'working_group_id'
     ];
+
+    public function workingGroup()
+    {
+        return $this->belongsTo(WorkingGroup::class);
+    }
+    
 
     public function curationActivity()
     {

@@ -3,12 +3,14 @@
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
 use App\ExpertPanel;
-use Faker\Generator as Faker;
+use App\WorkingGroup;
 use App\CurationActivity;
+use Faker\Generator as Faker;
 
 $factory->define(ExpertPanel::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
-        'curation_activity_id' => CurationActivity::select('id')->get()->random()->id
+        'curation_activity_id' => CurationActivity::select('id')->get()->random()->id,
+        'working_group_id' => WorkingGroup::select('id')->get()->random()->id
     ];
 });
