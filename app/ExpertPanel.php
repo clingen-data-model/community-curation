@@ -14,7 +14,8 @@ class ExpertPanel extends Model
     protected $fillable = [
         'name',
         'curation_activity_id',
-        'working_group_id'
+        'working_group_id',
+        'accepting_volunteers'
     ];
 
     public function workingGroup()

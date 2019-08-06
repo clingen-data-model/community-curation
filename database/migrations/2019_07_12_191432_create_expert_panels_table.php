@@ -17,6 +17,7 @@ class CreateExpertPanelsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('curation_activity_id')->unsigned();
+            $table->boolean('accepting_volunteers')->default(1);
 
             $table->foreign('curation_activity_id', 'activity_id_foreign')->references('id')->on('curation_activities');
             $table->timestamps();
