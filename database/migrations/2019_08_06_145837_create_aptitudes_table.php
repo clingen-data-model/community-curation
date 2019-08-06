@@ -21,7 +21,7 @@ class CreateAptitudesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('curation_activity_id')->references('id')->on('curation_activitys');
+            $table->foreign('curation_activity_id', 'curation_activities_foreign')->references('id')->on('curation_activities');
             $table->foreign('volunteer_type_id')->references('id')->on('volunteer_types');
         });
     }
