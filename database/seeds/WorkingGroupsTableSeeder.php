@@ -27,7 +27,12 @@ class WorkingGroupsTableSeeder extends Seeder
 
         WorkingGroup::unguard();
         foreach ($workingGroups as $group) {
-            WorkingGroup::create($group);
+            WorkingGroup::updateOrCreate(
+                [
+                    'id'=>$group['id']
+                ], 
+                $group
+            );
         }
         WorkingGroup::reguard();
     }

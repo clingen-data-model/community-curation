@@ -22,7 +22,7 @@ class CurationActivitiesTableSeeder extends Seeder
 
         CurationActivity::unguard();
         foreach ($items as $id => $name) {
-            CurationActivity::firstOrCreate(compact('id'), compact('id', 'name'));
+            CurationActivity::updateOrCreate(compact('id'), compact('id', 'name'));
         }
         CurationActivity::reguard();
     }

@@ -26,7 +26,7 @@ class InterestsTableSeeder extends Seeder
 
         Interest::unguard();
         foreach ($items as $id => $name) {
-            Interest::firstOrCreate(compact('id'), compact('id', 'name'));
+            Interest::updateOrCreate(compact('id'), compact('id', 'name'));
         }
         Interest::reguard();
     }
