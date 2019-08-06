@@ -36,7 +36,7 @@ class CampaignsTableSeeder extends Seeder
 
         Campaign::unguard();
         foreach ($campaigns as $id => $name) {
-            Campaign::firstOrCreate(['id' => $id], [
+            Campaign::updateOrCreate(['id' => $id], [
                 'name' => $name
             ]);
         }

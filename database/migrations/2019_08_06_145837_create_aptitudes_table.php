@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExpertPanelsTable extends Migration
+class CreateAptitudesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateExpertPanelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('expert_panels', function (Blueprint $table) {
+        Schema::create('aptitudes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->bigInteger('curation_activity_id')->unsigned();
-            $table->boolean('accepting_volunteers')->default(1);
-
-            $table->foreign('curation_activity_id', 'activity_id_foreign')->references('id')->on('curation_activities');
+            $table->unsignedBigInteger('volunteer_type_id');
             $table->timestamps();
+
+            $table->foreign('volunteer_type_id')->references('id')->on('volunteer_types');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateExpertPanelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expert_panels');
+        Schema::dropIfExists('aptitudes');
     }
 }

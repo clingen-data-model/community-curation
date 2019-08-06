@@ -31,7 +31,7 @@ class SelfDescriptionsTableSeeder extends Seeder
 
         SelfDescription::unguard();
         foreach ($items as $id => $name) {
-            SelfDescription::firstOrCreate(['id' => $id], compact('id', 'name'));
+            SelfDescription::updateOrCreate(['id' => $id], compact('id', 'name'));
         }
         SelfDescription::reguard();
     }

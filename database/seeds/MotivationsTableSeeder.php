@@ -27,7 +27,7 @@ class MotivationsTableSeeder extends Seeder
 
         Motivation::unguard();
         foreach ($motivations as $id => $name) {
-            Motivation::firstOrCreate(['id' => $id], [
+            Motivation::updateOrCreate(['id' => $id], [
                 'id' => $id,
                 'name' => $name
                 ]);

@@ -29,7 +29,7 @@ class GoalsTableSeeder extends Seeder
 
         Goal::unguard();
         foreach ($items as $id => $name) {
-            Goal::firstOrCreate(compact('id'), compact('id', 'name'));
+            Goal::updateOrCreate(compact('id'), compact('id', 'name'));
         }
         Goal::reguard();
     }
