@@ -16,9 +16,12 @@ class CreateAptitudesTable extends Migration
         Schema::create('aptitudes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->unsignedBigInteger('curation_activity_id')->nullable();
             $table->unsignedBigInteger('volunteer_type_id');
             $table->timestamps();
+            $table->softDeletes();
 
+            $table->foreign('curation_activity_id')->references('id')->on('curation_activitys');
             $table->foreign('volunteer_type_id')->references('id')->on('volunteer_types');
         });
     }
