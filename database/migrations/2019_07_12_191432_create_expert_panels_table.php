@@ -21,6 +21,7 @@ class CreateExpertPanelsTable extends Migration
 
             $table->foreign('curation_activity_id', 'activity_id_foreign')->references('id')->on('curation_activities');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
