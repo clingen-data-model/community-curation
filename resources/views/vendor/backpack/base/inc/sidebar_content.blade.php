@@ -16,8 +16,18 @@
     <li><a href="{{ backpack_url('expert-panel') }}"><i class="fa fa-group"></i> <span>expert-panels</span></a></li>
 @endcan
 
+@can('list volunteer-types')
+    <li><a href="{{ backpack_url('volunteer-type') }}"><i class="fa fa-list"></i> <span>volunteer-types</span></a></li>
+@endcan
+
+@can('list volunteer-statuses')
+    <li><a href="{{ backpack_url('volunteer-status') }}"><i class="fa fa-list"></i> <span>volunteer-statuses</span></a></li>
+@endcan
+
+<hr>
+
+<li><a href="{{ backpack_url('elfinder') }}"><i class="fa fa-files-o"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
+
 @if (\Auth::user()->hasRole('programmer'))
     <li><a href="/admin/logs"><i class="fa fa-list"></i> <span>Logs</span></a></li>
 @endif
-
-<li><a href="{{ backpack_url('elfinder') }}"><i class="fa fa-files-o"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
