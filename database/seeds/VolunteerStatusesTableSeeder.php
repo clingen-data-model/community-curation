@@ -13,10 +13,11 @@ class VolunteerStatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            1 => 'Pending Assignment',
+            1 => 'Applied',
             2 => 'Active',
             3 => 'Retired',
-            4 => 'Unresponsive'
+            4 => 'Unresponsive',
+            4 => 'Declined'
         ];
 
         foreach ($statuses as $id => $name) {
