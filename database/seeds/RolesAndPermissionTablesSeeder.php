@@ -19,6 +19,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->createPermissionGroup('users', ['list','create','update','delete']);
         $this->createPermissionGroup('expert-panels', ['list','create','update','delete']);
         $this->createPermissionGroup('working-groups', ['list','create','update','delete']);
+        $this->createPermissionGroup('volunteer-types', ['list','create','update','delete']);
+        $this->createPermissionGroup('volunteer-statuses', ['list','create','update','delete']);
 
         $administerPermission = Permission::firstOrCreate(['name' => 'administer']);
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
@@ -27,6 +29,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($programmer, 'users', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'expert-panels', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'working-groups', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'volunteer-types', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'volunteer-statuses', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($programmer, $administerPermission);
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
 
@@ -34,6 +38,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'expert-panels', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'working-groups', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'volunteer-statuses', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
 
