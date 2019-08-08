@@ -13,6 +13,8 @@ class CurationActivity extends Model
     use RevisionableTrait;
     use SoftDeletes;
 
+    protected $revisionCreationsEnabled = true;    
+
     protected $fillable = [
         'name'
     ];
