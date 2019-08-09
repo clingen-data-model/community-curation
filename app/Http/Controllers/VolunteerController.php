@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\ExpertPanel;
+use App\Volunteer;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class ExpertPanelController extends Controller
+class VolunteerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class ExpertPanelController extends Controller
      */
     public function index()
     {
-        return ExpertPanel::all();
+        //
     }
 
     /**
@@ -42,10 +41,10 @@ class ExpertPanelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ExpertPanel  $expertPanel
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function show(ExpertPanel $expertPanel)
+    public function show(Volunteer $volunteer)
     {
         //
     }
@@ -53,10 +52,10 @@ class ExpertPanelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ExpertPanel  $expertPanel
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function edit(ExpertPanel $expertPanel)
+    public function edit(Volunteer $volunteer)
     {
         //
     }
@@ -65,10 +64,10 @@ class ExpertPanelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ExpertPanel  $expertPanel
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ExpertPanel $expertPanel)
+    public function update(Request $request, Volunteer $volunteer)
     {
         //
     }
@@ -76,10 +75,10 @@ class ExpertPanelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ExpertPanel  $expertPanel
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExpertPanel $expertPanel)
+    public function destroy(Volunteer $volunteer)
     {
         //
     }

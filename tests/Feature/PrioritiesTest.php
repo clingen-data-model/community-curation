@@ -42,9 +42,10 @@ class PrioritiesTest extends TestCase
     public function redirects_to_thank_you_on_finalized()
     {
         $cA = CurationActivity::select('id')->get()->random();
+        $ep = factory(ExpertPanel::class)->create(['curation_activity_id' => $cA->id]);
         $data = [
             'curation_activity_1' => $cA->id,
-            'panel_1' => ExpertPanel::forCurationActivity($cA->id)->get()->random()->id,
+            'panel_1' => $ep->id,
             'nav' => 'finalize'
         ];
 

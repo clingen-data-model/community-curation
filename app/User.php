@@ -61,6 +61,12 @@ class User extends Authenticatable
             }
         });
     }
+    
+    public function volunteer()
+    {
+        return $this->hasOne(Volunteer::class);
+    }
+    
 
     public function canImpersonate()
     {
@@ -84,6 +90,11 @@ class User extends Authenticatable
         }
 
         return true;
+    }
+    
+    public function scopeIsVolunteer($query)
+    {
+        return $query->has('volunteer');
     }
     
 

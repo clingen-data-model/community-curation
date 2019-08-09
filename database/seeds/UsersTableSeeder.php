@@ -45,17 +45,31 @@ class UsersTableSeeder extends Seeder
         );
         $admin->assignRole('coordinator');
                 
-        $admin = User::firstOrcreate(
+        $basicVolunteer = User::firstOrcreate(
             [
-                'email' => 'volunteer@test.com',
+                'email' => 'basic@test.com',
             ],
             [
-                'name' => 'Volunteer Tester',
-                'email' => 'volunteer@test.com',
+                'name' => 'Basic Volunteer',
+                'email' => 'basic@test.com',
                 'password' => \Hash::make('tester')
             ]
         );
-        $admin->assignRole('volunteer');
+        $basicVolunteer->assignRole('volunteer');
+        $basicVolunteer->volunteer()->create(['volunteer_type_id' => 1]);
+        
+        $comprehensiveVolunteer = User::firstOrcreate(
+            [
+                'email' => 'comprehensive@test.com',
+            ],
+            [
+                'name' => 'Comprehensive Volunteer',
+                'email' => 'comprehensive@test.com',
+                'password' => \Hash::make('tester')
+            ]
+        );
+        $comprehensiveVolunteer->assignRole('volunteer');
+        $comprehensiveVolunteer->volunteer()->create(['volunteer_type_id' => 2]);
         
     }
 }

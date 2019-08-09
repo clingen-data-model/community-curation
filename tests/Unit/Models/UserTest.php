@@ -76,7 +76,25 @@ class UserTest extends TestCase
         $this->assertTrue($this->volunteer->canBeImpersonated());
     }
     
-    
-    
-    
+    /**
+     * @test
+     */
+    public function scopesUsersToVolunteers()
+    {
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        \DB::table('volunteers')->truncate();
+        \DB::table('users')->truncate();
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        
+        factory(User::class, 2)->create()->each(function ($u) {
+            $u->assignRole('admin');
+        });
+        factory(User::class, 2)->create()->each(function ($u) {
+            $u->assignRole('volunteer');
+            $u->volunteer()->create();
+        });
+
+        $this->assertEquals(2, User::isVolunteer()->count());
+    }
+        
 }
