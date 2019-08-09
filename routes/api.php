@@ -13,8 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::group([
+        'namespace' => 'Api',
+        'middleware' => 'auth:api'
+    ], function () {
 
-Route::resource('expert-panels', 'Api\ExpertPanelController');
+        /** 
+         * Catch-all route for generic API read exposure
+         **/
+
+        // index
+        Route::get('{model}', 'ApiController@index');
+
+        // show
+        Route::get('{model}/{id}', 'ApiController@show');
+    });
