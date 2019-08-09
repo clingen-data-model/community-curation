@@ -15,8 +15,10 @@ use Illuminate\Http\Request;
 
 Route::group([
         'namespace' => 'Api',
-        'middleware' => 'auth:api'
+        // 'middleware' => 'auth:api'
     ], function () {
+
+        Route::resource('volunteers', 'VolunteerController');
 
         /** 
          * Catch-all route for generic API read exposure

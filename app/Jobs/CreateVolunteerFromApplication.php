@@ -34,13 +34,12 @@ class CreateVolunteerFromApplication
         $user = User::create([
             'name' => $this->response->applicant_name,
             'email' => $this->response->email,
-            'password' => \Hash::make(uniqid())
+            'password' => \Hash::make(uniqid()),
+            'address' => $this->response->address,
+            'volunteer_type_id' => $this->response->volunteer_type,
+            'volunteer_status_id' => 1
         ]);
         $user->assignRole('volunteer');
-        $user->volunteer()->create([
-            'address' => $this->response->address,
-            'volunteer_type_id' => $this->response->volunteer_type
-        ]);
         $this->response->respondent_type = User::class;
         $this->response->respondent_id = $user->id;
     }

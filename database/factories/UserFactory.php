@@ -25,3 +25,49 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
+
+// Volunteer state
+$factory->state(User::class, 'volunteer', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => 1,
+        'volunteer_status_id' => 1
+    ];
+});
+$factory->afterCreatingState(User::class, 'volunteer', function ($user, $faker) {
+    $user->assignRole('volunteer');
+});
+
+// Programmer state
+$factory->state(User::class, 'programmer', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => null,
+        'volunteer_status_id' => null
+    ];
+});
+$factory->afterCreatingState(User::class, 'programmer', function ($user, $faker) {
+    // dump('add programmer role');
+    $user->assignRole('programmer');
+});
+
+// Admin state
+$factory->state(User::class, 'admin', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => null,
+        'volunteer_status_id' => null
+    ];
+});
+$factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
+    $user->assignRole('admin');
+});
+
+// Coordinator state
+$factory->state(User::class, 'coordinator', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => null,
+        'volunteer_status_id' => null
+    ];
+});
+$factory->afterCreatingState(User::class, 'coordinator', function ($user, $faker) {
+    $user->assignRole('coordinator');
+});
+

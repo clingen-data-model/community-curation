@@ -9,6 +9,7 @@ use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -18,6 +19,7 @@ class User extends Authenticatable
     use Impersonate;
     use LogsActivity;
     use HasRoles;
+    use SoftDeletes;
 
     protected $revisionCreationsEnabled = true;
 
@@ -32,6 +34,9 @@ class User extends Authenticatable
         'name', 
         'email', 
         'password',
+        'volunteer_status_id',
+        'volunteer_type_id',
+        'address'
     ];
 
     /**
@@ -62,10 +67,16 @@ class User extends Authenticatable
         });
     }
     
-    public function volunteer()
+    public function volunteerType()
     {
-        return $this->hasOne(Volunteer::class);
+        return $this->belongsTo(VolunteerType::class);
     }
+
+    public function volunteerStatus()
+    {
+        return $this->belongsTo(VolunteerStatus::class);
+    }
+    
     
 
     public function canImpersonate()
@@ -94,7 +105,7 @@ class User extends Authenticatable
     
     public function scopeIsVolunteer($query)
     {
-        return $query->has('volunteer');
+        return $query->role('volunteer');
     }
     
 

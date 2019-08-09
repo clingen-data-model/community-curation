@@ -52,11 +52,12 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Basic Volunteer',
                 'email' => 'basic@test.com',
-                'password' => \Hash::make('tester')
+                'password' => \Hash::make('tester'),
+                'volunteer_status_id' => 1,
+                'volunteer_type_id' => 1
             ]
         );
         $basicVolunteer->assignRole('volunteer');
-        $basicVolunteer->volunteer()->create(['volunteer_type_id' => 1]);
         
         $comprehensiveVolunteer = User::firstOrcreate(
             [
@@ -65,11 +66,12 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Comprehensive Volunteer',
                 'email' => 'comprehensive@test.com',
-                'password' => \Hash::make('tester')
+                'password' => \Hash::make('tester'),
+                'volunteer_status_id' => 1,
+                'volunteer_type_id' => 2
             ]
         );
         $comprehensiveVolunteer->assignRole('volunteer');
-        $comprehensiveVolunteer->volunteer()->create(['volunteer_type_id' => 2]);
         
     }
 }
