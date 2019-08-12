@@ -18,10 +18,12 @@ Route::redirect('/home', '/');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::impersonate();
+
+    Route::resource('volunteers', 'VolunteerController');
 });
 
 Route::get('apply/thank-you', function (Request $request) {
     return view('application-thank-you');
 });
-Route::get('apply/{responseId?}','ApplicationController@show')->name('application.show');
+Route::get('apply/{responseId?}', 'ApplicationController@show')->name('application.show');
 Route::post('apply/{responseId?}', 'ApplicationController@store')->name('application.store');

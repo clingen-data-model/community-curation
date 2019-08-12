@@ -15,8 +15,11 @@ class VolunteerUserResource extends JsonResource
     public function toArray($request)
     {
         $array = parent::toArray($request);
+        unset($array['email_verified_at']);
+        unset($array['deleted_at']);
         $array['volunteer_status'] = new DefaultResource($this->whenLoaded('volunteerStatus'));
         $array['volunteer_type'] = new DefaultResource($this->whenLoaded('volunteerType'));
+        $array['assignements'] = [];
         
         return $array;
     }

@@ -13,20 +13,26 @@ use Illuminate\Http\Request;
 |
 */
 
+
+
 Route::group([
         'namespace' => 'Api',
-        // 'middleware' => 'auth:api'
     ], function () {
+        Route::resource('expert-panels', 'ExpertPanelController')->only(['index', 'show']);
 
-        Route::resource('volunteers', 'VolunteerController');
-
-        /** 
-         * Catch-all route for generic API read exposure
-         **/
-
-        // index
-        Route::get('{model}', 'ApiController@index');
-
-        // show
-        Route::get('{model}/{id}', 'ApiController@show');
+        Route::group([
+            // 'middleware' => 'auth:api'
+        ], function () {
+            Route::resource('volunteers', 'VolunteerController');
+    
+            /**
+             * Catch-all route for generic API read exposure
+             **/
+    
+            // index
+            Route::get('{model}', 'ApiController@index');
+    
+            // show
+            Route::get('{model}/{id}', 'ApiController@show');
+        });
     });

@@ -33,16 +33,16 @@ class VolunteerControllerTest extends TestCase
     public function index_returns_list_of_all_volunteers()
     {
         $subset = $this->volunteers->map(function ($v) {
-                        return [
+            return [
                             'id' => $v->id,
                             'volunteer_type' => $v->volunteerType->toArray()
                         ];
-                    });
+        });
 
         $response = $this->actingAs(factory(User::class)->create(), 'api')
             ->call('GET', '/api/volunteers');
 
-        $response->assertStatus(200);        
+        $response->assertStatus(200);
     }
 
     /**
@@ -63,7 +63,7 @@ class VolunteerControllerTest extends TestCase
      */
     public function show_returns_single_volunteer()
     {
-        $response = $this->actingAs(factory(User::class)->state('admin')->create())
+        $response = $this->actingAs(factory(User::class)->state('admin')->create(), 'api')
                         ->call('GET', '/api/volunteers/'.$this->volunteers->first()->id)
                         ;
         $response->assertJson(['data' => [
@@ -79,7 +79,4 @@ class VolunteerControllerTest extends TestCase
             ],
         ]]);
     }
-    
-    
-    
 }

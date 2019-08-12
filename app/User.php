@@ -77,6 +77,15 @@ class User extends Authenticatable
         return $this->belongsTo(VolunteerStatus::class);
     }
     
+    public function curationActivities()
+    {
+        return $this->belongsToMany(CurationActivity::class);
+    }
+    
+    public function expertPanels()
+    {
+        return $this->belongsToMany(ExpertPanel::class);
+    }
     
 
     public function canImpersonate()

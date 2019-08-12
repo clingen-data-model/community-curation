@@ -4,8 +4,12 @@ require('sirs-skiptrigger')
 require('mutually-exclusive')
 window.datepicker = require('bootstrap-datepicker');
 window.timepicker = require('timepicker');
-
 window.Vue = require('vue');
+
+import BootstrapVue from 'bootstrap-vue'
+
+
+Vue.use(BootstrapVue)
 
 /**
  * The following block of code may be used to automatically register your
@@ -18,7 +22,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import VolunteerIndex from './components/volunteers/VolunteerIndex';
+window.Vue.component('volunteer-index', VolunteerIndex);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -26,8 +31,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+const app = new window.Vue({
     el: '#app',
+    mounted() {
+    }
 });
 
 
