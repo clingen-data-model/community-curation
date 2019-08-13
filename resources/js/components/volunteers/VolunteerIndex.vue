@@ -1,19 +1,26 @@
 <style></style>
 
 <template>
-    <div class="component-container">
-        <h1>Volunteers</h1>
-        <b-table :items="volunteers" :fields="tableFields">
-            <template slot="id" slot-scope="{item}">
-                <a :href="'/volunteers/'+item.id">{{item.id}}</a>
-            </template>
-            <template slot="name" slot-scope="{item}">
-                <a :href="'/volunteers/'+item.id">{{item.name}}</a>
-            </template>
-            <template slot="email" slot-scope="{item}">
-                <a :href="'/volunteers/'+item.id">{{item.email}}</a>
-            </template>
-        </b-table>
+    <div class="card">
+        <div class="card-header">
+            <h1>Volunteers</h1>
+        </div>
+        <div class="card-body">
+            <div class="w-25 mb-2">
+                <input type="text" class="form-control" v-model="searchTerm" placeholder="filter rows">
+            </div>
+            <b-table :items="filteredVolunteers" :fields="tableFields">
+                <template slot="id" slot-scope="{item}">
+                    <a :href="'/volunteers/'+item.id">{{item.id}}</a>
+                </template>
+                <template slot="name" slot-scope="{item}">
+                    <a :href="'/volunteers/'+item.id">{{item.name}}</a>
+                </template>
+                <template slot="email" slot-scope="{item}">
+                    <a :href="'/volunteers/'+item.id">{{item.email}}</a>
+                </template>
+            </b-table>
+        </div>
     </div>
 </template>
 
@@ -23,6 +30,8 @@
         components: {},
         data() {
             return {
+                searchTerm: null,
+                volunteers: [],
                 tableFields: {
                     id: {
                         label: 'ID',
@@ -52,7 +61,19 @@
                         sortable: true
                     }
                 },
-                volunteers: []
+            }
+        },
+        computed: {
+            filteredVolunteers: function () {
+                if (this.searchTerm === null) {
+                    return this.volunteers;
+                }
+                return this.volunteers.filter(vol => {
+                    return vol.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+                        || vol.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+                        || vol.volunteer_status.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+                        || vol.volunteer_type.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+                });
             }
         },
         methods: {

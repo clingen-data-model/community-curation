@@ -13,3 +13,7 @@
 // Sirs-Surveys
 @import './sirs-surveys.scss';
 
+.card > .card-header > h1,
+.card > .card-header > h2 {
+    margin-bottom: 0;
+}
