@@ -12,7 +12,8 @@ class Application extends Model
     protected $casts = [
         'interests' => 'array',
         'goals' => 'array',
-        'motivation' => 'array'
+        'motivation' => 'array',
+        'ad_campaign' => 'array'
     ];
 
     public function respondent()

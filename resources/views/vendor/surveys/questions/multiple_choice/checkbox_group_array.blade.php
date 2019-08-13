@@ -5,14 +5,13 @@
       @foreach($renderable->options as $idx => $option)
         <label class="checkbox {{$option->class}}">
         <input type="checkbox" 
-          name="{{ $renderable->name }}[{{$option->value}}]"
+          name="{{ $renderable->name }}[]"
           id="{{ $renderable->name }}-{{$idx}}_checkbox" 
           class="{{ $option->class}}"
           autocomplete="off"
-          value="1"
+          value="{{$option->name}}"
           @if( isset($context['response']->{$renderable->name}) 
-              && isset($context['response']->{$renderable->name}[$option->value]) 
-              && $context['response']->{$renderable->name}[$option->value] == 1
+              && in_array($option->name, $context['response']->{$renderable->name}) 
           )
             checked="checked"
           @endif

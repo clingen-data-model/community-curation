@@ -13,7 +13,7 @@
                             <div class="card pt-3 px-3">
                                 <h4>{{volunteer.volunteer_type.name | ucfirst}} Volunteer</h4>
                                 <p class="text-muted" v-if="!hasAssignments">
-                                    A ClinGen staff member will contact you shortly abou tyour curation activity assignment.
+                                    A ClinGen staff member will contact you shortly about your curation activity assignment.
                                 </p>
                             </div>
                             <!-- <div class="card mt-4 pt-3 px-3">
@@ -106,9 +106,12 @@
                     if (['respondent_type', 'respondent_id', 'survey_id', 'duration', 'last_page'].indexOf(variable) > -1) {
                         continue;
                     }
+
+                    let value = this.volunteer.application[variable];
+
                     data.push({
                         'variable': variable,
-                        'value': this.volunteer.application[variable]
+                        'value': value
                     })
                 }
                 return data;
