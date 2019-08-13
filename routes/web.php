@@ -13,13 +13,13 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index');
-Route::redirect('/home', '/');
+Route::redirect('/', '/volunteers');
+Route::redirect('/home', '/volunteers');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::impersonate();
 
-    Route::resource('volunteers', 'VolunteerController');
+    Route::resource('volunteers', 'VolunteerController')->only(['show', 'index']);
 });
 
 Route::get('apply/thank-you', function (Request $request) {

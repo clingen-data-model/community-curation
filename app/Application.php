@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Application extends Model
 {
     protected $table = 'rsp_application_1';
+    protected $fillable = [];
+
+    protected $casts = [
+        'interests' => 'array',
+        'goals' => 'array',
+        'motivation' => 'array'
+    ];
 
     public function respondent()
     {

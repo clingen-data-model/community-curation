@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Volunteer;
 use Illuminate\Http\Request;
+use App\Exceptions\NotImplementedException;
 
 class VolunteerController extends Controller
 {
@@ -24,7 +26,7 @@ class VolunteerController extends Controller
      */
     public function create()
     {
-        //
+        throw new NotImplementedException();
     }
 
     /**
@@ -35,7 +37,7 @@ class VolunteerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        throw new NotImplementedException();
     }
 
     /**
@@ -44,9 +46,9 @@ class VolunteerController extends Controller
      * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function show(Volunteer $volunteer)
+    public function show(User $volunteer)
     {
-        //
+        return view('volunteers.detail', ['volunteerId' => $volunteer->id]);
     }
 
     /**
@@ -55,9 +57,9 @@ class VolunteerController extends Controller
      * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Volunteer $volunteer)
+    public function edit(User $volunteer)
     {
-        //
+        throw new NotImplementedException();
     }
 
     /**
@@ -69,7 +71,7 @@ class VolunteerController extends Controller
      */
     public function update(Request $request, Volunteer $volunteer)
     {
-        //
+        throw new NotImplementedException();
     }
 
     /**
@@ -78,8 +80,8 @@ class VolunteerController extends Controller
      * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Volunteer $volunteer)
+    public function destroy(User $volunteer)
     {
-        //
+        throw new NotImplementedException();
     }
 }

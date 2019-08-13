@@ -55,7 +55,7 @@ class VolunteerController extends Controller
      */
     public function show($id)
     {
-        $volunteer = User::findOrFail($id)->load('volunteerStatus', 'volunteerType');
+        $volunteer = User::findOrFail($id)->load('volunteerStatus', 'volunteerType', 'application');
 
         return new VolunteerUserResource($volunteer);
     }

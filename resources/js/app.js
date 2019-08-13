@@ -23,7 +23,14 @@ Vue.use(BootstrapVue)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 import VolunteerIndex from './components/volunteers/VolunteerIndex';
+import VolunteerDetail from './components/volunteers/VolunteerDetail';
 window.Vue.component('volunteer-index', VolunteerIndex);
+window.Vue.component('volunteer-detail', VolunteerDetail);
+
+window.Vue.filter('ucfirst', s => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+})
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

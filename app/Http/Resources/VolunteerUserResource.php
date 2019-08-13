@@ -20,6 +20,7 @@ class VolunteerUserResource extends JsonResource
         $array['volunteer_status'] = new DefaultResource($this->whenLoaded('volunteerStatus'));
         $array['volunteer_type'] = new DefaultResource($this->whenLoaded('volunteerType'));
         $array['assignements'] = [];
+        $array['application'] = new DefaultResource($this->whenLoaded('application'));
         
         return $array;
     }

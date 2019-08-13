@@ -86,6 +86,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(ExpertPanel::class);
     }
+
+    public function application()
+    {
+        return $this->morphOne(Application::class, 'respondent');
+    }
     
 
     public function canImpersonate()
