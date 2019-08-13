@@ -5,7 +5,11 @@
 @php dump(\Auth::user()->getPermissionsViaRoles()->pluck('name')); @endphp --}}
 
 @can('list users')
-    <li><a href="{{ backpack_url('user') }}"><i class="fa fa-user"></i> <span>Users</span></a></li>
+    <li><a href="{{ backpack_url('user') }}"><i class="fa fa-user-plus"></i> <span>Users</span></a></li>
+@endcan
+
+@can('list users')
+    <li><a href="{{ backpack_url('volunteer') }}"><i class="fa fa-user"></i> <span>Volunteers</span></a></li>
 @endcan
 
 @can('list working-groups')

@@ -17,6 +17,7 @@ Route::group([
     CRUD::resource('/expert-panel', 'ExpertPanelCrudController');
     CRUD::resource('/volunteer-type', 'VolunteerTypeCrudController');
     CRUD::resource('/volunteer-status', 'VolunteerStatusCrudController');
+    CRUD::resource('/volunteer', 'VolunteerCrudController');
 }); // this should be the absolute last line of this file
 
 route::redirect('/admin/login', '/login');

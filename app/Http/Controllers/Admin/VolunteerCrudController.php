@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\CrudPanel;
+use App\User;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use Spatie\Permission\Models\Role;
-use App\Http\Requests\UserRequest as StoreRequest;
-use App\Http\Requests\UserRequest as UpdateRequest;
+use App\VolunteerType;
+use App\VolunteerStatus;
+use Backpack\CRUD\CrudPanel;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Illuminate\Database\Query\Builder;
-use Spatie\Permission\Models\Permission;
+use App\Http\Requests\VolunteerRequest as StoreRequest;
+use App\Http\Requests\VolunteerRequest as UpdateRequest;
 
 /**
- * Class UserCrudController
+ * Class VolunteerCrudController
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
-class UserCrudController extends CrudController
+class VolunteerCrudController extends CrudController
 {
     public function setup()
     {
@@ -26,9 +26,9 @@ class UserCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\User');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/user');
-        $this->crud->setEntityNameStrings('user', 'users');
+        $this->crud->setModel(User::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/volunteer');
+        $this->crud->setEntityNameStrings('volunteer', 'volunteers');
 
         /*
         |--------------------------------------------------------------------------
@@ -36,40 +36,17 @@ class UserCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->addClause('whereDoesntHave', 'roles', function ($query) {
+
+        $this->crud->addClause('whereHas', 'roles', function ($query) {
             $query->where('name', 'volunteer');
         });
 
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
-        // add asterisk for fields that are required in UserRequest
+        // add asterisk for fields that are required in VolunteerRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
-
-        $this->crud->removeFields(['password', 'volunteer_type_id', 'volunteer_status_id', 'address']);
-        $this->crud->addFields([
-            [
-                'label' => "Roles",
-                'type' => 'select2_multiple',
-                'name' => 'roles',
-                'entity' => 'roles',
-                'attribute' => 'name',
-                'model' => Role::class,
-                'pivot' => true,
-            ],
-            [
-                'label' => "Additonal Permissions",
-                'type' => 'select2_multiple',
-                'name' => 'permissions',
-                'entity' => 'Permissions',
-                'attribute' => 'name',
-                'model' => Permission::class,
-                'pivot' => true,
-            ],
-        ], 'both');
-
-        $this->crud->removeColumns(['volunteer_type_id', 'volunteer_status_id', 'address']);
 
         if (!\Auth::user()->can('create users')) {
             $this->crud->RemoveButton('create');
@@ -86,6 +63,49 @@ class UserCrudController extends CrudController
         if (\Auth::user()->canImpersonate()) {
             $this->crud->addButtonFromView('line', 'impersonate-users', 'impersonate_user', 'end'); // add a button; possible types are: view, model_functiona
         }
+
+        $this->crud->addButtonFromView('line', 'view_volunteer', 'view_volunteer', 'beginning');
+
+        $this->crud->addFields([
+            [
+                'label' => 'Volunteer Type',
+                'type' => 'select2',
+                'name' => 'volunteer_type_id',
+                'entity' => 'volunteerType',
+                'model' => VolunteerType::class,
+                'attribute' => 'name'
+            ],
+            [
+                'label' => 'Volunteer Status',
+                'type' => 'select2',
+                'name' => 'volunteer_status_id',
+                'entity' => 'volunteerStatus',
+                'model' => VolunteerStatus::class,
+                'attribute' => 'name'
+            ],
+        ]);
+
+        $this->crud->removeFields(['password']);
+
+        $this->crud->addColumns([
+            [
+                'label' => 'Volunteer Type',
+                'type' => 'select',
+                'name' => 'volunteer_type_id',
+                'entity' => 'volunteerType',
+                'model' => VolunteerType::class,
+                'attribute' => 'name'
+            ],
+            [
+                'label' => 'Volunteer Status',
+                'type' => 'select',
+                'name' => 'volunteer_status_id',
+                'entity' => 'volunteerStatus',
+                'model' => VolunteerStatus::class,
+                'attribute' => 'name'
+            ],
+        ]);
+
     }
 
     public function store(StoreRequest $request)
@@ -94,6 +114,7 @@ class UserCrudController extends CrudController
         $redirect_location = parent::storeCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
+        $this->crud->entry->assignRole('volunteer');
         return $redirect_location;
     }
 
