@@ -8,16 +8,31 @@ class Application1Rules extends SurveyRules
     const VOLUNTEER_TYPE_COMPREHENSIVE = 2;
     const VOLUNTEER_TYPE_BASELINE = 1;
 
+    public function beforeShow()
+    {
+        // $context = parent::beforeShow();
+        $context = [
+            'hideSaveExit' => true,
+            'hideSave' => true,
+        ];
+
+        return $context;
+    }
+
     public function getRedirectUrl()
     {
-        if ($this->response->volunteer_type == static::VOLUNTEER_TYPE_COMPREHENSIVE) {
-            return url('/app-user/'.$this->response->respondent_id.'/survey/priorities1/new');
+        if (\Auth::guest()) {
+            return '/apply/thank-you';
         }
-
-        if ($this->response->volunteer_type == static::VOLUNTEER_TYPE_BASELINE) {
-            return url('/apply/thank-you');
-        }
-
         return null;
     }
+
+    public function prioritiesSkip()
+    {
+        if ($this->response->volunteer_type == 1) {
+            return 2;
+        }
+        return 0;
+    }
+    
 }

@@ -1,0 +1,273 @@
+<page name="Priorities" title="Volunteer Prioritization and Group Interest">
+    <html>
+        <content>
+            <![CDATA[
+                    <p>
+                        You have chosen to become an active member of a curation group. 
+                        
+                        In order to best place your efforts, we ask if you would please prioritize your top three curation activites(s) 
+                        and expert panel(s) of choice. Further, please indicate any prior experience and willingness to participate in more than one. 
+                        
+                        Note, you are not obligated to participate in more than one, as each curation activity will have its own training session(s).
+                    </p>
+
+                    <p>
+                        To learn more about each curation activity see: 
+                        <a href="https://www.clinicalgenome.org/curation-activities/">https://www.clinicalgenome.org/curation-activities/</a>. 
+                        
+                        A description of Somatic Cancer can be found here: 
+                        <a href="https://www.clinicalgenome.org/working-groups/somatic/">https://www.clinicalgenome.org/working-groups/somatic/</a>
+                    </p>
+
+                    <p>
+                        For more information on current expert panels accepting volunteers see: 
+                        <a href="https://www.clinicalgenome.org/working-groups/c3/">https://www.clinicalgenome.org/working-groups/c3/</a>
+                    </p>
+                ]]>
+        </content>
+    </html>
+
+    <question-group name="first-choice-grp" id="first-choice-grp" class="mb-4 priority-group">
+        <html>
+            <content>
+                <![CDATA[<h4>First Choice</h4>]]>
+            </content>
+        </html>
+
+        <!-- Disabled so that we can wait for panels from the server.  See resources/js/app.js -->
+        <multiple-choice name="curation_activity_1" id="curation_activity_1" num-selectable="1" class="form-inline curation-activity-question" disabled="1" required="1">
+            <template source="questions.multiple_choice.select"></template>
+            <question-text>
+                <![CDATA[Curation Activity]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
+            </options>
+        </multiple-choice>
+
+        <multiple-choice name="panel_1" id="panel_1" num-selectable="1" class="form-inline panel-question" required="1">
+            <template source="questions.multiple_choice.select"></template>
+            <question-text>
+                <![CDATA[Expert Panel]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+            </options>
+        </multiple-choice>
+
+        <question-group name="effort_experience_1_grp" id="effort_experience_1_grp" class="with-followup">
+            <multiple-choice name="effort_experience_1" id="effort_experience_1" num-selectable="1" class="form-inline">
+                <template source="questions.multiple_choice.radio_group"></template>
+                <question-text>Do you have any previous experience with the type of curation effort?</question-text>
+                <options>
+                    <option name="effort_experience_1_1" show="effort_experience_1_detail">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="effort_experience_1_0">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            <question name="effort_experience_1_detail" id="effort_experience_1_detail" class="form-inline followup">
+                <question-text>Details</question-text>
+            </question>
+        </question-group>
+
+        <question-group name="activity_experience_1_grp" id="activity_experience_1_grp" class="with-followup">
+            <multiple-choice name="activity_experience_1" id="activity_experience_1" num-selectable="1" class="form-inline">
+                <template source="questions.multiple_choice.radio_group"></template>
+                <question-text>Do you have any previous experience with the type of curation activity?</question-text>
+                <options>
+                    <option name="activity_experience_1_1" show="activity_experience_1_detail">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="activity_experience_1_0">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            <question name="activity_experience_1_detail" id="activity_experience_1_detail" class="form-inline followup">
+                <question-text>Details</question-text>
+            </question>
+        </question-group>
+    </question-group>
+
+    <multiple-choice name="additional_priority" id="additional_priority" num-selectable="1">
+        <template source="questions.multiple_choice.radio_group"></template>
+        <question-text>Are you interested/able to work on more than one curation activity? Please note that this would likely increase your time commitment.</question-text>
+        <options>
+            <option name="additional_priority_1" show="more-priorities-grp">
+                <value>1</value>
+                <label>Yes</label>
+            </option>
+            <option name="additional_priority_0">
+                <value>0</value>
+                <label>No</label>
+            </option>
+            <option name="additional_priority_2" show="more-priorities-grp">
+                <value>2</value>
+                <label>Possibly</label>
+            </option>
+        </options>
+    </multiple-choice>
+
+    <question-group name="more-priorities-grp" id="more-priorities-grp" class="indent">
+        <question-group name="choice-grp-2" id="choice-grp-2" class="mb-4 priority-group">
+            <html>
+                <content>
+                    <![CDATA[<h4 class="border-bottom">Second Choice</h4>]]>
+                </content>
+            </html>
+            <!-- Disabled so that we can wait for panels from the server.  See resources/js/app.js -->
+            <multiple-choice name="curation_activity_2" id="curation_activity_2" num-selectable="1" class="form-inline curation-activity-question" disabled="1" validation-rules="different:curation_activity_1">
+                <template source="questions.multiple_choice.select"></template>
+                <question-text>
+                    <![CDATA[Curation Activity]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
+                </options>
+            </multiple-choice>
+
+            <multiple-choice name="panel_2" id="panel_2" num-selectable="1" class="form-inline panel-question">
+                <template source="questions.multiple_choice.select"></template>
+                <question-text>
+                    <![CDATA[Expert Panel]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+                </options>
+            </multiple-choice>
+
+            <question-group name="effort_experience_2_grp" id="effort_experience_2_grp" class="with-followup">
+                <multiple-choice name="effort_experience_2" id="effort_experience_2" num-selectable="1" class="form-inline">
+                    <template source="questions.multiple_choice.radio_group"></template>
+                    <question-text>Do you have any previous experience with the type of curation effort?</question-text>
+                    <options>
+                        <option name="effort_experience_2_1" show="effort_experience_2_detail">
+                            <value>1</value>
+                            <label>Yes</label>
+                        </option>
+                        <option name="effort_experience_2_0">
+                            <value>0</value>
+                            <label>No</label>
+                        </option>
+                    </options>
+                </multiple-choice>
+                <question name="effort_experience_2_detail" id="effort_experience_2_detail" class="form-inline followup">
+                    <question-text>Details</question-text>
+                </question>
+            </question-group>
+
+            <question-group name="activity_experience_2_grp" id="activity_experience_2_grp" class="with-followup">
+                <multiple-choice name="activity_experience_2" id="activity_experience_2" num-selectable="1" class="form-inline">
+                    <template source="questions.multiple_choice.radio_group"></template>
+                    <question-text>Do you have any previous experience with the type of curation activity?</question-text>
+                    <options>
+                        <option name="activity_experience_2_1" show="activity_experience_2_detail">
+                            <value>1</value>
+                            <label>Yes</label>
+                        </option>
+                        <option name="activity_experience_2_0">
+                            <value>0</value>
+                            <label>No</label>
+                        </option>
+                    </options>
+                </multiple-choice>
+                <question name="activity_experience_2_detail" id="activity_experience_2_detail" class="form-inline followup">
+                    <question-text>Details</question-text>
+                </question>
+            </question-group>
+        </question-group>
+
+        <question-group name="priority-grp-3" id="priority-grp-3" class="mb-4 priority-group">
+            <html>
+                <content>
+                    <![CDATA[<h4 class="border-bottom">Third Choice</h4>]]>
+                </content>
+            </html>
+            <!-- Disabled so that we can wait for panels from the server.  See resources/js/app.js -->
+            <multiple-choice name="curation_activity_3" id="curation_activity_3" num-selectable="1" class="form-inline curation-activity-question" disabled="1" validation-rules="different:curation_activity_1|different:curation_activity_2">
+                <template source="questions.multiple_choice.select"></template>
+                <question-text>
+                    <![CDATA[Curation Activity]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
+                </options>
+            </multiple-choice>
+
+            <multiple-choice name="panel_3" id="panel_3" num-selectable="1" class="form-inline panel-question">
+                <template source="questions.multiple_choice.select"></template>
+                <question-text>
+                    <![CDATA[Expert Panel]]>
+                </question-text>
+                <options>
+                    <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+                </options>
+            </multiple-choice>
+
+            <question-group name="effort_experience_3_grp" id="effort_experience_3_grp" class="with-followup">
+                <multiple-choice name="effort_experience_3" id="effort_experience_3" num-selectable="1" class="form-inline">
+                    <template source="questions.multiple_choice.radio_group"></template>
+                    <question-text>Do you have any previous experience with the type of curation effort?</question-text>
+                    <options>
+                        <option name="effort_experience_3_1" show="effort_experience_3_detail">
+                            <value>1</value>
+                            <label>Yes</label>
+                        </option>
+                        <option name="effort_experience_3_0">
+                            <value>0</value>
+                            <label>No</label>
+                        </option>
+                    </options>
+                </multiple-choice>
+                <question name="effort_experience_3_detail" id="effort_experience_3_detail" class="form-inline followup">
+                    <question-text>Details</question-text>
+                </question>
+            </question-group>
+
+            <question-group name="activity_experience_3_grp" id="activity_experience_3_grp" class="with-followup">
+                <multiple-choice name="activity_experience_3" id="activity_experience_3" num-selectable="1" class="form-inline">
+                    <template source="questions.multiple_choice.radio_group"></template>
+                    <question-text>Do you have any previous experience with the type of curation activity?</question-text>
+                    <options>
+                        <option name="activity_experience_3_1" show="activity_experience_3_detail">
+                            <value>1</value>
+                            <label>Yes</label>
+                        </option>
+                        <option name="activity_experience_3_0">
+                            <value>0</value>
+                            <label>No</label>
+                        </option>
+                    </options>
+                </multiple-choice>
+                <question name="activity_experience_3_detail" id="activity_experience_3_detail" class="form-inline followup">
+                    <question-text>Details</question-text>
+                </question>
+            </question-group>
+        </question-group>
+    </question-group>
+
+    <multiple-choice name="outside_panel" id="outside_panel" num-selectable="1">
+        <question-text>If you indicated a preference for a certain expert panel, or to work within a certain disease area (e.g. cancer, neurodevelopmental disorders, cardiovascular diseases, etc.), would you still be willing to volunteer if there were no available opportunities in this area?</question-text>
+        <options>
+            <option name="outside_panel_1">
+                <value>1</value>
+                <label>Yes - I am willing to volunteer with any available ClinGen group</label>
+            </option>
+            <option name="outside_panel_0">
+                <value>0</value>
+                <label>No - I am only interested in the group(s) I previously indicate</label>
+            </option>
+            <option name="outside_panel_2">
+                <value>2</value>
+                <label>Maybe - please contact me with other options, and I will decide based on what is available</label>
+            </option>
+        </options>
+    </multiple-choice>
+</page>

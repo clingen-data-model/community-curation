@@ -187,5 +187,7 @@
             </options>
         </multiple-choice>
     </page>
+
+    <include source="pages/priorities_page.xml"></include>
     
 </survey>
