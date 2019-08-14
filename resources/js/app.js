@@ -61,15 +61,28 @@ function createOption({value, label}) {
 }
 
 async function getPanels() {
-    let activityPanels = await axios.get('/api/expert-panels')
+    return await axios.get('/api/expert-panels')
         .then(response => {
-            return panels = response.data
+            panels = response.data.data
         })
         .catch(error => {
             console.log(error);
         });
-    return activityPanels;
 }
+
+async function getCurationActivities() {
+    return await axios.get('/api/curation-activities')
+        .then(response => {
+            curationActivities = response.data.data
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+ 
+
+let curationActivities = getCurationActivities();
+curationActivities.then(() => console.log(window.curationActivities))
 
 let panels = getPanels();
 panels.then( () => {
@@ -77,9 +90,8 @@ panels.then( () => {
         .forEach(question => {
             question.disabled = false;
         })
-})
+});
 
-let selectedActivities = {};
 document.addEventListener('DOMContentLoaded', () => {
     const curationActivityQuestions = Array.from(document.querySelectorAll('select.curation-activity-question'));
     
@@ -94,4 +106,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 activityPanels.forEach(panel => panelQuestion.appendChild(createOption({ value: panel.id, label: panel.name })))
             });
         });
+        
+
+    if (document.getElementById('curation_activity_1')) {
+        document.getElementById('curation_activity_1')
+        .addEventListener('change', evt => {
+            const availableActivities = curationActivities.filter(activity => activity.id != evt.target.value)
+
+            const ca2 = document.querySelector('[name=curation_activity_2]')
+            clearChildren(ca2);
+            ca2.appendChild(createOption({ value: '', label: 'Select...' }))
+            availableActivities.forEach(activity => {
+                ca2.appendChild(createOption({ 
+                    value: activity.id, 
+                    label: activity.name 
+                }))
+            })
+            
+            const ca3 = document.querySelector('[name=curation_activity_3]')
+            clearChildren(ca3);
+            ca3.appendChild(createOption({ value: '', label: 'Select...' }))
+            availableActivities.forEach(activity => ca3.appendChild(createOption({ value: activity.id, label: activity.name })))
+        });
+
+        document.getElementById('curation_activity_2')
+        .addEventListener('change', evt => {
+            console.log(document.querySelector('[name=curation_activity_1]').value)
+            const availableActivities = curationActivities.filter(activity => {
+                return activity.id != evt.target.value 
+                    && activity.id != document.querySelector('[name=curation_activity_1]').value
+            })
+            console.log(availableActivities)
+
+            const ca3 = document.querySelector('[name=curation_activity_3]')
+            clearChildren(ca3);
+            ca3.appendChild(createOption({ value: '', label: 'Select...' }))
+            availableActivities.forEach(activity => ca3.appendChild(createOption({ value: activity.id, label: activity.name })))
+        });
+    }
 });
+
