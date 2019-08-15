@@ -15,8 +15,7 @@ class CreateSurveyRspApplication1 extends Migration
         
         Schema::create('rsp_application_1', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('respondent_type')->nullable();
-            $table->integer('respondent_id')->nullable();
+            $table->morphs('respondent');
             $table->integer('survey_id')->unsigned();
             $table->string('applicant_name')->nullable();
 			$table->string('institution')->nullable();
@@ -36,6 +35,26 @@ class CreateSurveyRspApplication1 extends Migration
 			$table->string('goals_other_detail')->nullable();
 			$table->json('interests')->nullable();
 			$table->integer('volunteer_type')->nullable();
+			$table->integer('curation_activity_1')->nullable();
+			$table->integer('panel_1')->nullable();
+			$table->integer('effort_experience_1')->nullable();
+			$table->string('effort_experience_1_detail')->nullable();
+			$table->integer('activity_experience_1')->nullable();
+			$table->string('activity_experience_1_detail')->nullable();
+			$table->integer('additional_priority')->nullable();
+			$table->integer('curation_activity_2')->nullable();
+			$table->integer('panel_2')->nullable();
+			$table->integer('effort_experience_2')->nullable();
+			$table->string('effort_experience_2_detail')->nullable();
+			$table->integer('activity_experience_2')->nullable();
+			$table->string('activity_experience_2_detail')->nullable();
+			$table->integer('curation_activity_3')->nullable();
+			$table->integer('panel_3')->nullable();
+			$table->integer('effort_experience_3')->nullable();
+			$table->string('effort_experience_3_detail')->nullable();
+			$table->integer('activity_experience_3')->nullable();
+			$table->string('activity_experience_3_detail')->nullable();
+			$table->integer('outside_panel')->nullable();
             $table->string('last_page')->nullable();
             $table->integer('duration')->nullable();
             $table->timestamp('started_at')->nullable();
