@@ -18,7 +18,7 @@ class ApplicationController extends Controller
 
         $service = new ApplicationControlService($request, $response);
         return $service->showPage();
-    }        
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -61,10 +61,14 @@ class ApplicationController extends Controller
             return $response;
         }
 
-        return $request->session()->get('application-response', function () use ($survey) {
-            $response = $survey->getNewResponse(null);
-            session()->put('application-response', $response);
+
+        $response = $request->session()->get('application-response', null);
+        if (!is_null($response) && $response->id && $survey->responses()->find($response->id)) {
             return $response;
-        });
+        }
+
+        $response = $survey->getNewResponse(null);
+        session()->put('application-response', $response);
+        return $response;
     }
 }
