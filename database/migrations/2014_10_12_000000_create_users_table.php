@@ -19,7 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->unsignedBigInteger('volunteer_type_id')->nullable();
             $table->unsignedBigInteger('volunteer_status_id')->nullable();
-            $table->string('address')->nullable();
+            $table->string('street1')->nullable();
+            $table->string('street2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -28,6 +33,7 @@ class CreateUsersTable extends Migration
 
             $table->foreign('volunteer_type_id')->references('id')->on('volunteer_types');
             $table->foreign('volunteer_status_id')->references('id')->on('volunteer_statuses');
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 

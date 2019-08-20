@@ -36,7 +36,12 @@ class User extends Authenticatable
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
-        'address'
+        'street1',
+        'street2',
+        'city',
+        'state',
+        'zip',
+        'country_id',
     ];
 
     /**
@@ -92,6 +97,11 @@ class User extends Authenticatable
         return $this->morphOne(Application::class, 'respondent');
     }
     
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    
 
     public function canImpersonate()
     {
@@ -142,5 +152,19 @@ class User extends Authenticatable
         
         return $this->allPermissions;
     }
+
+    public function getAddressAttribute()
+    {
+        return [
+            'street1' => $this->street1,
+            'street2' => $this->street2,
+            'city' => $this->city,
+            'state' => $this->state,
+            'zip' => $this->zip,
+            'country_id' => $this->country_id,
+            'country' => $this->country->name,
+        ];
+    }
+    
     
 }

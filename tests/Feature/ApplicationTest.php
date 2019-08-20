@@ -65,32 +65,17 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function redirects_to_priorities_survey_for_new_respondent_if_comprehensive_volunteer()
-    {
-        $rsp = $this->survey->getNewResponse(null);
-        $rsp->applicant_name = 'billy pilgrim';
-        $rsp->email = 'beans@test.com';
-        $rsp->volunteer_type   = 2;
-        $rsp->save();
-
-        $httpResponse = $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
-            ->assertStatus(302);
-
-        $volunteer = $rsp->fresh()->respondent;
-
-        $httpResponse->assertRedirect('/app-user/'.$volunteer->id.'/survey/priorities1/new');
-    }
-    
-
-    /**
-     * @test
-     */
     public function creates_a_new_volunteer_user_on_finalized_and_sets_as_respondent()
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->applicant_name = 'billy pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->volunteer_type   = 1;
+        $rsp->street1 = '123 test street';
+        $rsp->street2 = 'Apt test';
+        $rsp->city = 'Testville';
+        $rsp->state = 'Ca';
+        $rsp->country_id = 225;
         $rsp->finalize();
 
 
@@ -102,6 +87,12 @@ class ApplicationTest extends TestCase
         $user = User::where('email', 'test@test.com')->first();
         $this->assertEquals('App\User', $rsp->fresh()->respondent_type);
         $this->assertEquals($user->id, $rsp->fresh()->respondent_id);
+        $this->assertEquals($user->street1, $rsp->street1);
+        $this->assertEquals($user->street2, $rsp->street2);
+        $this->assertEquals($user->city, $rsp->city);
+        $this->assertEquals($user->state, $rsp->state);
+        $this->assertEquals($user->zip, $rsp->zip);
+        $this->assertEquals($user->country_id, $rsp->country_id);
     }
     
     /**

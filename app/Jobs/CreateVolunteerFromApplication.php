@@ -35,7 +35,12 @@ class CreateVolunteerFromApplication
             'name' => $this->response->applicant_name,
             'email' => $this->response->email,
             'password' => \Hash::make(uniqid()),
-            'address' => $this->response->address,
+            'street1' => $this->response->street1,
+            'street2' => $this->response->street2,
+            'city' => $this->response->city,
+            'state' => $this->response->state,
+            'zip' => $this->response->zip,
+            'country_id' => $this->response->country_id,
             'volunteer_type_id' => $this->response->volunteer_type,
             'volunteer_status_id' => 1
         ]);

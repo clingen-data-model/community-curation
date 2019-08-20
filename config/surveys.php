@@ -33,6 +33,7 @@ return [
     'validation_messages' => [
         'curation_activity_2.different' => 'You have already selected this curation activity',
         'curation_activity_3.different' => 'You have already selected this curation activity',
+        // 'required' => 'required*'
         // 'my_field.validation_rule' => 'My custom mssage',
     ],
     'datasource_cachelife' => env('SURVEY_DATASOURCR_CACHE_LIFE', 1200),

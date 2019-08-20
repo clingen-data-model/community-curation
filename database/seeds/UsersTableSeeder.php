@@ -17,7 +17,8 @@ class UsersTableSeeder extends Seeder
             'id' => 1,
             'name' => 'Sirs Programmer',
             'email' => 'sirs@unc.edu',
-            'password' => \Hash::make('tester')
+            'password' => \Hash::make('tester'),
+            'country_id' => 225
         ]);
         $programmer->assignRole('programmer');
         
@@ -28,7 +29,8 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Admin Tester',
                 'email' => 'admin@test.com',
-                'password' => \Hash::make('tester')
+                'password' => \Hash::make('tester'),
+                'country_id' => 225
             ]
         );
         $admin->assignRole('admin');
@@ -40,7 +42,8 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Coordinator Tester',
                 'email' => 'coordinator@test.com',
-                'password' => \Hash::make('tester')
+                'password' => \Hash::make('tester'),
+                'country_id' => 225
             ]
         );
         $admin->assignRole('coordinator');
@@ -54,7 +57,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'basic@test.com',
                 'password' => \Hash::make('tester'),
                 'volunteer_status_id' => 1,
-                'volunteer_type_id' => 1
+                'volunteer_type_id' => 1,
+                'country_id' => 225
             ]
         );
         $basicVolunteer->assignRole('volunteer');
@@ -68,7 +72,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'comprehensive@test.com',
                 'password' => \Hash::make('tester'),
                 'volunteer_status_id' => 1,
-                'volunteer_type_id' => 2
+                'volunteer_type_id' => 2,
+                'country_id' => 225
             ]
         );
         $comprehensiveVolunteer->assignRole('volunteer');

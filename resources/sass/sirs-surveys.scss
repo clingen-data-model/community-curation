@@ -153,3 +153,27 @@ label,
   margin-top: 0rem;
 
 }
+
+.indent {
+  margin-left: .5rem;
+}
+
+.address-container {
+  margin-bottom: 1.5rem;
+  .question-block {
+    margin: .25rem auto;
+
+    .question-text {
+      // color: #f0f;
+      font-size: .8rem;
+    }
+
+    .question-answers {
+      margin: 0;
+    }
+
+    .error-block {
+      margin-bottom: 0;
+    }
+  }
+}
