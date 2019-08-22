@@ -103,6 +103,12 @@ class User extends Authenticatable
     }
     
 
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
+    
+
     public function canImpersonate()
     {
         return $this->can('impersonate');

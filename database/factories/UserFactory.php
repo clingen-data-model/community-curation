@@ -39,6 +39,18 @@ $factory->afterCreatingState(User::class, 'volunteer', function ($user, $faker) 
     $user->assignRole('volunteer');
 });
 
+$factory->state(User::class, 'baseline', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => 1
+    ];
+});
+
+$factory->state(User::class, 'comprehensive', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => 2
+    ];
+});
+
 // Programmer state
 $factory->state(User::class, 'programmer', function (Faker $faker) {
     return [

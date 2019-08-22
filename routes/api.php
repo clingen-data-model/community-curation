@@ -24,6 +24,8 @@ Route::group([
             // 'middleware' => 'auth:api'
         ], function () {
             Route::resource('volunteers', 'VolunteerController');
+            Route::resource('assignments', 'AssignmentController')
+                ->only(['index', 'store', 'show']);
     
             /**
              * Catch-all route for generic API read exposure
@@ -34,5 +36,7 @@ Route::group([
     
             // show
             Route::get('{model}/{id}', 'ApiController@show');
+
+
         });
     });
