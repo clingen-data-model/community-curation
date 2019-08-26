@@ -19,8 +19,30 @@
                 <template slot="email" slot-scope="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                 </template>
+                <template slot="assignments" slot-scope="{item}">
+                    <div v-if="item && item.volunteer_type_id != 1">
+                        <div v-if="item && item.assignments.length > 0">
+                            <!-- <pre>{{item.assignments}}</pre> -->
+                            <ul class="list-unstyled">
+                                <li v-for="(ass, idx) in item.assignments" :key="idx">
+                                    {{ass.assignable.name}}
+                                </li>
+                            </ul>
+                        </div>
+                        <button 
+                            class="btn btn-sm btn-default border"
+                            @click="addAssignmentsToVolunteer(item)" 
+                            v-else
+                        >
+                            Assign
+                        </button>
+                    </div>
+                </template>
             </b-table>
         </div>
+        <b-modal v-model="showAssignmentModal" hide-header hide-footer>
+            <assignment-form :volunteer="currentVolunteer"></assignment-form>
+        </b-modal>
     </div>
 </template>
 
@@ -32,6 +54,8 @@
             return {
                 searchTerm: null,
                 volunteers: [],
+                showAssignmentModal: false,
+                currentVolunteer: null,
                 tableFields: {
                     id: {
                         label: 'ID',
@@ -82,7 +106,11 @@
                 return window.axios.get('/api/volunteers')
                     .then(response => this.volunteers = response.data.data)
                     .catch(error => console.log(error));
-            }
+            },
+            addAssignmentsToVolunteer(volunteer) {
+                this.currentVolunteer = volunteer;
+                this.showAssignmentModal = true;
+            }            
         },
         mounted() {
             this.getVolunteers();

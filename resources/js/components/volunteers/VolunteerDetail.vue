@@ -11,11 +11,30 @@
                     <b-tab title="Summary" active>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="card pt-3 px-3">
+                                <div class="card p-3">
                                     <h4>{{(volunteer.volunteer_type.name || 'loading...') | ucfirst }} Volunteer</h4>
-                                    <p class="text-muted" v-if="!hasAssignments">
-                                        A ClinGen staff member will contact you shortly about your curation activity assignment.
-                                    </p>
+                                    <div v-if="volunteer.volunteer_type.name == 'baseline'">
+
+                                    </div>
+                                    <div v-else>
+                                        <div v-if="!hasAssignments">
+                                            <div class="text-muted" v-if="userIsVolunteer()">
+                                                A ClinGen staff member will contact you shortly about your curation activity assignment.
+                                            </div>
+                                            <div v-else>
+                                                <button 
+                                                    class="btn btn-lg btn-primary"
+                                                    @click="showAssignmentForm = true"
+                                                >
+                                                    Assign Curation Activity
+                                                </button>
+                                                <b-modal v-model="showAssignmentForm">
+                                                    <assignment-form :volunteer="volunteer"></assignment-form>
+                                                </b-modal>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- <div class="card mt-4 pt-3 px-3">
                                     <h4>Aptitudes &amp; Trainings</h4>
@@ -89,9 +108,10 @@
                     volunteer_type: {
                         id: null,
                         name: ''
-                    }
+                    },
                 },
-                application: {}
+                application: {},
+                showAssignmentForm: false,
             }
         },
         computed: {
@@ -135,6 +155,9 @@
             },
             findApplicationResponse() {
                 return window.axios.get('/api/application-response/')
+            },
+            userIsVolunteer() {
+                return false;
             }
         },
         mounted() {

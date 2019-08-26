@@ -6,6 +6,9 @@ window.datepicker = require('bootstrap-datepicker');
 window.timepicker = require('timepicker');
 window.Vue = require('vue');
 
+import getAllCurationActivities from './resources/curation_activities/get_all_curation_activities'
+import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
+
 import BootstrapVue from 'bootstrap-vue'
 
 
@@ -24,8 +27,10 @@ Vue.use(BootstrapVue)
 
 import VolunteerIndex from './components/volunteers/VolunteerIndex';
 import VolunteerDetail from './components/volunteers/VolunteerDetail';
+import AssignmentForm from './components/assignments/AssignmentForm';
 window.Vue.component('volunteer-index', VolunteerIndex);
 window.Vue.component('volunteer-detail', VolunteerDetail);
+window.Vue.component('assignment-form', AssignmentForm);
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
@@ -61,23 +66,11 @@ function createOption({value, label}) {
 }
 
 async function getPanels() {
-    return await axios.get('/api/expert-panels')
-        .then(response => {
-            panels = response.data.data
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    return await getAllExpertPanels();
 }
 
 async function getCurationActivities() {
-    return await axios.get('/api/curation-activities')
-        .then(response => {
-            curationActivities = response.data.data
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    return await getAllCurationActivities();
 }
  
 
