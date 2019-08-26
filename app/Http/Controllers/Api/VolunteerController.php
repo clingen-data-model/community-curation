@@ -18,7 +18,7 @@ class VolunteerController extends Controller
     public function index(Request $request)
     {
         $volunteerQuery = User::query()
-                        ->with('volunteerType', 'volunteerStatus')
+                        ->with('volunteerType', 'volunteerStatus', 'assignments')
                         ->isVolunteer();
 
         $volunteers = $volunteerQuery->get();

@@ -13,6 +13,11 @@ class Assignment extends Model
         'assignable_type'
     ];
 
+    protected $with = [
+        'status',
+        'assignable'
+    ];
+
     public function status()
     {
         return $this->belongsTo(AssignmentStatus::class);
