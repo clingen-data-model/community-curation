@@ -2,12 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
-use Venturecraft\Revisionable\RevisionableTrait;
+use App\Contracts\AssignableContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Venturecraft\Revisionable\RevisionableTrait;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
-class ExpertPanel extends Model
+class ExpertPanel extends Model implements AssignableContract
 {
     use CrudTrait;
     use RevisionableTrait;
@@ -29,6 +31,11 @@ class ExpertPanel extends Model
     public function curationActivity()
     {
         return $this->belongsTo(CurationActivity::class);
+    }
+
+    public function assignments(): Relation
+    {
+        return $this->morphMany(Assignment::class, 'assignable');
     }
 
     public function scopeForCurationActivity($query, $param)

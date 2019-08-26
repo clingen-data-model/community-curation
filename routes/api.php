@@ -19,14 +19,14 @@ Route::group([
         'namespace' => 'Api',
     ], function () {
         Route::resource('expert-panels', 'ExpertPanelController')->only(['index', 'show']);
-
+        
         Route::group([
             // 'middleware' => 'auth:api'
         ], function () {
             Route::resource('volunteers', 'VolunteerController');
             Route::resource('assignments', 'AssignmentController')
-                ->only(['index', 'store', 'show']);
-    
+                ->only(['index', 'store','show', 'update']);
+
             /**
              * Catch-all route for generic API read exposure
              **/
@@ -36,7 +36,5 @@ Route::group([
     
             // show
             Route::get('{model}/{id}', 'ApiController@show');
-
-
         });
     });
