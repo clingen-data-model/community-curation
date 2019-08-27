@@ -80,7 +80,10 @@ class VolunteerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        throw new NotImplementedException();
+        $volunteer = User::findOrFail($id);
+        $volunteer->update($request->all());
+
+        return new VolunteerUserResource($volunteer);
     }
 
     /**

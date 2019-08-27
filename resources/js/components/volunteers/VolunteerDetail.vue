@@ -4,9 +4,19 @@
     <div class="component-container">
         <div class="card card-default">
             <div class="card-header">
-                <h1>Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h1>
+                <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
+                    <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
+                    <b-dropdown-item @click="showAssignmentForm = true">Update Assignments</b-dropdown-item>
+                </b-dropdown>
+                <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3 class="mb-0">
             </div>
             <div class="card-body">
+                <div class="alert alert-danger" v-if="hasDangerStatus">
+                    <button class="float-right btn btn-light btn-sm" @click="showStatusForm = true">Update Status</button>
+                    <strong>Status Notice:</strong>
+                    This volunteer has been marked
+                    <strong>{{volunteer.volunteer_status.name}}</strong>
+                </div>
                 <b-tabs content-class="p-3 border-left border-right border-bottom">
                     <b-tab title="Summary" active>
                         <div class="row">
@@ -70,9 +80,15 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="card p-3">
-                                    <h4>Contact Information</h4>
+                                <div class="card p-3 mb-3">
+                                    <h4>Basic Information</h4>
                                     <dl class="row">
+                                        <dt class="col-sm-4">Volunteer Satus:</dt>
+                                        <dd class="col-sm-8">
+                                            {{volunteer.volunteer_status.name || 'loading...'}}
+                                            &nbsp;
+                                            <button class="btn btn-sm btn-default border" @click="showStatusForm = true">update</button>
+                                        </dd>
                                         <dt class="col-sm-4">Email:</dt>
                                         <dd class="col-sm-8">
                                             <a :href="'mailto:'+volunteer.email">{{volunteer.email || 'loading...'}}</a>
@@ -110,15 +126,29 @@
                             </ul>
                         </div>
                     </b-tab>
-                    <!-- <b-tab title="Priorities" disabled></b-tab>
-                    <b-tab title="Documents" disabled></b-tab> -->
                 </b-tabs>
             </div>
         </div>
+        <b-modal title="Update Status" hide-footer v-model="showStatusForm">
+            <div class="form-row">
+                <label for="volunteer-status-select" class="col-md-3">Volunteer Status</label>
+                <div class="col-md-6">
+                    <select v-model="newStatus" class="form-control form-control-sm">
+                        <option v-for="(status, idx) in volunteerStatuses" :value="status" :key="idx">{{status.name}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-sm" @click="updateVolunteerStatus">Update Status</button>
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
 <script>
+    import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses'
+    import updateVolunteer from '../../resources/volunteers/update_volunteer'
+
     export default {
         props: {
             id: {
@@ -137,12 +167,22 @@
                         id: null,
                         name: ''
                     },
+                    volunteer_status: {
+                        id: null,
+                        name: ''
+                    }
                 },
                 application: {},
+                volunteerStatuses: [],
                 showAssignmentForm: false,
+                showStatusForm: false,
+                newStatus: null
             }
         },
         computed: {
+            hasDangerStatus: function () {
+                return ['retired', 'unresponsive', 'declined'].indexOf(this.volunteer.volunteer_status.name.toLowerCase()) > -1
+            },
             hasAssignments: function (){
                 return this.volunteer.assignments && this.volunteer.assignments.length > 0
             },
@@ -175,6 +215,7 @@
                     .then(response => {
                         this.volunteer = response.data.data
                         this.loading = false;
+                        this.newStatus = this.volunteer.volunteer_status
                     })
                     .catch(error => console.log(error))
                     .then(() => {
@@ -184,15 +225,43 @@
             findApplicationResponse() {
                 return window.axios.get('/api/application-response/')
             },
+            fetchVolunteerStatuses: async function () {
+                this.volunteerStatuses = await getAllVolunteerStatuses();
+            },
             userIsVolunteer() {
                 return false;
+            },
+            updateVolunteerStatus() {
+                let confirmationMessage = 'Are you sure you want to update the volunteer\'s status?';
+                switch (this.newStatus.name) {
+                    case this.volunteer.volunteer_status.name:
+                        this.closeStatusWindow();
+                        return;
+                        break;
+                    // case 'Retired':
+                    //     confirmationMessage = 'You are about to retire this volunteer.  This will also retire all of their assignments.  Are you sure you want to continue?'
+                    //     break;
+                    default:
+                        break;
+                }
+                if (confirm(confirmationMessage)) {
+                    updateVolunteer(
+                        this.volunteer.id, 
+                        {
+                            'volunteer_status_id': this.newStatus.id
+                        }
+                    ).then(response => {
+                        this.findVolunteer().then(() => this.closeStatusWindow());
+                    })
+                }
+            },
+            closeStatusWindow() {
+                this.showStatusForm = false;
             }
         },
         mounted() {
             this.findVolunteer()
-                // .then(response => {
-                //     this.findApplicationResponse();
-                // });
+            this.fetchVolunteerStatuses();
         }
     
 }
