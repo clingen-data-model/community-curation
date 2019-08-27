@@ -125,9 +125,8 @@
             updateVolunteers() {
                 this.getVolunteers()
                     .then(response => {
-                        console.log('updating volunteers');
-                        if (currentVolunteer !== null) {
-                            currentVolunteer = this.volunteers.find(v => v.id === currentVolunteer.id)
+                        if (this.currentVolunteer !== null) {
+                            this.currentVolunteer = this.volunteers.find(v => v.id == this.currentVolunteer.id)
                         }
                     })
             },
