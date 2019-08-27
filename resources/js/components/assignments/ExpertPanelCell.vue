@@ -2,10 +2,11 @@
 
 <template>
     <div class="component-container">
+        <button v-if="!addingExpertPanel && !assignment.needsAptitude" class="btn btn-sm btn-link float-right" @click="addingExpertPanel = true">Add expert panel</button>
         <div v-if="assignment.needsAptitude" class="text-muted">Needs aptitude</div>
         <ul class="list-unstyled mb-0">
             <li v-for="(panel, i) in assignment.expertPanels" :key="i">
-                {{panel.name}}
+                {{panel.assignable.name}}
             </li>
         </ul>
         <div v-if="addingExpertPanel" class="form-inline">
@@ -19,7 +20,6 @@
             <button class="btn btn-sm btn-primary" @click="emitSave">Save</button>
             <button class="btn btn-sm btn-default" @click="cancelAddingExpertPanel">Cancel</button>
         </div>
-        <button v-if="!addingExpertPanel && !assignment.needsAptitude" class="btn btn-sm btn-link" @click="addingExpertPanel = true">Add expert Panel</button>
 
     </div>
 </template>

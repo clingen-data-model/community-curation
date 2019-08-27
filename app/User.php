@@ -5,11 +5,12 @@ namespace App;
 use Backpack\CRUD\CrudTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use App\Http\Resources\AssignmentResource;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -108,6 +109,17 @@ class User extends Authenticatable
         return $this->hasMany(Assignment::class);
     }
     
+    public function curationActivityAssignments()
+    {
+        return $this->hasMany(Assignment::class)
+            ->curationActivity();
+    }
+
+    public function expertPanelAssignments()
+    {
+        return $this->hasMany(Assignment::class)
+            ->expertPanel();
+    }
 
     public function canImpersonate()
     {
@@ -171,6 +183,31 @@ class User extends Authenticatable
             'country' => $this->country->name,
         ];
     }
+
+    public function getStructuredAssignmentsAttribute()
+    {
+        $assignments = $this->assignments()
+                        ->with('assignable', 'status')
+                        ->get();
+        $activityAssignments = $assignments->where('assignable_type', CurationActivity::class);
+
+        $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
+            $activity = $actAss->assignable;
+            
+            return collect([
+                'curationActivity' => (new AssignmentResource($actAss)),
+                'needsAptitude' => $actAss->needsAptitude,
+                'expertPanels' => AssignmentResource::collection($assignments->filter(function ($ass) use ($activity) {
+                    if ($ass->assignable_type != ExpertPanel::class) {
+                        return false;
+                    }
+                    return $ass->assignable->curation_activity_id == $activity->id;
+                }))
+            ]);
+        });
+        return $structuredAssignments;
+    }
+    
     
     
 }

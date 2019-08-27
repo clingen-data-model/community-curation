@@ -3,8 +3,9 @@
 namespace App\Jobs;
 
 use App\Assignment;
+use App\Contracts\AssignableContract;
 use App\User;
-use App\CurationActivity;
+use App\assignable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use InvalidArgumentException;
@@ -15,17 +16,17 @@ class AssignVolunteerToAssignable
 
     protected $volunteer;
 
-    protected $curationActivity;
+    protected $assignable;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $volunteer, CurationActivity $curationActivity)
+    public function __construct(User $volunteer, AssignableContract $assignable)
     {
         $this->volunteer = $volunteer;
-        $this->curationActivity = $curationActivity;
+        $this->assignable = $assignable;
     }
 
     /**
@@ -41,8 +42,8 @@ class AssignVolunteerToAssignable
 
         Assignment::firstOrCreate([
             'user_id' => $this->volunteer->id,
-            'assignable_id' => $this->curationActivity->id,
-            'assignable_type' => get_class($this->curationActivity)
+            'assignable_id' => $this->assignable->id,
+            'assignable_type' => get_class($this->assignable)
         ]);
     }
 }

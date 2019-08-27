@@ -19,7 +19,11 @@ class VolunteerUserResource extends JsonResource
         unset($array['deleted_at']);
         $array['volunteer_status'] = new DefaultResource($this->whenLoaded('volunteerStatus'));
         $array['volunteer_type'] = new DefaultResource($this->whenLoaded('volunteerType'));
-        $array['assignments'] = DefaultResource::collection($this->whenLoaded('assignments'));
+        if ($this->whenLoaded('assignments')) {
+            $array['assignments'] =  $this->structuredAssignments;
+        }else {
+            dump("relation assignments not loaded");
+        }
         $array['application'] = new DefaultResource($this->whenLoaded('application'));
         
         return $array;

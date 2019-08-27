@@ -22,10 +22,18 @@
                 <template slot="assignments" slot-scope="{item}">
                     <div v-if="item && item.volunteer_type_id != 1">
                         <div v-if="item && item.assignments.length > 0">
-                            <!-- <pre>{{item.assignments}}</pre> -->
+                            <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button>
                             <ul class="list-unstyled">
                                 <li v-for="(ass, idx) in item.assignments" :key="idx">
-                                    {{ass.assignable.name}}
+                                    {{ass.curationActivity.assignable.name}}
+                                    <span v-if="ass.expertPanels.length > 0">
+                                        -
+                                        <span>{{ass.expertPanels.map(p => p.assignable.name).join(", ")}}</span>
+                                    </span>
+                                    <span v-else-if="ass.needsAptitude" class="text-muted">Needs aptitude</span>
+                                    <span v-else class="text-muted">
+                                        - None
+                                    </span>                            
                                 </li>
                             </ul>
                         </div>

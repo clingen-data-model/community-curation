@@ -4,20 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use App\Assignment;
+use App\ExpertPanel;
+use App\CurationActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AssignmentResource;
 use App\Jobs\AssignVolunteerToAssignable;
+use App\Http\Resources\AssignmentResource;
 use App\Http\Requests\ActivityAssignmentCreateRequest;
 
 class AssignmentController extends Controller
 {
-
     public function index(Request $request)
     {
         return AssignmentResource::collection(Assignment::all());
     }
-    
+
+    public function volunteer(Request $request, $id)
+    {
+        $volunteer = User::findOrFail($id);
+
+        return $volunteer->structuredAssignments;
+    }
 
     /**
      * Store a newly created resource in storage.

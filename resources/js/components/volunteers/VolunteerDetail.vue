@@ -2,6 +2,7 @@
 
 <template>
     <div class="component-container">
+        <pre>{{volunteer}}</pre>
         <div class="card card-default">
             <div class="card-header">
                 <h1>Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h1>
@@ -28,12 +29,20 @@
                                                 >
                                                     Assign Curation Activity
                                                 </button>
-                                                <b-modal v-model="showAssignmentForm">
-                                                    <assignment-form :volunteer="volunteer"></assignment-form>
-                                                </b-modal>
-
                                             </div>
                                         </div>
+                                        <div v-else>
+                                            <button 
+                                                class="btn btn btn-default border"
+                                                @click="showAssignmentForm = true"
+                                            >
+                                                Assign Curation Activity
+                                            </button>
+                                            <pre>{{volunteer.assignments}}</pre>
+                                        </div>
+                                        <b-modal v-model="showAssignmentForm" hide-header hide-footer>
+                                            <assignment-form :volunteer="volunteer"></assignment-form>
+                                        </b-modal>
                                     </div>
                                 </div>
                                 <!-- <div class="card mt-4 pt-3 px-3">
