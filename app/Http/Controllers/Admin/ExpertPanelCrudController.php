@@ -60,6 +60,11 @@ class ExpertPanelCrudController extends CrudController
                 'attribute' => 'name',
                 'model' => WorkingGroup::class,
             ],
+            [
+                'label' => 'Accepting Volunters',
+                'type' => 'checkbox',
+                'name' => 'accepting_volunteers'
+            ]
         ], 'both');
 
         $this->crud->addColumns([
@@ -78,7 +83,13 @@ class ExpertPanelCrudController extends CrudController
                 'entity' => 'workingGroup', // the method that defines the relationship in your Model
                 'attribute' => "name", // foreign key attribute that is shown to user
                 'model' => WorkingGroup::class, // foreign key model
-            ],        
+            ],
+            [
+                'label' => 'Accepting Volunters',
+                'type' => 'boolean',
+                'name' => 'accepting_volunteers'
+
+            ]
         ]);
 
         if (!\Auth::user()->can('create', ExpertPanel::class)) {

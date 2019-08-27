@@ -113,22 +113,13 @@
         },
         methods: {
             getVolunteers: async function () {
-                // this.volunteers = await getAllVolunteers().then(response => console.log(response));
-                // getAllVolunteers().then(data => this.volunteers = data);
-                return window.axios.get('/api/volunteers')
-                    .then(response => {
-                        this.volunteers = response.data.data
-                        return response
-                    })
-                    .catch(error => console.log(error));
+                this.volunteers = await getAllVolunteers();
             },
-            updateVolunteers() {
-                this.getVolunteers()
-                    .then(response => {
-                        if (this.currentVolunteer !== null) {
-                            this.currentVolunteer = this.volunteers.find(v => v.id == this.currentVolunteer.id)
-                        }
-                    })
+            updateVolunteers: async function() {
+                await this.getVolunteers()
+                if (this.currentVolunteer !== null) {
+                    this.currentVolunteer = this.volunteers.find(v => v.id == this.currentVolunteer.id)
+                }
             },
             addAssignmentsToVolunteer(volunteer) {
                 this.currentVolunteer = volunteer;

@@ -132,7 +132,7 @@
             {
                 this.curationActivities = await getAllCurationActivities();
             },
-            fetchExpertPanels: async function ()
+            fetchExpertPanels: async function()
             {
                 this.expertPanels = await getAllExpertPanels();
             },
@@ -141,7 +141,11 @@
                 this.addingCurationActivity = false;
             },
             getExpertPanelsForCurationActivity(curationActivityId) {
-                return this.unassignedExpertPanels.filter(panel => panel.curation_activity_id == curationActivityId)    
+                return this.unassignedExpertPanels
+                        .filter(panel => {
+                            return panel.curation_activity_id == curationActivityId
+                                && panel.accepting_volunteers == 1
+                        })
             },
             saveNewCurationActivity() {
                 createAssignment({
