@@ -49,13 +49,16 @@
             </b-table>
         </div>
         <b-modal v-model="showAssignmentModal" hide-header hide-footer>
-            <assignment-form :volunteer="currentVolunteer"></assignment-form>
+            <assignment-form 
+                :volunteer="currentVolunteer" 
+                @saved="updateVolunteers">
+            </assignment-form>
         </b-modal>
     </div>
 </template>
 
 <script>
-    // import getAllVolunteers from '../../resources/volunteers/get_all_volunteers'
+    import getAllVolunteers from '../../resources/volunteers/get_all_volunteers'
     export default {
         components: {},
         data() {
@@ -109,11 +112,24 @@
             }
         },
         methods: {
-            getVolunteers() {
+            getVolunteers: async function () {
+                // this.volunteers = await getAllVolunteers().then(response => console.log(response));
                 // getAllVolunteers().then(data => this.volunteers = data);
                 return window.axios.get('/api/volunteers')
-                    .then(response => this.volunteers = response.data.data)
+                    .then(response => {
+                        this.volunteers = response.data.data
+                        return response
+                    })
                     .catch(error => console.log(error));
+            },
+            updateVolunteers() {
+                this.getVolunteers()
+                    .then(response => {
+                        console.log('updating volunteers');
+                        if (currentVolunteer !== null) {
+                            currentVolunteer = this.volunteers.find(v => v.id === currentVolunteer.id)
+                        }
+                    })
             },
             addAssignmentsToVolunteer(volunteer) {
                 this.currentVolunteer = volunteer;

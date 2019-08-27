@@ -3,7 +3,6 @@ const getAllCurationActivities = async function () {
 
     if (!data) {
         window.axios.get('/api/expert-panels').then(response => {
-            console.log('requesting curation activities');
             data = response.data.data
             localStorage.setItem('expert-panels', JSON.stringify(data))
         });

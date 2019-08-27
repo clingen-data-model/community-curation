@@ -151,8 +151,8 @@
                 })
                 .then(response => {
                     this.cancelAddingActivity();
+                    this.$emit('saved');
                 })
-                console.log(this.newCurationActivity);
             },
             saveNewExpertPanel(expertPanel) {
                 createAssignment({
@@ -162,8 +162,8 @@
                 })
                 .then(response => {
                     this.cancelAddingActivity();
+                    this.$emit('saved');
                 })
-                console.log(this.expertPanel);
             }
         },
         mounted() {

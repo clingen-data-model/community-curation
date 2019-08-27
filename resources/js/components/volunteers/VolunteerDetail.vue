@@ -2,7 +2,6 @@
 
 <template>
     <div class="component-container">
-        <pre>{{volunteer}}</pre>
         <div class="card card-default">
             <div class="card-header">
                 <h1>Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h1>
@@ -32,16 +31,36 @@
                                             </div>
                                         </div>
                                         <div v-else>
+                                            <table class="table table-sm" v-if="volunteer.assignments.length > 0">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 30%">Curation Activity</th>
+                                                        <th>Expert Panel</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(assignment, idx) in volunteer.assignments" :key="idx">
+                                                        <td>
+                                                            {{assignment.curationActivity.assignable.name}}
+                                                        </td>
+                                                        <td>
+                                                            <div v-if="assignment.needsAptitude" class="text-muted">
+                                                                Needs Aptitude
+                                                            </div>
+                                                            <div v-else>{{assignment.expertPanels.map(epAss => epAss.assignable.name).join(", ")}}</div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                             <button 
-                                                class="btn btn btn-default border"
+                                                class="btn btn btn-default border btn-sm"
                                                 @click="showAssignmentForm = true"
                                             >
-                                                Assign Curation Activity
+                                                Edit
                                             </button>
-                                            <pre>{{volunteer.assignments}}</pre>
                                         </div>
                                         <b-modal v-model="showAssignmentForm" hide-header hide-footer>
-                                            <assignment-form :volunteer="volunteer"></assignment-form>
+                                            <assignment-form :volunteer="volunteer" @saved="findVolunteer"></assignment-form>
                                         </b-modal>
                                     </div>
                                 </div>

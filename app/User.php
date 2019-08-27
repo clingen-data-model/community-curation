@@ -189,7 +189,7 @@ class User extends Authenticatable
         $assignments = $this->assignments()
                         ->with('assignable', 'status')
                         ->get();
-        $activityAssignments = $assignments->where('assignable_type', CurationActivity::class);
+        $activityAssignments = $assignments->where('assignable_type', CurationActivity::class)->values();
 
         $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
             $activity = $actAss->assignable;
@@ -197,12 +197,16 @@ class User extends Authenticatable
             return collect([
                 'curationActivity' => (new AssignmentResource($actAss)),
                 'needsAptitude' => $actAss->needsAptitude,
-                'expertPanels' => AssignmentResource::collection($assignments->filter(function ($ass) use ($activity) {
-                    if ($ass->assignable_type != ExpertPanel::class) {
-                        return false;
-                    }
-                    return $ass->assignable->curation_activity_id == $activity->id;
-                }))
+                'expertPanels' => AssignmentResource::collection(
+                        $assignments->filter(
+                            function ($ass) use ($activity) {
+                                if ($ass->assignable_type != ExpertPanel::class) {
+                                    return false;
+                                }
+                                return $ass->assignable->curation_activity_id == $activity->id;
+                            }                            
+                        )->values()
+                    )
             ]);
         });
         return $structuredAssignments;
