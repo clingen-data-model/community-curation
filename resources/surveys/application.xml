@@ -198,6 +198,7 @@
 
     <page name="commitment" title="Vollunteer Commitment Question">
         <multiple-choice name="volunteer_type" id="volunteer_type" num-selectable="1" required="1">
+            <template source="surveys.application.commitment-table"></template>
             <question-text>
                 <![CDATA[How would you describe the amount of time you are able to commit to ClinGen curation activities?*]]>
             </question-text>

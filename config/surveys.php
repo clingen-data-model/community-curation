@@ -8,7 +8,7 @@ return [
     'cacheDocuments'=> false, #(env('APP_DEBUG')) ? false : true,
     'chromeTemplate'=>'layouts.app',
     'editAfterFinalized'=>false,
-    'customTemplatePath' => base_path('resources/views/surveys'),
+    'customTemplatePath' => base_path('resources/views'),
     'refusedLabel' => 'Refused',
     'refusedValue' => -77,
     'autosave'=>[
