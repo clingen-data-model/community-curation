@@ -196,11 +196,11 @@
         </multiple-choice>
     </page>
 
-    <page name="commitment" title="Vollunteer Commitment Question">
+    <page name="commitment" title="Level of Commitment">
         <multiple-choice name="volunteer_type" id="volunteer_type" num-selectable="1" required="1">
             <template source="surveys.application.commitment-table"></template>
             <question-text>
-                <![CDATA[How would you describe the amount of time you are able to commit to ClinGen curation activities?*]]>
+                <![CDATA[There are two levels at which you can volunteer: Baseline and Comprehensive.  <br>Please review the table belown and decide what level of commitment is right for you.*]]>
             </question-text>
             <options>
                 <option name="volunteer_typeBaseline">

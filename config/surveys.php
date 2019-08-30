@@ -33,6 +33,7 @@ return [
     'validation_messages' => [
         'curation_activity_2.different' => 'You have already selected this curation activity',
         'curation_activity_3.different' => 'You have already selected this curation activity',
+        'volunteer_type.required' => 'Please indicate the level at which you\'d like to volunteer',
         // 'required' => 'required*'
         // 'my_field.validation_rule' => 'My custom mssage',
     ],
