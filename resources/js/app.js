@@ -65,29 +65,33 @@ function createOption({value, label}) {
     return option;
 }
 
-async function getPanels() {
-    return await getAllExpertPanels();
-}
-
-async function getCurationActivities() {
-    return await getAllCurationActivities();
-}
- 
-
-let curationActivities = getCurationActivities();
-curationActivities.then(() => console.log(window.curationActivities))
-
-let panels = getPanels();
-panels.then( () => {
+let curationActivities = [];
+async function loadActivities() {
+    curationActivities = await getAllCurationActivities();
     Array.from(document.querySelectorAll('select.curation-activity-question'))
         .forEach(question => {
             question.disabled = false;
         })
-});
+}
+ 
+loadActivities();
+
+let panels = [];
+async function loadPanels() {
+    panels = await await getAllExpertPanels();
+    Array.from(document.querySelectorAll('select.panel-question'))
+        .forEach(question => {
+            question.disabled = false;
+        })
+}
+
+loadPanels();
 
 document.addEventListener('DOMContentLoaded', () => {
     const curationActivityQuestions = Array.from(document.querySelectorAll('select.curation-activity-question'));
     
+// console.log(panels);
+
     curationActivityQuestions
         .forEach(question => {
             question.addEventListener('change', (evt) => {

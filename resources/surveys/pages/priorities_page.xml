@@ -1,29 +1,30 @@
+<!-- Javascript for this page is located in app.js -->
 <page name="Priorities" title="Volunteer Prioritization and Group Interest">
     <html>
         <content>
             <![CDATA[
-                    <p>
-                        You have chosen to become an active member of a curation group. 
-                        
-                        In order to best place your efforts, we ask if you would please prioritize your top three curation activites(s) 
-                        and expert panel(s) of choice. Further, please indicate any prior experience and willingness to participate in more than one. 
-                        
-                        Note, you are not obligated to participate in more than one, as each curation activity will have its own training session(s).
-                    </p>
+                <p>
+                    You have chosen to become an active member of a curation group. 
+                    
+                    In order to best place your efforts, we ask if you would please prioritize your top three curation activites(s) 
+                    and expert panel(s) of choice. Further, please indicate any prior experience and willingness to participate in more than one. 
+                    
+                    Note, you are not obligated to participate in more than one, as each curation activity will have its own training session(s).
+                </p>
 
-                    <p>
-                        To learn more about each curation activity see: 
-                        <a href="https://www.clinicalgenome.org/curation-activities/">https://www.clinicalgenome.org/curation-activities/</a>. 
-                        
-                        A description of Somatic Cancer can be found here: 
-                        <a href="https://www.clinicalgenome.org/working-groups/somatic/">https://www.clinicalgenome.org/working-groups/somatic/</a>
-                    </p>
+                <p>
+                    To learn more about each curation activity see: 
+                    <a href="https://www.clinicalgenome.org/curation-activities/">https://www.clinicalgenome.org/curation-activities/</a>. 
+                    
+                    A description of Somatic Cancer can be found here: 
+                    <a href="https://www.clinicalgenome.org/working-groups/somatic/">https://www.clinicalgenome.org/working-groups/somatic/</a>
+                </p>
 
-                    <p>
-                        For more information on current expert panels accepting volunteers see: 
-                        <a href="https://www.clinicalgenome.org/working-groups/c3/">https://www.clinicalgenome.org/working-groups/c3/</a>
-                    </p>
-                ]]>
+                <p>
+                    For more information on current expert panels accepting volunteers see: 
+                    <a href="https://www.clinicalgenome.org/working-groups/c3/">https://www.clinicalgenome.org/working-groups/c3/</a>
+                </p>
+            ]]>
         </content>
     </html>
 
