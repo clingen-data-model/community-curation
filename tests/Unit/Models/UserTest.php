@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\User;
+use App\Priority;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -86,5 +87,26 @@ class UserTest extends TestCase
         $this->assertEquals(2, User::isVolunteer()->count());
 
     }
+
+    /**
+     * @test
+     */
+    public function gets_latest_priorities_relation()
+    {
+        $volunteer1 = factory(User::class)->states('volunteer', 'comprehensive')->create();
+        $firstPriorities = factory(Priority::class, 3)->create([
+            'user_id' => $volunteer1->id
+        ]);
+        $secondPriorities = factory(Priority::class, 3)->create([
+            'user_id' => $volunteer1->id,
+            'prioritization_round' => 2
+        ]);
+
+        $latestPriorities = $volunteer1->fresh()->latestPriorities;
+
+        $this->assertEquals($secondPriorities->pluck('id'), $latestPriorities->pluck('id'));
+        $this->assertNotContains($firstPriorities->first()->id, $latestPriorities->pluck('id'));
+    }
+    
         
 }

@@ -121,6 +121,27 @@ class User extends Authenticatable
             ->expertPanel();
     }
 
+    public function priorities()
+    {
+        return $this->hasMany(Priority::class);
+    }
+
+    public function latestPriorities()
+    {
+        return $this->priorities()
+            ->whereIn(
+                'prioritization_round', 
+                function ($query) {
+                    $query
+                    ->selectRaw('MAX(prioritization_round)')
+                    ->from(with(new Priority)->getTable())
+                    ->where('user_id', $this->id);
+                }
+            );
+    }
+    
+    
+
     public function canImpersonate()
     {
         return $this->can('impersonate');
