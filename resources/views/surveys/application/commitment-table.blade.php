@@ -49,7 +49,7 @@
         <tr data-toggle="buttons">
             <td>&nbsp;</td>
             <td class="btn-group-toggle">
-                <label class="btn btn-lg btn-secondary @if ($context['response']->{$renderable->name} == 2) active @endif">
+                <label class="btn btn-lg btn-light @if ($context['response']->{$renderable->name} == 2) active @endif">
                     <input 
                         type="radio" 
                         name="{{$renderable->name}}" 
@@ -64,7 +64,7 @@
                 </label>
             </td>
             <td class="btn-group-toggle">
-                    <label class="btn btn-lg btn-secondary @if ($context['response']->{$renderable->name} == 1) active @endif">
+                    <label class="btn btn-lg btn-light @if ($context['response']->{$renderable->name} == 1) active @endif">
                         <input 
                             type="radio" 
                             name="{{$renderable->name}}" 
