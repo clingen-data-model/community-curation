@@ -126,6 +126,82 @@
                             </ul>
                         </div>
                     </b-tab>
+                    <b-tab title="Priorities" v-if="isComprehensive">
+                        <div class="alert alert-danger my-4 col-10 mx-auto" v-if="!volunteer.application">
+                            <h4><strong>This volunteer did not complete an application.</strong></h4>
+                            Based on the expected workflow this is not possible, but there are a few ways it could have happened:
+                            <ul>
+                                <li>This is a <strong>test database</strong> and you are looking at a volunteer that was created for testing purposes w/o completing an applications survey.</li>
+                                <li>An admin <strong>created</strong> a volunteer user <strong>using the admin panel</strong>.</li>
+                                <li>Something mysterious is going on and you should contact an administrator.</li>
+                            </ul>
+                        </div>
+
+                        <table class="table table-striped table-sm" v-else>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Curation Activity</th>
+                                    <th>Expert Panel</th>
+                                    <th>Effort Experience</th>
+                                    <th>Activity Experience</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>{{volunteer.application.curation_activity_1}}</td>
+                                    <td>{{volunteer.application.panel_1}}</td>
+                                    <td>
+                                        {{volunteer.application.effort_experience_1 | boolToHuman }}
+                                        <span v-if="volunteer.application.effort_experience_1 == 1">
+                                            - {{volunteer.application.effort_experience_1_detail}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{volunteer.application.activity_experience_1 | boolToHuman}}
+                                        <span v-if="volunteer.application.activity_experience_1 == 1">
+                                            - {{volunteer.application.activity_experience_1_detail}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr v-if="volunteer.application.curation_activity_2">
+                                    <td>2</td>
+                                    <td>{{volunteer.application.curation_activity_2}}</td>
+                                    <td>{{volunteer.application.panel_2}}</td>
+                                    <td>
+                                        {{volunteer.application.effort_experience_2 | boolToHuman}}
+                                        <span v-if="volunteer.application.effort_experience_2 == 1">
+                                            - {{volunteer.application.effort_experience_2_detail}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{volunteer.application.activity_experience_2 | boolToHuman}}
+                                        <span v-if="volunteer.application.activity_experience_2 == 1">
+                                            - {{volunteer.application.activity_experience_2_detail}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr v-if="volunteer.application.curation_activity_3">
+                                    <td>3</td>
+                                    <td>{{volunteer.application.curation_activity_3}}</td>
+                                    <td>{{volunteer.application.panel_3}}</td>
+                                    <td>
+                                        {{volunteer.application.effort_experience_3 | boolToHuman}}
+                                        <span v-if="volunteer.application.effort_experience_3 == 1">
+                                            {{volunteer.application.effort_experience_3_detail}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{volunteer.application.activity_experience_ | boolToHuman3}}
+                                        <span v-if="volunteer.application.activity_experience_3 == 1">
+                                            {{volunteer.application.activity_experience_3_detail}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </b-tab>
                 </b-tabs>
             </div>
         </div>
@@ -206,6 +282,9 @@
                     })
                 }
                 return data;
+            },
+            isComprehensive: function () {
+                return this.volunteer.volunteer_type_id == 2;
             }
         },
         methods: {
