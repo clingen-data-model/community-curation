@@ -123,5 +123,45 @@ class ApplicationTest extends TestCase
 
         $httpResponse = $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
             ->assertRedirect('apply/thank-you');
-    }    
+    }
+
+    /**
+     * @test
+     */
+    public function stores_priorities()
+    {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->volunteer_type   = 2;
+        $rsp->curation_activity_1 = 1;
+        $rsp->panel_1 = 1;
+        $rsp->activity_experience_1 = 1;
+        $rsp->activity_experience_1_detail = 'test details';
+        $rsp->curation_activity_2 = 2;
+        $rsp->panel_2 = 2;
+        $rsp->effort_experience_2 = 1;
+        $rsp->effort_experience_2_detail = 'test effort experience details 2';
+        $rsp->save();
+
+        $this->withoutExceptionHandling();
+        $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
+            ->assertStatus(302);
+
+        $this->assertDatabaseHas('priorities', [
+            'curation_activity_id' => 1,
+            'expert_panel_id' => 1,
+            'activity_experience' => 1,
+            'activity_experience_details' => 'test details'
+        ]);
+        $this->assertDatabaseHas('priorities', [
+            'curation_activity_id' => 2,
+            'expert_panel_id' => 2,
+            'activity_experience' => 0,
+            'activity_experience_details' => null,
+            'effort_experience' => 1,
+            'effort_experience_details' => 'test effort experience details 2'
+        ]);
+    }
+    
 }

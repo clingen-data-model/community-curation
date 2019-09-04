@@ -128,16 +128,18 @@ class User extends Authenticatable
 
     public function latestPriorities()
     {
-        return $this->priorities()
+        dd($this->toArray());
+        $q = $this->hasMany(Priority::class)
             ->whereIn(
                 'prioritization_round', 
                 function ($query) {
                     $query
                     ->selectRaw('MAX(prioritization_round)')
                     ->from(with(new Priority)->getTable())
-                    ->where('user_id', $this->id);
+                    ->where('user_id', $this->getAttribute('id'));
                 }
             );
+        return $q;
     }
     
     

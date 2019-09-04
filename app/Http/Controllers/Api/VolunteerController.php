@@ -55,13 +55,17 @@ class VolunteerController extends Controller
      */
     public function show($id)
     {
-        $volunteer = User::findOrFail($id)
-                        ->load([
-                            'volunteerStatus',
-                            'volunteerType',
-                            'application',
-                            'assignments'
-                        ]);
+        $volunteer = User::findOrFail($id);
+        $volunteer->load([
+            'volunteerStatus',
+            'volunteerType',
+            'application',
+            'assignments',
+            'latestPriorities',
+            'priorities'
+        ]);
+
+        dd($volunteer->latestPriorities);
 
         return new VolunteerUserResource($volunteer);
     }

@@ -20,10 +20,10 @@ class CreatePrioritiesTable extends Migration
             $table->unsignedBigInteger('curation_activity_id');
             $table->unsignedBigInteger('expert_panel_id');
             $table->unsignedInteger('prioritization_round');
-            $table->boolean('activity_experience');
-            $table->text('activity_experience_details');
-            $table->boolean('effort_experience');
-            $table->text('effort_experience_details');
+            $table->boolean('activity_experience')->default(0);
+            $table->text('activity_experience_details')->nullable();
+            $table->boolean('effort_experience')->default(0);
+            $table->text('effort_experience_details')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onCascade('delete');
