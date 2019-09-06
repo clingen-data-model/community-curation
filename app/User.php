@@ -199,6 +199,7 @@ class User extends Authenticatable
             $activity = $actAss->assignable;
             
             return collect([
+                'curation_activity_id' => $activity->id,
                 'curationActivity' => (new AssignmentResource($actAss)),
                 'needsAptitude' => $actAss->needsAptitude,
                 'expertPanels' => AssignmentResource::collection(
