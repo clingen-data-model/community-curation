@@ -21,7 +21,9 @@ class VolunteerUserResource extends JsonResource
         $array['volunteer_type'] = new DefaultResource($this->whenLoaded('volunteerType'));
         $array['assignments'] =  $this->structuredAssignments;
         $array['application'] = new DefaultResource($this->whenLoaded('application'));
-        $array['latest_priorities'] = PriorityResource::collection($this->whenLoaded('latestPriorities'));
+        $array['latest_priorities'] = $this->relationLoaded('priorities') 
+                                        ? PriorityResource::collection($this->latestPriorities) 
+                                        : null;
         $array['priorities'] = PriorityResource::collection($this->whenLoaded('priorities'));
         
         return $array;
