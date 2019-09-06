@@ -23,7 +23,7 @@
                     &nbsp;
                     <input type="text" class="form-control form-control-sm" v-model="filters.searchTerm" placeholder="filter rows" id="filter-input">
                 </div>
-                <div class="border-left pl-3" id="type-filter-container">
+                <!-- <div class="border-left pl-3" id="type-filter-container">
                     <select id="type-select" class="form-control" v-model="filters.volunteer_type_id">
                         <option :value="null">Any Type</option>
                         <option v-for="(type, idx) in volunteerTypes"
@@ -32,7 +32,7 @@
                             {{type.name}}
                         </option>
                     </select>
-                </div>
+                </div> -->
                 <div class="border-left pl-3" id="status-filter-container">
                     <select id="status-select" class="form-control" v-model="filters.volunteer_status_id">
                         <option :value="null">Any Status</option>
@@ -43,7 +43,7 @@
                         </option>
                     </select>
                 </div>
-                <div id="curation-activity-filter-container">
+                <!-- <div id="curation-activity-filter-container">
                     <select id="activity-select" class="form-control" v-model="filters.curation_activity_id">
                         <option :value="null">Any Activity</option>
                         <option v-for="(activity, idx) in activities"
@@ -62,7 +62,7 @@
                             {{panel.name}}
                         </option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="alert alert-info" v-if="filteredVolunteers.length == 0">
                 <div v-if="Object.keys(activeFilters).length >0">
