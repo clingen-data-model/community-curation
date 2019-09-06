@@ -20,7 +20,7 @@
                     <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                 </template>
                 <template slot="assignments" slot-scope="{item}">
-                    <div v-if="item && item.volunteer_type_id != 1">
+                    <div v-if="item && item.volunteer_type_id == 2">
                         <div v-if="item && item.assignments.length > 0">
                             <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button>
                             <ul class="list-unstyled">
@@ -44,6 +44,9 @@
                         >
                             Assign
                         </button>
+                    </div>
+                    <div v-else class="text-muted">
+                        N/A
                     </div>
                 </template>
             </b-table>

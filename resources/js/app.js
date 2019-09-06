@@ -37,6 +37,8 @@ window.Vue.filter('ucfirst', s => {
     return s.charAt(0).toUpperCase() + s.slice(1)
 })
 
+window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

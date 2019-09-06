@@ -32,8 +32,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'email', 
+        'name',
+        'email',
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
@@ -63,7 +63,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    static public function boot()
+    public static function boot()
     {
         parent::boot();
         static::creating(function ($model) {
@@ -121,6 +121,11 @@ class User extends Authenticatable
             ->expertPanel();
     }
 
+    public function priorities()
+    {
+        return $this->hasMany(Priority::class);
+    }
+
     public function canImpersonate()
     {
         return $this->can('impersonate');
@@ -128,7 +133,6 @@ class User extends Authenticatable
 
     public function canBeImpersonated()
     {
-
         if ($this->hasRole('programmer')) {
             return false;
         }
@@ -156,7 +160,7 @@ class User extends Authenticatable
         return $this->getAllPermissions()->contains('name', $permString);
     }
    
-    public function getAllPermissions() 
+    public function getAllPermissions()
     {
         if (is_null($this->allPermissions)) {
             $permissions = $this->permissions;
@@ -198,20 +202,27 @@ class User extends Authenticatable
                 'curationActivity' => (new AssignmentResource($actAss)),
                 'needsAptitude' => $actAss->needsAptitude,
                 'expertPanels' => AssignmentResource::collection(
-                        $assignments->filter(
+                    $assignments->filter(
                             function ($ass) use ($activity) {
                                 if ($ass->assignable_type != ExpertPanel::class) {
                                     return false;
                                 }
                                 return $ass->assignable->curation_activity_id == $activity->id;
-                            }                            
+                            }
                         )->values()
                     )
             ]);
         });
         return $structuredAssignments;
     }
-    
-    
+
+    public function getLatestPrioritiesAttribute()
+    {
+        if ($this->priorities->count() == 0) {
+            return collect([]);
+        }
+        return $this->priorities->groupBy('prioritization_round')->last();
+        
+    }
     
 }
