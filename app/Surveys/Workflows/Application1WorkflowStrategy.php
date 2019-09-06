@@ -4,6 +4,7 @@ namespace App\Surveys\Workflows;
 
 use App\User;
 use App\Jobs\CreateVolunteerFromApplication;
+use App\Traits\StoresResponsePriorities;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
 /**
@@ -21,11 +22,15 @@ use Sirs\Surveys\SurveyResponseWorkflowStrategy;
  **/
 class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
 {
+    use StoresResponsePriorities;
+
     public function finalizing()
     {
         if (is_null($this->response->respondent)) {
             CreateVolunteerFromApplication::dispatch($this->response);
         }
+
+        $this->storePriorities();
 
         session()->forget('application-response');
     }
