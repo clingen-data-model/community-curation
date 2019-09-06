@@ -23,7 +23,7 @@
                     &nbsp;
                     <input type="text" class="form-control form-control-sm" v-model="filters.searchTerm" placeholder="filter rows" id="filter-input">
                 </div>
-                <!-- <div class="border-left pl-3" id="type-filter-container">
+                <div class="border-left pl-3" id="type-filter-container">
                     <select id="type-select" class="form-control" v-model="filters.volunteer_type_id">
                         <option :value="null">Any Type</option>
                         <option v-for="(type, idx) in volunteerTypes"
@@ -32,7 +32,7 @@
                             {{type.name}}
                         </option>
                     </select>
-                </div> -->
+                </div>
                 <div class="border-left pl-3" id="status-filter-container">
                     <select id="status-select" class="form-control" v-model="filters.volunteer_status_id">
                         <option :value="null">Any Status</option>
@@ -43,7 +43,7 @@
                         </option>
                     </select>
                 </div>
-                <!-- <div id="curation-activity-filter-container">
+                <div id="curation-activity-filter-container">
                     <select id="activity-select" class="form-control" v-model="filters.curation_activity_id">
                         <option :value="null">Any Activity</option>
                         <option v-for="(activity, idx) in activities"
@@ -52,8 +52,8 @@
                             {{activity.name}}
                         </option>
                     </select>
-                </div> -->
-                <!-- <div id="expert-panel-filter-container">
+                </div>
+                <div id="expert-panel-filter-container">
                     <select id="panel-select" class="form-control" v-model="filters.expert_panel_id">
                         <option :value="null">Any Expert Panel</option>
                         <option v-for="(panel, idx) in panels"
@@ -62,7 +62,7 @@
                             {{panel.name}}
                         </option>
                     </select>
-                </div> -->
+                </div>
             </div>
             <div class="alert alert-info" v-if="filteredVolunteers.length == 0">
                 <div v-if="Object.keys(activeFilters).length >0">
@@ -194,56 +194,62 @@ import { randomBytes } from 'crypto';
                 if (Object.keys(this.activeFilters).length === 0) {
                     return this.volunteers;
                 }
-                return this.volunteers.filter(volunteer => {
-                    for(let key in this.activeFilters) {
-                        if (['volunteer_status_id', 'volunteer_type_id'].indexOf(key) > -1) {
-                            if (this.activeFilters[key] != volunteer[key]) {
-                                return false
-                            }
-                        }
-                        if (key == 'curation_activity_id') {
-                            let matchingAssignments = volunteer.assignments.filter(ass => {
-                                return ass[key] == this.activeFilters[key]
-                            });
-                            if (matchingAssignments.length == 0) {
-                                return false
-                            }
-                        }
 
-                        if (key == 'expert_panel_id') {
-                            if (volunteer.assignments.length == 0) {
-                                return false;
-                            }
-                            let matchingAssignments = volunteer.assignments.filter(ass => {
-                                if (ass.expertPanels.length == 0) {
-                                    return false;
-                                }
-                                let assignedExpertPanelIds = ass.expertPanels.map(ep => ep.assignable_id);
-                                console.log(assignedExpertPanelIds);
-                                return assignedExpertPanelIds.filter(epid => epid == this.activeFilters[key]).length > 0;
-                            });
-
-                            console.log(matchingAssignments);
-
-
-                            if (matchingAssignments.length == 0) {
-                                return false
-                            }
-                        }
-                        if (key == 'searchTerm') {
-                            if (!volunteer.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                                || !volunteer.email.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                                || !volunteer.volunteer_status.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                                || !volunteer.volunteer_type.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())) {
-                                    return false;
-                                }
-                        }
-                        return true;
-                    }
-                })
+                return this.volunteers.filter(this.hasVolunteerStatus)
+                    .filter(this.hasVolunteerType)
+                    .filter(this.hasCurationActivity)
+                    .filter(this.hasExpertPanel)
+                    .filter(this.hasSearchTerm);
             }
         },
         methods: {
+            hasVolunteerStatus(volunteer) {
+                if (! this.activeFilters.volunteer_status_id) {
+                    return true;
+                }
+                return volunteer.volunteer_status_id == this.activeFilters.volunteer_status_id
+            },
+            hasVolunteerType(volunteer) {
+                if (! this.activeFilters.volunteer_type_id) {
+                    return true;
+                }
+                return volunteer.volunteer_type_id == this.activeFilters.volunteer_type_id
+            },
+            hasCurationActivity(volunteer) {
+                if (! this.activeFilters.curation_activity_id) {
+                    return true;
+                }
+                let matchingAssignments = volunteer.assignments.filter(ass => {
+                    return ass.curation_activity_id == this.activeFilters.curation_activity_id
+                });
+
+                return matchingAssignments.length > 0
+            },
+            hasExpertPanel(volunteer) {
+                if (!this.activeFilters.expert_panel_id) {
+                    return true;
+                }
+                let matchingAssignments = volunteer.assignments.filter(ass => {
+                    if (ass.expertPanels.length == 0) {
+                        return false;
+                    }
+                    let assignedExpertPanelIds = ass.expertPanels.map(ep => ep.assignable_id);
+                    return assignedExpertPanelIds.filter(epid => epid == this.activeFilters.expert_panel_id).length > 0;
+                });
+
+                return matchingAssignments.length > 0
+            },
+            hasSearchTerm(volunteer) {
+                if (!this.filters.searchTerm) {
+                    return true;
+                }
+                return (
+                    volunteer.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || volunteer.email.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || volunteer.volunteer_status.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || volunteer.volunteer_type.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                )
+            },  
             getVolunteers: async function () {
                 this.volunteers = await getAllVolunteers();
             },
