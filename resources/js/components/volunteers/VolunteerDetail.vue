@@ -8,7 +8,7 @@
                     <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
                     <b-dropdown-item @click="showAssignmentForm = true">Update Assignments</b-dropdown-item>
                 </b-dropdown>
-                <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3 class="mb-0">
+                <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3>
             </div>
             <div class="card-body">
                 <div class="alert alert-danger" v-if="hasDangerStatus">
@@ -148,54 +148,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>{{volunteer.application.curation_activity_1}}</td>
-                                    <td>{{volunteer.application.panel_1}}</td>
+                                <tr v-for="(priority, idx) in volunteer.latest_priorities" :key="idx">
+                                    <td>{{priority.priority_order}}</td>
+                                    <td>{{priority.curation_activity.name}}</td>
+                                    <td>{{priority.expert_panel.name}}</td>
                                     <td>
-                                        {{volunteer.application.effort_experience_1 | boolToHuman }}
-                                        <span v-if="volunteer.application.effort_experience_1 == 1">
-                                            - {{volunteer.application.effort_experience_1_detail}}
+                                        {{priority.effort_experience | boolToHuman }}
+                                        <span v-if="priority.effort_experience == 1">
+                                            - {{priority.effort_experience_details}}
                                         </span>
                                     </td>
                                     <td>
-                                        {{volunteer.application.activity_experience_1 | boolToHuman}}
-                                        <span v-if="volunteer.application.activity_experience_1 == 1">
-                                            - {{volunteer.application.activity_experience_1_detail}}
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr v-if="volunteer.application.curation_activity_2">
-                                    <td>2</td>
-                                    <td>{{volunteer.application.curation_activity_2}}</td>
-                                    <td>{{volunteer.application.panel_2}}</td>
-                                    <td>
-                                        {{volunteer.application.effort_experience_2 | boolToHuman}}
-                                        <span v-if="volunteer.application.effort_experience_2 == 1">
-                                            - {{volunteer.application.effort_experience_2_detail}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        {{volunteer.application.activity_experience_2 | boolToHuman}}
-                                        <span v-if="volunteer.application.activity_experience_2 == 1">
-                                            - {{volunteer.application.activity_experience_2_detail}}
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr v-if="volunteer.application.curation_activity_3">
-                                    <td>3</td>
-                                    <td>{{volunteer.application.curation_activity_3}}</td>
-                                    <td>{{volunteer.application.panel_3}}</td>
-                                    <td>
-                                        {{volunteer.application.effort_experience_3 | boolToHuman}}
-                                        <span v-if="volunteer.application.effort_experience_3 == 1">
-                                            {{volunteer.application.effort_experience_3_detail}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        {{volunteer.application.activity_experience_ | boolToHuman3}}
-                                        <span v-if="volunteer.application.activity_experience_3 == 1">
-                                            {{volunteer.application.activity_experience_3_detail}}
+                                        {{priority.activity_experience | boolToHuman }}
+                                        <span v-if="priority.activity_experience == 1">
+                                            - {{priority.activity_experience_details}}
                                         </span>
                                     </td>
                                 </tr>
