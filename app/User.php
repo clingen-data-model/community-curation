@@ -126,24 +126,6 @@ class User extends Authenticatable
         return $this->hasMany(Priority::class);
     }
 
-    public function latestPriorities()
-    {
-        dd($this->toArray());
-        $q = $this->hasMany(Priority::class)
-            ->whereIn(
-                'prioritization_round', 
-                function ($query) {
-                    $query
-                    ->selectRaw('MAX(prioritization_round)')
-                    ->from(with(new Priority)->getTable())
-                    ->where('user_id', $this->getAttribute('id'));
-                }
-            );
-        return $q;
-    }
-    
-    
-
     public function canImpersonate()
     {
         return $this->can('impersonate');
@@ -233,4 +215,14 @@ class User extends Authenticatable
         });
         return $structuredAssignments;
     }
+
+    public function getLatestPrioritiesAttribute()
+    {
+        if ($this->priorities->count() == 0) {
+            return collect([]);
+        }
+        return $this->priorities->groupBy('prioritization_round')->last();
+        
+    }
+    
 }
