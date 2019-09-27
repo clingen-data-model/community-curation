@@ -50,14 +50,22 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="(assignment, idx) in volunteer.assignments" :key="idx">
-                                                        <td>
+                                                        <td
+                                                            :class="{'text-strike text-muted': assignmentIsRetired(assignment.curationActivity)}"
+                                                        >
                                                             {{assignment.curationActivity.assignable.name}}
                                                         </td>
                                                         <td>
                                                             <div v-if="assignment.needsAptitude" class="text-muted">
                                                                 Needs Aptitude
                                                             </div>
-                                                            <div v-else>{{assignment.expertPanels.map(epAss => epAss.assignable.name).join(", ")}}</div>
+                                                            <div v-else>
+                                                                <span v-for="(ep, idx) in assignment.expertPanels" :key="idx"
+                                                                    :class="{'text-strike text-muted': assignmentIsRetired(ep)}"
+                                                                >
+                                                                    {{ep.assignable.name}}
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -65,6 +73,7 @@
                                             <button 
                                                 class="btn btn btn-default border btn-sm"
                                                 @click="showAssignmentForm = true"
+                                                :disabled="volunteer.volunteer_status_id == 3"
                                             >
                                                 Edit
                                             </button>
@@ -302,6 +311,9 @@
             },
             closeStatusWindow() {
                 this.showStatusForm = false;
+            },
+            assignmentIsRetired(assignment) {
+                return assignment.assignment_status_id == 2;
             }
         },
         mounted() {

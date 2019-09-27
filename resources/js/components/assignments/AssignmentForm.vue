@@ -43,13 +43,16 @@
                 </thead>
                 <tbody>
                     <tr v-for="assignment in activityCurationAssignments" :key="assignment.curationActivity.id">
-                        <td>
+                        <td
+                            :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == 2)}"
+                        >
                             {{assignment.curationActivity.assignable.name}}
                         </td>
                         <td>
                             <expert-panel-cell 
                                 :assignment="assignment" 
                                 :expert-panels="getExpertPanelsForCurationActivity(assignment.curationActivity.assignable.id)"
+                                :volunteer="volunteer"
                                 v-on:save="saveNewExpertPanel"
                             ></expert-panel-cell>
                         </td>
@@ -69,8 +72,14 @@
                         </td>
                     </tr>
                     <tr v-if="!addingCurationActivity" class="border-top pt-2">
-                    <td colspan="2">
-                        <button class="btn btn-default border btn-sm" @click="addingCurationActivity = true">Add Curation Activity</button>
+                        <td colspan="2">
+                            <button 
+                                class="btn btn-default border btn-sm" 
+                                @click="addingCurationActivity = true"
+                                :disabled="volunteer.volunteer_status_id == 3"
+                            >
+                                Add Curation Activity
+                            </button>
                         </td>
                     </tr>
                 </tbody>
