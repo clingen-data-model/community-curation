@@ -8,4 +8,8 @@ return [
         CurationActivity::class,
         ExpertPanel::class
     ],
+    'assignment-statuses' => [
+        'active' => 1,
+        'retired' => 2
+    ]
 ];

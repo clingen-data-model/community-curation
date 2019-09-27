@@ -2,10 +2,21 @@
 
 <template>
     <div class="component-container">
-        <button v-if="!addingExpertPanel && !assignment.needsAptitude" class="btn btn-sm btn-link float-right" @click="addingExpertPanel = true">Add expert panel</button>
+        
+        <button 
+            v-if="!addingExpertPanel && !assignment.needsAptitude" 
+            class="btn btn-sm btn-link float-right" 
+            @click="addingExpertPanel = true"
+            :disabled="volunteer.volunteer_status_id == 3"
+        >
+            Add expert panel
+        </button>
+
         <div v-if="assignment.needsAptitude" class="text-muted">Needs aptitude</div>
         <ul class="list-unstyled mb-0">
-            <li v-for="(panel, i) in assignment.expertPanels" :key="i">
+            <li v-for="(panel, i) in assignment.expertPanels" :key="i"
+                :class="{'text-strike text-muted': (panel.assignment_status_id == 2)}"
+            >
                 {{panel.assignable.name}}
             </li>
         </ul>
@@ -28,6 +39,10 @@
     export default {
         components: {},
         props: {
+            volunteer: {
+                required: true,
+                type: Object
+            },
             assignment: {
                 required: true
             },

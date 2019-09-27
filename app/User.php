@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\Volunteers\Retired;
 use Backpack\CRUD\CrudTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -69,6 +70,11 @@ class User extends Authenticatable
         static::creating(function ($model) {
             if ($model->password == null) {
                 $model->password = uniqid();
+            }
+        });
+        static::saved(function ($model) {
+            if ($model->isDirty('volunteer_status_id') && $model->volunteer_status_id == config('volunteers.statuses.retired')) {
+                \Event::dispatch(new Retired($model));
             }
         });
     }

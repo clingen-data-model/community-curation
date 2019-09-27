@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+       'App\Events\Volunteers\Retired' => [
+            'App\Listeners\Volunteers\RetireAssignments'
+        ]
     ];
 
     /**
