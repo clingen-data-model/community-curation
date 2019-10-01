@@ -52,8 +52,11 @@ const app = new window.Vue({
     store: store,
     methods: {
         ...mapActions([
-            'fetchUser'
-        ])
+            'fetchUser',
+        ]),
+        clearSessionStorage() {
+            sessionStorage.removeItem('user');
+        }
     },
     mounted() {
         this.fetchUser();
