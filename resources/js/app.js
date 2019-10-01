@@ -11,7 +11,6 @@ import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
 import BootstrapVue from 'bootstrap-vue'
 
-
 Vue.use(BootstrapVue)
 
 /**
@@ -39,6 +38,9 @@ window.Vue.filter('ucfirst', s => {
 
 window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
 
+import store from './store/index'
+import { mapActions } from 'vuex'
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -47,7 +49,14 @@ window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
 
 const app = new window.Vue({
     el: '#app',
+    store: store,
+    methods: {
+        ...mapActions([
+            'fetchUser'
+        ])
+    },
     mounted() {
+        this.fetchUser();
     }
 });
 
