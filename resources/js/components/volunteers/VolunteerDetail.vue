@@ -22,6 +22,7 @@
                         <volunteer-summary
                             :volunteer="volunteer"
                             @updatestatus="showStatusForm = true"
+                            @updatevolunteer="findVolunteer"
                         ></volunteer-summary>
                     </b-tab>
                     <b-tab title="Application Survey Data">
@@ -98,6 +99,7 @@
         },
         methods: {
             findVolunteer() {
+                console.log('find volunteer');
                 this.loading = true;
                 return window.axios.get('/api/volunteers/'+this.id)
                     .then(response => {
