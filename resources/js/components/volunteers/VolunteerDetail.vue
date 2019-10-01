@@ -15,6 +15,7 @@
                     :volunteer="volunteer"
                     @updatestatus="showStatusForm = true"
                     @updatevolunteer="findVolunteer"
+                    v-if="!$store.state.user.isVolunteer()"
                 ></volunteer-status-alert>
                 <b-tabs content-class="p-3 border-left border-right border-bottom">
                     <b-tab title="Summary" active>

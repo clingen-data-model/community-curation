@@ -29,6 +29,10 @@ let User = class {
         return this.hasRole('volunteer');
     }
 
+    notVolunteer() {
+        return !this.isVolunteer();
+    }
+
     isAdmin() {
         return this.hasRole('admin');
     }

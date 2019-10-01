@@ -3,7 +3,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-6" v-if="volunteer.volunteer_type_id == 2">
+            <div class="col-md-6">
                 <assignment-card :volunteer="volunteer"></assignment-card>
                 <!-- <div class="card p-3 mt-4">
                     <div class="card-hearder">
@@ -16,11 +16,15 @@
                 <div class="card p-3 mb-3">
                     <h4>Basic Information</h4>
                     <dl class="row">
-                        <dt class="col-sm-4">Volunteer Satus:</dt>
+                        <dt class="col-sm-4">Volunteer Syatus:</dt>
                         <dd class="col-sm-8">
                             {{volunteer.volunteer_status.name || 'loading...'}}
                             &nbsp;
-                            <button class="btn btn-sm btn-default border" @click="$emit('updatestatus')">update</button>
+                            <button 
+                                class="btn btn-sm btn-default border" 
+                                @click="$emit('updatestatus')"
+                                v-if="!$store.state.user.isVolunteer()"
+                            >update</button>
                         </dd>
                         <dt class="col-sm-4">Email:</dt>
                         <dd class="col-sm-8">

@@ -50,12 +50,12 @@
                     class="btn btn btn-default border btn-sm"
                     @click="showAssignmentForm = true"
                     :disabled="volunteer.volunteer_status_id == 3"
-                        v-if="!$store.state.user.isVolunteer()"
+                    v-if="!$store.state.user.isVolunteer()"
                 >
                     Edit
                 </button>
             </div>
-            <b-modal v-model="showAssignmentForm" hide-header hide-footer>
+            <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()">
                 <assignment-form :volunteer="volunteer" @saved="$emit('updatevolunteer')"></assignment-form>
             </b-modal>
         </div>
