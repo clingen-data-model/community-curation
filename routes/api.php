@@ -13,21 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-
-
 Route::group([
         'namespace' => 'Api',
     ], function () {
         Route::resource('expert-panels', 'ExpertPanelController')->only(['index', 'show']);
         
         Route::group([
-            // 'middleware' => 'auth:api'
+            'middleware' => 'auth:api'
         ], function () {
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
             Route::resource('volunteers', 'VolunteerController');
             Route::resource('assignments', 'AssignmentController')
                 ->only(['index', 'store','show', 'update']);
 
+            Route::get('users/current', 'UserController@currentUser')->name("current-user");
 
             /**
              * Catch-all route for generic API read exposure

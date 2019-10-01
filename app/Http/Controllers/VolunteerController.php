@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Volunteer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\NotImplementedException;
 
 class VolunteerController extends Controller
@@ -16,6 +17,9 @@ class VolunteerController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->hasRole('volunteer')) {
+            return redirect('/volunteers/'.Auth::user()->id);
+        }
         return view('volunteers.index');
     }
 
@@ -48,6 +52,9 @@ class VolunteerController extends Controller
      */
     public function show(User $volunteer)
     {
+        if (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id) {
+            return redirect('/volunteers/'.Auth::user()->id);
+        }
         return view('volunteers.detail', ['volunteerId' => $volunteer->id]);
     }
 
