@@ -52,6 +52,9 @@ class VolunteerController extends Controller
      */
     public function show(User $volunteer)
     {
+        if (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id) {
+            return redirect('/volunteers/'.Auth::user()->id);
+        }
         return view('volunteers.detail', ['volunteerId' => $volunteer->id]);
     }
 
