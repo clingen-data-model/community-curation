@@ -4,7 +4,10 @@
     <div>
         <div class="row">
             <div class="col-md-6">
-                <assignment-card :volunteer="volunteer"></assignment-card>
+                <assignment-card 
+                    :volunteer="volunteer"
+                    v-on:updatevolunteer="$emit('updatevolunteer')"
+                ></assignment-card>
                 <!-- <div class="card p-3 mt-4">
                     <div class="card-hearder">
                         <h4>Aptitudes &amp; trainings</h4>
