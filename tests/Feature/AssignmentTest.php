@@ -59,5 +59,4 @@ class AssignmentTest extends TestCase
         
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
     }
-    
 }

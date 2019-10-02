@@ -5,10 +5,14 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Support\Carbon;
+use App\Mail\ApplicationCompletedMail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * @group application
+ */
 class ApplicationTest extends TestCase
 {
     use DatabaseTransactions;
@@ -164,4 +168,21 @@ class ApplicationTest extends TestCase
         ]);
     }
     
+    /**
+     * @test
+     */
+    public function system_sends_volunteer_an_email_when_they_completed_their_application()
+    {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->save();
+
+        \Mail::fake();
+        $rsp->finalize();
+
+        \Mail::assertSent(ApplicationCompletedMail::class, function ($mail) use ($rsp) {
+            return $mail->hasTo($rsp->email);
+        });
+    }
 }

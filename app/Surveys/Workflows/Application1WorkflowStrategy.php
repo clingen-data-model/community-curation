@@ -4,6 +4,7 @@ namespace App\Surveys\Workflows;
 
 use App\User;
 use App\Jobs\CreateVolunteerFromApplication;
+use App\Mail\ApplicationCompletedMail;
 use App\Traits\StoresResponsePriorities;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
@@ -33,5 +34,10 @@ class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
         $this->storePriorities();
 
         session()->forget('application-response');
+    }
+
+    public function finalized()
+    {
+        \Mail::to($this->response->email)->send(new ApplicationCompletedMail($this->response));
     }
 } // END class SurveyResponseTypeWorkflowStrategy
