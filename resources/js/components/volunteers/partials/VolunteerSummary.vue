@@ -19,7 +19,7 @@
                 <div class="card p-3 mb-3">
                     <h4>Basic Information</h4>
                     <dl class="row">
-                        <dt class="col-sm-4">Volunteer Syatus:</dt>
+                        <dt class="col-sm-4">Volunteer Status:</dt>
                         <dd class="col-sm-8">
                             {{volunteer.volunteer_status.name || 'loading...'}}
                             &nbsp;
