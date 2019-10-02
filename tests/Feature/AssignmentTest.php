@@ -7,7 +7,7 @@ use Tests\TestCase;
 use App\CurationActivity;
 use InvalidArgumentException;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Jobs\AssignVolunteerToCurationActivity;
+use App\Jobs\AssignVolunteerToAssignable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -28,7 +28,7 @@ class AssignmentTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        AssignVolunteerToCurationActivity::dispatch($baselineVolunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($baselineVolunteer, $curationActivity);
     }
 
     /**
@@ -39,7 +39,7 @@ class AssignmentTest extends TestCase
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->random();
 
-        AssignVolunteerToCurationActivity::dispatch($volunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
 
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
         $this->assertEquals($curationActivity->id, $volunteer->fresh()->assignments->first()->assignable_id);
@@ -54,8 +54,8 @@ class AssignmentTest extends TestCase
         $curationActivity = CurationActivity::all()->first();
         $curationActivity2 = CurationActivity::all()->last();
 
-        AssignVolunteerToCurationActivity::dispatch($volunteer, $curationActivity);
-        AssignVolunteerToCurationActivity::dispatch($volunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
         
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
     }
