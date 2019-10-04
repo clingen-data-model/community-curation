@@ -58,3 +58,5 @@ host('demo')
 //     ->set('branch', 'master')
 //     ->set('deploy_path', '/mnt/web/project/{{application}}')
 //     ->roles(['production', 'client', 'stage']);
+
+task('artisan:optimize', function () {});
