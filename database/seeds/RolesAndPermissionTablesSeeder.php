@@ -24,6 +24,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
         $administerPermission = Permission::firstOrCreate(['name' => 'administer']);
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
+        $canViewLogsPermission = Permission::firstOrCreate(['name' => 'view logs']);
 
         $programmer = Role::firstOrCreate(['name' => 'programmer']);
         $this->giveActionPermissionsToRole($programmer, 'users', ['list', 'create','update', 'delete']);
@@ -33,6 +34,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($programmer, 'volunteer-statuses', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($programmer, $administerPermission);
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
+        $this->givePermissionToRole($programmer, $canViewLogsPermission);
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update', 'delete']);
