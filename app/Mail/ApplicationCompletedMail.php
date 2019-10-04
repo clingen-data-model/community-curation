@@ -31,9 +31,11 @@ class ApplicationCompletedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.application_completed')
+        $mailable = $this->subject('ClinGen - Completed Volunteer Survey')
+            ->view('email.application_completed')
             ->with([
                 'name' => $this->response->applicant_name,
             ]);
+        return $mailable;
     }
 }
