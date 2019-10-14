@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\Priority;
 use Tests\TestCase;
 use App\ExpertPanel;
 use App\CurationActivity;
@@ -53,6 +54,31 @@ class PrioritiesTest extends TestCase
             ->assertRedirect('/apply/thank-you');
     }
     
-    
+    /** 
+     * @test
+     **/   
+    public function stores_priorities_with_new_priority_round()
+    {
+        $originalPriorities = factory(Priority::class, 1)->create(['prioritization_round' => 1, 'user_id' => $this->user->id, 'curation_activity_id' => 5]);
+
+        $rsp = $this->survey->getNewResponse($this->user);
+        $rsp->curation_activity_1 = 1;
+        $rsp->panel_1 = 1;
+        $rsp->effort_experience_1 = 0;
+        $rsp->activity_experience_1 = 0;
+        $rsp->curation_activity_2 = 2;
+        $rsp->panel_2 = 1;
+        $rsp->effort_experience_2 = 0;
+        $rsp->activity_experience_2 = 0;
+        $rsp->save();
+
+        $rsp->finalize();
+
+        $this->assertDatabaseHas('priorities', [
+            'user_id' => $this->user->id,
+            'curation_activity_id' => 1,
+            'prioritization_round' => 2
+        ]);
+    }
     
 }

@@ -2,7 +2,7 @@
 
 <template>
     <div class="component-container">
-        <div class="alert alert-danger my-4 col-10 mx-auto" v-if="!volunteer.application">
+        <div class="alert alert-danger my-4 col-10 mx-auto" v-if="!hasPriorities">
             <h4><strong>This volunteer did not complete an application.</strong></h4>
             Based on the expected workflow this is not possible, but there are a few ways it could have happened:
             <ul>
@@ -41,6 +41,18 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot v-if="responseLink">
+                <tr>
+                    <td colspan="3">
+                        <a :href="prioritiesSurveyLink" class="btn btn-primary">
+                            Set New Priorities
+                        </a>
+                    </td>
+                    <td colspan="2" class="text-right">
+                        <a :href="responseLink">View complete response</a>
+                    </td>
+                </tr>
+            </tfoot>
         </table>        
     </div>
 </template>
@@ -52,6 +64,20 @@
                 required: true,
                 type: Object
             }
-        }
+        },
+        computed: {
+            prioritiesSurveyLink: function () {
+                return '/app-user/'+this.volunteer.id+'/survey/priorities1/new'
+            },
+            hasPriorities: function() {
+                return this.volunteer.priorities.length > 0
+            },
+            responseLink: function () {
+                if (this.volunteer.latest_priorities[0].survey_id === null) {
+                    return null
+                }
+                return '/surveys-by-id/'+this.volunteer.latest_priorities[0].survey_id+'/responses/'+this.volunteer.latest_priorities[0].response_id
+            }
+        },
     }
 </script>
