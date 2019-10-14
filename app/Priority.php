@@ -15,7 +15,9 @@ class Priority extends Model
         'activity_experience_details',
         'effort_experience',
         'effort_experience_details',
-        'prioritization_round'
+        'prioritization_round',
+        'survey_id',
+        'response_id'
     ];
 
     public function user()
