@@ -17,9 +17,13 @@
 
             <div class="col-md-6">
                 <div class="card p-3 mb-3">
-                    <h4>Basic Information</h4>
+                    <h4>
+                        <span>Contact Information</span>
+                        <button class="btn btn-sm btn-default border float-right" @click="modalEdit = !modalEdit">Edit</button>
+                    </h4>
+                    
                     <dl class="row">
-                        <dt class="col-sm-4">Volunteer Status:</dt>
+                        <!-- <dt class="col-sm-4">Volunteer Status:</dt>
                         <dd class="col-sm-8">
                             {{volunteer.volunteer_status.name || 'loading...'}}
                             &nbsp;
@@ -28,21 +32,21 @@
                                 @click="$emit('updatestatus')"
                                 v-if="!$store.state.user.isVolunteer()"
                             >update</button>
+                        </dd> -->
+                        <dt class="col-sm-3">Address:</dt>
+                        <dd class="col-sm-9">
+                            <span v-if="volunteer.street1">{{ volunteer.street1 }}, </span>
+                            <span v-if="volunteer.street2">{{ volunteer.street2 }}, </span>
+                            <span v-if="volunteer.city">{{ volunteer.city }}, </span>
+                            <span v-if="volunteer.state">{{ volunteer.state }}, </span>
+                            <span v-if="volunteer.country_id">{{ volunteer.country }}</span>
                         </dd>
-                        <dt class="col-sm-4">Email:</dt>
-                        <dd class="col-sm-8">
-                            <a :href="'mailto:'+volunteer.email">{{volunteer.email || 'loading...'}}</a>
-                        </dd>
-
-                        <dt class="col-sm-4" v-if="volunteer.phone">Phone:</dt>
-                        <dd class="col-sm-8" v-if="volunteer.phone">{{volunteer.phone || '&nbsp;'}}</dd>
-
-                        <dt class="col-sm-4" v-if="volunteer.address">Address:</dt>
-                        <dd class="col-sm-8" v-if="volunteer.address">{{volunteer.address || '&nbsp;'}}</dd>
                     </dl>
                 </div>
             </div>
         </div>
+
+        <b-modal v-model="modalEdit">Hello From Modal!</b-modal>
     </div>
 </template>
 
@@ -59,11 +63,11 @@
                 type: Object
             }
         },
-        // data() {
-        //     return {
-        //         showAssignmentForm: false,
-        //     }
-        // },
+        data() {
+            return {
+                modalEdit: false,
+            }
+        },
         // computed: {
         //     hasAssignments: function (){
         //         return this.volunteer.assignments && this.volunteer.assignments.length > 0
