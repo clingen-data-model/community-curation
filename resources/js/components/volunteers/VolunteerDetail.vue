@@ -28,7 +28,7 @@
                     <b-tab title="Application Survey Data">
                         <application-data :volunteer="volunteer"></application-data>
                     </b-tab>
-                    <b-tab title="Priorities" v-if="isComprehensive">
+                    <b-tab title="Priorities">
                         <priorities-list :volunteer="volunteer"></priorities-list>
                     </b-tab>
                 </b-tabs>
@@ -57,6 +57,7 @@
     import volunteerStatusAlert from './partials/VolunteerStatusAlert'
     import ApplicationData from './partials/ApplicationData'
     import PrioritiesList from './partials/PrioritiesList'
+    import findVolunteer from '../../resources/volunteers/find_volunteer'
 
     export default {
         props: {
@@ -79,12 +80,13 @@
                     id: null,
                     volunteer_type: {
                         id: null,
-                        name: ''
+                        name: '',
                     },
                     volunteer_status: {
                         id: null,
                         name: ''
-                    }
+                    },
+                    priorities: []
                 },
                 application: {},
                 volunteerStatuses: [],
@@ -98,19 +100,11 @@
             }
         },
         methods: {
-            findVolunteer() {
-                console.log('find volunteer');
+            findVolunteer: async function () {
                 this.loading = true;
-                return window.axios.get('/api/volunteers/'+this.id)
-                    .then(response => {
-                        this.volunteer = response.data.data
-                        this.loading = false;
-                        this.newStatus = this.volunteer.volunteer_status
-                    })
-                    .catch(error => console.log(error))
-                    .then(() => {
-                        this.loading = false
-                    });
+                this.volunteer = await findVolunteer(this.id);
+                this.loading = false;
+                this.newStatus = this.volunteer.volunteer_status
             },
             fetchVolunteerStatuses: async function () {
                 this.volunteerStatuses = await getAllVolunteerStatuses();
