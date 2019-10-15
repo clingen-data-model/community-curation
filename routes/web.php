@@ -20,6 +20,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::impersonate();
 
     Route::resource('volunteers', 'VolunteerController')->only(['show', 'index']);
+
+    Route::get('surveys-by-id/{surveyId}/responses/{responseId}', function ($surveyId, $responseId) {
+        $surveySlug = class_survey()::find($surveyId)->slug;
+        return redirect(route('surveys.responses.show', [$surveySlug, $responseId]));
+    });
 });
 
 Route::get('apply/thank-you', function (Request $request) {
