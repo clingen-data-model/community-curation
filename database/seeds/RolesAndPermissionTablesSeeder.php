@@ -38,9 +38,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($programmer, 'expert-panels', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($programmer, 'working-groups', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($programmer, 'volunteer-statuses', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($admin, 'expert-panels', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($admin, 'working-groups', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
 
