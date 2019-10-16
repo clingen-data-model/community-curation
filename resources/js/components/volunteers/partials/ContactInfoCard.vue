@@ -1,68 +1,48 @@
 <style></style>
 
 <template>
-        <div class="card p-3">
-            <h4>{{(volunteer.volunteer_type.name || 'loading...') | ucfirst }} Volunteer</h4>
-            <div v-if="!hasAssignments">
-                <div class="text-muted" v-if="$store.state.user.isVolunteer()">
-                    A ClinGen staff member will contact you shortly about your curation activity assignment.
-                </div>
-                <div v-else>
+        <div class="card p-3 mb-3">
+            <h4>
+                <span>Contact Information</span>
+                <button class="btn btn-sm btn-default border float-right" @click="showContactInfoForm = !showContactInfoForm">Edit</button>
+            </h4>
+            
+            <dl class="row">
+                <!-- <dt class="col-sm-4">Volunteer Status:</dt>
+                <dd class="col-sm-8">
+                    {{volunteer.volunteer_status.name || 'loading...'}}
+                    &nbsp;
                     <button 
-                        class="btn btn-lg btn-primary"
-                        @click="showAssignmentForm = true"
-                    >
-                        Assign Curation Activity
-                    </button>
-                </div>
-            </div>
-            <div v-else>
-                <table class="table table-sm" v-if="hasAssignments">
-                    <thead>
-                        <tr>
-                            <th style="width: 30%">Curation Activity</th>
-                            <th>Expert Panel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(assignment, idx) in volunteer.assignments" :key="idx">
-                            <td
-                                :class="{'text-strike text-muted': assignmentIsRetired(assignment.curationActivity)}"
-                            >
-                                {{assignment.curationActivity.assignable.name}}
-                            </td>
-                            <td>
-                                <div v-if="assignment.needsAptitude" class="text-muted">
-                                    Needs Aptitude
-                                </div>
-                                <div v-else>
-                                    <span v-for="(ep, idx) in assignment.expertPanels" :key="idx"
-                                        :class="{'text-strike text-muted': assignmentIsRetired(ep)}"
-                                    >
-                                        {{ep.assignable.name}}
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button 
-                    class="btn btn btn-default border btn-sm"
-                    @click="showAssignmentForm = true"
-                    :disabled="volunteer.volunteer_status_id == 3"
-                    v-if="!$store.state.user.isVolunteer()"
-                >
-                    Edit
-                </button>
-            </div>
-            <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()">
-                <assignment-form :volunteer="volunteer" @saved="$emit('updatevolunteer')"></assignment-form>
+                        class="btn btn-sm btn-default border" 
+                        @click="$emit('updatestatus')"
+                        v-if="!$store.state.user.isVolunteer()"
+                    >update</button>
+                </dd> -->
+                <dt class="col-sm-3">Address:</dt>
+                <dd class="col-sm-9">
+                    <span v-if="volunteer.street1">{{ volunteer.street1 }}</span><span v-if="volunteer.street2">, {{ volunteer.street2 }}</span><span v-if="volunteer.city">, {{ volunteer.city }}</span><span v-if="volunteer.state">, {{ volunteer.state }}</span><span v-if="volunteer.country_id">, {{ countryLookup[volunteer.country_id] }}</span>
+                </dd>
+            </dl>
+
+            <b-modal v-model="showContactInfoForm" title="Edit Contact Info" hide-footer>
+                <contact-info-form 
+                    :volunteer="volunteer"
+                    :countries="countries"
+                    @saved="showContactInfoForm = false"
+                ></contact-info-form>
             </b-modal>
         </div>
 </template>
 
 <script>
+
+    import getAllCountries from '../../../resources/volunteers/get_all_countries'
+    import ContactInfoForm from './ContactInfoForm'
+
     export default {
+        components: {
+            ContactInfoForm
+        },
         props: {
             volunteer: {
                 reqired: true,
@@ -71,18 +51,26 @@
         },
         data() {
             return {
-                showAssignmentForm: false,
+                showContactInfoForm: false,
+                countries: []
             }
-        },
-        computed: {
-            hasAssignments: function (){
-                return this.volunteer.assignments && this.volunteer.assignments.length > 0
-            },
         },
         methods: {
-            assignmentIsRetired(assignment) {
-                return assignment.assignment_status_id == 2;
+            fetchCountries: async function() {
+                this.countries = await getAllCountries();
+            },
+        },
+        computed: {
+            countryLookup() {
+                const lookup = {}
+                for (let country of this.countries) {
+                    lookup[country.id] = country.name
+                }
+                return lookup
             }
-        } 
+        },
+        mounted() {
+            this.fetchCountries()
+        }
     }
 </script>
