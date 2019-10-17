@@ -70,7 +70,8 @@
             }
         },
         methods: {
-            updateContactInfo() {
+            updateContactInfo(e) {
+                e.preventDefault()
                 updateVolunteer(
                     this.volunteer.id, 
                     {
