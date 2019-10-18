@@ -1,4 +1,11 @@
-<style></style>
+<style>
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #c0c0c0 !important;
+    }
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #c0c0c0 !important;
+    }
+</style>
 
 <template>
     <div>
