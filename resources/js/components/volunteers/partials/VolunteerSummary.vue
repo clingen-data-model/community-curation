@@ -16,31 +16,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="card p-3 mb-3">
-                    <h4>Basic Information</h4>
-                    <dl class="row">
-                        <dt class="col-sm-4">Volunteer Status:</dt>
-                        <dd class="col-sm-8">
-                            {{volunteer.volunteer_status.name || 'loading...'}}
-                            &nbsp;
-                            <button 
-                                class="btn btn-sm btn-default border" 
-                                @click="$emit('updatestatus')"
-                                v-if="!$store.state.user.isVolunteer()"
-                            >update</button>
-                        </dd>
-                        <dt class="col-sm-4">Email:</dt>
-                        <dd class="col-sm-8">
-                            <a :href="'mailto:'+volunteer.email">{{volunteer.email || 'loading...'}}</a>
-                        </dd>
-
-                        <dt class="col-sm-4" v-if="volunteer.phone">Phone:</dt>
-                        <dd class="col-sm-8" v-if="volunteer.phone">{{volunteer.phone || '&nbsp;'}}</dd>
-
-                        <dt class="col-sm-4" v-if="volunteer.address">Address:</dt>
-                        <dd class="col-sm-8" v-if="volunteer.address">{{volunteer.address || '&nbsp;'}}</dd>
-                    </dl>
-                </div>
+                <contact-info-card :volunteer="volunteer"></contact-info-card>
             </div>
         </div>
     </div>
@@ -48,21 +24,19 @@
 
 <script>
     import AssignmentCard from './AssignmentCard'
+    import ContactInfoCard from './ContactInfoCard'
 
     export default {
         components: {
-            AssignmentCard
+            AssignmentCard, ContactInfoCard
         },
         props: {
             volunteer: {
                 reqired: true,
                 type: Object
             }
-        },
+        }
         // data() {
-        //     return {
-        //         showAssignmentForm: false,
-        //     }
         // },
         // computed: {
         //     hasAssignments: function (){
