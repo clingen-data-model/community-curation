@@ -13,19 +13,23 @@
 @endcan
 
 @can('list working-groups')
-    <li><a href="{{ backpack_url('working-group') }}"><i class="fa fa-group"></i> <span>working-groups</span></a></li>
+    <li><a href="{{ backpack_url('working-group') }}"><i class="fa fa-group"></i> <span>Working-groups</span></a></li>
 @endcan
 
 @can('list expert-panels')
-    <li><a href="{{ backpack_url('expert-panel') }}"><i class="fa fa-group"></i> <span>expert-panels</span></a></li>
+    <li><a href="{{ backpack_url('expert-panel') }}"><i class="fa fa-group"></i> <span>Expert-panels</span></a></li>
 @endcan
 
 @can('list volunteer-types')
-    <li><a href="{{ backpack_url('volunteer-type') }}"><i class="fa fa-list"></i> <span>volunteer-types</span></a></li>
+    <li><a href="{{ backpack_url('volunteer-type') }}"><i class="fa fa-list"></i> <span>Volunteer-types</span></a></li>
 @endcan
 
-@can('list volunteer-statuses')
-    <li><a href="{{ backpack_url('volunteer-status') }}"><i class="fa fa-list"></i> <span>volunteer-statuses</span></a></li>
+@can('list lookups')
+    <li><a href="{{ backpack_url('campaign') }}"><i class="fa fa-list"></i> <span>Campaigns</span></a></li>
+    <li><a href="{{ backpack_url('goal') }}"><i class="fa fa-list"></i> <span>Goals</span></a></li>
+    <li><a href="{{ backpack_url('interest') }}"><i class="fa fa-list"></i> <span>Interests</span></a></li>
+    <li><a href="{{ backpack_url('motivation') }}"><i class="fa fa-list"></i> <span>Motivations</span></a></li>
+    <li><a href="{{ backpack_url('self-description') }}"><i class="fa fa-list"></i> <span>Self-descriptions</span></a></li>
 @endcan
 
 <hr>
