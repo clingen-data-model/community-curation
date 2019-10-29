@@ -50,6 +50,11 @@ class CampaignCrudController extends CrudController
 
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+
+        $this->crud->removeButton('delete');
+        $this->crud
+            ->orderBy('active', 'desc')
+            ->orderBy('name');
     }
 
     public function store(StoreRequest $request)

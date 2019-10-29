@@ -25,6 +25,8 @@
 @endcan
 
 @can('list lookups')
+    <hr style="margin-bottom: 0">
+    <li class="header">Application Survey Options</li>
     <li><a href="{{ backpack_url('campaign') }}"><i class="fa fa-list"></i> <span>Campaigns</span></a></li>
     <li><a href="{{ backpack_url('goal') }}"><i class="fa fa-list"></i> <span>Goals</span></a></li>
     <li><a href="{{ backpack_url('interest') }}"><i class="fa fa-list"></i> <span>Interests</span></a></li>
