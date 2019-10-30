@@ -25,7 +25,10 @@ const mutations = {
 
 const actions = {
     async fetchUser ({commit}) {
-        commit('setUser', await getCurrentUser());
+        const user = await getCurrentUser();
+        if (user) {
+            commit('setUser', user);
+        }
     }
 }
 
