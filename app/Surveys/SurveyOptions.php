@@ -65,18 +65,4 @@ class SurveyOptions
     {
         return Goal::select('id', 'name')->withoutOther()->get();
     }
-
-    private function getDummyData()
-    {
-        return (object)[
-            [
-                'id' => 1,
-                'name' => 'a'
-            ],
-            [
-                'id' => 2,
-                'name' => 'b'
-            ],
-        ];
-    }
 }
