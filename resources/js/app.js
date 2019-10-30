@@ -110,7 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .forEach(question => {
             question.addEventListener('change', (evt) => {
                 // Update options for expert panel selection
-                const activityPanels = panels.filter(panel => panel.curation_activity_id == question.value);
+                const activityPanels = panels.filter(panel => {
+                    return panel.curation_activity_id == question.value 
+                            && panel.accepting_volunteers == 1
+                });
                 const panelQuestion = question.parentElement.parentElement.parentElement.querySelector('select.panel-question');
                 clearChildren(panelQuestion);
                 panelQuestion.appendChild(createOption({ value: '', label: 'Select...' }))

@@ -37,7 +37,8 @@ class SurveyOptions
     
     public function expertPanels()
     {
-        return ExpertPanel::select('id', 'name')->get();
+        $expertPanels = ExpertPanel::select('id', 'name', 'accepting_volunteers')->acceptingVolunteers()->get();
+        return $expertPanels;
     }
 
     public function selfDescriptions()
