@@ -8,19 +8,20 @@
             </h4>
             
             <dl class="row">
-                <!-- <dt class="col-sm-4">Volunteer Status:</dt>
-                <dd class="col-sm-8">
-                    {{volunteer.volunteer_status.name || 'loading...'}}
-                    &nbsp;
-                    <button 
-                        class="btn btn-sm btn-default border" 
-                        @click="$emit('updatestatus')"
-                        v-if="!$store.state.user.isVolunteer()"
-                    >update</button>
-                </dd> -->
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9">
+                    <span v-if="volunteer.email">{{ volunteer.email }}</span>
+                </dd>
                 <dt class="col-sm-3">Address:</dt>
                 <dd class="col-sm-9">
-                    <span v-if="volunteer.street1">{{ volunteer.street1 }}</span><span v-if="volunteer.street2">, {{ volunteer.street2 }}</span><span v-if="volunteer.city">, {{ volunteer.city }}</span><span v-if="volunteer.state">, {{ volunteer.state }}</span><span v-if="volunteer.country_id">, {{ countryLookup[volunteer.country_id] }}</span>
+                    <div v-if="volunteer.street1">{{ volunteer.street1 }}</div>
+                    <div v-if="volunteer.street2">{{ volunteer.street2 }}</div>
+                    <div>
+                        <span v-if="volunteer.city">{{ volunteer.city }}</span>
+                        <span v-if="volunteer.state">, {{ volunteer.state }}</span>
+                        <span v-if="volunteer.zip">, {{ volunteer.zip }}</span>
+                    </div>
+                    <div v-if="volunteer.country_id">{{ countryLookup[volunteer.country_id] }}</div>
                 </dd>
             </dl>
 
