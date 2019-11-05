@@ -1,5 +1,4 @@
 const createAssignment = function (data) {
-    console.log(data);
     return window.axios.post('/api/assignments', {
             assignable_type: data.assignable_type,
             assignable_id: data.assignable_id,
