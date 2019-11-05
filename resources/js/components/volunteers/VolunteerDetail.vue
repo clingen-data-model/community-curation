@@ -43,7 +43,9 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-primary btn-sm" @click="updateVolunteerStatus">Update Status</button>
+                    <button class="btn btn-primary btn-sm" @click="updateVolunteerStatus">
+                        Update Status
+                    </button>
                 </div>
             </div>
         </b-modal>

@@ -2,7 +2,10 @@
 
 <template>
         <div class="card p-3">
-            <h4>{{(volunteer.volunteer_type.name || 'loading...') | ucfirst }} Volunteer</h4>
+            <h4>
+                {{(volunteer.volunteer_type.name || 'loading...') | ucfirst }} Volunteer
+                    - {{volunteer.volunteer_status.name}}
+            </h4>
             <div v-if="!hasAssignments">
                 <div class="text-muted" v-if="$store.state.user.isVolunteer()">
                     A ClinGen staff member will contact you shortly about your curation activity assignment.
