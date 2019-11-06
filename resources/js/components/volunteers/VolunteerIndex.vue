@@ -64,16 +64,19 @@
                     </select>
                 </div> -->
             </div>
-            <div class="alert alert-info" v-if="filteredVolunteers.length == 0">
-                <div v-if="Object.keys(activeFilters).length >0">
+            <div class="alert alert-info" v-if="filteredVolunteers.length == 0 && !loadingVolunteers">
+                <div v-if="Object.keys(activeFilters).length > 0">
                     No volunteers matched your search
                 </div>
                 <div v-else>
                     There are no volunteers in the system.
                 </div>
             </div>
+            <div class="alert alert-info" v-if="loadingVolunteers">
+                Loading volunteers...
+            </div>
             <b-table :items="filteredVolunteers" :fields="tableFields" v-else>
-                <template slot="id" slot-scope="{item}">
+                <template v-slot:cell(id)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.id}}</a>
                 </template>
                 <template slot="name" slot-scope="{item}">
@@ -137,6 +140,7 @@ import { randomBytes } from 'crypto';
         data() {
             return {
                 volunteers: [],
+                loadingVolunteers: false,
                 showAssignmentModal: false,
                 currentVolunteer: null,
                 tableFields: {
@@ -251,7 +255,9 @@ import { randomBytes } from 'crypto';
                 )
             },  
             getVolunteers: async function () {
+                this.loadingVolunteers = true;
                 this.volunteers = await getAllVolunteers();
+                this.loadingVolunteers = false;
             },
             updateVolunteers: async function() {
                 await this.getVolunteers()
