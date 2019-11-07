@@ -231,7 +231,11 @@ class User extends Authenticatable
             return collect([]);
         }
         return $this->priorities->groupBy('prioritization_round')->last();
-        
+    }
+
+    public function getIsCoordinatorAttribute()
+    {
+        return false;
     }
     
 }

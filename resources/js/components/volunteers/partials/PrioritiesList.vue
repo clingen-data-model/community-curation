@@ -78,7 +78,7 @@
                 return this.volunteer.priorities.length > 0
             },
             responseLink: function () {
-                if (this.volunteer.latest_priorities[0].survey_id === null) {
+                if (!this.hasPriorities || this.volunteer.latest_priorities[0].survey_id === null) {
                     return null
                 }
                 return '/surveys-by-id/'+this.volunteer.latest_priorities[0].survey_id+'/responses/'+this.volunteer.latest_priorities[0].response_id

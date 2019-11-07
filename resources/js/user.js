@@ -6,7 +6,6 @@ let User = class {
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 this[key] = data[key];
-                
             }
         }
     }
@@ -19,7 +18,6 @@ let User = class {
 
     hasRole(roleName) {
         if (this.isLoaded()) {
-            console.log(this.attributes);
             return this.roles.filter(role => role.name == roleName).length > 0;
         }
         return false

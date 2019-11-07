@@ -26,6 +26,8 @@ Route::group([
             Route::resource('assignments', 'AssignmentController')
                 ->only(['index', 'store','show', 'update']);
 
+            Route::get('users/current', 'UserController@currentUser')->name("current-user");
+
             /**
              * Catch-all route for generic API read exposure
              **/
@@ -37,5 +39,3 @@ Route::group([
             Route::get('{model}/{id}', 'ApiController@show');
         });
     });
-Route::get('users/current', 'UserController@currentUser')->name("current-user");
-

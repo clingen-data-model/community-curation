@@ -21,7 +21,8 @@
         },
         computed: {
             hasDangerStatus: function () {
-                return ['retired', 'unresponsive', 'declined'].indexOf(this.volunteer.volunteer_status.name.toLowerCase()) > -1
+                return ['retired', 'unresponsive', 'declined']
+                            .indexOf(this.volunteer.volunteer_status.name.toLowerCase()) > -1
             }
         }
     }

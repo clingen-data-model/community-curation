@@ -10,8 +10,30 @@
 <template>
     <div>
         <form>
+
             <div class="form-group row">
-                <label for="street1" class="col-sm-3 col-form-label">Address</label>
+                <label for="name" class="col-sm-3 col-form-label">Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" v-model="volunteer.name" placeholder="David Bowie">
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="email" v-model="volunteer.email" placeholder="me@example.com">
+                    <div class="text-muted">
+                        <small>
+                            This is the email {{$store.state.user.isVolunteer() ? 'you' : 'the volunteer'}} will use to log.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group row">
+                <label for="street1" class="col-sm-3 col-form-label">Address 1</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="street1" v-model="volunteer.street1" placeholder="1234 Main St">
                 </div>
@@ -82,6 +104,8 @@
                 updateVolunteer(
                     this.volunteer.id, 
                     {
+                        'name': this.volunteer.name,
+                        'email': this.volunteer.email,
                         'street1': this.volunteer.street1,
                         'street2': this.volunteer.street2,
                         'city': this.volunteer.city,
