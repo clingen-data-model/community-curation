@@ -24,7 +24,7 @@
                     <thead>
                         <tr>
                             <th style="width: 30%">Curation Activity</th>
-                            <th>Expert Panel</th>
+                            <th colspan="2">Expert Panel</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,9 +42,18 @@
                                     <span v-for="(ep, idx) in assignment.expertPanels" :key="idx"
                                         :class="{'text-strike text-muted': assignmentIsRetired(ep)}"
                                     >
-                                        {{ep.assignable.name}}
+                                        {{ep.assignable.name}}<span v-if="idx < assignment.expertPanels.length-1 ">,</span>
                                     </span>
                                 </div>
+                            </td>
+                            <td class="text-right">
+                                <button 
+                                    class="btn btn-default btn-xs border"
+                                    @click="editActivityAssignment(assignment)"
+                                    v-if="!$store.state.user.isVolunteer()"
+                                >
+                                    Edit Status
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -61,11 +70,27 @@
             <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()">
                 <assignment-form :volunteer="volunteer" @saved="$emit('updatevolunteer')"></assignment-form>
             </b-modal>
+            <b-modal v-model="showAssignmentStatusForm" 
+                hide-header 
+                hide-footer
+                 v-if="!$store.state.user.isVolunteer()"
+            >
+                <assignment-status-form
+                    :assignment="currentAssignment"
+                    @assignmentsupdated="$emit('updatevolunteer')"
+                >
+                </assignment-status-form>
+            </b-modal>
         </div>
 </template>
 
 <script>
+    import AssignmentStatusForm from './AssignmentStatusForm';
+
     export default {
+        components: {
+            AssignmentStatusForm
+        },
         props: {
             volunteer: {
                 reqired: true,
@@ -75,6 +100,8 @@
         data() {
             return {
                 showAssignmentForm: false,
+                showAssignmentStatusForm: false,
+                currentAssignment: {},
             }
         },
         computed: {
@@ -82,9 +109,26 @@
                 return this.volunteer.assignments && this.volunteer.assignments.length > 0
             },
         },
+        watch: {
+            volunteer: function (to, from) {
+                if (this.currentAssignment !== {}) {
+                    const as = this .volunteer.assignments.find((ass) => {
+                        return ass.curation_activity_id == this.currentAssignment.curation_activity_id
+                    });
+                    this.syncCurrentAssignment(as)
+                }
+            }
+        },
         methods: {
             assignmentIsRetired(assignment) {
                 return assignment.assignment_status_id == 2;
+            },
+            editActivityAssignment(assignment) {
+                this.syncCurrentAssignment(assignment);
+                this.showAssignmentStatusForm = true
+            },
+            syncCurrentAssignment(assignment) {
+                this.currentAssignment = assignment
             }
         } 
     }

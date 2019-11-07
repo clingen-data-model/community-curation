@@ -5,7 +5,7 @@ const createAssignment = function (data) {
             user_id: data.user_id
         })
         .catch(error => {
-            console.log(error)
+            console.debug(error)
             alert('There was a problem saving the assignment.  If the problem persists please contact the administrator')
             return error;
         });

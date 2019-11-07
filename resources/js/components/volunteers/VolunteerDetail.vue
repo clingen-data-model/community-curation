@@ -2,10 +2,10 @@
 
 <template>
     <div class="component-container">
-        <div class="card loading text-center" v-if="loading">
+        <div class="card loading text-center" v-if="loading && !volunteer.name">
             <div class="card-header">Loading volunteer...</div>
         </div>
-        <div class="card card-default" v-if="!loading">
+        <div class="card card-default" v-if="!loading || volunteer.name">
             <div class="card-header">
                 <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
                     <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-    // import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses'
     import volunteerSummary from './partials/VolunteerSummary'
     import volunteerStatusAlert from './partials/VolunteerStatusAlert'
     import ApplicationData from './partials/ApplicationData'

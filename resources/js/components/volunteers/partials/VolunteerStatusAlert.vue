@@ -21,7 +21,6 @@
         },
         computed: {
             hasDangerStatus: function () {
-                console.log(this.volunteer);
                 return ['retired', 'unresponsive', 'declined']
                             .indexOf(this.volunteer.volunteer_status.name.toLowerCase()) > -1
             }

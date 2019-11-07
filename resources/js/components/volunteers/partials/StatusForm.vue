@@ -14,7 +14,7 @@
                     Update Status
                 </button>
             </div>
-        </div>        
+        </div>
     </div>
 </template>
 
@@ -24,7 +24,6 @@
     import Volunteer from '../../../entities/volunteer';
 
     export default {
-        components: {},
         props: {
             volunteer: {
                 required: true,

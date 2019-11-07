@@ -2,7 +2,6 @@ const getCurrentUser = async function () {
     let user = JSON.parse(sessionStorage.getItem('user'));
 
     if (!user) {
-        console.log('get current user from session storage');
         try {
             user = await window.axios
                             .get('/api/users/current')
