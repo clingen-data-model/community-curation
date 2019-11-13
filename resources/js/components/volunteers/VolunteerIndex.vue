@@ -79,13 +79,13 @@
                 <template v-slot:cell(id)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.id}}</a>
                 </template>
-                <template slot="name" slot-scope="{item}">
+                <template v-slot:cell(name)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.name}}</a>
                 </template>
-                <template slot="email" slot-scope="{item}">
+                <template v-slot:cell(email)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                 </template>
-                <template slot="assignments" slot-scope="{item}">
+                <template v-slot:cell(assignments)="{item}">
                     <div v-if="item && item.volunteer_type_id == 2">
                         <div v-if="item && item.assignments.length > 0">
                             <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button>
@@ -143,35 +143,40 @@ import { randomBytes } from 'crypto';
                 loadingVolunteers: false,
                 showAssignmentModal: false,
                 currentVolunteer: null,
-                tableFields: {
-                    id: {
+                tableFields: [
+                    {
+                        key: 'id',
                         label: 'ID',
                         sortable: true,
                     },
-                    name: {
+                    {
+                        key: 'name',
                         label: 'Name',
                         sortable: true,
                         key: 'name',
                     },
-                    email: {
+                    {
+                        key: 'email',
                         label: 'Email',
                         sortable: true,
                         key: 'email'
                     },
-                    type: {
+                    {
+                        key: 'type',
                         label: 'Type',
                         sortable: true,
                         key: 'volunteer_type.name'
                     },
-                    status: {
+                    {
                         label: 'Status',
                         sortable: true,
                         key: 'volunteer_status.name'
                     },
-                    assignments: {
+                    {
+                        key: 'assignments',
                         sortable: true
                     }
-                },
+                ],
                 volunteerTypes: [],
                 volunteerStatuses: [],
                 activities: [],
