@@ -64,11 +64,6 @@ class Application extends Model
         return $this->getValueFromOptions('timezone');
     }
 
-    public function getAdditionalPriorityAttribute()
-    {
-        return $this->getValueFromOptions('additional_priority');
-    }
-
     public function getAdCampaignAttribute()
     {
         return Campaign::find(json_decode($this->attributes['ad_campaign']))->pluck('name');
