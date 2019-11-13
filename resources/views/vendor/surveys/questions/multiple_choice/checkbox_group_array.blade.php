@@ -9,7 +9,7 @@
           id="{{ $renderable->name }}-{{$idx}}_checkbox" 
           class="{{ $option->class}}"
           autocomplete="off"
-          value="{{$option->name}}"
+          value="{{$option->value}}"
           @if( isset($context['response']->{$renderable->name}) 
               && in_array($option->name, $context['response']->{$renderable->name}) 
           )
