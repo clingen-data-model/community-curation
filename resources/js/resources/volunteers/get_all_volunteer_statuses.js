@@ -1,5 +1,4 @@
 const getAllVolunteerStatuses = async function () {
-    console.log('volunteer-statuses');
     let data = JSON.parse(localStorage.getItem('volunteer-statuses'));
 
     if (!data) {

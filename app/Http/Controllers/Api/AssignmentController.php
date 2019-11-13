@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\AssignVolunteerToAssignable;
 use App\Http\Resources\AssignmentResource;
+use App\Http\Requests\AssignmentUpdateRequest;
 use App\Http\Requests\ActivityAssignmentCreateRequest;
 
 class AssignmentController extends Controller
@@ -54,9 +55,12 @@ class AssignmentController extends Controller
      * @param  \App\Assignment  $assignment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Assignment $assignment)
+    public function update(AssignmentUpdateRequest $request, Assignment $assignment)
     {
-        //
+        $assignment->update(['assignment_status_id' => $request->assignment_status_id]);
+        $assignment->load(['volunteer', 'assignable', 'status']);
+
+        return new AssignmentResource($assignment);
     }
 
     /**

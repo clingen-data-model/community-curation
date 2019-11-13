@@ -37,7 +37,8 @@ class SurveyOptions
     
     public function expertPanels()
     {
-        return ExpertPanel::select('id', 'name')->get();
+        $expertPanels = ExpertPanel::select('id', 'name', 'accepting_volunteers')->acceptingVolunteers()->get();
+        return $expertPanels;
     }
 
     public function selfDescriptions()
@@ -63,19 +64,5 @@ class SurveyOptions
     public function goals()
     {
         return Goal::select('id', 'name')->withoutOther()->get();
-    }
-
-    private function getDummyData()
-    {
-        return (object)[
-            [
-                'id' => 1,
-                'name' => 'a'
-            ],
-            [
-                'id' => 2,
-                'name' => 'b'
-            ],
-        ];
     }
 }

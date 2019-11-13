@@ -64,25 +64,28 @@
                     </select>
                 </div> -->
             </div>
-            <div class="alert alert-info" v-if="filteredVolunteers.length == 0">
-                <div v-if="Object.keys(activeFilters).length >0">
+            <div class="alert alert-info" v-if="filteredVolunteers.length == 0 && !loadingVolunteers">
+                <div v-if="Object.keys(activeFilters).length > 0">
                     No volunteers matched your search
                 </div>
                 <div v-else>
                     There are no volunteers in the system.
                 </div>
             </div>
+            <div class="alert alert-info" v-if="loadingVolunteers">
+                Loading volunteers...
+            </div>
             <b-table :items="filteredVolunteers" :fields="tableFields" v-else>
-                <template slot="id" slot-scope="{item}">
+                <template v-slot:cell(id)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.id}}</a>
                 </template>
-                <template slot="name" slot-scope="{item}">
+                <template v-slot:cell(name)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.name}}</a>
                 </template>
-                <template slot="email" slot-scope="{item}">
+                <template v-slot:cell(email)="{item}">
                     <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                 </template>
-                <template slot="assignments" slot-scope="{item}">
+                <template v-slot:cell(assignments)="{item}">
                     <div v-if="item && item.volunteer_type_id == 2">
                         <div v-if="item && item.assignments.length > 0">
                             <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button>
@@ -137,37 +140,43 @@ import { randomBytes } from 'crypto';
         data() {
             return {
                 volunteers: [],
+                loadingVolunteers: false,
                 showAssignmentModal: false,
                 currentVolunteer: null,
-                tableFields: {
-                    id: {
+                tableFields: [
+                    {
+                        key: 'id',
                         label: 'ID',
                         sortable: true,
                     },
-                    name: {
+                    {
+                        key: 'name',
                         label: 'Name',
                         sortable: true,
                         key: 'name',
                     },
-                    email: {
+                    {
+                        key: 'email',
                         label: 'Email',
                         sortable: true,
                         key: 'email'
                     },
-                    type: {
+                    {
+                        key: 'type',
                         label: 'Type',
                         sortable: true,
                         key: 'volunteer_type.name'
                     },
-                    status: {
+                    {
                         label: 'Status',
                         sortable: true,
                         key: 'volunteer_status.name'
                     },
-                    assignments: {
+                    {
+                        key: 'assignments',
                         sortable: true
                     }
-                },
+                ],
                 volunteerTypes: [],
                 volunteerStatuses: [],
                 activities: [],
@@ -251,7 +260,9 @@ import { randomBytes } from 'crypto';
                 )
             },  
             getVolunteers: async function () {
+                this.loadingVolunteers = true;
                 this.volunteers = await getAllVolunteers();
+                this.loadingVolunteers = false;
             },
             updateVolunteers: async function() {
                 await this.getVolunteers()

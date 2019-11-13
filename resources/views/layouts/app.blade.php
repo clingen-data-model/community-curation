@@ -33,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @if (!Auth::guest())
+                        @if (!Auth::guest() && !Auth::user()->hasRole('volunteer'))
                         <li><a href="/volunteers/" class="nav-link">Volunteers</a></li>
                         @endif
                     </ul>

@@ -18,6 +18,11 @@ Route::group([
     CRUD::resource('/volunteer-type', 'VolunteerTypeCrudController');
     CRUD::resource('/volunteer-status', 'VolunteerStatusCrudController');
     CRUD::resource('/volunteer', 'VolunteerCrudController');
+    CRUD::resource('/campaign', 'CampaignCrudController');
+    CRUD::resource('/goal', 'GoalCrudController');
+    CRUD::resource('/interest', 'InterestCrudController');
+    CRUD::resource('/motivation', 'MotivationCrudController');
+    CRUD::resource('/self-description', 'SelfDescriptionCrudController');
 }); // this should be the absolute last line of this file
 
 route::redirect('/admin/login', '/login');

@@ -42,4 +42,10 @@ class ExpertPanel extends Model implements AssignableContract
     {
         return $query->where('curation_activity_id', $param);
     }
+
+    public function scopeAcceptingVolunteers($query)
+    {
+        return $query->where('accepting_volunteers', 1);
+    }
+    
 }
