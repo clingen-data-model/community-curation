@@ -134,6 +134,13 @@ class User extends Authenticatable
         return $this->hasMany(Priority::class);
     }
 
+    public function Trainings()
+    {
+        return $this->hasMany(UserTraining::class);
+    }
+    
+
+
     public function canImpersonate()
     {
         return $this->can('impersonate');

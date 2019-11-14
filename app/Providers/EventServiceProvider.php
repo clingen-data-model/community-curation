@@ -20,7 +20,10 @@ class EventServiceProvider extends ServiceProvider
         ],
        'App\Events\Volunteers\Retired' => [
             'App\Listeners\Volunteers\RetireAssignments'
-        ]
+       ],
+       'App\Events\AssignmentCreated' => [
+           'App\Listeners\CreateCorrespondingTraining'
+       ]
     ];
 
     /**

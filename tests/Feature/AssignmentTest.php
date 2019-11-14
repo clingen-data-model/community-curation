@@ -6,10 +6,11 @@ use App\User;
 use Tests\TestCase;
 use App\CurationActivity;
 use InvalidArgumentException;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Events\AssignmentCreated;
 use App\Jobs\AssignVolunteerToAssignable;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group assignments
@@ -59,4 +60,18 @@ class AssignmentTest extends TestCase
         
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
     }
+
+    /**
+     * @test
+     */
+    public function assignmentCreated_event_dispatched_when_assignment_created()
+    {
+        $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        $curationActivity = CurationActivity::all()->first();
+
+        \Event::fake();
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+        \Event::assertDispatched(AssignmentCreated::class);
+    }
+    
 }
