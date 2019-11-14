@@ -51,6 +51,9 @@
                     </tr>
                 </tbody>
             </table>        
+            <div class="mt-2 mb-4">
+                Willing to volunteer outside of preferences: <strong>{{volunteer.latest_priorities[0].outside_panel}}</strong>
+            </div>
             <div class="d-flex justify-content-between border-top pt-2 align-items-center">
                 <a :href="prioritiesSurveyLink" class="btn btn-primary">
                     Set New Priorities
@@ -70,7 +73,22 @@
                 type: Object
             }
         },
+        data() {
+            return {
+                outsidePanelOptions: {
+                    1: 'Yes',
+                    0: 'No',
+                    2: 'Maybe'
+                }
+            }
+        },
         computed: {
+            outsidePanel: function () {
+                if (!this.hasPriorities) {
+                    return 'no priorities'
+                }
+                return this.outsidePanelOptions[this.volunteer.latest_priorities[0].outside_panel]                
+            },
             prioritiesSurveyLink: function () {
                 return '/app-user/'+this.volunteer.id+'/survey/priorities1/new'
             },
