@@ -67,7 +67,7 @@
                     Edit
                 </button>
             </div>
-            <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()">
+            <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()" size="lg">
                 <assignment-form :volunteer="volunteer" @saved="$emit('updatevolunteer')"></assignment-form>
             </b-modal>
             <b-modal v-model="showAssignmentStatusForm" 

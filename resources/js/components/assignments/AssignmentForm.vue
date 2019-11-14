@@ -6,26 +6,9 @@
         <hr>
         <div>
             <h5>Volunteer Priorities</h5>
-            <table class='table table-sm table-striped table-bordered' v-if="volunteer.latest_priorities.length > 0">
-                <thead>
-                    <tr>
-                        <th colspan="2">Activity</th>
-                        <th>Expert Panel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(priority, i) in volunteer.latest_priorities" :key="i">
-                        <td style="width: 5%;">{{priority.priority_order}}</td>
-                        <td style="width: 25%">{{priority.curation_activity.name}}</td>
-                        <td>{{priority.expert_panel.name}}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="alert alert-warning" v-else>
-                This volunteer has not set any priorities.
-            </div>
+            <priorities-list :volunteer="volunteer" :disable-set-new="true" :disable-view-complete="true"></priorities-list>
         </div>
-        <div>
+        <div class="mt-4">
             <h5>Assignments</h5>
             <button 
                 @click="addingCurationActivity = true"
@@ -93,6 +76,7 @@
     import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
     import ExpertPanelCell from './ExpertPanelCell'
+    import PrioritiesList from '../volunteers/partials/PrioritiesList'
 
     export default {
         props: {
@@ -101,7 +85,8 @@
             }
         },
         components: {
-            ExpertPanelCell
+            ExpertPanelCell,
+            PrioritiesList
         },
         data() {
             return {

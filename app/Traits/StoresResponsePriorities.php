@@ -29,6 +29,7 @@ trait StoresResponsePriorities
                     'activity_experience_details' => $this->response->{'activity_experience_'.$num.'_detail'},
                     'effort_experience' => $this->response->{'effort_experience_'.$num} ?? 0,
                     'effort_experience_details' => $this->response->{'effort_experience_'.$num.'_detail'},
+                    'outside_panel' => $this->response->outside_panel,
                     'prioritization_round' => $prioritizationRound,
                     'survey_id' => $this->response->survey_id,
                     'response_id' => $this->response->id
