@@ -16,6 +16,7 @@ class Priority extends Model
         'effort_experience',
         'effort_experience_details',
         'prioritization_round',
+        'outside_panel',
         'survey_id',
         'response_id'
     ];
@@ -33,5 +34,15 @@ class Priority extends Model
     public function expertPanel()
     {
         return $this->belongsTo(ExpertPanel::class);
+    }
+
+    public function survey()
+    {
+        return $this->belongsTo(class_survey());
+    }
+    
+    public function getSurveyResponseAttribute()
+    {
+        return $this->survey->responses()->find($this->response_id);
     }
 }
