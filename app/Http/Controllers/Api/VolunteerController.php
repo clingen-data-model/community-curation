@@ -24,7 +24,7 @@ class VolunteerController extends Controller
                             'assignments',
                             'priorities',
                             'priorities.curationActivity',
-                            'priorities.expertPanel',
+                            'priorities.expertPanel'
                             )
                         ->isVolunteer();
 
