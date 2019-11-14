@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\AssignmentCreated;
 use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
@@ -18,6 +19,10 @@ class Assignment extends Model
         'assignable'
     ];
 
+    protected $dispatchesEvents = [
+        'created' => AssignmentCreated::class
+    ];
+
     public function status()
     {
         return $this->belongsTo(AssignmentStatus::class, 'assignment_status_id');
@@ -32,7 +37,7 @@ class Assignment extends Model
     {
         return $this->morphTo();
     }
-    
+
     public function scopeCurationActivity($query)
     {
         return $query->where('assignable_type', CurationActivity::class);
@@ -47,4 +52,17 @@ class Assignment extends Model
     {
         return false;
     }
+
+    public function scopeAssignableType($query, $param)
+    {
+        return $query->where('assignable_type', $param);
+    }
+    
+
+    public function scopeAssignableIs($query, $type, $id)
+    {
+        return $query->assignableType($type)
+                ->where('assignable_id', $id);
+    }
+    
 }
