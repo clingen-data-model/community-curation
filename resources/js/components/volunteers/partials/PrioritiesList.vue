@@ -51,10 +51,10 @@
                     </tr>
                 </tbody>
             </table>        
-            <div class="mt-2 mb-4">
+            <div class="my-2 pb-2 border-bottom">
                 Willing to volunteer outside of preferences: <strong>{{volunteer.latest_priorities[0].outside_panel}}</strong>
             </div>
-            <div class="d-flex justify-content-between border-top pt-2 align-items-center">
+            <div class="d-flex justify-content-between pt-2 align-items-center" v-if="!disableSetNew && !disableViewComplete">
                 <a :href="prioritiesSurveyLink" class="btn btn-primary">
                     Set New Priorities
                 </a>
@@ -71,6 +71,14 @@
             volunteer: {
                 required: true,
                 type: Object
+            },
+            disableSetNew: {
+                type: Boolean,
+                default: false
+            },
+            disableViewComplete: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
