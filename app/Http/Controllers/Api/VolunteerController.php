@@ -18,7 +18,14 @@ class VolunteerController extends Controller
     public function index(Request $request)
     {
         $volunteerQuery = User::query()
-                        ->with('volunteerType', 'volunteerStatus', 'assignments', 'priorities', 'priorities.curationActivity', 'priorities.expertPanel')
+                        ->with(
+                            'volunteerType',
+                            'volunteerStatus',
+                            'assignments',
+                            'priorities',
+                            'priorities.curationActivity',
+                            'priorities.expertPanel'
+                            )
                         ->isVolunteer();
 
         $volunteers = $volunteerQuery->get();
@@ -63,7 +70,7 @@ class VolunteerController extends Controller
             'assignments',
             'priorities',
             'priorities.curationActivity',
-            'priorities.expertPanel'
+            'priorities.expertPanel',
         ]);
 
         return new VolunteerUserResource($volunteer);
