@@ -33,5 +33,10 @@ class UserTraining extends Model
         return $this->belongsTo(Assignment::class);
     }
     
+    public function isComplete()
+    {
+        return (bool)$this->completed_at;
+    }
+    
 
 }
