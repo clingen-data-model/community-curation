@@ -73,5 +73,19 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
         \Event::assertDispatched(AssignmentCreated::class);
     }
+
+    /**
+     * @test
+     * @group training
+     */
+    public function can_get_related_trainings()
+    {
+        $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        $curationActivity = CurationActivity::all()->first();
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+
+        $this->assertEquals($volunteer->assignments->first()->training->id, $volunteer->trainings->first()->id);
+    }
+    
     
 }

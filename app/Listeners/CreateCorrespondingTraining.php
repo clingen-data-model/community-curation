@@ -27,13 +27,22 @@ class CreateCorrespondingTraining
      */
     public function handle(AssignmentCreated $event)
     {
-        if ( class_implements($event->assignment->assignable, TrainingSubjectContract::class) ) {
-            $event->assignment
-                ->volunteer
-                ->trainings()
-                ->create([
-                    'training_id' => $event->assignment->assignable->getBasicTraining()->id
-                ]);
+        if (!is_subclass_of($event->assignment->assignable, TrainingSubjectContract::class)) {
+            return;
         }
+
+        $basicTraining = $event->assignment->assignable->getBasicTraining();
+
+        if (!$basicTraining) {
+            return;
+        }
+
+        $event->assignment
+            ->volunteer
+            ->trainings()
+            ->create([
+                'training_id' => $basicTraining->id,
+                'assignment_id' => $event->assignment->id
+            ]);
     }
 }

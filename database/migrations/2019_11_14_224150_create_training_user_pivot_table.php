@@ -16,12 +16,14 @@ class CreateTrainingUserPivotTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('training_id')->unsigned()->index();
             $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('assignment_id')->unsigned()->index()->nullable();
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('training_id', 'training_id_foreign')->references('id')->on('trainings')->onDelete('cascade');
             $table->foreign('user_id', 'user_id_foreign')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('assignment_id')->references('id')->on('assignments');
         });
     }
 

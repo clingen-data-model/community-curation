@@ -6,6 +6,7 @@ use Backpack\CRUD\CrudTrait;
 use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\TrainingSubjectContract;
+use App\Traits\TrainingSubjectTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -16,6 +17,7 @@ class CurationActivity extends Model implements AssignableContract, TrainingSubj
     use CrudTrait;
     use RevisionableTrait;
     use SoftDeletes;
+    use TrainingSubjectTrait;
 
     protected $revisionCreationsEnabled = true;    
 
@@ -26,17 +28,5 @@ class CurationActivity extends Model implements AssignableContract, TrainingSubj
     public function assignments(): Relation
     {
         return $this->morphMany(Assignment::class, 'assignable');
-    }
-
-    public function trainings() :Relation
-    {
-        return $this->morphMany(Training::class, 'subject');
-    }
-
-    public function getBasicTraining() :Training
-    {
-        return $this->trainings->first();
-    }
-    
-    
+    }    
 }

@@ -14,6 +14,7 @@ class UserTraining extends Model
     protected $fillable = [
         'training_id',
         'user_id',
+        'assignment_id',
         'completed_at',
     ];
 
@@ -27,12 +28,10 @@ class UserTraining extends Model
         return $this->belongsTo(Training::class);
     }
 
-    public function getAssignment()
+    public function assignment()
     {
-        return $this->user
-                ->assignments()
-                ->assignableIs(get_class($this->training->subject), $this->training->subject->id)
-                ->first();
+        return $this->belongsTo(Assignment::class);
     }
     
+
 }

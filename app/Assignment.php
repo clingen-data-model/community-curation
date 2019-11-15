@@ -38,6 +38,11 @@ class Assignment extends Model
         return $this->morphTo();
     }
 
+    public function training()
+    {
+        return $this->hasOne(UserTraining::class);
+    }
+    
     public function scopeCurationActivity($query)
     {
         return $query->where('assignable_type', CurationActivity::class);

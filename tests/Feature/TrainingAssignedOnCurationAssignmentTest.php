@@ -35,6 +35,7 @@ class TrainingAssignedOnCurationAssignmentTest extends TestCase
         $this->assertDatabaseHas('training_user', [
             'user_id' => $this->volunteer->id,
             'training_id' => $curationActivity->trainings->first()->id,
+            'assignment_id' => $this->volunteer->assignments->first()->id,
             'completed_at' => null,
         ]);
     }
