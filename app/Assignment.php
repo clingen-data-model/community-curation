@@ -55,7 +55,15 @@ class Assignment extends Model
 
     public function getNeedsAptitudeAttribute()
     {
-        return false;
+        if (!$this->training) {
+            return false;
+        }
+
+        if ($this->training->isComplete()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function scopeAssignableType($query, $param)
