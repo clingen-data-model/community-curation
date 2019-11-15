@@ -18,6 +18,7 @@ class AssignmentResource extends JsonResource
         $data['volunteer'] = new DefaultResource($this->whenLoaded('volunteer'));
         $data['assignable'] = new DefaultResource($this->whenLoaded('assignable'));
         $data['status'] = new DefaultResource($this->whenLoaded('status'));
+        $data['user_training'] = new DefaultResource($this->training);
 
         return $data;
     }
