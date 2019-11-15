@@ -36,9 +36,9 @@
                             </td>
                             <td>
                                 <div v-if="assignment.needsAptitude" class="text-muted">
-                                    <div v-if="assignment.training.completed_at === null">
+                                    <div v-if="assignment.user_training.completed_at === null">
                                         <div v-if="$store.state.user.isVolunteer()">
-                                            <a :href="assignment.training.training.materials_url" 
+                                            <a :href="assignment.user_training.training.materials_url" 
                                                 class="btn btn-sm btn-primary"
                                                 target="training"
                                             >
@@ -52,7 +52,7 @@
                                     <div v-else>
                                         awaiting attestation
                                         <div v-if="$store.state.user.isVolunteer()">
-                                            <a :href="assignment.training.training.materials_url" 
+                                            <a :href="assignment.user_training.training.materials_url" 
                                                 class="btn btn-sm btn-primary"
                                                 target="training"
                                             >

@@ -38,7 +38,7 @@ class Assignment extends Model
         return $this->morphTo();
     }
 
-    public function training()
+    public function userTraining()
     {
         return $this->hasOne(UserTraining::class);
     }
@@ -55,11 +55,11 @@ class Assignment extends Model
 
     public function getNeedsAptitudeAttribute()
     {
-        if (!$this->training) {
+        if (!$this->userTraining) {
             return false;
         }
 
-        if ($this->training->isComplete()) {
+        if ($this->userTraining->isComplete()) {
             return false;
         }
 

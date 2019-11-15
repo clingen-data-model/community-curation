@@ -39,7 +39,7 @@ class CreateCorrespondingTraining
 
         $event->assignment
             ->volunteer
-            ->trainings()
+            ->userTrainings()
             ->create([
                 'training_id' => $basicTraining->id,
                 'assignment_id' => $event->assignment->id

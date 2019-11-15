@@ -14,14 +14,14 @@
 
         <div v-if="assignment.needsAptitude">
             <div v-if="assignment.needsAptitude">
-                <div v-if="assignment.training.completed_at === null">
+                <div v-if="assignment.user_training.completed_at == null">
                     <div class="form-inline">
                         <div v-if="$store.state.user.notVolunteer()">
                             <div v-show="setTrainingDate" class="form-inline">
                                 <label>Date completed:</label>
                                 &nbsp;
                                 <date-field v-model="newTrainingCompletedDate" class="form-control form-control-sm"></date-field>
-                                <button class="btn btn-sm btn-primary" @click="emitTrainingCompleted(assignment.training)">Save</button>
+                                <button class="btn btn-sm btn-primary" @click="emitTrainingCompleted(assignment.user_training)">Save</button>
                             </div>
                             <button class="btn btn-sm btn-primary" v-show="!setTrainingDate" @click="setTrainingDate = true">Mark Training complete</button>
                         </div>

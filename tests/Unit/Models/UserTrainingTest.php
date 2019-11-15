@@ -26,7 +26,7 @@ class UserTrainingTest extends TestCase
         AssignVolunteerToAssignable::dispatch($vol, CurationActivity::find(1));
 
         $assignment = $vol->assignments->first();
-        $training = $vol->trainings->first();
+        $training = $vol->userTrainings->first();
 
         $this->assertEquals($assignment->id, $training->assignment->id);
     }
