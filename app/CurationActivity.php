@@ -28,5 +28,11 @@ class CurationActivity extends Model implements AssignableContract, TrainingSubj
     public function assignments(): Relation
     {
         return $this->morphMany(Assignment::class, 'assignable');
-    }    
+    }
+
+    public function expertPanels()
+    {
+        return $this->hasMany(ExpertPanel::class);
+    }
+    
 }
