@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UserTrainingCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,6 +18,11 @@ class UserTraining extends Model
         'assignment_id',
         'completed_at',
     ];
+
+    protected $dispatchesEvents = [
+        'created' => UserTrainingCreated::class
+    ];
+
 
     public function user()
     {
