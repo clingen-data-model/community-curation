@@ -12,7 +12,27 @@
             Add expert panel
         </button>
 
-        <div v-if="assignment.needsAptitude" class="text-muted">Needs aptitude</div>
+        <div v-if="assignment.needsAptitude">
+            <div v-if="assignment.needsAptitude">
+                <div v-if="assignment.user_training.completed_at == null">
+                    <div class="form-inline">
+                        <div v-if="$store.state.user.notVolunteer()">
+                            <div v-show="setTrainingDate" class="form-inline">
+                                <label>Date completed:</label>
+                                &nbsp;
+                                <date-field v-model="newTrainingCompletedDate" class="form-control form-control-sm"></date-field>
+                                <button class="btn btn-sm btn-primary" @click="emitTrainingCompleted(assignment.user_training)">Save</button>
+                            </div>
+                            <button class="btn btn-sm btn-primary" v-show="!setTrainingDate" @click="setTrainingDate = true">Mark Training complete</button>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    awaiting attestation
+                </div>
+            </div>
+        </div>
+
         <ul class="list-unstyled mb-0">
             <li v-for="(panel, i) in assignment.expertPanels" :key="i"
                 :class="{'text-strike text-muted': (panel.assignment_status_id == 2)}"
@@ -36,8 +56,12 @@
 </template>
 
 <script>
+    import DateField from '../DateField'
+
     export default {
-        components: {},
+        components: {
+            DateField
+        },
         props: {
             volunteer: {
                 required: true,
@@ -55,6 +79,8 @@
             return {
                 newExpertPanel: null,
                 addingExpertPanel: false,
+                newTrainingCompletedDate: null,
+                setTrainingDate: false
             }
         },
         methods: {
@@ -68,7 +94,12 @@
                 this.addingExpertPanel = false;
                 this.$emit('cancel');
             },
-
+            emitTrainingCompleted(userTraining) {
+                this.$emit('trainingcompleted', {
+                    id: userTraining.id,
+                    completed_at: this.newTrainingCompletedDate
+                })
+            }
         }
     
 }

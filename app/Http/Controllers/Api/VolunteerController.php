@@ -19,13 +19,13 @@ class VolunteerController extends Controller
     {
         $volunteerQuery = User::query()
                         ->with(
-                            'volunteerType',
-                            'volunteerStatus',
-                            'assignments',
-                            'priorities',
-                            'priorities.curationActivity',
+                            'volunteerType', 
+                            'volunteerStatus', 
+                            'assignments', 
+                            'priorities', 
+                            'priorities.curationActivity', 
                             'priorities.expertPanel'
-                            )
+                        )
                         ->isVolunteer();
 
         $volunteers = $volunteerQuery->get();
@@ -68,6 +68,8 @@ class VolunteerController extends Controller
             'volunteerType',
             'application',
             'assignments',
+            'assignments.userTraining',
+            'assignments.userTraining.training',
             'priorities',
             'priorities.curationActivity',
             'priorities.expertPanel',

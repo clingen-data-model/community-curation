@@ -5,15 +5,19 @@ namespace App;
 use Backpack\CRUD\CrudTrait;
 use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Contracts\TrainingSubjectContract;
+use App\Traits\TrainingSubjectTrait;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
-class CurationActivity extends Model implements AssignableContract
+class CurationActivity extends Model implements AssignableContract, TrainingSubjectContract
 {
     use CrudTrait;
     use RevisionableTrait;
     use SoftDeletes;
+    use TrainingSubjectTrait;
 
     protected $revisionCreationsEnabled = true;    
 
@@ -24,6 +28,11 @@ class CurationActivity extends Model implements AssignableContract
     public function assignments(): Relation
     {
         return $this->morphMany(Assignment::class, 'assignable');
+    }
+
+    public function expertPanels()
+    {
+        return $this->hasMany(ExpertPanel::class);
     }
     
 }

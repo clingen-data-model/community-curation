@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\AssignmentCreated;
 use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
@@ -18,6 +19,10 @@ class Assignment extends Model
         'assignable'
     ];
 
+    protected $dispatchesEvents = [
+        'created' => AssignmentCreated::class
+    ];
+
     public function status()
     {
         return $this->belongsTo(AssignmentStatus::class, 'assignment_status_id');
@@ -32,6 +37,11 @@ class Assignment extends Model
     {
         return $this->morphTo();
     }
+
+    public function userTraining()
+    {
+        return $this->hasOne(UserTraining::class);
+    }
     
     public function scopeCurationActivity($query)
     {
@@ -45,6 +55,27 @@ class Assignment extends Model
 
     public function getNeedsAptitudeAttribute()
     {
-        return false;
+        if (!$this->userTraining) {
+            return false;
+        }
+
+        if ($this->userTraining->isComplete()) {
+            return false;
+        }
+
+        return true;
     }
+
+    public function scopeAssignableType($query, $param)
+    {
+        return $query->where('assignable_type', $param);
+    }
+    
+
+    public function scopeAssignableIs($query, $type, $id)
+    {
+        return $query->assignableType($type)
+                ->where('assignable_id', $id);
+    }
+    
 }

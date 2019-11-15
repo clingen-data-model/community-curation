@@ -18,7 +18,7 @@ class ApplicationDataResource extends JsonResource
         $data['country'] = $this->country->name;
         
         $data['volunteer_type'] = $this->volunteerType->name;
-        $data['self_description'] = $this->selfDescription->name;
+        $data['self_description'] = $this->selfDescription->name ?? null;
 
         unset($data['country_id'], $data['self_desc']);
 

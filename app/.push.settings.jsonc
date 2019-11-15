@@ -1,0 +1,29 @@
+// Push settings file - first generated on Wed Nov 13 2019 16:20:02 GMT-0500 (Eastern Standard Time).
+// Note: Optional items are commented out and can be uncommented if you wish to set them.
+// Preset environments are: prod, dev, stage. Custom environments (and their colours) can be created in settings.
+{
+	"env": "default",
+	"default": {
+		"service": "SFTP",
+		"options": {
+			// "timeZoneOffset": 0,
+			// "testCollisionTimeDiffs": true,
+			// "collisionUploadAction": null,
+			// "collisionDownloadAction": null,
+			// "followSymlinks": false,
+			// "reminder": true,
+			// "reminderTimeout": null,
+			"host": "web3demo.schsr.unc.edu",
+			// "port": 22,
+			"username": "jward3",
+			// "password": "",
+			// "privateKey": "",
+			// "keyPassphrase": "",
+			"root": "/mnt/web/project/community-curation-test/current",
+			// "keepaliveInterval": 3000,
+			// "debug": false,
+			// "fileMode": "",
+			// "sshGateway": null
+		}
+	}
+}

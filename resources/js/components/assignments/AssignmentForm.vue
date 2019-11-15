@@ -37,6 +37,7 @@
                                 :expert-panels="getExpertPanelsForCurationActivity(assignment.curationActivity.assignable.id)"
                                 :volunteer="volunteer"
                                 v-on:save="saveNewExpertPanel"
+                                v-on:trainingcompleted="markTrainingCompleted"
                             ></expert-panel-cell>
                         </td>
                     </tr>
@@ -74,7 +75,9 @@
 <script>
     import createAssignment from '../../resources/assignments/create_assignment'
     import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities'
+    import markUserTrainingComplete from '../../resources/trainings/mark_user_training_complete'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
+    
     import ExpertPanelCell from './ExpertPanelCell'
     import PrioritiesList from '../volunteers/partials/PrioritiesList'
 
@@ -165,6 +168,12 @@
                     this.cancelAddingActivity();
                     this.$emit('saved');
                 })
+            },
+            markTrainingCompleted({id, completed_at}) {
+                markUserTrainingComplete(id, completed_at)
+                    .then(() => {
+                        this.$emit('saved')
+                    })                
             }
         },
         mounted() {
