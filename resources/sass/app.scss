@@ -9,9 +9,11 @@
 
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index.scss';
+@import '../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
 
 // Sirs-Surveys
 @import './sirs-surveys.scss';
+
 
 .card > .card-header > h1,
 .card > .card-header > h2 {
