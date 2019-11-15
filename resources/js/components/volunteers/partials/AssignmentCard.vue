@@ -36,7 +36,30 @@
                             </td>
                             <td>
                                 <div v-if="assignment.needsAptitude" class="text-muted">
-                                    Needs Aptitude
+                                    <div v-if="assignment.training.completed_at === null">
+                                        <div v-if="$store.state.user.isVolunteer()">
+                                            <a :href="assignment.training.training.materials_url" 
+                                                class="btn btn-sm btn-primary"
+                                                target="training"
+                                            >
+                                                Start training
+                                            </a>
+                                        </div>
+                                        <div v-if="$store.state.user.notVolunteer()">
+                                            Needs training
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        awaiting attestation
+                                        <div v-if="$store.state.user.isVolunteer()">
+                                            <a :href="assignment.training.training.materials_url" 
+                                                class="btn btn-sm btn-primary"
+                                                target="training"
+                                            >
+                                                Start training
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div v-else>
                                     <span v-for="(ep, idx) in assignment.expertPanels" :key="idx"
