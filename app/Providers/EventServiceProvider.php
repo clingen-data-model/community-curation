@@ -24,7 +24,7 @@ class EventServiceProvider extends ServiceProvider
        'App\Events\AssignmentCreated' => [
            'App\Listeners\CreateCorrespondingTraining'
        ],
-       'App\Events\UserTrainingCreated' => [
+       'App\Events\TrainingCreated' => [
            'App\Listeners\NotifyTrainingAssigned'
        ]
     ];

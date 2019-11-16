@@ -25,9 +25,9 @@ class VolunteerEmailedOnTrainingAssignmentTest extends TestCase
                         ->states('comprehensive', 'volunteer')
                         ->create([]);
 
-        $volunteer->userTrainings()
+        $volunteer->trainings()
             ->create([
-                'training_id' => 1,
+                'aptitude_id' => 1,
             ]);
 
         \Notification::assertSentTo(

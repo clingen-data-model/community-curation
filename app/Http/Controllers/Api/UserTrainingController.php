@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\UserTraining;
+use App\Training;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DefaultResource;
 
-class UserTrainingController extends Controller
+class TrainingController extends Controller
 {
 
     /**
@@ -62,11 +62,11 @@ class UserTrainingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $userTraining = UserTraining::find($id);
+        $training = Training::find($id);
 
-        $userTraining->update($request->all());
+        $training->update($request->all());
 
-        return new DefaultResource($userTraining);
+        return new DefaultResource($training);
     }
 
     /**

@@ -25,7 +25,7 @@ Route::group([
             Route::resource('volunteers', 'VolunteerController');
             Route::resource('assignments', 'AssignmentController')
                 ->only(['index', 'store','show', 'update']);
-            Route::resource('user-trainings', 'UserTrainingController')
+            Route::resource('trainings', 'TrainingController')
                 ->only(['update']);
 
             Route::get('users/current', 'UserController@currentUser')->name("current-user");

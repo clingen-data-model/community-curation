@@ -3,31 +3,24 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class Aptitude extends Model
 {
     use RevisionableTrait;
-    use SoftDeletes;
-
 
     protected $revisionCreationsEnabled = true;
 
     protected $fillable = [
         'name',
-        'volunteer_type_id',
-        'curation_activity_id'
+        'training_materials_url',
+        'subject_type',
+        'subject_id',
+        'volunteer_type_id'
     ];
 
-    public function volunteerType()
+    public function subject()
     {
-        return $this->belongsTo(VolunteerType::class);
+        return $this->morphTo();
     }
-
-    public function curationActivity()
-    {
-        return $this->belongsTo(CurationActivity::class);
-    }
-    
 }

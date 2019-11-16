@@ -32,9 +32,9 @@ class TrainingAssignedOnCurationAssignmentTest extends TestCase
         $curationActivity = CurationActivity::find(1);
         AssignVolunteerToAssignable::dispatch($this->volunteer, $curationActivity);
 
-        $this->assertDatabaseHas('training_user', [
+        $this->assertDatabaseHas('trainings', [
             'user_id' => $this->volunteer->id,
-            'training_id' => $curationActivity->trainings->first()->id,
+            'aptitude_id' => $curationActivity->aptitudes->first()->id,
             'assignment_id' => $this->volunteer->assignments->first()->id,
             'completed_at' => null,
         ]);

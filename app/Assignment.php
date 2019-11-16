@@ -38,9 +38,9 @@ class Assignment extends Model
         return $this->morphTo();
     }
 
-    public function userTraining()
+    public function Training()
     {
-        return $this->hasOne(UserTraining::class);
+        return $this->hasOne(Training::class);
     }
     
     public function scopeCurationActivity($query)
@@ -55,11 +55,11 @@ class Assignment extends Model
 
     public function getNeedsAptitudeAttribute()
     {
-        if (!$this->userTraining) {
+        if (!$this->training) {
             return false;
         }
 
-        if ($this->userTraining->isComplete()) {
+        if ($this->training->isComplete()) {
             return false;
         }
 

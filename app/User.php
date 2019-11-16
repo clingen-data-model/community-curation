@@ -134,9 +134,9 @@ class User extends Authenticatable
         return $this->hasMany(Priority::class);
     }
 
-    public function userTrainings()
+    public function trainings()
     {
-        return $this->hasMany(UserTraining::class);
+        return $this->hasMany(Training::class);
     }
 
     public function canImpersonate()
@@ -204,7 +204,7 @@ class User extends Authenticatable
     public function getStructuredAssignmentsAttribute()
     {
         $assignments = $this->assignments()
-                        ->with('assignable', 'status', 'userTraining', 'userTraining.training')
+                        ->with('assignable', 'status', 'training', 'training.aptitude')
                         ->get();
         $activityAssignments = $assignments->where('assignable_type', CurationActivity::class)->values();
 
@@ -215,7 +215,7 @@ class User extends Authenticatable
                 'curation_activity_id' => $activity->id,
                 'curationActivity' => (new AssignmentResource($actAss)),
                 'needsAptitude' => $actAss->needsAptitude,
-                'user_training' => $actAss->userTraining,
+                'training' => $actAss->training,
                 'expertPanels' => AssignmentResource::collection(
                     $assignments->filter(
                             function ($ass) use ($activity) {

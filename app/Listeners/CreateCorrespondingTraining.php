@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Contracts\TrainingSubjectContract;
+use App\Contracts\AptitudeSubjectContract;
 use App\Events\AssignmentCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,11 +27,11 @@ class CreateCorrespondingTraining
      */
     public function handle(AssignmentCreated $event)
     {
-        if (!is_subclass_of($event->assignment->assignable, TrainingSubjectContract::class)) {
+        if (!is_subclass_of($event->assignment->assignable, AptitudeSubjectContract::class)) {
             return;
         }
 
-        $basicTraining = $event->assignment->assignable->getBasicTraining();
+        $basicTraining = $event->assignment->assignable->getBasicAptitude();
 
         if (!$basicTraining) {
             return;
@@ -39,9 +39,9 @@ class CreateCorrespondingTraining
 
         $event->assignment
             ->volunteer
-            ->userTrainings()
+            ->trainings()
             ->create([
-                'training_id' => $basicTraining->id,
+                'aptitude_id' => $basicTraining->id,
                 'assignment_id' => $event->assignment->id
             ]);
     }

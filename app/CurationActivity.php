@@ -5,19 +5,19 @@ namespace App;
 use Backpack\CRUD\CrudTrait;
 use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Model;
-use App\Contracts\TrainingSubjectContract;
-use App\Traits\TrainingSubjectTrait;
+use App\Contracts\AptitudeSubjectContract;
+use App\Traits\AptitudeSubjectTrait;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class CurationActivity extends Model implements AssignableContract, TrainingSubjectContract
+class CurationActivity extends Model implements AssignableContract, AptitudeSubjectContract
 {
     use CrudTrait;
     use RevisionableTrait;
     use SoftDeletes;
-    use TrainingSubjectTrait;
+    use AptitudeSubjectTrait;
 
     protected $revisionCreationsEnabled = true;    
 

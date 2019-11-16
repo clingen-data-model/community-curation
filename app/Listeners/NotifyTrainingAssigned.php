@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\TrainingCreated;
-use App\Events\UserTrainingCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\TrainingAssignedNotification;
@@ -26,12 +25,12 @@ class NotifyTrainingAssigned
      * @param  TrainingCreated  $event
      * @return void
      */
-    public function handle(UserTrainingCreated $event)
+    public function handle(TrainingCreated $event)
     {
-        $userTraining = $event->userTraining;
+        $training = $event->training;
 
-        $userTraining
+        $training
             ->user
-            ->notify(new TrainingAssignedNotification($userTraining->training->subject->getBasicTraining()));
+            ->notify(new TrainingAssignedNotification($training));
     }
 }

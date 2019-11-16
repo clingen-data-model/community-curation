@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Aptitude;
+use App\Training;
+use Illuminate\Database\Seeder;
 
 class AptitudesTableSeeder extends Seeder
 {
@@ -12,62 +13,71 @@ class AptitudesTableSeeder extends Seeder
      */
     public function run()
     {
-        $items = [
+        $aptitudes = [
             [
                 'id' => 1,
-                'volunteer_type_id' => 1,
-                'curation_activity_id' => null,
-                'name' => 'Basic Evidence',
+                'name' => 'Actionability, Basic',
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 1,
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 2
             ],
             [
                 'id' => 2,
-                'volunteer_type_id' => 1,
-                'curation_activity_id' => null,
-                'name' => 'Genetic Evidence',
+                'name' => 'Dosage, Basic',
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 2,
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 2
             ],
             [
                 'id' => 3,
-                'volunteer_type_id' => 2,
-                'curation_activity_id' => 1,
-                'name' => 'Actionability - Basic'
+                'name' => 'Gene, Basic',
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 3,
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 2
             ],
             [
                 'id' => 4,
-                'volunteer_type_id' => 2,
-                'curation_activity_id' => 2,
-                'name' => 'Dosage - Basic'
+                'name' => 'Somantic Variant, Basic',
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 4,
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 2
             ],
             [
                 'id' => 5,
-                'volunteer_type_id' => 2,
-                'curation_activity_id' => 3,
-                'name' => 'Gene - Basic'
+                'name' => 'Variant, Basic',
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 5,
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 2
             ],
             [
                 'id' => 6,
-                'volunteer_type_id' => 2,
-                'curation_activity_id' => 4,
-                'name' => 'Somatic Variant - Basic'
+                'name' => 'Variant, Proficiency',
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 5,
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 2
             ],
             [
                 'id' => 7,
-                'volunteer_type_id' => 2,
-                'curation_activity_id' => 5,
-                'name' => 'Variant - Proficiency'
+                'name' => 'Basic Evidence',
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 1
             ],
             [
                 'id' => 8,
-                'volunteer_type_id' => 2,
-                'curation_activity_id' => 5,
-                'name' => 'Variant - Basic'
-            ],
+                'name' => 'Genetic Evidence',
+                'training_materials_url' => 'https://www.google.com',
+                'volunteer_type_id' => 1
+            ]
         ];
 
-        foreach ($items as $item) {
-            Aptitude::updateOrCreate(
-                ['id' => $item['id']],
-                $item
-            );
+        foreach ($aptitudes as $aptitude) {
+            Aptitude::firstOrCreate(['id' => $aptitude['id']], $aptitude);
         }
     }
 }
