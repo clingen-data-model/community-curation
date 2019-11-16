@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InterestsTableSeeder::class);
         $this->call(MotivationsTableSeeder::class);
         $this->call(SelfDescriptionsTableSeeder::class);
-        $this->call(TrainingsTableSeeder::class);
+        $this->call(AptitudesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
     }
 }

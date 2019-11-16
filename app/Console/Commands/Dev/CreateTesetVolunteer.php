@@ -62,7 +62,7 @@ class CreateTesetVolunteer extends Command
         $response->timezone = 1;
         $response->highest_ed = rand(1, 6);
         $response->ad_campaign = json_encode([1,2]);
-        $response->self_description = json_encode([1,2]);
+        $response->self_desc = rand(1,2);
         $response->motivation = json_encode([1,2]);
         $response->goals = json_encode([1,2]);
         $response->interests = json_encode([1,2]);

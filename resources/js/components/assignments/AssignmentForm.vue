@@ -75,7 +75,7 @@
 <script>
     import createAssignment from '../../resources/assignments/create_assignment'
     import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities'
-    import markUserTrainingComplete from '../../resources/trainings/mark_user_training_complete'
+    import markTrainingComplete from '../../resources/trainings/mark_training_complete'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
     
     import ExpertPanelCell from './ExpertPanelCell'
@@ -170,7 +170,7 @@
                 })
             },
             markTrainingCompleted({id, completed_at}) {
-                markUserTrainingComplete(id, completed_at)
+                markTrainingComplete(id, completed_at)
                     .then(() => {
                         this.$emit('saved')
                     })                
