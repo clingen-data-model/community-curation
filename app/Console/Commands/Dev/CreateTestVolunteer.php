@@ -8,7 +8,7 @@ use App\Motivation;
 use App\CurationActivity;
 use Illuminate\Console\Command;
 
-class CreateTesetVolunteer extends Command
+class CreateTestVolunteer extends Command
 {
     /**
      * The name and signature of the console command.
