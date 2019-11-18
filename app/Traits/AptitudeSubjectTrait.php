@@ -18,5 +18,5 @@ trait AptitudeSubjectTrait
     public function getBasicAptitude() :Aptitude
     {
         return $this->aptitudes->first();
-    }    
+    }
 }

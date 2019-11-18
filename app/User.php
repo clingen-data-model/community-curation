@@ -215,18 +215,22 @@ class User extends Authenticatable
     public function getStructuredAssignmentsAttribute()
     {
         $assignments = $this->assignments()
-                        ->with('assignable', 'status', 'training', 'training.aptitude')
+                        ->with('assignable', 'status')
                         ->get();
         $activityAssignments = $assignments->where('assignable_type', CurationActivity::class)->values();
 
         $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
             $activity = $actAss->assignable;
+            $basicAptitude = $activity->getBasicAptitude();
+            $basicTraining = $this->trainings->where('aptitude_id', $basicAptitude->id)->first();
+            $basicAttestation = $this->attestations->where('aptitude_id', $basicAptitude->id)->first();
             
             return collect([
                 'curation_activity_id' => $activity->id,
                 'curationActivity' => (new AssignmentResource($actAss)),
-                'needsAptitude' => $actAss->needsAptitude,
-                'training' => $actAss->training,
+                'needsAptitude' => !($basicTraining->completed_at && $basicAttestation->signed_at),
+                'training' => $basicTraining,
+                'attestation' => $basicAttestation,
                 'expertPanels' => AssignmentResource::collection(
                     $assignments->filter(
                             function ($ass) use ($activity) {
@@ -254,5 +258,11 @@ class User extends Authenticatable
     {
         return false;
     }
+
+    public function hasAptitude()
+    {
+        return $this->aptitudes()->where('id', $aptitudeId)->count() > 0;
+    }
+    
     
 }

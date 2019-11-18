@@ -68,8 +68,6 @@ class VolunteerController extends Controller
             'volunteerType',
             'application',
             'assignments',
-            'assignments.training',
-            'assignments.training.aptitude',
             'priorities',
             'priorities.curationActivity',
             'priorities.expertPanel',

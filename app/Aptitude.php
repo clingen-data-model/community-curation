@@ -29,5 +29,14 @@ class Aptitude extends Model
         return $this->belongsToMany(User::class)
                 ->withTimestamps();
     }
+
+    public function scopeForSubject($query, $subjectClass, $subjectId)
+    {
+        return $query->where([
+            'subject_type' => $subjectClass,
+            'subject_id' => $subjectId
+        ]);
+    }
+    
     
 }

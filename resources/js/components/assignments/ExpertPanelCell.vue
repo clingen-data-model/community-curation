@@ -3,15 +3,6 @@
 <template>
     <div class="component-container">
         
-        <button 
-            v-if="!addingExpertPanel && !assignment.needsAptitude" 
-            class="btn btn-sm btn-link float-right" 
-            @click="addingExpertPanel = true"
-            :disabled="volunteer.volunteer_status_id == 3"
-        >
-            Add expert panel
-        </button>
-
         <div v-if="assignment.needsAptitude">
             <div v-if="assignment.needsAptitude">
                 <div v-if="assignment.training.completed_at == null">
@@ -28,7 +19,14 @@
                     </div>
                 </div>
                 <div v-else>
-                    awaiting attestation
+                    <div v-if="assignment.attestation.signed_at == null">
+                        <a 
+                            href="/attestation-form" 
+                            class="btn btn-sm btn-primary"
+                            @click.prevent="emitAttestationSigned(assignment.attestation)"
+                        >Sign attestation</a>
+                    </div>
+                    <!-- awaiting attestation -->
                 </div>
             </div>
         </div>
@@ -40,6 +38,15 @@
                 {{panel.assignable.name}}
             </li>
         </ul>
+        <button 
+            v-if="!addingExpertPanel && !assignment.needsAptitude" 
+            class="btn btn-sm btn-xs border" 
+            @click="addingExpertPanel = true"
+            :disabled="volunteer.volunteer_status_id == 3"
+        >
+            Add expert panel
+        </button>
+
         <div v-if="addingExpertPanel" class="form-inline">
             <select v-model="newExpertPanel" class="form-control form-control-sm">
                 <option :value="null">Select&hellip;</option>
@@ -99,6 +106,9 @@
                     id: training.id,
                     completed_at: this.newTrainingCompletedDate
                 })
+            },
+            emitAttestationSigned(attestation) {
+                this.$emit('attestionsigned', attestation.id);
             }
         }
     

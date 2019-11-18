@@ -64,6 +64,10 @@ class Attestation extends Model
         return $query->whereNull("signed_at");
     }
     
+    public function isSigned()
+    {
+        return !is_null($this->signed_at);
+    }
     
     
 
