@@ -2,7 +2,8 @@
 
 namespace App\Events;
 
-use App\Training;
+use App\User;
+use App\Aptitude;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,21 +12,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TrainingCompleted
+class AptitudeGranted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $training;
+    protected $aptitude;
+
+    protected $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Training $training)
+    public function __construct(Aptitude $aptitude, User $user)
     {
         //
-        $this->training = $training;
+        $this->aptitude = $aptitude;
+        $this->user = $user;
     }
 
     /**

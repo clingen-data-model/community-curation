@@ -116,6 +116,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Assignment::class);
     }
+
+    public function attestations()
+    {
+        return $this->hasMany(Attestation::class);
+    }
+    
+    public function aptitudes()
+    {
+        return $this->belongsToMany(Aptitude::class)
+            ->withTimestamps();
+    }
     
     public function curationActivityAssignments()
     {

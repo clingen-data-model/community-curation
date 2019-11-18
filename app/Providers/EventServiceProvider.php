@@ -26,6 +26,12 @@ class EventServiceProvider extends ServiceProvider
        ],
        'App\Events\TrainingCreated' => [
            'App\Listeners\NotifyTrainingAssigned'
+       ],
+       'App\Events\TrainingCompleted' => [
+           'App\Listeners\CreateAttestationForCompletedTraining'
+       ],
+       'App\Events\AttestationSigned' => [
+           'App\Listeners\GrantAptitudeForSignedAttestation'
        ]
     ];
 
