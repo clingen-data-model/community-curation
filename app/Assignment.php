@@ -38,9 +38,14 @@ class Assignment extends Model
         return $this->morphTo();
     }
 
-    public function Training()
+    public function attestations()
     {
-        return $this->hasOne(Training::class);
+        return $this->hasMany(Attestation::class);
+    }
+
+    public function trainings()
+    {
+        return $this->hasMany(Training::class);
     }
     
     public function scopeCurationActivity($query)
@@ -53,24 +58,10 @@ class Assignment extends Model
         return $query->where('assignable_type', ExpertPanel::class);
     }
 
-    public function getNeedsAptitudeAttribute()
-    {
-        if (!$this->training) {
-            return false;
-        }
-
-        if ($this->training->isComplete()) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function scopeAssignableType($query, $param)
     {
         return $query->where('assignable_type', $param);
     }
-    
 
     public function scopeAssignableIs($query, $type, $id)
     {

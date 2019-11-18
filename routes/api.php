@@ -31,6 +31,15 @@ Route::group([
             Route::get('users/current', 'UserController@currentUser')->name("current-user");
 
             /**
+             * Stub method to allow full testing of assignment UI before attestation surveys built
+             */
+            Route::put('/dev/sign-attestation/{id}', function () {
+                $attestation = \App\Attestation::findOrFail((int)request()->id);
+                $attestation->update(['signed_at' => \Carbon\Carbon::now()]);
+                return $attestation;
+            });
+
+            /**
              * Catch-all route for generic API read exposure
              **/
     

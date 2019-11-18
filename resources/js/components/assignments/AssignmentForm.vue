@@ -38,6 +38,7 @@
                                 :volunteer="volunteer"
                                 v-on:save="saveNewExpertPanel"
                                 v-on:trainingcompleted="markTrainingCompleted"
+                                v-on:attestionsigned="signAttestation"
                             ></expert-panel-cell>
                         </td>
                     </tr>
@@ -171,9 +172,11 @@
             },
             markTrainingCompleted({id, completed_at}) {
                 markTrainingComplete(id, completed_at)
-                    .then(() => {
-                        this.$emit('saved')
-                    })                
+                    .then(() => this.$emit('saved'));                
+            },
+            signAttestation(id) {
+                axios.put('/api/dev/sign-attestation/'+id)
+                    .then(() => this.$emit('saved'));
             }
         },
         mounted() {

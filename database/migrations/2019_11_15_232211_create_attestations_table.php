@@ -17,8 +17,14 @@ class CreateAttestationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('aptitude_id');
+            $table->unsignedBigInteger('assignment_id')->nullable();
             $table->dateTime('signed_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('aptitude_id')->references('id')->on('aptitudes');
+            $table->foreign('assignment_id')->references('id')->on('assignments');
         });
     }
 

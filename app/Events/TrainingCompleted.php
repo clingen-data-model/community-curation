@@ -15,7 +15,7 @@ class TrainingCompleted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $training;
+    public $training;
 
     /**
      * Create a new event instance.
