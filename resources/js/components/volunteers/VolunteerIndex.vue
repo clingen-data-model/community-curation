@@ -88,7 +88,7 @@
                 <template v-slot:cell(assignments)="{item}">
                     <div v-if="item && item.volunteer_type_id == 2">
                         <div v-if="item && item.assignments.length > 0">
-                            <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button>
+                            <!-- <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button> -->
                             <ul class="list-unstyled">
                                 <li v-for="(ass, idx) in item.assignments" :key="idx">
                                     {{ass.curationActivity.assignable.name}}
@@ -103,13 +103,17 @@
                                 </li>
                             </ul>
                         </div>
-                        <button 
+                        <a :href="'/volunteers/'+item.id"
                             class="btn btn-sm btn-default border"
+                            >
+                                {{(item.assignments.length == 0) ? 'Assign' : 'Edit'}}
+                            </a>
+                        <!-- <button 
                             @click="addAssignmentsToVolunteer(item)" 
                             v-else
                         >
                             Assign
-                        </button>
+                        </button> -->
                     </div>
                     <div v-else class="text-muted">
                         N/A
