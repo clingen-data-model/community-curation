@@ -38,7 +38,8 @@
                                 <div v-if="assignment.needsAptitude" class="text-muted">
                                     <div v-if="assignment.training.completed_at === null">
                                         <div v-if="$store.state.user.isVolunteer()">
-                                            <a :href="assignment.training.training.materials_url" 
+                                            <!-- <pre>{{assignment.curationActivity.assignable.aptitudes[0].training_materials_url}}</pre> -->
+                                            <a :href="assignment.curationActivity.assignable.aptitudes[0].training_materials_url" 
                                                 class="btn btn-sm btn-primary"
                                                 target="training"
                                             >
@@ -50,14 +51,18 @@
                                         </div>
                                     </div>
                                     <div v-else>
-                                        awaiting attestation
                                         <div v-if="$store.state.user.isVolunteer()">
-                                            <a :href="assignment.training.training.materials_url" 
+                                            <a href="#" 
                                                 class="btn btn-sm btn-primary"
-                                                target="training"
+                                                target="attestation"
+                                                v-on:click.prevent="signAttestation(assignment.attestation.id)"
+                                                v-if="!assignment.attestation.signed_at"
                                             >
-                                                Start training
+                                                Sign Attestation
                                             </a>
+                                        </div>
+                                        <div v-else>
+                                            awaiting attestation
                                         </div>
                                     </div>
                                 </div>
@@ -153,6 +158,11 @@
             },
             syncCurrentAssignment(assignment) {
                 this.currentAssignment = assignment
+            },
+            // TODO: to be removed when attestations are build
+            signAttestation(id) {
+                axios.put('/api/dev/sign-attestation/'+id)
+                    .then(() => this.$emit('updatevolunteer'));
             }
         } 
     }

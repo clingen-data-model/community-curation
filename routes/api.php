@@ -35,6 +35,7 @@ Route::group([
              */
             Route::put('/dev/sign-attestation/{id}', function () {
                 $attestation = \App\Attestation::findOrFail((int)request()->id);
+                // dd($attestation);
                 $attestation->update(['signed_at' => \Carbon\Carbon::now()]);
                 return $attestation;
             });

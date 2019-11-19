@@ -174,6 +174,7 @@
                 markTrainingComplete(id, completed_at)
                     .then(() => this.$emit('saved'));                
             },
+            // TODO: to be removed when attestations are build
             signAttestation(id) {
                 axios.put('/api/dev/sign-attestation/'+id)
                     .then(() => this.$emit('saved'));
