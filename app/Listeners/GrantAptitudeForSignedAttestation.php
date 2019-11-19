@@ -28,9 +28,7 @@ class GrantAptitudeForSignedAttestation
     {
         $attestation = $event->attestation;
 
-        $attestation->user->aptitudes()->attach([
-            'aptitude_id' => $attestation->aptitude->id
-        ]);
+        $attestation->user->aptitudes()->syncWithoutDetaching([$attestation->aptitude->id]);
 
     }
 }
