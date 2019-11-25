@@ -23,6 +23,8 @@ class WorkingGroupsTableSeeder extends Seeder
             ['id'=>8, 'name'=>'Gene Curation Working Group'],
             ['id'=>9, 'name'=>'Neuromuscular CDWG'],
             ['id'=>10, 'name'=>'Actionability'],
+            ['id'=>11, 'name'=>'Dosage'],
+            ['id'=>12, 'name'=>'Somatic'],
         ];
 
         WorkingGroup::unguard();
@@ -30,7 +32,7 @@ class WorkingGroupsTableSeeder extends Seeder
             WorkingGroup::updateOrCreate(
                 [
                     'id'=>$group['id']
-                ], 
+                ],
                 $group
             );
         }

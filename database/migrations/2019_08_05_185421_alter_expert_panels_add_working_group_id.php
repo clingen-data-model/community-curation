@@ -14,7 +14,7 @@ class AlterExpertPanelsAddWorkingGroupId extends Migration
     public function up()
     {
         Schema::table('expert_panels', function (Blueprint $table) {
-            $table->bigInteger('working_group_id')->unsigned()->nullable();
+            $table->bigInteger('working_group_id')->unsigned()->nullable()->after('curation_activity_id');
             $table->foreign('working_group_id')->references('id')->on('working_groups');
         });
     }
