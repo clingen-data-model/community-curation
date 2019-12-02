@@ -39,17 +39,16 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->givePermissionToRole($programmer, $canViewLogsPermission);
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
-        $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($admin, 'expert-panels', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($admin, 'working-groups', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($admin, 'volunteer-statuses', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($admin, 'lookups', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update']);
+        $this->giveActionPermissionsToRole($admin, 'expert-panels', ['list', 'create','update']);
+        $this->giveActionPermissionsToRole($admin, 'working-groups', ['list', 'create','update']);
+        $this->giveActionPermissionsToRole($admin, 'volunteer-statuses', ['list', 'update']);
+        $this->giveActionPermissionsToRole($admin, 'lookups', ['list', 'create','update']);
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
 
         $coordinator = Role::firstOrCreate(['name' => 'coordinator']);
         $volunteer = Role::firstOrCreate(['name' => 'volunteer']);
-
     }
 
     protected function giveActionPermissionsToRole($role, $entity, $actions = null)
