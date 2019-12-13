@@ -2,11 +2,16 @@
 
 <template>
     <div class="component-container">
-        <div class="alert alert-info" v-if="volunteer.isBaseline() && !hasPriorities">
-            {{ ($store.state.user.isVolunteer()) ? 'You are' : 'This volunteer is' }}
-            currently a baseline volunteer.  If {{ ($store.state.user.isVolunteer()) ? 'You wish' : 'the volunteer wishes' }}
-            to become a comprehensive volunteer please <a :href="'/app-user/'+this.volunteer.id+'/survey/priorities1/new'">set priorities</a>
-            to start that process.
+        <div class="alert alert-info" v-if="!hasPriorities">
+            <div v-if="volunteer.isBaseline()">
+                {{ ($store.state.user.isVolunteer()) ? 'You are' : 'This volunteer is' }}
+                currently a baseline volunteer.  If {{ ($store.state.user.isVolunteer()) ? 'You wish' : 'the volunteer wishes' }}
+                to become a comprehensive volunteer please <a :href="'/app-user/'+this.volunteer.id+'/survey/priorities1/new'">set priorities</a>
+                to start that process.
+            </div>
+            <div v-else>
+                You haven't set any priorities.
+            </div>
             <div class="mt-2">
                 <a :href="'/app-user/'+this.volunteer.id+'/survey/priorities1/new'" class="btn btn-primary">Set Priorities</a>
             </div>
@@ -58,7 +63,9 @@
                 <a :href="prioritiesSurveyLink" class="btn btn-primary">
                     Set New Priorities
                 </a>
-                <a :href="responseLink">View complete response</a>
+                <non-volunteer>
+                    <a :href="responseLink">View complete response</a>
+                </non-volunteer>
             </div>
         </div>
 

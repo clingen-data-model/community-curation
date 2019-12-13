@@ -2,24 +2,36 @@
 
 <template>
     <div class="component-container">
+        <div v-testing="testing">
+            testing
+        </div>
+        <!-- <div v-is-volunteer>
+            i am a volunteer
+        </div>
+        <div v-not-volunteer>
+            I'm not a volunteer
+        </div> -->
         <div class="card loading text-center" v-if="loading && !volunteer.name">
             <div class="card-header">Loading volunteer...</div>
         </div>
         <div class="card card-default" v-if="!loading || volunteer.name">
             <div class="card-header">
-                <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
-                    <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
-                    <b-dropdown-item @click="showAssignmentForm = true">Update Assignments</b-dropdown-item>
-                </b-dropdown>
+                <non-volunteer>
+                    <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
+                        <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
+                        <b-dropdown-item @click="showAssignmentForm = true">Update Assignments</b-dropdown-item>
+                    </b-dropdown>
+                </non-volunteer>
                 <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3>
             </div>
             <div class="card-body">
-                <volunteer-status-alert 
-                    :volunteer="volunteer"
-                    @updatestatus="showStatusForm = true"
-                    @updatevolunteer="findVolunteer"
-                    v-if="!$store.state.user.isVolunteer()"
-                ></volunteer-status-alert>
+                <non-volunteer>
+                    <volunteer-status-alert 
+                        :volunteer="volunteer"
+                        @updatestatus="showStatusForm = true"
+                        @updatevolunteer="findVolunteer"
+                    ></volunteer-status-alert>
+                </non-volunteer>
                 <b-tabs content-class="p-3 border-left border-right border-bottom">
                     <b-tab title="Summary" active>
                         <volunteer-summary
@@ -71,6 +83,7 @@
         },
         data() {
             return {
+                testing: true,
                 loading: false,
                 volunteer: new Volunteer(),
                 application: {},

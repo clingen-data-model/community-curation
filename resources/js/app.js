@@ -27,9 +27,14 @@ Vue.use(BootstrapVue)
 import VolunteerIndex from './components/volunteers/VolunteerIndex';
 import VolunteerDetail from './components/volunteers/VolunteerDetail';
 import AssignmentForm from './components/assignments/AssignmentForm';
+import NonVolunteer from './components/NonVolunteer';
+import OnlyVolunteer from './components/OnlyVolunteer';
+
 window.Vue.component('volunteer-index', VolunteerIndex);
 window.Vue.component('volunteer-detail', VolunteerDetail);
 window.Vue.component('assignment-form', AssignmentForm);
+window.Vue.component('non-volunteer', NonVolunteer);
+window.Vue.component('only-volunteer', OnlyVolunteer);
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
@@ -40,6 +45,10 @@ window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
 
 import store from './store/index'
 import { mapActions } from 'vuex'
+
+function evaluate (el, binding, vnode) {
+    console.log(binding);
+}
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
