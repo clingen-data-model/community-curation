@@ -7,17 +7,17 @@
                     - {{volunteer.volunteer_status.name}}
             </h4>
             <div v-if="!hasAssignments">
-                <div class="text-muted" v-if="$store.state.user.isVolunteer()">
+                <only-volunteer class="text-muted">
                     A ClinGen staff member will contact you shortly about your curation activity assignment.
-                </div>
-                <div v-else>
+                </only-volunteer>
+                <non-volunteer>
                     <button 
                         class="btn btn-lg btn-primary"
                         @click="showAssignmentForm = true"
                     >
                         Assign Curation Activity
                     </button>
-                </div>
+                </non-volunteer>
             </div>
             <div v-else>
                 <table class="table table-sm" v-if="hasAssignments">
@@ -37,21 +37,20 @@
                             <td>
                                 <div v-if="assignment.needsAptitude" class="text-muted">
                                     <div v-if="assignment.training.completed_at === null">
-                                        <div v-if="$store.state.user.isVolunteer()">
-                                            <!-- <pre>{{assignment.curationActivity.assignable.aptitudes[0].training_materials_url}}</pre> -->
+                                        <only-volunteer>
                                             <a :href="assignment.curationActivity.assignable.aptitudes[0].training_materials_url" 
                                                 class="btn btn-sm btn-primary"
                                                 target="training"
                                             >
                                                 Start training
                                             </a>
-                                        </div>
-                                        <div v-if="$store.state.user.notVolunteer()">
+                                        </only-volunteer>
+                                        <non-volunteer>
                                             Needs training
-                                        </div>
+                                        </non-volunteer>
                                     </div>
                                     <div v-else>
-                                        <div v-if="$store.state.user.isVolunteer()">
+                                        <only-volunteer>
                                             <a href="#" 
                                                 class="btn btn-sm btn-primary"
                                                 target="attestation"
@@ -60,10 +59,10 @@
                                             >
                                                 Sign Attestation
                                             </a>
-                                        </div>
-                                        <div v-else>
+                                        </only-volunteer>
+                                        <non-volunteer>
                                             awaiting attestation
-                                        </div>
+                                        </non-volunteer>
                                     </div>
                                 </div>
                                 <div v-else>
@@ -75,13 +74,14 @@
                                 </div>
                             </td>
                             <td class="text-right">
-                                <button 
-                                    class="btn btn-default btn-xs border"
-                                    @click="editActivityAssignment(assignment)"
-                                    v-if="!$store.state.user.isVolunteer()"
-                                >
-                                    Edit Status
-                                </button>
+                                <non-volunteer>
+                                    <button 
+                                        class="btn btn-default btn-xs border"
+                                        @click="editActivityAssignment(assignment)"
+                                    >
+                                        Edit Status
+                                    </button>
+                                </non-volunteer>
                             </td>
                         </tr>
                     </tbody>
