@@ -29,12 +29,20 @@ import VolunteerDetail from './components/volunteers/VolunteerDetail';
 import AssignmentForm from './components/assignments/AssignmentForm';
 import NonVolunteer from './components/NonVolunteer';
 import OnlyVolunteer from './components/OnlyVolunteer';
+import DosageBasicForm from './components/attestations/forms/DosageBasic'
+import QuestionBlock from './components/forms/QuestionBlock'
+import RadioInput from './components/forms/inputs/RadioInput'
+import RadioGroup from './components/forms/inputs/RadioGroup'
 
 window.Vue.component('volunteer-index', VolunteerIndex);
 window.Vue.component('volunteer-detail', VolunteerDetail);
 window.Vue.component('assignment-form', AssignmentForm);
 window.Vue.component('non-volunteer', NonVolunteer);
 window.Vue.component('only-volunteer', OnlyVolunteer);
+window.Vue.component('dosage-basic-form', DosageBasicForm);
+window.Vue.component('question-block', QuestionBlock);
+window.Vue.component('radio-input', RadioInput);
+window.Vue.component('radio-group', RadioGroup);
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''

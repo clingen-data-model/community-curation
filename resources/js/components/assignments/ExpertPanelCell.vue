@@ -21,9 +21,8 @@
                 <div v-else>
                     <div v-if="assignment.attestation.signed_at == null">
                         <a 
-                            href="/attestation-form" 
+                            :href="`/attestations/${assignment.attestation.id}/edit`" 
                             class="btn btn-sm btn-primary"
-                            @click.prevent="emitAttestationSigned(assignment.attestation)"
                         >Sign attestation</a>
                     </div>
                     <!-- awaiting attestation -->
@@ -106,9 +105,6 @@
                     id: training.id,
                     completed_at: this.newTrainingCompletedDate
                 })
-            },
-            emitAttestationSigned(attestation) {
-                this.$emit('attestionsigned', attestation.id);
             }
         }
     

@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +28,9 @@ Route::group(['middleware' => ['auth']], function () {
         $surveySlug = class_survey()::find($surveyId)->slug;
         return redirect(route('surveys.responses.show', [$surveySlug, $responseId]));
     });
+
+    Route::resource('attestations', 'AttestationController')
+        ->only('show', 'edit');
 });
 
 Route::get('apply/thank-you', function (Request $request) {

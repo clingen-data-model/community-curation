@@ -2,8 +2,15 @@
 
 namespace App\Providers;
 
+use App\User;
+use App\Attestation;
+use App\ExpertPanel;
+use App\WorkingGroup;
 use App\Policies\UserPolicy;
 use Laravel\Passport\Passport;
+use App\Policies\AttestationPolicy;
+use App\Policies\ExpertPanelPolicy;
+use App\Policies\WorkingGroupPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -18,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         WorkingGroup::class => WorkingGroupPolicy::class,
         ExpertPanel::class => ExpertPanelPolicy::class,
+        Attestation::class => AttestationPolicy::class,
     ];
 
     /**
