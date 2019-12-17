@@ -54,7 +54,7 @@
                                             <a href="#" 
                                                 class="btn btn-sm btn-primary"
                                                 target="attestation"
-                                                v-on:click.prevent="signAttestation(assignment.attestation.id)"
+                                                :href="`/attestations/${assignment.attestation.id}/edit`"
                                                 v-if="!assignment.attestation.signed_at"
                                             >
                                                 Sign Attestation
