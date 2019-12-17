@@ -27,7 +27,7 @@
                 <tbody>
                     <tr v-for="assignment in activityCurationAssignments" :key="assignment.curationActivity.id">
                         <td
-                            :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == 2)}"
+                            :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == 4)}"
                         >
                             {{assignment.curationActivity.assignable.name}}
                         </td>

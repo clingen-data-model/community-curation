@@ -26,8 +26,8 @@ class SetVolunteerStatusToTrained
      */
     public function handle(TrainingCompleted $event)
     {
-        if ($event->training->user->volunter_status_id == config('project.volunteer_statuses.applied')) {
-            $event->training->user->update(['volunteer_status_id' => config('project.volunteer_statuses.trained')]);
+        if ($event->training->user->volunteer_status_id == config('project.volunteer-statuses.applied')) {
+            $event->training->user->update(['volunteer_status_id' => config('project.volunteer-statuses.trained')]);
         }
     }
 }

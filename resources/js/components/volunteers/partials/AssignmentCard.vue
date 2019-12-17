@@ -150,7 +150,7 @@
         },
         methods: {
             assignmentIsRetired(assignment) {
-                return assignment.assignment_status_id == 2;
+                return assignment.assignment_status_id == 4;
             },
             editActivityAssignment(assignment) {
                 this.syncCurrentAssignment(assignment);
