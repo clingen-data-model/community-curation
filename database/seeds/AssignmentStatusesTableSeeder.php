@@ -13,8 +13,8 @@ class AssignmentStatusesTableSeeder extends Seeder
     public function run()
     {
         AssignmentStatus::unguard();
-        foreach ([1 => 'active', 2=>'retired'] as $id => $name) {
-            AssignmentStatus::firstOrCreate(compact('id', 'name'));
+        foreach (config('project.assignment-statuses') as $name => $id) {
+            AssignmentStatus::firstOrCreate(compact('id'), compact('id', 'name'));
         }
         AssignmentStatus::reguard();
     }
