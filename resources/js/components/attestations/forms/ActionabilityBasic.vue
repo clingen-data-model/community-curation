@@ -1,7 +1,7 @@
 <style></style>
 
 <template>
-    <attestation-form title="Actionabilit Volunteer Attestation" :signable="allYes">
+    <attestation-form title="Actionability Volunteer Attestation" :signable="allYes">
         <p><strong>Please review the statements below and check "Yes" or "No". Then sign your name to signify that you have reviewed these training materials.</strong></p>
 
         <question-block>
