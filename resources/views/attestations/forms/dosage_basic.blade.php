@@ -1,5 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.attestation_form')
 
-@section('content')
+@section('attestation')
     <dosage-basic-form :attestation="{{$attestation}}"></dosage-basic-form>
 @endsection
