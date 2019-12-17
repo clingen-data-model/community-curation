@@ -36,17 +36,5 @@
                 type: Object
             }
         }
-        // data() {
-        // },
-        // computed: {
-        //     hasAssignments: function (){
-        //         return this.volunteer.assignments && this.volunteer.assignments.length > 0
-        //     },
-        // },
-        // methods: {
-        //     assignmentIsRetired(assignment) {
-        //         return assignment.assignment_status_id == 2;
-        //     }
-        // } 
     }
 </script>
