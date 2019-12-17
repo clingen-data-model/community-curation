@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Attestation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Contracts\AttestationFormResolver;
+use App\Http\Requests\UpdateAttestationRequest;
 
 class AttestationController extends Controller
 {
@@ -54,16 +56,20 @@ class AttestationController extends Controller
      * @param  \App\Attestation  $attestation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAttestationRequest $request, $id)
     {
         $attestation = Attestation::findOrFail($id);
         if (!Auth::user()->can('update', $attestation)) {
             return abort(403);
         }
 
-        $attestation->update(['signed_at' => $request->date, 'data' => $request->all()]);
+        $attestation->update([
+            'signed_at' => Carbon::now(), 
+            'data' => $request->except('_method', '_token')]);
 
-        return response()->json(null, 204);
+        session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');
+
+        return redirect('/volunteers/'.$attestation->user_id);
     }
 
     /**

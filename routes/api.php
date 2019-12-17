@@ -13,15 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(
-    [
-        'middleware' => 'auth:api'
-    ], 
-    function () {
-        Route::put('attestations/{id}', 'AttestationController@update');
-    }
-);
-
 Route::group([
         'namespace' => 'Api',
     ], function () {

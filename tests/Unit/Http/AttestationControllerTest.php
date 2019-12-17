@@ -66,19 +66,19 @@ class AttestationControllerTest extends TestCase
      */
     public function admin_can_update_attesation_for_volunteer()
     {
-        $this->actingAs($this->admin, 'api')
-            ->call('PUT', '/api/attestations/'.$this->attestation->id, [])
-            ->assertStatus(204);
+        $this->actingAs($this->admin)
+            ->call('PUT', '/attestations/'.$this->attestation->id, ['signed_at' => Carbon::now(), 'signature' => 1])
+            ->assertStatus(302);
     }
     
 
     /**
      * @test
      */
-    public function other_volunteer__cannot_update_attestation()
+    public function other_volunteer_cannot_update_attestation()
     {
-        $this->actingAs($this->otherVolunteer, 'api')
-            ->call('PUT', '/api/attestations/'.$this->attestation->id, ['date' => Carbon::today()])
+        $this->actingAs($this->otherVolunteer)
+            ->call('PUT', '/attestations/'.$this->attestation->id, ['signed_at' => Carbon::now(), 'signature' => 1])
             ->assertStatus(403);
     }
 
@@ -87,15 +87,14 @@ class AttestationControllerTest extends TestCase
      */
     public function volunteer_on_attestation_can_update_attestation()
     {
-        $this->withoutExceptionHandling();
-        $data = ['date' => Carbon::today()->format('Y-m-d H:i:s')];
-        $this->actingAs($this->volunteer, 'api')
-            ->call('PUT', '/api/attestations/'.$this->attestation->id, $data)
-            ->assertStatus(204);
+        $data = ['signed_at' => Carbon::today()->format('Y-m-d H:i:s'), 'signature' => 1];
+        $this->actingAs($this->volunteer)
+            ->call('PUT', '/attestations/'.$this->attestation->id, $data)
+            ->assertRedirect('/volunteers/'.$this->volunteer->id);
 
         $this->assertDatabaseHas('attestations', [
             'id' => $this->attestation->id,
-            'signed_at' => Carbon::today()->format('Y-m-d H:i:s'),
+            'signed_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
     }

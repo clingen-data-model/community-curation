@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::resource('attestations', 'AttestationController')
-        ->only('show', 'edit');
+        ->only('show', 'edit', 'update');
 });
 
 Route::get('apply/thank-you', function (Request $request) {
