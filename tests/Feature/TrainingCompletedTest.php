@@ -11,10 +11,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
- * @group attestations
  * @group training
  */
-class AttestationAssignedWhenTrainingCompletedTest extends TestCase
+class TrainingCompletedTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -40,5 +39,18 @@ class AttestationAssignedWhenTrainingCompletedTest extends TestCase
         ]);
     }
     
-    
+    /**
+     * @test
+     */
+    public function volunteer_updated_to_trained_when_first_training_complete()
+    {
+        $training = $this->volunteer->trainings()->first();
+        $training->update(['completed_at' => '2019-11-01']);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $this->volunteer->id,
+            'volunteer_status_id' => config('project.volunteer_statuses.trained')
+        ]);
+        
+    }    
 }

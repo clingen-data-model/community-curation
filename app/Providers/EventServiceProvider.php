@@ -28,10 +28,12 @@ class EventServiceProvider extends ServiceProvider
            'App\Listeners\NotifyTrainingAssigned'
        ],
        'App\Events\TrainingCompleted' => [
-           'App\Listeners\CreateAttestationForCompletedTraining'
+           'App\Listeners\CreateAttestationForCompletedTraining',
+           'App\Listeners\SetVolunteerStatusToTrained',
        ],
        'App\Events\AttestationSigned' => [
-           'App\Listeners\GrantAptitudeForSignedAttestation'
+           'App\Listeners\GrantAptitudeForSignedAttestation',
+           'App\Listeners\SetAssignmentStatusToTrained'
        ]
     ];
 
