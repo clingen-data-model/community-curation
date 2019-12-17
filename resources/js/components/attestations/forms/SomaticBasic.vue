@@ -127,7 +127,7 @@
                         && this.watchedEditingEntities === 1
                         && this.createdCIVicAccount === 1
                         && this.signedUpForPractice === 1
-                        && this.chosenTaskForce !== null
+                        && (this.chosenTaskForce !== null && this.chosenTaskForce !== '')
             }
         }
     
