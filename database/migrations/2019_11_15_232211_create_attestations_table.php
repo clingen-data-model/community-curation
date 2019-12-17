@@ -19,6 +19,7 @@ class CreateAttestationsTable extends Migration
             $table->unsignedBigInteger('aptitude_id');
             $table->unsignedBigInteger('assignment_id')->nullable();
             $table->dateTime('signed_at')->nullable();
+            $table->json('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

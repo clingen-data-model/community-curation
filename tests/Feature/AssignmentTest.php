@@ -84,7 +84,9 @@ class AssignmentTest extends TestCase
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
 
-        $this->assertEquals($volunteer->assignments->first()->training->id, $volunteer->trainings->first()->id);
+        dump($volunteer->assignments->first()->trainings->first()->id);
+
+        $this->assertEquals($volunteer->assignments->first()->trainings->first()->id, $volunteer->trainings->first()->id);
     }
     
     

@@ -2,15 +2,6 @@
 
 <template>
     <div class="component-container">
-        <div v-testing="testing">
-            testing
-        </div>
-        <!-- <div v-is-volunteer>
-            i am a volunteer
-        </div>
-        <div v-not-volunteer>
-            I'm not a volunteer
-        </div> -->
         <div class="card loading text-center" v-if="loading && !volunteer.name">
             <div class="card-header">Loading volunteer...</div>
         </div>

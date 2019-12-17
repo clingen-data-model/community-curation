@@ -22,6 +22,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->createPermissionGroup('volunteer-types', ['list','create','update','delete']);
         $this->createPermissionGroup('volunteer-statuses', ['list','create','update','delete']);
         $this->createPermissionGroup('lookups', ['list','create','update','delete']);
+        $this->createPermissionGroup('attestations', ['list','create','update','delete']);
 
         $administerPermission = Permission::firstOrCreate(['name' => 'administer']);
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
@@ -34,6 +35,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($programmer, 'volunteer-types', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'volunteer-statuses', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'lookups', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'attestations', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($programmer, $administerPermission);
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
         $this->givePermissionToRole($programmer, $canViewLogsPermission);
@@ -44,6 +46,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($admin, 'working-groups', ['list', 'create','update']);
         $this->giveActionPermissionsToRole($admin, 'volunteer-statuses', ['list', 'update']);
         $this->giveActionPermissionsToRole($admin, 'lookups', ['list', 'create','update']);
+        $this->giveActionPermissionsToRole($admin, 'attestations', ['list', 'create','update', 'delete']);
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
 

@@ -21,24 +21,17 @@ Route::group([
         Route::group([
             'middleware' => 'auth:api'
         ], function () {
-            Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
-            Route::resource('volunteers', 'VolunteerController');
             Route::resource('assignments', 'AssignmentController')
                 ->only(['index', 'store','show', 'update']);
+
             Route::resource('trainings', 'TrainingController')
                 ->only(['update']);
 
             Route::get('users/current', 'UserController@currentUser')->name("current-user");
 
-            /**
-             * Stub method to allow full testing of assignment UI before attestation surveys built
-             */
-            Route::put('/dev/sign-attestation/{id}', function () {
-                $attestation = \App\Attestation::findOrFail((int)request()->id);
-                // dd($attestation);
-                $attestation->update(['signed_at' => \Carbon\Carbon::now()]);
-                return $attestation;
-            });
+            Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
+            Route::resource('volunteers', 'VolunteerController');
+
 
             /**
              * Catch-all route for generic API read exposure

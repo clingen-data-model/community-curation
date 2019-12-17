@@ -82,6 +82,7 @@
         </nav>
 
         @include('partials.impersonate')
+        @include('partials.messages')
         <main class="py-4 container">
             @yield('content')
         </main>

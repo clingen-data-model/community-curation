@@ -29,12 +29,32 @@ import VolunteerDetail from './components/volunteers/VolunteerDetail';
 import AssignmentForm from './components/assignments/AssignmentForm';
 import NonVolunteer from './components/NonVolunteer';
 import OnlyVolunteer from './components/OnlyVolunteer';
+import QuestionBlock from './components/forms/QuestionBlock'
+import RadioInput from './components/forms/inputs/RadioInput'
+import RadioGroup from './components/forms/inputs/RadioGroup'
+
+import AttestationForm from './components/attestations/AttestationForm'
+import ActionabilityBasicForm from './components/attestations/forms/ActionabilityBasic'
+import DosageBasicForm from './components/attestations/forms/DosageBasic'
+import GeneBasicForm from './components/attestations/forms/GeneBasic'
+import SomaticBasicForm from './components/attestations/forms/SomaticBasic'
+import VariantBasicForm from './components/attestations/forms/VariantBasic'
 
 window.Vue.component('volunteer-index', VolunteerIndex);
 window.Vue.component('volunteer-detail', VolunteerDetail);
 window.Vue.component('assignment-form', AssignmentForm);
 window.Vue.component('non-volunteer', NonVolunteer);
 window.Vue.component('only-volunteer', OnlyVolunteer);
+window.Vue.component('question-block', QuestionBlock);
+window.Vue.component('radio-input', RadioInput);
+window.Vue.component('radio-group', RadioGroup);
+
+window.Vue.component('attestation-form', AttestationForm);
+window.Vue.component('actionability-basic-form', ActionabilityBasicForm);
+window.Vue.component('dosage-basic-form', DosageBasicForm);
+window.Vue.component('gene-basic-form', GeneBasicForm);
+window.Vue.component('somatic-basic-form', SomaticBasicForm);
+window.Vue.component('variant-basic-form', VariantBasicForm);
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''

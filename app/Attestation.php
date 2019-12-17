@@ -18,7 +18,8 @@ class Attestation extends Model
         'aptitude_id',
         'user_id',
         'assignment_id',
-        'signed_at'
+        'signed_at',
+        'data'
     ];
     protected $dates = [
         'signed_at'
@@ -26,6 +27,10 @@ class Attestation extends Model
 
     protected $dispatchesEvents = [
         'created' => AttestationCreated::class
+    ];
+
+    protected $casts = [
+        'data' => 'array'
     ];
 
     public static function boot()
