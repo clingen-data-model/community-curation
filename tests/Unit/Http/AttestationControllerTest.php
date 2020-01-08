@@ -58,7 +58,6 @@ class AttestationControllerTest extends TestCase
         $this->actingAs($this->volunteer)
             ->call('GET', '/attestations/'.$this->attestation->id.'/edit')
             ->assertStatus(200);
-
     }
 
     /**
@@ -96,9 +95,5 @@ class AttestationControllerTest extends TestCase
             'id' => $this->attestation->id,
             'signed_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-
     }
-
-
-    
 }
