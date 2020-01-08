@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d091e049e94ad972549d0614c1068369",
+    "content-hash": "8fe4a658cd3f1bd7a334196d3e50cbd2",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -3583,16 +3583,16 @@
         },
         {
             "name": "sirs/surveys",
-            "version": "4.0.x-dev",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/shepsweb/sirs-surveys.git",
-                "reference": "962f81da06522c614a794c5a0c845da5cfc5102f"
+                "reference": "c1af049427c62ad599331a30791b76e0a2d3652f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/shepsweb/sirs-surveys/get/962f81da06522c614a794c5a0c845da5cfc5102f.zip",
-                "reference": "962f81da06522c614a794c5a0c845da5cfc5102f",
+                "url": "https://bitbucket.org/shepsweb/sirs-surveys/get/c1af049427c62ad599331a30791b76e0a2d3652f.zip",
+                "reference": "c1af049427c62ad599331a30791b76e0a2d3652f",
                 "shasum": ""
             },
             "require": {
@@ -3638,7 +3638,7 @@
             ],
             "description": "Package for rapidly building surveys with data dictionaries and response storage",
             "homepage": "https://bitbucket.org/shepsweb/sirs-surveys",
-            "time": "2019-09-09T14:22:39+00:00"
+            "time": "2020-01-08T15:18:32+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",
@@ -5549,6 +5549,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2019-07-10T16:13:25+00:00"
         }
     ],
@@ -7590,7 +7591,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "sirs/surveys": 20,
         "laracasts/generators": 20
     },
     "prefer-stable": true,
