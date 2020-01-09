@@ -16,7 +16,6 @@ class CreateUploadsTable extends Migration
         Schema::create('uploads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->string('file_name');
             $table->string('file_path');
             $table->timestamps();
             $table->softDeletes();

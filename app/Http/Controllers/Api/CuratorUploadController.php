@@ -24,7 +24,7 @@ class CuratorUploadController extends Controller
         $query = Upload::query();
 
         if ($request->has('where')) {
-            foreach($validated['where'] as $key => $val) {
+            foreach ($validated['where'] as $key => $val) {
                 $query->where($key, $val);
             }
         }
@@ -71,11 +71,13 @@ class CuratorUploadController extends Controller
         $upload = Upload::create([
             'user_id' => $request->user_id,
             'name' => $request->name ?? $originalFileName,
-            'file_name' => $originalFileName,
             'file_path' => $path,
             'upload_category_id' => $request->upload_category_id,
             'notes' => $request->notes
         ]);
+        $upload->load('category');
+        
+        return new UploadResource($upload);
     }
 
     /**
@@ -109,7 +111,7 @@ class CuratorUploadController extends Controller
             return response(null, 404);
         }
 
-        return Storage::download($upload->file_path);    
+        return Storage::download($upload->file_path);
     }
     
     /**
@@ -141,7 +143,7 @@ class CuratorUploadController extends Controller
     public function destroy($id)
     {
         $upload = Upload::find($id);
-        if(!Auth::user()->can('delete', $upload)) {
+        if (!Auth::user()->can('delete', $upload)) {
             return response(null, 403);
         }
 

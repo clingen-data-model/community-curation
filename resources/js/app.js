@@ -10,6 +10,7 @@ import getAllCurationActivities from './resources/curation_activities/get_all_cu
 import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
 import BootstrapVue from 'bootstrap-vue'
+import moment from 'moment'
 
 Vue.use(BootstrapVue)
 
@@ -59,6 +60,14 @@ window.Vue.component('variant-basic-form', VariantBasicForm);
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
+})
+
+Vue.filter('formatDate', function (dateString, format = 'YYYY-MM-DD HH:mm') {
+    if (dateString === null) {
+        return null;
+    }
+
+    return moment(dateString).format(format)
 })
 
 window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
