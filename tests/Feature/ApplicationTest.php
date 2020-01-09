@@ -72,7 +72,8 @@ class ApplicationTest extends TestCase
     public function creates_a_new_volunteer_user_on_finalized_and_sets_as_respondent()
     {
         $rsp = $this->survey->getNewResponse(null);
-        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->volunteer_type   = 1;
         $rsp->street1 = '123 test street';
@@ -84,7 +85,8 @@ class ApplicationTest extends TestCase
 
 
         $this->assertDatabaseHas('users', [
-            'name' => 'billy pilgrim',
+            'first_name' => 'billy',
+            'last_name' => 'pilgrim',
             'email' => 'test@test.com'
         ]);
 
@@ -105,7 +107,8 @@ class ApplicationTest extends TestCase
     public function removes_response_from_session_if_baseline()
     {
         $rsp = $this->survey->getNewResponse(null);
-        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->volunteer_type   = 1;
         $rsp->finalize();
@@ -120,7 +123,8 @@ class ApplicationTest extends TestCase
     public function redirects_to_thank_you_if_baseline()
     {
         $rsp = $this->survey->getNewResponse(null);
-        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->volunteer_type   = 1;
         $rsp->save();
@@ -135,7 +139,8 @@ class ApplicationTest extends TestCase
     public function stores_priorities()
     {
         $rsp = $this->survey->getNewResponse(null);
-        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->volunteer_type   = 2;
         $rsp->curation_activity_1 = 1;
@@ -174,7 +179,8 @@ class ApplicationTest extends TestCase
     public function system_sends_volunteer_an_email_when_they_completed_their_application()
     {
         $rsp = $this->survey->getNewResponse(null);
-        $rsp->applicant_name = 'billy pilgrim';
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->save();
 

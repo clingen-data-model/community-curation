@@ -15,7 +15,8 @@ class UsersTableSeeder extends Seeder
         User::unguard();
         $programmer = User::firstOrCreate(['id'=>1],[
             'id' => 1,
-            'name' => 'Sirs Programmer',
+            'first_name' => 'Sirs',
+            'last_name' => 'Programmer',
             'email' => 'sirs@unc.edu',
             'password' => \Hash::make('tester'),
             'country_id' => 225
@@ -27,7 +28,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'admin@test.com',
             ],
             [
-                'name' => 'Admin Tester',
+                'first_name' => 'Tester',
+                'last_name' => 'Admin',
                 'email' => 'admin@test.com',
                 'password' => \Hash::make('tester'),
                 'country_id' => 225
@@ -40,7 +42,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'coordinator@test.com',
             ],
             [
-                'name' => 'Coordinator Tester',
+                'first_name' => 'Coordinator',
+                'last_name' => 'Tester',
                 'email' => 'coordinator@test.com',
                 'password' => \Hash::make('tester'),
                 'country_id' => 225
@@ -53,7 +56,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'basic@test.com',
             ],
             [
-                'name' => 'Basic Volunteer',
+                'first_name' => 'Basic',
+                'last_name' => 'Volunteer',
                 'email' => 'basic@test.com',
                 'password' => \Hash::make('tester'),
                 'volunteer_status_id' => 1,
@@ -68,7 +72,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'comprehensive@test.com',
             ],
             [
-                'name' => 'Comprehensive Volunteer',
+                'first_name' => 'Comprehensive',
+                'last_name' => 'Volunteer',
                 'email' => 'comprehensive@test.com',
                 'password' => \Hash::make('tester'),
                 'volunteer_status_id' => 1,

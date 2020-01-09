@@ -32,7 +32,8 @@ class CreateVolunteerFromApplication
     public function handle()
     {
         $user = User::create([
-            'name' => $this->response->applicant_name,
+            'first_name' => $this->response->first_name,
+            'last_name' => $this->response->last_name,
             'email' => $this->response->email,
             'password' => \Hash::make(uniqid()),
             'street1' => $this->response->street1,
