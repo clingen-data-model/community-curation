@@ -19,7 +19,7 @@ class AptitudesTableSeeder extends Seeder
                 'name' => 'Actionability, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 1,
-                'training_materials_url' => 'https://www.google.com',
+                'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/clinical-actionability/training-materials/',
                 'volunteer_type_id' => 2
             ],
             [
@@ -27,7 +27,7 @@ class AptitudesTableSeeder extends Seeder
                 'name' => 'Dosage, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 2,
-                'training_materials_url' => 'https://www.google.com',
+                'training_materials_url' => 'https://clinicalgenome.org/curation-activities/dosage-sensitivity/training-materials/',
                 'volunteer_type_id' => 2
             ],
             [
@@ -35,7 +35,8 @@ class AptitudesTableSeeder extends Seeder
                 'name' => 'Gene, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 3,
-                'training_materials_url' => 'https://www.google.com',
+                'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/gene-disease-validity/training-materials/
+',
                 'volunteer_type_id' => 2
             ],
             [
@@ -43,7 +44,7 @@ class AptitudesTableSeeder extends Seeder
                 'name' => 'Somantic Variant, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 4,
-                'training_materials_url' => 'https://www.google.com',
+                'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/somatic/training-materials/',
                 'volunteer_type_id' => 2
             ],
             [
@@ -51,7 +52,7 @@ class AptitudesTableSeeder extends Seeder
                 'name' => 'Variant, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 5,
-                'training_materials_url' => 'https://www.google.com',
+                'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/variant-pathogenicity/training-materials/',
                 'volunteer_type_id' => 2
             ],
             [
