@@ -15,11 +15,10 @@ class CreateSurveyRspApplication1 extends Migration
         
         Schema::create('rsp_application_1', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            // $table->morphs('respondent');
-            $table->unsignedBigInteger('respondent_id')->nullable();
-            $table->string('respondent_type')->nullable();
+            $table->nullableMorphs('respondent');
             $table->integer('survey_id')->unsigned();
-            $table->string('applicant_name')->nullable();
+            $table->string('first_name')->nullable();
+			$table->string('last_name')->nullable();
 			$table->string('institution')->nullable();
 			$table->string('street1')->nullable();
 			$table->string('street2')->nullable();

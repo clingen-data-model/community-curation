@@ -21,34 +21,40 @@
     </page>
 
     <page name="demographic" title="Demographic Questions">
-        <question name="applicant_name" id="applicant_name" required="true">
-            <question-text>Name*</question-text>
-        </question>
+        <question-group name="name-grp" id="name-grp">      
+            <template source="surveys.first_last_name"></template>      
+            <question name="first_name" id="first_name" required="true" placeholder="First">
+                <question-text>First Name*</question-text>
+            </question>
+            <question name="last_name" id="last_name" required="true" placeholder="Last">
+                <question-text>Last Name*</question-text>
+            </question>
+        </question-group>
         <question name="institution" id="institution" required="true">
             <question-text>Institution*</question-text>
         </question>
 
         <question-group name="address-group" id="address-group">            
             <template source="surveys::containers.address_container"></template>
-            <question name="street1" id="street1" required="true">
-                <question-text>Street*</question-text>
+            <question name="street1" id="street1">
+                <question-text>Street</question-text>
             </question>
             <question name="street2" id="street2">
                 <question-text>Street 2</question-text>
             </question>
-            <question name="city" id="city" required="true">
-                <question-text>City*</question-text>
+            <question name="city" id="city">
+                <question-text>City</question-text>
             </question>
-            <question name="state" id="state" required="true">
-                <question-text>State*</question-text>
+            <question name="state" id="state">
+                <question-text>State</question-text>
             </question>
-            <question name="zip" id="zip" required="true">
-                <question-text>Zip*</question-text>
+            <question name="zip" id="zip">
+                <question-text>Zip</question-text>
             </question>
-            <multiple-choice name="country_id" id="country_id" num-selectable="1" required="true">
+            <multiple-choice name="country_id" id="country_id" num-selectable="1">
                 <template source="surveys::questions.multiple_choice.select"></template>
                 <question-text>
-                    <![CDATA[Country*]]>
+                    <![CDATA[Country]]>
                 </question-text>
                 <options>
                     <data-source URI="\App\Country@allAsOptions"></data-source>
@@ -56,7 +62,7 @@
             </multiple-choice>
         </question-group>
 
-        <question name="email" id="email" required="true">
+        <question name="email" id="email" required="true" validation-rules="unique:users,email">
             <question-text>Email address*</question-text>
         </question>
         <multiple-choice name="timezone" id="timezone" num-selectable="1">
