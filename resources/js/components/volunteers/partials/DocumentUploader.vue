@@ -106,7 +106,7 @@
                 formData.append('notes', this.newUpload.notes);
 
                 return window.axios.post(
-                    '/api/curator-uploads/', 
+                    '/api/curator-uploads', 
                     formData,
                     {
                         headers: {
