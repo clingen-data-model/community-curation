@@ -14,9 +14,10 @@
 // Sirs-Surveys
 @import './sirs-surveys.scss';
 
+$theme-colors: ("grey": #999);
 
-.card > .card-header > h1,
-.card > .card-header > h2 {
+.card>.card-header>h1,
+.card>.card-header>h2 {
     margin-bottom: 0;
 }
 

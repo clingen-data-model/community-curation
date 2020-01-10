@@ -37,6 +37,9 @@
                     <b-tab title="Priorities">
                         <priorities-list :volunteer="volunteer"></priorities-list>
                     </b-tab>
+                    <b-tab title="Documents">
+                        <documents-card :volunteer="volunteer"></documents-card>
+                    </b-tab>
                 </b-tabs>
             </div>
         </div>
@@ -57,6 +60,7 @@
     import StatusForm from './partials/StatusForm'
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import Volunteer from '../../entities/volunteer'
+    import DocumentsCard from './partials/DocumentsCard'
 
     export default {
         props: {
@@ -71,6 +75,7 @@
             ApplicationData,
             PrioritiesList,
             StatusForm,
+            DocumentsCard
         },
         data() {
             return {

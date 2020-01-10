@@ -27,10 +27,14 @@ Route::group([
             Route::resource('trainings', 'TrainingController')
                 ->only(['update']);
 
-            Route::get('users/current', 'UserController@currentUser')->name("current-user");
-
+                
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
             Route::resource('volunteers', 'VolunteerController');
+
+            Route::get('users/current', 'UserController@currentUser')->name("current-user");
+
+            Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')->name('curator-upload-file');
+            Route::resource('curator-uploads', 'CuratorUploadController')->only(['index', 'show', 'store', 'update', 'destroy']);
 
 
             /**

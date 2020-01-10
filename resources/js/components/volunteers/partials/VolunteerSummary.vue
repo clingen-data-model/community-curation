@@ -28,7 +28,8 @@
 
     export default {
         components: {
-            AssignmentCard, ContactInfoCard
+            AssignmentCard, 
+            ContactInfoCard,
         },
         props: {
             volunteer: {

@@ -32,6 +32,7 @@
     <li><a href="{{ backpack_url('interest') }}"><i class="fa fa-list"></i> <span>Interests</span></a></li>
     <li><a href="{{ backpack_url('motivation') }}"><i class="fa fa-list"></i> <span>Motivations</span></a></li>
     <li><a href="{{ backpack_url('self-description') }}"><i class="fa fa-list"></i> <span>Self-descriptions</span></a></li>
+    <li><a href="{{ backpack_url('upload-category') }}"><i class="fa fa-list"></i> <span>Upload Categories</span></a></li>
 @endcan
 
 <hr>

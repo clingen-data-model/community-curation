@@ -10,6 +10,7 @@ import getAllCurationActivities from './resources/curation_activities/get_all_cu
 import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
 import BootstrapVue from 'bootstrap-vue'
+import moment from 'moment'
 
 Vue.use(BootstrapVue)
 
@@ -40,6 +41,9 @@ import GeneBasicForm from './components/attestations/forms/GeneBasic'
 import SomaticBasicForm from './components/attestations/forms/SomaticBasic'
 import VariantBasicForm from './components/attestations/forms/VariantBasic'
 
+import ValidationError from './components/ValidationError';
+window.Vue.component('validation-error', ValidationError);
+
 window.Vue.component('volunteer-index', VolunteerIndex);
 window.Vue.component('volunteer-detail', VolunteerDetail);
 window.Vue.component('assignment-form', AssignmentForm);
@@ -59,6 +63,14 @@ window.Vue.component('variant-basic-form', VariantBasicForm);
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
+})
+
+Vue.filter('formatDate', function (dateString, format = 'YYYY-MM-DD HH:mm') {
+    if (dateString === null) {
+        return null;
+    }
+
+    return moment(dateString).format(format)
 })
 
 window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
