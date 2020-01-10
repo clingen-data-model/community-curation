@@ -10,25 +10,28 @@
             @ok="uploadFile"
             @cancel="clearForm"
             ref="uploadModal"
+            :ok-disabled="uploading"
+            :cancel-disabled="uploading"
+            :ok-title="uploading ? 'Uploading...' : 'Upload'"
         >
             <div class="form-row">
                 <label class="col-sm-2" for="file-field">File:</label>
                 <div class="col-sm-10">
-                    <input type="file" ref="uploadField" class="form-control-file" id="file-field" @change="prepopulateName()">
+                    <input type="file" ref="uploadField" class="form-control-file" id="file-field" @change="prepopulateName()" :disabled="uploading">
                     <validation-error :errors="errors.file"></validation-error>
                 </div>
             </div>
             <div class="form-row">
                 <label class="col-sm-2" for="name">Name:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control form-control-sm" id="name" v-model="newUpload.name" maxlength="255">
+                    <input type="text" class="form-control form-control-sm" id="name" v-model="newUpload.name" maxlength="255" :disabled="uploading">
                     <validation-error :errors="errors.name"></validation-error>
                 </div>
             </div>
             <div class="form-row">
                 <label for="category_id" class="col-sm-2">Category:</label>
                 <div class="col-sm-10">
-                    <select name="category_id" id="category_id" class="form-control form-control-sm" v-model="newUpload.upload_category_id">
+                    <select name="category_id" id="category_id" class="form-control form-control-sm" v-model="newUpload.upload_category_id" :disabled="uploading">
                         <option value="">None</option>
                         <option 
                             v-for="category in categories"
@@ -46,7 +49,16 @@
                     Notes:
                 </label>
                 <div class="col-sm-10">
-                    <textarea name="notes" v-model="newUpload.notes" id="notes" cols="30" rows="5" class="form-control form-control-sm" maxlegnth="65535"></textarea>
+                    <textarea 
+                        name="notes" 
+                        v-model="newUpload.notes" 
+                        id="notes" 
+                        cols="30" 
+                        rows="5" 
+                        class="form-control form-control-sm" 
+                        maxlegnth="65535"
+                        :disabled="uploading"
+                    ></textarea>
                     <validation-error :errors="errors.notes"></validation-error>
                 </div>
             </div>
@@ -67,7 +79,8 @@
                 showModal: false,
                 categories: [],
                 newUpload: {},
-                errors: {}
+                errors: {},
+                uploading: false
             }
         },
         methods: {
@@ -105,6 +118,8 @@
                 formData.append('upload_category_id', this.newUpload.upload_category_id);
                 formData.append('notes', this.newUpload.notes);
 
+                this.uploading = true;
+
                 return window.axios.post(
                     '/api/curator-uploads', 
                     formData,
@@ -124,8 +139,13 @@
                         this.errors = error.response.data.errors
                         return
                     }
+                    if (error.response.status == 413) {
+                        this.errors = {file: ['The file was too large']}
+                        return;
+                    }
                     alert('There was an unkown problem with your file upload.');
                 })
+                .then(() => {this.uploading = false})
         
             },
             launchFileSelector() {
