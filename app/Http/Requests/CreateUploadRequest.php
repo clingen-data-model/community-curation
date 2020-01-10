@@ -24,9 +24,11 @@ class CreateUploadRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'nullable|string|max:255',
             'file' => 'required|file',
             'user_id' => 'required|exists:users,id',
-            'upload_category_id' => 'nullable|exists:upload_categories,id'
+            'upload_category_id' => 'nullable|exists:upload_categories,id',
+            'notes' => 'nullable|max:65535'
         ];
     }
 }

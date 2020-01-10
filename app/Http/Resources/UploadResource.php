@@ -18,6 +18,7 @@ class UploadResource extends JsonResource
         $data = parent::toArray($request);
         $data['file_url'] = url(Storage::url('curator_uploads/'.$this->id.'/file'));
         $data['category'] = new DefaultResource($this->whenLoaded('category'));
+        $data['uploader'] = new DefaultResource($this->whenLoaded('uploader'));
         
         return $data;
     }

@@ -6,42 +6,52 @@
         <div class="alert alert-light border" v-if="!loadingDocuments && documents.length == 0">
             No documents found
         </div>
-        <table class="table table-sm table-striped" v-if="!loadingDocuments && documents.length > 0">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Created</th>
-                <th>&nbsp;</th>
-            </tr>
-            <template v-for="document in documents">
-                <tr :key="document.id">
-                    <td>{{document.id}}</td>
-                    <td>{{document.name}}</td>
-                    <td>{{document.category ? document.category.name : ''}}</td>
-                    <td>{{document.created_at | formatDate('YYYY-MM-DD')}}</td>
-                    <td>
-                        <a href="#" @click.prevent="downloadFile(document)">
-                            <i class="material-icons">cloud_download</i>
-                        </a>
-                        <a href="#" @click.prevent="showDetails(document)">
-                            <i class="material-icons">info</i>
-                        </a>
-                    </td>
-                </tr>
-            </template>
-        </table>
-        <b-modal v-model="showDetailedInfo" hide-footer v-if="currentDocument" :title="currentDocument.name">
-            <div class="row">
-                <div class="col-sm-2">Category:</div>
-                <div class="col-sm-10">{{currentDocument.category ? currentDocument.category.name : '--'}}</div>
+        <div v-if="documents.length > 0">
+            <div class="form-inline mb-1">
+                <label for="list-filter-input">Filter:</label>&nbsp;
+                <input type="text" class="form-control form-control-sm" v-model="filter">
             </div>
-            <div class="row">
-                <div class="col-sm-2">Notes:</div>
-                <div class="col-sm-10">{{currentDocument.notes ? currentDocument.notes : '--'}}</div>
-            </div>
+            <b-table :fields="fields" :items="documents" :filter="filter" :filter-included-fields="filteredFields">
+                <template v-slot:cell(action)="{item: document}">
+                    <a href="#" @click.prevent="downloadFile(document)" title="Download document">
+                        <i class="material-icons">cloud_download</i>
+                    </a>
+                    <a href="#" @click.prevent="showDetails(document)" title="Detailed information">
+                        <i class="material-icons">info</i>
+                    </a>
+                    <a href="#" title="Delete document" class="text-danger" @click.prevent="deleteDocument(document)" v-if="user.id == document.uploader_id">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </template>    
+            </b-table>
+        </div>
+        <b-modal v-model="showDetailedInfo" hide-footer v-if="currentDocument" :title="currentDocument.name" size="lg">
+            <dl class="row">
+                    <dt class="col-md-2">Name:</dt>
+                    <dd class="col-md-10">{{currentDocument.name}}</dd>
+
+                    <dt class="col-md-2">File name:</dt>
+                    <dd class="col-md-10">{{currentDocument.file_name ? currentDocument.file_name : '--'}}</dd>
+
+                    <dt class="col-md-2">Category:</dt>
+                    <dd class="col-md-10">{{currentDocument.category ? currentDocument.category.name : '--'}}</dd>
+
+                    <dt class="col-md-2">Date uploaded:</dt>
+                    <dd class="col-md-10">{{currentDocument.created_at | formatDate('YYYY-MM-DD')}}</dd>
+
+                    <dt class="col-md-2">Uploaded by:</dt>
+                    <dd class="col-md-10">{{(currentDocument.uploader) ? currentDocument.uploader.name : '--'}}</dd>
+
+                    <dt class="col-md-2">Notes:</dt>
+                    <dd class="col-md-10">{{currentDocument.notes ? currentDocument.notes : '--'}}</dd>
+
+            </dl>
             <div class="mt-2">
-                <button class="btn btn-primary text-middle btn-sm">
+                <button 
+                    class="btn btn-primary text-middle btn-sm"
+                    @click="downloadFile(currentDocument)"
+                    title="Download document"
+                >
                     Download document
                 </button>
             </div>
@@ -51,6 +61,8 @@
 
 <script>
     import DocumentUploader from './DocumentUploader'
+    import getAllUploads from '../../../resources/uploads/get_all_uploads'
+    import { mapGetters } from 'vuex';
 
     export default {
         components: {
@@ -67,17 +79,50 @@
                 showDetailedInfo: false,
                 loadingDocuments: false,
                 documents: [],
-                currentDocument: null
+                currentDocument: null,
+                filter: '',
+                fields: [
+                    {
+                        key: 'id',
+                        sortable: true
+                    },
+                    {
+                        key: 'name',
+                        sortable: true
+                    },
+                    {
+                        key: 'category.name',
+                        sortable: true,
+                        label: 'Category'
+                    },
+                    {
+                        key: 'created_at',
+                        label: 'Created',
+                        sortable: true,
+                        formatter: (value, key, item) => {
+                            return this.$options.filters.formatDate(value, 'YYYY-MM-DD')
+                        }
+                    },
+                    {
+                        key: 'uploader.name',
+                        label: 'Uploaded by',
+                        sortable: true
+                    },
+                    'action'
+                ],
+                filteredFields: ['name', 'id', 'category', 'uploader', 'uploader']
             }
         },
+        computed: {
+            ...mapGetters({
+                user: 'getUser'
+            })
+        },
         methods: {
-            getDocuments() {
+            async getDocuments() {
                 this.loadingDocuments = true;
-                axios.get('/api/curator-uploads?with[]=category&where[user_id]='+this.volunteer.id)
-                    .then(response => {
-                        this.documents = response.data.data;
-                    })
-                    .then(() => this.loadingDocuments = false)
+                this.documents = await getAllUploads('with[]=category&with[]=uploader&where[user_id]='+this.volunteer.id)
+                this.loadingDocuments = false;
             },
             showDetails(document) {
                 console.log('farts')
@@ -110,6 +155,14 @@
 
                         throw error;
                     })
+            },
+            deleteDocument(document) {
+                if (confirm('Are you sure you want to delete the document '+document.name+'?')) {
+                    axios.delete('/api/curator-uploads/'+document.id)
+                        .then(response => {
+                            this.getDocuments();
+                        })
+                }
             }
         },
         mounted() {

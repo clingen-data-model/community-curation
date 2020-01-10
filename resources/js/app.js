@@ -41,6 +41,9 @@ import GeneBasicForm from './components/attestations/forms/GeneBasic'
 import SomaticBasicForm from './components/attestations/forms/SomaticBasic'
 import VariantBasicForm from './components/attestations/forms/VariantBasic'
 
+import ValidationError from './components/ValidationError';
+window.Vue.component('validation-error', ValidationError);
+
 window.Vue.component('volunteer-index', VolunteerIndex);
 window.Vue.component('volunteer-detail', VolunteerDetail);
 window.Vue.component('assignment-form', AssignmentForm);

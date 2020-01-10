@@ -102,9 +102,9 @@ class UploadPolicy
             return true;
         }
 
-        // if ($user->id == $upload->user_id) {
-        //     return true;
-        // }
+        if ($user->id == $upload->uploader_id) {
+            return true;
+        }
 
         return false;
     }

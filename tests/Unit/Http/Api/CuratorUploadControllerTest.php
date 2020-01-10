@@ -63,7 +63,7 @@ class CuratorUploadControllerTest extends TestCase
                 'file' => $this->dummyFile,
                 'user_id' => $this->volunteer->id
             ])
-            ->assertStatus(200);
+            ->assertStatus(201);
         $expectedPath = static::UPLOAD_PATH.$this->dummyFile->hashName();
         unlink(storage_path('app/'.$expectedPath));
     }
@@ -80,7 +80,7 @@ class CuratorUploadControllerTest extends TestCase
                 'file' => $this->dummyFile,
                 'user_id' => $this->volunteer->id
             ])
-            ->assertStatus(200);
+            ->assertStatus(201);
 
         $expectedPath = static::UPLOAD_PATH.$this->dummyFile->hashName();
         $this->assertTrue(file_exists(storage_path('app/'.$expectedPath)));

@@ -20,7 +20,8 @@ class Upload extends Model
         'notes',
         'file_name',
         'file_path',
-        'upload_category_id'
+        'upload_category_id',
+        'uploader_id'
     ];
 
     protected static function boot()
@@ -28,6 +29,12 @@ class Upload extends Model
         parent::boot();
 
         static::addGlobalScope(new CuratorUploadScope);
+
+        static::creating(function ($upload) {
+            if (!$upload->uploader_id && \Auth::user()) {
+                $upload->uploader_id = \Auth::user()->id;
+            }
+        });
     }
 
     public function user()
@@ -35,6 +42,12 @@ class Upload extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function uploader()
+    {
+        return $this->belongsTo(User::class, 'uploader_id');
+    }
+    
+    
     public function category()
     {
         return $this->belongsTo(UploadCategory::class, 'upload_category_id');

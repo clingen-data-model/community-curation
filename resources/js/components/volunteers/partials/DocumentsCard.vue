@@ -1,7 +1,7 @@
 <style></style>
 
 <template>
-    <div class="card p-3">
+    <div>
         <h4>
             <document-uploader 
                 :volunteer="volunteer" 

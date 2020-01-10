@@ -8,18 +8,28 @@
             v-model="showModal"
             title="Upload a Document"
             @ok="uploadFile"
+            @cancel="clearForm"
+            ref="uploadModal"
         >
             <div class="form-row">
-                <label class="col-sm-2" for="file-name">File:</label>
+                <label class="col-sm-2" for="file-field">File:</label>
                 <div class="col-sm-10">
-                    <input type="file" ref="uploadField" class="form-control-file form-control-sm">
+                    <input type="file" ref="uploadField" class="form-control-file" id="file-field" @change="prepopulateName()">
+                    <validation-error :errors="errors.file"></validation-error>
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-2" for="name">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-sm" id="name" v-model="newUpload.name" maxlength="255">
+                    <validation-error :errors="errors.name"></validation-error>
                 </div>
             </div>
             <div class="form-row">
                 <label for="category_id" class="col-sm-2">Category:</label>
                 <div class="col-sm-10">
                     <select name="category_id" id="category_id" class="form-control form-control-sm" v-model="newUpload.upload_category_id">
-                        <option :value="null">None</option>
+                        <option value="">None</option>
                         <option 
                             v-for="category in categories"
                             :key="category.id"
@@ -28,6 +38,7 @@
                             {{category.name}}
                         </option>
                     </select>
+                    <validation-error :errors="errors.upload_category_id"></validation-error>
                 </div>
             </div>
             <div class="form-row">
@@ -35,7 +46,8 @@
                     Notes:
                 </label>
                 <div class="col-sm-10">
-                    <textarea name="notes" v-model="newUpload.notes" id="notes" cols="30" rows="5" class="form-control"></textarea>
+                    <textarea name="notes" v-model="newUpload.notes" id="notes" cols="30" rows="5" class="form-control form-control-sm" maxlegnth="65535"></textarea>
+                    <validation-error :errors="errors.notes"></validation-error>
                 </div>
             </div>
         </b-modal>
@@ -54,7 +66,8 @@
             return {
                 showModal: false,
                 categories: [],
-                newUpload: this.initNewUpload()
+                newUpload: {},
+                errors: {}
             }
         },
         methods: {
@@ -63,20 +76,36 @@
                     .then(response => this.categories = response.data.data)
             },
             initNewUpload() {
-                return {
-                    upload_category_id: null,
+                this.newUpload = {
+                    name: '',
+                    upload_category_id: '',
                     notes: ''
                 }
             },
-            uploadFile() {
-                console.log('uploadFile');
+            initErrors() {
+                this.errors = {}
+            },
+            clearForm() {
+                this.initNewUpload();
+                this.initErrors();
+            },
+            prepopulateName() {
+                if (this.newUpload.name == '') {
+                    this.newUpload.name = this.$refs.uploadField.files[0].name;
+                }
+            },
+            uploadFile(evt) {
+                this.initErrors();
+                evt.preventDefault();
+
                 let formData = new FormData();
                 formData.append('user_id', this.volunteer.id);
+                formData.append('name', this.newUpload.name);
                 formData.append('file', this.$refs.uploadField.files[0]);
                 formData.append('upload_category_id', this.newUpload.upload_category_id);
                 formData.append('notes', this.newUpload.notes);
 
-                window.axios.post(
+                return window.axios.post(
                     '/api/curator-uploads/', 
                     formData,
                     {
@@ -86,14 +115,18 @@
                     }
                 )
                 .then(response => {
-                    this.$emit('uploaded')
-                    this.newUpload = this.initNewUpload();
+                    this.$emit('uploaded');
+                    this.clearForm();
+                    this.$nextTick(() => this.$refs.uploadModal.hide());
                 })
                 .catch(error => {
-                    console.log(error);
-                    alert('There was a problem with your file upload');
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors
+                        return
+                    }
+                    alert('There was an unkown problem with your file upload.');
                 })
-
+        
             },
             launchFileSelector() {
                 this.$refs.uploadField.click();
@@ -101,6 +134,8 @@
         },
         mounted() {
             this.getUploadCategories();
+            this.initNewUpload();
+            this.initErrors();
         }
     
 }

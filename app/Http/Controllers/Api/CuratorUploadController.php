@@ -57,11 +57,13 @@ class CuratorUploadController extends Controller
     public function store(CreateUploadRequest $request)
     {
         if (!Auth::user()->can('create', Upload::class)) {
-            return response(null, 403);
+            return response()->json(['error'=>'You do not have permission to create a document.'], 403);
         }
 
-        if (Auth::user()->id !== $request->user_id && !Auth::user()->can('createForOthers', Upload::class)) {
-            return response(null, 403);
+        if (Auth::user()->id !== (int)$request->user_id 
+            && !Auth::user()->can('createForOthers', Upload::class)
+        ) {
+            return response()->json(['error'=>'You do not have permission to create a document for another user.'], 403);
         }
 
         $path = $request->file->store('public/curator_uploads');
@@ -71,6 +73,7 @@ class CuratorUploadController extends Controller
         $upload = Upload::create([
             'user_id' => $request->user_id,
             'name' => $request->name ?? $originalFileName,
+            'file_name' => $originalFileName,
             'file_path' => $path,
             'upload_category_id' => $request->upload_category_id,
             'notes' => $request->notes
