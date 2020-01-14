@@ -23,8 +23,8 @@
                     &nbsp;
                     <input type="text" class="form-control form-control-sm" v-model="filters.searchTerm" placeholder="filter rows" id="filter-input">
                 </div>
-                <!-- <div class="border-left pl-3" id="type-filter-container">
-                    <select id="type-select" class="form-control" v-model="filters.volunteer_type_id">
+                <div class="border-left pl-3" id="type-filter-container">
+                    <select id="type-select" class="form-control" v-model="filters.volunteer_type_id" @change="reconcileFilters">
                         <option :value="null">Any Type</option>
                         <option v-for="(type, idx) in volunteerTypes"
                             :key="idx"
@@ -32,8 +32,8 @@
                             {{type.name}}
                         </option>
                     </select>
-                </div> -->
-                <div class="border-left pl-3" id="status-filter-container">
+                </div>
+                <!-- <div class="border-left pl-3" id="status-filter-container">
                     <select id="status-select" class="form-control" v-model="filters.volunteer_status_id">
                         <option :value="null">Any Status</option>
                         <option v-for="(status, idx) in volunteerStatuses"
@@ -42,9 +42,13 @@
                             {{status.name}}
                         </option>
                     </select>
-                </div>
-                <!-- <div id="curation-activity-filter-container">
-                    <select id="activity-select" class="form-control" v-model="filters.curation_activity_id">
+                </div> -->
+                <div id="curation-activity-filter-container">
+                    <select id="activity-select" 
+                        class="form-control" 
+                        v-model="filters.curation_activity_id" 
+                        :disabled="filters.volunteer_type_id == 1"
+                    >
                         <option :value="null">Any Activity</option>
                         <option v-for="(activity, idx) in activities"
                             :key="idx"
@@ -54,15 +58,19 @@
                     </select>
                 </div>
                 <div id="expert-panel-filter-container">
-                    <select id="panel-select" class="form-control" v-model="filters.expert_panel_id">
+                    <select id="panel-select" 
+                        class="form-control" 
+                        v-model="filters.expert_panel_id"
+                        :disabled="filters.volunteer_type_id == 1"
+                    >
                         <option :value="null">Any Expert Panel</option>
-                        <option v-for="(panel, idx) in panels"
+                        <option v-for="(panel, idx) in filteredExpertPanels"
                             :key="idx"
                             :value="panel.id">
                             {{panel.name}}
                         </option>
                     </select>
-                </div> -->
+                </div>
             </div>
             <div class="alert alert-info" v-if="filteredVolunteers.length == 0 && !loadingVolunteers">
                 <div v-if="Object.keys(activeFilters).length > 0">
@@ -213,9 +221,24 @@ import { randomBytes } from 'crypto';
                     .filter(this.hasCurationActivity)
                     .filter(this.hasExpertPanel)
                     .filter(this.hasSearchTerm);
+            },
+            filteredExpertPanels: function () {
+                if (!this.panels) {
+                    return [];
+                }
+                if (this.filters.curation_activity_id) {
+                    return this.panels.filter(panel => panel.curation_activity_id == this.filters.curation_activity_id)
+                }
+                return this.panels
             }
         },
         methods: {
+            reconcileFilters() {
+                if (this.filters.volunteer_type_id == 1) {
+                    this.filters.curation_activity_id = null;
+                    this.filters.expert_panel_id = null;
+                }
+            },
             hasVolunteerStatus(volunteer) {
                 if (! this.activeFilters.volunteer_status_id) {
                     return true;
