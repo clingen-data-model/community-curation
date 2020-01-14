@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\AttestationCreated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,21 +21,24 @@ class EventServiceProvider extends ServiceProvider
         ],
        'App\Events\Volunteers\Retired' => [
             'App\Listeners\Volunteers\RetireAssignments'
-       ],
-       'App\Events\AssignmentCreated' => [
-           'App\Listeners\CreateCorrespondingTraining'
-       ],
-       'App\Events\TrainingCreated' => [
-           'App\Listeners\NotifyTrainingAssigned'
-       ],
-       'App\Events\TrainingCompleted' => [
-           'App\Listeners\CreateAttestationForCompletedTraining',
-           'App\Listeners\SetVolunteerStatusToTrained',
-       ],
-       'App\Events\AttestationSigned' => [
-           'App\Listeners\GrantAptitudeForSignedAttestation',
-           'App\Listeners\SetAssignmentStatusToTrained'
-       ]
+        ],
+        'App\Events\AssignmentCreated' => [
+            'App\Listeners\CreateCorrespondingTraining'
+        ],
+        'App\Events\TrainingCreated' => [
+            'App\Listeners\NotifyTrainingAssigned'
+        ],
+        'App\Events\TrainingCompleted' => [
+            'App\Listeners\CreateAttestationForCompletedTraining',
+            'App\Listeners\SetVolunteerStatusToTrained',
+        ],
+        AttestationCreated::class => [
+            'App\Listeners\NotifyAttestationCreated'
+        ],
+        'App\Events\AttestationSigned' => [
+            'App\Listeners\GrantAptitudeForSignedAttestation',
+            'App\Listeners\SetAssignmentStatusToTrained'
+        ]
     ];
 
     /**

@@ -2,26 +2,26 @@
 
 namespace App\Notifications;
 
-use App\Training;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class TrainingAssignedNotification extends Notification
+class AttestationCreatedNotification extends Notification
 {
     use Queueable;
 
-    protected $training;
+    protected $attestation;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Training $training)
+    public function __construct($attestation)
     {
-        $this->training = $training;
+        //
+        $this->attestation = $attestation;
     }
 
     /**
@@ -44,11 +44,11 @@ class TrainingAssignedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Training Assignment Notification.')
+                    ->subject('You have a new attestation')
                     ->view(
-                        'email.training_assigned',
+                        'email.new_attestation',
                         [
-                            'training' => $this->training,
+                            'attestation' => $this->attestation,
                             'recipient' => $notifiable
                         ]
                     );
