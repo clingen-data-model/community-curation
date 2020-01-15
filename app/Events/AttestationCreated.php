@@ -15,7 +15,7 @@ class AttestationCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $attestation;
+    public $attestation;
 
     /**
      * Create a new event instance.

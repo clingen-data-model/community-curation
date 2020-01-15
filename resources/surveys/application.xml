@@ -51,7 +51,7 @@
             <question name="zip" id="zip">
                 <question-text>Zip</question-text>
             </question>
-            <multiple-choice name="country_id" id="country_id" num-selectable="1">
+            <multiple-choice name="country_id" id="country_id" num-selectable="1" required="1">
                 <template source="surveys::questions.multiple_choice.select"></template>
                 <question-text>
                     <![CDATA[Country]]>
@@ -144,7 +144,7 @@
         <question-group name="ad_campaign_grp" id="ad_campaign_grp" class="with-followup">
             <multiple-choice name="ad_campaign" id="ad_campaign" num-selectable="10" data-format="json" required="1">
                 <question-text>
-                    <![CDATA[How did you find out about the ClinGen volunteer efforts?*]]>
+                    <![CDATA[How did you find out about the ClinGen volunteer efforts? (Check all that apply)*]]>
                 </question-text>
                 <options>
                     <data-source URI="App\Surveys\SurveyOptions@adCampaigns"></data-source>
@@ -161,7 +161,7 @@
         <question-group name="motivation-grp" id="motivation-grp" class="with-followup">
             <multiple-choice name="motivation" id="motivation" num-selectable="10" data-format="json" required="1">
                 <question-text>
-                    <![CDATA[What motivated you to volunteer in ClinGen curation efforts?*]]>
+                    <![CDATA[What motivated you to volunteer in ClinGen curation efforts? (Check all that apply)*]]>
                 </question-text>
                 <options>
                     <data-source URI="App\Surveys\SurveyOptions@motivations"></data-source>
@@ -178,7 +178,7 @@
         <question-group name="goals-grp" id="goals-grp" class="with-followup">
             <multiple-choice name="goals" id="goals" num-selectable="10" data-format="json">
                 <question-text>
-                    <![CDATA[What would you like to accomplish by volunteering with ClinGen? Do you have any specific goals?]]>
+                    <![CDATA[What would you like to accomplish by volunteering with ClinGen? Do you have any specific goals? (Check all that apply)]]>
                 </question-text>
                 <options>
                     <data-source URI="App\Surveys\SurveyOptions@goals"></data-source>
@@ -194,7 +194,7 @@
 
         <multiple-choice name="interests" id="interests" num-selectable="10" data-format="json">
             <question-text>
-                <![CDATA[Are there any genes and/or disease areas you are particularly interested in?]]>
+                <![CDATA[Are there any genes and/or disease areas you are particularly interested in? (Check all that apply)]]>
             </question-text>
             <options>
                 <data-source URI="App\Surveys\SurveyOptions@interests"></data-source>
