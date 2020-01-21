@@ -92,7 +92,7 @@
                     :disabled="volunteer.volunteer_status_id == 3"
                     v-if="!$store.state.user.isVolunteer()"
                 >
-                    Edit
+                    Manage Assignments
                 </button>
             </div>
             <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()" size="lg">
