@@ -11,7 +11,7 @@
           autocomplete="off"
           value="{{$option->value}}"
           @if( isset($context['response']->{$renderable->name}) 
-              && in_array($option->name, $context['response']->{$renderable->name}) 
+              && in_array($option->value, $context['response']->{$renderable->name}) 
           )
             checked="checked"
           @endif
