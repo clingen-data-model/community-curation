@@ -10,25 +10,29 @@ set('application', 'community-curation');
 set('repository', 'git@bitbucket.org:shepsweb/community-curation.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', true); 
+set('git_tty', true);
 
-// Shared files/dirs between deploys 
+// Shared files/dirs between deploys
 add('shared_files', []);
 add('shared_dirs', []);
 
-// Writable dirs by web server 
+// Writable dirs by web server
 add('writable_dirs', []);
 
 
 // Hosts
 
 host('project.com')
-    ->set('deploy_path', '~/{{application}}');    
+    ->set('deploy_path', '~/{{application}}');
     
 // Tasks
 
 task('build', function () {
     run('cd {{release_path}} && build');
+});
+
+task('freshseed', function () {
+    run('cd {{release_path}} && php artisan migrate:fresh --seed');
 });
 
 // [Optional] if deploy fails automatically unlock.
@@ -59,4 +63,5 @@ host('demo')
 //     ->set('deploy_path', '/mnt/web/project/{{application}}')
 //     ->roles(['production', 'client', 'stage']);
 
-task('artisan:optimize', function () {});
+task('artisan:optimize', function () {
+});
