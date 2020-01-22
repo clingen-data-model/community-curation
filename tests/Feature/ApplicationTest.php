@@ -184,11 +184,15 @@ class ApplicationTest extends TestCase
         $rsp->email = 'test@test.com';
         $rsp->save();
 
+        $mail = new ApplicationCompletedMail($rsp);
+        $this->assertContains('Dear billy pilgrim,', $mail->render());
+        
         \Mail::fake();
         $rsp->finalize();
 
         \Mail::assertSent(ApplicationCompletedMail::class, function ($mail) use ($rsp) {
             return $mail->hasTo($rsp->email);
         });
+
     }
 }
