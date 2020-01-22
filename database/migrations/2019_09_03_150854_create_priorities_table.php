@@ -18,7 +18,7 @@ class CreatePrioritiesTable extends Migration
             $table->unsignedInteger('priority_order');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('curation_activity_id');
-            $table->unsignedBigInteger('expert_panel_id');
+            $table->unsignedBigInteger('expert_panel_id')->nullable();
             $table->unsignedInteger('prioritization_round');
             $table->boolean('activity_experience')->default(0);
             $table->text('activity_experience_details')->nullable();

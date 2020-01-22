@@ -47,7 +47,7 @@
             </options>
         </multiple-choice>
 
-        <multiple-choice name="panel_1" id="panel_1" num-selectable="1" class="form-inline panel-question" required="1">
+        <multiple-choice name="panel_1" id="panel_1" num-selectable="1" class="form-inline panel-question">
             <template source="questions.multiple_choice.select"></template>
             <question-text>
                 <![CDATA[Expert Panel]]>
