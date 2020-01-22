@@ -40,7 +40,7 @@
                     <tr v-for="(priority, idx) in volunteer.latest_priorities" :key="idx">
                         <td>{{priority.priority_order}}</td>
                         <td>{{priority.curation_activity.name}}</td>
-                        <td>{{priority.expert_panel.name}}</td>
+                        <td>{{(priority.expert_panel) ? priority.expert_panel.name : '--'}}</td>
                         <td>
                             {{priority.effort_experience | boolToHuman }}
                             <span v-if="priority.effort_experience == 1">
@@ -63,9 +63,9 @@
                 <a :href="prioritiesSurveyLink" class="btn btn-primary">
                     Set New Priorities
                 </a>
-                <non-volunteer>
+                <!-- <non-volunteer>
                     <a :href="responseLink">View complete response</a>
-                </non-volunteer>
+                </non-volunteer> -->
             </div>
         </div>
 
