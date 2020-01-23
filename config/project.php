@@ -16,6 +16,10 @@ return [
         'declined' => 5,
         'retired' => 6,
     ],
+    'volunteer_types' => [
+        'baseline' => 1,
+        'comprehensive' => 2
+    ],
     'assignment-statuses' => [
         'assigned' => 1,
         'trained' => 2,

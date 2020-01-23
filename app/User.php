@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Events\Volunteers\Retired;
 use Backpack\CRUD\CrudTrait;
+use App\Events\Volunteers\Retired;
+use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Resources\AssignmentResource;
@@ -11,8 +12,8 @@ use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
+use App\Events\Volunteers\ConvertedToComprehensive;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -82,6 +83,12 @@ class User extends Authenticatable
         static::saved(function ($model) {
             if ($model->isDirty('volunteer_status_id') && $model->volunteer_status_id == config('volunteers.statuses.retired')) {
                 \Event::dispatch(new Retired($model));
+            }
+            if ($model->isDirty('volunteer_type_id') 
+                && $model->volunteer_type_id == config('volunteers.types.comprehensive')
+                && $model->getOriginal('volunteer_type_id') == config('volunteers.types.baseline')
+            ) {
+                \Event::dispatch(new ConvertedToComprehensive($model));
             }
         });
     }
