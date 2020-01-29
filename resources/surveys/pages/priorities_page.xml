@@ -60,7 +60,7 @@
         <question-group name="effort_experience_1_grp" id="effort_experience_1_grp" class="with-followup">
             <multiple-choice name="effort_experience_1" id="effort_experience_1" num-selectable="1" class="form-inline">
                 <template source="questions.multiple_choice.radio_group"></template>
-                <question-text>Do you have any previous experience with the type of curation effort?</question-text>
+                <question-text>Do you have any prior curation experience with this expert panel domain?</question-text>
                 <options>
                     <option name="effort_experience_1_1" show="effort_experience_1_detail">
                         <value>1</value>
@@ -148,7 +148,7 @@
             <question-group name="effort_experience_2_grp" id="effort_experience_2_grp" class="with-followup">
                 <multiple-choice name="effort_experience_2" id="effort_experience_2" num-selectable="1" class="form-inline">
                     <template source="questions.multiple_choice.radio_group"></template>
-                    <question-text>Do you have any previous experience with the type of curation effort?</question-text>
+                    <question-text>Do you have any prior curation experience with this expert panel domain?</question-text>
                     <options>
                         <option name="effort_experience_2_1" show="effort_experience_2_detail">
                             <value>1</value>
@@ -216,7 +216,7 @@
             <question-group name="effort_experience_3_grp" id="effort_experience_3_grp" class="with-followup">
                 <multiple-choice name="effort_experience_3" id="effort_experience_3" num-selectable="1" class="form-inline">
                     <template source="questions.multiple_choice.radio_group"></template>
-                    <question-text>Do you have any previous experience with the type of curation effort?</question-text>
+                    <question-text>Do you have any prior curation experience with this expert panel domain?</question-text>
                     <options>
                         <option name="effort_experience_3_1" show="effort_experience_3_detail">
                             <value>1</value>
