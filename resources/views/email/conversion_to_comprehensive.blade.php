@@ -3,7 +3,7 @@
 </p>
 
 <p>
-    Thank you for your interest becoming an active member of a curation group.
+    Thank you for your interest in becoming an active member of a expert panel.
 </p>
 
 <p>
