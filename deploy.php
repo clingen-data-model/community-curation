@@ -45,7 +45,7 @@ before('deploy:symlink', 'artisan:migrate');
 host('test')
     ->hostname('web3demo.schsr.unc.edu')
     ->stage('test')
-    ->set('branch', 'demo')
+    ->set('branch', 'test')
     ->set('deploy_path', '/mnt/web/project/{{application}}-test')
     ->roles(['test', 'internal', 'stage']);
 
