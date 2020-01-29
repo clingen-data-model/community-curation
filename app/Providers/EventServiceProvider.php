@@ -53,8 +53,15 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerMailLogging();
         parent::boot();
+    }
 
-        //
+    private function registerMailLogging()
+    {
+        if (!isset($this->listen['Illuminate\Mail\Events\MessageSent'])) {
+            $this->listen['Illuminate\Mail\Events\MessageSent'] = [];
+        }
+        $this->listen['Illuminate\Mail\Events\MessageSent'] = ['App\Listeners\LogSentMessage'];
     }
 }
