@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     /**
      * @test
@@ -61,9 +61,10 @@ class UserTest extends TestCase
      */
     public function admin_can_impersonate_coordinator_or_volunteer()
     {
-        $admin = factory(User::class)->states('admin')->create([]);
-        $coordinator = factory(User::class)->states('coordinator')->create([]);
-        $volunteer = factory(User::class)->states('volunteer')->create([]);
+        $admin = factory(User::class)->state('admin')->create([]);
+
+        $coordinator = factory(User::class)->state('coordinator')->create([]);
+        $volunteer = factory(User::class)->state('volunteer')->create([]);
 
         $this->actingAs($admin);
         $this->assertTrue($coordinator->canBeImpersonated());
@@ -85,7 +86,6 @@ class UserTest extends TestCase
         $volunteer2 = factory(User::class)->states('volunteer')->create();
 
         $this->assertEquals(2, User::isVolunteer()->count());
-
     }
 
     /**
@@ -108,5 +108,14 @@ class UserTest extends TestCase
         $this->assertNotContains($firstPriorities->first()->id, $latestPriorities->pluck('id'));
     }
     
-        
+    /**
+     * @test
+     */
+    public function has_nullable_fillable_orchid_id()
+    {
+        $volunteer = factory(User::class)->create(['orchid_id' => null]);
+        $volunteer->update(['orchid_id' => 'test']);
+
+        $this->assertEquals('test', $volunteer->orchid_id);
+    }
 }

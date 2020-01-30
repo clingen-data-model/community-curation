@@ -35,6 +35,7 @@ class CreateVolunteerFromApplication
             'first_name' => $this->response->first_name,
             'last_name' => $this->response->last_name,
             'email' => $this->response->email,
+            'orchid_id' => $this->response->orchid_id,
             'password' => \Hash::make(uniqid()),
             'street1' => $this->response->street1,
             'street2' => $this->response->street2,
