@@ -13,7 +13,7 @@ class VolunteerTypesTableSeeder extends Seeder
     public function run()
     {
         VolunteerType::unguard();
-        foreach(config('project.volunteer_types') as $id => $name) {
+        foreach(config('project.volunteer_types') as $name => $id) {
             VolunteerType::updateOrCreate(
                 compact('id'),
                 compact('id', 'name')
