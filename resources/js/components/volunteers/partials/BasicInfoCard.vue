@@ -3,15 +3,18 @@
 <template>
         <div class="card p-3 mb-3">
             <h4>
-                <span>Contact Information</span>
-                <button class="btn btn-sm btn-default border float-right" @click="showContactInfoForm = !showContactInfoForm">Edit</button>
+                <span>Basic Information</span>
+                <button class="btn btn-sm btn-default border float-right" @click="showBasicInfoForm = !showBasicInfoForm">Edit</button>
             </h4>
             
             <dl class="row">
+                <dt class="col-sm-3">ORCHID ID:</dt>
+                <dd class="col-sm-9">{{volunteer.orchid_id}}</dd>
                 <dt class="col-sm-3">Email:</dt>
                 <dd class="col-sm-9">
                     <span v-if="volunteer.email">{{ volunteer.email }}</span>
                 </dd>
+
                 <dt class="col-sm-3">Address:</dt>
                 <dd class="col-sm-9">
                     <div v-if="volunteer.street1">{{ volunteer.street1 }}</div>
@@ -25,12 +28,12 @@
                 </dd>
             </dl>
 
-            <b-modal v-model="showContactInfoForm" title="Edit Contact Info" hide-footer>
-                <contact-info-form 
+            <b-modal v-model="showBasicInfoForm" title="Edit Contact Info" hide-footer>
+                <basic-info-form 
                     :volunteer="volunteer"
                     :countries="countries"
-                    @saved="showContactInfoForm = false"
-                ></contact-info-form>
+                    @saved="showBasicInfoForm = false"
+                ></basic-info-form>
             </b-modal>
         </div>
 </template>
@@ -38,11 +41,11 @@
 <script>
 
     import getAllCountries from '../../../resources/volunteers/get_all_countries'
-    import ContactInfoForm from './ContactInfoForm'
+    import BasicInfoForm from './BasicInfoForm'
 
     export default {
         components: {
-            ContactInfoForm
+            BasicInfoForm
         },
         props: {
             volunteer: {
@@ -52,7 +55,7 @@
         },
         data() {
             return {
-                showContactInfoForm: false,
+                showBasicInfoForm: false,
                 countries: []
             }
         },
