@@ -39,6 +39,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'orchid_id',
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
@@ -84,7 +85,7 @@ class User extends Authenticatable
             if ($model->isDirty('volunteer_status_id') && $model->volunteer_status_id == config('volunteers.statuses.retired')) {
                 \Event::dispatch(new Retired($model));
             }
-            if ($model->isDirty('volunteer_type_id') 
+            if ($model->isDirty('volunteer_type_id')
                 && $model->volunteer_type_id == config('volunteers.types.comprehensive')
                 && $model->getOriginal('volunteer_type_id') == config('volunteers.types.baseline')
             ) {
@@ -176,8 +177,6 @@ class User extends Authenticatable
         if (\Auth::user()->hasRole('programmer')) {
             return true;
         }
-
-        // If the user has any role that matches the authed user's roles this user cannot be impersonated
         if (\Auth::user()->roles->intersect($this->roles)->count() > 0) {
             return false;
         }
@@ -251,12 +250,12 @@ class User extends Authenticatable
                 'attestation' => $basicAttestation,
                 'expertPanels' => AssignmentResource::collection(
                     $assignments->filter(
-                            function ($ass) use ($activity) {
-                                if ($ass->assignable_type != ExpertPanel::class) {
-                                    return false;
-                                }
-                                return $ass->assignable->curation_activity_id == $activity->id;
+                        function ($ass) use ($activity) {
+                            if ($ass->assignable_type != ExpertPanel::class) {
+                                return false;
                             }
+                            return $ass->assignable->curation_activity_id == $activity->id;
+                        }
                         )->values()
                     )
             ]);
@@ -281,6 +280,4 @@ class User extends Authenticatable
     {
         return $this->aptitudes()->where('id', $aptitudeId)->count() > 0;
     }
-    
-    
 }

@@ -16,7 +16,7 @@
             </div>
 
             <div class="col-md-6">
-                <contact-info-card :volunteer="volunteer"></contact-info-card>
+                <basic-info-card :volunteer="volunteer"></basic-info-card>
             </div>
         </div>
     </div>
@@ -24,12 +24,12 @@
 
 <script>
     import AssignmentCard from './AssignmentCard'
-    import ContactInfoCard from './ContactInfoCard'
+    import BasicInfoCard from './BasicInfoCard'
 
     export default {
         components: {
             AssignmentCard, 
-            ContactInfoCard,
+            BasicInfoCard,
         },
         props: {
             volunteer: {
