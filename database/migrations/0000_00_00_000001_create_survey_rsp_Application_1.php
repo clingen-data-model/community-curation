@@ -21,6 +21,7 @@ class CreateSurveyRspApplication1 extends Migration
             $table->string('first_name')->nullable();
 			$table->string('last_name')->nullable();
 			$table->string('institution')->nullable();
+			$table->string('orchid_id')->nullable();
 			$table->string('street1')->nullable();
 			$table->string('street2')->nullable();
 			$table->string('city')->nullable();
@@ -34,7 +35,6 @@ class CreateSurveyRspApplication1 extends Migration
 			$table->string('adv_cert')->nullable();
 			$table->integer('self_desc')->nullable();
 			$table->string('self_desc_other')->nullable();
-			$table->string('orchid_id')->nullable();
 			$table->json('ad_campaign')->nullable();
 			$table->string('ad_campaign_other_detail')->nullable();
 			$table->json('motivation')->nullable();
