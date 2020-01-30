@@ -75,6 +75,7 @@ class ApplicationTest extends TestCase
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
+        $rsp->orchid_id = '123';
         $rsp->volunteer_type   = 1;
         $rsp->street1 = '123 test street';
         $rsp->street2 = 'Apt test';
@@ -87,12 +88,14 @@ class ApplicationTest extends TestCase
         $this->assertDatabaseHas('users', [
             'first_name' => 'billy',
             'last_name' => 'pilgrim',
-            'email' => 'test@test.com'
+            'email' => 'test@test.com',
+            'orchid_id' => '123'
         ]);
 
         $user = User::where('email', 'test@test.com')->first();
         $this->assertEquals('App\User', $rsp->fresh()->respondent_type);
         $this->assertEquals($user->id, $rsp->fresh()->respondent_id);
+        $this->assertEquals($user->orchid_id, $rsp->fresh()->orchid_id);
         $this->assertEquals($user->street1, $rsp->street1);
         $this->assertEquals($user->street2, $rsp->street2);
         $this->assertEquals($user->city, $rsp->city);
