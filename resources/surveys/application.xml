@@ -34,6 +34,10 @@
             <question-text>Institution*</question-text>
         </question>
 
+        <question name="orchid_id" id="orchid_id">
+            <question-text>If you have an ORCHID ID, please provide it:</question-text>
+        </question>
+
         <question-group name="address-group" id="address-group">            
             <template source="surveys::containers.address_container"></template>
             <question name="street1" id="street1">
@@ -138,9 +142,6 @@
             <question name="self_desc_other" id="self_desc_other_detail" class="followup" placeholder="Details">
             </question>
         </question-group>
-        <question name="orchid_id" id="orchid_id">
-            <question-text>If you have an ORCHID ID, please provide it:</question-text>
-        </question>
     </page>
 
     <page name="outreach" title="Outreach and Motivation Questions">
