@@ -32,14 +32,17 @@
                             @updatevolunteer="findVolunteer"
                         ></volunteer-summary>
                     </b-tab>
-                    <b-tab title="Application Survey Data">
-                        <application-data :volunteer="volunteer"></application-data>
+                    <b-tab title="Attestations">
+                        <attestations-list :volunteer="volunteer"></attestations-list>
+                    </b-tab>
+                    <b-tab title="Documents">
+                        <documents-card :volunteer="volunteer"></documents-card>
                     </b-tab>
                     <b-tab title="Priorities" v-if="volunteer.isComprehensive()">
                         <priorities-list :volunteer="volunteer"></priorities-list>
                     </b-tab>
-                    <b-tab title="Documents">
-                        <documents-card :volunteer="volunteer"></documents-card>
+                    <b-tab title="Application Survey Data">
+                        <application-data :volunteer="volunteer"></application-data>
                     </b-tab>
                 </b-tabs>
             </div>
@@ -64,6 +67,7 @@
     import updateVolunteer from '../../resources/volunteers/update_volunteer'
 
     import volunteerSummary from './partials/VolunteerSummary'
+    import attestationsList from './partials/AttestationsList';
     import volunteerStatusAlert from './partials/VolunteerStatusAlert'
     import ApplicationData from './partials/ApplicationData'
     import PrioritiesList from './partials/PrioritiesList'
@@ -84,7 +88,8 @@
             ApplicationData,
             PrioritiesList,
             StatusForm,
-            DocumentsCard
+            DocumentsCard,
+            attestationsList,
         },
         data() {
             return {
