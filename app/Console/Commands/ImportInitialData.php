@@ -181,18 +181,24 @@ class ImportInitialData extends Command
         
     private function importVolunteerAssignments($volunteer, $volunteerData)
     {
+        dump($volunteerData->keys());
         if (!$volunteerData->keys()->contains('Assignments')) {
             throw new ImportException('Missing Assignments data for '. $volunteer->email);
         }
         
         $this->info(' - Assignment  data');
         $assignmentData = collect($volunteerData->get('Assignments'));
-
-        dump($assignmentData);
-        // dump($volunteer);
+        $attestationData = [
+            1 => null,
+            2 => $volunteerData->get('Dosage Attestations') ? collect($volunteerData->get('Dosage Attestations')) : null,
+            3 => $volunteerData->get('Gene Attestations') ? collect($volunteerData->get('Gene Attestations')) : null,
+            4 => null,
+            5 => null
+        ];
+        // dump($attestationData);
         // return;
 
-        $assignmentData->each(function ($data) use ($volunteer) {
+        $assignmentData->each(function ($data) use ($volunteer, $attestationData) {
             if (!empty($data['ca_assignment'])) {
                 $ca = $this->curationActivities->firstWhere('legacy_name', $data['ca_assignment']);
                 if (!$ca) {
@@ -235,7 +241,11 @@ class ImportInitialData extends Command
                     return;
                 }                
                 $this->info('    - import attestation info');
-                $attestation->signed_at = Carbon::now();
+                $signedAt = Carbon::now();
+                if ($attestationData[$ca->id]) {
+                    $signedAt = $attestationData[$ca->id]->get('signed_at');
+                }
+                $attestation->signed_at = $signedAt;
                 $attestation->save();
                 
 
