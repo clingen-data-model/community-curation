@@ -2,8 +2,8 @@
 
 namespace App\Import\SheetHandlers;
 
+use Box\Spout\Reader\SheetInterface;
 use App\Import\Contracts\SheetHandler;
-use Box\Spout\Writer\Common\Entity\Sheet;
 
 class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandler
 {
@@ -12,30 +12,57 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
      */
     private $nextHandler;
 
-    public function handle(Sheet $sheet)
+    public function handle(SheetInterface $sheet):array
     {
         if ($sheet->getName() != 'Assignments') {
             return parent::handle($sheet);
         }
 
+        $rows = [];
         $header = null;
         foreach ($sheet->getRowIterator() as $idx => $rowObj) {
             if ($idx == 1) {
                 continue;
             }
-            $rowValues = array_map(function ($cell) { return $cell->getValue(); }, $rowObj->getCells());
+            $rowValues = rowToArray($rowObj);
             if (is_null($header)) {
-                $header = array_map(function ($itm) {return strtolower($itm);}, $rowValues);
+                $header = array_map(function ($itm) {return trim(strtolower($itm));}, $rowValues);
                 continue;
             }
 
-            $row = array_combine($header, $rowValues);
-            // $volunteer = $this->createVolunteer($row);
-            // $this->transcribeApplication($volunteer, $row);
-            // $this->setSelfDescription($volunteer, $row);
-            // $this->assignCurationActivity($volunteer, $row);
+            $row = arrayTrimStrings(array_combine($header, $rowValues));
+            $rows[] = [
+                'email' => $row['email address'],
+                'name' => $row['name'],
+                'ca_assignment_date' => $row['timestamp'],
+                'ca_assignment' => $row['curation effort'],
+                'ep_assignment' => $row['wg /ep'],
+                'training_date' => $row['training date'],
+                'training_attended' => yesNoToBool($row['training attended']),
+                'attestation_signed' => yesNoToBool($row['attestation signed']),
+                'volunteer_type_id' => $this->getVolunteerTypeId($row['volunteer type']),
+                'notes' => $row['notes']
+            ];
         }
 
+
+        return collect($rows)->groupBy('email')->toArray();
+    }
+
+    private function getVolunteerTypeId($typeString)
+    {
+        $typeString = trim(strtolower($typeString));
+        if (!$typeString) {
+            return null;
+        }
+        if ($typeString == 'baseline') {
+            return 1;
+        }
+        if ($typeString == 'comprehensive') {
+            return 2;
+        }
+
+        throw new \Exception('Unkown volunteer type string: '.$typeString);
     }
     
 }

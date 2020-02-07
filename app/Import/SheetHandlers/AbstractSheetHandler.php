@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Import\SheetHandlers;
 
+use Box\Spout\Reader\SheetInterface;
 use App\Import\Contracts\SheetHandler;
-use Box\Spout\Writer\Common\Entity\Sheet;
 
 abstract class AbstractSheetHandler implements SheetHandler
 {
@@ -20,11 +20,23 @@ abstract class AbstractSheetHandler implements SheetHandler
         return $handler;
     }
 
-    public function handle(Sheet $Sheet)
+    public function handle(SheetInterface $Sheet):array
     {
         if ($this->nextHandler) {
             return $this->nextHandler->handle($Sheet);
         }
-        return;
+        return [];
+    }
+
+    protected function processRows(SheetInterface $sheet, Callable $rowProcessor) {
+        $rows = collect();
+        
+        foreach ($sheet->getRowIterator() as $rowNum => $rowObj) {
+            $rowValues = arrayTrimStrings(rowToArray($rowObj));
+            $rows->push($rowProcessor($rowNum, $rowValues));
+        }
+
+        return $rows->filter();
+
     }
 }
