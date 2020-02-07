@@ -86,7 +86,9 @@ class Application extends Model
 
     private function getValueFromOptions($attribute)
     {
-        return $this->survey->document->questions[$attribute]->getOptionByValue($this->attributes[$attribute])->label;
+        return ($this->survey->document->questions[$attribute]->getOptionByValue($this->attributes[$attribute])) 
+            ? $this->survey->document->questions[$attribute]->getOptionByValue($this->attributes[$attribute])->label
+            : null;
     }
     
 }
