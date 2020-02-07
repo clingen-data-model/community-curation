@@ -3,8 +3,21 @@
 namespace App\Console\Commands;
 
 use App\User;
+use Throwable;
+use App\Training;
+use App\Attestation;
+use App\ExpertPanel;
+use App\CurationActivity;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
+use App\Jobs\AssignVolunteerToAssignable;
+use App\Import\Exceptions\ImportException;
+use App\Import\SheetHandlers\GeneAttestationHandler;
+use App\Import\SheetHandlers\AssignmentsSheetHandler;
+use App\Import\SheetHandlers\ApplicationSurveyHandler;
+use App\Import\SheetHandlers\DosageAttestationHandler;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Carbon\Carbon;
 
 class ImportInitialData extends Command
 {
@@ -23,6 +36,17 @@ class ImportInitialData extends Command
     protected $description = 'Import existing data from google sheet';
 
     /**
+     * @var Collection Collection of ExperPanel models
+     */
+     private $expertPanels;
+    
+    /**
+     * @var Collection Collection of CurationActivity models
+     */
+    private $curationActivities;
+    
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -39,68 +63,204 @@ class ImportInitialData extends Command
      */
     public function handle()
     {
+        config(['mail.driver' => 'log']);
+        $this->expertPanels = ExpertPanel::all();
+        $this->curationActivities = CurationActivity::all();
+
         $assignmentsSheet = base_path('import_files/cc-volunteers.xlsx');
         $reader = ReaderEntityFactory::createReaderFromFile($assignmentsSheet);
 
         $reader->open($assignmentsSheet);
 
+        $assignmentsSheetHandler = new AssignmentsSheetHandler();
+        $applicationHandler = new ApplicationSurveyHandler();
+        $geneAttestationHandler = new GeneAttestationHandler();
+        $dosageAttestationHandler = new DosageAttestationHandler();
+        
+        $assignmentsSheetHandler->setNext($applicationHandler)
+            ->setNext($geneAttestationHandler)
+            ->setNext($dosageAttestationHandler);
 
+        $volunteerRows = [];
         foreach ($reader->getSheetIterator() as $sheet) {
-            dump(get_class($sheet));
+            $rows = $assignmentsSheetHandler->handle($sheet);
+            foreach ($rows as $email => $data) {
+                if (!isset($volunteerRows[$email])) {
+                    $volunteerRows[$email] = collect();
+                }
+                $volunteerRows[$email][$sheet->getName()] = $data;
+            }
         }
-
         $reader->close();
+
+        $volunteerCollection = collect($volunteerRows)->filter(function ($val, $key) { return $key != "";});
+
+        $nameToEmailAddress = $this->getNameToEmailMap($volunteerCollection);
+    
+        $volunteerCollection->filter(function ($val, $key) {
+                return !strstr($key, '@') && $key != "" && is_string($key);
+            })
+            ->each(function ($attestationData, $key) use ($volunteerCollection, $nameToEmailAddress) {                
+                if ($volunteerCollection->keys()->contains($key)) {
+                    $email = $nameToEmailAddress->get($key);
+                    if (!$volunteerCollection->get($email)) {
+                        $this->warn('We can not find an email address for name '.$key);
+                        return;
+                    }
+                    $volunteerCollection->put($email, $volunteerCollection->get($email)->merge($attestationData));
+                }
+            });
+
+        $volunteerCollection
+            ->filter(function ($val, $key) {
+                return strstr($key, '@') && $key != "" && is_string($key);
+            })
+            ->each(function ($volunteerData, $key) {
+                $this->processVolunteerData($volunteerData, $key);
+            });
+
     }
 
-    private function createVolunteer($row):User
+    private function processVolunteerData($volunteerData, $email)
     {
-        $nameParts = explode(' ',$row['name']);
-
-        $user = User::firstOrCreate([
-                'email' => $row['email address'],
-            ],
-            [
-                'first_name' => array_shift($nameParts),
-                'last_name' => implode(' ', $nameParts),
-                'volunteer_type_id' => $this->getVolunteerTypeId($row['Volunteer Type']),
-            ]);
-        $user->assignRole('volunteer');
-        return $user;
+        $this->clearExistingUser($email);
+        
+        try {
+            $this->info('importing data for '.$email);
+            $response = $this->createSurveyResponse($volunteerData);
+            $volunteer = $response->respondent;
+            $this->importVolunteerAssignments($volunteer, $volunteerData);
+            $this->ask('keep going?');
+        } catch (ImportException $th) {
+            $this->warn($th->getMessage());
+        }
     }
 
-    private function transcribeApplication(User $volunteer, $row)
+    private function clearExistingUser($email)
     {
-        if ($volunteer->application) {
-            $this->setAdditionalPriorities($volunter, $row);
-            return;
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            $user->priorities->each->forceDelete();
+            if ($user->application) {
+                $user->application->forceDelete();
+            }
+            class_survey()::findBySlug('application1')
+                ->responses()
+                ->where('respondent_id', $user->id)
+                ->get()
+                ->each
+                ->forceDelete();
+
+            Attestation::where('user_id', $user->id)->get()->each->forceDelete();
+            Training::where('user_id', $user->id)->get()->each->forceDelete();
+            $user->assignments->each->forceDelete();
+            $user->ForceDelete();
+        }
+    }
+
+    private function createSurveyResponse($volunteerData)
+    {
+        if (!$volunteerData->keys()->contains('Volunteer Survey')) {
+            throw new ImportException($email . ' does not appear to have a volunteer survey.');
         }
 
-        $nameParts = explode(' ', $row['name']);
-        $response = class_survey()::findBySlug('application1')->getNewResponse($volunteer);
-        $response->fill([
-            'first_name' => array_shift($nameParts),
-            'last_name' => implode(' ', $nameParts)
-        ]);
+        
+        $lastRecord = collect($volunteerData->get('Volunteer Survey'))->last();
+        $this->info(' - Application data.');
+        unset($lastRecord['name']);
 
+        $response = class_survey()::findBySlug('application1')->getNewResponse(null);
+        $response->fill($lastRecord);
+        $response->save();
+        $response->finalize();
+        $response = $response->fresh();
+
+        
+        return $response;
     }
-    
-    private function setAdditionalPriorities(User $volunter, $row)
+        
+    private function importVolunteerAssignments($volunteer, $volunteerData)
     {
-        //code
-    }
-    
+        if (!$volunteerData->keys()->contains('Assignments')) {
+            throw new ImportException('Missing Assignments data for '. $volunteer->email);
+        }
+        
+        $this->info(' - Assignment  data');
+        $assignmentData = collect($volunteerData->get('Assignments'));
 
-    private function getVolunteerTypeId($typeString)
+        dump($assignmentData);
+        // dump($volunteer);
+        // return;
+
+        $assignmentData->each(function ($data) use ($volunteer) {
+            if (!empty($data['ca_assignment'])) {
+                $ca = $this->curationActivities->firstWhere('legacy_name', $data['ca_assignment']);
+                if (!$ca) {
+                    throw new ImportException($data['ca_assignment'].' is not in the list of known curation activities');
+                }
+                
+                AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+
+                $assignment = $volunteer->assignments()
+                    ->with('trainings')
+                    ->assignableIs(get_class($ca), $ca->id)
+                    ->get()
+                    ->first();
+                
+                $assignment->created_at = $data['ca_assignment_date'];
+                $assignment->updated_at = $data['ca_assignment_date'];
+                $assignment->save();
+
+                $training = $assignment->trainings->first();
+                $training->created_at = $data['ca_assignment_date'];
+                $training->updated_at = $data['ca_assignment_date'];
+                $training->save();
+                
+                if (empty($data['training_date']) || !$data['training_attended']) {
+                    $this->info('    - training not complete');
+                    return;
+                }
+                $this->info('    - import training info');
+                $training->completed_at = $data['training_date'];
+                $training->updated_at = $data['training_date'];
+                $training->save();
+
+                $attestation = $assignment->attestations()->first();
+                $attestation->created_at = $data['training_date'];
+                $attestation->updated_at = $data['training_date'];
+                $attestation->save();
+
+                if (!$data['attestation_signed']) {
+                    $this->info('    - attestation not signed');
+                    return;
+                }                
+                $this->info('    - import attestation info');
+                $attestation->signed_at = Carbon::now();
+                $attestation->save();
+                
+
+            }
+        });
+
+
+    }
+
+    private function getNameToEmailMap(Collection $collection)
     {
-        if ($typeString == 'Baseline') {
-            return 1;
-        }
-        if ($typeString == 'Comprehensive') {
-            return 2;
-        }
-
-        throw new \Exception('Unkown volunteer type string: '.$typeString);
+        return $collection
+                ->filter(function ($val, $key) {
+                    return strstr($key, '@');
+                })
+                ->transform(function ($item, $key) {
+                    $name = $item->get('Volunteer Survey')[count($item->get('Volunteer Survey'))-1]['name'];
+                    if (is_null($name)) {
+                        $this->warn('expect name in volunteer survey to be a string, '.gettype($name).' found for email address '.$key.'.');
+                        return '';
+                    }
+                    return $name;
+                })
+                ->flip();
     }
     
-    
+
 }
