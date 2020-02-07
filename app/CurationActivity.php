@@ -22,7 +22,8 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
     protected $revisionCreationsEnabled = true;    
 
     protected $fillable = [
-        'name'
+        'name',
+        'legacy_name'
     ];
 
     public function assignments(): Relation
