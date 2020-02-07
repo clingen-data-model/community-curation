@@ -15,10 +15,10 @@ class ApplicationDataResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['country'] = $this->country->name;
+        $data['country'] = ($this->country) ? $this->country->name : null;
         
-        $data['volunteer_type'] = $this->volunteerType->name;
-        $data['self_description'] = $this->selfDescription->name ?? null;
+        $data['volunteer_type'] = ($this->volunteerType) ? $this->volunteerType->name : null;
+        $data['self_description'] = ($this->selfDescription) ? $this->selfDescription->name : null;
 
         unset($data['country_id'], $data['self_desc']);
 
