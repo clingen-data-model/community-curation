@@ -117,7 +117,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="highest_ed_other" id="highest_ed_other" class="followup" placeholder="Details"></question>
+            <question name="highest_ed_other" id="highest_ed_other" class="followup" placeholder="Details" data-format="text"></question>
         </question-group>
 
         <question name="adv_cert" id="adv_cert">
@@ -139,7 +139,7 @@
                 </options>
             </multiple-choice>
 
-            <question name="self_desc_other" id="self_desc_other_detail" class="followup" placeholder="Details">
+            <question name="self_desc_other" id="self_desc_other_detail" class="followup" placeholder="Details" data-format="text">
             </question>
         </question-group>
     </page>
@@ -158,7 +158,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="ad_campaign_other_detail" id="ad_campaign_other_detail" class="followup" placeholder="Details">
+            <question name="ad_campaign_other_detail" id="ad_campaign_other_detail" class="followup" placeholder="Details" data-format="text">
             </question>
         </question-group>
 
@@ -175,7 +175,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="motivation_other_detail" id="motivation_other_detail" class="followup" placeholder="Details">
+            <question name="motivation_other_detail" id="motivation_other_detail" class="followup" placeholder="Details" data-format="text">
             </question>
         </question-group>
 
@@ -192,7 +192,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="goals_other_detail" id="goals_other_detail" class="followup" placeholder="Details">
+            <question name="goals_other_detail" id="goals_other_detail" class="followup" placeholder="Details" data-format="text">
             </question>
         </question-group>
 
@@ -223,6 +223,9 @@
                 </option>
             </options>
         </multiple-choice>
+
+        <question name="notes" data-format="text" hidden="true" class="hidden"></question>
+        <question name="imported_survey_data" data-format="json" hidden="true" class="hidden"></question>
     </page>
 
     <include source="pages/priorities_page.xml"></include>

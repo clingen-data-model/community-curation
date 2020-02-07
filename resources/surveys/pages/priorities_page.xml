@@ -72,7 +72,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="effort_experience_1_detail" id="effort_experience_1_detail" class="form-inline followup">
+            <question name="effort_experience_1_detail" id="effort_experience_1_detail" class="form-inline followup" data-format="text">
                 <question-text>Details</question-text>
             </question>
         </question-group>
@@ -92,7 +92,7 @@
                     </option>
                 </options>
             </multiple-choice>
-            <question name="activity_experience_1_detail" id="activity_experience_1_detail" class="form-inline followup">
+            <question name="activity_experience_1_detail" id="activity_experience_1_detail" class="form-inline followup" data-format="text">
                 <question-text>Details</question-text>
             </question>
         </question-group>
@@ -160,7 +160,7 @@
                         </option>
                     </options>
                 </multiple-choice>
-                <question name="effort_experience_2_detail" id="effort_experience_2_detail" class="form-inline followup">
+                <question name="effort_experience_2_detail" id="effort_experience_2_detail" class="form-inline followup" data-format="text">
                     <question-text>Details</question-text>
                 </question>
             </question-group>
@@ -180,7 +180,7 @@
                         </option>
                     </options>
                 </multiple-choice>
-                <question name="activity_experience_2_detail" id="activity_experience_2_detail" class="form-inline followup">
+                <question name="activity_experience_2_detail" id="activity_experience_2_detail" class="form-inline followup" data-format="text">
                     <question-text>Details</question-text>
                 </question>
             </question-group>
@@ -228,7 +228,7 @@
                         </option>
                     </options>
                 </multiple-choice>
-                <question name="effort_experience_3_detail" id="effort_experience_3_detail" class="form-inline followup">
+                <question name="effort_experience_3_detail" id="effort_experience_3_detail" class="form-inline followup" data-format="text">
                     <question-text>Details</question-text>
                 </question>
             </question-group>
@@ -248,7 +248,7 @@
                         </option>
                     </options>
                 </multiple-choice>
-                <question name="activity_experience_3_detail" id="activity_experience_3_detail" class="form-inline followup">
+                <question name="activity_experience_3_detail" id="activity_experience_3_detail" class="form-inline followup" data-format="text">
                     <question-text>Details</question-text>
                 </question>
             </question-group>
