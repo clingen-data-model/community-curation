@@ -178,6 +178,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $data = collect($row)->except(['empty', 'address','volunteer_type', 'curation_activity_4', 'curation_activity_5']);
         
         $nameParts = parseName($row['name']);
+        $data['email'] = trim(preg_replace('/\"/', '', $data['email']));
         $data['first_name'] = array_shift($nameParts);
         $data['last_name'] = implode(" ", $nameParts);
 
