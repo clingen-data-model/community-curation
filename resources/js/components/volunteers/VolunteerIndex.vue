@@ -33,7 +33,7 @@
                         </option>
                     </select>
                 </div>
-                <!-- <div class="border-left pl-3" id="status-filter-container">
+                <div class="border-left pl-3" id="status-filter-container">
                     <select id="status-select" class="form-control" v-model="filters.volunteer_status_id">
                         <option :value="null">Any Status</option>
                         <option v-for="(status, idx) in volunteerStatuses"
@@ -42,7 +42,7 @@
                             {{status.name}}
                         </option>
                     </select>
-                </div> -->
+                </div>
                 <div id="curation-activity-filter-container">
                     <select id="activity-select" 
                         class="form-control" 
