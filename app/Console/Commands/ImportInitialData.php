@@ -18,6 +18,7 @@ use App\Import\SheetHandlers\ApplicationSurveyHandler;
 use App\Import\SheetHandlers\DosageAttestationHandler;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Carbon\Carbon;
+use InvalidArgumentException;
 
 class ImportInitialData extends Command
 {
@@ -126,13 +127,17 @@ class ImportInitialData extends Command
         $this->clearExistingUser($email);
         
         try {
+            echo "\n";
             $this->info('importing data for '.$email);
             $response = $this->createSurveyResponse($volunteerData);
             $volunteer = $response->respondent;
             $this->importVolunteerAssignments($volunteer, $volunteerData);
-            $this->ask('keep going?');
         } catch (ImportException $th) {
-            $this->warn($th->getMessage());
+            $this->warn(
+                str_repeat('-', strlen($th->getMessage()))."\n"
+                . $th->getMessage()
+                . "\n".str_repeat('-', strlen($th->getMessage()))
+            );
         }
     }
 
@@ -161,7 +166,8 @@ class ImportInitialData extends Command
     private function createSurveyResponse($volunteerData)
     {
         if (!$volunteerData->keys()->contains('Volunteer Survey')) {
-            throw new ImportException($email . ' does not appear to have a volunteer survey.');
+            dd($volunteerData->first()[0]['email']);
+            throw new ImportException($volunteerData->first()['email'] . ' does not appear to have a volunteer survey.');
         }
 
         
@@ -181,7 +187,7 @@ class ImportInitialData extends Command
         
     private function importVolunteerAssignments($volunteer, $volunteerData)
     {
-        dump($volunteerData->keys());
+        // dump($volunteerData->keys());
         if (!$volunteerData->keys()->contains('Assignments')) {
             throw new ImportException('Missing Assignments data for '. $volunteer->email);
         }
@@ -195,17 +201,19 @@ class ImportInitialData extends Command
             4 => null,
             5 => null
         ];
-        // dump($attestationData);
-        // return;
 
         $assignmentData->each(function ($data) use ($volunteer, $attestationData) {
             if (!empty($data['ca_assignment'])) {
                 $ca = $this->curationActivities->firstWhere('legacy_name', $data['ca_assignment']);
                 if (!$ca) {
-                    throw new ImportException($data['ca_assignment'].' is not in the list of known curation activities');
+                    throw new ImportException('CA Uknown: '.$data['ca_assignment'].' is not in the list of known curation activities');
                 }
                 
-                AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+                try {
+                    AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+                } catch (InvalidArgumentException $th) {
+                    throw new ImportException($th->getMessage());
+                }
 
                 $assignment = $volunteer->assignments()
                     ->with('trainings')
@@ -248,6 +256,24 @@ class ImportInitialData extends Command
                 $attestation->signed_at = $signedAt;
                 $attestation->save();
                 
+                // dump($data);
+
+                if (empty($data['ep_assignment'])) {
+                    $this->info('    - Not assigned to WG/EP');
+                    return;
+                }
+
+                $expertPanel = $this->expertPanels->firstWhere('name', $data['ep_assignment']);
+
+                if (is_null($expertPanel)) {
+                    throw new ImportException('EP Uknown: '.$data['ep_assignment'].' does not match the name of any known expert panels');
+                }
+
+                try {
+                    AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+                } catch (InvalidArgumentException $th) {
+                    throw new ImportException($th->getMessage());
+                }
 
             }
         });

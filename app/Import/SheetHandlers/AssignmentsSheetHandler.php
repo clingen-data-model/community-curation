@@ -32,8 +32,8 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
 
             $row = arrayTrimStrings(array_combine($header, $rowValues));
             $rows[] = [
-                'email' => $row['email address'],
                 'name' => $row['name'],
+                'email' => trim(preg_replace('/\"/', '', $row['email address'])),
                 'ca_assignment_date' => $row['timestamp'],
                 'ca_assignment' => $row['curation effort'],
                 'ep_assignment' => $row['wg /ep'],
