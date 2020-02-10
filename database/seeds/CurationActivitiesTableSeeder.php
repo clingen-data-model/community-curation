@@ -21,7 +21,7 @@ class CurationActivitiesTableSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => 'Dosage',
-                'legacy_name' => 'Dosage Sensitiviy'
+                'legacy_name' => 'Dosage Sensitivity'
             ],
             [
                 'id' => 3,
