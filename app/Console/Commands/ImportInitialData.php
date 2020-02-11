@@ -166,7 +166,6 @@ class ImportInitialData extends Command
     private function createSurveyResponse($volunteerData)
     {
         if (!$volunteerData->keys()->contains('Volunteer Survey')) {
-            dd($volunteerData->first()[0]['email']);
             throw new ImportException($volunteerData->first()['email'] . ' does not appear to have a volunteer survey.');
         }
 
