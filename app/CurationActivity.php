@@ -26,6 +26,7 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
         'legacy_name'
     ];
 
+    
     public function assignments(): Relation
     {
         return $this->morphMany(Assignment::class, 'assignable');
@@ -35,5 +36,39 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
     {
         return $this->hasMany(ExpertPanel::class);
     }
+    
+    public function curationActivityType()
+    {
+        return $this->belongsTo(CurationActivityType::class);
+    }
+
+
+    public function scopeOfType($query, $typeId)
+    {
+        return $query->where('curation_activity_type_id', $typeId);
+    }
+
+    public function scopeExpertPanelType($query)
+    {
+        return $query->oftype(config('project.curation-activity-types.expert-panel'));
+    }
+    
+    public function scopeComprehensive($query)
+    {
+        return $query->expertPanelType();
+    }
+    
+
+    public function scopeGeneType($query)
+    {
+        return $query->ofType(config('project.curation-activity-types.gene'));
+    }
+
+    public function scopeBaseline($query)
+    {
+        return $query->geneType();
+    }
+    
+    
     
 }
