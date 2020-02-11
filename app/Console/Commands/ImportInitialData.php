@@ -27,7 +27,7 @@ class ImportInitialData extends Command
      *
      * @var string
      */
-    protected $signature = 'import:all';
+    protected $signature = 'import:all {--disable-info : disable info output }';
 
     /**
      * The console command description.
@@ -127,16 +127,17 @@ class ImportInitialData extends Command
         $this->clearExistingUser($email);
         
         try {
-            echo "\n";
-            $this->info('importing data for '.$email);
+            $this->outputInfo("\n");
+            $this->outputInfo('importing data for '.$email);
             $response = $this->createSurveyResponse($volunteerData);
             $volunteer = $response->respondent;
             $this->importVolunteerAssignments($volunteer, $volunteerData);
         } catch (ImportException $th) {
             $this->warn(
-                str_repeat('-', strlen($th->getMessage()))."\n"
-                . $th->getMessage()
-                . "\n".str_repeat('-', strlen($th->getMessage()))
+                // str_repeat('-', strlen($th->getMessage()))."\n"
+                // . 
+                $th->getMessage()
+                // . "\n".str_repeat('-', strlen($th->getMessage()))
             );
         }
     }
@@ -171,7 +172,7 @@ class ImportInitialData extends Command
 
         
         $lastRecord = collect($volunteerData->get('Volunteer Survey'))->last();
-        $this->info(' - Application data.');
+        $this->outputInfo(' - Application data.');
         unset($lastRecord['name']);
 
         $response = class_survey()::findBySlug('application1')->getNewResponse(null);
@@ -191,7 +192,7 @@ class ImportInitialData extends Command
             throw new ImportException('Missing Assignments data for '. $volunteer->email);
         }
         
-        $this->info(' - Assignment  data');
+        $this->outputInfo(' - Assignment  data');
         $assignmentData = collect($volunteerData->get('Assignments'));
         $attestationData = [
             1 => null,
@@ -205,7 +206,7 @@ class ImportInitialData extends Command
             if (!empty($data['ca_assignment'])) {
                 $ca = $this->curationActivities->firstWhere('legacy_name', $data['ca_assignment']);
                 if (!$ca) {
-                    throw new ImportException('CA Uknown: '.$data['ca_assignment'].' is not in the list of known curation activities');
+                    throw new ImportException('CA Uknown: '.$data['ca_assignment']);
                 }
                 
                 try {
@@ -230,10 +231,10 @@ class ImportInitialData extends Command
                 $training->save();
                 
                 if (empty($data['training_date']) || !$data['training_attended']) {
-                    $this->info('    - training not complete');
+                    $this->outputInfo('    - training not complete');
                     return;
                 }
-                $this->info('    - import training info');
+                $this->outputInfo('    - import training info');
                 $training->completed_at = $data['training_date'];
                 $training->updated_at = $data['training_date'];
                 $training->save();
@@ -244,10 +245,10 @@ class ImportInitialData extends Command
                 $attestation->save();
 
                 if (!$data['attestation_signed']) {
-                    $this->info('    - attestation not signed');
+                    $this->outputInfo('    - attestation not signed');
                     return;
                 }                
-                $this->info('    - import attestation info');
+                $this->outputInfo('    - import attestation info');
                 $signedAt = Carbon::now();
                 if ($attestationData[$ca->id]) {
                     $signedAt = $attestationData[$ca->id]->get('signed_at');
@@ -258,14 +259,14 @@ class ImportInitialData extends Command
                 // dump($data);
 
                 if (empty($data['ep_assignment'])) {
-                    $this->info('    - Not assigned to WG/EP');
+                    $this->outputInfo('    - Not assigned to WG/EP');
                     return;
                 }
 
                 $expertPanel = $this->expertPanels->firstWhere('name', $data['ep_assignment']);
 
                 if (is_null($expertPanel)) {
-                    throw new ImportException('EP Uknown: '.$data['ep_assignment'].' does not match the name of any known expert panels');
+                    throw new ImportException('EP Uknown: '.$data['ep_assignment']);
                 }
 
                 try {
@@ -295,6 +296,13 @@ class ImportInitialData extends Command
                     return $name;
                 })
                 ->flip();
+    }
+    
+    private function outputInfo($message)
+    {
+        if (!$this->option('disable-info')) {
+            $this->info($message);
+        }
     }
     
 
