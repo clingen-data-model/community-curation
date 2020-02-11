@@ -14,6 +14,8 @@ import moment from 'moment'
 
 Vue.use(BootstrapVue)
 
+localStorage.clear();
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -65,7 +67,7 @@ window.Vue.filter('ucfirst', s => {
     return s.charAt(0).toUpperCase() + s.slice(1)
 })
 
-Vue.filter('formatDate', function (dateString, format = 'YYYY-MM-DD HH:mm') {
+Vue.filter('formatDate', function(dateString, format = 'YYYY-MM-DD HH:mm') {
     if (dateString === null) {
         return null;
     }
@@ -78,7 +80,7 @@ window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
 import store from './store/index'
 import { mapActions } from 'vuex'
 
-function evaluate (el, binding, vnode) {
+function evaluate(el, binding, vnode) {
     console.log(binding);
 }
 
@@ -113,8 +115,8 @@ function clearChildren(el) {
     }
 }
 
-function createOption({value, label}) {
-    let option  = document.createElement('option');
+function createOption({ value, label }) {
+    let option = document.createElement('option');
     option.setAttribute('value', value);
     option.innerText = label;
     return option;
@@ -128,7 +130,7 @@ async function loadActivities() {
             question.disabled = false;
         })
 }
- 
+
 loadActivities();
 
 let panels = [];
@@ -144,14 +146,14 @@ loadPanels();
 
 document.addEventListener('DOMContentLoaded', () => {
     const curationActivityQuestions = Array.from(document.querySelectorAll('select.curation-activity-question'));
-    
+
     curationActivityQuestions
         .forEach(question => {
             question.addEventListener('change', (evt) => {
                 // Update options for expert panel selection
                 const activityPanels = panels.filter(panel => {
-                    return panel.curation_activity_id == question.value 
-                            && panel.accepting_volunteers == 1
+                    return panel.curation_activity_id == question.value &&
+                        panel.accepting_volunteers == 1
                 });
                 const panelQuestion = question.parentElement.parentElement.parentElement.querySelector('select.panel-question');
                 clearChildren(panelQuestion);
@@ -159,41 +161,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 activityPanels.forEach(panel => panelQuestion.appendChild(createOption({ value: panel.id, label: panel.name })))
             });
         });
-        
+
 
     if (document.getElementById('curation_activity_1')) {
         document.getElementById('curation_activity_1')
-        .addEventListener('change', evt => {
-            const availableActivities = curationActivities.filter(activity => activity.id != evt.target.value)
+            .addEventListener('change', evt => {
+                const availableActivities = curationActivities.filter(activity => activity.id != evt.target.value)
 
-            const ca2 = document.querySelector('[name=curation_activity_2]')
-            clearChildren(ca2);
-            ca2.appendChild(createOption({ value: '', label: 'Select...' }))
-            availableActivities.forEach(activity => {
-                ca2.appendChild(createOption({ 
-                    value: activity.id, 
-                    label: activity.name 
-                }))
-            })
-            
-            const ca3 = document.querySelector('[name=curation_activity_3]')
-            clearChildren(ca3);
-            ca3.appendChild(createOption({ value: '', label: 'Select...' }))
-            availableActivities.forEach(activity => ca3.appendChild(createOption({ value: activity.id, label: activity.name })))
-        });
+                const ca2 = document.querySelector('[name=curation_activity_2]')
+                clearChildren(ca2);
+                ca2.appendChild(createOption({ value: '', label: 'Select...' }))
+                availableActivities.forEach(activity => {
+                    ca2.appendChild(createOption({
+                        value: activity.id,
+                        label: activity.name
+                    }))
+                })
+
+                const ca3 = document.querySelector('[name=curation_activity_3]')
+                clearChildren(ca3);
+                ca3.appendChild(createOption({ value: '', label: 'Select...' }))
+                availableActivities.forEach(activity => ca3.appendChild(createOption({ value: activity.id, label: activity.name })))
+            });
 
         document.getElementById('curation_activity_2')
-        .addEventListener('change', evt => {
-            const availableActivities = curationActivities.filter(activity => {
-                return activity.id != evt.target.value 
-                    && activity.id != document.querySelector('[name=curation_activity_1]').value
-            })
+            .addEventListener('change', evt => {
+                const availableActivities = curationActivities.filter(activity => {
+                    return activity.id != evt.target.value &&
+                        activity.id != document.querySelector('[name=curation_activity_1]').value
+                })
 
-            const ca3 = document.querySelector('[name=curation_activity_3]')
-            clearChildren(ca3);
-            ca3.appendChild(createOption({ value: '', label: 'Select...' }))
-            availableActivities.forEach(activity => ca3.appendChild(createOption({ value: activity.id, label: activity.name })))
-        });
+                const ca3 = document.querySelector('[name=curation_activity_3]')
+                clearChildren(ca3);
+                ca3.appendChild(createOption({ value: '', label: 'Select...' }))
+                availableActivities.forEach(activity => ca3.appendChild(createOption({ value: activity.id, label: activity.name })))
+            });
     }
 });
-

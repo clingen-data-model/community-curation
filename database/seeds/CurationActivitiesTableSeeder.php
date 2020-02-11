@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\CurationActivity;
+use App\CurationActivityType;
 
 class CurationActivitiesTableSeeder extends Seeder
 {
@@ -42,8 +43,15 @@ class CurationActivitiesTableSeeder extends Seeder
 
         CurationActivity::unguard();
         foreach ($items as $data) {
+            $data['curation_activity_type_id'] = 1;
             CurationActivity::updateOrCreate(['id' => $data['id']], $data);
         }
+
+        CurationActivity::updateOrCreate(['id' => 6], [
+            'name' => 'Baseline',
+            'curation_activity_type_id' => 2
+        ]);
+
         CurationActivity::reguard();
     }
 }
