@@ -60,7 +60,10 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "app/Import/helpers.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
