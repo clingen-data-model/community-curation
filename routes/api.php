@@ -37,6 +37,8 @@ Route::group([
             Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')->name('curator-upload-file');
             Route::resource('curator-uploads', 'CuratorUploadController')->only(['index', 'show', 'store', 'update', 'destroy']);
 
+            Route::get('curation-activities', 'CurationActivitiesController@index')->name('curation-activities-index');
+
 
             /**
              * Catch-all route for generic API read exposure
