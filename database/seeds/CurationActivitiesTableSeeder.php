@@ -14,17 +14,37 @@ class CurationActivitiesTableSeeder extends Seeder
     public function run()
     {
         $items = [
-            1 => 'Actionability',
-            2 => 'Dosage',
-            3 => 'Gene',
-            4 => 'Somatic Variant',
-            5 => 'Variant',
+            [
+                'id' => 1,
+                'name' => 'Actionability',
+                'legacy_name' => 'Actionability'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Dosage',
+                'legacy_name' => 'Dosage Sensitivity'
+            ],
+            [
+                'id' => 3,
+                'name' => 'Gene',
+                'legacy_name' => 'Gene Disease Validity'
+            ],
+            [
+                'id' => 4,
+                'name' => 'Somatic Variant',
+                'legacy_name' => 'Somatic Cancer'
+            ],
+            [
+                'id' => 5,
+                'name' => 'Variant',
+                'legacy_name' => 'Variant Pathogenicity'
+            ],
         ];
 
         CurationActivity::unguard();
-        foreach ($items as $id => $name) {
-            $curation_activity_type_id = 1;
-            CurationActivity::updateOrCreate(compact('id'), compact('name', 'curation_activity_type_id'));
+        foreach ($items as $data) {
+            $data['curation_activity_type_id'] = 1;
+            CurationActivity::updateOrCreate(['id' => $data['id']], $data);
         }
 
         CurationActivity::updateOrCreate(['id' => 6], [
