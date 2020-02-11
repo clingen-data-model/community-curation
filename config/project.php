@@ -26,4 +26,8 @@ return [
         'active' => 3,
         'retired' => 4,
     ],
+    'curation-activity-types' => [
+        'expert-panel' => 1,
+        'gene' => 2
+    ]
 ];
