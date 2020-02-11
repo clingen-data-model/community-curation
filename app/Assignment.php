@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Collections\AssignmentCollection;
 use App\Events\AssignmentCreated;
 use Illuminate\Database\Eloquent\Model;
 
@@ -68,5 +69,11 @@ class Assignment extends Model
         return $query->assignableType($type)
                 ->where('assignable_id', $id);
     }
+
+    public function newCollection(array $models = [])
+    {
+        return new AssignmentCollection($models);
+    }
+    
     
 }
