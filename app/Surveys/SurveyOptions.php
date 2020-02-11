@@ -32,7 +32,7 @@ class SurveyOptions
     
     public function curationActivities()
     {
-        return CurationActivity::select('id', 'name')->get();
+        return CurationActivity::select('id', 'name')->comprehensive()->get();
     }
     
     public function expertPanels()
