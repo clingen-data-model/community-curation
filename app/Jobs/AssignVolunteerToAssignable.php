@@ -21,6 +21,9 @@ class AssignVolunteerToAssignable
     /**
      * Create a new job instance.
      *
+     * @param App\User $volunteer user to assign
+     * @param App\Contracts\AssignableContract $assignable Assignable to assign
+     * 
      * @return void
      */
     public function __construct(User $volunteer, AssignableContract $assignable)
