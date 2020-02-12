@@ -14,6 +14,7 @@
 <template>
     <div class="card">
         <div class="card-header">
+            <a href="/assignments-report" class="float-right btn btn-sm btn-primary">Assignments Report</a>
             <h1>Volunteers</h1>
         </div>
         <div class="card-body">
