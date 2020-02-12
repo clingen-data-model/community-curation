@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
-use App\Services\AttestationFormResolver;
 use Illuminate\Support\ServiceProvider;
+use App\Services\AttestationFormResolver;
+use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         app()->bind(AttestationFormResolverContract::class, AttestationFormResolver::class);
+
+        app()->bind(\Box\Spout\Writer\XLSX\Writer::class, function () {
+            return  \Box\Spout\Writer\Common\Creator\WriterEntityFactory::createXLSXWriter();
+        });
     }
 }

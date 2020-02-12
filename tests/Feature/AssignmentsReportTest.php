@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\Reports\AssignmentReportGenerator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @assignments
@@ -42,17 +43,10 @@ class AssignmentsReportTest extends TestCase
 
         AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->expertPanels->get(3)->first());
         AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->expertPanels->get(3)->last());
-    }
- 
-    /**
-     * @test
-     */
-    public function rows_have_all_relevant_data()
-    {
-        $date = Carbon::now();
-        $vol = $this->volunteers->get(1);
 
-        $appRsp = class_survey()::findBySlug('application1')->getNewResponse($vol);
+        $this->date = Carbon::now();
+
+        $appRsp = class_survey()::findBySlug('application1')->getNewResponse($this->volunteers->get(1));
         $appRsp->fill([
             'email' => 'test@test.com',
             'first_name' => 'test',
@@ -61,19 +55,27 @@ class AssignmentsReportTest extends TestCase
         $appRsp->save();
         $appRsp->finalize();
 
-        $vol->trainings()
+        $this->volunteers->get(1)->fresh()->trainings()
             ->get()
             ->first()
-            ->update(['completed_at' => $date]);
+            ->update(['completed_at' => $this->date]);
 
-        $vol->attestations()
+        $this->volunteers->get(1)->fresh()->attestations()
             ->get()
             ->first()
-            ->update(['signed_at' => $date]);
+            ->update(['signed_at' => $this->date]);
 
+
+    }
+ 
+    /**
+     * @test
+     */
+    public function rows_have_all_relevant_data()
+    {
         $report = (new AssignmentReportGenerator)->generate();
         
-        $vol = $vol->fresh();
+        $vol = $this->volunteers->get(1)->fresh();
         $testRow = $report->get('all')
                     ->filter(function ($row) use ($vol) {
                         return $row['email'] == $vol->email;
@@ -90,11 +92,11 @@ class AssignmentsReportTest extends TestCase
                 'city' => $vol->city,
                 'current_status' => $vol->volunteerStatus->name,
                 'ca_assignments' => 1,
-                'survey_completion_date' => $date->format('Y-m-d H:i:s'),
+                'survey_completion_date' => $this->date->format('Y-m-d H:i:s'),
                 'curation_activity_id' => $this->curationActivities->get(3)->id,
                 'curation_activity' => $this->curationActivities->get(3)->name,
-                'training_completion_date' => $date,
-                'attestation_date' => $date,
+                'training_completion_date' => $this->date,
+                'attestation_date' => $this->date,
                 'assigned_expert_panel' => $this->expertPanels->get(3)->first()->name
                                             .",\n"
                                             .$this->expertPanels->get(3)->last()->name
@@ -143,7 +145,23 @@ class AssignmentsReportTest extends TestCase
         $this->assertEquals(1, $curationActivities->count());
         $this->assertEquals($sheetName, $curationActivities->first());
     }
-    
-    
+
+    /**
+     * @test
+     */
+    public function assignments_report_endpoint_returns_an_xlsx_file()
+    {
+        $user = factory(User::class)->create([]);
+
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($user)
+            ->call('GET', 'assignments-report')
+            ->assertStatus(200);
+
+        // assert that the baseResponse object is a Symfony BinaryFileResponse
+        $this->assertInstanceOf(BinaryFileResponse::class, $response->baseResponse);
+        $this->assertEquals(storage_path('app/reports'), $response->baseResponse->getFile()->getPath());
+        $this->assertEquals('xlsx', $response->baseResponse->getFile()->getExtension());
+    }
     
 }
