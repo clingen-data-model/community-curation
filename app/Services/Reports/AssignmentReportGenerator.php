@@ -16,8 +16,10 @@ class AssignmentReportGenerator implements ReportGenerator
                             'country', 
                             'volunteerStatus', 
                             'assignments', 
+                            'assignments.status', 
                             'assignments.trainings', 
-                            'assignments.assignable', 
+                            'assignments.assignable',
+                            'assignments.attestations',
                             'application'
                         ])
                         ->isVolunteer()
@@ -39,16 +41,15 @@ class AssignmentReportGenerator implements ReportGenerator
             ];
             return $volunteer->assignments
                 ->isCurationActivity()
-                ->transform(function ($assignment) use ($root) {
+                ->transform(function ($assignment) use ($root, $volunteer) {
                     return array_merge(
                             $root, 
                             [
                                 'curation_activity_id' => $assignment->assignable->id,
                                 'curation_activity' => $assignment->assignable->name,
-                                // 'training_assignment_date' => ,
                                 'training_completion_date' => ($assignment->trainings->first()) ? $assignment->trainings->first()->completed_at : null,
                                 'attestation_date' => ($assignment->attestations->first()) ? $assignment->attestations->first()->signed_at : null,
-                                'assigned_expert_panel' => $assignment->volunteer->assignments->isExpertPanel()->pluck('assignable.name')->join(",\n"),
+                                'assigned_expert_panel' => $volunteer->assignments->isExpertPanel()->pluck('assignable.name')->join(",\n"),
                             ]
                         );
                 });
