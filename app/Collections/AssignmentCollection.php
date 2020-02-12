@@ -25,7 +25,5 @@ class AssignmentCollection extends Collection
     public function isExpertPanel()
     {
         return $this->isType(ExpertPanel::class);
-    }
-    
-    
+    }    
 }
