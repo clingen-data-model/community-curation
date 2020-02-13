@@ -19,9 +19,9 @@
             </div>
 
             <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label">ORCHiD ID</label>
+                <label for="name" class="col-sm-3 col-form-label">ORCiD ID</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="name" v-model="volunteer.orchid_id" placeholder="123123123">
+                    <input type="text" class="form-control" id="name" v-model="volunteer.orcid_id" placeholder="123123123">
                 </div>
             </div>
 
@@ -112,7 +112,7 @@
                     this.volunteer.id, 
                     {
                         'name': this.volunteer.name,
-                        'orchid_id': this.volunteer.orchid_id,
+                        'orcid_id': this.volunteer.orcid_id,
                         'email': this.volunteer.email,
                         'street1': this.volunteer.street1,
                         'street2': this.volunteer.street2,
