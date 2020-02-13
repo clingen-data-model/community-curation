@@ -111,11 +111,11 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function has_nullable_fillable_orchid_id()
+    public function has_nullable_fillable_orcid_id()
     {
-        $volunteer = factory(User::class)->create(['orchid_id' => null]);
-        $volunteer->update(['orchid_id' => 'test']);
+        $volunteer = factory(User::class)->create(['orcid_id' => null]);
+        $volunteer->update(['orcid_id' => 'test']);
 
-        $this->assertEquals('test', $volunteer->orchid_id);
+        $this->assertEquals('test', $volunteer->orcid_id);
     }
 }
