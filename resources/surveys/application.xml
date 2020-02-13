@@ -34,8 +34,8 @@
             <question-text>Institution*</question-text>
         </question>
 
-        <question name="orchid_id" id="orchid_id">
-            <question-text>If you have an ORCHID ID, please provide it:</question-text>
+        <question name="orcid_id" id="orcid_id">
+            <question-text>If you have an ORCID ID, please provide it:</question-text>
         </question>
 
         <question-group name="address-group" id="address-group">            
