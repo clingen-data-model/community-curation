@@ -39,7 +39,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'orchid_id',
+        'orcid_id',
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
