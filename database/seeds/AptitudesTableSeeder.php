@@ -67,13 +67,17 @@ class AptitudesTableSeeder extends Seeder
                 'id' => 7,
                 'name' => 'Basic Evidence',
                 'training_materials_url' => 'https://www.google.com',
-                'volunteer_type_id' => 1
+                'volunteer_type_id' => 1,
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 6,
             ],
             [
                 'id' => 8,
                 'name' => 'Genetic Evidence',
                 'training_materials_url' => 'https://www.google.com',
-                'volunteer_type_id' => 1
+                'volunteer_type_id' => 1,
+                'subject_type' => 'App\CurationActivity',
+                'subject_id' => 6,
             ]
         ];
 
