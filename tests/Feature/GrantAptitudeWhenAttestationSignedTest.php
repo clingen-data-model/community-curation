@@ -6,6 +6,7 @@ use App\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Attestation;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,6 +15,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 class GrantAptitudeWhenAttestationSignedTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setUp():void
     {
         parent::setUp();

@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ConversionToComprehensive;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConversionToComprehensiveTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * @test
      */

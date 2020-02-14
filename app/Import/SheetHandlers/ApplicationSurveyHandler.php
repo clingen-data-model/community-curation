@@ -65,29 +65,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $this->goals = Goal::all();
         $this->campaigns = Campaign::all();
         $this->expertPanels = ExpertPanel::all();
-        $this->curationActivities = collect([
-            (object)[
-                'id' => 1,
-                'name' => 'Clinical Actionability'
-            ],
-            (object)[
-                'id' => 2,
-                'name' => 'Dosage Sensitivity'
-            ],
-            (object)[
-                'id' => 3,
-                'name' => 'Gene-Disease Validity'
-            ],
-            (object)[
-                'id' => 4,
-                'name' => 'Somatic Cancer'
-            ],
-            (object)[
-                'id' => 5,
-                'name' => 'Variant Pathogenicity'
-            ],
-
-        ]);
+        $this->curationActivities = CurationActivity::all();
         $this->highestEd = Collect([
             (object)[
                 'id' => 1,
@@ -118,6 +96,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
                 'name' => 'Other'
             ]]
         );
+
         $this->outsidePanelOptions = collect([
             (object)[
                 'id' => 1,
@@ -195,9 +174,9 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $data['highest_ed'] = $this->getSingleId($row['highest_ed'], $this->highestEd);
         $data['highest_ed_other'] = $this->getOtherStringForSingle($row['highest_ed'], $this->highestEd);
 
-        $data['curation_activity_1'] = $this->getSingleId($row['curation_activity_1'], $this->curationActivities);
-        $data['curation_activity_2'] = $this->getSingleId($row['curation_activity_2'], $this->curationActivities);
-        $data['curation_activity_3'] = $this->getSingleId($row['curation_activity_3'], $this->curationActivities);
+        $data['curation_activity_1'] = $this->getSingleId($row['curation_activity_1'], $this->curationActivities, 'legacy_name');
+        $data['curation_activity_2'] = $this->getSingleId($row['curation_activity_2'], $this->curationActivities, 'legacy_name');
+        $data['curation_activity_3'] = $this->getSingleId($row['curation_activity_3'], $this->curationActivities, 'legacy_name');
         
         $data['additional_priority'] = $this->getSingleId($row['additional_priority'], $this->additionalPriority);
         $data['panel_1'] = $this->getSingleId($row['panel_1'], $this->expertPanels);
@@ -208,9 +187,9 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         return $data;
     }
 
-    private function getSingleId($value, Collection $options)
+    private function getSingleId($value, Collection $options, $attribute = 'name')
     {
-        return ($options->firstWhere('name', $value)) ? $options->firstWhere('name', $value)->id : null;
+        return ($options->firstWhere($attribute, $value)) ? $options->firstWhere($attribute, $value)->id : null;
     }
     
     private function getMultipleIds($value, Collection $options)
