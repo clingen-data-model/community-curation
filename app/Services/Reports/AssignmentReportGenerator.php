@@ -33,7 +33,7 @@ class AssignmentReportGenerator implements ReportGenerator
                 'email' => $volunteer->email,
                 'first_name' => $volunteer->first_name,
                 'last_name' => $volunteer->last_name,
-                'country' => ($volunteer->country) ? $volunteer->country->name : 'unknown',
+                'country' => ($volunteer->country) ? $volunteer->country->name : null,
                 'state' => $volunteer->state,
                 'city' => $volunteer->city,
                 'current_status' => $volunteer->volunteerStatus ? $volunteer->volunteerStatus->name : 'MISSING WTF?!',

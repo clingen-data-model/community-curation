@@ -49,7 +49,8 @@ class CurationActivitiesTableSeeder extends Seeder
 
         CurationActivity::updateOrCreate(['id' => 6], [
             'name' => 'Baseline',
-            'curation_activity_type_id' => 2
+            'curation_activity_type_id' => 2,
+            'legacy_name' => 'Baseline'
         ]);
 
         CurationActivity::reguard();
