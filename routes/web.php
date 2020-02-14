@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('attestations', 'AttestationController')
         ->only('show', 'edit', 'update');
+
+    Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
 });
 
 Route::get('apply/thank-you', function (Request $request) {
