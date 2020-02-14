@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use App\CurationActivity;
-use InvalidArgumentException;
 use App\Events\AssignmentCreated;
 use App\Jobs\AssignVolunteerToAssignable;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Exceptions\InvalidAssignmentException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -27,7 +27,7 @@ class AssignmentTest extends TestCase
         $baselineVolunteer = factory(User::class)->states(['volunteer','baseline'])->create(['volunteer_type_id' => 1]);
         $curationActivity = CurationActivity::all()->random();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidAssignmentException::class);
 
         AssignVolunteerToAssignable::dispatch($baselineVolunteer, $curationActivity);
     }
