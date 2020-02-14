@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Assignment;
-use App\Contracts\AssignableContract;
 use App\User;
 use App\assignable;
+use App\Assignment;
 use Illuminate\Bus\Queueable;
+use App\Contracts\AssignableContract;
 use Illuminate\Foundation\Bus\Dispatchable;
-use InvalidArgumentException;
+use App\Exceptions\InvalidAssignmentException;
 
 class AssignVolunteerToAssignable
 {
@@ -40,7 +40,7 @@ class AssignVolunteerToAssignable
     public function handle()
     {
         if ($this->volunteer->volunteer_type_id === config('volunteers.types.baseline')) {
-            throw new InvalidArgumentException('Baseline volunteers can not be assigned to curations');
+            throw new InvalidAssignmentException('Baseline volunteers can not be assigned to curations');
         }
 
         Assignment::firstOrCreate([

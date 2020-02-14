@@ -2,6 +2,7 @@
 
 namespace App\Services\Reports;
 
+use DateTime;
 use Carbon\Carbon;
 use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
@@ -28,13 +29,15 @@ class AssignmentReportWriter
             ->setFontBold()
             ->build();
 
-        foreach ($data as $sheetName => $data) {
+        $headerRow = WriterEntityFactory::createRow($this->getHeaderCells($data->first()));
+
+        foreach ($data as $sheetName => $sheetData) {
             $sheet = $this->xlsxWriter->getCurrentSheet();
             $sheet->setName($sheetName);
 
-            $this->xlsxWriter->addRow(WriterEntityFactory::createRow($this->getHeaderCells($data), $rowStyle));
+            $this->xlsxWriter->addRow($headerRow, $rowStyle);
 
-            foreach ($data->toArray() as $rowData) {
+            foreach ($sheetData->toArray() as $rowData) {
                 $row = WriterEntityFactory::createRow($this->arrayToCells($rowData));
                 $this->xlsxWriter->addRow($row);
             }
@@ -51,7 +54,9 @@ class AssignmentReportWriter
             if (is_object($item)) {
                 $value = $item->toString();
                 if (get_class($item) == Carbon::class) {
-                    $value = $item->format("Y-m-d H:i:s");
+                    $value = $item->format("Y-m-d");
+                } else if (get_class($item) == DateTime::class) {
+                    $value = $item->format('Y-m-d');
                 }
             }
             return WriterEntityFactory::createCell($value);
