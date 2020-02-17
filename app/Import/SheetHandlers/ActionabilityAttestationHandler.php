@@ -27,5 +27,4 @@ class ActionabilityAttestationHandler extends AbstractAttestationSheetHandler
     {
         return $this->rowKeys;
     }    
-
 }
