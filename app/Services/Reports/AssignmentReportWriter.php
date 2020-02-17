@@ -4,6 +4,7 @@ namespace App\Services\Reports;
 
 use DateTime;
 use Carbon\Carbon;
+use Illuminate\Support\Carbon as IlluminateCarbon;
 use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
@@ -53,10 +54,8 @@ class AssignmentReportWriter
             $value = $item;
             if (is_object($item)) {
                 $value = $item->toString();
-                if (get_class($item) == Carbon::class) {
+                if (in_array(get_class($item), [Carbon::class, IlluminateCarbon::class, DateTime::class])) {
                     $value = $item->format("Y-m-d");
-                } else if (get_class($item) == DateTime::class) {
-                    $value = $item->format('Y-m-d');
                 }
             }
             return WriterEntityFactory::createCell($value);
