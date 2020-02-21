@@ -118,9 +118,10 @@ class ImportInitialData extends Command
         $volunteerCollection->filter(function ($val, $key) {
             return !looksLikeEmailAddress($key);
         })
+            ->sortKeys()
             ->each(function ($attestationData, $nameKey) use ($volunteerCollection, $nameToEmailAddress) {
                 if ($volunteerCollection->keys()->contains($nameKey)) {
-                    $email = $nameToEmailAddress->get(strtolower($nameKey));
+                    $email = $nameToEmailAddress->get(mb_strtolower($nameKey));
                         
                     if (!$volunteerCollection->get($email)) {
                         $this->warn('We can not find an email address for name '.$nameKey);
@@ -336,12 +337,15 @@ class ImportInitialData extends Command
                     return strstr($key, '@');
                 })
                 ->transform(function ($item, $key) {
+                    // if ($key == 'rodrigomendezh@gmail.com') {
+                    //     return strtolower('Hector Rodrigo Méndez');
+                    // }
                     $name = $item->get('Volunteer Survey')[count($item->get('Volunteer Survey'))-1]['name'];
                     if (is_null($name)) {
                         $this->warn('expect name in volunteer survey to be a string, '.gettype($name).' found for email address '.$key.'.');
                         return '';
                     }
-                    return strtolower($name);
+                    return mb_strtolower($name);
                 })
                 ->flip();
     }
