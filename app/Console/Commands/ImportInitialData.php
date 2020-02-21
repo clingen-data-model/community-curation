@@ -21,6 +21,7 @@ use App\Import\SheetHandlers\AssignmentsSheetHandler;
 use App\Import\SheetHandlers\ApplicationSurveyHandler;
 use App\Import\SheetHandlers\DosageAttestationHandler;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use App\Import\SheetHandlers\VariantAttestationSheetHandler;
 use App\Import\SheetHandlers\ActionabilityAttestationHandler;
 
 class ImportInitialData extends Command
@@ -30,7 +31,7 @@ class ImportInitialData extends Command
      *
      * @var string
      */
-    protected $signature = 'import:all {--disable-info : disable info output }';
+    protected $signature = 'import:all {--enable-info : enable info output }';
 
     /**
      * The console command description.
@@ -42,7 +43,7 @@ class ImportInitialData extends Command
     /**
      * @var ExpertPanelMap mapper for expert panels
      */
-     private $expertPanelMap;
+    private $expertPanelMap;
     
     /**
      * @var Collection Collection of CurationActivity models
@@ -78,21 +79,11 @@ class ImportInitialData extends Command
 
         $reader->open($assignmentsSheet);
 
-        $assignmentsSheetHandler = new AssignmentsSheetHandler();
-        $applicationHandler = new ApplicationSurveyHandler();
-        $geneAttestationHandler = new GeneAttestationHandler();
-        $dosageAttestationHandler = new DosageAttestationHandler();
-        $actionabilityAttestationHandler = new ActionabilityAttestationHandler();
-        
-        $assignmentsSheetHandler
-            ->setNext($applicationHandler)
-            ->setNext($geneAttestationHandler)
-            ->setNext($actionabilityAttestationHandler)
-            ->setNext($dosageAttestationHandler);
+        $handlerChain = $this->buildHandlerChain();
 
         $volunteerRows = [];
         foreach ($reader->getSheetIterator() as $sheet) {
-            $rows = $assignmentsSheetHandler->handle($sheet);
+            $rows = $handlerChain->handle($sheet);
             foreach ($rows as $email => $data) {
                 if (!isset($volunteerRows[$email])) {
                     $volunteerRows[$email] = collect();
@@ -102,16 +93,35 @@ class ImportInitialData extends Command
         }
         $reader->close();
 
-        $volunteerCollection = collect($volunteerRows)->filter(function ($val, $key) { return $key != "";});
+        $volunteerCollection = collect($volunteerRows)->filter(function ($val, $key) {
+            return $key != ""
+                && !in_array($key, [
+                    'Emma Wilcox',
+                    'Revathi Rajkumar',
+                    'Rajiv Machado',
+                    'Carrie Welch',
+                    'Laura Southgate',
+                    'Micheala Aldred',
+                    'Britt Johnson',
+                    'Jair Tenorio',
+                    'Divya Pandya',
+                    'Emilia Swietlik',
+                    'Christina A. Eichstaedt',
+                    'Madeline Hughes',
+                    '1',
+                    'Krzysztof SzczaÅ‚uba'
+                ]);
+        });
 
         $nameToEmailAddress = $this->getNameToEmailMap($volunteerCollection);
-    
+
         $volunteerCollection->filter(function ($val, $key) {
-                return !looksLikeEmailAddress($key);
-            })
-            ->each(function ($attestationData, $nameKey) use ($volunteerCollection, $nameToEmailAddress) {                
+            return !looksLikeEmailAddress($key);
+        })
+            ->sortKeys()
+            ->each(function ($attestationData, $nameKey) use ($volunteerCollection, $nameToEmailAddress) {
                 if ($volunteerCollection->keys()->contains($nameKey)) {
-                    $email = $nameToEmailAddress->get($nameKey);
+                    $email = $nameToEmailAddress->get(mb_strtolower($nameKey));
                         
                     if (!$volunteerCollection->get($email)) {
                         $this->warn('We can not find an email address for name '.$nameKey);
@@ -128,7 +138,6 @@ class ImportInitialData extends Command
             ->each(function ($volunteerData, $key) {
                 $this->processVolunteerData($volunteerData, $key);
             });
-
     }
 
     private function processVolunteerData($volunteerData, $email)
@@ -141,14 +150,34 @@ class ImportInitialData extends Command
             $response = $this->createSurveyResponse($volunteerData);
             $volunteer = $response->respondent;
             $this->importVolunteerAssignments($volunteer, $volunteerData);
+            $this->updateVolunteerStatus($volunteer, $volunteerData);
         } catch (ImportException $th) {
             $this->warn(
                 // str_repeat('-', strlen($th->getMessage()))."\n"
-                // . 
+                // .
                 $th->getMessage()
                 // . "\n".str_repeat('-', strlen($th->getMessage()))
             );
         }
+    }
+
+    private function buildHandlerChain()
+    {
+        $assignmentsSheetHandler = new AssignmentsSheetHandler();
+        $applicationHandler = new ApplicationSurveyHandler();
+        $geneAttestationHandler = new GeneAttestationHandler();
+        $dosageAttestationHandler = new DosageAttestationHandler();
+        $actionabilityAttestationHandler = new ActionabilityAttestationHandler();
+        $variantAttestationHandler = new VariantAttestationSheetHandler();
+        
+        $assignmentsSheetHandler
+            ->setNext($applicationHandler)
+            ->setNext($geneAttestationHandler)
+            ->setNext($actionabilityAttestationHandler)
+            ->setNext($dosageAttestationHandler)
+            ->setNext($variantAttestationHandler);
+
+        return $assignmentsSheetHandler;
     }
 
     private function clearExistingUser($email)
@@ -206,96 +235,101 @@ class ImportInitialData extends Command
             2 => $volunteerData->get('Dosage Attestations') ? collect($volunteerData->get('Dosage Attestations')) : null,
             3 => $volunteerData->get('Gene Attestations') ? collect($volunteerData->get('Gene Attestations')) : null,
             4 => null,
-            5 => null
+            5 => $volunteerData->get('Variant Attestations') ? collect($volunteerData->get('Variant Attestations')) : null,
         ];
 
         $assignmentData->each(function ($data) use ($volunteer, $attestationData) {
-            if (!empty($data['ca_assignment'])) {
-                $ca = $this->curationActivities->firstWhere('legacy_name', $data['ca_assignment']);
-
-                if ($ca == 'NA' || is_null($ca)) {
-                    return;
-                }
-                $this->outputInfo(' - Assignment data ['.$ca->name.']');
-
-                if (!$ca) {
-                    throw new ImportException('CA Unknown: '.$data['ca_assignment'].' ('.$data['email'].')');
-                }
-                
-                try {
-                    AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
-                } catch (InvalidAssignmentException $th) {
-                    $volunteer->update(['volunteer_type_id' => config('volunteer_types.comprehensive')]);
-                    AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
-                }
-
-                $assignment = $volunteer->assignments()
-                    ->with('trainings')
-                    ->assignableIs(get_class($ca), $ca->id)
-                    ->get()
-                    ->first();
-                
-                $assignment->created_at = $data['ca_assignment_date'];
-                $assignment->updated_at = $data['ca_assignment_date'];
-                $assignment->save();
-
-                $training = $assignment->trainings->first();
-                $training->created_at = $data['ca_assignment_date'];
-                $training->updated_at = $data['ca_assignment_date'];
-                $training->save();
-                
-                if (empty($data['training_date']) || !$data['training_attended']) {
-                    $this->outputInfo('    - training not complete');
-                    return;
-                }
-                $this->outputInfo('    - import training info');
-                $training->completed_at = $data['training_date'];
-                $training->updated_at = $data['training_date'];
-                $training->save();
-
-                $attestation = $assignment->attestations()->first();
-                $attestation->created_at = $data['training_date'];
-                $attestation->updated_at = $data['training_date'];
-                $attestation->save();
-
-                if (!$data['attestation_signed']) {
-                    $this->outputInfo('    - attestation not signed');
-                    return;
-                }                
-                $this->outputInfo('    - import attestation info');
-                $signedAt = Carbon::now();
-                if ($attestationData[$ca->id]) {
-                    $signedAt = $attestationData[$ca->id]->get('signed_at');
-                }
-                $attestation->signed_at = $signedAt;
-                $attestation->save();
-                
-                // dump($data);
-
-                if (empty($data['ep_assignment'])) {
-                    $this->outputInfo('    - Not assigned to WG/EP'.' ('.$data['email'].')');
-                    return;
-                }
-
-                $expertPanel = $this->expertPanelMap->map($data['ep_assignment']);
-
-                if (is_null($expertPanel)) {
-                    throw new ImportException('EP Uknown: '.$data['ep_assignment'].' ('.$data['email'].')');
-                }
-
-                try {
-                    $this->outputInfo('    - assign expert panel ['.$expertPanel->name.']');
-                    AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
-                } catch (InvalidArgumentException $th) {
-                    throw new ImportException($th->getMessage());
-                }
-
+            if (empty($data['ca_assignment'])) {
+                return;
             }
+            $assignment = $this->assignCurationActivity($volunteer, $data);
+            if (!$assignment) {
+                return;
+            }
+
+            if (empty($data['training_date']) || !$data['training_attended']) {
+                $this->outputInfo('    - training not complete');
+                return;
+            }
+            $this->updateTraining($assignment, $data);
+
+            if (!$data['attestation_signed']) {
+                $this->outputInfo('    - attestation not signed');
+                return;
+            }
+            $this->updateAttestation($assignment, $data, $attestationData);
+                
+            if (empty($data['ep_assignment'])) {
+                $this->outputInfo('    - Not assigned to WG/EP'.' ('.$data['email'].')');
+                return;
+            }
+            $this->assignExpertPanel($volunteer, $data);
         });
-
-
     }
 
+    private function assignCurationActivity($volunteer, $data)
+    {
+        $ca = $this->curationActivities->firstWhere('legacy_name', $data['ca_assignment']);
+
+        if ($ca == 'NA' || is_null($ca)) {
+            return;
+        }
+        $this->outputInfo(' - Assignment data ['.$ca->name.']');
+
+        if (!$ca) {
+            throw new ImportException('CA Unknown: '.$data['ca_assignment'].' ('.$data['email'].')');
+        }
+        
+        try {
+            AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+        } catch (InvalidAssignmentException $th) {
+            $volunteer->update(['volunteer_type_id' => config('volunteer_types.comprehensive')]);
+            AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+        }
+
+        $assignment = $volunteer->assignments()
+            ->with('trainings')
+            ->assignableIs(get_class($ca), $ca->id)
+            ->get()
+            ->first();
+        
+        $assignment->created_at = $data['ca_assignment_date'];
+        $assignment->updated_at = $data['ca_assignment_date'];
+        $assignment->save();
+
+        return $assignment;
+    }
+    
+    private function updateTraining($assignment, $data)
+    {
+        $training = $assignment->trainings()->first();
+        $training->created_at = $data['ca_assignment_date'];
+        $training->updated_at = $data['ca_assignment_date'];
+        $training->save();
+        
+        $this->outputInfo('    - import training info');
+        $training->completed_at = $data['training_date'];
+        $training->updated_at = $data['training_date'];
+        $training->save();
+    }
+    
+    private function updateAttestation($assignment, $data, $attestationData)
+    {
+        $attestation = $assignment->attestations()->first();
+        $attestation->created_at = $data['training_date'];
+        $attestation->updated_at = $data['training_date'];
+        $attestation->save();
+
+        $this->outputInfo('    - import attestation info');
+        $signedAt = Carbon::now();
+        if ($attestationData[$assignment->assignable_id]) {
+            $signedAt = $attestationData[$assignment->assignable_id]->get('signed_at');
+        }
+        $attestation->signed_at = $signedAt;
+        $attestation->data = $attestationData[$assignment->assignable_id]['data'];
+        $attestation->save();
+    }
+    
     private function getNameToEmailMap(Collection $collection)
     {
         return $collection
@@ -303,22 +337,89 @@ class ImportInitialData extends Command
                     return strstr($key, '@');
                 })
                 ->transform(function ($item, $key) {
+                    // if ($key == 'rodrigomendezh@gmail.com') {
+                    //     return strtolower('Hector Rodrigo Méndez');
+                    // }
                     $name = $item->get('Volunteer Survey')[count($item->get('Volunteer Survey'))-1]['name'];
                     if (is_null($name)) {
                         $this->warn('expect name in volunteer survey to be a string, '.gettype($name).' found for email address '.$key.'.');
                         return '';
                     }
-                    return $name;
+                    return mb_strtolower($name);
                 })
                 ->flip();
     }
     
+    private function assignExpertPanel($volunteer, $data)
+    {
+        $expertPanel = null;
+        try {
+            $expertPanel = $this->expertPanelMap->map($data['ep_assignment']);
+        } catch (ImportException $th) {
+            if ($th->getCode() == 409) {
+                $expertPanel = $this->expertPanelMap->mapAbiguous($data['ep_assignment'], $data['ca_assignment']);
+            }
+        }
+
+        if (is_null($expertPanel)) {
+            throw new ImportException('EP Uknown: '.$data['ep_assignment'].' ('.$data['email'].')');
+        }
+
+        try {
+            $this->outputInfo('    - assign expert panel ['.$expertPanel->name.']');
+            AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+        } catch (InvalidArgumentException $th) {
+            throw new ImportException($th->getMessage());
+        }
+    }
+
+    private function updateVolunteerStatus($volunteer, $data)
+    {
+        $assignmentsData = $data->get('Assignments')[0];
+        $statusString = trim(strtolower($assignmentsData['status']));
+        $statuses = [
+            'applied' => 1,
+            'trained' => 2,
+            'active' => 3,
+            'unresponsive' => 4,
+            'declined' => 5,
+            'retired' => 6,
+            'follow up email' => 1,
+            'recontact later' => 1
+        ];
+
+        if (array_key_exists($statusString, $statuses)) {
+            $volunteer->update([
+                'volunteer_status_id' => $statuses[$statusString]
+            ]);
+            return;
+        }
+
+        if (in_array($statusString, ['contacted', 'assigned'])) {
+            $statusId = $statuses['applied'];
+            if ($assignmentsData['training_date']) {
+                $statusId = $statuses['trained'];
+            }
+            if ($volunteer->assignments()->expertPanel()->first()) {
+                $statusId = $statuses['active'];
+            }
+            $volunteer->update([
+                'volunteer_status_id' => $statusId
+            ]);
+            return;
+        }
+
+        if (in_array($statusString, ['unassigned', 'folow up email'])) {
+            return;
+        }
+
+        throw new ImportException('Unknown status '.$statusString.' for '.$volunteer['email']);
+    }
+
     private function outputInfo($message)
     {
-        if (!$this->option('disable-info')) {
+        if ($this->option('enable-info')) {
             $this->info($message);
         }
     }
-    
-
 }
