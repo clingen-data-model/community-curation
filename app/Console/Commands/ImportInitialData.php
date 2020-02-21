@@ -131,13 +131,16 @@ class ImportInitialData extends Command
                 }
             });
 
-        $volunteerCollection
+        $volunteerCollection = $volunteerCollection
             ->filter(function ($val, $key) {
                 return strstr($key, '@') && $key != "" && is_string($key);
-            })
-            ->each(function ($volunteerData, $key) {
-                $this->processVolunteerData($volunteerData, $key);
             });
+        $bar = $this->output->createProgressBar($volunteerCollection->count());
+        $volunteerCollection->each(function ($volunteerData, $key) use ($bar) {
+            $this->processVolunteerData($volunteerData, $key);
+            $bar->advance();
+        });
+        echo "\n";
     }
 
     private function processVolunteerData($volunteerData, $email)
@@ -215,8 +218,10 @@ class ImportInitialData extends Command
 
         $response = class_survey()::findBySlug('application1')->getNewResponse(null);
         $response->fill($lastRecord);
+        $response->created_at = $lastRecord['created_at'];
+        $response->updated_at = $lastRecord['created_at'];
         $response->save();
-        $response->finalize();
+        $response->finalize(Carbon::parse($lastRecord['created_at']));
         $response = $response->fresh();
 
         
