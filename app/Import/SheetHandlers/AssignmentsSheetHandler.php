@@ -26,7 +26,9 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
             }
             $rowValues = rowToArray($rowObj);
             if (is_null($header)) {
-                $header = array_map(function ($itm) {return trim(strtolower($itm));}, $rowValues);
+                $header = array_map(function ($itm) {
+                    return trim(strtolower($itm));
+                }, $rowValues);
                 continue;
             }
 
@@ -34,6 +36,7 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
             $rows[] = [
                 'name' => $row['name'],
                 'email' => trim(preg_replace('/\"/', '', $row['email address'])),
+                'status' => $row['status'],
                 'ca_assignment_date' => $row['timestamp'],
                 'ca_assignment' => $row['curation effort'],
                 'ep_assignment' => $row['wg /ep'],
@@ -64,5 +67,4 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
 
         throw new \Exception('Unkown volunteer type string: '.$typeString);
     }
-    
 }

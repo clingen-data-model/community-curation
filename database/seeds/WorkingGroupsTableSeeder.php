@@ -25,6 +25,14 @@ class WorkingGroupsTableSeeder extends Seeder
             ['id'=>10, 'name'=>'Actionability'],
             ['id'=>11, 'name'=>'Dosage'],
             ['id'=>12, 'name'=>'Somatic'],
+            ['id' => 13, 'name' => 'Epilepsy'],
+            ['id' => 14, 'name' => 'Dilated Cardiomyopathy'],
+            ['id' => 15, 'name' => 'Aminoacidopathy'],
+            ['id' => 16, 'name' => 'Lysosomal Storage Disorders'],
+            ['id' => 17, 'name' => 'Phenylketonuria'],
+            ['id' => 18, 'name' => 'CDH1'],
+            ['id' => 19, 'name' => 'Malignant Hyperthermia Susceptibility'],
+            ['id' => 20, 'name' => 'Dosage']
         ];
 
         WorkingGroup::unguard();
