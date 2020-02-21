@@ -26,7 +26,9 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
             }
             $rowValues = rowToArray($rowObj);
             if (is_null($header)) {
-                $header = array_map(function ($itm) {return trim(strtolower($itm));}, $rowValues);
+                $header = array_map(function ($itm) {
+                    return trim(strtolower($itm));
+                }, $rowValues);
                 continue;
             }
 
@@ -65,5 +67,4 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
 
         throw new \Exception('Unkown volunteer type string: '.$typeString);
     }
-    
 }

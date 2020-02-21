@@ -31,7 +31,7 @@ class ImportInitialData extends Command
      *
      * @var string
      */
-    protected $signature = 'import:all {--disable-info : disable info output }';
+    protected $signature = 'import:all {--enable-info : enable info output }';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class ImportInitialData extends Command
     /**
      * @var ExpertPanelMap mapper for expert panels
      */
-     private $expertPanelMap;
+    private $expertPanelMap;
     
     /**
      * @var Collection Collection of CurationActivity models
@@ -93,16 +93,34 @@ class ImportInitialData extends Command
         }
         $reader->close();
 
-        $volunteerCollection = collect($volunteerRows)->filter(function ($val, $key) { return $key != "";});
+        $volunteerCollection = collect($volunteerRows)->filter(function ($val, $key) {
+            return $key != ""
+                && !in_array($key, [
+                    'Emma Wilcox',
+                    'Revathi Rajkumar',
+                    'Rajiv Machado',
+                    'Carrie Welch',
+                    'Laura Southgate',
+                    'Micheala Aldred',
+                    'Britt Johnson',
+                    'Jair Tenorio',
+                    'Divya Pandya',
+                    'Emilia Swietlik',
+                    'Christina A. Eichstaedt',
+                    'Madeline Hughes',
+                    '1',
+                    'Krzysztof SzczaÅ‚uba'
+                ]);
+        });
 
         $nameToEmailAddress = $this->getNameToEmailMap($volunteerCollection);
-    
+
         $volunteerCollection->filter(function ($val, $key) {
-                return !looksLikeEmailAddress($key);
-            })
-            ->each(function ($attestationData, $nameKey) use ($volunteerCollection, $nameToEmailAddress) {                
+            return !looksLikeEmailAddress($key);
+        })
+            ->each(function ($attestationData, $nameKey) use ($volunteerCollection, $nameToEmailAddress) {
                 if ($volunteerCollection->keys()->contains($nameKey)) {
-                    $email = $nameToEmailAddress->get($nameKey);
+                    $email = $nameToEmailAddress->get(strtolower($nameKey));
                         
                     if (!$volunteerCollection->get($email)) {
                         $this->warn('We can not find an email address for name '.$nameKey);
@@ -119,7 +137,6 @@ class ImportInitialData extends Command
             ->each(function ($volunteerData, $key) {
                 $this->processVolunteerData($volunteerData, $key);
             });
-
     }
 
     private function processVolunteerData($volunteerData, $email)
@@ -136,7 +153,7 @@ class ImportInitialData extends Command
         } catch (ImportException $th) {
             $this->warn(
                 // str_repeat('-', strlen($th->getMessage()))."\n"
-                // . 
+                // .
                 $th->getMessage()
                 // . "\n".str_repeat('-', strlen($th->getMessage()))
             );
@@ -160,7 +177,6 @@ class ImportInitialData extends Command
             ->setNext($variantAttestationHandler);
 
         return $assignmentsSheetHandler;
-
     }
 
     private function clearExistingUser($email)
@@ -239,7 +255,7 @@ class ImportInitialData extends Command
             if (!$data['attestation_signed']) {
                 $this->outputInfo('    - attestation not signed');
                 return;
-            }                
+            }
             $this->updateAttestation($assignment, $data, $attestationData);
                 
             if (empty($data['ep_assignment'])) {
@@ -248,8 +264,6 @@ class ImportInitialData extends Command
             }
             $this->assignExpertPanel($volunteer, $data);
         });
-
-
     }
 
     private function assignCurationActivity($volunteer, $data)
@@ -327,14 +341,21 @@ class ImportInitialData extends Command
                         $this->warn('expect name in volunteer survey to be a string, '.gettype($name).' found for email address '.$key.'.');
                         return '';
                     }
-                    return $name;
+                    return strtolower($name);
                 })
                 ->flip();
     }
     
     private function assignExpertPanel($volunteer, $data)
     {
-        $expertPanel = $this->expertPanelMap->map($data['ep_assignment']);
+        $expertPanel = null;
+        try {
+            $expertPanel = $this->expertPanelMap->map($data['ep_assignment']);
+        } catch (ImportException $th) {
+            if ($th->getCode() == 409) {
+                $expertPanel = $this->expertPanelMap->mapAbiguous($data['ep_assignment'], $data['ca_assignment']);
+            }
+        }
 
         if (is_null($expertPanel)) {
             throw new ImportException('EP Uknown: '.$data['ep_assignment'].' ('.$data['email'].')');
@@ -359,6 +380,8 @@ class ImportInitialData extends Command
             'unresponsive' => 4,
             'declined' => 5,
             'retired' => 6,
+            'follow up email' => 1,
+            'recontact later' => 1
         ];
 
         if (array_key_exists($statusString, $statuses)) {
@@ -387,14 +410,12 @@ class ImportInitialData extends Command
         }
 
         throw new ImportException('Unknown status '.$statusString.' for '.$volunteer['email']);
-}
+    }
 
     private function outputInfo($message)
     {
-        if (!$this->option('disable-info')) {
+        if ($this->option('enable-info')) {
             $this->info($message);
         }
     }
-    
-
 }
