@@ -32,7 +32,7 @@
 
         <ul class="list-unstyled mb-0">
             <li v-for="(panel, i) in assignment.expertPanels" :key="i"
-                :class="{'text-strike text-muted': (panel.assignment_status_id == 4)}"
+                :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentsStatuses.retired)}"
             >
                 {{panel.assignable.name}}
             </li>
@@ -41,7 +41,7 @@
             v-if="!addingExpertPanel && !assignment.needsAptitude" 
             class="btn btn-sm btn-xs border" 
             @click="addingExpertPanel = true"
-            :disabled="volunteer.volunteer_status_id == 3"
+            :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.retired"
         >
             Add expert panel
         </button>
