@@ -6,9 +6,10 @@ return [
     ],
     'statuses' => [
         'applied' => 1,
-        // 'trained' => 2,
-        'active' => 2,
-        'retired' => 3,
-        'declined' => 4
+        'trained' => 2,
+        'active' => 3,
+        'unresponsive' => 4,
+        'declined' => 5,
+        'retired' => 6,
     ]
 ];

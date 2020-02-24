@@ -288,7 +288,7 @@ class ImportInitialData extends Command
         try {
             AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
         } catch (InvalidAssignmentException $th) {
-            $volunteer->update(['volunteer_type_id' => config('volunteer_types.comprehensive')]);
+            $volunteer->update(['volunteer_type_id' => config('volunteers.types.comprehensive')]);
             AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
         }
 
