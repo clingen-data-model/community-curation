@@ -5,8 +5,11 @@ namespace App;
 use Backpack\CRUD\CrudTrait;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use App\Events\Volunteers\MarkedBaseline;
 use App\Http\Resources\AssignmentResource;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -82,14 +85,22 @@ class User extends Authenticatable
             }
         });
         static::saved(function ($model) {
-            if ($model->isDirty('volunteer_status_id') && $model->volunteer_status_id == config('volunteers.statuses.retired')) {
-                \Event::dispatch(new Retired($model));
-            }
-            if ($model->isDirty('volunteer_type_id')
-                && $model->volunteer_type_id == config('volunteers.types.comprehensive')
-                && $model->getOriginal('volunteer_type_id') == config('volunteers.types.baseline')
+            if (
+                $model->isDirty('volunteer_status_id')
+                && $model->volunteer_status_id == config('volunteers.statuses.retired')
             ) {
-                \Event::dispatch(new ConvertedToComprehensive($model));
+                Event::dispatch(new Retired($model));
+            }
+            if ($model->isDirty('volunteer_type_id')) {
+                if ($model->volunteer_type_id == config('volunteers.types.comprehensive')
+                    && $model->getOriginal('volunteer_type_id') == config('volunteers.types.baseline')
+                ) {
+                    Event::dispatch(new ConvertedToComprehensive($model));
+                }
+
+                if ($model->volunteer_type_id == config('volunteers.types.baseline')) {
+                    Event::dispatch(new MarkedBaseline($model));
+                }
             }
         });
     }
@@ -174,10 +185,10 @@ class User extends Authenticatable
             return false;
         }
 
-        if (\Auth::user()->hasRole('programmer')) {
+        if (Auth::user()->hasRole('programmer')) {
             return true;
         }
-        if (\Auth::user()->roles->intersect($this->roles)->count() > 0) {
+        if (Auth::user()->roles->intersect($this->roles)->count() > 0) {
             return false;
         }
 
@@ -254,8 +265,8 @@ class User extends Authenticatable
                             }
                             return $ass->assignable->curation_activity_id == $activity->id;
                         }
-                        )->values()
-                    )
+                    )->values()
+                )
             ]);
         });
         return $structuredAssignments;
@@ -274,7 +285,7 @@ class User extends Authenticatable
         return false;
     }
 
-    public function hasAptitude()
+    public function hasAptitude($aptitudeId)
     {
         return $this->aptitudes()->where('id', $aptitudeId)->count() > 0;
     }
