@@ -26,7 +26,6 @@ class ConversionToComprehensiveTest extends TestCase
             $volunteer,
             ConversionToComprehensive::class
         );
-        
     }
     
 
@@ -37,11 +36,11 @@ class ConversionToComprehensiveTest extends TestCase
     {
         $volunteer = factory(User::class)->states(['volunteer', 'baseline'])->create([]);
         Notification::fake();
-        $volunteer->update(['volunteer_type_id' => config('project.volunteer_types.comprehensive')]);
+        $volunteer->update(['volunteer_type_id' => config('volunteers.types.comprehensive')]);
 
         Notification::assertSentTo(
-            $volunteer, 
-            ConversionToComprehensive::class, 
+            $volunteer,
+            ConversionToComprehensive::class,
             function ($notification, $channels) use ($volunteer) {
                 $rendered = $notification->toMail($volunteer)->render();
                 return in_array('mail', $channels)
@@ -51,6 +50,4 @@ class ConversionToComprehensiveTest extends TestCase
             }
         );
     }
-    
-    
 }
