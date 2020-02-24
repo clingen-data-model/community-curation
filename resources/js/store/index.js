@@ -5,12 +5,14 @@ import messages from './messages';
 import loading from './loading';
 import getCurrentUser from '../resources/users/get_current_user';
 import User from '../user.js';
+import configs from './../configs.json';
 
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
+    configs: configs,
     user: new User()
 }
 

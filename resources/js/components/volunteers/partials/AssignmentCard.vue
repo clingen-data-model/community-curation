@@ -89,7 +89,7 @@
                 <button 
                     class="btn btn btn-default border btn-sm"
                     @click="showAssignmentForm = true"
-                    :disabled="volunteer.volunteer_status_id == 3"
+                    :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
                     v-if="!$store.state.user.isVolunteer()"
                 >
                     Manage Assignments
@@ -150,7 +150,7 @@
         },
         methods: {
             assignmentIsRetired(assignment) {
-                return assignment.assignment_status_id == 4;
+                return assignment.assignment_status_id == this.$store.state.configs.project.assignmentStatuses.retired;
             },
             editActivityAssignment(assignment) {
                 this.syncCurrentAssignment(assignment);
@@ -159,11 +159,10 @@
             syncCurrentAssignment(assignment) {
                 this.currentAssignment = assignment
             },
-            // TODO: to be removed when attestations are build
             signAttestation(id) {
                 axios.put('/api/dev/sign-attestation/'+id)
                     .then(() => this.$emit('updatevolunteer'));
             }
-        } 
+        }
     }
 </script>

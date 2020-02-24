@@ -277,14 +277,22 @@ import { randomBytes } from 'crypto';
                 return matchingAssignments.length > 0
             },
             hasSearchTerm(volunteer) {
+                console.log(volunteer)
                 if (!this.filters.searchTerm) {
                     return true;
                 }
                 return (
-                    volunteer.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    volunteer.first_name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || volunteer.last_name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
                     || volunteer.email.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                    || volunteer.volunteer_status.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                    || volunteer.volunteer_type.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || (
+                        volunteer.volunteer_status
+                        && volunteer.volunteer_status.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    )
+                    || (
+                        volunteer.volunteer_type 
+                        && volunteer.volunteer_type.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    )
                 )
             },  
             getVolunteers: async function () {
