@@ -47,5 +47,9 @@ class ExpertPanel extends Model implements AssignableContract
     {
         return $query->where('accepting_volunteers', 1);
     }
-    
+
+    public function canBeAssignedToBaseline():bool
+    {
+        return false;
+    }
 }
