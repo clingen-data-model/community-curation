@@ -7,21 +7,21 @@ use App\Import\Contracts\SheetHandler;
 
 abstract class AbstractAttestationSheetHandler extends AbstractSheetHandler implements SheetHandler
 {
-
     public function handle(SheetInterface $sheet):array
     {
         if ($sheet->getName() !== $this->sheetName) {
             return parent::handle($sheet);
         }
 
-        $rows = collect();
-        return $this->processRows(
-                    $sheet, 
-                    function ($rowNum, $rowValues) { 
-                        return $this->handleRow($rowNum, $rowValues); 
-                    }
-                )
-                ->keyBy('name')
+        $rows = $this->processRows(
+            $sheet,
+            function ($rowNum, $rowValues) {
+                return $this->handleRow($rowNum, $rowValues);
+            }
+        );
+
+        $keyBy = (array_key_exists('email', $rows->first())) ? 'email' : 'name';
+        return $rows->keyBy($keyBy)
                 ->toArray();
     }
     
@@ -37,8 +37,19 @@ abstract class AbstractAttestationSheetHandler extends AbstractSheetHandler impl
             }
             return $value;
         }, $rowValues);
-        return array_combine($this->getRowKeys(), array_pad(array_slice($rowValues, 0, count($this->getRowKeys())), count($this->getRowKeys()), null));
+        $rowData = array_combine(
+            $this->getRowKeys(),
+            array_pad(array_slice($rowValues, 0, count($this->getRowKeys())), count($this->getRowKeys()), null)
+        );
+        $rowData['data'] = $this->getData($rowData);
+        return $rowData;
     }
     
-    public abstract function getRowKeys();
+    abstract public function getRowKeys();
+
+    public function getData($rowData)
+    {
+        $data = collect($rowData)->except('signed_at', 'name', 'signedAt', 'date')->toArray();
+        return $data;
+    }
 }

@@ -213,11 +213,60 @@ class ExpertPanelsTableSeeder extends Seeder
                 'name' => 'Actionability-Pediatric',
                 'working_group_id' => 10,
                 'curation_activity_id' => 1
-            ]
+            ],
+            [
+                'name' => 'Epilepsy GCEP',
+                'working_group_id' => 13,
+                'curation_activity_id' => 3,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'Dilated Cardiomyopathy GCEP',
+                'working_group_id' => 14,
+                'curation_activity_id' => 3,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'Aminoacidopathy GCEP',
+                'working_group_id' => 15,
+                'curation_activity_id' => 3,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'Storage Disease',
+                'working_group_id' => 16,
+                'curation_activity_id' => 5,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'PAH VCEP',
+                'working_group_id' => 17,
+                'curation_activity_id' => 5,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'CDH1 VCEP',
+                'working_group_id' => 18,
+                'curation_activity_id' => 5,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'RYR1 VCEP',
+                'working_group_id' => 19,
+                'curation_activity_id' => 5,
+                'accepting_volunteers' => 0
+            ],
+            [
+                'name' => 'Recurrent CNVs',
+                'working_group_id' => 20,
+                'curation_activity_id' => 2,
+                'accepting_volunteers' => 0
+            ],
+
         ];
 
         foreach ($expertPanels as $panel) {
-            ExpertPanel::create($panel);
+            ExpertPanel::firstOrCreate($panel);
         }
     }
 }

@@ -14,12 +14,10 @@ if (!function_exists('parseName')) {
 
 if (!function_exists('rowToArray')) {
     function rowToArray($rowObj) {
-        return array_map(
-            function ($cell) { 
-                return $cell->getValue(); 
-            }, 
-            $rowObj->getCells()
-        );
+        $arr = $rowObj->toArray();
+        ksort($arr);
+
+        return $arr;
     }
 }
 
@@ -40,5 +38,11 @@ if (!function_exists('arrayTrimStrings')) {
             }
             return $value;
         }, $array);
+    }
+}
+
+if (!function_exists('looksLikeEmailAddress')) {
+    function looksLikeEmailAddress ($string) {
+        return is_string($string) && $string != "" && strstr($string, '@');
     }
 }
