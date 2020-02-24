@@ -231,9 +231,7 @@ class User extends Authenticatable
 
     public function getStructuredAssignmentsAttribute()
     {
-        $assignments = $this->assignments()
-                        ->with('assignable', 'status')
-                        ->get();
+        $assignments = $this->assignments;
         $activityAssignments = $assignments->where('assignable_type', CurationActivity::class)->values();
 
         $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
