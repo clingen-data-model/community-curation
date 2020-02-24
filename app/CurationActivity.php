@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class CurationActivity extends Model implements AssignableContract, AptitudeSubjectContract
 {
@@ -19,7 +20,7 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
     use SoftDeletes;
     use AptitudeSubjectTrait;
 
-    protected $revisionCreationsEnabled = true;    
+    protected $revisionCreationsEnabled = true;
 
     protected $fillable = [
         'name',
@@ -69,6 +70,17 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
         return $query->geneType();
     }
     
-    
-    
+    public static function findByName($nameString)
+    {
+        return static::query()->where('name', $nameString)->first();
+    }
+
+    public function canBeAssignedToBaseline():bool
+    {
+        if ($this->name == 'Baseline') {
+            return true;
+        }
+
+        return false;
+    }
 }

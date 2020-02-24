@@ -18,13 +18,16 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-       \App\Events\Volunteers\Retired::class => [
+        \App\Events\Volunteers\Retired::class => [
             \App\Listeners\Volunteers\RetireAssignments::class
         ],
-       \App\Events\Volunteers\ConvertedToComprehensive::class => [
+        \App\Events\Volunteers\ConvertedToComprehensive::class => [
             \App\Listeners\Volunteers\NotifyConversionToComprehensive::class
         ],
-       \App\Events\Volunteers\Retired::class => [
+        \App\Events\Volunteers\MarkedBaseline::class => [
+            \App\Listeners\Volunteers\AssignBaselineActivty::class
+        ],
+        \App\Events\Volunteers\Retired::class => [
             \App\Listeners\Volunteers\RetireAssignments::class
         ],
         \App\Events\AssignmentCreated::class => [
