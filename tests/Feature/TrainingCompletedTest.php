@@ -49,8 +49,7 @@ class TrainingCompletedTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'id' => $this->volunteer->id,
-            'volunteer_status_id' => config('project.volunteer-statuses.trained')
+            'volunteer_status_id' => config('volunteers.statuses.trained')
         ]);
-        
-    }    
+    }
 }
