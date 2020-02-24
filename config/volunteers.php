@@ -11,5 +11,7 @@ return [
         'unresponsive' => 4,
         'declined' => 5,
         'retired' => 6,
+        // 'follow up email' => 1,
+        // 'recontact later' => 1
     ]
 ];

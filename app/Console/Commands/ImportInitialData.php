@@ -297,6 +297,10 @@ class ImportInitialData extends Command
             ->assignableIs(get_class($ca), $ca->id)
             ->get()
             ->first();
+
+        if ($data['name'] == 'Tomohiko Ai') {
+            dump($data);
+        }
         
         $assignment->created_at = $data['ca_assignment_date'];
         $assignment->updated_at = $data['ca_assignment_date'];
