@@ -97,32 +97,25 @@
                 <template v-slot:cell(assignments)="{item}">
                     <div v-if="item && item.volunteer_type_id == 2">
                         <div v-if="item && item.assignments.length > 0">
-                            <!-- <button class="btn btn-sm btn-default border float-right" @click="addAssignmentsToVolunteer(item)">Edit</button> -->
                             <ul class="list-unstyled">
                                 <li v-for="(ass, idx) in item.assignments" :key="idx">
                                     {{ass.curationActivity.assignable.name}}
-                                    <span v-if="ass.expertPanels.length > 0">
+                                    <small v-if="ass.expertPanels.length > 0">
                                         -
                                         <span>{{ass.expertPanels.map(p => p.assignable.name).join(", ")}}</span>
-                                    </span>
-                                    <span v-else-if="ass.needsAptitude" class="text-muted">Needs aptitude</span>
-                                    <span v-else class="text-muted">
+                                    </small>
+                                    <small v-else-if="ass.needsAptitude" class="text-muted">- Needs aptitude</small>
+                                    <small v-else class="text-muted">
                                         - None
-                                    </span>                            
+                                    </small>                            
                                 </li>
                             </ul>
                         </div>
                         <a :href="'/volunteers/'+item.id"
                             class="btn btn-sm btn-default border"
-                            >
-                                {{(item.assignments.length == 0) ? 'Assign' : 'Edit'}}
-                            </a>
-                        <!-- <button 
-                            @click="addAssignmentsToVolunteer(item)" 
-                            v-else
                         >
-                            Assign
-                        </button> -->
+                            {{(item.assignments.length == 0) ? 'Assign' : 'Edit'}}
+                        </a>
                     </div>
                     <div v-else class="text-muted">
                         N/A
@@ -277,14 +270,22 @@ import { randomBytes } from 'crypto';
                 return matchingAssignments.length > 0
             },
             hasSearchTerm(volunteer) {
+                console.log(volunteer)
                 if (!this.filters.searchTerm) {
                     return true;
                 }
                 return (
-                    volunteer.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    volunteer.first_name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || volunteer.last_name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
                     || volunteer.email.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                    || volunteer.volunteer_status.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
-                    || volunteer.volunteer_type.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    || (
+                        volunteer.volunteer_status
+                        && volunteer.volunteer_status.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    )
+                    || (
+                        volunteer.volunteer_type 
+                        && volunteer.volunteer_type.name.toLowerCase().includes(this.filters.searchTerm.toLowerCase())
+                    )
                 )
             },  
             getVolunteers: async function () {
