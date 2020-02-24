@@ -21,15 +21,21 @@ class VolunteerController extends Controller
                         ->with(
                             'volunteerType', 
                             'volunteerStatus', 
-                            'assignments', 
+                            'assignments',
+                            'assignments.status',
+                            'assignments.assignable',
                             'priorities', 
                             'priorities.curationActivity', 
-                            'priorities.expertPanel'
+                            'priorities.expertPanel',
+                            'trainings',
+                            'attestations'
                         )
                         ->isVolunteer();
 
+
+
         $volunteers = $volunteerQuery->get();
-       
+      
         return VolunteerUserResource::collection($volunteers);
     }
 
@@ -68,6 +74,8 @@ class VolunteerController extends Controller
             'volunteerType',
             'application',
             'assignments',
+            'attestations',
+            'attestations.aptitude',
             'priorities',
             'priorities.curationActivity',
             'priorities.expertPanel',

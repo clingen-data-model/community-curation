@@ -15,7 +15,7 @@ trait AptitudeSubjectTrait
         return $this->morphMany(Aptitude::class, 'subject');
     }
 
-    public function getBasicAptitude() :Aptitude
+    public function getBasicAptitude()
     {
         return $this->aptitudes->first();
     }
