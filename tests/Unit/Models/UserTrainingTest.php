@@ -15,6 +15,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group training
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class TrainingTest extends TestCase
 {

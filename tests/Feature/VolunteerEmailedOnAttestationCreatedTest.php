@@ -10,6 +10,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Notifications\AttestationCreatedNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+ */
 class VolunteerEmailedOnAttestationCreatedTest extends TestCase
 {
     use DatabaseTransactions;
