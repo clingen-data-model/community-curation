@@ -18,6 +18,11 @@ use Venturecraft\Revisionable\RevisionableTrait;
 use App\Events\Volunteers\ConvertedToComprehensive;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * User model class
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class User extends Authenticatable
 {
     use RevisionableTrait;
@@ -85,8 +90,7 @@ class User extends Authenticatable
             }
         });
         static::saved(function ($model) {
-            if (
-                $model->isDirty('volunteer_status_id')
+            if ($model->isDirty('volunteer_status_id')
                 && $model->volunteer_status_id == config('volunteers.statuses.retired')
             ) {
                 Event::dispatch(new Retired($model));
@@ -135,7 +139,6 @@ class User extends Authenticatable
         return $this->belongsTo(Country::class);
     }
     
-
     public function assignments()
     {
         return $this->hasMany(Assignment::class);
@@ -199,7 +202,6 @@ class User extends Authenticatable
     {
         return $query->role('volunteer');
     }
-    
 
     public function hasPermissionTo($permString)
     {
@@ -226,7 +228,6 @@ class User extends Authenticatable
         return $this->first_name . ' '. $this->last_name;
     }
     
-
     public function getAddressAttribute()
     {
         return [
