@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Services;
 
+use Exception;
 use App\Attestation;
 use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
 
@@ -15,6 +16,6 @@ class AttestationFormResolver implements AttestationFormResolverContract
             return 'attestations.forms.'.$viewFileName;
         }
 
-        throw new \Exception('Form template '.$viewFileName.' not found for attestation with aptitude '.$attestation->aptitude->name);
+        throw new Exception('Form template '.$viewFileName.' not found for attestation with aptitude '.$attestation->aptitude->name);
     }
 }

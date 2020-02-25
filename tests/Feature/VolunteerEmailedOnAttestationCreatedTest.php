@@ -38,6 +38,4 @@ class VolunteerEmailedOnAttestationCreatedTest extends TestCase
             }
         );
     }
-    
-
 }
