@@ -53,7 +53,6 @@ class AssignmentTest extends TestCase
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
-        $curationActivity2 = CurationActivity::all()->last();
 
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
@@ -86,6 +85,4 @@ class AssignmentTest extends TestCase
 
         $this->assertEquals($volunteer->assignments->first()->trainings->first()->id, $volunteer->trainings->first()->id);
     }
-    
-    
 }

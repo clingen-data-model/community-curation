@@ -59,7 +59,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->save();
 
-        $httpResponse = $this->call('GET', 'apply/'.$rsp->id)
+        $this->call('GET', 'apply/'.$rsp->id)
              ->assertStatus(200)
              ->assertSee('response_id: '.$rsp->id);
                 
@@ -132,7 +132,7 @@ class ApplicationTest extends TestCase
         $rsp->volunteer_type   = 1;
         $rsp->save();
 
-        $httpResponse = $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
+        $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
             ->assertRedirect('apply/thank-you');
     }
 
@@ -196,6 +196,5 @@ class ApplicationTest extends TestCase
         \Mail::assertSent(ApplicationCompletedMail::class, function ($mail) use ($rsp) {
             return $mail->hasTo($rsp->email);
         });
-
     }
 }

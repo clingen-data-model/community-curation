@@ -54,12 +54,12 @@ class PrioritiesTest extends TestCase
             ->assertRedirect('/apply/thank-you');
     }
     
-    /** 
+    /**
      * @test
-     **/   
+     **/
     public function stores_priorities_with_new_priority_round()
     {
-        $originalPriorities = factory(Priority::class, 1)->create(['prioritization_round' => 1, 'user_id' => $this->user->id, 'curation_activity_id' => 5]);
+        factory(Priority::class, 1)->create(['prioritization_round' => 1, 'user_id' => $this->user->id, 'curation_activity_id' => 5]);
 
         $rsp = $this->survey->getNewResponse($this->user);
         $rsp->curation_activity_1 = 1;
@@ -80,5 +80,4 @@ class PrioritiesTest extends TestCase
             'prioritization_round' => 2
         ]);
     }
-    
 }
