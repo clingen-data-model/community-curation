@@ -41,7 +41,7 @@ class ThreeMonthVolunteerFollowup extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->view('emails.volunteers.three-month-followup', ['volunteer' => $notifiable]);
+                    ->view('email.volunteers.three-month-followup', ['volunteer' => $notifiable]);
     }
 
     /**
