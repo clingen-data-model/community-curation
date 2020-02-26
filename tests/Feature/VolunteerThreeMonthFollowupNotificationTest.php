@@ -33,8 +33,7 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
     public function comprehensive_volunteers_emailed_90_days_after_ep_assignment()
     {
         Notification::fake();
-        $volunteer = factory(User::class)->state('comprehensive')->create([]);
-        $volunteer->assignRole('volunteer');
+        $volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity->expertPanels->first());
         
@@ -50,5 +49,8 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
      */
     public function notification_renders_view()
     {
+        $volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
+        $mailable = (new ThreeMonthVolunteerFollowup)->toMail($volunteer);
+        $this->assertEquals('email.volunteers.three-month-followup', $mailable->view);
     }
 }
