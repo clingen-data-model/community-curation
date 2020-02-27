@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands\Volunteers;
 
-use App\Notifications\ThreeMonthVolunteerFollowup;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\ThreeMonthVolunteerFollowup;
+use App\Notifications\ThreeMonthVolunteerReminder1;
+use App\Notifications\ThreeMonthVolunteerReminder2;
 
 class NotifyThreeMonthFollowup extends Command
 {
@@ -41,6 +43,13 @@ class NotifyThreeMonthFollowup extends Command
      */
     public function handle()
     {
+        $this->sendInitialNotification();
+        $this->sendFollowup1();
+        $this->sendFollowup2();
+    }
+
+    private function sendInitialNotification()
+    {
         $recipientQuery = User::isVolunteer()
                         ->whereHas('assignments', function ($q) {
                             $q->expertPanel()
@@ -50,5 +59,29 @@ class NotifyThreeMonthFollowup extends Command
         $recipients = $recipientQuery->get();
 
         Notification::send($recipients, new ThreeMonthVolunteerFollowup());
+    }
+
+    private function sendFollowup1()
+    {
+        $recipientQuery = User::isVolunteer()
+                        ->whereHas('assignments', function ($q) {
+                            $q->expertPanel()
+                                ->whereDate('created_at', Carbon::today()->subDays(97));
+                        });
+        $recipients = $recipientQuery->get();
+
+        Notification::send($recipients, new ThreeMonthVolunteerReminder1());
+    }
+
+    private function sendFollowup2()
+    {
+        $recipientQuery = User::isVolunteer()
+                        ->whereHas('assignments', function ($q) {
+                            $q->expertPanel()
+                                ->whereDate('created_at', Carbon::today()->subDays(111));
+                        });
+        $recipients = $recipientQuery->get();
+
+        Notification::send($recipients, new ThreeMonthVolunteerReminder2());
     }
 }

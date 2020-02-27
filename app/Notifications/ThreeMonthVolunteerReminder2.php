@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ThreeMonthVolunteerFollowup extends Notification
+class ThreeMonthVolunteerReminder2 extends Notification
 {
     use Queueable;
 
@@ -41,7 +41,7 @@ class ThreeMonthVolunteerFollowup extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->view('email.volunteers.three_month_followup.initial_notification', ['volunteer' => $notifiable]);
+                    ->view('email.volunteers.three_month_followup.reminder_2', ['volunteer' => $notifiable]);
     }
 
     /**
