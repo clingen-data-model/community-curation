@@ -32,7 +32,7 @@
 
         <ul class="list-unstyled mb-0">
             <li v-for="(panel, i) in assignment.expertPanels" :key="i"
-                :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentsStatuses.retired)}"
+                :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
             >
                 {{panel.assignable.name}}
             </li>

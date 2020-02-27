@@ -7,6 +7,8 @@ import getCurrentUser from '../resources/users/get_current_user';
 import User from '../user.js';
 import configs from './../configs.json';
 
+console.log(configs);
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
