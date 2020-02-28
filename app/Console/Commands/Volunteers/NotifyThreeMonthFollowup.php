@@ -50,11 +50,7 @@ class NotifyThreeMonthFollowup extends Command
 
     private function sendInitialNotification()
     {
-        $recipientQuery = User::isVolunteer()
-                        ->whereHas('assignments', function ($q) {
-                            $q->expertPanel()
-                                ->whereDate('created_at', Carbon::today()->subDays(90));
-                        });
+        $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays(90));
 
         $recipients = $recipientQuery->get();
 
@@ -63,11 +59,11 @@ class NotifyThreeMonthFollowup extends Command
 
     private function sendFollowup1()
     {
-        $recipientQuery = User::isVolunteer()
-                        ->whereHas('assignments', function ($q) {
-                            $q->expertPanel()
-                                ->whereDate('created_at', Carbon::today()->subDays(97));
+        $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays(97))
+                        ->whereDoesntHave('followup3mVolunteer', function ($q) {
+                            $q->whereNotNull('finalized_at');
                         });
+
         $recipients = $recipientQuery->get();
 
         Notification::send($recipients, new ThreeMonthVolunteerReminder1());
@@ -75,13 +71,22 @@ class NotifyThreeMonthFollowup extends Command
 
     private function sendFollowup2()
     {
-        $recipientQuery = User::isVolunteer()
-                        ->whereHas('assignments', function ($q) {
-                            $q->expertPanel()
-                                ->whereDate('created_at', Carbon::today()->subDays(111));
-                        });
+        $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays(111))
+                            ->whereDoesntHave('followup3mVolunteer', function ($q) {
+                                $q->whereNotNull('finalized_at');
+                            });
+
         $recipients = $recipientQuery->get();
 
         Notification::send($recipients, new ThreeMonthVolunteerReminder2());
+    }
+
+    private function buildRecipientQuery(Carbon $date)
+    {
+        return User::isVolunteer()
+        ->whereHas('assignments', function ($q) use ($date) {
+            $q->expertPanel()
+                ->whereDate('created_at', $date);
+        });
     }
 }
