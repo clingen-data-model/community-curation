@@ -28,8 +28,15 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
     {
         parent::setup();
         $this->volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
+        $this->otherVol = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
+        
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($this->volunteer, $curationActivity->expertPanels->first());
+        AssignVolunteerToAssignable::dispatch($this->otherVol, $curationActivity->expertPanels->first());
+
+        $this->survey = class_survey()::findBySlug('threemonthvolunteerfollowup1');
+        $this->rsp = $this->survey->getNewResponse($this->otherVol);
+        $this->rsp->finalize();
     }
 
     /**
@@ -42,7 +49,7 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
 
         $this->artisan('volunteers:notify-3m-followup');
         
-        Notification::assertSentTo([$this->volunteer], ThreeMonthVolunteerFollowup::class);
+        Notification::assertSentTo([$this->volunteer, $this->otherVol], ThreeMonthVolunteerFollowup::class);
     }
 
     /**
@@ -57,7 +64,7 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
     /**
      * @test
      */
-    public function sends_remind_1_97_days_after_ep_assignment()
+    public function sends_remind_1_97_days_after_ep_assignment_if_not_yet_responded()
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(97));
@@ -65,6 +72,8 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
         $this->artisan('volunteers:notify-3m-followup');
         
         Notification::assertSentTo([$this->volunteer], ThreeMonthVolunteerReminder1::class);
+
+        Notification::assertNotSentTo([$this->otherVol], ThreeMonthVolunteerReminder1::class);
     }
 
     /**
@@ -79,7 +88,7 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
     /**
      * @test
      */
-    public function sends_remind_2_111_days_after_ep_assignment()
+    public function sends_remind_2_111_days_after_ep_assignment_if_not_yet_responded()
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(111));
@@ -87,6 +96,8 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
         $this->artisan('volunteers:notify-3m-followup');
         
         Notification::assertSentTo([$this->volunteer], ThreeMonthVolunteerReminder2::class);
+
+        Notification::assertNotSentTo([$this->otherVol], ThreeMonthVolunteerReminder2::class);
     }
 
     /**
