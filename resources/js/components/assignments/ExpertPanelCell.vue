@@ -2,7 +2,6 @@
 
 <template>
     <div class="component-container">
-        
         <div v-if="assignment.needsAptitude">
             <div v-if="assignment.needsAptitude">
                 <div v-if="assignment.training.completed_at == null">
@@ -30,32 +29,42 @@
             </div>
         </div>
 
-        <ul class="list-unstyled mb-0">
-            <li v-for="(panel, i) in assignment.expertPanels" :key="i"
-                :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentsStatuses.retired)}"
-            >
-                {{panel.assignable.name}}
-            </li>
-        </ul>
-        <button 
-            v-if="!addingExpertPanel && !assignment.needsAptitude" 
-            class="btn btn-sm btn-xs border" 
-            @click="addingExpertPanel = true"
-            :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.retired"
-        >
-            Add expert panel
-        </button>
+        <div v-else>
+            <div v-if="assignment.curationActivity.assignable.curation_activity_type_id == 1" >
+                <ul class="list-unstyled mb-0">
+                    <li v-for="(panel, i) in assignment.expertPanels" :key="i"
+                        :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
+                    >
+                        {{panel.assignable.name}}
+                    </li>
+                </ul>
+                <button 
+                    v-if="!addingExpertPanel && !assignment.needsAptitude" 
+                    class="btn btn-sm btn-xs border" 
+                    @click="addingExpertPanel = true"
+                    :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
+                >
+                    Add expert panel
+                </button>
 
-        <div v-if="addingExpertPanel" class="form-inline">
-            <select v-model="newExpertPanel" class="form-control form-control-sm">
-                <option :value="null">Select&hellip;</option>
-                <option v-for="(panel, idx) in expertPanels" :key="idx" :value="panel">
-                    {{panel.name}}
-                </option>
-            </select>
-            &nbsp;
-            <button class="btn btn-sm btn-primary" @click="emitSave">Save</button>
-            <button class="btn btn-sm btn-default" @click="cancelAddingExpertPanel">Cancel</button>
+                <div v-if="addingExpertPanel" class="form-inline">
+                    <select v-model="newExpertPanel" class="form-control form-control-sm">
+                        <option :value="null">Select&hellip;</option>
+                        <option v-for="(panel, idx) in expertPanels" :key="idx" :value="panel">
+                            {{panel.name}}
+                        </option>
+                    </select>
+                    &nbsp;
+                    <button class="btn btn-sm btn-primary" @click="emitSave">Save</button>
+                    <button class="btn btn-sm btn-default" @click="cancelAddingExpertPanel">Cancel</button>
+                </div>
+            </div>
+
+            <div v-if="assignment.curationActivity.assignable.curation_activity_type_id == 2">
+                <small class="text-muted">
+                    assign gene here (coming soon)
+                </small>
+            </div>
         </div>
 
     </div>
