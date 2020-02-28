@@ -27,7 +27,7 @@
                 <tbody>
                     <tr v-for="assignment in activityCurationAssignments" :key="assignment.curationActivity.id">
                         <td
-                            :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == $store.state.configs.project.assignmentsStatuses.retired)}"
+                            :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
                         >
                             {{assignment.curationActivity.assignable.name}}
                         </td>
@@ -60,7 +60,7 @@
                             <button 
                                 class="btn btn-default border btn-sm" 
                                 @click="addingCurationActivity = true"
-                                :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.retired"
+                                :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
                             >
                                 Add Curation Activity
                             </button>

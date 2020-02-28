@@ -40,11 +40,14 @@ import RadioGroup from './components/forms/inputs/RadioGroup'
 import AttestationForm from './components/attestations/AttestationForm'
 import ActionabilityBasicForm from './components/attestations/forms/ActionabilityBasic'
 import DosageBasicForm from './components/attestations/forms/DosageBasic'
+import BaslineBasicForm from './components/attestations/forms/BaselineBasic'
 import GeneBasicForm from './components/attestations/forms/GeneBasic'
 import SomaticBasicForm from './components/attestations/forms/SomaticBasic'
 import VariantBasicForm from './components/attestations/forms/VariantBasic'
 
 import ValidationError from './components/ValidationError';
+import DateField from './components/DateField'
+
 window.Vue.component('validation-error', ValidationError);
 
 window.Vue.component('volunteer-index', VolunteerIndex);
@@ -59,9 +62,11 @@ window.Vue.component('radio-group', RadioGroup);
 window.Vue.component('attestation-form', AttestationForm);
 window.Vue.component('actionability-basic-form', ActionabilityBasicForm);
 window.Vue.component('dosage-basic-form', DosageBasicForm);
+window.Vue.component('baseline-basic-form', BaslineBasicForm);
 window.Vue.component('gene-basic-form', GeneBasicForm);
 window.Vue.component('somatic-basic-form', SomaticBasicForm);
 window.Vue.component('variant-basic-form', VariantBasicForm);
+window.Vue.component('date-field', DateField)
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
