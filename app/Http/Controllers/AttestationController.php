@@ -30,6 +30,7 @@ class AttestationController extends Controller
         if (!Auth::user()->can('view', $attestation)) {
             abort(403);
         }
+
         return $attestation;
     }
 
@@ -44,6 +45,7 @@ class AttestationController extends Controller
         if (!Auth::user()->can('view', $attestation)) {
             abort(403);
         }
+
         $attestation->load('user', 'aptitude');
 
         return view($this->attestationFormResolver->resolve($attestation), compact('attestation'));
@@ -64,7 +66,7 @@ class AttestationController extends Controller
         }
 
         $attestation->update([
-            'signed_at' => Carbon::now(), 
+            'signed_at' => Carbon::now(),
             'data' => $request->except('_method', '_token')]);
 
         session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');
