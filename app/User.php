@@ -133,6 +133,11 @@ class User extends Authenticatable
     {
         return $this->morphOne(Application::class, 'respondent');
     }
+
+    public function followup3mVolunteer()
+    {
+        return $this->hasOne(Followup3MonthVolunteer::class, 'respondent_id');
+    }
     
     public function country()
     {
