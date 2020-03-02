@@ -34,7 +34,7 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
         AssignVolunteerToAssignable::dispatch($this->volunteer, $curationActivity->expertPanels->first());
         AssignVolunteerToAssignable::dispatch($this->otherVol, $curationActivity->expertPanels->first());
 
-        $this->survey = class_survey()::findBySlug('threemonthvolunteerfollowup1');
+        $this->survey = class_survey()::findBySlug('volunteer-three-month1');
         $this->rsp = $this->survey->getNewResponse($this->otherVol);
         $this->rsp->finalize();
     }
