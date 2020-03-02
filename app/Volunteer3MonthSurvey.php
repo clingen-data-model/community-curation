@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Followup3MonthVolunteer extends Model
+class Volunteer3MonthSurvey extends Model
 {
-    protected $table = 'rsp_threemonthvolunteerfollowup_1';
+    protected $table = 'rsp_volunteer_three_month_1';
     
     public function volunteer()
     {

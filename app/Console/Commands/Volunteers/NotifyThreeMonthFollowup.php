@@ -60,7 +60,7 @@ class NotifyThreeMonthFollowup extends Command
     private function sendFollowup1()
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays(97))
-                        ->whereDoesntHave('followup3mVolunteer', function ($q) {
+                        ->whereDoesntHave('Volunteer3MonthSurvey', function ($q) {
                             $q->whereNotNull('finalized_at');
                         });
 
@@ -72,7 +72,7 @@ class NotifyThreeMonthFollowup extends Command
     private function sendFollowup2()
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays(111))
-                            ->whereDoesntHave('followup3mVolunteer', function ($q) {
+                            ->whereDoesntHave('Volunteer3MonthSurvey', function ($q) {
                                 $q->whereNotNull('finalized_at');
                             });
 
