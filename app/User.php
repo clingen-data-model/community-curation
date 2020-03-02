@@ -134,9 +134,9 @@ class User extends Authenticatable
         return $this->morphOne(Application::class, 'respondent');
     }
 
-    public function followup3mVolunteer()
+    public function volunteer3MonthSurvey()
     {
-        return $this->hasOne(Followup3MonthVolunteer::class, 'respondent_id');
+        return $this->hasOne(Volunteer3MonthSurvey::class, 'respondent_id');
     }
     
     public function country()
