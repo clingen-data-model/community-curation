@@ -295,4 +295,9 @@ class User extends Authenticatable
     {
         return $this->aptitudes()->where('id', $aptitudeId)->count() > 0;
     }
+
+    public function isComprehensive()
+    {
+        return $this->hasRole('volunteer') && $this->volunteer_type_id == config('volunteers.types.comprehensive');
+    }
 }
