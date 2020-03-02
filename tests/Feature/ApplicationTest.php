@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationCompletedMail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group application
+ * @group surveys
  */
 class ApplicationTest extends TestCase
 {
@@ -190,10 +192,10 @@ class ApplicationTest extends TestCase
         $mail = new ApplicationCompletedMail($rsp);
         $this->assertContains('Dear billy pilgrim,', $mail->render());
         
-        \Mail::fake();
+        Mail::fake();
         $rsp->finalize();
 
-        \Mail::assertSent(ApplicationCompletedMail::class, function ($mail) use ($rsp) {
+        Mail::assertSent(ApplicationCompletedMail::class, function ($mail) use ($rsp) {
             return $mail->hasTo($rsp->email);
         });
     }
