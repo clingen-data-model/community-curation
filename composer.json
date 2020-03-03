@@ -20,7 +20,7 @@
         "laravel/tinker": "^1.0",
         "rap2hpoutre/laravel-log-viewer": "^1.2",
         "sirs/dbimport": "^1.3",
-        "sirs/surveys": "^4.0",
+        "sirs/surveys": "json-options-for-response-dev",
         "spatie/laravel-activitylog": "^3.2",
         "spatie/laravel-permission": "^2.37"
     },
