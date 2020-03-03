@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label">ORCiD ID</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="name" v-model="volunteer.orcid_id" placeholder="123123123">
+                    <input type="text" class="form-control" id="orcidid" v-model="volunteer.orcid_id" placeholder="123123123">
                 </div>
             </div>
 
@@ -35,6 +35,14 @@
                             This is the email {{$store.state.user.isVolunteer() ? 'you' : 'the volunteer'}} will use to log.
                         </small>
                     </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Institution</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="institution" v-model="volunteer.institution" placeholder="UNC Chapel Hill">
                 </div>
             </div>
 
@@ -114,6 +122,7 @@
                         'name': this.volunteer.name,
                         'orcid_id': this.volunteer.orcid_id,
                         'email': this.volunteer.email,
+                        'institution': this.volunteer.institution,
                         'street1': this.volunteer.street1,
                         'street2': this.volunteer.street2,
                         'city': this.volunteer.city,
