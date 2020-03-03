@@ -32,11 +32,11 @@ class VolunteerControllerTest extends TestCase
      */
     public function index_returns_list_of_all_volunteers()
     {
-        $subset = $this->volunteers->map(function ($v) {
+        $this->volunteers->map(function ($v) {
             return [
-                            'id' => $v->id,
-                            'volunteer_type' => $v->volunteerType->toArray()
-                        ];
+                'id' => $v->id,
+                'volunteer_type' => $v->volunteerType->toArray()
+            ];
         });
 
         $response = $this->actingAs(factory(User::class)->create(), 'api')

@@ -18,9 +18,9 @@ trait StoresResponsePriorities
                                 ->first()->prioritization_round ?? 0;
         $prioritizationRound++;
 
-        foreach([1,2,3] as $num) {
+        foreach ([1,2,3] as $num) {
             if ($this->response->{'curation_activity_'.$num}) {
-                $p = Priority::create([
+                Priority::create([
                     'user_id' => $this->response->respondent_id,
                     'priority_order' => $num,
                     'curation_activity_id' => $this->response->{'curation_activity_'.$num},
@@ -38,5 +38,3 @@ trait StoresResponsePriorities
         }
     }
 }
-
-?>

@@ -15,6 +15,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group training
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class TrainingTest extends TestCase
 {
@@ -46,13 +47,11 @@ class TrainingTest extends TestCase
                             ]);
 
         $listenerCalled = false;
-        \Event::listen(TrainingCompleted::class, function ($event) use (&$listenerCalled){
+        \Event::listen(TrainingCompleted::class, function ($event) use (&$listenerCalled) {
             $listenerCalled = true;
         });
 
         $training->update(['completed_at' => Carbon::parse('2019-11-01')]);
         $this->assertTrue($listenerCalled);
     }
-    
-    
 }
