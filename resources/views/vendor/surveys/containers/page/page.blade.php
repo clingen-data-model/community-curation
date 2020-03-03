@@ -19,10 +19,6 @@
         </div>
       @endif
       <h4>
-        {{-- @if ($context['response']->respondent)
-          {{$context['response']->respondent->full_name ?? 'Respondent:'.$context['response']->respondent->id}} 
-          - 
-        @endif --}}
         @if ($renderable->title)
           {{$renderable->title}}
         @endif
@@ -42,23 +38,28 @@
     </div>
     
     <div class="panel-footer card-footer">
-      @if($context['survey']['currentPageIdx'] > 0)
-        <button id="nav-prev" type="submit" name="nav" value="prev" class="btn btn-default">Back</button>
-      @endif
-      @if($context['survey']['currentPageIdx'] < ($context['survey']['totalPages']-1))
-      <button id="nav-next" type="submit" name="nav" value="next" class="btn btn-primary">Next</button>
-      @endif
-      @if($context['survey']['currentPageIdx'] == ($context['survey']['totalPages']-1))
-        <button id="nav-finalize" type="submit" name="nav" value="finalize" class="btn btn-primary">Finish &amp; Finalize</button>
-      @endif
-      <div id="save-buttons" class="pull-right float-right">
-        @if(!isset($context['hideSave']) || !$context['hideSave'])
-        <button id="nav-save" type="submit" name="nav" value="save" class="btn btn-default">Save</button>
-        @endif
-        @if(!isset($context['hideSaveExit']) || !$context['hideSaveExit'])
-        <button id="nav-save-exit" type="submit" name="nav" value="save_exit" class="btn btn-default">Save &amp; exit</button>
-        @endif
-      </div>
+		@if(is_null($context['response']->finalized_at))
+			@if($context['survey']['currentPageIdx'] > 0)
+				<button id="nav-prev" type="submit" name="nav" value="prev" class="btn btn-default">Back</button>
+			@endif
+			@if($context['survey']['currentPageIdx'] < ($context['survey']['totalPages']-1))
+				<button id="nav-next" type="submit" name="nav" value="next" class="btn btn-primary">Next</button>
+			@endif
+			@if($context['survey']['currentPageIdx'] == ($context['survey']['totalPages']-1))
+				<button id="nav-finalize" type="submit" name="nav" value="finalize" class="btn btn-primary">Finish &amp; Finalize</button>
+			@endif
+			<div id="save-buttons" class="pull-right float-right">
+				@if(!isset($context['hideSave']) || !$context['hideSave'])
+					<button id="nav-save" type="submit" name="nav" value="save" class="btn btn-default">Save</button>
+				@endif
+				@if(!isset($context['hideSaveExit']) || !$context['hideSaveExit'])
+					<button id="nav-save-exit" type="submit" name="nav" value="save_exit" class="btn btn-default">Save &amp; exit</button>
+				@endif
+			</div>
+		@else
+			<a href="/volunteers/{{$context['respondent']->id}}" class="btn btn-primary">Return to volunteer dashboard</a>
+			Survey response finalized on {{$context['response']->finalized_at->format('Y-m-d H:i')}}.			
+		@endif
     </div>
   </div>
 </form>

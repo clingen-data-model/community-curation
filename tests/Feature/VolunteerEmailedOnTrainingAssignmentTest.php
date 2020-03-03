@@ -10,6 +10,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Notifications\TrainingAssignedNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+ */
 class VolunteerEmailedOnTrainingAssignmentTest extends TestCase
 {
     use DatabaseTransactions;
@@ -38,5 +41,4 @@ class VolunteerEmailedOnTrainingAssignmentTest extends TestCase
             }
         );
     }
-    
 }

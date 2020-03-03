@@ -2,16 +2,12 @@
 
 namespace App\Import\SheetHandlers;
 
+use Exception;
 use Box\Spout\Reader\SheetInterface;
 use App\Import\Contracts\SheetHandler;
 
 class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandler
 {
-    /**
-     * @var SheetHandler
-     */
-    private $nextHandler;
-
     public function handle(SheetInterface $sheet):array
     {
         if ($sheet->getName() != 'Assignments') {
@@ -65,6 +61,6 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
             return 2;
         }
 
-        throw new \Exception('Unkown volunteer type string: '.$typeString);
+        throw new Exception('Unkown volunteer type string: '.$typeString);
     }
 }
