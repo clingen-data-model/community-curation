@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\User;
 use App\SurveyResponse;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class CreateVolunteerFromApplication
@@ -36,7 +37,8 @@ class CreateVolunteerFromApplication
             'last_name' => $this->response->last_name,
             'email' => $this->response->email,
             'orcid_id' => $this->response->orcid_id,
-            'password' => \Hash::make(uniqid()),
+            'institution' => $this->response->institution,
+            'password' => Hash::make(uniqid()),
             'street1' => $this->response->street1,
             'street2' => $this->response->street2,
             'city' => $this->response->city,
