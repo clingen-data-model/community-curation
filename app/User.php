@@ -46,6 +46,7 @@ class User extends Authenticatable
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
+        'institution',
         'street1',
         'street2',
         'city',
