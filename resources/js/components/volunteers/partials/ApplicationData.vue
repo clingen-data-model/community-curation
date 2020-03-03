@@ -80,7 +80,6 @@
             isArray(item) {
                 return item instanceof Array;
             }
-        }
-    
-}
+        }    
+    }
 </script>
