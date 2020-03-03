@@ -34,6 +34,9 @@ Route::group(['middleware' => ['auth']], function () {
         ->only('show', 'edit', 'update');
 
     Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
+
+    Route::get('volunteer-three-month/{responseId?}', 'VolunteerThreeMonthController@show')->name('volunteer-three-month.show');
+    Route::post('volunteer-three-month/{responseId?}', 'VolunteerThreeMonthController@store')->name('volunteer-three-month.store');
 });
 
 Route::get('apply/thank-you', function (Request $request) {
