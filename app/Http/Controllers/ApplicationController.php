@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Surveys\ApplicationControlService;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ApplicationController extends Controller
 {
@@ -54,13 +56,22 @@ class ApplicationController extends Controller
     private function getResponseObject(Request $request, $id = null)
     {
         $survey = class_survey()::findBySlug('application1');
+        $sessionResponse = $request->session()->get('application-response');
 
         if (!is_null($id)) {
+            if (Auth::guest() && (is_null($sessionResponse) || $sessionResponse->id != $id)) {
+                throw new AuthorizationException('You don\'t have permission to access this survey response');
+            }
+
             $response = $survey->responses()->findOrFail($id);
+
+            if (Auth::user() && Auth::user()->id != $response->respondent_id && !Auth::user()->hasAnyRole(['programmer', 'admin'])) {
+                throw new AuthorizationException('You don\'t have permission to access this survey response');
+            }
+
             $request->session()->put('application-response', $response);
             return $response;
         }
-
 
         $response = $request->session()->get('application-response', null);
         if (!is_null($response) && $response->id && $survey->responses()->find($response->id)) {
