@@ -7,6 +7,7 @@ use Tests\TestCase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationCompletedMail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -24,16 +25,28 @@ class ApplicationTest extends TestCase
         parent::setUp();
         $this->survey = class_survey()::findBySlug('application1');
     }
+    
 
     /**
      * @test
      */
-    public function the_application_can_be_accessed_by_guests()
+    public function a_new_application_can_be_started_by_a_guest()
     {
+        $this->withoutExceptionHandling();
         $this->call('GET', '/apply')
             ->assertStatus(200)
             ->assertSee('Introduction')
             ->assertSee('Thank you for your interest in volunteering as a curator for ClinGen.')
+            ->assertSessionHas('application-response');
+
+        $response = $this->call('POST', '/apply', [
+            'nav' => 'next'
+        ]);
+
+        $appRsp = class_survey()::findBySlug('application1')->responses->last();
+
+        $response->assertRedirect('/apply/'.$appRsp->id.'?page=demographic')
+            // ->assertSee('Demographic Questions')
             ->assertSessionHas('application-response');
     }
 
@@ -61,6 +74,8 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->save();
 
+        Session::put('application-response', $rsp);
+
         $this->call('GET', 'apply/'.$rsp->id)
              ->assertStatus(200)
              ->assertSee('response_id: '.$rsp->id);
@@ -68,6 +83,48 @@ class ApplicationTest extends TestCase
         $this->assertEquals(session()->get('application-response')->id, $rsp->id);
     }
     
+    /**
+     * @test
+     */
+    public function guest_cannot_view_or_update_response_that_is_not_in_their_session()
+    {
+        $rsp1 = $this->survey->getNewResponse(null);
+        $rsp1->save();
+        $rsp2 = $this->survey->getNewResponse(null);
+        $rsp2->save();
+
+        Session::put('application-response', $rsp1);
+
+        $this->call('GET', 'apply/'.$rsp2->id)
+            ->assertStatus(403);
+
+        $this->call('POST', 'apply/'.$rsp2->id, ['nav' => 'next'])
+            ->assertStatus(403);
+    }
+    
+    /**
+     * @test
+     */
+    public function user_cannot_access_response_of_another_respondent()
+    {
+        $u1 = factory(User::class)->create();
+        $u2 = factory(User::class)->create();
+
+        $rsp1 = $this->survey->getNewResponse(null);
+        $rsp1->save();
+        $rsp2 = $this->survey->getNewResponse($u1);
+        $rsp2->save();
+        
+        $this->actingAs($u2)
+            ->call('GET', 'apply/'.$rsp1->id)
+            ->assertStatus(403);
+
+        $this->actingAs($u2)
+            ->call('GET', 'apply/'.$rsp2->id)
+            ->assertStatus(403);
+    }
+    
+
     /**
      * @test
      */
@@ -136,6 +193,8 @@ class ApplicationTest extends TestCase
         $rsp->volunteer_type   = 1;
         $rsp->save();
 
+        Session::put('application-response', $rsp);
+
         $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
             ->assertRedirect('apply/thank-you');
     }
@@ -159,6 +218,8 @@ class ApplicationTest extends TestCase
         $rsp->effort_experience_2 = 1;
         $rsp->effort_experience_2_detail = 'test effort experience details 2';
         $rsp->save();
+
+        Session::put('application-response', $rsp);
 
         $this->withoutExceptionHandling();
         $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
