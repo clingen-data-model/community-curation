@@ -1,6 +1,5 @@
 <?php
 
-use App\UploadCategory;
 use Illuminate\Database\Seeder;
 
 class UploadCategoriesTableSeeder extends Seeder
@@ -12,8 +11,6 @@ class UploadCategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach (['Resume/CV', 'Transcript', 'Letter of Reference', 'Cover Letter', 'Attestation'] as $name) {
-            UploadCategory::firstOrCreate(compact('name'));
-        }
+        seedFromConfig('project.upload-categories', Classification::class);
     }
 }
