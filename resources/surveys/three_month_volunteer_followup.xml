@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<survey name="volunteer_three_month" title="ClinGen Follow-up Survey for Volunteer Curators- 3 months" version="1" rules-class="\App\Surveys\VolunteerThreeMonthRules">
+    <page name="intro" title="Intro">
+        <html>
+            <content>
+                <![CDATA[
+                    <p>Thank you for volunteering to participate in ClinGen community curation. 
+                    In order to better understand the needs and experiences of our volunteers, 
+                        we would greatly appreciate your feedback on this anonymous survey. 
+                    It should take ~10-15 minutes.</p>
+
+                    <p>
+                        Thank you!
+                        <br>
+                        <a href="mailto:volunteer@clinicalgenome.org">volunteer@clinicalgenome.org</a>
+                    </p>
+                ]]>
+            </content>
+        </html>
+    </page>
+    
+    <page name="page1" title="">
+         <html>
+             <content>
+                 <![CDATA[
+                     Name: {{$respondent->name}}
+                 ]]>
+             </content>
+         </html>
+
+        <multiple-choice name="curation_effort" id="curation_effort" num-selectable="10" data-format="json">
+            <question-text>
+                <![CDATA[
+                    What curation effort(s) are you currently volunteering for? (Optional)
+                ]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@curationActivities"></data-source>
+            </options>
+        </multiple-choice>
+        
+        <multiple-choice name="expert_panels" id="expert_panels" num-selectable="10" data-format="json">
+            <question-text>
+                <![CDATA[
+                    Which ClinGen Expert Panel (EP) or Working Group (WG) have you been assigned? (Optional)
+                ]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+            </options>
+        </multiple-choice>
+        
+        <include source="questions/highest_education.xml"></include>
+
+        <multiple-choice name="satisfaction" id="satisfaction" num-selectable="1">
+            <question-text>
+                <![CDATA[
+                    How satisfied were you with the communication provided by the Community Curation team?
+                ]]>
+            </question-text>
+            <options>
+                <option name="satisfaction-option-1">
+                    <value>5</value>
+                    <label>Extremely satisfied</label>
+                </option>
+                <option name="satisfaction-option-2">
+                    <value>4</value>
+                    <label>Satisfied</label>
+                </option>
+                <option name="satisfaction-option-3">
+                    <value>3</value>
+                    <label>Not statisfied or dissatisfied</label>
+                </option>
+                <option name="satisfaction-option-4">
+                    <value>2</value>
+                    <label>Dissatisfied</label>
+                </option>
+                <option name="satisfaction-option-5">
+                    <value>1</value>
+                    <label>Extremely dissatisfied</label>
+                </option>
+            </options>
+        </multiple-choice>
+        
+        <question name="dissatified_feedback" id="dissatified_feedback" data-format="text">
+            <template source="questions.text.large_text"></template>
+            <question-text>
+                <![CDATA[
+                    If dissatisfied with communication, please provide feedback:
+                ]]>
+            </question-text>
+        </question>
+                
+        <question-group name="training_clear_grp" id="training_clear_grp">
+            <multiple-choice name="training_clear" id="training_clear" num-selectable="1">
+                <question-text>
+                    <![CDATA[
+                        Were the training materials required for your specific curation effort understandable and clear?
+                    ]]>
+                </question-text>
+                <options>
+                    <option name="training_clear_yes">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="training_clear_no" show="traing_clear_details">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            
+            <question name="training_clear_details" id="training_clear_details" data-format="text">
+                <template source="questions.text.large_text"></template>
+                <question-text>
+                    <![CDATA[
+                        Please explain:
+                    ]]>
+                </question-text>
+            </question>
+        </question-group>
+        
+        <question-group name="training_sufficient_grp" id="training_sufficient_grp">
+            <multiple-choice name="training_sufficient" id="training_sufficient" num-selectable="1">
+                <question-text>
+                    <![CDATA[
+                        Were the training materials required for your specific curation effort understandable and clear?
+                    ]]>
+                </question-text>
+                <options>
+                    <option name="training_sufficient_yes">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="training_sufficient_no" show="traing_sufficient_details">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            
+            <question name="training_sufficient_details" id="training_sufficient_details" data-format="text">
+                <template source="questions.text.large_text"></template>
+                <question-text>
+                    <![CDATA[
+                        Please explain:
+                    ]]>
+                </question-text>
+            </question>
+        </question-group>
+        
+        <question-group name="seek_adtl_trng_grp" id="seek_adtl_trng_grp">
+            <multiple-choice name="seek_adtl_trng" id="seek_adtl_trng" num-selectable="1">
+                <question-text>
+                    <![CDATA[
+                        Did you seek additional information and/or training through your EP or WG, or on your own?
+                    ]]>
+                </question-text>
+                <options>
+                    <option name="seek_adtl_trng_yes" show="seek_adtl_trng_details">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="seek_adtl_trng_no">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                </options>
+            </multiple-choice>
+
+            <question name="seek_adtl_trng_details" id="seek_adtl_trng_details" data-format="text">
+                <template source="questions.text.large_text"></template>
+                <question-text>
+                    <![CDATA[
+                        Please explain and note whether it was specific to the ClinGen curation framework, the disease area, or something else.
+                    ]]>
+                </question-text>
+            </question>
+        </question-group>
+        
+        <question-group name="rcmd_adtl_trng_grp" id="rcmd_adtl_trng_grp">
+            <multiple-choice name="rcmd_atdl_trng" id="rcmd_atdl_trng" num-selectable="1">
+                <question-text>
+                    <![CDATA[
+                        Would you recommend any additional training to volunteers prior to assigning them to EPs or WGs?
+                    ]]>
+                </question-text>
+                <options>
+                    <option name="rcmd_atdl_trng_yes" show="rcmd_adtl_trng_detail">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="rcmd_atdl_trng_no">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                </options>
+            </multiple-choice>
+            
+            <question name="rcmd_adtl_trng_detail" id="rcmd_adtl_trng_detail" data-format="text">
+                <template source="questions.text.large_text"></template>
+                <question-text>
+                    <![CDATA[
+                        Please explain:
+                    ]]>
+                </question-text>
+            </question>
+        </question-group>
+
+        <multiple-choice name="assigned_curation" id="assigned_curation" num-selectable="1">
+            <question-text>
+                <![CDATA[
+                    Have you been assigned to or performed a curation?
+                ]]>
+            </question-text>
+            <options>
+                <option name="assigned_curation_yes">
+                    <value>1</value>
+                    <label>Yes</label>
+                </option>
+                <option name="assigned_curation_no">
+                    <value>0</value>
+                    <label>No</label>
+                </option>
+            </options>
+        </multiple-choice>
+        
+        <multiple-choice name="hours_spent" id="hours_spent" num-selectable="1">
+            <question-text>
+                <![CDATA[
+                    The estimated time commitment was 8-10 hours per month, do you spend:
+                ]]>
+            </question-text>
+            <options>
+                <option name="hours_spent_option-1">
+                    <value>1</value>
+                    <label>More than 8-10 hours per month</label>
+                </option>
+                <option name="hours_spent_option-2">
+                    <value>2</value>
+                    <label>Less that 8-10 hours per month</label>
+                </option>
+                <option name="hours_spent_option-3">
+                    <value>3</value>
+                    <label>Approximately 8-10 hours per month</label>
+                </option>
+            </options>
+        </multiple-choice>
+        
+        <question name="feedback_helpful" id="feedback_helpful" data-format="text">
+            <template source="questions.text.large_text"></template>
+            <question-text>
+                <![CDATA[
+                    If you have received feedback from members of your EP or WG, was it helpful? Please provide details.
+                ]]>
+            </question-text>
+        </question>
+        
+        <question-group name="plan_to_continue_grp" id="plan_to_continue_grp">
+            <multiple-choice name="plan_to_continue" id="plan_to_continue" num-selectable="1">
+                <question-text>
+                    <![CDATA[
+                        Do you plan to continue to be an active member of your EP or WG?
+                    ]]>
+                </question-text>
+                <options>
+                    <option name="plan_to_continue_yes">
+                        <value>1</value>
+                        <label>Yes</label>
+                    </option>
+                    <option name="plan_to_continue_no" show="plan_to_continue_details">
+                        <value>0</value>
+                        <label>No</label>
+                    </option>
+                    <option name="plan_to_continue_maybe" show="plan_to_continue_details">
+                        <value>2</value>
+                        <label>Maybe</label>
+                    </option>
+                </options>
+            </multiple-choice>
+
+            <question name="plan_to_continue_details" id="plan_to_continue_details" data-format="text">
+                <template source="questions.text.large_text"></template>
+                <question-text>
+                    <![CDATA[
+                        please provide details (e.g. unable to commit time, dissatisfied with EP/WG).
+                    ]]>
+                </question-text>
+            </question>    
+        </question-group>
+        
+        <multiple-choice name="transfer" id="transfer" num-selectable="1">
+            <question-text>
+                <![CDATA[
+                    Are you interested in transferring to a different curation activity (e.g. variant, actionability)?
+                ]]>
+            </question-text>
+            <options>
+                <option name="transfer_no">
+                    <value>0</value>
+                    <label>No, I would like to stay in my curation group.</label>
+                </option>
+                <option name="transfer_yes">
+                    <value>1</value>
+                    <label>Yes, I would like to transfer to a different curation group.</label>
+                </option>
+                <option name="transfer_maybe">
+                    <value>2</value>
+                    <label>Maybe</label>
+                </option>                
+            </options>                
+        </multiple-choice>
+
+        <multiple-choice name="join_adtl" id="join_adtl" num-selectable="1">
+            <question-text>
+                <![CDATA[
+                    Are you interested in joining an additional curation group/activity?
+                ]]>
+            </question-text>
+            <options>
+                <option name="join_adtl_yes">
+                    <value>1</value>
+                    <label>Yes</label>
+                </option>
+                <option name="join_adtl_no">
+                    <value>0</value>
+                    <label>No</label>
+                </option>
+                <option name="join_adtl_maybe">
+                    <value>2</value>
+                    <label>Maybe</label>
+                </option>
+            </options>
+        </multiple-choice>
+        
+        <multiple-choice name="recommend" id="recommend" num-selectable="1">
+            <question-text>
+                <![CDATA[
+                    Would you recommend volunteering for ClinGen Community Curation efforts (e.g. friends colleagues, etc)?
+                ]]>
+            </question-text>
+            <options>
+                <option name="recommend_yes">
+                    <value>1</value>
+                    <label>Yes</label>
+                </option>
+                <option name="recommend_no">
+                    <value>0</value>
+                    <label>No</label>
+                </option>
+                <option name="recommend_maybe">
+                    <value>2</value>
+                    <label>Maybe</label>
+                </option>
+            </options>
+        </multiple-choice>
+
+        <question name="other_feedback" id="other_feedback" data-format="text">
+            <template source="questions.text.large_text"></template>
+            <question-text>
+                <![CDATA[
+                    Please provide us with any other comments or feedback: 
+                    (if you would like to make any changes to your status and participation within a curation group please contact 
+                    <a href="mailto:volunteer@clinicalgenome.org">
+                        volunteer@clinicalgenome.org
+                    </a>).
+                ]]>
+            </question-text>
+        </question>
+    </page>
+    
+</survey>

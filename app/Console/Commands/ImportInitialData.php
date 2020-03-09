@@ -24,6 +24,11 @@ use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use App\Import\SheetHandlers\VariantAttestationSheetHandler;
 use App\Import\SheetHandlers\ActionabilityAttestationHandler;
 
+/**
+ * Command that imports initial data from spreadsheet
+ *
+ * @SuppressWarnings(PHPMD)
+ */
 class ImportInitialData extends Command
 {
     /**

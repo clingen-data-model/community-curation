@@ -15,6 +15,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group uploads
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class CuratorUploadControllerTest extends TestCase
 {
@@ -257,7 +259,6 @@ class CuratorUploadControllerTest extends TestCase
                 'name' => 'test'
             ])
             ->assertStatus(403);
-
     }
     
     /**
@@ -340,9 +341,9 @@ class CuratorUploadControllerTest extends TestCase
         $this->assertDatabaseHas('uploads', [
             'id' => $upload->id,
             'deleted_at' => Carbon::now()
-        ]); 
+        ]);
 
-        unlink(storage_path('app/'.$filepath));        
+        unlink(storage_path('app/'.$filepath));
     }
     
 
@@ -355,14 +356,14 @@ class CuratorUploadControllerTest extends TestCase
         $this->withoutExceptionHandling();
         $this->makeUpload();
         $this->makeUpload([
-                        'user_id' => $this->volunteer, 
+                        'user_id' => $this->volunteer,
                         'upload_category_id' => $category->id
                     ]);
         $this->makeUpload(['user_id' => $this->otherVolunteer->id]);
 
         $this->actingAs($this->admin, 'api')
             ->call(
-                'GET', 
+                'GET',
                 '/api/curator-uploads?where[user_id]='.$this->volunteer->id
                     .'&where[upload_category_id]='
                     .$category->id.'&with[]=user&with[]=category'
@@ -385,7 +386,7 @@ class CuratorUploadControllerTest extends TestCase
                 'user_id' => $this->otherVolunteer->id
             ])
             ;
-        }
+    }
     
 
     private function makeUpload($data = null)

@@ -6,6 +6,7 @@ use App\User;
 use Tests\TestCase;
 use App\CurationActivity;
 use App\Events\AssignmentCreated;
+use Illuminate\Support\Facades\Event;
 use App\Jobs\AssignVolunteerToAssignable;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Exceptions\InvalidAssignmentException;
@@ -25,7 +26,7 @@ class AssignmentTest extends TestCase
     public function baseline_volunteers_cannot_be_assigned_to_a_CurationActivity()
     {
         $baselineVolunteer = factory(User::class)->states(['volunteer','baseline'])->create(['volunteer_type_id' => 1]);
-        $curationActivity = CurationActivity::all()->random();
+        $curationActivity = CurationActivity::query()->first();
 
         $this->expectException(InvalidAssignmentException::class);
 
@@ -53,7 +54,6 @@ class AssignmentTest extends TestCase
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
-        $curationActivity2 = CurationActivity::all()->last();
 
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
@@ -69,9 +69,9 @@ class AssignmentTest extends TestCase
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
 
-        \Event::fake();
+        Event::fake();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
-        \Event::assertDispatched(AssignmentCreated::class);
+        Event::assertDispatched(AssignmentCreated::class);
     }
 
     /**
@@ -86,6 +86,4 @@ class AssignmentTest extends TestCase
 
         $this->assertEquals($volunteer->assignments->first()->trainings->first()->id, $volunteer->trainings->first()->id);
     }
-    
-    
 }

@@ -26,7 +26,7 @@ class AssignmentReportWriter
 
     public function writeData($data)
     {
-        $headerStyle = $rowStyle = (new StyleBuilder())
+        $rowStyle = (new StyleBuilder())
             ->setFontBold()
             ->build();
 
@@ -46,9 +46,9 @@ class AssignmentReportWriter
             $this->xlsxWriter->addNewSheetAndMakeItCurrent();
         }
 
-        $this->xlsxWriter->close();        
+        $this->xlsxWriter->close();
     }
-    private function arrayToCells(array $array) 
+    private function arrayToCells(array $array)
     {
         return array_map(function ($item) {
             $value = $item;
@@ -60,7 +60,6 @@ class AssignmentReportWriter
             }
             return WriterEntityFactory::createCell($value);
         }, $array);
-
     }
 
     private function getHeaderCells($data)
@@ -71,5 +70,4 @@ class AssignmentReportWriter
             })
             ->toArray();
     }
-    
 }
