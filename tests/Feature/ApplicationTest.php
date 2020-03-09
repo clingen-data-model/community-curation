@@ -136,6 +136,7 @@ class ApplicationTest extends TestCase
         $rsp->email = 'test@test.com';
         $rsp->orcid_id = '123';
         $rsp->volunteer_type   = 1;
+        $rsp->institution = 'Monkey Biz U';
         $rsp->street1 = '123 test street';
         $rsp->street2 = 'Apt test';
         $rsp->city = 'Testville';
@@ -148,7 +149,8 @@ class ApplicationTest extends TestCase
             'first_name' => 'billy',
             'last_name' => 'pilgrim',
             'email' => 'test@test.com',
-            'orcid_id' => '123'
+            'orcid_id' => '123',
+            'institution' => 'Monkey Biz U'
         ]);
 
         $user = User::where('email', 'test@test.com')->first();
