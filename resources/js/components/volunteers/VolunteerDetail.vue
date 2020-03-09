@@ -41,8 +41,32 @@
                     <b-tab title="Priorities" v-if="volunteer.isComprehensive()">
                         <priorities-list :volunteer="volunteer"></priorities-list>
                     </b-tab>
-                    <b-tab title="Application Survey Data">
-                        <application-data :volunteer="volunteer"></application-data>
+                    <b-tab title="Survey Data">
+                        <b-tabs vertical pills>
+                            <b-tab title="Application">
+                                <survey-data :survey-data="volunteer.application">
+                                    <h4>
+                                        <strong>This volunteer did not complete an application.</strong>
+                                    </h4>
+                                    
+                                    Based on the expected workflow this is not possible, but there are a few ways it could have happened:
+                                    
+                                    <ul>
+                                        <li>This is a <strong>test database</strong> and you are looking at a volunteer that was created for testing purposes w/o completing an applications survey.</li>
+                                        <li>An admin <strong>created</strong> a volunteer user <strong>using the admin panel</strong>.</li>
+                                        <li>Something mysterious is going on and you should contact an administrator.</li>
+                                    </ul>
+                                </survey-data>
+                            </b-tab>
+                            <b-tab title="3 Month Followup">
+                                <survey-data :survey-data="volunteer.three_month">
+                                    <non-volunteer>The volunteer hasn't completed a 3month followup yet</non-volunteer>
+                                    <only-volunteer>
+                                        No data yet.
+                                    </only-volunteer>
+                                </survey-data>
+                            </b-tab>
+                        </b-tabs>
                     </b-tab>
                 </b-tabs>
             </div>
@@ -70,6 +94,7 @@
     import attestationsList from './partials/AttestationsList';
     import volunteerStatusAlert from './partials/VolunteerStatusAlert'
     import ApplicationData from './partials/ApplicationData'
+    import SurveyData from './partials/SurveyData'
     import PrioritiesList from './partials/PrioritiesList'
     import StatusForm from './partials/StatusForm'
     import Volunteer from '../../entities/volunteer'
@@ -90,6 +115,7 @@
             StatusForm,
             DocumentsCard,
             attestationsList,
+            SurveyData,
         },
         data() {
             return {

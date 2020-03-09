@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group application
+ * @group surveys
  */
 class ApplicationTest extends TestCase
 {
