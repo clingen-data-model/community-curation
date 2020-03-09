@@ -18,6 +18,11 @@ use Venturecraft\Revisionable\RevisionableTrait;
 use App\Events\Volunteers\ConvertedToComprehensive;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * User model class
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class User extends Authenticatable
 {
     use RevisionableTrait;
@@ -85,8 +90,7 @@ class User extends Authenticatable
             }
         });
         static::saved(function ($model) {
-            if (
-                $model->isDirty('volunteer_status_id')
+            if ($model->isDirty('volunteer_status_id')
                 && $model->volunteer_status_id == config('volunteers.statuses.retired')
             ) {
                 Event::dispatch(new Retired($model));
@@ -129,13 +133,17 @@ class User extends Authenticatable
     {
         return $this->morphOne(Application::class, 'respondent');
     }
+
+    public function volunteer3MonthSurvey()
+    {
+        return $this->morphOne(Volunteer3MonthSurvey::class, 'respondent');
+    }
     
     public function country()
     {
         return $this->belongsTo(Country::class);
     }
     
-
     public function assignments()
     {
         return $this->hasMany(Assignment::class);
@@ -199,7 +207,6 @@ class User extends Authenticatable
     {
         return $query->role('volunteer');
     }
-    
 
     public function hasPermissionTo($permString)
     {
@@ -226,7 +233,6 @@ class User extends Authenticatable
         return $this->first_name . ' '. $this->last_name;
     }
     
-
     public function getAddressAttribute()
     {
         return [
@@ -288,5 +294,10 @@ class User extends Authenticatable
     public function hasAptitude($aptitudeId)
     {
         return $this->aptitudes()->where('id', $aptitudeId)->count() > 0;
+    }
+
+    public function isComprehensive()
+    {
+        return $this->hasRole('volunteer') && $this->volunteer_type_id == config('volunteers.types.comprehensive');
     }
 }

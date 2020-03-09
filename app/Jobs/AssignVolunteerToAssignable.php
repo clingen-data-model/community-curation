@@ -46,7 +46,7 @@ class AssignVolunteerToAssignable
             throw new InvalidAssignmentException('Baseline volunteers can not be assigned to curations');
         }
 
-        $assignment = Assignment::firstOrCreate([
+        Assignment::firstOrCreate([
             'user_id' => $this->volunteer->id,
             'assignable_id' => $this->assignable->id,
             'assignable_type' => get_class($this->assignable)

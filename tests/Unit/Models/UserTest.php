@@ -82,8 +82,8 @@ class UserTest extends TestCase
         
         $admin = factory(User::class)->create();
         $admin->roles()->sync([]);
-        $volunteer1 = factory(User::class)->states('volunteer')->create();
-        $volunteer2 = factory(User::class)->states('volunteer')->create();
+        factory(User::class)->states('volunteer')->create();
+        factory(User::class)->states('volunteer')->create();
 
         $this->assertEquals(2, User::isVolunteer()->count());
     }

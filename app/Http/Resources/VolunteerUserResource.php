@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\VolunteerThreeMonthResource;
 
 class VolunteerUserResource extends JsonResource
 {
@@ -21,7 +22,8 @@ class VolunteerUserResource extends JsonResource
         $array['volunteer_type'] = new DefaultResource($this->whenLoaded('volunteerType'));
         $array['assignments'] =  $this->structuredAssignments;
         $array['attestations'] = AttestationResource::collection($this->whenLoaded('attestations'));
-        $array['application'] = new ApplicationDataResource($this->whenLoaded('application'));
+        $array['application'] = new SurveyResponseResource($this->whenLoaded('application'));
+        $array['three_month'] = new SurveyResponseResource($this->whenLoaded('volunteer3MonthSurvey'));
         $array['latest_priorities'] = $this->relationLoaded('priorities')
                                         ? PriorityResource::collection($this->latestPriorities)
                                         : null;
