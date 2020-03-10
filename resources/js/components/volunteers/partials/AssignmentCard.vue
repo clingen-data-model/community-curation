@@ -24,7 +24,9 @@
                     <thead>
                         <tr>
                             <th style="width: 30%">Curation Activity</th>
-                            <th colspan="2">Expert Panel</th>
+                            <th colspan="2">
+                                <span v-if="volunteer.isComprehensive()">Panel / </span>Gene
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,10 +68,10 @@
                                     </div>
                                 </div>
                                 <div v-else>
-                                    <span v-for="(ep, idx) in assignment.expertPanels" :key="idx"
-                                        :class="{'text-strike text-muted': assignmentIsRetired(ep)}"
+                                    <span v-for="(subAss, idx) in assignment.subAssignments" :key="idx"
+                                        :class="{'text-strike text-muted': assignmentIsRetired(subAss)}"
                                     >
-                                        {{ep.assignable.name}}<span v-if="idx < assignment.expertPanels.length-1 ">,</span>
+                                        {{subAss.assignable.name}}<span v-if="idx < assignment.subAssignments.length-1 ">,</span>
                                     </span>
                                 </div>
                             </td>
@@ -139,8 +141,7 @@
         },
         watch: {
             volunteer: function (to, from) {
-                console.log(this.currentAssignment);
-                if (this.currentAssignment !== {}) {
+                if (this.currentAssignment && this.currentAssignment !== {}) {
                     const as = this.volunteer.assignments.find((ass) => {
                         return ass.curation_activity_id == this.currentAssignment.curation_activity_id
                     });

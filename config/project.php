@@ -1,12 +1,14 @@
 <?php
 
-use App\CurationActivity;
+use App\Gene;
 use App\ExpertPanel;
+use App\CurationActivity;
 
 return [
     'assignable-types' => [
         CurationActivity::class,
-        ExpertPanel::class
+        ExpertPanel::class,
+        Gene::class,
     ],
     'assignment-statuses' => [
         'assigned' => 1,

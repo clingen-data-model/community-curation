@@ -3,15 +3,16 @@
 namespace App;
 
 use Backpack\CRUD\CrudTrait;
+use App\Traits\AssignableTrait;
+use App\Traits\AptitudeSubjectTrait;
 use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\AptitudeSubjectContract;
-use App\Traits\AptitudeSubjectTrait;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use phpDocumentor\Reflection\Types\Boolean;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class CurationActivity extends Model implements AssignableContract, AptitudeSubjectContract
 {
@@ -19,6 +20,7 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
     use RevisionableTrait;
     use SoftDeletes;
     use AptitudeSubjectTrait;
+    use AssignableTrait;
 
     protected $revisionCreationsEnabled = true;
 
@@ -26,12 +28,6 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
         'name',
         'legacy_name'
     ];
-
-    
-    public function assignments(): Relation
-    {
-        return $this->morphMany(Assignment::class, 'assignable');
-    }
 
     public function expertPanels()
     {

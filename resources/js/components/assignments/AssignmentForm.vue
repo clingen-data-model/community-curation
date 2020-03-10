@@ -21,7 +21,8 @@
                 <thead>
                     <tr>
                         <th style="width:30%">Curation Activities:</th>
-                        <th>Expert Panels:</th>
+                        <th>
+                            <span v-if="volunteer.isComprehensive()">Panels / </span>Genes:</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,13 +33,28 @@
                             {{assignment.curationActivity.assignable.name}}
                         </td>
                         <td>
-                            <expert-panel-cell 
-                                :assignment="assignment" 
-                                :expert-panels="getExpertPanelsForCurationActivity(assignment.curationActivity.assignable.id)"
-                                :volunteer="volunteer"
-                                v-on:save="saveNewExpertPanel"
+                            <training-and-attestation-control 
+                                v-if="assignment.needsAptitude"
+                                :assignment="assignment"
                                 v-on:trainingcompleted="markTrainingCompleted"
-                            ></expert-panel-cell>
+                            ></training-and-attestation-control>
+
+                            <div v-else>
+                                <expert-panel-cell 
+                                    v-if="assignment.curationActivity.assignable.curation_activity_type_id == 1"
+                                    :assignment="assignment" 
+                                    :expert-panels="getExpertPanelsForCurationActivity(assignment.curationActivity.assignable.id)"
+                                    :volunteer="volunteer"
+                                    v-on:save="saveNewAssignment('App\\ExpertPanel', $event)"
+                                ></expert-panel-cell>
+
+                                <gene-group-selector 
+                                    v-if="assignment.curationActivity.assignable.curation_activity_type_id == 2"
+                                    :assignment="assignment"
+                                    :volunteer="volunteer"
+                                    v-on:save="saveNewAssignment('App\\Gene', $event)"
+                                ></gene-group-selector>
+                            </div>
                         </td>
                     </tr>
                     <tr v-if="addingCurationActivity">
@@ -79,7 +95,9 @@
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
     
     import ExpertPanelCell from './ExpertPanelCell'
+    import GeneGroupSelector from './GeneGroupSelector'
     import PrioritiesList from '../volunteers/partials/PrioritiesList'
+    import TrainingAndAttestationControl from './TrainingAndAttestationControl'
 
     export default {
         props: {
@@ -89,7 +107,9 @@
         },
         components: {
             ExpertPanelCell,
-            PrioritiesList
+            PrioritiesList,
+            TrainingAndAttestationControl,
+            GeneGroupSelector,
         },
         data() {
             return {
@@ -124,7 +144,7 @@
                     })
             },
             unassignedExpertPanels: function () {
-                const assignedPanels = Object.values(this.activityCurationAssignments.map(ac => ac.expertPanels)).flat().map(epAss => epAss.assignable);
+                const assignedPanels = Object.values(this.activityCurationAssignments.map(ac => ac.subAssignments)).flat().map(subAss => subAss.assignable);
                 return this.expertPanels.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
             }
         },
@@ -148,10 +168,11 @@
                                 && panel.accepting_volunteers == 1
                         })
             },
-            saveNewCurationActivity() {
+            saveNewAssignment(assignableType, assignable) {
+                console.log(assignable);
                 createAssignment({
-                    assignable_type: 'App\\CurationActivity',
-                    assignable_id: this.newCurationActivity.id,
+                    assignable_type: assignableType,
+                    assignable_id: assignable.id,
                     user_id: this.volunteer.id
                 })
                 .then(response => {
@@ -159,16 +180,8 @@
                     this.$emit('saved');
                 })
             },
-            saveNewExpertPanel(expertPanel) {
-                createAssignment({
-                    assignable_type: 'App\\ExpertPanel',
-                    assignable_id: expertPanel.id,
-                    user_id: this.volunteer.id
-                })
-                .then(response => {
-                    this.cancelAddingActivity();
-                    this.$emit('saved');
-                })
+            saveNewCurationActivity() {
+                this.saveNewAssignment('App\\CurationActivity', this.newCurationActivity);
             },
             markTrainingCompleted({id, completed_at}) {
                 markTrainingComplete(id, completed_at)
