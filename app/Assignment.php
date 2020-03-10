@@ -59,6 +59,12 @@ class Assignment extends Model
         return $query->where('assignable_type', ExpertPanel::class);
     }
 
+    public function scopeGene($query)
+    {
+        return $query->assignableType(Gene::class);
+    }
+    
+
     public function scopeAssignableType($query, $param)
     {
         return $query->where('assignable_type', $param);
@@ -74,6 +80,4 @@ class Assignment extends Model
     {
         return new AssignmentCollection($models);
     }
-    
-    
 }
