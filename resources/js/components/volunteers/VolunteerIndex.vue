@@ -95,14 +95,14 @@
                     <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                 </template>
                 <template v-slot:cell(assignments)="{item}">
-                    <div v-if="item && item.volunteer_type_id == 2">
+                    <div v-if="item">
                         <div v-if="item && item.assignments.length > 0">
                             <ul class="list-unstyled">
                                 <li v-for="(ass, idx) in item.assignments" :key="idx">
                                     {{ass.curationActivity.assignable.name}}
-                                    <small v-if="ass.expertPanels.length > 0">
+                                    <small v-if="ass.subAssignments.length > 0">
                                         -
-                                        <span>{{ass.expertPanels.map(p => p.assignable.name).join(", ")}}</span>
+                                        <span>{{ass.subAssignments.map(p => p.assignable.name).join(", ")}}</span>
                                     </small>
                                     <small v-else-if="ass.needsAptitude" class="text-muted">- Needs aptitude</small>
                                     <small v-else class="text-muted">
@@ -111,14 +111,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <a :href="'/volunteers/'+item.id"
+                        <!-- <a :href="'/volunteers/'+item.id"
                             class="btn btn-sm btn-default border"
                         >
                             {{(item.assignments.length == 0) ? 'Assign' : 'Edit'}}
-                        </a>
-                    </div>
-                    <div v-else class="text-muted">
-                        N/A
+                        </a> -->
                     </div>
                 </template>
             </b-table>
