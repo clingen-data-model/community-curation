@@ -4,6 +4,7 @@ namespace App;
 
 use Backpack\CRUD\CrudTrait;
 use App\Contracts\AssignableContract;
+use App\Traits\AssignableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -14,6 +15,7 @@ class ExpertPanel extends Model implements AssignableContract
     use CrudTrait;
     use RevisionableTrait;
     use SoftDeletes;
+    use AssignableTrait;
 
     protected $fillable = [
         'name',
@@ -33,11 +35,6 @@ class ExpertPanel extends Model implements AssignableContract
         return $this->belongsTo(CurationActivity::class);
     }
 
-    public function assignments(): Relation
-    {
-        return $this->morphMany(Assignment::class, 'assignable');
-    }
-
     public function scopeForCurationActivity($query, $param)
     {
         return $query->where('curation_activity_id', $param);
@@ -46,10 +43,5 @@ class ExpertPanel extends Model implements AssignableContract
     public function scopeAcceptingVolunteers($query)
     {
         return $query->where('accepting_volunteers', 1);
-    }
-
-    public function canBeAssignedToBaseline():bool
-    {
-        return false;
     }
 }
