@@ -264,13 +264,16 @@ class User extends Authenticatable
                 'needsAptitude' => !($basicTraining->completed_at && $basicAttestation->signed_at),
                 'training' => $basicTraining,
                 'attestation' => $basicAttestation,
-                'expertPanels' => AssignmentResource::collection(
+                'subAssignments' => AssignmentResource::collection(
                     $assignments->filter(
                         function ($ass) use ($activity) {
-                            if ($ass->assignable_type != ExpertPanel::class) {
+                            if ($ass->assignable_type == Curation::class) {
                                 return false;
                             }
-                            return $ass->assignable->curation_activity_id == $activity->id;
+                            if ($activity->curation_activity_type_id == config('project.curation-activity-types.expert-panel')) {
+                                return $ass->assignable->curation_activity_id == $activity->id;
+                            }
+                            return $ass->assignable_type == 'App\Gene';
                         }
                     )->values()
                 )
