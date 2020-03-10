@@ -65,7 +65,7 @@ class AptitudesTableSeeder extends Seeder
             ],
             [
                 'id' => 7,
-                'name' => 'Basic Evidence',
+                'name' => 'Baseline, Basic Evidence',
                 'training_materials_url' => 'https://www.google.com',
                 'volunteer_type_id' => 1,
                 'subject_type' => 'App\CurationActivity',
@@ -73,7 +73,7 @@ class AptitudesTableSeeder extends Seeder
             ],
             [
                 'id' => 8,
-                'name' => 'Genetic Evidence',
+                'name' => 'Baseline, Genetic Evidence',
                 'training_materials_url' => 'https://www.google.com',
                 'volunteer_type_id' => 1,
                 'subject_type' => 'App\CurationActivity',
@@ -82,7 +82,7 @@ class AptitudesTableSeeder extends Seeder
         ];
 
         foreach ($aptitudes as $aptitude) {
-            Aptitude::firstOrCreate(['id' => $aptitude['id']], $aptitude);
+            Aptitude::updateOrCreate(['id' => $aptitude['id']], $aptitude);
         }
     }
 }

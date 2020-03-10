@@ -5,11 +5,11 @@ namespace App\Collections;
 use App\Assignment;
 use App\ExpertPanel;
 use App\CurationActivity;
+use App\Gene;
 use Illuminate\Database\Eloquent\Collection;
 
 class AssignmentCollection extends Collection
 {
-
     public function isType(string $type)
     {
         return $this->filter(function (Assignment $assignment) use ($type) {
@@ -25,5 +25,10 @@ class AssignmentCollection extends Collection
     public function isExpertPanel()
     {
         return $this->isType(ExpertPanel::class);
-    }    
+    }
+
+    public function isGene()
+    {
+        return $this->isType(Gene::class);
+    }
 }

@@ -18,9 +18,31 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        \App\Events\Volunteers\Retired::class => [
-            \App\Listeners\Volunteers\RetireAssignments::class
+        \App\Events\AssignmentCreated::class => [
+            \App\Listeners\CreateCorrespondingTraining::class,
+            \App\Listeners\DispatchAssignmentTypeEvent::class
         ],
+
+        \App\Events\Assignments\GroupAssignmentCreated::class => [
+            \App\Listeners\MarkParticipantActive::class
+        ],
+        
+        \App\Events\AttestationCreated::class => [
+            \App\Listeners\NotifyAttestationCreated::class
+        ],
+        \App\Events\AttestationSigned::class => [
+            \App\Listeners\GrantAptitudeForSignedAttestation::class,
+            \App\Listeners\SetAssignmentStatusToTrained::class
+        ],
+        
+        \App\Events\TrainingCreated::class => [
+            \App\Listeners\NotifyTrainingAssigned::class
+        ],
+        \App\Events\TrainingCompleted::class => [
+            \App\Listeners\CreateAttestationForCompletedTraining::class,
+            \App\Listeners\SetVolunteerStatusToTrained::class,
+        ],
+
         \App\Events\Volunteers\ConvertedToComprehensive::class => [
             \App\Listeners\Volunteers\NotifyConversionToComprehensive::class
         ],
@@ -30,23 +52,6 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Volunteers\Retired::class => [
             \App\Listeners\Volunteers\RetireAssignments::class
         ],
-        \App\Events\AssignmentCreated::class => [
-            \App\Listeners\CreateCorrespondingTraining::class
-        ],
-        \App\Events\TrainingCreated::class => [
-            \App\Listeners\NotifyTrainingAssigned::class
-        ],
-        \App\Events\TrainingCompleted::class => [
-            \App\Listeners\CreateAttestationForCompletedTraining::class,
-            \App\Listeners\SetVolunteerStatusToTrained::class,
-        ],
-        \App\Events\AttestationCreated::class => [
-            \App\Listeners\NotifyAttestationCreated::class
-        ],
-        \App\Events\AttestationSigned::class => [
-            \App\Listeners\GrantAptitudeForSignedAttestation::class,
-            \App\Listeners\SetAssignmentStatusToTrained::class
-        ]
     ];
 
     /**
