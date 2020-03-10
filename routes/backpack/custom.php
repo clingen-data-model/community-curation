@@ -15,6 +15,7 @@ Route::group([
     CRUD::resource('/user', 'UserCrudController');
     CRUD::resource('/working-group', 'WorkingGroupCrudController');
     CRUD::resource('/expert-panel', 'ExpertPanelCrudController');
+    CRUD::resource('/gene', 'GeneCrudController');
     CRUD::resource('/volunteer-type', 'VolunteerTypeCrudController');
     CRUD::resource('/volunteer-status', 'VolunteerStatusCrudController');
     CRUD::resource('/volunteer', 'VolunteerCrudController');

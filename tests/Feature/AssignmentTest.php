@@ -2,14 +2,18 @@
 
 namespace Tests\Feature;
 
+use App\Gene;
 use App\User;
+use App\Assignment;
 use Tests\TestCase;
+use App\ExpertPanel;
 use App\CurationActivity;
 use App\Events\AssignmentCreated;
 use Illuminate\Support\Facades\Event;
 use App\Jobs\AssignVolunteerToAssignable;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Exceptions\InvalidAssignmentException;
+use App\Events\Assignments\GroupAssignmentCreated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -26,11 +30,11 @@ class AssignmentTest extends TestCase
     public function baseline_volunteers_cannot_be_assigned_to_a_CurationActivity()
     {
         $baselineVolunteer = factory(User::class)->states(['volunteer','baseline'])->create(['volunteer_type_id' => 1]);
-        $curationActivity = CurationActivity::query()->first();
+        $this->curationActivity = CurationActivity::query()->first();
 
         $this->expectException(InvalidAssignmentException::class);
 
-        AssignVolunteerToAssignable::dispatch($baselineVolunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($baselineVolunteer, $this->curationActivity);
     }
 
     /**
@@ -85,5 +89,47 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
 
         $this->assertEquals($volunteer->assignments->first()->trainings->first()->id, $volunteer->trainings->first()->id);
+    }
+
+    /**
+     * @test
+     */
+    public function can_scope_model_query_to_only_genes()
+    {
+        $curationActivity = factory(CurationActivity::class)->create([]);
+        $gene = factory(Gene::class)->create([]);
+        $ep = factory(ExpertPanel::class)->create(['curation_activity_id' => $curationActivity->id]);
+
+        $volunteer = factory(User::class)->create();
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($volunteer, $ep);
+        AssignVolunteerToAssignable::dispatch($volunteer, $gene);
+
+        $this->assertEquals($gene->id, Assignment::gene()->first()->assignable_id);
+        $this->assertEquals(Gene::class, Assignment::gene()->first()->assignable_type);
+    }
+
+    /**
+     * @test
+     */
+    public function volunteer_status_set_to_active_on_first_group_assignment()
+    {
+        $curationActivity = factory(CurationActivity::class)->create([]);
+        $gene = factory(Gene::class)->create([]);
+        $ep = factory(ExpertPanel::class)->create(['curation_activity_id' => $curationActivity->id]);
+
+        $volunteer = factory(User::class)->create();
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+        $this->assertNotEquals(config('volunteers.statuses.active'), $volunteer->fresh()->volunteer_status_id);
+
+
+        AssignVolunteerToAssignable::dispatch($volunteer, $gene);
+
+        $this->assertEquals(config('volunteers.statuses.active'), $volunteer->fresh()->volunteer_status_id);
+
+        $volunteer2 = factory(User::class)->create();
+        AssignVolunteerToAssignable::dispatch($volunteer2, $ep);
+
+        $this->assertEquals(config('volunteers.statuses.active'), $volunteer2->fresh()->volunteer_status_id);
     }
 }

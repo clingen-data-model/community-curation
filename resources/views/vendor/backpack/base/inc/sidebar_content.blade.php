@@ -24,6 +24,10 @@
     <li><a href="{{ backpack_url('volunteer-type') }}"><i class="fa fa-list"></i> <span>Volunteer-types</span></a></li>
 @endcan
 
+@can('list genes')
+    <li><a href="{{ backpack_url('gene') }}"><i class="fa fa-list"></i> <span>genes</span></a></li>
+@endcan
+
 @can('list lookups')
     <hr style="margin-bottom: 0">
     <li class="header">Application Survey Options</li>
