@@ -12,11 +12,13 @@
         ></assignment-status-input>
         <div
             class="mt-2"
-            v-if="assignment.expertPanels.length > 0"
+            v-if="assignment.subAssignments.length > 0"
         >
-            <h5>Expert Panels</h5>
+            <h5>
+                <span v-if="volunteer.isComprehensive()">Panels &amp; </span>Genes
+            </h5>
             <div 
-                v-for="panelAssignment in assignment.expertPanels"
+                v-for="panelAssignment in assignment.subAssignments"
                 :key="panelAssignment.id"
                 class="ml-3"
             >
@@ -42,6 +44,10 @@ import { Promise } from 'q';
             assignment: {
                 type: Object,
                 required: true
+            },
+            volunteer: {
+                type: Object,
+                required: true
             }
         },
         data() {
@@ -62,9 +68,9 @@ import { Promise } from 'q';
                         }
                     )
                 );
-                if (this.assignment.expertPanels.length > 0 && newStatusId == 2) {
-                    for (let idx in this.assignment.expertPanels) {
-                        let panelAssignment = this.assignment.expertPanels[idx]
+                if (this.assignment.subAssignments.length > 0 && newStatusId == 2) {
+                    for (let idx in this.assignment.subAssignments) {
+                        let panelAssignment = this.assignment.subAssignments[idx]
                         promises.push(
                             updateAssignment(
                                 panelAssignment.id, 
@@ -92,8 +98,8 @@ import { Promise } from 'q';
         },
         mounted() {
             // this.newActivityStatus = this.assignment.assignment_status_id;
-            // for (let idx in this.assignment.expertPanels) {
-            //     let panelAssignment = this.assignment.expertPanels[idx]
+            // for (let idx in this.assignment.subAssignments) {
+            //     let panelAssignment = this.assignment.subAssignments[idx]
             //     this.newPanelStatuses[panelAssignment.id] = panelAssignment.assignment_status_id
             // }
         }
