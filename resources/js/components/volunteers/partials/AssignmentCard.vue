@@ -53,8 +53,7 @@
                                     </div>
                                     <div v-else>
                                         <only-volunteer>
-                                            <a href="#" 
-                                                class="btn btn-sm btn-primary"
+                                            <a class="btn btn-sm btn-primary"
                                                 target="attestation"
                                                 :href="`/attestations/${assignment.attestation.id}/edit`"
                                                 v-if="!assignment.attestation.signed_at"
@@ -107,6 +106,7 @@
             >
                 <assignment-status-form
                     :assignment="currentAssignment"
+                    :volunteer="volunteer"
                     @assignmentsupdated="$emit('updatevolunteer')"
                 >
                 </assignment-status-form>
