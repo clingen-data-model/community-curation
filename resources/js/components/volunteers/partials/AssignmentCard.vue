@@ -74,16 +74,6 @@
                                     </span>
                                 </div>
                             </td>
-                            <td class="text-right">
-                                <non-volunteer>
-                                    <button 
-                                        class="btn btn-default btn-xs border"
-                                        @click="editActivityAssignment(assignment)"
-                                    >
-                                        Edit Status
-                                    </button>
-                                </non-volunteer>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -97,7 +87,11 @@
                 </button>
             </div>
             <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="!$store.state.user.isVolunteer()" size="lg">
-                <assignment-form :volunteer="volunteer" @saved="$emit('updatevolunteer')"></assignment-form>
+                <assignment-form 
+                    :volunteer="volunteer" 
+                    @saved="$emit('updatevolunteer')"
+                    @assignmentsupdated="$emit('updatevolunteer')"
+                ></assignment-form>
             </b-modal>
             <b-modal v-model="showAssignmentStatusForm" 
                 hide-header 
