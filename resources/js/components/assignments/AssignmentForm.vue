@@ -31,6 +31,9 @@
                             :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
                         >
                             {{assignment.curationActivity.assignable.name}}
+                            <status-badge :assignment="assignment.curationActivity"
+                                @assignmentsupdated="$emit('assignmentsupdated')"
+                            ></status-badge>
                         </td>
                         <td>
                             <training-and-attestation-control 
@@ -45,14 +48,16 @@
                                     :assignment="assignment" 
                                     :expert-panels="getExpertPanelsForCurationActivity(assignment.curationActivity.assignable.id)"
                                     :volunteer="volunteer"
-                                    v-on:save="saveNewAssignment('App\\ExpertPanel', $event)"
+                                    @save="saveNewAssignment('App\\ExpertPanel', $event)"
+                                    @assignmentsupdated="$emit('assignmentsupdated')"
                                 ></expert-panel-cell>
 
                                 <gene-group-selector 
                                     v-if="assignment.curationActivity.assignable.curation_activity_type_id == 2"
                                     :assignment="assignment"
                                     :volunteer="volunteer"
-                                    v-on:save="saveNewAssignment('App\\Gene', $event)"
+                                    @save="saveNewAssignment('App\\Gene', $event)"
+                                    @assignmentsupdated="$emit('assignmentsupdated')"
                                 ></gene-group-selector>
                             </div>
                         </td>
@@ -98,6 +103,7 @@
     import GeneGroupSelector from './GeneGroupSelector'
     import PrioritiesList from '../volunteers/partials/PrioritiesList'
     import TrainingAndAttestationControl from './TrainingAndAttestationControl'
+    import StatusBadge from './StatusBadge'
 
     export default {
         props: {
@@ -110,6 +116,7 @@
             PrioritiesList,
             TrainingAndAttestationControl,
             GeneGroupSelector,
+            StatusBadge
         },
         data() {
             return {
