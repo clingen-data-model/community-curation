@@ -1,14 +1,33 @@
-<style></style>
+<style>
+</style>
 
 <template>
     <div class="component-container">
-        <ul class="list-unstyled mb-0">
+        <table class="table table-borderless table-sm mb-1">
+            <!-- <tr>
+                <th style="width: 60%">Panel</th>
+                <th>Status</th>
+            </tr> -->
+            <tr v-for="(panel, i) in assignment.subAssignments" :key="i">
+                <td style="width: 60%">
+                    <div>{{panel.assignable.name}}</div>
+                </td>
+                <td>
+                    <status-badge :assignment="panel"
+                    @assignmentsupdated="$emit('assignmentsupdated')"
+                    ></status-badge>
+                </td>
+            </tr>
+        </table>
+        <!-- <ul class="list-unstyled mb-0">
             <li v-for="(panel, i) in assignment.subAssignments" :key="i"
                 :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
+                class="d-flex justify-content-between"
             >
-                {{panel.assignable.name}}
+                <div>
+                </div>
             </li>
-        </ul>
+        </ul> -->
         <button 
             v-if="!addingExpertPanel && !assignment.needsAptitude" 
             class="btn btn-sm btn-xs border" 
@@ -34,10 +53,12 @@
 
 <script>
     import DateField from '../DateField'
+    import StatusBadge from './StatusBadge'
 
     export default {
         components: {
-            DateField
+            DateField,
+            StatusBadge
         },
         props: {
             volunteer: {
@@ -68,7 +89,7 @@
                 this.newExpertPanel = null
                 this.addingExpertPanel = false;
                 this.$emit('cancel');
-            },
+            }
         }
     
 }

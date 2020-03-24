@@ -5,13 +5,13 @@
 </style>
 
 <template>
-    <div class="row highlight-on-hover p-1">
+    <!-- <div class="row highlight-on-hover p-1">
         <label for=""
             class="col-7"
         >
             {{assignment.assignable.name}}
         </label>
-        <div class="col-5">
+        <div class="col-5"> -->
             <select 
                 v-model="newAssignmentStatusId"
                 class="form-control form-control-sm"
@@ -26,8 +26,8 @@
                     {{assignmentStatus.name}}
                 </option>
             </select>
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
 </template>
 
 <script>
