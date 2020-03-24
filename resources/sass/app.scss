@@ -48,3 +48,17 @@ $theme-colors: (
     // background-color: darken($gray-light, 20%);
     border-bottom: solid #a09e9e 2px;
 }
+
+.table-min-border {
+    tr {
+        th {
+            font-weight: bold;
+            font-size: .7rem;
+            background-color: #eee;
+        }
+        th, td {
+            border: none;
+            border-bottom: 1px solid #eee;
+        }
+    }
+}
