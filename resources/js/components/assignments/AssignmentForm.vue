@@ -10,19 +10,13 @@
         </div>
         <div class="mt-4">
             <h5>Assignments</h5>
-            <button 
-                @click="addingCurationActivity = true"
-                class="btn btn-default form-control btn-primary" 
-                v-if="activityCurationAssignments.length == 0 && !addingCurationActivity"
-            >
-                Assign Volunteer to a Curation Activity
-            </button>
-            <table class="table table-sm table-bordered" v-if="activityCurationAssignments.length > 0 || addingCurationActivity">
+            <table class="table table-sm table-bordered mb-1">
                 <thead>
                     <tr>
                         <th style="width:30%">Curation Activities:</th>
                         <th>
-                            <span v-if="volunteer.isComprehensive()">Panels / </span>Genes:</th>
+                            <span v-if="volunteer.isComprehensive()">Panels / </span>Genes:
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +28,9 @@
                             <status-badge :assignment="assignment.curationActivity"
                                 @assignmentsupdated="$emit('assignmentsupdated')"
                             ></status-badge>
+                            <pre>
+                                {{assignment.userAptitudes.map(apt => apt.name)}}
+                            </pre>
                         </td>
                         <td>
                             <training-and-attestation-control 
@@ -62,48 +59,36 @@
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="addingCurationActivity">
-                        <td>
-                            <select v-model="newCurationActivity" class="form-control form-control-sm">
-                                <option :value="null">Select&hellip;</option>
-                                <option v-for="(activity, idx) in unassignedCurationActivities" :key="idx" :value="activity">
-                                    {{activity.name}}
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" @click="saveNewCurationActivity">Save</button>
-                            <button class="btn btn-sm btn-default" @click="cancelAddingActivity">Cancel</button>
-                        </td>
-                    </tr>
-                    <tr v-if="!addingCurationActivity" class="border-top pt-2">
-                        <td colspan="2">
-                            <button 
-                                class="btn btn-default border btn-sm" 
-                                @click="addingCurationActivity = true"
-                                :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
-                            >
-                                Add Curation Activity
-                            </button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-between">
+                <assign-activity-button :volunteer="volunteer"
+                    @activity_selected="saveNewAssignment('App\\CurationActivity', $event)"
+                    v-if="volunteer.isComprehensive()"
+                ></assign-activity-button>
+                <assign-baseline-button :volunteer="volunteer"
+                    @assigned="saveNewAssignment('App\\CurationActivity', $event)"
+                    @giveGeneticEvidence="createAptitudeTraining(geneticEvidenceAptitude, baselineAssignment)"
+                ></assign-baseline-button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import createAssignment from '../../resources/assignments/create_assignment'
-    import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities'
     import markTrainingComplete from '../../resources/trainings/mark_training_complete'
+    import createTraining from '../../resources/trainings/create_training'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
+    import getAllAptitudes from '../../resources/aptitudes/get_all_aptitudes'
     
     import ExpertPanelCell from './ExpertPanelCell'
     import GeneGroupSelector from './GeneGroupSelector'
     import PrioritiesList from '../volunteers/partials/PrioritiesList'
     import TrainingAndAttestationControl from './TrainingAndAttestationControl'
     import StatusBadge from './StatusBadge'
+    import AssignActivityButton from './AssignActivityButton'
+    import AssignBaselineButton from './AssignBaselineButton'
 
     export default {
         props: {
@@ -116,7 +101,9 @@
             PrioritiesList,
             TrainingAndAttestationControl,
             GeneGroupSelector,
-            StatusBadge
+            StatusBadge,
+            AssignActivityButton,
+            AssignBaselineButton
         },
         data() {
             return {
@@ -130,11 +117,11 @@
                         expertPanel: 'test EP'
                     }
                 ],
-                addingCurationActivity: false,
                 newCurationActivity: null,
                 newExpertPanelId: null,
                 curationActivities: [],
                 expertPanels: [],
+                aptitudes: [],
                 configs: window.configs
             }
         },
@@ -143,30 +130,27 @@
                 // return [];
                 return this.volunteer.assignments
             },
-            unassignedCurationActivities: function () {
-                const actAssIds = this.activityCurationAssignments.map(assignment => assignment.curationActivity.assignable_id);
-                return this.curationActivities
-                    .filter((activity) => {
-                        return actAssIds.indexOf(activity.id) == -1
-                    })
-            },
             unassignedExpertPanels: function () {
                 const assignedPanels = Object.values(this.activityCurationAssignments.map(ac => ac.subAssignments)).flat().map(subAss => subAss.assignable);
                 return this.expertPanels.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
+            },
+            geneticEvidenceAptitude: function () {
+                return this.aptitudes.find(item => item.name === 'Baseline, Genetic Evidence');
+            },
+            baselineAssignment: function () {
+                console.log(this.volunteer.assignments);
+                const blAssignment = this.volunteer.assignments.find(item => item.curationActivity.assignable.name == 'Baseline');
+                return blAssignment.curationActivity;
             }
         },
         methods: {
-            fetchCurationActivities: async function()
-            {
-                this.curationActivities = await getAllCurationActivities();
-            },
             fetchExpertPanels: async function()
             {
                 this.expertPanels = await getAllExpertPanels();
             },
-            cancelAddingActivity() {
-                this.newCurationActivity = null;
-                this.addingCurationActivity = false;
+            fetchAptitudes: async function ()
+            {
+                this.aptitudes = await getAllAptitudes();
             },
             getExpertPanelsForCurationActivity(curationActivityId) {
                 return this.unassignedExpertPanels
@@ -176,28 +160,33 @@
                         })
             },
             saveNewAssignment(assignableType, assignable) {
-                console.log(assignable);
                 createAssignment({
                     assignable_type: assignableType,
                     assignable_id: assignable.id,
                     user_id: this.volunteer.id
                 })
                 .then(response => {
-                    this.cancelAddingActivity();
                     this.$emit('saved');
                 })
-            },
-            saveNewCurationActivity() {
-                this.saveNewAssignment('App\\CurationActivity', this.newCurationActivity);
             },
             markTrainingCompleted({id, completed_at}) {
                 markTrainingComplete(id, completed_at)
                     .then(() => this.$emit('saved'));                
             },
+            createAptitudeTraining(aptitude, assignment) {
+                let data = {
+                    aptitude_id: aptitude.id,
+                    user_id: this.volunteer.id,
+                    assignment_id: assignment.id,
+                };
+                // console.log(data);
+                createTraining(data)
+                .then(response => this.$emit('saved'));
+            }
         },
         mounted() {
-            this.fetchCurationActivities();
             this.fetchExpertPanels();
+            this.fetchAptitudes();
         }
     
 }
