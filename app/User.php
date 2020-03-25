@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Gene;
 use Backpack\CRUD\CrudTrait;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Spatie\Permission\Traits\HasRoles;
+use App\Http\Resources\DefaultResource;
 use Illuminate\Notifications\Notifiable;
 use App\Events\Volunteers\MarkedBaseline;
 use App\Http\Resources\AssignmentResource;
@@ -249,37 +251,74 @@ class User extends Authenticatable
 
     public function getStructuredAssignmentsAttribute()
     {
-        $assignments = $this->assignments;
-        $activityAssignments = $assignments->where('assignable_type', CurationActivity::class)->values();
+        $assignments = $this->assignments()
+                        ->with([
+                            'trainings',
+                            'trainings.aptitude',
+                            'attestations'
+                        ])
+                        ->get();
 
-        $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
-            $activity = $actAss->assignable;
-            $basicAptitude = $activity->getBasicAptitude();
-            $basicTraining = $this->trainings->where('aptitude_id', $basicAptitude->id)->first();
-            $basicAttestation = $this->attestations->where('aptitude_id', $basicAptitude->id)->first();
-            
-            return collect([
-                'curation_activity_id' => $activity->id,
-                'curationActivity' => (new AssignmentResource($actAss)),
-                'needsAptitude' => !($basicTraining->completed_at && $basicAttestation->signed_at),
-                'training' => $basicTraining,
-                'attestation' => $basicAttestation,
-                'subAssignments' => AssignmentResource::collection(
-                    $assignments->filter(
-                        function ($ass) use ($activity) {
-                            if ($ass->assignable_type == Curation::class) {
-                                return false;
-                            }
-                            if ($activity->curation_activity_type_id == config('project.curation-activity-types.expert-panel')) {
-                                return $ass->assignable->curation_activity_id == $activity->id;
-                            }
-                            return $ass->assignable_type == 'App\Gene';
-                        }
-                    )->values()
-                )
-            ]);
-        });
-        return $structuredAssignments;
+        $subAssignments = $assignments->isType([Gene::class, ExpertPanel::class]);
+
+        $out = $assignments->isCurationActivity()
+                            ->values()
+                            ->transform(function ($asn) use ($subAssignments) {
+                                $subs = $subAssignments->filter(function ($subAsn) use ($asn) {
+                                    if ($subAsn->assignableTypeIs(Gene::class)) {
+                                        return true;
+                                    }
+
+                                    if ($subAsn->assignableTypeIs(ExpertPanel::class)) {
+                                        return $subAsn->assignable->curation_activity_id == $asn->assignable_id;
+                                    }
+                                });
+                                $data = new AssignmentResource($asn);
+                                $data['subAssignments'] = AssignmentResource::collection($subs);
+                                return $data;
+                            });
+
+        return $out;
+
+        // $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
+        //     $data = new AssignmentResource($actAss);
+        //     return $data;
+
+
+            // $basicAptitude = $aptitudes->first();
+            // $basicTraining = $trainings->where('aptitude_id', $basicAptitude->id)->first();
+            // $basicAttestation = $attestations->where('aptitude_id', $basicAptitude->id)->first();
+
+            // return collect([
+            //     'curation_activity_id' => $activity->id,
+            //     'curationActivity' => (new AssignmentResource($actAss)),
+            //     'needsAptitude' => !($basicTraining->completed_at && $basicAttestation->signed_at),
+            //     'trainings' => DefaultResource::collection($trainings),
+            //     'attestations' => DefaultResource::collection($attestations),
+            //     'basic_training' => $basicTraining,
+            //     'basic_attestation' => $basicAttestation,
+            //     'subAssignments' => AssignmentResource::collection(
+            //         $assignments->filter(
+            //             function ($ass) use ($activity) {
+            //                 if ($ass->assignable_type == CurationActivity::class) {
+            //                     return false;
+            //                 }
+            //                 if ($activity->curation_activity_type_id == config('project.curation-activity-types.expert-panel')) {
+            //                     return $ass->assignable->curation_activity_id == $activity->id;
+            //                 }
+            //                 return $ass->assignable_type == 'App\Gene';
+            //             }
+            //         )->values()
+            //     ),
+            //     'userAptitudes' => $this->aptitudes->filter(
+            //         function ($apt) use ($activity) {
+            //             return $apt->subject_id == $activity->id
+            //             && $apt->subject_type == 'App\CurationActivity';
+            //         }
+            //     )
+            // ]);
+        // });
+        // return $structuredAssignments;
     }
 
     public function getLatestPrioritiesAttribute()

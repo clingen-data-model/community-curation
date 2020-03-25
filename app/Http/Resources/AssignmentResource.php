@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\TrainingResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\AssignableResource;
 
 class AssignmentResource extends JsonResource
 {
@@ -15,10 +17,11 @@ class AssignmentResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['volunteer'] = new DefaultResource($this->whenLoaded('volunteer'));
         $data['assignable'] = new AssignableResource($this->whenLoaded('assignable'));
+        $data['attestation'] = new attestationResource($this->whenLoaded('attestation'));
         $data['status'] = new DefaultResource($this->whenLoaded('status'));
-        $data['training'] = new DefaultResource($this->training);
+        $data['trainings'] = TrainingResource::collection($this->whenLoaded('trainings'));
+        $data['volunteer'] = new DefaultResource($this->whenLoaded('volunteer'));
 
         return $data;
     }
