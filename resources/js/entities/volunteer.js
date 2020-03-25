@@ -17,7 +17,8 @@ let Volunteer = class {
                 {
                     
                 }
-            ]
+            ],
+            assignments: []
         };
 
         this.attributes = {...defaults, ...data};
@@ -47,6 +48,19 @@ let Volunteer = class {
         if (this.isLoaded()) {
             return this.attributes.volunteer_type_id == 2;
         }
+    }
+
+    getAssignedActivities()
+    {
+        if (this.isLoaded) {
+            return this.attributes.assignments.map(assignment => assignment.curationActivity.assignable);
+        }
+        return [];
+    }
+
+    assignedToBaseline()
+    {
+        return this.getAssignedActivities().map(ca => ca.name).includes('Baseline');
     }
 }
 
