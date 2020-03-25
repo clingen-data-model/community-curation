@@ -80,4 +80,11 @@ class Assignment extends Model
     {
         return new AssignmentCollection($models);
     }
+
+    public function assignableTypeIs($types)
+    {
+        $types = (is_string($types)) ? [$types] : $types;
+
+        return in_array($this->assignable_type, $types);
+    }
 }
