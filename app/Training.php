@@ -6,6 +6,8 @@ use App\Events\TrainingCreated;
 use App\Events\TrainingCompleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 class Training extends Model
 {
@@ -58,6 +60,17 @@ class Training extends Model
     {
         return (bool)$this->completed_at;
     }
-    
 
+    public function scopeForAptitude($query, $aptitudeId)
+    {
+        if (is_int($aptitudeId)) {
+            return $query->where('aptitude_id', $aptitudeId);
+        }
+
+        if (is_array($aptitudeId) || (is_object($aptitudeId) && $aptitudeId instanceof Collection)) {
+            return $query->whereIn('aptitude_id', $aptitudeId);
+        }
+
+        throw new InvalidArgumentException();
+    }
 }
