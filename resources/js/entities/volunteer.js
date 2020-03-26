@@ -53,7 +53,7 @@ let Volunteer = class {
     getAssignedActivities()
     {
         if (this.isLoaded) {
-            return this.attributes.assignments.map(assignment => assignment.curationActivity.assignable);
+            return this.attributes.assignments.map(assignment => assignment.assignable);
         }
         return [];
     }
