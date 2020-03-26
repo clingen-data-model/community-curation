@@ -1,5 +1,6 @@
 <template>
     <div>
+        <pre>{{assignment}}</pre>
         <table class="table table-sm table-borderless mb-1">
             <tr>
                 <th class="border-bottom" style="width: 50%"><small>Gene Symbol</small></th>
