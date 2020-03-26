@@ -20,37 +20,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="assignment in activityCurationAssignments" :key="assignment.curationActivity.id">
+                    <tr v-for="assignment in volunteer.assignments" :key="assignment.id">
                         <td
-                            :class="{'text-strike text-muted': (assignment.curationActivity.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
+                            :class="{'text-strike text-muted': (assignment.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
                         >
-                            {{assignment.curationActivity.assignable.name}}
-                            <status-badge :assignment="assignment.curationActivity"
+                            <!-- <pre>{{assignment.trainings}}</pre> -->
+                            {{assignment.assignable.name}}
+                            <status-badge :assignment="assignment"
                                 @assignmentsupdated="$emit('assignmentsupdated')"
                             ></status-badge>
-                            <pre>
+                            <!-- <pre>
                                 {{assignment.userAptitudes.map(apt => apt.name)}}
-                            </pre>
+                            </pre> -->
                         </td>
                         <td>
-                            <training-and-attestation-control 
-                                v-if="assignment.needsAptitude"
+                            <training-and-attestation-control
+                                v-if="assignment.trainings.filter(trn => trn.completed_at == null).length > 0"
                                 :assignment="assignment"
                                 v-on:trainingcompleted="markTrainingCompleted"
                             ></training-and-attestation-control>
 
                             <div v-else>
                                 <expert-panel-cell 
-                                    v-if="assignment.curationActivity.assignable.curation_activity_type_id == 1"
+                                    v-if="assignment.assignable.curation_activity_type_id == 1"
                                     :assignment="assignment" 
-                                    :expert-panels="getExpertPanelsForCurationActivity(assignment.curationActivity.assignable.id)"
+                                    :expert-panels="getExpertPanelsForCurationActivity(assignment.assignable.id)"
                                     :volunteer="volunteer"
                                     @save="saveNewAssignment('App\\ExpertPanel', $event)"
                                     @assignmentsupdated="$emit('assignmentsupdated')"
                                 ></expert-panel-cell>
 
                                 <gene-group-selector 
-                                    v-if="assignment.curationActivity.assignable.curation_activity_type_id == 2"
+                                    v-if="assignment.assignable.curation_activity_type_id == 2"
                                     :assignment="assignment"
                                     :volunteer="volunteer"
                                     @save="saveNewAssignment('App\\Gene', $event)"
@@ -126,20 +127,15 @@
             }
         },
         computed: {
-            activityCurationAssignments: function () {
-                // return [];
-                return this.volunteer.assignments
-            },
             unassignedExpertPanels: function () {
-                const assignedPanels = Object.values(this.activityCurationAssignments.map(ac => ac.subAssignments)).flat().map(subAss => subAss.assignable);
+                const assignedPanels = Object.values(this.volunteer.assignments.map(ac => ac.subAssignments)).flat().map(subAss => subAss.assignable);
                 return this.expertPanels.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
             },
             geneticEvidenceAptitude: function () {
                 return this.aptitudes.find(item => item.name === 'Baseline, Genetic Evidence');
             },
             baselineAssignment: function () {
-                console.log(this.volunteer.assignments);
-                const blAssignment = this.volunteer.assignments.find(item => item.curationActivity.assignable.name == 'Baseline');
+                const blAssignment = this.volunteer.assignments.find(item => item.assignable.name == 'Baseline');
                 return blAssignment.curationActivity;
             }
         },
