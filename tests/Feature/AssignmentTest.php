@@ -80,15 +80,15 @@ class AssignmentTest extends TestCase
 
     /**
      * @test
-     * @group training
+     * @group userAptitudes
      */
-    public function can_get_related_trainings()
+    public function can_get_related_userAptitudes()
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
 
-        $this->assertEquals($volunteer->assignments->first()->trainings->first()->id, $volunteer->trainings->first()->id);
+        $this->assertEquals($volunteer->assignments->first()->userAptitudes->first()->id, $volunteer->userAptitudes->first()->id);
     }
 
     /**

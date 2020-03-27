@@ -3,13 +3,10 @@
 namespace Tests\Feature;
 
 use App\User;
-use App\Training;
 use Tests\TestCase;
 use App\CurationActivity;
 use App\Jobs\AssignVolunteerToAssignable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @group training
@@ -32,13 +29,11 @@ class TrainingAssignedOnCurationAssignmentTest extends TestCase
         $curationActivity = CurationActivity::find(1);
         AssignVolunteerToAssignable::dispatch($this->volunteer, $curationActivity);
 
-        $this->assertDatabaseHas('trainings', [
+        $this->assertDatabaseHas('user_aptitudes', [
             'user_id' => $this->volunteer->id,
             'aptitude_id' => $curationActivity->aptitudes->first()->id,
             'assignment_id' => $this->volunteer->assignments->first()->id,
-            'completed_at' => null,
+            'trained_at' => null,
         ]);
     }
-    
-    
 }

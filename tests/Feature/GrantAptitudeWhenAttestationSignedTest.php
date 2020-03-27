@@ -36,11 +36,9 @@ class GrantAptitudeWhenAttestationSignedTest extends TestCase
             'signed_at' => Carbon::now()
         ]);
 
-        $this->assertDatabaseHas('aptitude_user', [
+        $this->assertDatabaseHas('user_aptitudes', [
             'user_id' => $this->volunteer->id,
             'aptitude_id' => 1
         ]);
     }
-    
-
 }

@@ -21,6 +21,7 @@ class AssignmentResource extends JsonResource
         $data['attestation'] = new attestationResource($this->whenLoaded('attestation'));
         $data['status'] = new DefaultResource($this->whenLoaded('status'));
         $data['trainings'] = TrainingResource::collection($this->whenLoaded('trainings'));
+        $data['userAptitudes'] = DefaultResource::collection($this->whenLoaded('trainings'));
         $data['volunteer'] = new DefaultResource($this->whenLoaded('volunteer'));
 
         return $data;

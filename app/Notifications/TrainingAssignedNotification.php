@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Training;
+use App\UserAptitude;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +19,7 @@ class TrainingAssignedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(Training $training)
+    public function __construct(UserAptitude $training)
     {
         $this->training = $training;
     }
