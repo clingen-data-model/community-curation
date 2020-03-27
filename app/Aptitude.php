@@ -16,7 +16,9 @@ class Aptitude extends Model
         'training_materials_url',
         'subject_type',
         'subject_id',
-        'volunteer_type_id'
+        'volunteer_type_id',
+        'is_primary',
+        'evaluator_class'
     ];
 
     public function subject()
@@ -26,8 +28,14 @@ class Aptitude extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)
-                ->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_aptitudes')
+            ->withPivot([
+                'assignment_id',
+                'attestation_id',
+                'trained_at',
+                'granted_at',
+            ])
+            ->withTimestamps();
     }
 
     public function scopeForSubject($query, $subjectClass, $subjectId)
@@ -38,5 +46,8 @@ class Aptitude extends Model
         ]);
     }
     
-    
+    public function isBasic()
+    {
+        return $this->attributes['is_primary'];
+    }
 }

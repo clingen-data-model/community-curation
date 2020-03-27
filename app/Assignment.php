@@ -2,9 +2,11 @@
 
 namespace App;
 
-use App\Collections\AssignmentCollection;
 use App\Events\AssignmentCreated;
+use App\Events\TrainingCompleted;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
+use App\Collections\AssignmentCollection;
 
 class Assignment extends Model
 {
@@ -23,6 +25,17 @@ class Assignment extends Model
     protected $dispatchesEvents = [
         'created' => AssignmentCreated::class
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($model) {
+            if ($model->isDirty('trained_at') && (!isset($model->getOriginal()['trained_at']) || is_null($model->getOriginal()['trained_at']))) {
+                Event::dispatch(new TrainingCompleted($model));
+            }
+        });
+    }
 
     public function status()
     {
@@ -44,9 +57,9 @@ class Assignment extends Model
         return $this->hasMany(Attestation::class);
     }
 
-    public function trainings()
+    public function userAptitudes()
     {
-        return $this->hasMany(Training::class);
+        return $this->hasMany(UserAptitude::class);
     }
     
     public function scopeCurationActivity($query)
