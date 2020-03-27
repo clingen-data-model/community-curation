@@ -159,8 +159,19 @@ class User extends Authenticatable
     
     public function aptitudes()
     {
-        return $this->belongsToMany(Aptitude::class)
+        return $this->belongsToMany(Aptitude::class, 'user_aptitudes')
+            ->withPivot([
+                'assignment_id',
+                'attestation_id',
+                'trained_at',
+                'granted_at',
+            ])
             ->withTimestamps();
+    }
+
+    public function userAptitudes()
+    {
+        return $this->hasMany(UserAptitude::class);
     }
     
     public function curationActivityAssignments()
@@ -178,11 +189,6 @@ class User extends Authenticatable
     public function priorities()
     {
         return $this->hasMany(Priority::class);
-    }
-
-    public function trainings()
-    {
-        return $this->hasMany(Training::class);
     }
 
     public function canImpersonate()
@@ -253,8 +259,8 @@ class User extends Authenticatable
     {
         $assignments = $this->assignments()
                         ->with([
-                            'trainings',
-                            'trainings.aptitude',
+                            'userAptitudes',
+                            'userAptitudes.aptitude',
                             'attestations'
                         ])
                         ->get();
@@ -279,46 +285,6 @@ class User extends Authenticatable
                             });
 
         return $out;
-
-        // $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
-        //     $data = new AssignmentResource($actAss);
-        //     return $data;
-
-
-            // $basicAptitude = $aptitudes->first();
-            // $basicTraining = $trainings->where('aptitude_id', $basicAptitude->id)->first();
-            // $basicAttestation = $attestations->where('aptitude_id', $basicAptitude->id)->first();
-
-            // return collect([
-            //     'curation_activity_id' => $activity->id,
-            //     'curationActivity' => (new AssignmentResource($actAss)),
-            //     'needsAptitude' => !($basicTraining->completed_at && $basicAttestation->signed_at),
-            //     'trainings' => DefaultResource::collection($trainings),
-            //     'attestations' => DefaultResource::collection($attestations),
-            //     'basic_training' => $basicTraining,
-            //     'basic_attestation' => $basicAttestation,
-            //     'subAssignments' => AssignmentResource::collection(
-            //         $assignments->filter(
-            //             function ($ass) use ($activity) {
-            //                 if ($ass->assignable_type == CurationActivity::class) {
-            //                     return false;
-            //                 }
-            //                 if ($activity->curation_activity_type_id == config('project.curation-activity-types.expert-panel')) {
-            //                     return $ass->assignable->curation_activity_id == $activity->id;
-            //                 }
-            //                 return $ass->assignable_type == 'App\Gene';
-            //             }
-            //         )->values()
-            //     ),
-            //     'userAptitudes' => $this->aptitudes->filter(
-            //         function ($apt) use ($activity) {
-            //             return $apt->subject_id == $activity->id
-            //             && $apt->subject_type == 'App\CurationActivity';
-            //         }
-            //     )
-            // ]);
-        // });
-        // return $structuredAssignments;
     }
 
     public function getLatestPrioritiesAttribute()
