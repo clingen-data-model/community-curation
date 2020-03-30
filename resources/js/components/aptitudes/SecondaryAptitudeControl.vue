@@ -36,28 +36,5 @@
                 required: true
             }
         },
-        data() {
-            return {
-                
-            }
-        },
-        computed: {
-            aptitudeIds: function () {
-                return this.assignment.user_aptitudes
-                                    .map(a => a.id);
-            },
-            secondaryAptitudes: function () {
-                return this.assignment.assignable.aptitudes.filter(apt => !apt.is_primary);
-            },
-            unassignedAptitudes: function () {
-                return this.secondaryAptitudes
-                        .filter(apt => {
-                            return !this.aptitudeIds
-                                    .includes(apt => apt.aptitude_id)
-                        })
-            },
-        },
-        methods: {
-        }
     }
 </script>
