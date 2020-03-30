@@ -28,6 +28,20 @@ localStorage.clear();
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+
+import findVolunteer from './resources/volunteers/find_volunteer';
+
+// findVolunteer(5)
+//     .then(volunteer => {
+//         volunteer.assignments.map(i => i.user_aptitudes)
+//             .forEach(uac => {
+//                 const untrained = uac.untrained();
+//                 if (untrained.length > 0) {
+//                     console.log(untrained.map(i => i.aptitude.name));
+//                 }
+//             });
+//     });
+
 import VolunteerIndex from './components/volunteers/VolunteerIndex';
 import VolunteerDetail from './components/volunteers/VolunteerDetail';
 import AssignmentForm from './components/assignments/AssignmentForm';

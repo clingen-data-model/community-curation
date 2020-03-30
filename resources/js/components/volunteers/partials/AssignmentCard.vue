@@ -1,4 +1,8 @@
-<style></style>
+<style>
+    .content-comma:not(:last-child)::after {
+        content: ',';
+    }
+</style>
 
 <template>
         <div class="card p-3">
@@ -35,18 +39,18 @@
                                 {{asn.assignable.name}} <b-badge>{{asn.status.name}}</b-badge>
                             </td>
                             <td>
-                                <ul v-if="asn.subAssignments.length > 0"
-                                    class="list-unstyled"
+                                <ul v-if="asn.sub_assignments.length > 0"
+                                    class="list-inline "
                                 >
-                                    <li v-for="subAsn in asn.subAssignments" :key="subAsn.id">
-                                        {{subAsn.assignable.name}}
+                                    <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id" class="list-inline-item content-comma">
+                                        <small>{{subAsn.assignable.name}}</small>
                                     </li>
                                 </ul>
-                                <div v-if="asn.trainings.filter(trn => trn.completed_at == null).length > 0">
+                                <div v-if="asn.user_aptitudes.filter(trn => trn.trained_at == null).length > 0">
                                     <small>
                                         <strong>Pending Training:</strong>
                                         <ul class="list-unstyled ml-2 mt-0">
-                                            <li v-for="trn in asn.trainings.filter(trn => trn.completed_at == null)" :key="trn.id">
+                                            <li v-for="trn in asn.user_aptitudes.untrained()" :key="trn.id">
                                                 {{trn.aptitude.name}}
                                             </li>
                                         </ul>
@@ -77,6 +81,7 @@
 
 <script>
     import AssignmentStatusForm from './AssignmentStatusForm';
+    import UserAptitudeCollection from '../../../collections/user_aptitude_collection'
 
     export default {
         components: {
