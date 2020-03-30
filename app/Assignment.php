@@ -14,7 +14,8 @@ class Assignment extends Model
         'user_id',
         'assignment_status_id',
         'assignable_id',
-        'assignable_type'
+        'assignable_type',
+        'parent_id'
     ];
 
     protected $with = [
@@ -35,6 +36,21 @@ class Assignment extends Model
                 Event::dispatch(new TrainingCompleted($model));
             }
         });
+    }
+
+
+    /**
+     * RELATIONS
+     */
+
+    public function parent()
+    {
+        return $this->belongsTo(__CLASS__);
+    }
+
+    public function subAssignments()
+    {
+        return $this->hasMany(__CLASS__, 'parent_id');
     }
 
     public function status()
@@ -61,6 +77,10 @@ class Assignment extends Model
     {
         return $this->hasMany(UserAptitude::class);
     }
+
+    /**
+     * SCOPES
+     */
     
     public function scopeCurationActivity($query)
     {

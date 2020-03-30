@@ -4,11 +4,12 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
+use App\Attestation;
 use App\CurationActivity;
 use App\Jobs\AssignVolunteerToAssignable;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group training
@@ -27,16 +28,27 @@ class TrainingCompletedTest extends TestCase
     /**
      * @test
      */
-    public function attestation_created_for_training_when_completed()
+    public function attestation_created_for_training_when_completed_and_related_to_user_aptitude()
     {
         $training = $this->volunteer->userAptitudes()->first();
-        // dd($training);
+
         $training->update(['trained_at' => '2019-11-01']);
 
-        $this->assertDatabaseHas('attestations', [
+        $attestationData = [
             'user_id' => $this->volunteer->id,
             'aptitude_id' => $training->aptitude_id,
             'assignment_id' => $training->assignment_id
+        ];
+
+        $this->assertDatabaseHas('attestations', $attestationData);
+
+        $attestation = Attestation::where($attestationData)->first();
+
+        $this->assertDatabaseHas('user_aptitudes', [
+            'user_id' => $this->volunteer->id,
+            'aptitude_id' => $training->aptitude_id,
+            'assignment_id' => $training->assignment_id,
+            'attestation_id' => $attestation->id
         ]);
     }
     
