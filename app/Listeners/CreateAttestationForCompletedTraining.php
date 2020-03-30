@@ -29,10 +29,16 @@ class CreateAttestationForCompletedTraining
     {
         $training = $event->training;
 
-        $training->user->attestations()->create([
+        if ($training->attestation_id) {
+            return;
+        }
+
+        $attestation = Attestation::create([
             'user_id' => $training->user_id,
             'aptitude_id' => $training->aptitude_id,
             'assignment_id' => $training->assignment_id
         ]);
+        
+        $training->update(['attestation_id' => $attestation->id]);
     }
 }

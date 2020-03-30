@@ -91,14 +91,14 @@ class UserAptitude extends Model
         return $query->whereNull('trained_at');
     }
 
-    private function getEvaluator()
+    public function getEvaluator()
     {
-        if (is_null($this->_evaluator)) {
-            $class = $this->aptitude->evaluator_class;
-            $this->_evaluator = new $class($this);
-        }
+        // if (is_null($this->_evaluator)) {
+        $class = $this->aptitude->evaluator_class;
+        return new $class($this);
+        // }
 
-        return $this->_evaluator;
+        // return $this->_evaluator;
     }
 
     public function isGranted()

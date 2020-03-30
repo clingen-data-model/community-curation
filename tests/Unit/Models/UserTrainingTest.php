@@ -28,7 +28,7 @@ class UserAptitudeTest extends TestCase
         $vol = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         AssignVolunteerToAssignable::dispatch($vol, CurationActivity::find(1));
 
-        $assignment = $vol->assignments->first();
+        $assignment = $vol->fresh()->assignments->first();
         $userAptitude = $vol->userAptitudes->first();
 
         $this->assertEquals($assignment->id, $userAptitude->assignment->id);
