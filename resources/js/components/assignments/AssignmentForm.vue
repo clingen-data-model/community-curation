@@ -10,6 +10,7 @@
         </div>
         <div class="mt-4">
             <h5>Assignments</h5>
+            
             <table class="table table-sm table-bordered mb-1">
                 <thead>
                     <tr>
@@ -24,21 +25,23 @@
                         <td
                             :class="{'text-strike text-muted': (assignment.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
                         >
-                            <!-- <pre>{{assignment.trainings}}</pre> -->
                             {{assignment.assignable.name}}
                             <status-badge :assignment="assignment"
                                 @assignmentsupdated="$emit('assignmentsupdated')"
                             ></status-badge>
-                            <!-- <pre>
-                                {{assignment.userAptitudes.map(apt => apt.name)}}
-                            </pre> -->
+                            <secondary-aptitude-control 
+                                :assignment="assignment"
+                                @assignAptitude="createAptitudeTraining($event, assignment)"
+                                @trainingcompleted="markTrainingCompleted"
+                            ></secondary-aptitude-control>
                         </td>
                         <td>
-                            <training-and-attestation-control
-                                v-if="assignment.trainings.filter(trn => trn.completed_at == null).length > 0"
-                                :assignment="assignment"
-                                v-on:trainingcompleted="markTrainingCompleted"
-                            ></training-and-attestation-control>
+                            <div v-if="assignment.user_aptitudes.pending().primary().length() > 0">
+                                <training-and-attestation-control
+                                    :userAptitude="assignment.user_aptitudes.pending().primary().get(0)"
+                                    @trainingcompleted="markTrainingCompleted"
+                                ></training-and-attestation-control>
+                            </div>
 
                             <div v-else>
                                 <expert-panel-cell 
@@ -69,7 +72,6 @@
                 ></assign-activity-button>
                 <assign-baseline-button :volunteer="volunteer"
                     @assigned="saveNewAssignment('App\\CurationActivity', $event)"
-                    @giveGeneticEvidence="createAptitudeTraining(geneticEvidenceAptitude, baselineAssignment)"
                 ></assign-baseline-button>
             </div>
         </div>
@@ -90,6 +92,7 @@
     import StatusBadge from './StatusBadge'
     import AssignActivityButton from './AssignActivityButton'
     import AssignBaselineButton from './AssignBaselineButton'
+    import SecondaryAptitudeControl from '../aptitudes/SecondaryAptitudeControl'
 
     export default {
         props: {
@@ -104,7 +107,8 @@
             GeneGroupSelector,
             StatusBadge,
             AssignActivityButton,
-            AssignBaselineButton
+            AssignBaselineButton,
+            SecondaryAptitudeControl
         },
         data() {
             return {
@@ -128,7 +132,7 @@
         },
         computed: {
             unassignedExpertPanels: function () {
-                const assignedPanels = Object.values(this.volunteer.assignments.map(ac => ac.subAssignments)).flat().map(subAss => subAss.assignable);
+                const assignedPanels = Object.values(this.volunteer.assignments.map(ac => ac.sub_assignments)).flat().map(subAss => subAss.assignable);
                 return this.expertPanels.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
             },
             geneticEvidenceAptitude: function () {
@@ -165,8 +169,8 @@
                     this.$emit('saved');
                 })
             },
-            markTrainingCompleted({id, completed_at}) {
-                markTrainingComplete(id, completed_at)
+            markTrainingCompleted({id, trained_at}) {
+                markTrainingComplete(id, trained_at)
                     .then(() => this.$emit('saved'));                
             },
             createAptitudeTraining(aptitude, assignment) {
@@ -175,9 +179,9 @@
                     user_id: this.volunteer.id,
                     assignment_id: assignment.id,
                 };
-                // console.log(data);
+
                 createTraining(data)
-                .then(response => this.$emit('saved'));
+                    .then(response => this.$emit('saved'));
             }
         },
         mounted() {

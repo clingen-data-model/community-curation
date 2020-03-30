@@ -7,13 +7,6 @@
         >
             Assign Baseline Evidence
         </button>
-        <button 
-            v-if="volunteer.assignedToBaseline()"
-            class="btn btn-sm border" 
-            @click="assignGeneticEvidenceTraining"
-        >
-            Assign Genetic Evidence
-        </button>
     </div>
 </template>
 <script>

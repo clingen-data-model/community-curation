@@ -4,7 +4,7 @@
 <template>
     <div class="component-container">
         <table class="table table-borderless table-sm mb-1">
-            <tr v-for="(panel, i) in assignment.subAssignments" :key="i">
+            <tr v-for="(panel, i) in assignment.sub_assignments" :key="i">
                 <td style="width: 60%">
                     <div>{{panel.assignable.name}}</div>
                 </td>
