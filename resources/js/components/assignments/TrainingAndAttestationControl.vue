@@ -20,7 +20,6 @@
                     class="btn btn-sm btn-primary"
                 >Sign attestation</a>
             </div>
-            <!-- awaiting attestation -->
         </div>
     </div>
 </template>
