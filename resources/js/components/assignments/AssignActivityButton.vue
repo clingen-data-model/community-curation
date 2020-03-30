@@ -43,7 +43,7 @@
                 return this.volunteer.assignments
             },
             unassignedCurationActivities: function () {
-                const actAssIds = this.activityCurationAssignments.map(assignment => assignment.curationActivity.assignable_id);
+                const actAssIds = this.activityCurationAssignments.map(assignment => assignment.assignable_id);
                 return this.curationActivities
                     .filter((activity) => {
                         return actAssIds.indexOf(activity.id) == -1

@@ -1,3 +1,5 @@
+import Assignment from './assignment';
+
 let Volunteer = class {
     constructor(data = {})
     {
@@ -25,7 +27,7 @@ let Volunteer = class {
 
         for (const key in this.attributes) {
             if (this.attributes.hasOwnProperty(key)) {
-                this[key] = data[key];                
+                this[key] = this.hydrateAttribute(key, data[key]);
             }
         }
     }
@@ -61,6 +63,14 @@ let Volunteer = class {
     assignedToBaseline()
     {
         return this.getAssignedActivities().map(ca => ca.name).includes('Baseline');
+    }
+
+    hydrateAttribute(key, value)
+    {
+        if (key == 'assignments' && value) {
+            value = value.map(asn => new Assignment(asn));
+        }
+        return value;
     }
 }
 
