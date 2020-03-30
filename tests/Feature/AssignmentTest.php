@@ -68,6 +68,66 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
+    public function expert_panels_can_be_assigned_without_a_parent_assignment()
+    {
+        $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        $expertPanel = ExpertPanel::all()->first();
+
+        AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+        
+        $this->assertEquals(1, $volunteer->fresh()->assignments->count());
+    }
+    
+
+    /**
+     * @test
+     */
+    public function expert_panel_assignment_has_ca_assignment_as_parent_if_exists()
+    {
+        $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        $curationActivity = CurationActivity::all()->first();
+        $expertPanel = $curationActivity->expertPanels->random();
+
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+
+        $assignments = $volunteer->assignments;
+        
+        $this->assertEquals(2, $volunteer->fresh()->assignments->count());
+
+        $this->assertEquals(
+            $assignments->isCurationActivity()->first()->id,
+            $volunteer->assignments()->expertPanel()->first()->parent_id
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function gene_assignment_has_a_baseline_assignment_parent_if_exists()
+    {
+        $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        $curationActivity = CurationActivity::where('name', 'Baseline')->first();
+        $gene = factory(Gene::class)->create();
+
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
+        AssignVolunteerToAssignable::dispatch($volunteer, $gene);
+
+        $assignments = $volunteer->assignments;
+        
+        $this->assertEquals(2, $volunteer->fresh()->assignments->count());
+
+        $this->assertEquals(
+            $assignments->isCurationActivity()->first()->id,
+            $volunteer->assignments()->gene()->first()->parent_id
+        );
+    }
+    
+    
+
+    /**
+     * @test
+     */
     public function assignmentCreated_event_dispatched_when_assignment_created()
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
@@ -88,7 +148,7 @@ class AssignmentTest extends TestCase
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
 
-        $this->assertEquals($volunteer->assignments->first()->userAptitudes->first()->id, $volunteer->userAptitudes->first()->id);
+        $this->assertEquals($volunteer->fresh()->assignments->first()->userAptitudes->first()->id, $volunteer->userAptitudes->first()->id);
     }
 
     /**

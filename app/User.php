@@ -152,6 +152,22 @@ class User extends Authenticatable
         return $this->hasMany(Assignment::class);
     }
 
+    public function structuredAssignments()
+    {
+        return $this->assignments()
+                ->curationActivity()
+                ->with([
+                    'status',
+                    'userAptitudes',
+                    'userAptitudes.aptitude',
+                    'userAptitudes.attestation',
+                    'assignable',
+                    'assignable.aptitudes',
+                    'subAssignments',
+                    'subAssignments.assignable'
+                ]);
+    }
+
     public function attestations()
     {
         return $this->hasMany(Attestation::class);
@@ -253,38 +269,6 @@ class User extends Authenticatable
             'country_id' => $this->country_id,
             'country' => $this->country->name,
         ];
-    }
-
-    public function getStructuredAssignmentsAttribute()
-    {
-        $assignments = $this->assignments()
-                        ->with([
-                            'userAptitudes',
-                            'userAptitudes.aptitude',
-                            'attestations'
-                        ])
-                        ->get();
-
-        $subAssignments = $assignments->isType([Gene::class, ExpertPanel::class]);
-
-        $out = $assignments->isCurationActivity()
-                            ->values()
-                            ->transform(function ($asn) use ($subAssignments) {
-                                $subs = $subAssignments->filter(function ($subAsn) use ($asn) {
-                                    if ($subAsn->assignableTypeIs(Gene::class)) {
-                                        return true;
-                                    }
-
-                                    if ($subAsn->assignableTypeIs(ExpertPanel::class)) {
-                                        return $subAsn->assignable->curation_activity_id == $asn->assignable_id;
-                                    }
-                                });
-                                $data = new AssignmentResource($asn);
-                                $data['subAssignments'] = AssignmentResource::collection($subs);
-                                return $data;
-                            });
-
-        return $out;
     }
 
     public function getLatestPrioritiesAttribute()

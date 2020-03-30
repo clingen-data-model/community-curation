@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use App\Assignment;
+use App\CurationActivity;
+use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -18,5 +20,10 @@ trait AssignableTrait
     public function canBeAssignedToBaseline(): bool
     {
         return false;
+    }
+
+    public function getParentAssignable(): AssignableContract
+    {
+        return new CurationActivity;
     }
 }
