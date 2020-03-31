@@ -54,13 +54,16 @@ class GeneCrudController extends CrudController
 
     private function configureColumns()
     {
-        $this->crud->removeColumn('protocol_path');
+        $this->crud->removeColumns(['protocol_path', 'hypothesis_group_url']);
+        $this->crud->modifyColumn('hgnc_id', ['label' => 'HGNC ID']);
     }
     
 
     private function configureFields()
     {
         $this->crud->setFromDb();
+        $this->crud->modifyField('hgnc_id', ['label' => 'HGNC ID']);
+        $this->crud->modifyField('hypothesis_group_url', ['type' => 'url']);
         $this->crud->addField([
             'name' => 'protocol_path',
             'type' => 'upload',

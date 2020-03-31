@@ -37,6 +37,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('volunteer-three-month/{responseId?}', 'VolunteerThreeMonthController@show')->name('volunteer-three-month.show');
     Route::post('volunteer-three-month/{responseId?}', 'VolunteerThreeMonthController@store')->name('volunteer-three-month.store');
+
+    Route::get('genes/{symbol}/protocol', 'GeneProtocolController@show')->name('gene.download-protocol');
 });
 
 Route::get('apply/thank-you', function (Request $request) {
