@@ -19,7 +19,8 @@ class Gene extends Model implements AssignableContract
         'hgnc_id',
         'protocol_path',
         'protocol_filename',
-        'hypothesis_group'
+        'hypothesis_group',
+        'hypothesis_group_url'
     ];
 
     public $appends = [
@@ -33,14 +34,20 @@ class Gene extends Model implements AssignableContract
 
     public function setProtocolPathAttribute($value)
     {
+        $attribute_name = 'protocol_path';
+        $disk = 'public';
+        $destination_path = 'gene_protocols';
+
+        if (is_null($value) && !empty($this->attributes['protocol_path'])) {
+            $this->attributes['protocol_path'] = $value;
+            $this->protocol_filename = null;
+            return;
+        }
+
         if (app()->environment('testing')) {
             $this->attributes['protocol_path'] = $value;
             return;
         }
-
-        $attribute_name = 'protocol_path';
-        $disk = 'public';
-        $destination_path = 'gene_protocols';
 
         $this->protocol_filename = $value->getClientOriginalName();
 
