@@ -5,8 +5,8 @@
 </p>
 
 <p>
-    For anyone who has not yet taken this <a href="{{url('/volunteer-3-month-followup')}}">short survey</a>, 
-    please <a href="{{url('/volunteer-3-month-followup')}}">click here</a>. 
+    For anyone who has not yet taken this <a href="{{url('/volunteer-three-month')}}">short survey</a>, 
+    please <a href="{{url('/volunteer-three-month')}}">click here</a>. 
     We hope to get as many responses as possible by the end of the day TODAY. 
     Your feedback will assist us in creating a better and smoother volunteer process.
 </p>
