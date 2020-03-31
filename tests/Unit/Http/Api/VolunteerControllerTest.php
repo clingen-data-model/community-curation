@@ -32,6 +32,7 @@ class VolunteerControllerTest extends TestCase
      */
     public function index_returns_list_of_all_volunteers()
     {
+        $this->withoutExceptionHandling();
         $this->volunteers->map(function ($v) {
             return [
                 'id' => $v->id,

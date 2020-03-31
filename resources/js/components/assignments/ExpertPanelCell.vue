@@ -4,11 +4,7 @@
 <template>
     <div class="component-container">
         <table class="table table-borderless table-sm mb-1">
-            <!-- <tr>
-                <th style="width: 60%">Panel</th>
-                <th>Status</th>
-            </tr> -->
-            <tr v-for="(panel, i) in assignment.subAssignments" :key="i">
+            <tr v-for="(panel, i) in assignment.sub_assignments" :key="i">
                 <td style="width: 60%">
                     <div>{{panel.assignable.name}}</div>
                 </td>
@@ -19,23 +15,15 @@
                 </td>
             </tr>
         </table>
-        <!-- <ul class="list-unstyled mb-0">
-            <li v-for="(panel, i) in assignment.subAssignments" :key="i"
-                :class="{'text-strike text-muted': (panel.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
-                class="d-flex justify-content-between"
-            >
-                <div>
-                </div>
-            </li>
-        </ul> -->
         <button 
-            v-if="!addingExpertPanel && !assignment.needsAptitude" 
+            v-if="showAddButton" 
             class="btn btn-sm btn-xs border" 
             @click="addingExpertPanel = true"
             :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
         >
             Add expert panel
         </button>
+        <small class="text-muted btn border btn-xs" v-if="!hasMoreExpertPanels">All panels assigned</small>
 
         <div v-if="addingExpertPanel" class="form-inline">
             <select v-model="newExpertPanel" class="form-control form-control-sm">
@@ -77,6 +65,16 @@
             return {
                 newExpertPanel: null,
                 addingExpertPanel: false,
+            }
+        },
+        computed: {
+            showAddButton: function () {
+                return !this.addingExpertPanel 
+                        && !this.assignment.needsAptitude
+                        && this.hasMoreExpertPanels;
+            },
+            hasMoreExpertPanels: function () {
+                return this.expertPanels.length > 0;
             }
         },
         methods: {

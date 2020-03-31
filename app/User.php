@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Gene;
 use Backpack\CRUD\CrudTrait;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Spatie\Permission\Traits\HasRoles;
+use App\Http\Resources\DefaultResource;
 use Illuminate\Notifications\Notifiable;
 use App\Events\Volunteers\MarkedBaseline;
 use App\Http\Resources\AssignmentResource;
@@ -150,6 +152,22 @@ class User extends Authenticatable
         return $this->hasMany(Assignment::class);
     }
 
+    public function structuredAssignments()
+    {
+        return $this->assignments()
+                ->curationActivity()
+                ->with([
+                    'status',
+                    'userAptitudes',
+                    'userAptitudes.aptitude',
+                    'userAptitudes.attestation',
+                    'assignable',
+                    'assignable.aptitudes',
+                    'subAssignments',
+                    'subAssignments.assignable'
+                ]);
+    }
+
     public function attestations()
     {
         return $this->hasMany(Attestation::class);
@@ -157,8 +175,19 @@ class User extends Authenticatable
     
     public function aptitudes()
     {
-        return $this->belongsToMany(Aptitude::class)
+        return $this->belongsToMany(Aptitude::class, 'user_aptitudes')
+            ->withPivot([
+                'assignment_id',
+                'attestation_id',
+                'trained_at',
+                'granted_at',
+            ])
             ->withTimestamps();
+    }
+
+    public function userAptitudes()
+    {
+        return $this->hasMany(UserAptitude::class);
     }
     
     public function curationActivityAssignments()
@@ -176,11 +205,6 @@ class User extends Authenticatable
     public function priorities()
     {
         return $this->hasMany(Priority::class);
-    }
-
-    public function trainings()
-    {
-        return $this->hasMany(Training::class);
     }
 
     public function canImpersonate()
@@ -245,41 +269,6 @@ class User extends Authenticatable
             'country_id' => $this->country_id,
             'country' => $this->country->name,
         ];
-    }
-
-    public function getStructuredAssignmentsAttribute()
-    {
-        $assignments = $this->assignments;
-        $activityAssignments = $assignments->where('assignable_type', CurationActivity::class)->values();
-
-        $structuredAssignments = $activityAssignments->map(function ($actAss) use ($assignments) {
-            $activity = $actAss->assignable;
-            $basicAptitude = $activity->getBasicAptitude();
-            $basicTraining = $this->trainings->where('aptitude_id', $basicAptitude->id)->first();
-            $basicAttestation = $this->attestations->where('aptitude_id', $basicAptitude->id)->first();
-            
-            return collect([
-                'curation_activity_id' => $activity->id,
-                'curationActivity' => (new AssignmentResource($actAss)),
-                'needsAptitude' => !($basicTraining->completed_at && $basicAttestation->signed_at),
-                'training' => $basicTraining,
-                'attestation' => $basicAttestation,
-                'subAssignments' => AssignmentResource::collection(
-                    $assignments->filter(
-                        function ($ass) use ($activity) {
-                            if ($ass->assignable_type == Curation::class) {
-                                return false;
-                            }
-                            if ($activity->curation_activity_type_id == config('project.curation-activity-types.expert-panel')) {
-                                return $ass->assignable->curation_activity_id == $activity->id;
-                            }
-                            return $ass->assignable_type == 'App\Gene';
-                        }
-                    )->values()
-                )
-            ]);
-        });
-        return $structuredAssignments;
     }
 
     public function getLatestPrioritiesAttribute()

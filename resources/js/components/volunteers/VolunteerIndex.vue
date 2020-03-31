@@ -95,28 +95,10 @@
                     <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                 </template>
                 <template v-slot:cell(assignments)="{item}">
-                    <div v-if="item">
-                        <div v-if="item && item.assignments.length > 0">
-                            <ul class="list-unstyled">
-                                <li v-for="(ass, idx) in item.assignments" :key="idx">
-                                    {{ass.curationActivity.assignable.name}}
-                                    <small v-if="ass.subAssignments.length > 0">
-                                        -
-                                        <span>{{ass.subAssignments.map(p => p.assignable.name).join(", ")}}</span>
-                                    </small>
-                                    <small v-else-if="ass.needsAptitude" class="text-muted">- Needs aptitude</small>
-                                    <small v-else class="text-muted">
-                                        - None
-                                    </small>                            
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- <a :href="'/volunteers/'+item.id"
-                            class="btn btn-sm btn-default border"
-                        >
-                            {{(item.assignments.length == 0) ? 'Assign' : 'Edit'}}
-                        </a> -->
-                    </div>
+                    <assignment-brief-list 
+                        :assignments="item.assignments"
+                        v-if="item && item.assignments.length > 0"
+                    ></assignment-brief-list>
                 </template>
             </b-table>
         </div>
@@ -136,10 +118,15 @@
     import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities';
     import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses';
     import getAllVolunteerTypes from '../../resources/volunteers/get_all_volunteer_types';
-import { randomBytes } from 'crypto';
+
+    import AssignmentBriefList from './../assignments/AssignmentBriefList'
+
+    import { randomBytes } from 'crypto';
 
     export default {
-        components: {},
+        components: {
+            AssignmentBriefList
+        },
         data() {
             return {
                 volunteers: [],
