@@ -6,7 +6,7 @@
                 <th class="border-bottom"><small>Status</small></th>
                 <th class="border-bottom"><small>Protocol Link</small></th>
             </tr>
-            <tr v-for="(subAss, i) in assignment.subAssignments" :key="i">
+            <tr v-for="(subAss, i) in assignment.sub_assignments" :key="i">
                 <td>
                     {{subAss.assignable.symbol}}
                     <small class="text-muted">({{subAss.assignable.hgnc_id}})</small>
@@ -50,7 +50,7 @@
             </tr>
         </table>
         <!-- <ul class="list-unstyled mb-0">
-            <li v-for="(subAss, i) in assignment.subAssignments" :key="i"
+            <li v-for="(subAss, i) in assignment.sub_assignments" :key="i"
                 :class="{'text-strike text-muted': (subAss.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
                 class="d-flex justify-content-between"
             >
@@ -97,7 +97,7 @@ export default {
     computed: {
         filteredGenes: function () {
             return this.genes.filter(gene => {
-                return !this.assignment.subAssignments.map(subAss => subAss.assignable.id).includes(gene.id)
+                return !this.assignment.sub_assignments.map(subAss => subAss.assignable.id).includes(gene.id)
             });
         }
     },

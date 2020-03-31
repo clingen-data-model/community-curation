@@ -14,11 +14,11 @@ class AssignmentReportGenerator implements ReportGenerator
     {
         $volunteers = User::query()
                         ->with([
-                            'country', 
-                            'volunteerStatus', 
-                            'assignments', 
-                            'assignments.status', 
-                            'assignments.trainings', 
+                            'country',
+                            'volunteerStatus',
+                            'assignments',
+                            'assignments.status',
+                            'assignments.userAptitudes',
                             'assignments.assignable',
                             'assignments.attestations',
                             'application'
@@ -44,11 +44,11 @@ class AssignmentReportGenerator implements ReportGenerator
                 ->isCurationActivity()
                 ->transform(function ($assignment) use ($root, $volunteer) {
                     return array_merge(
-                            $root, 
-                            [
+                        $root,
+                        [
                                 'curation_activity_id' => $assignment->assignable->id,
                                 'curation_activity' => $assignment->assignable->name,
-                                'training_completion_date' => ($assignment->trainings->first()) ? $assignment->trainings->first()->completed_at : null,
+                                'training_completion_date' => ($assignment->userAptitudes->first()) ? $assignment->userAptitudes->first()->trained_at : null,
                                 'attestation_date' => ($assignment->attestations->first()) ? $assignment->attestations->first()->signed_at : null,
                                 'assigned_expert_panel' => $volunteer->assignments
                                                                 ->filter(function ($item) use ($assignment) {
@@ -79,5 +79,4 @@ class AssignmentReportGenerator implements ReportGenerator
 
         return $data;
     }
-    
 }

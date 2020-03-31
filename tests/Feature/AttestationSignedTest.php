@@ -24,8 +24,8 @@ class AttestationSignedTest extends TestCase
         parent::setUp();
         $this->volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create();
         AssignVolunteerToAssignable::dispatch($this->volunteer, CurationActivity::find(1));
-        $training = $this->volunteer->trainings()->first();
-        $training->update(['completed_at' => '2019-11-01']);
+        $this->userAptitude = $this->volunteer->userAptitudes()->first();
+        $this->userAptitude->update(['trained_at' => '2019-11-01']);
         $this->attestation = $this->volunteer->attestations()->unsigned()->first();
     }
 
@@ -43,7 +43,14 @@ class AttestationSignedTest extends TestCase
             'assignment_status_id' => config('project.assignment-statuses.trained')
         ]);
     }
-    
 
-
+    /**
+     * @test
+     */
+    public function user_aptitude_marked_granted_when_attestation_signed()
+    {
+        $this->attestation->update(['signed_at' => Carbon::now()]);
+        
+        $this->assertNotNull($this->userAptitude->fresh()->granted_at);
+    }
 }

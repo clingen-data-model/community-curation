@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Training;
+use App\UserAptitude;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DefaultResource;
+use App\Exceptions\NotImplementedException;
+use App\Http\Requests\TrainingCreateRequest;
 
 class TrainingController extends Controller
 {
@@ -17,7 +19,7 @@ class TrainingController extends Controller
      */
     public function create()
     {
-        throw NotImplementedException();
+        throw new NotImplementedException();
     }
 
     /**
@@ -26,9 +28,10 @@ class TrainingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TrainingCreateRequest $request)
     {
-        throw NotImplementedException();
+        $training = UserAptitude::create($request->all());
+        return new DefaultResource($training);
     }
 
     /**
@@ -39,7 +42,7 @@ class TrainingController extends Controller
      */
     public function show($id)
     {
-        throw NotImplementedException();
+        throw new NotImplementedException();
     }
 
     /**
@@ -50,7 +53,7 @@ class TrainingController extends Controller
      */
     public function edit($id)
     {
-        throw NotImplementedException();
+        throw new NotImplementedException();
     }
 
     /**
@@ -62,7 +65,7 @@ class TrainingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $training = Training::find($id);
+        $training = UserAptitude::find($id);
 
         $training->update($request->all());
 
@@ -77,6 +80,6 @@ class TrainingController extends Controller
      */
     public function destroy($id)
     {
-        throw NotImplementedException();
+        throw new NotImplementedException();
     }
 }

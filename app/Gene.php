@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Assignment;
 use Backpack\CRUD\CrudTrait;
 use App\Traits\AssignableTrait;
 use App\Contracts\AssignableContract;
@@ -49,5 +50,10 @@ class Gene extends Model implements AssignableContract
     public function getNameAttribute()
     {
         return $this->symbol;
+    }
+
+    public function getParentAssignable(): AssignableContract
+    {
+        return CurationActivity::where('name', 'Baseline')->first();
     }
 }

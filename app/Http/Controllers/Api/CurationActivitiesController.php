@@ -16,7 +16,10 @@ class CurationActivitiesController extends Controller
             return DefaultResource::collection($query->get());
         }
 
+        if ($request->only_baseline) {
+            return DefaultResource::collection($query->geneType()->get());
+        }
+
         return Defaultresource::collection($query->expertPanelType()->get());
     }
-    
 }

@@ -2,9 +2,11 @@
 
 namespace App;
 
-use App\Collections\AssignmentCollection;
 use App\Events\AssignmentCreated;
+use App\Events\TrainingCompleted;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
+use App\Collections\AssignmentCollection;
 
 class Assignment extends Model
 {
@@ -12,7 +14,8 @@ class Assignment extends Model
         'user_id',
         'assignment_status_id',
         'assignable_id',
-        'assignable_type'
+        'assignable_type',
+        'parent_id'
     ];
 
     protected $with = [
@@ -23,6 +26,32 @@ class Assignment extends Model
     protected $dispatchesEvents = [
         'created' => AssignmentCreated::class
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($model) {
+            if ($model->isDirty('trained_at') && (!isset($model->getOriginal()['trained_at']) || is_null($model->getOriginal()['trained_at']))) {
+                Event::dispatch(new TrainingCompleted($model));
+            }
+        });
+    }
+
+
+    /**
+     * RELATIONS
+     */
+
+    public function parent()
+    {
+        return $this->belongsTo(__CLASS__);
+    }
+
+    public function subAssignments()
+    {
+        return $this->hasMany(__CLASS__, 'parent_id');
+    }
 
     public function status()
     {
@@ -44,10 +73,14 @@ class Assignment extends Model
         return $this->hasMany(Attestation::class);
     }
 
-    public function trainings()
+    public function userAptitudes()
     {
-        return $this->hasMany(Training::class);
+        return $this->hasMany(UserAptitude::class);
     }
+
+    /**
+     * SCOPES
+     */
     
     public function scopeCurationActivity($query)
     {
@@ -79,5 +112,12 @@ class Assignment extends Model
     public function newCollection(array $models = [])
     {
         return new AssignmentCollection($models);
+    }
+
+    public function assignableTypeIs($types)
+    {
+        $types = (is_string($types)) ? [$types] : $types;
+
+        return in_array($this->assignable_type, $types);
     }
 }
