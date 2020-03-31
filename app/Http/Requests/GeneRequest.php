@@ -29,7 +29,9 @@ class GeneRequest extends FormRequest
         return [
             'symbol' => 'required|max:255',
             'hgnc_id' => 'required|regex:/HGNC:\d+/',
-            'protocol_path' => 'nullable|file|mimes:pdf,doc,xlsx,csv,docx|max:2000'
+            'protocol_path' => 'nullable|file|mimes:pdf,doc,xlsx,csv,docx,txt,rtf|max:2000',
+            'hypothesis_group' => 'nullable|string',
+            'hypothesis_group_url' => 'nullable|url|required_with:hypothesis_group'
         ];
     }
 
@@ -53,7 +55,8 @@ class GeneRequest extends FormRequest
     public function messages()
     {
         return [
-            'regex' => 'HGNC IDs must be given in the form "HGNC:1234".'
+            'regex' => 'HGNC IDs must be given in the form "HGNC:1234".',
+            'hypothesis_group_url.required_with' => 'You must enter the url for your hypothes.is group so we can invite volunteers to join it.'
         ];
     }
 }

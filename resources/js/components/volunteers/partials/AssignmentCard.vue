@@ -1,9 +1,3 @@
-<style>
-    .content-comma:not(:last-child)::after {
-        content: ',';
-    }
-</style>
-
 <template>
         <div class="card p-3">
             <h4>
@@ -40,10 +34,17 @@
                             </td>
                             <td>
                                 <ul v-if="asn.sub_assignments.length > 0"
-                                    class="list-inline "
+                                    class="list-unstyled"
                                 >
-                                    <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id" class="list-inline-item content-comma">
+                                    <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id">
                                         <small>{{subAsn.assignable.name}}</small>
+                                        <a 
+                                            v-if="subAsn.assignable.protocol_path"
+                                            :href="`/genes/${subAsn.assignable.symbol}/protocol`"
+                                            class="float-right"
+                                        >
+                                            Protocol
+                                        </a>
                                     </li>
                                 </ul>
                                 <div v-if="asn.user_aptitudes.filter(trn => trn.trained_at == null).length > 0">
