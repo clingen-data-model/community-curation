@@ -18,7 +18,7 @@ class AssignmentResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['assignable'] = new AssignableResource($this->whenLoaded('assignable'));
-        $data['attestation'] = new attestationResource($this->whenLoaded('attestation'));
+        $data['attestation'] = new AttestationResource($this->whenLoaded('attestation'));
         $data['status'] = new DefaultResource($this->whenLoaded('status'));
         $data['trainings'] = TrainingResource::collection($this->whenLoaded('trainings'));
         $data['userAptitudes'] = DefaultResource::collection($this->whenLoaded('trainings'));
