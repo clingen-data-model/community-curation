@@ -62,7 +62,7 @@
                             </b-tab>
                             <b-tab title="3 Month Followup">
                                 <survey-data :survey-data="volunteer.three_month">
-                                    <non-volunteer>The volunteer hasn't completed a 3month followup yet</non-volunteer>
+                                    <non-volunteer>The volunteer hasn't completed a 3 month followup yet</non-volunteer>
                                     <only-volunteer>
                                         No data yet.
                                     </only-volunteer>
