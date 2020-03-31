@@ -8,6 +8,7 @@ use App\Training;
 use Carbon\Carbon;
 use App\Attestation;
 use App\ExpertPanel;
+use App\UserAptitude;
 use App\CurationActivity;
 use InvalidArgumentException;
 use Illuminate\Console\Command;
@@ -204,7 +205,7 @@ class ImportInitialData extends Command
                 ->forceDelete();
 
             Attestation::where('user_id', $user->id)->get()->each->forceDelete();
-            Training::where('user_id', $user->id)->get()->each->forceDelete();
+            UserAptitude::where('user_id', $user->id)->get()->each->forceDelete();
             $user->assignments->each->forceDelete();
             $user->ForceDelete();
         }
@@ -298,7 +299,7 @@ class ImportInitialData extends Command
         }
 
         $assignment = $volunteer->assignments()
-            ->with('trainings')
+            ->with('userAptitudes')
             ->assignableIs(get_class($ca), $ca->id)
             ->get()
             ->first();
@@ -316,15 +317,15 @@ class ImportInitialData extends Command
     
     private function updateTraining($assignment, $data)
     {
-        $training = $assignment->trainings()->first();
-        $training->created_at = $data['ca_assignment_date'];
-        $training->updated_at = $data['ca_assignment_date'];
-        $training->save();
+        $userAptitude = $assignment->userAptitudes()->first();
+        $userAptitude->created_at = $data['ca_assignment_date'];
+        $userAptitude->updated_at = $data['ca_assignment_date'];
+        $userAptitude->save();
         
         $this->outputInfo('    - import training info');
-        $training->completed_at = $data['training_date'];
-        $training->updated_at = $data['training_date'];
-        $training->save();
+        $userAptitude->trained_at = $data['training_date'];
+        $userAptitude->updated_at = $data['training_date'];
+        $userAptitude->save();
     }
     
     private function updateAttestation($assignment, $data, $attestationData)

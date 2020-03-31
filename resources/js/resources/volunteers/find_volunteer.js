@@ -4,7 +4,9 @@ const findVolunteer = async function (volunteerId) {
     return await window.axios.get('/api/volunteers/'+volunteerId)
         .then(response => {
             let volunteer = response.data.data
-            return new Volunteer(volunteer);
+            volunteer = new Volunteer(volunteer);
+            console.log(volunteer.assignments);
+            return volunteer;
         });
 }
 

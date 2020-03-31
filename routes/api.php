@@ -25,13 +25,13 @@ Route::group([
                 ->only(['index', 'store','show', 'update']);
 
             Route::resource('trainings', 'TrainingController')
-                ->only(['update']);
+                ->only(['store','update']);
 
                 
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
             Route::get('volunteers/{id}/attestations', 'AttestationController@volunteer');
             Route::resource('volunteers', 'VolunteerController');
-
+            
             Route::get('users/current', 'UserController@currentUser')->name("current-user");
 
             Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')->name('curator-upload-file');

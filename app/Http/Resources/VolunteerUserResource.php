@@ -20,8 +20,7 @@ class VolunteerUserResource extends JsonResource
         unset($array['deleted_at']);
         $array['volunteer_status'] = new DefaultResource($this->whenLoaded('volunteerStatus'));
         $array['volunteer_type'] = new DefaultResource($this->whenLoaded('volunteerType'));
-        $array['assignments'] =  $this->structuredAssignments;
-        $array['attestations'] = AttestationResource::collection($this->whenLoaded('attestations'));
+        $array['assignments'] =  DefaultResource::collection($this->whenLoaded('structuredAssignments'));
         $array['application'] = new SurveyResponseResource($this->whenLoaded('application'));
         $array['three_month'] = new SurveyResponseResource($this->whenLoaded('volunteer3MonthSurvey'));
         $array['latest_priorities'] = $this->relationLoaded('priorities')
@@ -29,6 +28,7 @@ class VolunteerUserResource extends JsonResource
                                         : null;
         $array['priorities'] = PriorityResource::collection($this->whenLoaded('priorities'));
         
+        unset($array['structured_assignments']);
         return $array;
     }
 }

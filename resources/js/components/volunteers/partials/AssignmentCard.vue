@@ -1,10 +1,14 @@
-<style></style>
+<style>
+    .content-comma:not(:last-child)::after {
+        content: ',';
+    }
+</style>
 
 <template>
         <div class="card p-3">
             <h4>
                 {{(volunteer.volunteer_type.name || 'loading...') | ucfirst }} Volunteer
-                    - {{volunteer.volunteer_status.name}}
+                    - <b-badge>{{volunteer.volunteer_status.name}}</b-badge>
             </h4>
             <div v-if="!hasAssignments">
                 <only-volunteer class="text-muted">
@@ -20,58 +24,37 @@
                 </non-volunteer>
             </div>
             <div v-else>
-                <table class="table table-sm" v-if="hasAssignments">
+                <table class="table table-striped tabel-sm">
                     <thead>
                         <tr>
-                            <th style="width: 30%">Curation Activity</th>
+                            <th style="width: 40%">Curation Activity</th>
                             <th colspan="2">
                                 <span v-if="volunteer.isComprehensive()">Panel / </span>Gene
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(assignment, idx) in volunteer.assignments" :key="idx">
-                            <td
-                                :class="{'text-strike text-muted': assignmentIsRetired(assignment.curationActivity)}"
-                            >
-                                {{assignment.curationActivity.assignable.name}}
+                        <tr v-for="asn in volunteer.assignments" :key="asn.id">
+                            <td>
+                                {{asn.assignable.name}} <b-badge>{{asn.status.name}}</b-badge>
                             </td>
                             <td>
-                                <div v-if="assignment.needsAptitude" class="text-muted">
-                                    <div v-if="assignment.training.completed_at === null">
-                                        <only-volunteer>
-                                            <a :href="assignment.curationActivity.assignable.aptitudes[0].training_materials_url" 
-                                                class="btn btn-sm btn-primary"
-                                                target="training"
-                                            >
-                                                Start training
-                                            </a>
-                                        </only-volunteer>
-                                        <non-volunteer>
-                                            Needs training
-                                        </non-volunteer>
-                                    </div>
-                                    <div v-else>
-                                        <only-volunteer>
-                                            <a class="btn btn-sm btn-primary"
-                                                target="attestation"
-                                                :href="`/attestations/${assignment.attestation.id}/edit`"
-                                                v-if="!assignment.attestation.signed_at"
-                                            >
-                                                Sign Attestation
-                                            </a>
-                                        </only-volunteer>
-                                        <non-volunteer>
-                                            awaiting attestation
-                                        </non-volunteer>
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    <span v-for="(subAss, idx) in assignment.subAssignments" :key="idx"
-                                        :class="{'text-strike text-muted': assignmentIsRetired(subAss)}"
-                                    >
-                                        {{subAss.assignable.name}}<span v-if="idx < assignment.subAssignments.length-1 ">,</span>
-                                    </span>
+                                <ul v-if="asn.sub_assignments.length > 0"
+                                    class="list-inline "
+                                >
+                                    <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id" class="list-inline-item content-comma">
+                                        <small>{{subAsn.assignable.name}}</small>
+                                    </li>
+                                </ul>
+                                <div v-if="asn.user_aptitudes.filter(trn => trn.trained_at == null).length > 0">
+                                    <small>
+                                        <strong>Pending Training:</strong>
+                                        <ul class="list-unstyled ml-2 mt-0">
+                                            <li v-for="trn in asn.user_aptitudes.untrained()" :key="trn.id">
+                                                {{trn.aptitude.name}}
+                                            </li>
+                                        </ul>
+                                    </small>
                                 </div>
                             </td>
                         </tr>
@@ -93,23 +76,12 @@
                     @assignmentsupdated="$emit('updatevolunteer')"
                 ></assignment-form>
             </b-modal>
-            <b-modal v-model="showAssignmentStatusForm" 
-                hide-header 
-                hide-footer
-                 v-if="!$store.state.user.isVolunteer()"
-            >
-                <assignment-status-form
-                    :assignment="currentAssignment"
-                    :volunteer="volunteer"
-                    @assignmentsupdated="$emit('updatevolunteer')"
-                >
-                </assignment-status-form>
-            </b-modal>
         </div>
 </template>
 
 <script>
     import AssignmentStatusForm from './AssignmentStatusForm';
+    import UserAptitudeCollection from '../../../collections/user_aptitude_collection'
 
     export default {
         components: {
@@ -124,7 +96,6 @@
         data() {
             return {
                 showAssignmentForm: false,
-                showAssignmentStatusForm: false,
                 currentAssignment: {},
             }
         },
@@ -146,10 +117,6 @@
         methods: {
             assignmentIsRetired(assignment) {
                 return assignment.assignment_status_id == this.$store.state.configs.project.assignmentStatuses.retired;
-            },
-            editActivityAssignment(assignment) {
-                this.syncCurrentAssignment(assignment);
-                this.showAssignmentStatusForm = true
             },
             syncCurrentAssignment(assignment) {
                 this.currentAssignment = assignment

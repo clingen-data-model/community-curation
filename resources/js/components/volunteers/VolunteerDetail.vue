@@ -2,6 +2,8 @@
 
 <template>
     <div class="component-container">
+        <button class="btn btn-danger" @click="findVolunteer">Reload volunteer</button>
+        
         <div class="card loading text-center" v-if="loading && !volunteer.name">
             <div class="card-header">Loading volunteer...</div>
         </div>

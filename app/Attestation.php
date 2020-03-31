@@ -59,6 +59,11 @@ class Attestation extends Model
         return $this->belongsTo(Assignment::class);
     }
 
+    public function userAptitude()
+    {
+        return $this->hasOne(UserAptitude::class);
+    }
+
     public function scopeSigned($query)
     {
         return $query->whereNotNull("signed_at");
@@ -73,7 +78,4 @@ class Attestation extends Model
     {
         return !is_null($this->signed_at);
     }
-    
-    
-
 }

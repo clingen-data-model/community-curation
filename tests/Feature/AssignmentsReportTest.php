@@ -55,17 +55,17 @@ class AssignmentsReportTest extends TestCase
         $appRsp->save();
         $appRsp->finalize();
 
-        $this->volunteers->get(1)->fresh()->trainings()
+        $this->volunteers->get(1)
+            ->fresh()
+            ->userAptitudes()
             ->get()
             ->first()
-            ->update(['completed_at' => $this->date]);
+            ->update(['trained_at' => $this->date]);
 
         $this->volunteers->get(1)->fresh()->attestations()
             ->get()
             ->first()
             ->update(['signed_at' => $this->date]);
-
-
     }
  
     /**
@@ -100,7 +100,7 @@ class AssignmentsReportTest extends TestCase
                 'assigned_expert_panel' => $this->expertPanels->get(3)->first()->name
                                             .",\n"
                                             .$this->expertPanels->get(3)->last()->name
-            ], 
+            ],
             $testRow
         );
     }
@@ -163,5 +163,4 @@ class AssignmentsReportTest extends TestCase
         $this->assertEquals(storage_path('app/reports'), $response->baseResponse->getFile()->getPath());
         $this->assertEquals('xlsx', $response->baseResponse->getFile()->getExtension());
     }
-    
 }

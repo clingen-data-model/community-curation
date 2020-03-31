@@ -1,33 +1,32 @@
 <template>
     <div>
-        <div v-if="assignment.training.completed_at == null">
+        <div v-if="userAptitude.trained_at == null">
             <div class="form-inline">
                 <div v-if="$store.state.user.notVolunteer()">
                     <div v-show="setTrainingDate" class="form-inline">
                         <label>Date completed:</label>
                         &nbsp;
                         <date-field v-model="newTrainingCompletedDate" class="form-control form-control-sm"></date-field>
-                        <button class="btn btn-sm btn-primary" @click="emitTrainingCompleted(assignment.training)">Save</button>
+                        <button class="btn btn-sm btn-primary" @click="emitTrainingCompleted(userAptitude)">Save</button>
                     </div>
-                    <button class="btn btn-sm btn-primary" v-show="!setTrainingDate" @click="setTrainingDate = true">Mark Training complete</button>
+                    <button class="btn btn-sm btn-primary" v-show="!setTrainingDate" @click="setTrainingDate = true">Mark {{userAptitude.aptitude.name}} Training complete</button>
                 </div>
             </div>
         </div>
         <div v-else>
-            <div v-if="assignment.attestation.signed_at == null">
+            <div v-if="!userAptitude.attestation.signed_at">
                 <a 
-                    :href="`/attestations/${assignment.attestation.id}/edit`" 
+                    :href="`/attestations/${userAptitude.attestation.id}/edit`" 
                     class="btn btn-sm btn-primary"
                 >Sign attestation</a>
             </div>
-            <!-- awaiting attestation -->
         </div>
     </div>
 </template>
 <script>
 export default {
     props: {
-        assignment: {
+        userAptitude: {
             required: true
         },
     },
@@ -37,14 +36,11 @@ export default {
             setTrainingDate: false            
         }
     },
-    computed: {
-
-    },
     methods: {
         emitTrainingCompleted(training) {
             this.$emit('trainingcompleted', {
                 id: training.id,
-                completed_at: this.newTrainingCompletedDate
+                trained_at: this.newTrainingCompletedDate
             })
         }
     }
