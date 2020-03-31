@@ -170,6 +170,7 @@
                 })
             },
             markTrainingCompleted({id, trained_at}) {
+                console.log({id, trained_at});
                 markTrainingComplete(id, trained_at)
                     .then(() => this.$emit('saved'));                
             },

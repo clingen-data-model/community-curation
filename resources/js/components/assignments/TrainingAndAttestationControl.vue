@@ -40,7 +40,7 @@ export default {
         emitTrainingCompleted(training) {
             this.$emit('trainingcompleted', {
                 id: training.id,
-                completed_at: this.newTrainingCompletedDate
+                trained_at: this.newTrainingCompletedDate
             })
         }
     }
