@@ -5,7 +5,7 @@
                 <th>Aptitude</th>
                 <th>Date Signed</th>
             </tr>
-            <tr v-for="(attestation, idx) in volunteer.attestations">
+            <tr v-for="(attestation, idx) in volunteer.attestations" :key="idx">
                 <td>{{attestation.aptitude.name}}</td>
                 <td>
                     <span v-if="attestation.signed_at">{{attestation.signed_at | formatDate}}</span>

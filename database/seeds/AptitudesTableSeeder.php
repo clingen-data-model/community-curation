@@ -74,7 +74,8 @@ class AptitudesTableSeeder extends Seeder
                 'training_materials_url' => 'https://www.google.com',
                 'volunteer_type_id' => 2,
                 'is_primary' => 0,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
+                'is_active' => 0
             ],
             [
                 'id' => 7,
