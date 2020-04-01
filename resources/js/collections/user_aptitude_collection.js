@@ -6,7 +6,7 @@ const UserAptitudeCollection = class {
 
     [Symbol.iterator]() { return this.items.values() }
 
-    length() {
+    get length() {
         return this.items.length;
     }
 
