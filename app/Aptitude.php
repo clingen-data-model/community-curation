@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\ActiveAptitudeScope;
 use Illuminate\Database\Eloquent\Model;
 use Venturecraft\Revisionable\RevisionableTrait;
 
@@ -18,8 +19,16 @@ class Aptitude extends Model
         'subject_id',
         'volunteer_type_id',
         'is_primary',
-        'evaluator_class'
+        'evaluator_class',
+        'is_active'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ActiveAptitudeScope);
+    }
 
     public function subject()
     {
@@ -45,6 +54,12 @@ class Aptitude extends Model
             'subject_id' => $subjectId
         ]);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+    
     
     public function isBasic()
     {
