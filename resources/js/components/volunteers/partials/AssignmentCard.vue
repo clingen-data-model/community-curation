@@ -30,7 +30,17 @@
                     <tbody>
                         <tr v-for="asn in volunteer.assignments" :key="asn.id">
                             <td>
-                                {{asn.assignable.name}} <b-badge>{{asn.status.name}}</b-badge>
+                                <strong>{{asn.assignable.name}}</strong>
+                                <b-badge>{{asn.status.name}}</b-badge>
+                                <div v-if="asn.user_aptitudes.granted().secondary().length > 0">
+                                    <small>
+                                        <ul class="list-unstyled ml-2 mt-0">
+                                            <li v-for="trn in asn.user_aptitudes.granted().secondary()" :key="trn.id">
+                                                {{trn.aptitude.name}}
+                                            </li>
+                                        </ul>
+                                    </small>
+                                </div>
                             </td>
                             <td>
                                 <ul v-if="asn.sub_assignments.length > 0"
@@ -47,7 +57,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div v-if="asn.user_aptitudes.filter(trn => trn.trained_at == null).length > 0">
+                                <div v-if="asn.user_aptitudes.untrained().length > 0">
                                     <small>
                                         <strong>Pending Training:</strong>
                                         <ul class="list-unstyled ml-2 mt-0">
