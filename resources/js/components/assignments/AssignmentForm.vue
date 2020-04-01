@@ -25,7 +25,7 @@
                         <td
                             :class="{'text-strike text-muted': (assignment.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
                         >
-                            {{assignment.assignable.name}}
+                            <strong>{{assignment.assignable.name}}</strong>
                             <status-badge :assignment="assignment"
                                 @assignmentsupdated="$emit('assignmentsupdated')"
                             ></status-badge>
@@ -33,10 +33,11 @@
                                 :assignment="assignment"
                                 @assignAptitude="createAptitudeTraining($event, assignment)"
                                 @trainingcompleted="markTrainingCompleted"
+                                class="mt-1"
                             ></secondary-aptitude-control>
                         </td>
                         <td>
-                            <div v-if="assignment.user_aptitudes.pending().primary().length() > 0">
+                            <div v-if="assignment.user_aptitudes.pending().primary().length > 0">
                                 <training-and-attestation-control
                                     :userAptitude="assignment.user_aptitudes.pending().primary().get(0)"
                                     @trainingcompleted="markTrainingCompleted"
@@ -170,7 +171,6 @@
                 })
             },
             markTrainingCompleted({id, trained_at}) {
-                console.log({id, trained_at});
                 markTrainingComplete(id, trained_at)
                     .then(() => this.$emit('saved'));                
             },

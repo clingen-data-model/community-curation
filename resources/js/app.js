@@ -54,7 +54,8 @@ import RadioGroup from './components/forms/inputs/RadioGroup'
 import AttestationForm from './components/attestations/AttestationForm'
 import ActionabilityBasicForm from './components/attestations/forms/ActionabilityBasic'
 import DosageBasicForm from './components/attestations/forms/DosageBasic'
-import BaslineBasicForm from './components/attestations/forms/BaselineBasic'
+import BaselineBasicForm from './components/attestations/forms/BaselineBasic'
+import BaselineGeneticForm from './components/attestations/forms/BaselineGenetic'
 import GeneBasicForm from './components/attestations/forms/GeneBasic'
 import SomaticBasicForm from './components/attestations/forms/SomaticBasic'
 import VariantBasicForm from './components/attestations/forms/VariantBasic'
@@ -76,7 +77,8 @@ window.Vue.component('radio-group', RadioGroup);
 window.Vue.component('attestation-form', AttestationForm);
 window.Vue.component('actionability-basic-form', ActionabilityBasicForm);
 window.Vue.component('dosage-basic-form', DosageBasicForm);
-window.Vue.component('baseline-basic-form', BaslineBasicForm);
+window.Vue.component('baseline-basic-form', BaselineBasicForm);
+window.Vue.component('baseline-genetic-form', BaselineGeneticForm);
 window.Vue.component('gene-basic-form', GeneBasicForm);
 window.Vue.component('somatic-basic-form', SomaticBasicForm);
 window.Vue.component('variant-basic-form', VariantBasicForm);
