@@ -142,6 +142,11 @@ class User extends Authenticatable
         return $this->morphOne(Volunteer3MonthSurvey::class, 'respondent');
     }
     
+    public function volunteer6MonthSurvey()
+    {
+        return $this->morphOne(Volunteer6MonthSurvey::class, 'respondent');
+    }
+    
     public function country()
     {
         return $this->belongsTo(Country::class);
