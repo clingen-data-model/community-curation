@@ -40,8 +40,7 @@ class AptitudesTableSeeder extends Seeder
                 'name' => 'Gene, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 3,
-                'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/gene-disease-validity/training-materials/
-',
+                'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/gene-disease-validity/training-materials/',
                 'volunteer_type_id' => 2,
                 'is_primary' => 1,
                 'evaluator_class' => BasicAptitudeEvaluator::class
