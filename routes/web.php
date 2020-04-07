@@ -35,8 +35,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
 
-    Route::get('volunteer-three-month/{responseId?}', 'VolunteerThreeMonthController@show')->name('volunteer-three-month.show');
-    Route::post('volunteer-three-month/{responseId?}', 'VolunteerThreeMonthController@store')->name('volunteer-three-month.store');
+    Route::get('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@show')->name('volunteer-followup.show');
+    Route::post('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@store')->name('volunteer-followup.store');
+
+    Route::get('volunteer-six-month/{responseId?}', 'VolunteerFollowupController@show')->name('volunteer-six-month.show');
+    Route::post('volunteer-six-month/{responseId?}', 'VolunteerFollowupController@store')->name('volunteer-six-month.store');
 
     Route::get('genes/{symbol}/protocol', 'GeneProtocolController@show')->name('gene.download-protocol');
 });

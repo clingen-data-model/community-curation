@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<survey name="volunteer_three_month" title="ClinGen Follow-up Survey for Volunteer Curators- 3 months" version="1" rules-class="\App\Surveys\VolunteerThreeMonthRules">
+<survey name="volunteer_three_month" title="ClinGen Follow-up Survey for Volunteer Curators- 3 months" version="1" rules-class="\App\Surveys\FollowupSurveyRules">
     <page name="intro" title="Intro">
         <html>
             <content>
