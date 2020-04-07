@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<survey name="volunteer_six_month" title="" version="1" rules-class="\App\Surveys\FollowupSurveyRules">
+    <page name="intro" title="ClinGen Follow-up Survey for Volunteer Curators - 6 months">
+        <html>
+            <content>
+                <![CDATA[
+                    <p>
+                        Thank you for volunteering to participate in ClinGen community curation. 
+                        In order to better understand the needs and experiences of our volunteers, we would greatly appreciate your feedback on this survey. 
+                        It should take ~10-15 minutes.
+                    </p>
+
+                    <p>
+                        Thank you!
+                        <br>
+                        <a href="mailto:volunteer@clinicalgenome.org">volunteer@clinicalgenome.org</a>
+                    </p>
+                ]]>
+            </content>
+        </html>
+    </page>
+    <page name="survey" title="ClinGen Follow-up Survey for Volunteer Curators - 6 months">
+         <html>
+             <content>
+                 <![CDATA[
+                     Name: {{$respondent->name}}
+                 ]]>
+             </content>
+         </html>
+
+        <number name="number_of_curation_topics" id="number_of_curation_topics" required="true">
+            <question-text>
+                <![CDATA[
+                    Number of curations or topics assigned:
+                ]]>
+            </question-text>
+        </number>
+        
+        <number name="number_deferred" id="number_deferred" required="true">
+            <question-text>
+                <![CDATA[
+                    Number of curations or topics deferred:
+                ]]>
+            </question-text>
+        </number>
+        
+        <question name="why_deferred" id="why_deferred" data-format="text" validation-rules="required_unless:number_deferred,0">
+            <question-text>
+                <![CDATA[
+                    If any curations or topics were deferred, how many and why?
+                ]]>
+            </question-text>
+        </question>
+        
+        <multiple-choice name="time_spent" id="time_spent" num-selectable="1" required="true">
+            <question-text>
+                <![CDATA[
+                    The estimated time commitment was 8-10 hours per month, did you spend:
+                ]]>
+            </question-text>
+            <options>
+                <option name="time_spent_1">
+                    <value>1</value>
+                    <label>More than 8-10hours/month</label>
+                </option>
+                <option name="time_spent_2">
+                    <value>2</value>
+                    <label>Less than 8-10 hours/month</label>
+                </option>
+                <option name="time_spent_3">
+                    <value>3</value>
+                    <label>Approximately 8-10 hours/month</label>
+                </option>
+            </options>
+        </multiple-choice>
+        
+        <question name="enjoying_expert_panel" id="enjoying_expert_panel" data-format="text" required="true">
+            <question-text>
+                <![CDATA[
+                    Are you enjoying curating for your ClinGen Expert Panel? Why or why not?
+                ]]>
+            </question-text>
+        </question>
+
+        <multiple-choice name="plan_to_continue" id="plan_to_continue" num-selectable="1" required="true">
+            <question-text>
+                <![CDATA[
+                    Do you plan to continue volunteering your time to curate for your EP/WG?
+                ]]>
+            </question-text>
+            <options>
+                <option name="plan_to_continue_1">
+                    <value>1</value>
+                    <label>Yes</label>
+                </option>
+                <option name="plan_to_continue_2" show="why_discontinue">
+                    <value>0</value>
+                    <label>No</label>
+                </option>
+                <option name="plan_to_continue_3" show="why_discontinue">
+                    <value>2</value>
+                    <label>Not Sure</label>
+                </option>
+            </options>
+        </multiple-choice>
+        
+        <question name="why_discontinue" id="why_discontinue" data-format="text" validation-rules="required_unless:plan_to_continue,1">
+            <question-text>
+                <![CDATA[
+                    If you do not plan to continue volunteering to curate, how come? *
+                ]]>
+            </question-text>
+        </question>
+        
+        <multiple-choice name="join_addtional_ep" id="join_addtional_ep" num-selectable="1" required="true">
+            <question-text>
+                <![CDATA[
+                    Would you like to join an additional Working Group or Expert Panel? 
+                    <br>
+                    <small class="text-muted">Note that this may require additional training and double the amount of time spent volunteering per month.</small>
+                ]]>
+            </question-text>
+            <options>
+                <option name="join_addtional_ep_yes">
+                    <value>1</value>
+                    <label>Yes</label>
+                </option>
+                <option name="join_addtional_ep_no">
+                    <value>0</value>
+                    <label>No</label>
+                </option>
+                <option name="join_additional_ep_maybe">
+                    <value>2</value>
+                    <label>Maybe</label>
+                </option>        
+            </options>
+        </multiple-choice>
+        
+        <multiple-choice name="supported_by_work" id="supported_by_work" num-selectable="1" required="true">
+            <question-text>
+                <![CDATA[
+                    Are your volunteer efforts supported by your current work environment? Is it aligned, in support of, or in conflict?
+                ]]>
+            </question-text>
+            <options>
+                <option name="supported_by_work_1">
+                    <value>1</value>
+                    <label>It is aligned with my current work</label>
+                </option>
+                <option name="supported_by_work_2">
+                    <value>2</value>
+                    <label>It is in support of my current work</label>
+                </option>
+                <option name="supported_by_work_3">
+                    <value>3</value>
+                    <label>It is in conflict with my current work</label>
+                </option>
+                <option name="supported_by_work_4">
+                    <value>4</value>
+                    <label>It has no relationship to my current work</label>
+                </option>
+            </options>
+        </multiple-choice>
+
+        <question name="other_comments" id="other_comments" data-format="text">
+            <question-text>
+                <![CDATA[
+                    Please provide us with any other comments or feedback: 
+                    (
+                        if you would like to make any changes to your status and participation within a curation group please contact 
+                        <a href="mailto:volunteer@clinicalgenome.org">volunteer@clinicalgenome.org</a>
+                    )
+                ]]>
+            </question-text>
+        </question>
+        
+        
+    </page>
+</survey>
