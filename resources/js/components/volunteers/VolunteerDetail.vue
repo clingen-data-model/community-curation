@@ -68,6 +68,14 @@
                                     </only-volunteer>
                                 </survey-data>
                             </b-tab>
+                            <b-tab title="6 Month Followup">
+                                <survey-data :survey-data="volunteer.six_month">
+                                    <non-volunteer>The volunteer hasn't completed a 3 month followup yet</non-volunteer>
+                                    <only-volunteer>
+                                        No data yet.
+                                    </only-volunteer>
+                                </survey-data>
+                            </b-tab>
                         </b-tabs>
                     </b-tab>
                 </b-tabs>
