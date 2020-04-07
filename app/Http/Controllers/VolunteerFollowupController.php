@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Sirs\Surveys\SurveyControlService;
 
-class VolunteerThreeMonthController
+class VolunteerFollowupController
 {
-    public function show(Request $request, $responseId = null)
+    public function show(Request $request, $surveySlug, $responseId = null)
     {
         $this->setPreviousLocation($request);
 
         $respondent = Auth::user();
-        $response = $this->getResponse($respondent, $responseId);
+        $response = $this->getResponse($respondent, $surveySlug, $responseId);
 
         if ($respondent->id == $response->respondent_id
             || Auth::user()->hasAnyRole(['programmer', 'admin'])) {
@@ -27,10 +27,10 @@ class VolunteerThreeMonthController
         throw new AuthorizationException('You do not have permission to view this survey response');
     }
     
-    public function store(Request $request, $id = null)
+    public function store(Request $request, $surveySlug, $id = null)
     {
         $respondent = Auth::user();
-        $response = $this->getResponse($respondent, $id);
+        $response = $this->getResponse($respondent, $surveySlug, $id);
 
         if (
             $respondent->id == $response->respondent_id
@@ -48,9 +48,9 @@ class VolunteerThreeMonthController
         throw new AuthorizationException('You do not have permission to update this survey response');
     }
 
-    protected function getResponse($respondent, $responseId)
+    protected function getResponse($respondent, $surveySlug, $responseId)
     {
-        $survey = class_survey()::where('slug', 'volunteer-three-month1')->firstOrFail();
+        $survey = class_survey()::where('slug', $surveySlug)->firstOrFail();
         if ($responseId) {
             return $survey->responses()->find($responseId);
         }

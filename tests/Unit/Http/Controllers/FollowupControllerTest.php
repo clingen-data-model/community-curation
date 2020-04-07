@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Http\Controllers;
 
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 /**
  * @group surveys
  */
-class VolunteerThreeMonthFollowupTest extends TestCase
+class FollowupControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -26,7 +26,7 @@ class VolunteerThreeMonthFollowupTest extends TestCase
      */
     public function unauthenticated_users_redirected_to_login()
     {
-        $this->call('GET', $this->getUrl($this->volunteer))
+        $this->call('GET', $this->getUrl())
             ->assertRedirect();
     }
 
@@ -37,7 +37,7 @@ class VolunteerThreeMonthFollowupTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->volunteer)
-            ->call('GET', $this->getUrl($this->volunteer))
+            ->call('GET', $this->getUrl())
             ->assertStatus(200);
     }
     
@@ -51,7 +51,7 @@ class VolunteerThreeMonthFollowupTest extends TestCase
                 ->getNewResponse($this->volunteer);
 
         $this->actingAs($this->volunteer)
-            ->call('GET', $this->getUrl($this->volunteer, $rsp->id))
+            ->call('GET', $this->getUrl($rsp->id))
             ->assertStatus(200);
     }
 
@@ -64,7 +64,7 @@ class VolunteerThreeMonthFollowupTest extends TestCase
                 ->getNewResponse($this->volunteer);
 
         $this->actingAs($this->volunteer)
-            ->call('GET', $this->getUrl($this->volunteer))
+            ->call('GET', $this->getUrl())
             ->assertStatus(200);
     }
 
@@ -80,7 +80,7 @@ class VolunteerThreeMonthFollowupTest extends TestCase
         $vol2 = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
 
         $this->actingAs($vol2)
-            ->call('GET', $this->getUrl($this->volunteer, $rsp->id))
+            ->call('GET', $this->getUrl($rsp->id))
             ->assertStatus(403);
     }
     
@@ -93,13 +93,16 @@ class VolunteerThreeMonthFollowupTest extends TestCase
                 ->getNewResponse($this->volunteer);
         $rsp->finalize();
 
-        $this->actingAs($this->volunteer)
+        $url = $this->getUrl($rsp->id);
+
+        $response = $this->actingAs($this->volunteer)
             ->call(
                 'POST',
-                $this->getUrl($this->volunteer, $rsp->id),
+                $url,
                 ['highest_ed' => 1]
-            )
-            ->assertStatus(403);
+            );
+
+        $response->assertStatus(403);
     }
 
     /**
@@ -114,13 +117,28 @@ class VolunteerThreeMonthFollowupTest extends TestCase
         $vol2 = factory(User::class)->states(['volunteer', 'comprehensive'])->create([]);
 
         $this->actingAs($vol2)
-            ->call('POST', $this->getUrl($this->volunteer, $rsp->id), ['highest_ed' => 1])
+            ->call('POST', $this->getUrl($rsp->id), ['highest_ed' => 1])
             ->assertStatus(403);
     }
+
+    /**
+     * @test
+     */
+    public function loads_correct_survey()
+    {
+        $this->actingAs($this->volunteer)
+            ->call('GET', $this->getUrl(null, 'volunteer-three-month1'))
+            ->assertSee('3 months');
+
+        $this->actingAs($this->volunteer)
+            ->call('GET', $this->getUrl(null, 'volunteer-six-month1'))
+            ->assertSee('6 months');
+    }
+    
     
 
-    private function getUrl($volunteer, $rspId = null)
+    private function getUrl($rspId = null, $surveySlug = 'volunteer-three-month1')
     {
-        return 'volunteer-three-month'.(($rspId) ? '/'.$rspId : '');
+        return 'volunteer-followup/'.$surveySlug.(($rspId) ? '/'.$rspId : '');
     }
 }
