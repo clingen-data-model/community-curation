@@ -77,7 +77,8 @@ class VolunteerController extends Controller
             'priorities',
             'priorities.curationActivity',
             'priorities.expertPanel',
-            'volunteer3MonthSurvey'
+            'volunteer3MonthSurvey',
+            'volunteer6MonthSurvey'
         ]);
 
         return new VolunteerUserResource($volunteer);
