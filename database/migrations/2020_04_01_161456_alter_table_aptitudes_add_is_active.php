@@ -1,5 +1,6 @@
 <?php
 
+use App\Aptitude;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,8 +17,10 @@ class AlterTableAptitudesAddIsActive extends Migration
         Schema::table('aptitudes', function (Blueprint $table) {
             $table->boolean('is_active')->default(1)->after('is_primary');
         });
-        $seeder = new AptitudesTableSeeder();
-        $seeder->run();
+        if (Aptitude::count() > 0) {
+            $seeder = new AptitudesTableSeeder();
+            $seeder->run();
+        }
     }
 
     /**

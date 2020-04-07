@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CurationActivitiesTableSeeder::class);
         $this->call(VolunteerTypesTableSeeder::class);
         $this->call(VolunteerStatusesTableSeeder::class);
-        $this->call(AptitudesTableSeeder::class);
         $this->call(WorkingGroupsTableSeeder::class);
         $this->call(ExpertPanelsTableSeeder::class);
         $this->call(GoalsTableSeeder::class);
