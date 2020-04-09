@@ -7,7 +7,7 @@ require 'recipe/laravel.php';
 set('application', 'community-curation');
 
 // Project repository
-set('repository', 'git@github.com:clingen-data-model/community-curation.git');
+set('repository', 'https://github.com/clingen-data-model/community-curation.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', false);
