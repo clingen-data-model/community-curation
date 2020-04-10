@@ -211,6 +211,8 @@
 </template>
 
 <script>
+    import {flatten as _flatten, toArray as _toArray} from 'lodash'
+
     export default {
         /*
          * The component's data.
@@ -329,7 +331,7 @@
                     })
                     .catch(error => {
                         if (typeof error.response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(error.response.data.errors));
+                            form.errors = _flatten(_toArray(error.response.data.errors));
                         } else {
                             form.errors = ['Something went wrong. Please try again.'];
                         }

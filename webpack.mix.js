@@ -18,5 +18,10 @@ mix.webpackConfig({
 });
 
 mix.js('resources/js/app.js', 'public/js')
+    .extract(['vue', 'bootstrap-vue', 'moment', 'bootstrap-datepicker', 'timepicker', 'axios', 'lodash', 'jquery'])
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
+
+if (mix.inProduction()) {
+    mix.version();
+}
