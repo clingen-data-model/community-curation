@@ -158,13 +158,13 @@ class User extends Authenticatable
                 ->curationActivity()
                 ->with([
                     'status',
-                    'userAptitudes',
-                    'userAptitudes.aptitude',
-                    'userAptitudes.attestation',
                     'assignable',
-                    'assignable.aptitudes',
                     'subAssignments',
                     'subAssignments.assignable'
+                    // 'userAptitudes',             // moved to VolunteerController@show for more efficient index listing
+                    // 'userAptitudes.aptitude',    // moved to VolunteerController@show for more efficient index listing
+                    // 'userAptitudes.attestation', // moved to VolunteerController@show for more efficient index listing
+                    // 'assignable.aptitudes',      // moved to VolunteerController@show for more efficient index listing
                 ]);
     }
 
