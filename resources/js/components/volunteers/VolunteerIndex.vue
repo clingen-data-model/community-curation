@@ -22,10 +22,19 @@
                 <div class="form-inline">
                     <label for="filter-input">Search:</label>
                     &nbsp;
-                    <input type="text" class="form-control form-control-sm" v-model="filters.searchTerm" placeholder="filter rows" id="filter-input">
+                    <input type="text" 
+                        class="form-control form-control-sm" 
+                        v-model="filters.searchTerm" 
+                        placeholder="filter rows" 
+                        id="filter-input"
+                    >
                 </div>
                 <div class="border-left pl-3" id="type-filter-container">
-                    <select id="type-select" class="form-control form-control-sm" v-model="filters.volunteer_type_id" @change="reconcileFilters">
+                    <select id="type-select" 
+                        class="form-control form-control-sm" 
+                        v-model="filters.volunteer_type_id" 
+                        @change="reconcileFilters"
+                    >
                         <option :value="null">Any Type</option>
                         <option v-for="(type, idx) in volunteerTypes"
                             :key="idx"
@@ -35,7 +44,10 @@
                     </select>
                 </div>
                 <div id="status-filter-container">
-                    <select id="status-select" class="form-control form-control-sm" v-model="filters.volunteer_status_id">
+                    <select id="status-select" 
+                        class="form-control form-control-sm" 
+                        v-model="filters.volunteer_status_id"
+                    >
                         <option :value="null">Any Status</option>
                         <option v-for="(status, idx) in volunteerStatuses"
                             :key="idx"
@@ -84,12 +96,7 @@
                     ></b-pagination>
                 </div>
             </div>
-            <pre>currentPage: {{currentPage}}</pre>
-            <pre>loadingVolunteers: {{loadingVolunteers}}</pre>
-            <div class="alert alert-info" v-if="loadingVolunteers">
-                Loading volunteers...
-            </div>
-            <div v-else>
+            <div>
                 <b-table 
                     :items="volunteerProvider" 
                     :fields="tableFields"
@@ -100,7 +107,7 @@
                     :show-empty="true"
                     :filter="filters"
                     :current-page="currentPage"
-                    :busy="loadingVolunteers"
+                    :busy.sync="loadingVolunteers"
                 >
                     <template v-slot:cell(id)="{item}">
                         <a :href="'/volunteers/'+item.id">{{item.id}}</a>
@@ -245,13 +252,13 @@
             },
             volunteerProvider (context, callback) {
                 console.log('volunteerProvider')
-                this.loadingVolunteers = true;
+                // this.loadingVolunteers = true;
                 getPageOfVolunteers(context)
                     .then(response => {
                         this.totalRows = response.data.meta.total;
                         callback(response.data.data);
                     });
-                this.loadingVolunteers = false;
+                // this.loadingVolunteers = false;
             },
             handleSortChanged() {
                 this.resetCurrentPage();
