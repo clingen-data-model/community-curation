@@ -69,16 +69,16 @@ class VolunteerController extends Controller
             }
         }
 
-        if (!is_null($request->filter)) {
+        if (!is_null($request->searchTerm)) {
             $query->leftJoin('volunteer_statuses', 'users.volunteer_status_id', '=', 'volunteer_statuses.id')
                 ->leftJoin('volunteer_types', 'users.volunteer_type_id', '=', 'volunteer_types.id')
-                ->leftJoin('assignments');
+                ;
             $query->where(function ($q) use ($request) {
-                $q->where('first_name', 'like', '%'.$request->filter.'%')
-                ->orWhere('last_name', 'like', '%'.$request->filter.'%')
-                ->orWhere('email', 'like', '%'.$request->filter.'%')
-                ->orWhere('volunteer_statuses.name', 'like', '%'.$request->filter.'%')
-                ->orWhere('volunteer_types.name', 'like', '%'.$request->filter.'%')
+                $q->where('first_name', 'like', '%'.$request->searchTerm.'%')
+                ->orWhere('last_name', 'like', '%'.$request->searchTerm.'%')
+                ->orWhere('email', 'like', '%'.$request->searchTerm.'%')
+                ->orWhere('volunteer_statuses.name', 'like', '%'.$request->searchTerm.'%')
+                ->orWhere('volunteer_types.name', 'like', '%'.$request->searchTerm.'%')
                 ;
             });
         }
