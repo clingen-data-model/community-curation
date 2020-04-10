@@ -10,10 +10,18 @@ window.Vue = require('vue');
 import getAllCurationActivities from './resources/curation_activities/get_all_curation_activities'
 import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
-import BootstrapVue from 'bootstrap-vue'
+// import BootstrapVue from 'bootstrap-vue'
 import moment from 'moment'
 
-Vue.use(BootstrapVue)
+// window.Vue.use(BootstrapVue);
+import { BadgePlugin, CardPlugin, DropdownPlugin, ModalPlugin, PaginationPlugin, TabsPlugin, TablePlugin } from 'bootstrap-vue';
+window.Vue.use(BadgePlugin);
+window.Vue.use(CardPlugin);
+window.Vue.use(DropdownPlugin);
+window.Vue.use(ModalPlugin);
+window.Vue.use(PaginationPlugin);
+window.Vue.use(TabsPlugin);
+window.Vue.use(TablePlugin);
 
 localStorage.clear();
 
@@ -27,20 +35,6 @@ localStorage.clear();
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
-
-import findVolunteer from './resources/volunteers/find_volunteer';
-
-// findVolunteer(5)
-//     .then(volunteer => {
-//         volunteer.assignments.map(i => i.user_aptitudes)
-//             .forEach(uac => {
-//                 const untrained = uac.untrained();
-//                 if (untrained.length > 0) {
-//                     console.log(untrained.map(i => i.aptitude.name));
-//                 }
-//             });
-//     });
 
 import VolunteerIndex from './components/volunteers/VolunteerIndex';
 import VolunteerDetail from './components/volunteers/VolunteerDetail';
