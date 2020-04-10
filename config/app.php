@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Venturecraft\Revisionable\RevisionableServiceProvider::class,
-
+        Sirs\DBImport\DBImportServiceProvider::class,
         /*
          * Application Service Providers...
          */
