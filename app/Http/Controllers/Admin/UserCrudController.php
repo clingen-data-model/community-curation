@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\CrudPanel;
+use App\Country;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\CrudPanel;
 use Spatie\Permission\Models\Role;
+use Illuminate\Database\Query\Builder;
+use Spatie\Permission\Models\Permission;
 use App\Http\Requests\UserRequest as StoreRequest;
 use App\Http\Requests\UserRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Illuminate\Database\Query\Builder;
-use Spatie\Permission\Models\Permission;
 
 /**
  * Class UserCrudController
@@ -68,8 +69,9 @@ class UserCrudController extends CrudController
                 'pivot' => true,
             ],
         ], 'both');
+        $this->crud->modifyField('country_id', ['type' => 'select2', 'name'=>'country_id', 'entity'=>'country', 'attribute'=>'name', 'model' => Country::class]);
 
-        $this->crud->removeColumns(['volunteer_type_id', 'volunteer_status_id', 'address']);
+        $this->crud->removeColumns(['volunteer_type_id', 'volunteer_status_id', 'street1', 'street2', 'city', 'zip', 'country_id', 'state']);
 
         if (!\Auth::user()->can('create users')) {
             $this->crud->RemoveButton('create');
