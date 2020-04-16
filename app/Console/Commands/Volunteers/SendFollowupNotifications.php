@@ -6,18 +6,18 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\ThreeMonthVolunteerFollowup;
-use App\Notifications\ThreeMonthVolunteerReminder1;
-use App\Notifications\ThreeMonthVolunteerReminder2;
+use App\Notifications\VolunteerFollowup\FollowupReminder1;
+use App\Notifications\VolunteerFollowup\FollowupReminder2;
+use App\Notifications\VolunteerFollowup\InitialFollowupNotification;
 
-class NotifyThreeMonthFollowup extends Command
+class SendFollowupNotifications extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'volunteers:notify-3m-followup';
+    protected $signature = 'volunteers:notify-followup';
 
     /**
      * The console command description.
@@ -54,7 +54,7 @@ class NotifyThreeMonthFollowup extends Command
 
         $recipients = $recipientQuery->get();
 
-        Notification::send($recipients, new ThreeMonthVolunteerFollowup());
+        Notification::send($recipients, new InitialFollowupNotification());
     }
 
     private function sendFollowup1()
@@ -66,7 +66,7 @@ class NotifyThreeMonthFollowup extends Command
 
         $recipients = $recipientQuery->get();
 
-        Notification::send($recipients, new ThreeMonthVolunteerReminder1());
+        Notification::send($recipients, new FollowupReminder1());
     }
 
     private function sendFollowup2()
@@ -78,7 +78,7 @@ class NotifyThreeMonthFollowup extends Command
 
         $recipients = $recipientQuery->get();
 
-        Notification::send($recipients, new ThreeMonthVolunteerReminder2());
+        Notification::send($recipients, new FollowupReminder2());
     }
 
     private function buildRecipientQuery(Carbon $date)
