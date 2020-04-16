@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\VolunteerFollowup;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ThreeMonthVolunteerFollowup extends Notification
+class InitialFollowupNotification extends Notification
 {
     use Queueable;
+
+    protected $surveyUrl;
 
     /**
      * Create a new notification instance.
      *
+     * @param string $surveyUrl URL for volunteer to complete survey
      * @return void
      */
-    public function __construct()
+    public function __construct($surveyUrl)
     {
         //
+        $this->surveyUrl = $surveyUrl;
     }
 
     /**
@@ -41,7 +45,13 @@ class ThreeMonthVolunteerFollowup extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->view('email.volunteers.three_month_followup.initial_notification', ['volunteer' => $notifiable]);
+                    ->view(
+                        'email.volunteers.followups.initial_notification',
+                        [
+                            'volunteer' => $notifiable,
+                            'url' => $this->surveyUrl
+                        ]
+                    );
     }
 
     /**
