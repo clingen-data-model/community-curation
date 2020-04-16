@@ -56,8 +56,6 @@ class SendFollowupNotifications extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->threeMonthUrl = url('/volunteer-three-month');
-        $this->sixMonthUrl = url('/volunteer-six-month');
         $this->followups = [
             [
                 'days' => 90,
