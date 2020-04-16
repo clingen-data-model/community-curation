@@ -10,17 +10,19 @@ use Illuminate\Support\Facades\Mail;
 use App\Jobs\AssignVolunteerToAssignable;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\ThreeMonthVolunteerFollowup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Notifications\ThreeMonthVolunteerReminder1;
-use App\Notifications\ThreeMonthVolunteerReminder2;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Notifications\VolunteerFollowup\FollowupReminder1;
+use App\Notifications\VolunteerFollowup\FollowupReminder2;
+use App\Notifications\VolunteerFollowup\InitialFollowupNotification;
 
 /**
  * @group comprehensive
+ * @group followup-notifications
  * @group 90-day-followup
+ * @group 6-month-followup
  */
-class VolunteerThreeMonthFollowupNotificationTest extends TestCase
+class VolunteerFollowupNotificationsTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -47,9 +49,9 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(90));
 
-        $this->artisan('volunteers:notify-3m-followup');
+        $this->artisan('volunteers:notify-followup');
         
-        Notification::assertSentTo([$this->volunteer, $this->otherVol], ThreeMonthVolunteerFollowup::class);
+        Notification::assertSentTo([$this->volunteer, $this->otherVol], InitialFollowupNotification::class);
     }
 
     /**
@@ -57,8 +59,8 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
      */
     public function initial_notification_renders_correct_view()
     {
-        $mailable = (new ThreeMonthVolunteerFollowup)->toMail($this->volunteer);
-        $this->assertEquals('email.volunteers.three_month_followup.initial_notification', $mailable->view);
+        $mailable = (new InitialFollowupNotification)->toMail($this->volunteer);
+        $this->assertEquals('email.volunteers.followups.initial_notification', $mailable->view);
     }
 
     /**
@@ -69,11 +71,11 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(97));
 
-        $this->artisan('volunteers:notify-3m-followup');
+        $this->artisan('volunteers:notify-followup');
         
-        Notification::assertSentTo([$this->volunteer], ThreeMonthVolunteerReminder1::class);
+        Notification::assertSentTo([$this->volunteer], FollowupReminder1::class);
 
-        Notification::assertNotSentTo([$this->otherVol], ThreeMonthVolunteerReminder1::class);
+        Notification::assertNotSentTo([$this->otherVol], FollowupReminder1::class);
     }
 
     /**
@@ -81,8 +83,8 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
      */
     public function remind_1_renders_correct_view()
     {
-        $mailable = (new ThreeMonthVolunteerReminder1)->toMail($this->volunteer);
-        $this->assertEquals('email.volunteers.three_month_followup.reminder_1', $mailable->view);
+        $mailable = (new FollowupReminder1)->toMail($this->volunteer);
+        $this->assertEquals('email.volunteers.followups.reminder_1', $mailable->view);
     }
 
     /**
@@ -93,11 +95,11 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(111));
 
-        $this->artisan('volunteers:notify-3m-followup');
+        $this->artisan('volunteers:notify-followup');
         
-        Notification::assertSentTo([$this->volunteer], ThreeMonthVolunteerReminder2::class);
+        Notification::assertSentTo([$this->volunteer], FollowupReminder2::class);
 
-        Notification::assertNotSentTo([$this->otherVol], ThreeMonthVolunteerReminder2::class);
+        Notification::assertNotSentTo([$this->otherVol], FollowupReminder2::class);
     }
 
     /**
@@ -105,7 +107,7 @@ class VolunteerThreeMonthFollowupNotificationTest extends TestCase
      */
     public function remind_2_renders_correct_view()
     {
-        $mailable = (new ThreeMonthVolunteerReminder2)->toMail($this->volunteer);
-        $this->assertEquals('email.volunteers.three_month_followup.reminder_2', $mailable->view);
+        $mailable = (new FollowupReminder2)->toMail($this->volunteer);
+        $this->assertEquals('email.volunteers.followups.reminder_2', $mailable->view);
     }
 }
