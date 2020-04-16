@@ -182,4 +182,14 @@ class VolunteerFollowupNotificationsTest extends TestCase
         $this->assertEquals('email.volunteers.followups.reminder_2', $mailable6m->view);
         $this->assertContains(url('/volunteer-six-month'), $mailable6m->render());
     }
+    
+    /**
+     * @test
+     */
+    public function run_actual_comand_to_see_output()
+    {
+        Carbon::setTestNow(Carbon::now()->addDays(203));
+        $this->artisan('volunteers:notify-followup');
+        $this->assertTrue(true);
+    }
 }
