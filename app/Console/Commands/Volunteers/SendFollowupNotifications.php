@@ -45,16 +45,7 @@ class SendFollowupNotifications extends Command
      *
      * @var array
      */
-    private $followups = [
-        [
-            'days' => 90,
-            'survey' => 'Volunteer3MonthSurvey'
-        ],
-        [
-            'days' => 182,
-            'survey' => 'Volunteer6MonthSurvey'
-        ],
-    ];
+    private $followups;
 
 
     /**
@@ -67,6 +58,18 @@ class SendFollowupNotifications extends Command
         parent::__construct();
         $this->threeMonthUrl = url('/volunteer-three-month');
         $this->sixMonthUrl = url('/volunteer-six-month');
+        $this->followups = [
+            [
+                'days' => 90,
+                'survey' => 'Volunteer3MonthSurvey',
+                'url' => url('/volunteer-three-month'),
+            ],
+            [
+                'days' => 182,
+                'survey' => 'Volunteer6MonthSurvey',
+                'url' => url('/volunteer-six-month'),
+            ],
+        ];
     }
 
     /**
@@ -78,20 +81,20 @@ class SendFollowupNotifications extends Command
     {
         foreach ($this->followups as $value) {
             extract($value);
-            $this->sendInitialNotification($days);
-            $this->sendFollowup1(($days+7), $survey);
-            $this->sendFollowup2(($days+21), $survey);
+            $this->sendInitialNotification($days, $url);
+            $this->sendFollowup1(($days+7), $survey, $url);
+            $this->sendFollowup2(($days+21), $survey, $url);
         }
     }
 
-    private function sendInitialNotification($days)
+    private function sendInitialNotification($days, $url)
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays($days));
         $recipients = $recipientQuery->get();
-        Notification::send($recipients, new InitialFollowupNotification($this->threeMonthUrl));
+        Notification::send($recipients, new InitialFollowupNotification($url));
     }
 
-    private function sendFollowup1($days, $survey)
+    private function sendFollowup1($days, $survey, $url)
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays($days))
                         ->whereDoesntHave($survey, function ($q) {
@@ -100,10 +103,10 @@ class SendFollowupNotifications extends Command
 
         $recipients = $recipientQuery->get();
 
-        Notification::send($recipients, new FollowupReminder1($this->threeMonthUrl));
+        Notification::send($recipients, new FollowupReminder1($url));
     }
 
-    private function sendFollowup2($days, $survey)
+    private function sendFollowup2($days, $survey, $url)
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays($days))
                             ->whereDoesntHave($survey, function ($q) {
@@ -112,7 +115,7 @@ class SendFollowupNotifications extends Command
 
         $recipients = $recipientQuery->get();
 
-        Notification::send($recipients, new FollowupReminder2($this->threeMonthUrl));
+        Notification::send($recipients, new FollowupReminder2($url));
     }
 
     private function buildRecipientQuery(Carbon $date)
