@@ -11,14 +11,18 @@ class FollowupReminder1 extends Notification
 {
     use Queueable;
 
+    protected $surveyUrl;
+
     /**
      * Create a new notification instance.
      *
+     * @param string $surveyUrl URL for volunteer to complete survey
      * @return void
      */
-    public function __construct()
+    public function __construct($surveyUrl)
     {
         //
+        $this->surveyUrl = $surveyUrl;
     }
 
     /**
@@ -41,7 +45,13 @@ class FollowupReminder1 extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->view('email.volunteers.followups.reminder_1', ['volunteer' => $notifiable]);
+                    ->view(
+                        'email.volunteers.followups.reminder_1',
+                        [
+                            'volunteer' => $notifiable,
+                            'url' => $this->surveyUrl
+                        ]
+                    );
     }
 
     /**
