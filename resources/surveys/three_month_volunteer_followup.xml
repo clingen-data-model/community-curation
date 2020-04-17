@@ -4,10 +4,13 @@
         <html>
             <content>
                 <![CDATA[
-                    <p>Thank you for volunteering to participate in ClinGen community curation. 
-                    In order to better understand the needs and experiences of our volunteers, 
-                        we would greatly appreciate your feedback on this anonymous survey. 
-                    It should take ~10-15 minutes.</p>
+                    <p>
+                        Thank you for volunteering to participate in ClinGen community curation. 
+                        In order to better understand the needs and experiences of our volunteers, 
+                            we would greatly appreciate your feedback on this survey. 
+                        Your answers will be viewable only to yourself and ClinGen Community Curation Working Group administration staff.
+                        It should take ~10-15 minutes.
+                    </p>
 
                     <p>
                         Thank you!
@@ -124,7 +127,7 @@
             <multiple-choice name="training_sufficient" id="training_sufficient" num-selectable="1">
                 <question-text>
                     <![CDATA[
-                        Were the training materials required for your specific curation effort understandable and clear?
+                        Were the training materials and training sessions provided by the ClinGen Community Curation effort sufficient to assist with your curations?
                     ]]>
                 </question-text>
                 <options>
