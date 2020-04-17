@@ -23,7 +23,7 @@ class AssignmentResource extends JsonResource
             'status' => new DefaultResource($this->whenLoaded('status')),
             'parent' => new AssignmentResource($this->whenLoaded('parent')),
             'sub_assignments' => AssignmentResource::collection($this->whenLoaded('subAssignments')),
-            'user_aptitudes' => new DefaultResource($this->whenLoaded('userAptitiudes'))
+            'user_aptitudes' => new DefaultResource($this->whenLoaded('userAptitudes'))
         ];
         // $data = parent::toArray($request);
         // $data['assignable'] = new AssignableResource($this->whenLoaded('assignable'));
