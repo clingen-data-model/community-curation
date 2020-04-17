@@ -13,14 +13,18 @@
 
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="name" v-model="volunteer.name" placeholder="David Bowie">
+                <div class="col-sm-6">
+                    <div class="form-inline">
+                        <input type="text" class="form-control" id="first_name" v-model="volunteer.first_name" placeholder="First">
+                        &nbsp;
+                        <input type="text" class="form-control" id="last_name" v-model="volunteer.last_name" placeholder="Last">
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label">ORCiD ID</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="orcidid" v-model="volunteer.orcid_id" placeholder="123123123">
                 </div>
             </div>
@@ -28,7 +32,7 @@
             <hr>
             <div class="form-group row">
                 <label for="email" class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="email" v-model="volunteer.email" placeholder="me@example.com">
                     <div class="text-muted">
                         <small>
@@ -41,7 +45,7 @@
             <hr>
             <div class="form-group row">
                 <label for="email" class="col-sm-3 col-form-label">Institution</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="institution" v-model="volunteer.institution" placeholder="UNC Chapel Hill">
                 </div>
             </div>
@@ -49,37 +53,37 @@
             <hr>
             <div class="form-group row">
                 <label for="street1" class="col-sm-3 col-form-label">Address 1</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="street1" v-model="volunteer.street1" placeholder="1234 Main St">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="street2" class="col-sm-3 col-form-label">Address 2</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="street2" v-model="volunteer.street2" placeholder="Apartment, suite, etc.">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="city" class="col-sm-3 col-form-label">City</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="city" v-model="volunteer.city">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="state" class="col-sm-3 col-form-label">State</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="state" v-model="volunteer.state">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="zip" class="col-sm-3 col-form-label">Zip code</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" id="zip" v-model="volunteer.zip">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="country_id" class="col-sm-3 col-form-label">Country</label>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <select v-model="volunteer.country_id" class="form-control form-control-sm">
                         <option :value="null">Select&hellip;</option>
                         <option v-for="(country, idx) in countries" :key="idx" :value="country.id">
@@ -119,7 +123,8 @@
                 updateVolunteer(
                     this.volunteer.id, 
                     {
-                        'name': this.volunteer.name,
+                        'first_name': this.volunteer.first_name,
+                        'last_name': this.volunteer.last_name,
                         'orcid_id': this.volunteer.orcid_id,
                         'email': this.volunteer.email,
                         'institution': this.volunteer.institution,
