@@ -4,7 +4,7 @@
             <tr>
                 <th class="border-bottom" style="width: 50%"><small>Gene Symbol</small></th>
                 <th class="border-bottom"><small>Status</small></th>
-                <th class="border-bottom"><small>Protocol Link</small></th>
+                <th class="border-bottom"><small>Links</small></th>
             </tr>
             <tr v-for="(subAss, i) in assignment.sub_assignments" :key="i">
                 <td>
@@ -17,7 +17,15 @@
                     ></status-badge>
                 </td>
                 <td>
-                    <a :href="'/storage/'+subAss.assignable.protocol_path">Protocol</a>
+                    <small>
+                        <a :href="'/storage/'+subAss.assignable.protocol_path" v-if="subAss.assignable.protocol_path">
+                            Protocol
+                        </a>
+                        <br>
+                        <a :href="'/storage/'+subAss.assignable.hypothesis_group_url" v-if="subAss.assignable.hypothesis_group_url">
+                            Hypothes.is
+                        </a>
+                    </small>
                 </td>
             </tr>
             <tr>

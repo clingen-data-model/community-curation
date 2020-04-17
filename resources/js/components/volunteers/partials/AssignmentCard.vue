@@ -47,14 +47,28 @@
                                     class="list-unstyled"
                                 >
                                     <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id">
-                                        <small>{{subAsn.assignable.name}}</small>
-                                        <a 
-                                            v-if="subAsn.assignable.protocol_path"
-                                            :href="`/genes/${subAsn.assignable.symbol}/protocol`"
-                                            class="float-right"
-                                        >
-                                            Protocol
-                                        </a>
+                                        <small>
+                                            {{subAsn.assignable.name}}
+                                            <div class="float-right">
+                                                <a 
+                                                    v-if="subAsn.assignable.protocol_path"
+                                                    :href="`/genes/${subAsn.assignable.symbol}/protocol`"
+                                                    class="float-right"
+                                                >
+                                                    Protocol
+                                                </a>
+                                                <br>
+                                                <a v-if="subAsn.assignable.hypothesis_group"
+                                                    :href="subAsn.assignable.hypothesis_group_url"
+                                                    target="hypothes.is"
+                                                    class="hypothesis-link"
+                                                >
+                                                    Hypothes.is
+                                                </a>
+
+                                            </div>
+                                        </small>
+                                        <!-- <pre>{{subAsn}}</pre> -->
                                     </li>
                                 </ul>
                                 <div v-if="asn.user_aptitudes.untrained().length > 0">

@@ -25,14 +25,14 @@ const Assignment = class {
                 this[key] = this.hydrateAttribute(key, data[key]);
             }
         }
-
-        console.log(this.user_aptitudes instanceof UserAptitudeCollection);
     }
 
     getUnassignedAptitudes() {
-        return this.assignable.aptitudes.filter(apt => {
+        const unassignedApts = this.assignable.aptitudes.filter(apt => {
             return !this.user_aptitudes.map(userApt => userApt.aptitude_id).includes(apt.id);
-        })
+        });
+        const col =  new AptitudeCollection(unassignedApts);
+        return col;
     }
 
     hydrateAttribute(key, value)
