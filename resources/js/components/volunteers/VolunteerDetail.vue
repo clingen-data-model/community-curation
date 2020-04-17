@@ -31,7 +31,7 @@
                         <volunteer-summary
                             :volunteer="volunteer"
                             @updatestatus="showStatusForm = true"
-                            @updatevolunteer="findVolunteer"
+                            @updatevolunteer="handleUpdate"
                         ></volunteer-summary>
                     </b-tab>
                     <b-tab title="Attestations">
@@ -70,7 +70,7 @@
                             </b-tab>
                             <b-tab title="6 Month Followup">
                                 <survey-data :survey-data="volunteer.six_month">
-                                    <non-volunteer>The volunteer hasn't completed a 3 month followup yet</non-volunteer>
+                                    <non-volunteer>The volunteer hasn't completed a 6 month followup yet</non-volunteer>
                                     <only-volunteer>
                                         No data yet.
                                     </only-volunteer>
@@ -163,6 +163,13 @@
                 updateVolunteer(this.volunteer.id, { volunteer_type_id: 2})
                     .then(() => this.findVolunteer())
                     .then(() => this.showVolunteerTypeForm = false);
+            },
+            handleUpdate(updatedVolunteer) {
+                if (updatedVolunteer) {
+                    this.volunteer = updatedVolunteer
+                    return;
+                }
+                this.findVolunteer()
             }
         },
         created() {

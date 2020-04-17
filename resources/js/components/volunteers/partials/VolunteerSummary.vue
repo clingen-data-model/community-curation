@@ -8,15 +8,12 @@
                     :volunteer="volunteer"
                     v-on:updatevolunteer="$emit('updatevolunteer')"
                 ></assignment-card>
-                <!-- <div class="card p-3 mt-4">
-                    <div class="card-hearder">
-                        <h4>Aptitudes &amp; trainings</h4>
-                    </div>
-                </div> -->
             </div>
 
             <div class="col-md-6">
-                <basic-info-card :volunteer="volunteer"></basic-info-card>
+                <basic-info-card :volunteer="volunteer"
+                    v-on:updatevolunteer="$emit('updatevolunteer', $event)"
+                ></basic-info-card>
             </div>
         </div>
     </div>

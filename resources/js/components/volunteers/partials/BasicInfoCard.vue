@@ -34,11 +34,11 @@
                 </dd>
             </dl>
 
-            <b-modal v-model="showBasicInfoForm" title="Edit Contact Info" hide-footer>
+            <b-modal v-model="showBasicInfoForm" title="Edit Contact Info" hide-footer size="lg">
                 <basic-info-form 
                     :volunteer="volunteer"
                     :countries="countries"
-                    @saved="showBasicInfoForm = false"
+                    @saved="handleFormSave"
                 ></basic-info-form>
             </b-modal>
         </div>
@@ -69,6 +69,10 @@
             fetchCountries: async function() {
                 this.countries = await getAllCountries();
             },
+            handleFormSave(eventData) {
+                this.showBasicInfoForm = false;
+                this.$emit('updatevolunteer', eventData);
+            }
         },
         computed: {
             countryLookup() {
