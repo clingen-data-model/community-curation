@@ -19,7 +19,7 @@
                     {{assignment.user_aptitudes.g}}
                 </div>
                 <ul class="list-unstyled mt-1" v-else>
-                    <li v-for="apt in assignment.getUnassignedAptitudes()" :key="apt.id">
+                    <li v-for="apt in assignment.getUnassignedAptitudes().secondary()" :key="apt.id">
                         <non-volunteer>
                             <button class="btn btn-sm btn-link"
                                 @click="$emit('assignAptitude', apt)"
