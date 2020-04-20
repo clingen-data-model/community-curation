@@ -16,7 +16,7 @@ class ExpertPanelController extends Controller
      */
     public function index(Request $request)
     {
-        return DefaultResource::collection(ExpertPanel::all());
+        return DefaultResource::collection(ExpertPanel::orderBy('name')->get());
     }
 
     /**
