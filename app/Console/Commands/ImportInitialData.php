@@ -4,8 +4,12 @@ namespace App\Console\Commands;
 
 use App\User;
 use Throwable;
+use App\Aptitude;
+use App\Priority;
 use App\Training;
 use Carbon\Carbon;
+use App\Assignment;
+use App\Application;
 use App\Attestation;
 use App\ExpertPanel;
 use App\UserAptitude;
@@ -74,6 +78,12 @@ class ImportInitialData extends Command
      */
     public function handle(ExpertPanelMap $expertPanelMap)
     {
+        $this->clearAllUsers();
+        if (!app()->environment('production')) {
+            $this->debug('Setting mail driver to log');
+            config(['mail.driver' => 'log']);
+        }
+
         $this->expertPanelMap = $expertPanelMap;
 
         config(['mail.driver' => 'log']);
@@ -141,11 +151,34 @@ class ImportInitialData extends Command
             ->filter(function ($val, $key) {
                 return strstr($key, '@') && $key != "" && is_string($key);
             });
+
         $bar = $this->output->createProgressBar($volunteerCollection->count());
         $volunteerCollection->each(function ($volunteerData, $key) use ($bar) {
             $this->processVolunteerData($volunteerData, $key);
             $bar->advance();
         });
+        echo "\n";
+
+        if (!app()->environment('production')) {
+            $this->dummifyEmails();
+        }
+    }
+
+    private function dummifyEmails()
+    {
+        $this->info('Dummify emails for non-prod environments');
+        $volunteers = User::isVolunteer()->get();
+        $bar = $this->output->createProgressBar($volunteers->count());
+        $volunteers->each(function ($u) use ($bar) {
+            list($name, $domain) = explode('@', $u->email);
+            try {
+                $u->update(['email' => $name.'@example.com']);
+            } catch (\Exception $e) {
+                $u->update(['email' => $name.'1@example.com']);
+            }
+            $bar->advance();
+        });
+        $bar->finish();
         echo "\n";
     }
 
@@ -189,9 +222,28 @@ class ImportInitialData extends Command
         return $assignmentsSheetHandler;
     }
 
+    private function clearAllUsers()
+    {
+        $this->info('Deleting Attestations');
+        Attestation::withTrashed()->get()->each(function ($item) {
+            $item->forceDelete();
+        });
+        $this->info('Deleting Assignments');
+        Assignment::hasParent()->withTrashed()->get()->each->forceDelete();
+        Assignment::withTrashed()->get()->each->forceDelete();
+        $this->info('Deleting UserAptitudes');
+        UserAptitude::withTrashed()->get()->each->forceDelete();
+        $this->info('Deleting Priorities');
+        Priority::all()->each->forceDelete();
+        $this->info('Deleting Applications');
+        Application::all()->each->forceDelete();
+        $this->info('Deleting Volunteers');
+        User::isVolunteer()->withTrashed()->get()->each->forceDelete();
+    }
+
     private function clearExistingUser($email)
     {
-        $user = User::where('email', $email)->first();
+        $user = $this->findUserByEmail($email);
         if ($user) {
             $user->priorities->each->forceDelete();
             if ($user->application) {
@@ -209,6 +261,18 @@ class ImportInitialData extends Command
             $user->assignments->each->forceDelete();
             $user->ForceDelete();
         }
+    }
+
+    private function findUserByEmail($email)
+    {
+        $altEmail = $email;
+        if (!app()->environment('production')) {
+            list($name, $host) = explode('@', $email);
+            $email = $name.'@example.com';
+            $altEmail = $name.'1@example.com';
+        }
+        $user = User::where('email', $email)->orWhere('email', $altEmail)->first();
+        return $user;
     }
 
     private function createSurveyResponse($volunteerData)

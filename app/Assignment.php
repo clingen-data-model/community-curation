@@ -7,9 +7,12 @@ use App\Events\TrainingCompleted;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
 use App\Collections\AssignmentCollection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Assignment extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'user_id',
         'assignment_status_id',
@@ -81,6 +84,16 @@ class Assignment extends Model
     /**
      * SCOPES
      */
+
+    public function scopeIsParent($query)
+    {
+        return $query->curationActivity();
+    }
+
+    public function scopeHasParent($query)
+    {
+        return $query->whereNotNull('parent_id');
+    }
     
     public function scopeCurationActivity($query)
     {
