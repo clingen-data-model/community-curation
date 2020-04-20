@@ -14,9 +14,10 @@ import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 import moment from 'moment'
 
 // window.Vue.use(BootstrapVue);
-import { BadgePlugin, CardPlugin, DropdownPlugin, ModalPlugin, PaginationPlugin, TabsPlugin, TablePlugin, PopoverPlugin } from 'bootstrap-vue';
+import { BadgePlugin, CardPlugin, CollapsePlugin, DropdownPlugin, ModalPlugin, PaginationPlugin, TabsPlugin, TablePlugin, PopoverPlugin } from 'bootstrap-vue';
 window.Vue.use(BadgePlugin);
 window.Vue.use(CardPlugin);
+window.Vue.use(CollapsePlugin);
 window.Vue.use(DropdownPlugin);
 window.Vue.use(ModalPlugin);
 window.Vue.use(PaginationPlugin);
