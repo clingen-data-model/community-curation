@@ -92,6 +92,7 @@
                 </div>
             </div>
         </nav>
+        @include('partials.no-mail')
 
         @include('partials.impersonate')
         @include('partials.messages')

@@ -80,7 +80,7 @@ class ImportInitialData extends Command
     {
         $this->clearAllUsers();
         if (!app()->environment('production')) {
-            $this->debug('Setting mail driver to log');
+            $this->info('Setting mail driver to log');
             config(['mail.driver' => 'log']);
         }
 
