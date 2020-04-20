@@ -26,7 +26,7 @@ class ExpertPanelMap
         'Genitourinary cancer taskforce' => null,
         'ID Autism' => 'Intellectual Disability and Autism GCEP',
         'ID/Autism' => 'Intellectual Disability and Autism GCEP',
-        'Mito' => 'Mitochondrial Diseases GCEP',
+        'Mito' => 'Mitochondrial Diseases VCEP',
         'Mitochondrial GCEP' => 'Mitochondrial Diseases GCEP',
         'Monogenic Diabetes' => ['Monogenic Diabetes GCEP', 'Monogenic Diabetes VCEP'],
         'PAH' => 'PAH VCEP',
