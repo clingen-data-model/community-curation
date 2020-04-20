@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::unguard();
-        $programmer = User::firstOrCreate(['id'=>1],[
+        $programmer = User::firstOrCreate(['id'=>1], [
             'id' => 1,
             'first_name' => 'Sirs',
             'last_name' => 'Programmer',
@@ -39,12 +39,12 @@ class UsersTableSeeder extends Seeder
         
         $admin = User::firstOrcreate(
             [
-                'email' => 'coordinator@test.com',
+                'email' => 'volunteer@clinicalgenome.org',
             ],
             [
                 'first_name' => 'Coordinator',
                 'last_name' => 'Tester',
-                'email' => 'coordinator@test.com',
+                'email' => 'volunteer@clinicalgenome.org',
                 'password' => \Hash::make('tester'),
                 'country_id' => 225
             ]
@@ -82,6 +82,5 @@ class UsersTableSeeder extends Seeder
             ]
         );
         $comprehensiveVolunteer->assignRole('volunteer');
-        
     }
 }
