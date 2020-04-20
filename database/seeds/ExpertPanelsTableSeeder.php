@@ -40,6 +40,11 @@ class ExpertPanelsTableSeeder extends Seeder
                 'curation_activity_id' => 3
             ],
             [
+                'name' => 'Mitochondrial Diseases VCEP',
+                'working_group_id' => 4,
+                'curation_activity_id' => 5
+            ],
+            [
                 'name' => 'Monogenic Diabetes GCEP',
                 'working_group_id' => 4,
                 'curation_activity_id' => 3
