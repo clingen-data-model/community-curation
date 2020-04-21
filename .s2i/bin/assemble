@@ -1,15 +1,23 @@
 #!/bin/bash
-echo "before assembling'
+echo "before assembling"
 
-/usr/libexec/s2i/assemble
+#/usr/libexec/s2i/assemble
 
-alias art="php artisan
-rc=$?
+echo "add art alias..."
+alias art="php artisan"
 
-if [ $c -eq 0 ]; then
-    echo "succesfully added alias"
-else
-    echo "Failed to add alias"
-fi
+echo "caching configs, events, views, compiled..."
+php artisan config:cache
+php artisan event:cache
+php artisan route:cache
+php artisan view:cache
 
-exit $rc
+echo "clear the cache..."
+php artisan cache:clear
+
+echo "discover packages..."
+php artisan package:discover
+
+echo "migrate..."
+php artisan migrate --force --no-interaction
+
