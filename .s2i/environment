@@ -1,2 +1,4 @@
 DOCUMENTROOT=/public
-BEANS=test
+APP_NAME=CDDB OS Test
+LOG_CHANNEL=stack
+APP_STORAGE_PATH=./mydata
