@@ -3,7 +3,7 @@ echo "before assembling'
 
 /usr/libexec/s2i/assemble
 
-alias art="php artisan"
+alias art="php artisan
 rc=$?
 
 if [ $c -eq 0 ]; then
