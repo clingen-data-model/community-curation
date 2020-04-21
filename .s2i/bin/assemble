@@ -1,0 +1,15 @@
+#!/bin/bash
+echo "before assembling'
+
+/usr/libexec/s2i/assemble
+
+alias art="php artisan"
+rc=$?
+
+if [ $c -eq 0 ]; then
+    echo "succesfully added alias"
+else
+    echo "Failed to add alias"
+fi
+
+exit $rc
