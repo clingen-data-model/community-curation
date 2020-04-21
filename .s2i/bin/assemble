@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "before assembling"
 
-#/usr/libexec/s2i/assemble
+/usr/libexec/s2i/assemble
 
 echo "add art alias..."
 alias art="php artisan"
