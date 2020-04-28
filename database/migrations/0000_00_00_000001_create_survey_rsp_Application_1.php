@@ -15,13 +15,12 @@ class CreateSurveyRspApplication1 extends Migration
         
         Schema::create('rsp_application_1', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('respondent_type')->nullable();
-            $table->integer('respondent_id')->nullable();
+            $table->morphs('respondent');
             $table->integer('survey_id')->unsigned();
             $table->string('first_name')->nullable();
 			$table->string('last_name')->nullable();
 			$table->string('institution')->nullable();
-			$table->string('orchid_id')->nullable();
+			$table->string('orcid_id')->nullable();
 			$table->string('street1')->nullable();
 			$table->string('street2')->nullable();
 			$table->string('city')->nullable();
@@ -30,6 +29,7 @@ class CreateSurveyRspApplication1 extends Migration
 			$table->integer('country_id')->nullable();
 			$table->string('email')->nullable();
 			$table->integer('timezone')->nullable();
+			$table->string('hypothesis_id')->nullable();
 			$table->integer('highest_ed')->nullable();
 			$table->text('highest_ed_other')->nullable();
 			$table->string('adv_cert')->nullable();
@@ -43,6 +43,8 @@ class CreateSurveyRspApplication1 extends Migration
 			$table->text('goals_other_detail')->nullable();
 			$table->json('interests')->nullable();
 			$table->integer('volunteer_type')->nullable();
+			$table->text('notes')->nullable();
+			$table->json('imported_survey_data')->nullable();
 			$table->integer('curation_activity_1')->nullable();
 			$table->integer('panel_1')->nullable();
 			$table->integer('effort_experience_1')->nullable();
@@ -63,8 +65,6 @@ class CreateSurveyRspApplication1 extends Migration
 			$table->integer('activity_experience_3')->nullable();
 			$table->text('activity_experience_3_detail')->nullable();
 			$table->integer('outside_panel')->nullable();
-            $table->text('notes')->nullable();
-            $table->json('imported_survey_data')->nullable();
             $table->string('last_page')->nullable();
             $table->integer('duration')->nullable();
             $table->timestamp('started_at')->nullable();

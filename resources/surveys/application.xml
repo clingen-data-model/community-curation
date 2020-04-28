@@ -78,6 +78,15 @@
                 <data-source URI="App\Surveys\SurveyOptions@timezones"></data-source>
             </options>
         </multiple-choice>
+
+        <question name="hypothesis_id" id="hypothesis_id" validation-rules="unique:users,hypothesis_id">
+            <question-text>
+                <![CDATA[
+                    If you have a <a href="hypothes.is" target="hypothes.is">hypothes.is</a> account please, please enter your <a href="hypothes.is" target="hypothes.is">hypothes.is</a> username:
+                ]]>
+            </question-text>
+        </question>
+        
     </page>
     
     <page name="education" title="Education and Certification Questions">
