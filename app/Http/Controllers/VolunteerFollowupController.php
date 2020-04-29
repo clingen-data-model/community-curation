@@ -48,6 +48,16 @@ class VolunteerFollowupController
         throw new AuthorizationException('You do not have permission to update this survey response');
     }
 
+    public function sixMonth()
+    {
+        return redirect('volunteer-followup/volunteer-six-month1');
+    }
+
+    public function threeMonth()
+    {
+        return redirect('volunteer-followup/volunteer-three-month1');
+    }
+
     protected function getResponse($respondent, $surveySlug, $responseId)
     {
         $survey = class_survey()::where('slug', $surveySlug)->firstOrFail();

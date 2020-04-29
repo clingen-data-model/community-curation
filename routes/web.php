@@ -25,10 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('volunteers', 'VolunteerController')->only(['show', 'index']);
 
-    Route::get('surveys-by-id/{surveyId}/responses/{responseId}', function ($surveyId, $responseId) {
-        $surveySlug = class_survey()::find($surveyId)->slug;
-        return redirect(route('surveys.responses.show', [$surveySlug, $responseId]));
-    });
+    Route::get('surveys-by-id/{surveyId}/responses/{responseId}', 'SurveyByIdController@show');
 
     Route::resource('attestations', 'AttestationController')
         ->only('show', 'edit', 'update');
@@ -38,18 +35,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@show')->name('volunteer-followup.show');
     Route::post('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@store')->name('volunteer-followup.store');
 
-    Route::get('volunteer-six-month/{responseId?}', function () {
-        return redirect('volunteer-followup/volunteer-six-month1');
-    })->name('volunteer-six-month.show');
-    Route::get('volunteer-three-month/{responseId?}', function () {
-        return redirect('volunteer-followup/volunteer-three-month1');
-    })->name('volunteer-six-month.show');
+    Route::get('volunteer-six-month/{responseId?}', 'VolunteerFollowupController@sixMonth')->name('volunteer-six-month.show');
+    Route::get('volunteer-three-month/{responseId?}', 'VolunteerFollowupController@threeMonth')->name('volunteer-six-month.show');
 
     Route::get('genes/{symbol}/protocol', 'GeneProtocolController@show')->name('gene.download-protocol');
 });
 
-Route::get('apply/thank-you', function (Request $request) {
-    return view('application-thank-you');
-});
+Route::get('apply/thank-you', 'ThankYouController@show');
 Route::get('apply/{responseId?}', 'ApplicationController@show')->name('application.show');
 Route::post('apply/{responseId?}', 'ApplicationController@store')->name('application.store');
