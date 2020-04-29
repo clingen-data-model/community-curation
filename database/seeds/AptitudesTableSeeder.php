@@ -1,9 +1,10 @@
 <?php
 
 use App\Aptitude;
-use App\Aptitudes\Evaluators\BasicAptitudeEvaluator;
 use App\Training;
 use Illuminate\Database\Seeder;
+use App\Scopes\ActiveAptitudeScope;
+use App\Aptitudes\Evaluators\BasicAptitudeEvaluator;
 
 class AptitudesTableSeeder extends Seeder
 {
@@ -99,7 +100,7 @@ class AptitudesTableSeeder extends Seeder
         ];
 
         foreach ($aptitudes as $aptitude) {
-            Aptitude::updateOrCreate(['id' => $aptitude['id']], $aptitude);
+            Aptitude::withoutGlobalScope(ActiveAptitudeScope::class)->updateOrCreate(['id' => $aptitude['id']], $aptitude);
         }
     }
 }
