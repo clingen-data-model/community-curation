@@ -19,5 +19,14 @@ return [
     'curation-activity-types' => [
         'expert-panel' => 1,
         'gene' => 2
+    ],
+    'upload-categories' => [
+        'resume/cv' => 1,
+        'photo' => 2,
+        'certification-of-biocurator-training' => 3,
+        'certification-of-biocurator-trainer-status' => 4,
+        'variant-curation-training-logbook' => 5,
+        'employer-attestation-letter' => 6,
+        'other' => 7
     ]
 ];

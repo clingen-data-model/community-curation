@@ -1,5 +1,6 @@
 <?php
 
+use App\UploadCategory;
 use Illuminate\Database\Seeder;
 
 class UploadCategoriesTableSeeder extends Seeder
@@ -11,6 +12,6 @@ class UploadCategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        seedFromConfig('project.upload-categories', Classification::class);
+        seedFromConfig('project.upload-categories', UploadCategory::class);
     }
 }
