@@ -22,13 +22,6 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label">ORCiD ID</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="orcidid" v-model="volunteer.orcid_id" placeholder="123123123">
-                </div>
-            </div>
-
             <hr>
             <div class="form-group row">
                 <label for="email" class="col-sm-3 col-form-label">Email</label>
@@ -43,6 +36,22 @@
             </div>
 
             <hr>
+
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">ORCiD ID</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="orcidid" v-model="volunteer.orcid_id" placeholder="123123123">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">hypothes.is username</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="hypothesis-id-field" v-model="volunteer.hypothesis_id" placeholder="my-hypothesis-username">
+                </div>
+            </div>
+
+            <hr>
             <div class="form-group row">
                 <label for="email" class="col-sm-3 col-form-label">Institution</label>
                 <div class="col-sm-6">
@@ -50,7 +59,6 @@
                 </div>
             </div>
 
-            <hr>
             <div class="form-group row">
                 <label for="street1" class="col-sm-3 col-form-label">Address 1</label>
                 <div class="col-sm-6">
@@ -126,6 +134,7 @@
                         'first_name': this.volunteer.first_name,
                         'last_name': this.volunteer.last_name,
                         'orcid_id': this.volunteer.orcid_id,
+                        'hypothesis_id': this.volunteer.hypothesis_id,
                         'email': this.volunteer.email,
                         'institution': this.volunteer.institution,
                         'street1': this.volunteer.street1,
