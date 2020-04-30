@@ -8,7 +8,7 @@
             <tr v-for="(attestation, idx) in volunteer.attestations" :key="idx">
                 <td>{{attestation.aptitude.name}}</td>
                 <td>
-                    <span v-if="attestation.signed_at">{{attestation.signed_at | formatDate}}</span>
+                    <span v-if="attestation.signed_at">{{attestation.signed_at | formatDate('YYYY-MM-DD')}}</span>
                     <span class="text-muted" v-else>unsigned</span>
                 </td>
             </tr>
