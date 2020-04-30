@@ -19,7 +19,7 @@
         "bootstrap-vue": "^2.1.0",
         "cross-env": "^5.1",
         "expect": "^24.9.0",
-        "jquery": "^3.2",
+        "jquery": "^3.5",
         "jsdom": "^15.2.1",
         "jsdom-global": "^3.0.2",
         "laravel-mix": "^4.0.7",
