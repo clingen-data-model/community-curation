@@ -8,13 +8,16 @@
             </h4>
             
             <dl class="row">
-                <dt class="col-sm-3">ORCID ID:</dt>
-                <dd class="col-sm-9">{{volunteer.orcid_id}}</dd>
-
                 <dt class="col-sm-3">Email:</dt>
                 <dd class="col-sm-9">
                     <span v-if="volunteer.email">{{ volunteer.email }}</span>
                 </dd>
+
+                <dt class="col-sm-3">ORCID ID:</dt>
+                <dd class="col-sm-9">{{volunteer.orcid_id}}</dd>
+
+                <dt class="col-sm-3">hypothes.is ID:</dt>
+                <dd class="col-sm-9">{{volunteer.hypothesis_id}}</dd>
 
                 <dt class="col-sm-3">Institution:</dt>
                 <dd class="col-sm-9">
