@@ -11,8 +11,8 @@
 
     <!-- Scripts -->
     <script src="{{mix('/js/manifest.js')}}"></script>
-    <script src="{{ mix('js/vendor.js') }}" defer></script>
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ mix('/js/vendor.js') }}" defer></script>
+    <script src="{{ mix('/js/app.js') }}" defer></script>
 
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

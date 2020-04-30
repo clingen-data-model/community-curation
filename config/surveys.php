@@ -5,7 +5,7 @@ return [
     'rulesPath' => app_path('Surveys'),
     'rulesNamespace' => 'App\\Surveys\\',
     'routeGroup'=>['middleware' => ['web']],
-    'cacheDocuments'=> false, #(env('APP_DEBUG')) ? false : true,
+    'cacheDocuments'=> (env('APP_DEBUG')) ? false : true,
     'chromeTemplate'=>'layouts.app',
     'editAfterFinalized'=>false,
     'customTemplatePath' => base_path('resources/views'),
