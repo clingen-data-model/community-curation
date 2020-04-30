@@ -50,6 +50,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'orcid_id',
+        'hypothesis_id',
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
