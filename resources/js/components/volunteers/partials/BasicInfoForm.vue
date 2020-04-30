@@ -45,9 +45,9 @@
             </div>
 
             <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label">hypothes.is ID</label>
+                <label for="name" class="col-sm-3 col-form-label">hypothes.is username</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="hypothesis-id-field" v-model="volunteer.hypothesis_id" placeholder="123123123">
+                    <input type="text" class="form-control" id="hypothesis-id-field" v-model="volunteer.hypothesis_id" placeholder="my-hypothesis-username">
                 </div>
             </div>
 
