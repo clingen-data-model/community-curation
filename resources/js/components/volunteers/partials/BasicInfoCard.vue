@@ -19,12 +19,19 @@
                 </dd>
 
                 <dt class="col-sm-5">ORCID ID:</dt>
-                <dd class="col-sm-7">{{volunteer.orcid_id || '-'}}</dd>
+                <dd class="col-sm-7">
+                    <span v-if="volunteer.orcid_id">{{volunteer.orcid_id}}</span>
+                    <span v-else @click="showBasicInfoForm = true" class="text-muted cursor-pointer">
+                        add <span class="material-icons"><small><small>edit</small></small></span>
+                    </span>
+                </dd>
 
                 <dt class="col-sm-5">hypothes.is username:</dt>
                 <dd class="col-sm-7">
                     <a v-if="volunteer.hypothesis_id" :href="`https://hypothes.is/users/${volunteer.hypothesis_id}`" :target="`hypothes.is-${volunteer.hypothesis_id}`">{{volunteer.hypothesis_id}}</a>
-                    <span v-else>-</span>
+                    <span v-else @click="showBasicInfoForm = true" class="text-muted cursor-pointer">
+                        add <span class="material-icons"><small><small>edit</small></small></span>
+                    </span>
                 </dd>
 
                 <dt class="col-sm-5">Institution:</dt>

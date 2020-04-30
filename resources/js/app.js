@@ -58,6 +58,7 @@ import VariantBasicForm from './components/attestations/forms/VariantBasic'
 
 import ValidationError from './components/ValidationError';
 import DateField from './components/DateField'
+import HypothesisLink from './components/HypothesisLink'
 
 window.Vue.component('validation-error', ValidationError);
 
@@ -79,6 +80,7 @@ window.Vue.component('gene-basic-form', GeneBasicForm);
 window.Vue.component('somatic-basic-form', SomaticBasicForm);
 window.Vue.component('variant-basic-form', VariantBasicForm);
 window.Vue.component('date-field', DateField)
+window.Vue.component('hypothesis-link', HypothesisLink)
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
