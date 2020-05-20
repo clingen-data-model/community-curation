@@ -13,9 +13,11 @@ class AlterRspApplication1RenameOrchidIdToOrcidId extends Migration
      */
     public function up()
     {
-        Schema::table('rsp_application_1', function (Blueprint $table) {
-            $table->renameColumn('orchid_id', 'orcid_id');
-        });
+        if (Schema::hasColumn('rsp_application_1', 'orchid_id')) {
+            Schema::table('rsp_application_1', function (Blueprint $table) {
+                $table->renameColumn('orchid_id', 'orcid_id');
+            });
+        }
     }
 
     /**
@@ -25,8 +27,10 @@ class AlterRspApplication1RenameOrchidIdToOrcidId extends Migration
      */
     public function down()
     {
-        Schema::table('rsp_application_1', function (Blueprint $table) {
-            $table->renameColumn('orcid_id', 'orchid_id');
-        });
+        if (Schema::hasColumn('rsp_application_1', 'orcid_id')) {
+            Schema::table('rsp_application_1', function (Blueprint $table) {
+                $table->renameColumn('orcid_id', 'orchid_id');
+            });
+        }
     }
 }
