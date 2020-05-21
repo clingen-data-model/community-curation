@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use App\Services\AttestationFormResolver;
 use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+     
         app()->bind(AttestationFormResolverContract::class, AttestationFormResolver::class);
 
         app()->bind(\Box\Spout\Writer\XLSX\Writer::class, function () {
