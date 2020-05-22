@@ -27,7 +27,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->environment('production')) {
-            URL::forceScheme('https');
+            config(['backpack.base.skin'=>'skin-blue']);
+        }
+
+        if (config('app.url_scheme')) {
+            URL::forceScheme('http');
+        }
+        
+        if ($this->app->environment('local', 'demo')) {
+            config(['backpack.base.logo_lg' => '<b>ClinGen</b> - '.$this->app->environment()]);
         }
      
         app()->bind(AttestationFormResolverContract::class, AttestationFormResolver::class);
