@@ -30,6 +30,10 @@ const UserAptitudeCollection = class {
         return new UserAptitudeCollection(this.items.map(callback));
     }
 
+    flat() {
+        return new UserAptitudeCollection(this.items.flat);
+    }
+
     includes(item) {
         return this.items.includes(item);
     } 

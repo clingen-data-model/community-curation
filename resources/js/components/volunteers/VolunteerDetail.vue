@@ -2,7 +2,12 @@
 
 <template>
     <div class="component-container">
-        <!-- <button class="btn btn-danger" @click="findVolunteer">Reload volunteer</button> -->
+        <div v-if="$store.state.user.isProgrammer()" class="p-2 border my-2">
+            <div>
+                <small class="text-muted">Dev tools</small>
+            </div>
+            <button class="btn btn-dark btn-sm" @click="findVolunteer">Reload volunteer</button>
+        </div>
         
         <div class="card loading text-center" v-if="loading && !volunteer.name">
             <div class="card-header">Loading volunteer...</div>
@@ -37,6 +42,9 @@
                     <b-tab title="Attestations">
                         <attestations-list :volunteer="volunteer"></attestations-list>
                     </b-tab>
+                    <b-tab title="Trainings">
+                        <trainings-list :volunteer="volunteer"></trainings-list>
+                    </b-tab>
                     <b-tab title="Documents">
                         <documents-card :volunteer="volunteer"></documents-card>
                     </b-tab>
@@ -44,39 +52,7 @@
                         <priorities-list :volunteer="volunteer"></priorities-list>
                     </b-tab>
                     <b-tab title="Survey Data">
-                        <b-tabs vertical pills>
-                            <b-tab title="Application">
-                                <survey-data :survey-data="volunteer.application">
-                                    <h4>
-                                        <strong>This volunteer did not complete an application.</strong>
-                                    </h4>
-                                    
-                                    Based on the expected workflow this is not possible, but there are a few ways it could have happened:
-                                    
-                                    <ul>
-                                        <li>This is a <strong>test database</strong> and you are looking at a volunteer that was created for testing purposes w/o completing an applications survey.</li>
-                                        <li>An admin <strong>created</strong> a volunteer user <strong>using the admin panel</strong>.</li>
-                                        <li>Something mysterious is going on and you should contact an administrator.</li>
-                                    </ul>
-                                </survey-data>
-                            </b-tab>
-                            <b-tab title="3 Month Followup">
-                                <survey-data :survey-data="volunteer.three_month">
-                                    <non-volunteer>The volunteer hasn't completed a 3 month followup yet</non-volunteer>
-                                    <only-volunteer>
-                                        No data yet.
-                                    </only-volunteer>
-                                </survey-data>
-                            </b-tab>
-                            <b-tab title="6 Month Followup">
-                                <survey-data :survey-data="volunteer.six_month">
-                                    <non-volunteer>The volunteer hasn't completed a 6 month followup yet</non-volunteer>
-                                    <only-volunteer>
-                                        No data yet.
-                                    </only-volunteer>
-                                </survey-data>
-                            </b-tab>
-                        </b-tabs>
+                        <survey-responses :volunteer="volunteer"></survey-responses>
                     </b-tab>
                 </b-tabs>
             </div>
@@ -100,15 +76,17 @@
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import updateVolunteer from '../../resources/volunteers/update_volunteer'
 
-    import volunteerSummary from './partials/VolunteerSummary'
-    import attestationsList from './partials/AttestationsList';
+    import volunteerSummary from './partials/tabs/VolunteerSummary'
+    import SurveyResponses from './partials/tabs/SurveyResponses'
+
+    import AttestationsList from './partials/AttestationsList';
     import volunteerStatusAlert from './partials/VolunteerStatusAlert'
     import ApplicationData from './partials/ApplicationData'
-    import SurveyData from './partials/SurveyData'
     import PrioritiesList from './partials/PrioritiesList'
     import StatusForm from './partials/StatusForm'
     import Volunteer from '../../entities/volunteer'
     import DocumentsCard from './partials/DocumentsCard'
+    import TrainingsList from './partials/TrainingsList'
 
     export default {
         props: {
@@ -124,8 +102,9 @@
             PrioritiesList,
             StatusForm,
             DocumentsCard,
-            attestationsList,
-            SurveyData,
+            AttestationsList,
+            SurveyResponses,
+            TrainingsList,
         },
         data() {
             return {
