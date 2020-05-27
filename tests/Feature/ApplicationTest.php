@@ -164,6 +164,38 @@ class ApplicationTest extends TestCase
         $this->assertEquals($user->zip, $rsp->zip);
         $this->assertEquals($user->country_id, $rsp->country_id);
     }
+
+    /**
+     * @test
+     */
+    public function stores_Hypothesis_username_if_entered()
+    {
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->orcid_id = '123';
+        $rsp->volunteer_type   = 1;
+        $rsp->institution = 'Monkey Biz U';
+        $rsp->street1 = '123 test street';
+        $rsp->street2 = 'Apt test';
+        $rsp->city = 'Testville';
+        $rsp->state = 'Ca';
+        $rsp->country_id = 225;
+        $rsp->hypothesis_id = 'beans';
+        $rsp->finalize();
+
+
+        $this->assertDatabaseHas('users', [
+            'first_name' => 'billy',
+            'last_name' => 'pilgrim',
+            'email' => 'test@test.com',
+            'orcid_id' => '123',
+            'institution' => 'Monkey Biz U',
+            'hypothesis_id' => 'beans'
+        ]);
+    }
+    
     
     /**
      * @test

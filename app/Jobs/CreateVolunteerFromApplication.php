@@ -46,7 +46,8 @@ class CreateVolunteerFromApplication
             'zip' => $this->response->zip,
             'country_id' => $this->response->country_id,
             'volunteer_type_id' => $this->response->volunteer_type,
-            'volunteer_status_id' => 1
+            'volunteer_status_id' => 1,
+            'hypothesis_id' => $this->response->hypothesis_id
         ]);
         $user->assignRole('volunteer');
         $this->response->respondent_type = User::class;
