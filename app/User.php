@@ -61,6 +61,7 @@ class User extends Authenticatable
         'state',
         'zip',
         'country_id',
+        'hypothesis_id'
     ];
 
     /**
