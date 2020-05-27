@@ -68,8 +68,6 @@ class AssignmentControllerTest extends TestCase
             ]);
         $response->assertStatus(200);
 
-        $response->assertSee($this->volunteer->email);
-        $response->assertSee($this->volunteer->name);
         $response->assertSee(CurationActivity::find(1)->name);
 
         $this->assertDatabaseHas('assignments', [
@@ -79,7 +77,5 @@ class AssignmentControllerTest extends TestCase
         ]);
         
         $this->assertEquals(1, CurationActivity::find(1)->assignments->count());
-
     }
-    
 }
