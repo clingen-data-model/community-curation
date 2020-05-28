@@ -26,23 +26,6 @@ class ComposerServiceProvider extends ServiceProvider
 
                 return;
             }
-
-            $userModel = Auth::user();
-            // $userModel->load(['roles']);
-            $user = $userModel->toArray();
-            $user['permissions'] = $userModel->getAllPermissions()->toArray();
-            $user['panel_summary'] = $userModel->panel_summary;
-
-            $impersonatable = collect();
-            if (Auth::user()->canImpersonate()) {
-                $impersonatable = \Cache::remember('impersonatable-users', 1, function () {
-                        return User::with('roles')->get()->filter(function ($user) {
-                        return $user->canBeImpersonated();
-                    });
-                });
-            }
-            $view->with('impersonatable', $impersonatable);
-            $view->with('user', compact('user'));
         });
     }
 
