@@ -1,15 +1,9 @@
 @if(!\Auth::guest() && \Auth::user()->canImpersonate() && !\Auth::user()->isImpersonated())
-    <div class="alert alert-warning clearfix text-right">
+    <div class="clearfix text-right">
         <div class="container">
             <div class="form-inline float-right">
-                Impersonate a user:
                 &nbsp;
-                <select name="impersonate_id" class="form-control" onchange="location.href = '/impersonate/take/'+this.value" @change="clearSessionStorage">
-                    <option value="">Select user...</option>
-                    @foreach($impersonatable as $u)
-                        <option value="{{$u->id}}">{{$u->name}}</option>
-                    @endforeach
-                </select>
+                <impersonate-control @impersonated="clearSessionStorage"></impersonate-control>
             </div>
         </div>
     </div>

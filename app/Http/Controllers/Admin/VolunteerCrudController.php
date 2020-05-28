@@ -106,6 +106,7 @@ class VolunteerCrudController extends CrudController
             ],
         ]);
 
+        $this->crud->with('roles');
     }
 
     public function store(StoreRequest $request)
