@@ -60,6 +60,9 @@ import ValidationError from './components/ValidationError';
 import DateField from './components/DateField'
 import HypothesisLink from './components/HypothesisLink'
 
+import ImpersonateControl from './components/ImpersonateControl'
+window.Vue.component('impersonate-control', ImpersonateControl);
+
 window.Vue.component('validation-error', ValidationError);
 
 window.Vue.component('volunteer-index', VolunteerIndex);
@@ -104,6 +107,13 @@ function evaluate(el, binding, vnode) {
     console.log(binding);
 }
 
+function clearSessionStorage()
+{
+    console.log('clearSessionStorage');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('impersonatable-users');
+}
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -118,7 +128,7 @@ const app = new window.Vue({
             'fetchUser',
         ]),
         clearSessionStorage() {
-            sessionStorage.removeItem('user');
+            clearSessionStorage();
         }
     },
     mounted() {

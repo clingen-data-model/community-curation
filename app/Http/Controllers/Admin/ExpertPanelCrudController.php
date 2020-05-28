@@ -75,7 +75,7 @@ class ExpertPanelCrudController extends CrudController
                 'entity' => 'curationActivity', // the method that defines the relationship in your Model
                 'attribute' => "name", // foreign key attribute that is shown to user
                 'model' => CurationActivity::class, // foreign key model
-            ],        
+            ],
             [
                 'label' => "Working Group", // Table column heading
                 'type' => "select",
@@ -103,6 +103,8 @@ class ExpertPanelCrudController extends CrudController
         if (!\Auth::user()->can('delete working-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
+
+        $this->crud->with('curationActivity');
     }
 
     public function store(StoreRequest $request)
