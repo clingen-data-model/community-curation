@@ -75,19 +75,6 @@
                             </div>
                         </div>
                     </form>
-                    @if (!app()->environment('production'))
-                        <hr>
-                        <form action="{{ route('login') }}" method="POST">
-                            @csrf
-                            
-                            <input type="hidden" name="email" value="volunteer@clinicalgenome.org">
-                            <input type="hidden" name="password" value="tester">
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-light btn-sm border">Login as demo user</button>
-                            </div>
-                        </form>
-                    @endif
                 </div>
             </div>
         </div>
