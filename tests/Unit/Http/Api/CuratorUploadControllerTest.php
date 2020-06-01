@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Http\Api\CuratorUploadControllerTest;
 
 use App\User;
 use App\Upload;
