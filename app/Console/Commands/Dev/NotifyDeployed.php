@@ -40,7 +40,6 @@ class NotifyDeployed extends Command
      */
     public function handle()
     {
-        dump(__METHOD__);
         User::find(1)->notify(new Deployed());
     }
 }
