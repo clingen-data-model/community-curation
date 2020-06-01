@@ -303,4 +303,9 @@ class User extends Authenticatable
     {
         return $this->hasRole('volunteer') && $this->volunteer_type_id == config('volunteers.types.comprehensive');
     }
+
+    public function routeNotificationForSlack()
+    {
+        return config('logging.channels.slack.url');
+    }
 }
