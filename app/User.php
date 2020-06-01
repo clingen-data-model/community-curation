@@ -7,6 +7,7 @@ use Backpack\CRUD\CrudTrait;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Spatie\Permission\Traits\HasRoles;
 use App\Http\Resources\DefaultResource;
@@ -248,13 +249,15 @@ class User extends Authenticatable
     public function getAllPermissions()
     {
         if (is_null($this->allPermissions)) {
-            $permissions = $this->permissions;
-
-            if ($this->roles) {
-                $permissions = $permissions->merge($this->getPermissionsViaRoles());
-            }
-
-            $this->allPermissions = $permissions->sort()->values();
+            $this->allPermissions = Cache::remember('user-'.$this->id.'-allPermissions', 60*20, function () {
+                $permissions = $this->permissions;
+        
+                if ($this->roles) {
+                    $permissions = $permissions->merge($this->getPermissionsViaRoles());
+                }
+        
+                return $permissions->sort()->values();
+            });
         }
         
         return $this->allPermissions;
@@ -299,5 +302,10 @@ class User extends Authenticatable
     public function isComprehensive()
     {
         return $this->hasRole('volunteer') && $this->volunteer_type_id == config('volunteers.types.comprehensive');
+    }
+
+    public function routeNotificationForSlack()
+    {
+        return config('logging.channels.slack.url');
     }
 }

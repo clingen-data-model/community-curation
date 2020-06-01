@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (config('app.url_scheme')) {
-            URL::forceScheme('http');
+            URL::forceScheme(config('app.url_scheme'));
         }
         
      

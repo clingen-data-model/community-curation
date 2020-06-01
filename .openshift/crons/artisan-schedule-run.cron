@@ -1,1 +1,20 @@
-oc run artisan-schedule-run --restart=OnFailure --overrides='{ "spec": {"successfulJobsHistoryLimit": "5", "failedJobsHistoryLimit": "5", "concurrencyPolicy": "Forbid"} }' --schedule="* * * * *" --image=192.168.227.248:5000/openshift/cron --env="PROJECT=$(oc project -q)" --env="DEPLOYMENT=gene-lookup" --env="OPENSHIFT_TOKEN=$TOKEN" -- cron "php artisan schedule:run"
+# create cron service account (sa):
+oc create sa cron
+
+# Give cron sa admin role
+oc policy add-role-to-user admin system:serviceaccount:$(oc project -q):cron&
+
+# Get the token for admin sa
+TOKEN=$(oc describe $(oc get secrets -o name | grep "cron-token-" | head -n1) | grep "token:" | awk '{print $2}')
+
+# Set up the command
+oc run artisan-schedule-run \
+    --restart=OnFailure \
+    --overrides='{ "spec": {"successfulJobsHistoryLimit": "5", "failedJobsHistoryLimit": "5", "concurrencyPolicy": "Forbid"} }' \
+    --schedule="* * * * *" \
+    --image=192.168.227.248:5000/openshift/cron \
+    --env="PROJECT=$(oc project -q)" \
+    --env="DEPLOYMENT=$DEPLOYMENT" \
+    --env="OPENSHIFT_TOKEN=$TOKEN" \
+    -- \
+    cron "php artisan schedule:run"
