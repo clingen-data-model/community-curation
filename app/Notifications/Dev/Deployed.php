@@ -31,13 +31,11 @@ class Deployed extends Notification
      */
     public function via($notifiable)
     {
-        dump(__METHOD__);
         return [SlackWebhookChannel::class];
     }
 
     public function toSlack($notifiable)
     {
-        dump(__METHOD__);
         return (new SlackMessage)
             ->from(config('app.name'), ':female_genie:')
             ->content('A new pod is being created for '.config('app.name').'. :the_horns:');
