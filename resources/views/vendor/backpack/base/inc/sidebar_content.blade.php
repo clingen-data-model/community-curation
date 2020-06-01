@@ -46,3 +46,16 @@
 @if (\Auth::user()->hasRole('programmer'))
     <li><a href="/admin/logs" target="logs"><i class="fa fa-list"></i> <span>Logs</span></a></li>
 @endif
+
+<hr style="margin-bottom: 0">
+<li>
+    <a href="{{ route('logout') }}"
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+    >
+        <i class="fa fa-sign-out"></i><span>{{ __('Logout') }}</span>
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+</li>
