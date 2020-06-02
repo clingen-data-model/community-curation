@@ -25,6 +25,9 @@ Route::group([
     CRUD::resource('/motivation', 'MotivationCrudController');
     CRUD::resource('/self-description', 'SelfDescriptionCrudController');
     CRUD::resource('/upload-category', 'UploadCategoryCrudController');
+
+    CRUD::resource('email', 'EmailCrudController');
+    CRUD::resource('notification', 'NotificationCrudController');
 }); // this should be the absolute last line of this file
 
 route::redirect('/admin/login', '/login');

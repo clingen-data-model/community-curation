@@ -22,9 +22,10 @@
         "predis/predis": "^1.1",
         "rap2hpoutre/laravel-log-viewer": "^1.2",
         "sirs/dbimport": "2.0.x-dev",
-        "sirs/surveys": "json-options-for-response-dev",
+        "sirs/surveys": "^4.0.8",
         "spatie/laravel-activitylog": "^3.2",
-        "spatie/laravel-permission": "^2.37"
+        "spatie/laravel-permission": "^2.37",
+        "yugen/laravel-db-mail-log": "dev-master"
     },
     "require-dev": {
         "backpack/generators": "^1.2",
