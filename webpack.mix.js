@@ -11,12 +11,25 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.webpackConfig({
-    devServer: {
-        disableHostCheck: true
-    }
+mix.options({
+    hmrOptions: {
+        host: "localhost",
+        port: '80'
+    },
 });
 
+mix.webpackConfig({
+    mode: "development",
+    devtool: "inline-source-map",
+    devServer: {
+        disableHostCheck: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        host: "localhost",
+        port: '80'
+    },
+});
 mix.js('resources/js/app.js', 'public/js')
     .extract(['vue', 'bootstrap-vue', 'moment', 'bootstrap-datepicker', 'timepicker', 'axios', 'lodash', 'jquery'])
     .sass('resources/sass/app.scss', 'public/css')
