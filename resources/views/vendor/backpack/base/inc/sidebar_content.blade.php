@@ -25,7 +25,7 @@
 @endcan
 
 @can('list genes')
-    <li><a href="{{ backpack_url('gene') }}"><i class="fa fa-list"></i> <span>genes</span></a></li>
+    <li><a href="{{ backpack_url('gene') }}"><i class="fa fa-list"></i> <span>Genes</span></a></li>
 @endcan
 
 @can('list lookups')
