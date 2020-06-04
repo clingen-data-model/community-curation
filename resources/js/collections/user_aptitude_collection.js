@@ -73,6 +73,10 @@ const UserAptitudeCollection = class {
     pending() {
         return new UserAptitudeCollection(this.items.filter(userApt => userApt.granted_at === null))
     }
+
+    needsAttestation() {
+        return this.pending().trained();
+    }
 }
 
 export default UserAptitudeCollection;

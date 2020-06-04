@@ -19,6 +19,7 @@
                         <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
                         <b-dropdown-item @click="showAssignmentForm = true" v-if="volunteer.isComprehensive()">Update Assignments</b-dropdown-item>
                         <b-dropdown-item @click="showVolunteerTypeForm = true" v-if="!volunteer.isComprehensive()">Make Comprehensive</b-dropdown-item>
+                        <b-dropdown-item @click="impersonateVolunteer" v-if="$store.state.user.isProgrammer() || $store.state.user.isAdmin()">Impersonate this volunteer</b-dropdown-item>
                     </b-dropdown>
                 </non-volunteer>
                 <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3>
@@ -69,12 +70,28 @@
             <button class="btn btn-default" @click="showVolunteerTypeForm = false">Cancel</button>
             <button class="btn btn-primary" @click="convertVolunteerToComprehensive">Convert</button>
         </b-modal>
+
+        <b-modal 
+            v-model="showImpersonatingProgress" 
+            hide-footer 
+            hide-header 
+            no-close-on-backdrop 
+            no-close-on-escape 
+            hide-header-close 
+        >
+            <h3 class="text-center">Impersonating {{ volunteer.name }}.</h3>
+            <p class="text-center"> 
+                The page will reload in a moment...
+            </p>
+        </b-modal>
+
     </div>
 </template>
 
 <script>
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import updateVolunteer from '../../resources/volunteers/update_volunteer'
+    import impersonateUser from '../../resources/users/impersonate_user'
 
     import volunteerSummary from './partials/tabs/VolunteerSummary'
     import SurveyResponses from './partials/tabs/SurveyResponses'
@@ -114,7 +131,8 @@
                 application: {},
                 showStatusForm: false,
                 showVolunteerTypeForm: false,
-                newStatus: null
+                newStatus: null,
+                showImpersonatingProgress: false
             }
         },
         computed: {
@@ -149,6 +167,11 @@
                     return;
                 }
                 this.findVolunteer()
+            },
+            impersonateVolunteer()
+            {
+                this.showImpersonatingProgress = true;
+                impersonateUser(this.volunteer.id);
             }
         },
         created() {

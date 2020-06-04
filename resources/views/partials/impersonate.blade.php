@@ -1,13 +1,10 @@
 @if(!\Auth::guest() && \Auth::user()->canImpersonate() && !\Auth::user()->isImpersonated())
     <div class="clearfix text-right">
-        <div class="container">
-            <div class="form-inline float-right">
-                &nbsp;
-                <impersonate-control @impersonated="clearSessionStorage"></impersonate-control>
-            </div>
+        <div class="container mt-1">
+            <impersonate-control></impersonate-control>
         </div>
     </div>
-@endcan
+@endif
 @impersonating
     <div class="alert alert-warning clearfix text-right">
         <div class="container">
