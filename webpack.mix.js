@@ -14,7 +14,7 @@ const mix = require('laravel-mix');
 mix.options({
     hmrOptions: {
         host: "localhost",
-        port: '80'
+        port: '8081'
     },
 });
 
@@ -27,7 +27,7 @@ mix.webpackConfig({
             'Access-Control-Allow-Origin': '*'
         },
         host: "localhost",
-        port: '80'
+        port: '8081'
     },
 });
 mix.js('resources/js/app.js', 'public/js')
