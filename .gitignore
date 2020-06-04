@@ -16,3 +16,6 @@ yarn-error.log
 
 database/backups
 certs/*
+.vscode/launch.json
+configstore/update-notifier-npm.json
+psysh/psysh_history
