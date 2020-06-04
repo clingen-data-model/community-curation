@@ -35,6 +35,11 @@ const Assignment = class {
         return col;
     }
 
+    hasSubAssignments()
+    {
+        return this.attributes.sub_assignments.length > 0;
+    }
+
     hydrateAttribute(key, value)
     {
         switch (key) {
