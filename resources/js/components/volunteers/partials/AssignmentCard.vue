@@ -23,7 +23,8 @@
                         <tr>
                             <th style="width: 40%">Curation Activity</th>
                             <th colspan="2">
-                                <span v-if="volunteer.isComprehensive()">Panel / </span>Gene
+                                <span v-if="volunteer.isComprehensive()">Panel / </span>
+                                Gene
                             </th>
                         </tr>
                     </thead>
@@ -43,50 +44,13 @@
                                 </div>
                             </td>
                             <td>
-                                <ul v-if="asn.sub_assignments.length > 0"
-                                    class="list-unstyled"
-                                >
-                                    <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id">
-                                        <small>
-                                            {{subAsn.assignable.name}}
-                                            <div class="float-right">
-                                                <a 
-                                                    v-if="subAsn.assignable.protocol_path"
-                                                    :href="`/genes/${subAsn.assignable.symbol}/protocol`"
-                                                    class="float-right"
-                                                >
-                                                    Protocol
-                                                </a>
-                                                <br>
-                                                <a v-if="subAsn.assignable.hypothesis_group"
-                                                    :href="subAsn.assignable.hypothesis_group_url"
-                                                    target="hypothes.is"
-                                                    class="hypothesis-link"
-                                                >
-                                                    Hypothes.is
-                                                </a>
-
-                                            </div>
-                                        </small>
-                                        <!-- <pre>{{subAsn}}</pre> -->
-                                    </li>
-                                </ul>
-                                <div v-if="asn.user_aptitudes.untrained().length > 0">
-                                    <small>
-                                        <strong>Pending Training:</strong>
-                                        <ul class="list-unstyled ml-2 mt-0">
-                                            <li v-for="trn in asn.user_aptitudes.untrained()" :key="trn.id">
-                                                {{trn.aptitude.name}}
-                                            </li>
-                                        </ul>
-                                    </small>
-                                </div>
+                                <assignment-summary-column :assignment="asn" @manageAssignments="showAssignmentForm = true"></assignment-summary-column>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <button 
-                    class="btn btn btn-default border btn-sm"
+                    class="btn btn btn-default border btn-xs"
                     @click="showAssignmentForm = true"
                     :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
                     v-if="!$store.state.user.isVolunteer()"
@@ -107,10 +71,12 @@
 <script>
     import AssignmentStatusForm from './AssignmentStatusForm';
     import UserAptitudeCollection from '../../../collections/user_aptitude_collection'
+    import AssignmentSummaryColumn from '../assignments/AssignmentSummaryColumn'
 
     export default {
         components: {
-            AssignmentStatusForm
+            AssignmentStatusForm,
+            AssignmentSummaryColumn
         },
         props: {
             volunteer: {

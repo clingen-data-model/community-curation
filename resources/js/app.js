@@ -109,7 +109,6 @@ function evaluate(el, binding, vnode) {
 
 function clearSessionStorage()
 {
-    console.log('clearSessionStorage');
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('impersonatable-users');
 }
