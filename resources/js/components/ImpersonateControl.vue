@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-default border" @click="showSelector = !showSelector">Impersonate</button>
+        <button class="btn btn-default btn-sm border" @click="showSelector = !showSelector">Impersonate a user</button>
         <b-modal 
             title="Impersonate another user" 
             v-model="showSelector"
@@ -34,6 +34,7 @@
 </template>
 <script>
 import getImpersonatableUsers from '../resources/users/get_impersonable_users'
+import impersonateUser from '../resources/users/impersonate_user'
 
 export default {
     props: {
@@ -54,7 +55,7 @@ export default {
         impersonateSelected() {
             this.$emit('impersonated');
             this.showProgress = true;
-            window.location.href = '/impersonate/take/'+this.selectedUser.id
+            impersonateUser(this.seletedUser.id)
             
         },
         async getImpersonatableUsers () {
