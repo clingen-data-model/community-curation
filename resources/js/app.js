@@ -25,7 +25,7 @@ window.Vue.use(TabsPlugin);
 window.Vue.use(TablePlugin);
 window.Vue.use(PopoverPlugin);
 
-localStorage.clear();
+// localStorage.clear();
 
 /**
  * The following block of code may be used to automatically register your
@@ -59,8 +59,16 @@ import VariantBasicForm from './components/attestations/forms/VariantBasic'
 import ValidationError from './components/ValidationError';
 import DateField from './components/DateField'
 import HypothesisLink from './components/HypothesisLink'
+import TrainingSessionList from './components/training_sessions/TrainingSessionList'
+import TrainingSessionDetail from './components/training_sessions/TrainingSessionDetail'
 
 import ImpersonateControl from './components/ImpersonateControl'
+
+import Row from './components/layout/Row'
+window.Vue.component('row', Row);
+import Column from './components/layout/Col'
+window.Vue.component('column', Column);
+
 window.Vue.component('impersonate-control', ImpersonateControl);
 
 window.Vue.component('validation-error', ValidationError);
@@ -84,6 +92,8 @@ window.Vue.component('somatic-basic-form', SomaticBasicForm);
 window.Vue.component('variant-basic-form', VariantBasicForm);
 window.Vue.component('date-field', DateField)
 window.Vue.component('hypothesis-link', HypothesisLink)
+window.Vue.component('training-session-list', TrainingSessionList)
+window.Vue.component('training-session-detail', TrainingSessionDetail)
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
