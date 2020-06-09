@@ -66,3 +66,22 @@ $theme-colors: (
 .cursor-pointer {
     cursor: pointer;
 }
+
+
+@-webkit-keyframes infiniteRrotate {  
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes infinite-rotate {  
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+.rotate {
+    -webkit-animation: infiniteRotate 2s linear infinite; /* Safari */
+    animation: infinite-rotate 2s linear infinite;
+}
+
+button.rotate:focus {
+    outline: none;
+    box-shadow: none;
+}

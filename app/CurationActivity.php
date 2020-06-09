@@ -8,19 +8,22 @@ use App\Traits\AptitudeSubjectTrait;
 use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\AptitudeSubjectContract;
+use App\Contracts\TrainingTopicContract;
+use App\Traits\TrainingTopicTrait;
 use phpDocumentor\Reflection\Types\Boolean;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class CurationActivity extends Model implements AssignableContract, AptitudeSubjectContract
+class CurationActivity extends Model implements AssignableContract, AptitudeSubjectContract, TrainingTopicContract
 {
     use CrudTrait;
     use RevisionableTrait;
     use SoftDeletes;
     use AptitudeSubjectTrait;
     use AssignableTrait;
+    use TrainingTopicTrait;
 
     protected $revisionCreationsEnabled = true;
 
