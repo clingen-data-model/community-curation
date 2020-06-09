@@ -1,7 +1,7 @@
 <style></style>
 
 <template>
-    <div class="validation-error alert alert-danger p-1" v-if="hasErrors">
+    <div class="validation-error alert alert-danger p-1 mt-1" v-if="hasErrors">
         {{joinedErrors}}
     </div>
 </template>

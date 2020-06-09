@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "980a4d42841eb6311bee88c43dd31f6d",
+    "content-hash": "4ddb558ab9f25e1f4451d1f0bc782256",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -3870,6 +3870,53 @@
             "description": "Package for rapidly building surveys with data dictionaries and response storage",
             "homepage": "https://bitbucket.org/shepsweb/sirs-surveys",
             "time": "2020-03-03T14:00:21+00:00"
+        },
+        {
+            "name": "spatie/calendar-links",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/calendar-links.git",
+                "reference": "7466b17d31ccf0b9dc9203f0e3b6f81fa0706642"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/calendar-links/zipball/7466b17d31ccf0b9dc9203f0e3b6f81fa0706642",
+                "reference": "7466b17d31ccf0b9dc9203f0e3b6f81fa0706642",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0",
+                "spatie/phpunit-snapshot-assertions": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\CalendarLinks\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generate add to calendar links for Google, iCal and other calendar systems",
+            "homepage": "https://github.com/spatie/calendar-links",
+            "keywords": [
+                "calendar-links",
+                "spatie"
+            ],
+            "time": "2020-04-29T11:58:01+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",

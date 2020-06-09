@@ -24,7 +24,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::impersonate();
 
     Route::resource('volunteers', 'VolunteerController')->only(['show', 'index']);
-    Route::resource('trainings', 'TrainingController')->only(['show', 'index']);
+
+    Route::group(['middleware' => ['can:list trainings']], function () {
+        Route::resource('trainings', 'TrainingController')->only(['show', 'index']);
+        Route::resource('training-sessions', 'TrainingController')->only(['show', 'index']);
+    });
 
     Route::get('surveys-by-id/{surveyId}/responses/{responseId}', 'SurveyByIdController@show');
 
