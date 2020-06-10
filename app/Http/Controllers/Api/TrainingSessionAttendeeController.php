@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\CurationActivity;
 use App\User;
 use App\TrainingSession;
+use App\CurationActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DefaultResource;
 use App\Exceptions\NotImplementedException;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
 
@@ -20,10 +21,12 @@ class TrainingSessionAttendeeController extends Controller
     public function index($trainingSessionId)
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
-        return $trainingSession->attendees()->with(['assignments' => function ($q) use ($trainingSession) {
+        $attendees = $trainingSession->attendees()->with(['assignments' => function ($q) use ($trainingSession) {
             $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
                 ->select('created_at as date_assigned', 'user_id');
         }])->get();
+
+        return new DefaultResource($attendees);
     }
 
 
@@ -38,10 +41,12 @@ class TrainingSessionAttendeeController extends Controller
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $trainingSession->attendees()->syncWithoutDetaching($request->attendee_ids);
 
-        return $trainingSession->attendees()->with(['assignments' => function ($q) use ($trainingSession) {
+        $attendees = $trainingSession->attendees()->with(['assignments' => function ($q) use ($trainingSession) {
             $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
                 ->select('created_at as date_assigned', 'user_id');
         }])->get();
+
+        return new DefaultResource($attendees);
     }
 
     /**
@@ -82,9 +87,8 @@ class TrainingSessionAttendeeController extends Controller
                         ->with(['assignments' => function ($q) use ($trainingSession) {
                             $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
                                 ->select('created_at as date_assigned', 'user_id');
-                            // dd(renderQuery($q));
                         }])
                         ->get();
-        return $volunteers;
+        return DefaultResource::collection($volunteers);
     }
 }

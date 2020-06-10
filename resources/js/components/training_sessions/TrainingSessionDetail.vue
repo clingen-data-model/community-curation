@@ -3,7 +3,15 @@
         <div class="card">
             <div class="card-header">
                 <div class="float-right ">
-                    <button class="btn btn-sm btn-primary" @click="addToCalendar">Add to Calendar</button>
+                    <b-dropdown size="sm" text="Add to Calendar" variant="primary">
+                        <b-dropdown-item 
+                            v-for="(val, key) in trainingSession.calendar_links" :key="key"
+                            :href="val" 
+                            target="calendar-link"
+                        >{{key}}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="showCalendarHelp = true"><small>Learn More</small></b-dropdown-item>
+                    </b-dropdown>
                     <button class="btn btn-sm btn-primary" @click="showEdit = true">Edit</button>
                 </div>
                 <h3 class="m-0">
@@ -53,6 +61,30 @@
                 @canceled="cancelUpdate"
             ></training-session-form>
         </b-modal>
+        <b-modal v-model="showCalendarHelp" title="How to add a training session to your calendar">
+            <b-modal-body>
+                <dl>
+                    <dt v-b-toggle.collapse-google><h5>Google, Yahoo, or web-based Outlook Calendar</h5></dt>
+                    <dl class="pl-3"> 
+                        <b-collapse id="collapse-google">
+                            Clicking on the link for your web-based calendar link will open your calendar in another tab/window and prompt your to save the event.
+                        </b-collapse>
+                    </dl>
+
+                    <dt v-b-toggle.collapse-apple-outlook><h5>Apple or Outlook Calendar</h5></dt>
+                    <dl class="pl-3"> 
+                        <b-collapse id="collapse-apple-outlook">Clicking the link will download an .ics (iCalendar) standard file. Your operating system should open the file in the appropriate calendar application.</b-collapse>
+                    </dl>
+
+                    <dt v-b-toggle.collapse-other><h5>Other calendar apps</h5></dt>
+                    <dl class="pl-3">
+                        <b-collapse id="collapse-other">
+                            Most calendar apps support the open iCalendar format so you should  download and open the .ics file by clicking on 'Apple &amp; Outlook'
+                        </b-collapse>
+                    </dl>
+                </dl>
+            </b-modal-body>
+        </b-modal>
     </div>
 </template>
 <script>
@@ -80,15 +112,16 @@ export default {
             showEdit: false,
             errors: {},
             show404: false,
+            showCalendarHelp: false,
         }
     },
     methods: {
-        updateSession(trainingSession) {
+        updateSession(data) {
             this.errors = {};
-            updateTrainingSession(this.currentSession.id, trainingSession)
+            updateTrainingSession(this.trainingSession.id, data)
                 .then(response => {
-                    this.currentSession = {};
                     this.showEdit = false;
+                    this.trainingSession = response.data.data;
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors
@@ -107,9 +140,9 @@ export default {
             this.show404 = false;
             this.trainingSession = await window.axios.get('/api/training-sessions/'+this.id)
                                     .then(response => {
-                                        let ses = response.data;
+                                        let ses = response.data.data;
                                         ses.starts_at = moment(ses.starts_at)
-                                        ses.starts_at = moment(ses.ends_at)
+                                        ses.ends_at = moment(ses.ends_at)
                                         return ses
                                     })
                                     .catch(error => {
