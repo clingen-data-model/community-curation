@@ -19,10 +19,10 @@
         "bootstrap-vue": "^2.1.0",
         "cross-env": "^5.1",
         "expect": "^24.9.0",
-        "jquery": "^3.2",
+        "jquery": "^3.5.1",
         "jsdom": "^15.2.1",
         "jsdom-global": "^3.0.2",
-        "laravel-mix": "^4.0.7",
+        "laravel-mix": "^5.0",
         "lodash": "^4.17.5",
         "material-design-icons": "^3.0.1",
         "mocha": "^5.0.0",
@@ -41,6 +41,8 @@
         "vuex": "^3.1.1"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^19.0.2",
+        "@ckeditor/ckeditor5-vue": "^1.0.1",
         "moment": "^2.24.0"
     }
 }
