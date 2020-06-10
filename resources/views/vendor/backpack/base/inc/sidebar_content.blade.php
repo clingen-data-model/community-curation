@@ -50,7 +50,7 @@
     <li><a href="{{ url(config('backpack.base.route_prefix').'/email') }}"><i class="fa fa-file-o"></i> <span>Emails</span></a></li>
 {{-- @endif --}}
 {{-- @if(Auth::user()->hasPermissionTo('view notification')) --}}
-    <li><a href="{{ url(config('backpack.base.route_prefix').'/notification') }}"><i class="fa fa-file-o"></i> <span>Notifications</span></a></li>
+    {{-- <li><a href="{{ url(config('backpack.base.route_prefix').'/notification') }}"><i class="fa fa-file-o"></i> <span>Notifications</span></a></li> --}}
 {{-- @endif --}}
 
 <hr style="margin-bottom: 0">

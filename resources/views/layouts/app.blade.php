@@ -27,7 +27,6 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
@@ -99,6 +98,7 @@
         <main class="py-4 container">
             @yield('content')
         </main>
+        <alerts></alerts>
     </div>
 </body>
 </html>

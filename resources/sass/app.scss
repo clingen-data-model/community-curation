@@ -63,6 +63,40 @@ $theme-colors: (
     }
 }
 
-.cursor-pointer {
+.cursor-pointer,
+.crsr-pointer {
     cursor: pointer;
+}
+
+
+@-webkit-keyframes infiniteRrotate {  
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes infinite-rotate {  
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+.rotate {
+    -webkit-animation: infiniteRotate 2s linear infinite; /* Safari */
+    animation: infinite-rotate 2s linear infinite;
+}
+
+button.rotate:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+.slide-fade-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateY(-10px);
+    opacity: 0;
 }

@@ -2,9 +2,38 @@
 
 namespace Tests;
 
+use App\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    private function createUser($data, $number, $roles = [])
+    {
+        $users = factory(User::class, $number)
+            ->states($roles)
+            ->create($data);
+        
+        if ($users->count() == 1) {
+            return $users->first();
+        }
+
+        return $users;
+    }
+    
+    protected function createAdmin($data = [], $number = 1)
+    {
+        return $this->createUser($data, $number, ['admin']);
+    }
+
+    protected function createProgrammer($data = [], $number = 1)
+    {
+        return $this->createUser($data, $number, ['programmer']);
+    }
+
+    protected function createVolunteer($data = [], $number = 1)
+    {
+        return $this->createUser($data, $number, ['volunteer']);
+    }
 }

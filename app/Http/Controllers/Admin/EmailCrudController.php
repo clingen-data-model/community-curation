@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Yugen\DbMailLog\DbMailLogProvider;
 use App\Http\Requests\EmailRequest as StoreRequest;
 use App\Http\Requests\EmailRequest as UpdateRequest;
-use Backpack\CRUD\CrudPanel;
-use Berglab\DbMailLog\DbMailLogProvider;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 /**
  * Class EmailCrudController

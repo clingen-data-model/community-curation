@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use App\Exceptions\NotImplementedException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -50,7 +51,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof NotImplementedException) {
             return response('Not implemented', 501);
         }
-        
+
+        if ($exception instanceof AuthorizationException) {
+            return redirect('/');
+        }
+
         return parent::render($request, $exception);
     }
 }

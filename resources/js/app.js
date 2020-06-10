@@ -25,7 +25,7 @@ window.Vue.use(TabsPlugin);
 window.Vue.use(TablePlugin);
 window.Vue.use(PopoverPlugin);
 
-localStorage.clear();
+// localStorage.clear();
 
 /**
  * The following block of code may be used to automatically register your
@@ -59,8 +59,16 @@ import VariantBasicForm from './components/attestations/forms/VariantBasic'
 import ValidationError from './components/ValidationError';
 import DateField from './components/DateField'
 import HypothesisLink from './components/HypothesisLink'
+import TrainingSessionList from './components/training_sessions/TrainingSessionList'
+import TrainingSessionDetail from './components/training_sessions/TrainingSessionDetail'
 
 import ImpersonateControl from './components/ImpersonateControl'
+
+import Row from './components/layout/Row'
+window.Vue.component('row', Row);
+import Column from './components/layout/Col'
+window.Vue.component('column', Column);
+
 window.Vue.component('impersonate-control', ImpersonateControl);
 
 window.Vue.component('validation-error', ValidationError);
@@ -84,6 +92,14 @@ window.Vue.component('somatic-basic-form', SomaticBasicForm);
 window.Vue.component('variant-basic-form', VariantBasicForm);
 window.Vue.component('date-field', DateField)
 window.Vue.component('hypothesis-link', HypothesisLink)
+window.Vue.component('training-session-list', TrainingSessionList)
+window.Vue.component('training-session-detail', TrainingSessionDetail)
+
+import RichTextEditor from './components/RichTextEditor'
+window.Vue.component('rich-text-editor', RichTextEditor)
+
+import Alerts from './components/Alerts'
+window.Vue.component('alerts', Alerts)
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
@@ -101,7 +117,7 @@ Vue.filter('formatDate', function(dateString, format = 'YYYY-MM-DD HH:mm') {
 window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
 
 import store from './store/index'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 function evaluate(el, binding, vnode) {
     console.log(binding);
@@ -122,6 +138,12 @@ function clearSessionStorage()
 const app = new window.Vue({
     el: '#app',
     store: store,
+    computed: {
+        infoMessages() {
+            console.log('getInfoMessages');
+            return this.$store.state.messages.info
+        }
+    },
     methods: {
         ...mapActions([
             'fetchUser',
