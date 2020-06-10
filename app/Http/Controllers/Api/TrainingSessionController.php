@@ -6,6 +6,7 @@ use App\TrainingSession;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TrainingSessionRequest;
+use App\Http\Resources\TrainingSessionResource;
 
 class TrainingSessionController extends Controller
 {
@@ -31,7 +32,7 @@ class TrainingSessionController extends Controller
             $query->future();
         }
 
-        return $query->get();
+        return TrainingSessionResource::collection($query->get());
     }
 
     /**
@@ -45,7 +46,7 @@ class TrainingSessionController extends Controller
         $trainingSession = TrainingSession::create($request->except('csrf'));
         $trainingSession->load('topic');
 
-        return $trainingSession;
+        return new TrainingSessionResource($trainingSession);
     }
 
     /**
@@ -58,7 +59,7 @@ class TrainingSessionController extends Controller
     {
         $trainingSession  = TrainingSession::findOrFail($id);
         $trainingSession->load('topic');
-        return $trainingSession;
+        return new TrainingSessionResource($trainingSession);
     }
 
     /**
@@ -74,7 +75,7 @@ class TrainingSessionController extends Controller
         $trainingSession->update($request->all());
         $trainingSession->load('topic');
 
-        return $trainingSession;
+        return new TrainingSessionResource($trainingSession);
     }
 
     /**

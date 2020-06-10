@@ -9,7 +9,7 @@
             </header>
             
             <div v-if="hasAttendees">
-                <b-table :fields="fields" :items="attendees" show-empty></b-table>
+                <b-table :fields="fields" :items="attendees" small></b-table>
             </div>
             <div v-else class="alert alert-light border">
                     <span v-if="loadingAttendees">Loading...</span>
@@ -26,7 +26,7 @@
                 </h5>
             </header>
 
-            <b-table :fields="inviteFields" :items="trainableVolunteers" v-if="trainableVolunteers.length > 0" sort-by="assignments[0].date_assigned">
+            <b-table :fields="inviteFields" :items="trainableVolunteers" v-if="trainableVolunteers.length > 0" sort-by="assignments[0].date_assigned" small>
                 <template v-slot:cell(id)="data">
                     <div class="text-center">
                         <input type="checkbox" :value="data.item" v-model="selectedVolunteers">

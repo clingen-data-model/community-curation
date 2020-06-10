@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\CalendarLinks\Link;
 
 class TrainingSession extends Model
 {
@@ -43,5 +44,23 @@ class TrainingSession extends Model
     public function scopePast($query)
     {
         return $query->where('starts_at', '<=', Carbon::now());
+    }
+
+    public function getCalendarLinksAttribute()
+    {
+        $link = Link::create(
+            'ClinGen ' . $this->topic->name . ' Training',
+            $this->starts_at->toDateTime(),
+            $this->ends_at->toDateTime()
+                )
+                ->description('Training for ClinGen ' . $this->topic->name)
+                ->address($this->url);
+        
+        return [
+            'Apple & Outlook' => $link->ics(),
+            'Google' => $link->google(),
+            'Web-based Outlook' => $link->webOutlook(),
+            'Yahoo' => $link->yahoo(),
+        ];
     }
 }
