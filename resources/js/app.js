@@ -95,6 +95,12 @@ window.Vue.component('hypothesis-link', HypothesisLink)
 window.Vue.component('training-session-list', TrainingSessionList)
 window.Vue.component('training-session-detail', TrainingSessionDetail)
 
+import RichTextEditor from './components/RichTextEditor'
+window.Vue.component('rich-text-editor', RichTextEditor)
+
+import Alerts from './components/Alerts'
+window.Vue.component('alerts', Alerts)
+
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
@@ -111,7 +117,7 @@ Vue.filter('formatDate', function(dateString, format = 'YYYY-MM-DD HH:mm') {
 window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
 
 import store from './store/index'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 function evaluate(el, binding, vnode) {
     console.log(binding);
@@ -132,6 +138,12 @@ function clearSessionStorage()
 const app = new window.Vue({
     el: '#app',
     store: store,
+    computed: {
+        infoMessages() {
+            console.log('getInfoMessages');
+            return this.$store.state.messages.info
+        }
+    },
     methods: {
         ...mapActions([
             'fetchUser',
