@@ -26,7 +26,9 @@ class VolunteerRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'first_name' => 'required|min:2|max:255',
+            'last_name' => 'required|min:2|max:255',
+            'email' => 'required|email:rfc,dns',
         ];
     }
 
@@ -38,7 +40,8 @@ class VolunteerRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'first_name' => 'A first and last name is required',
+            'last_name' => 'A first and last name is required',
         ];
     }
 

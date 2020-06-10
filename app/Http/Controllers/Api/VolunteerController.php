@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\VolunteerUserResource;
+use App\Http\Requests\VolunteerRequest;
 use App\Exceptions\NotImplementedException;
+use App\Http\Resources\VolunteerUserResource;
 
 class VolunteerController extends Controller
 {
@@ -164,7 +165,7 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VolunteerRequest $request, $id)
     {
         $volunteer = User::findOrFail($id);
         $volunteer->update($request->all());
