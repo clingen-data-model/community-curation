@@ -15,7 +15,7 @@
                     <button class="btn btn-sm btn-primary" @click="showEdit = true">Edit</button>
                 </div>
                 <h3 class="m-0">
-                    Training Session
+                    <a href="/training-sessions">Training Sessions</a>
                     -
                     {{trainingSession.topic.name}}
                     on

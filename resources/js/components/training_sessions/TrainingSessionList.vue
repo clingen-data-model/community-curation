@@ -8,11 +8,12 @@
                 </h3>
             </div>
             <div class="card-body">
-                <b-tabs pills v-model="selectedTab" v-if="!showDetail">
+                <b-tabs pills v-model="selectedTab">
                     <b-tab title="Future">
                         <b-table :fields="fields" :items="sessions" class="mt-4"
                             :sort-by.sync="sortBy"
                             :sort-desc.sync="sortDesc"
+                            @row-clicked="navigateToTrainingSession"
                         >
                             <template v-slot:cell(id)="{value}">
                                 <div class="text-right">
@@ -116,8 +117,8 @@ export default {
         }
     },
     methods: {
-        show(id) {
-            window.location = '/training-sessions/'+currentSession.id
+        navigateToTrainingSession (trainingSession) {
+            window.location = '/training-sessions/'+trainingSession.id
         },
         edit(id) {
             this.currentSession = this.allSessions.find(ts => ts.id == id);

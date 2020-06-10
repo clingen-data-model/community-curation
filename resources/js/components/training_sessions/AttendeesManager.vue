@@ -24,7 +24,11 @@
             <transition name="slide-fade">
                 <div v-show="!showEmailForm">
                     <div v-if="hasAttendees">
-                        <b-table :fields="fields" :items="attendees" small></b-table>
+                        <b-table :fields="fields" :items="attendees" 
+                            small 
+                            sticky-header="305px"
+                            class="border-bottom"
+                        ></b-table>
                     </div>
                     <div v-else class="alert alert-light border">
                             <span v-if="loadingAttendees">Loading...</span>
@@ -36,7 +40,7 @@
         </section>
         <section class="mt-5">
             <header class="clearfix">
-                <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">Invite Selected</button>
+                <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
                 <h5>
                     Volunteers who need {{trainingSession.topic.name}} training 
                     <small>({{trainableVolunteers.length}})</small>
@@ -44,7 +48,15 @@
                 </h5>
             </header>
 
-            <b-table :fields="inviteFields" :items="trainableVolunteers" v-if="trainableVolunteers.length > 0" sort-by="assignments[0].date_assigned" small>
+            <b-table :fields="inviteFields" :items="trainableVolunteers" 
+                v-if="trainableVolunteers.length > 0" 
+                sort-by="assignments[0].date_assigned" 
+                small
+                sticky-header="307px"
+                no-border-collapse
+                class="border-bottom"
+                @row-clicked="handleInviteRowClick"
+            >
                 <template v-slot:cell(id)="data">
                     <div class="text-center">
                         <input type="checkbox" :value="data.item" v-model="selectedVolunteers">
@@ -62,7 +74,7 @@
                 <span v-else>There are no more volunteers who need this training at this time.</span>
             </div>
             <footer class="mt-1">
-                <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">Invite Selected</button>
+                <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
             </footer>
         </section>
 
@@ -74,6 +86,8 @@ import inviteAttendees from '../../resources/training_sessions/attendees/invite'
 import getAttendees from '../../resources/training_sessions/attendees/get_attendees'
 import getTrainableVolunteers from '../../resources/training_sessions/attendees/get_trainable_volunteers'
 import AttendeeEmailForm from './AttendeeEmailForm'
+import {mapMutations} from 'vuex'
+
 export default {
     components: {
         AttendeeEmailForm
@@ -113,7 +127,8 @@ export default {
             loadingAttendees: false,
             loadingVolunteers: false,
             selectAll: false,
-            showEmailForm: true,
+            showEmailForm: false,
+            inviting: false,
         }
     },
     watch: {
@@ -133,10 +148,16 @@ export default {
                 }])
         },
         canInvite() {
-            return this.trainableVolunteers.length > 0 && this.selectedVolunteers.length > 0;
+            return this.trainableVolunteers.length > 0 && this.selectedVolunteers.length > 0 && !this.inviting;
+        },
+        inviteButtonText() {
+            return this.inviting ? 'Busy...' : 'Invite Selected'
         }
     },
     methods: {
+        ...mapMutations('messages', [
+            'addInfo'
+        ]),
         toggleAll() {
             if (this.selectAll) {
                 this.selectedVolunteers = this.trainableVolunteers;
@@ -147,10 +168,12 @@ export default {
         inviteSelected() {
             const originalAttendees = JSON.parse(JSON.stringify(this.attendees));
             const originalTrainable = JSON.parse(JSON.stringify(this.trainableVolunteers));
+            this.inviting = true;
 
             inviteAttendees(this.trainingSession, this.selectedVolunteers)
                 .then(response => {
-                    this.attendees = response.data;
+                    this.attendees = response.data.data;
+                    this.addInfo('Invited '+this.selectedVolunteers.length+' volunteer'+(this.selectedVolunteers.length > 1 ? 's' : '')+' to the training session');
                     this.selectedVolunteers = [];
                     this.getTrainableVolunteers();
                     this.selectAll = false;
@@ -160,7 +183,8 @@ export default {
                     this.attendees = originalAttendees;
                     this.trainableVolunteers = originalTrainable;
                     this.selectAll = false;
-                });
+                })
+                .then(() => this.inviting = false);
         },
         async getAttendees() {
             this.loadingAttendees = true;
@@ -171,6 +195,9 @@ export default {
             this.loadingVolunteers = true;
             this.trainableVolunteers = await getTrainableVolunteers(this.trainingSession);
             this.loadingVolunteers = false;
+        },
+        handleInviteRowClick (item, index, evt) {
+            this.selectedVolunteers.push(item);
         }
     },
     mounted () {

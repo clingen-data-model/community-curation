@@ -9,18 +9,31 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    protected function createAdmin()
+    private function createUser($data, $number, $roles = [])
     {
-        return factory(User::class)->create()->assignRole('admin');
+        $users = factory(User::class, $number)
+            ->states($roles)
+            ->create($data);
+        
+        if ($users->count() == 1) {
+            return $users->first();
+        }
+
+        return $users;
+    }
+    
+    protected function createAdmin($data = [], $number = 1)
+    {
+        return $this->createUser($data, $number, ['admin']);
     }
 
-    protected function createProgrammer()
+    protected function createProgrammer($data = [], $number = 1)
     {
-        return factory(User::class)->create()->assignRole('programmer');
+        return $this->createUser($data, $number, ['programmer']);
     }
 
-    protected function createVolunteer()
+    protected function createVolunteer($data = [], $number = 1)
     {
-        return factory(User::class)->create()->assignRole('volunteer');
+        return $this->createUser($data, $number, ['volunteer']);
     }
 }

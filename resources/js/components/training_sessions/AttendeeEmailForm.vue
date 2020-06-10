@@ -1,20 +1,28 @@
 <template>
-    <div>
-        <div class="mb-1">
-            To: 
-            <small>{{attendees.map(atnd => `${atnd.first_name} ${atnd.last_name}`).join(', ')}}</small>
+    <div class="border p-3 rounded">
+        <div class="form-group row">
+            <label class="col-sm-1">To:</label>
+            <small class="col-sm-11">{{attendees.map(atnd => `${atnd.first_name} ${atnd.last_name}`).join(', ')}}</small>
         </div>
-        <div class="form-inline mb-1">
-            From:
-            &nbsp;
-            <select v-model="fromEmail" class="form-control form-control-sm">
-                <option :value="$store.state.configs.mailFrom.address">{{$store.state.configs.mailFrom.address}}</option>
-                <option :value="$store.state.user.email">{{$store.state.user.email}}</option>
-            </select>
+        <div class="form-group row">
+            <label for="from" class="col-sm-1">From:</label>
+            <div class="col-sm-6">
+                <select v-model="fromEmail" class="form-control" id="from">
+                    <option :value="$store.state.configs.mailFrom.address">{{$store.state.configs.mailFrom.address}}</option>
+                    <option :value="$store.state.user.email">{{$store.state.user.email}}</option>
+                </select>
+            </div>
         </div>
-        <rich-text-editor v-model="emailContent"></rich-text-editor>
-        <div class="mt-1">
-            <button class="btn btn-sm btn-default border" @click="$emit('canceled')">Cancel</button>
+        <div class="form-group row">
+            <label class="col-sm-1" for="subject">Subject:</label>
+            <div class="col-sm-8">
+                <input type="text" v-model="subject" class="form-control w-50" id="subject">
+            </div>
+        </div>
+        <rich-text-editor v-model="emailContent" id="message-body"></rich-text-editor>
+
+        <div class="mt-3">
+            <button class="btn btn-sm btn-default border" @click="cancelEmail">Cancel</button>
             <button class="btn btn-sm btn-primary" @click="sendEmail">Send Email</button>
         </div>
     </div>
@@ -35,6 +43,7 @@ export default {
     },
     data() {
         return {
+            subject: '',
             emailContent: '',
             fromEmail: this.$store.state.configs.mailFrom.address
         }
@@ -44,13 +53,29 @@ export default {
             'addInfo'
         ]),
         sendEmail () {
+            if (this.emailContent == '') {
+                alert('You must include a message to send to attendees.')
+                return;
+            }
             this.$emit('sending');
-            alert('sending message');
-            // window.axios.post('/api/training-sessions/'+this.trainingSession.id+'/email')
-            //     .then(response => {
+            window.axios.post('/api/training-sessions/'+this.trainingSession.id+'/attendees/email', {
+                from: this.fromEmail,
+                subject: this.subject,
+                body: this.emailContent
+            })
+                .then(response => {
                     this.addInfo('Email sent');
+                    this.initData();
                     this.$emit('sent');
-                // });
+                });
+        },
+        cancelEmail () {
+            this.initData();
+            this.$emit('canceled')
+        },
+        initData () {
+            this.subject = '';
+            this.emailContent = '';
         }
     }
 }
