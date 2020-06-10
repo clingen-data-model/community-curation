@@ -61,7 +61,7 @@
                 @canceled="cancelUpdate"
             ></training-session-form>
         </b-modal>
-        <b-modal v-model="showCalendarHelp" title="How to add a training session to your calendar">
+        <b-modal v-model="showCalendarHelp" title="How to add this training session to your calendar">
             <b-modal-body>
                 <dl>
                     <dt v-b-toggle.collapse-google><h5>Google, Yahoo, or web-based Outlook Calendar</h5></dt>

@@ -1,20 +1,38 @@
 <template>
     <div>
         <section>
-            <header>                
+            <header>
+                <button class="btn btn-light border btn-xs float-right" @click="showEmailForm = !showEmailForm">
+                    {{showEmailForm ? `Cancel email` : `Email attendees`}}
+                </button>                
                 <h4>
                     Attendees <small>({{attendees.length}})</small> 
                     <button class="btn btn-default material-icons" :class="{rotate: loadingAttendees}" @click="getAttendees">cached</button>
                 </h4>
             </header>
-            
-            <div v-if="hasAttendees">
-                <b-table :fields="fields" :items="attendees" small></b-table>
-            </div>
-            <div v-else class="alert alert-light border">
-                    <span v-if="loadingAttendees">Loading...</span>
-                    <span v-else>No volunteers have been invited to attend.</span>
-            </div>
+
+            <transition name="slide-fade">
+                <attendee-email-form 
+                    :trainingSession="trainingSession" 
+                    :attendees="attendees"
+                    v-show="showEmailForm" class="mb-2"
+                    @sending="showEmailForm = false"
+                    @sent="showEmailForm = false"
+                    @canceled="showEmailForm = false"
+                ></attendee-email-form>
+            </transition>
+            <transition name="slide-fade">
+                <div v-show="!showEmailForm">
+                    <div v-if="hasAttendees">
+                        <b-table :fields="fields" :items="attendees" small></b-table>
+                    </div>
+                    <div v-else class="alert alert-light border">
+                            <span v-if="loadingAttendees">Loading...</span>
+                            <span v-else>No volunteers have been invited to attend.</span>
+                    </div>
+                </div>                
+            </transition>
+
         </section>
         <section class="mt-5">
             <header class="clearfix">
@@ -47,6 +65,7 @@
                 <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">Invite Selected</button>
             </footer>
         </section>
+
     </div>
 </template>
 <script>
@@ -54,8 +73,11 @@ import moment from 'moment'
 import inviteAttendees from '../../resources/training_sessions/attendees/invite'
 import getAttendees from '../../resources/training_sessions/attendees/get_attendees'
 import getTrainableVolunteers from '../../resources/training_sessions/attendees/get_trainable_volunteers'
-
+import AttendeeEmailForm from './AttendeeEmailForm'
 export default {
+    components: {
+        AttendeeEmailForm
+    },
     props: {
         trainingSession: {
             required: true,
@@ -90,7 +112,8 @@ export default {
             trainableVolunteers: [],
             loadingAttendees: false,
             loadingVolunteers: false,
-            selectAll: false
+            selectAll: false,
+            showEmailForm: true,
         }
     },
     watch: {

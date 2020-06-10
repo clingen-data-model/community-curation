@@ -37,18 +37,22 @@ class ExportConfigsToJson extends Command
      */
     public function handle()
     {
-        $configs = ($this->option('configs')) ? explode(',', $this->option('configs')) : ['volunteers', 'project'];
+        $configs = ($this->option('configs'))
+                        ? explode(',', $this->option('configs'))
+                        : ['volunteers', 'project', 'mail.from'];
         $this->info('Exporting '.implode(', ', $configs).' to JSON.');
         $export = [];
         foreach ($configs as $config) {
             $config = trim($config);
+            $configName = camel_case(preg_replace('/\./', '-', $config));
+
             $camelCased = [];
             foreach (config($config) as $key => $value) {
                 $camelCased[camel_case($key)] = $value;
             }
-            $export[$config] = $camelCased;
+            $export[$configName] = $camelCased;
         }
         
-        file_put_contents(base_path('resources/js/configs.json'), json_encode($export));
+        file_put_contents(base_path('resources/js/configs.json'), json_encode($export, JSON_PRETTY_PRINT));
     }
 }

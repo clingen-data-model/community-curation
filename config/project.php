@@ -28,5 +28,5 @@ return [
         'variant-curation-training-logbook' => 5,
         'employer-attestation-letter' => 6,
         'other' => 7
-    ]
+    ],
 ];
