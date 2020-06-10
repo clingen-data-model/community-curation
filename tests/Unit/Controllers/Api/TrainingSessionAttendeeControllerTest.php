@@ -5,7 +5,10 @@ namespace Tests\Unit\Controllers\Api;
 use App\User;
 use Tests\TestCase;
 use App\TrainingSession;
+use App\Jobs\AssignVolunteerToAssignable;
+use App\Notifications\CustomTrainingEmail;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Feature\TrainingSessions\TrainingSessionTestCase;
@@ -57,7 +60,11 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
             'user_id' => $this->vol3->id
         ]);
 
-        $response->assertJson([['id' => $this->vol1->id, 'first_name' => $this->vol1->first_name], ['id' => $this->vol2->id, 'first_name' => $this->vol2->first_name]]);
+        $response->assertJson(['data' => [
+                ['id' => $this->vol1->id, 'first_name' => $this->vol1->first_name],
+                ['id' => $this->vol2->id, 'first_name' => $this->vol2->first_name]
+            ]
+        ]);
     }
 
     /**
@@ -71,13 +78,15 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
             ->json('GET', '/api/training-sessions/'.$this->trainingSession->id.'/attendees/')
             ->assertStatus(200)
             ->assertJson([
-                [
-                    'id' => $this->vol1->id,
-                    'first_name' => $this->vol1->first_name
-                ],
-                [
-                    'id' => $this->vol3->id,
-                    'first_name' => $this->vol3->first_name
+                'data' => [
+                    [
+                        'id' => $this->vol1->id,
+                        'first_name' => $this->vol1->first_name
+                    ],
+                    [
+                        'id' => $this->vol3->id,
+                        'first_name' => $this->vol3->first_name
+                    ]
                 ]
             ]);
     }
@@ -96,5 +105,67 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
             'user_id' => $this->vol2->id,
             'training_session_id' => $this->trainingSession->id
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function gets_trainableVolunteers_for_training_session()
+    {
+        $volunteers = $this->createVolunteer(['volunteer_type_id' => 2], 3);
+        $volunteers->slice(0, 2)->each(function ($vol) {
+            AssignVolunteerToAssignable::dispatch($vol, $this->trainingSession->topic);
+        });
+
+        $response = $this->actingAs($this->createAdmin(), 'api')
+            ->json('GET', '/api/training-sessions/'.$this->trainingSession->id.'/trainable-volunteers')
+            ->assertStatus(200);
+        $response->assertJson([
+                'data' => [
+                    [
+                        'id' => $volunteers->get(0)->id,
+                        'first_name' => $volunteers->get(0)->first_name,
+                    ],
+                    [
+                        'id' => $volunteers->get(1)->id,
+                        'first_name' => $volunteers->get(1)->first_name,
+                    ],
+                ]
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function sends_custom_email_to_attendees()
+    {
+        $this->trainingSession->attendees()->sync([$this->vol1->id, $this->vol3->id]);
+
+        Notification::fake();
+
+        $admin = $this->createAdmin();
+        $bodyText = 'This is a <b>test</b> of the <a href="http://clinicalgenome.org/">Link</a>';
+        $this->actingAs($admin, 'api')
+            ->json(
+                'POST',
+                '/api/training-sessions/'.$this->trainingSession->id.'/attendees/email',
+                [
+                    'from' => $admin->email,
+                    'subject' => 'Test custom email',
+                    'body' => $bodyText
+                ]
+            );
+        
+        Notification::assertSentTo(
+            [$this->vol1, $this->vol3],
+            CustomTrainingEmail::class,
+            function ($notification, $channels) use ($admin, $bodyText) {
+                return $notification->fromEmail == $admin->email
+                    && $notification->subject == 'Test custom email'
+                    && $notification->body == $bodyText;
+            }
+        );
+
+        Notification::assertNotSentTo([$this->vol2], CustomTrainingEmail::class);
     }
 }

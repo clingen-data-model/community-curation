@@ -8,7 +8,10 @@ use App\CurationActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DefaultResource;
+use App\Notifications\CustomTrainingEmail;
 use App\Exceptions\NotImplementedException;
+use Illuminate\Support\Facades\Notification;
+use App\Http\Requests\CustomTrainingEmailRequest;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
 
 class TrainingSessionAttendeeController extends Controller
@@ -90,5 +93,14 @@ class TrainingSessionAttendeeController extends Controller
                         }])
                         ->get();
         return DefaultResource::collection($volunteers);
+    }
+
+    public function emailAttendees(CustomTrainingEmailRequest $request, $trainingSessionId)
+    {
+        $trainingSession = TrainingSession::findOrFail($trainingSessionId);
+        $trainingSession->attendees
+            ->each(function ($attendee) use ($request, $trainingSession) {
+                $attendee->notify(new CustomTrainingEmail($trainingSession, $request->body, $request->from, $request->subject));
+            });
     }
 }

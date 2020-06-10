@@ -108,6 +108,7 @@
                     :filter="filters"
                     :current-page="currentPage"
                     :busy.sync="loadingVolunteers"
+                    @row-clicked="navigateToVolunteer"
                 >
                     <template v-slot:cell(id)="{item}">
                         <a :href="'/volunteers/'+item.id">{{item.id}}</a>
@@ -291,6 +292,10 @@
             async getTypes() {
                 this.volunteerTypes = await getAllVolunteerTypes()
             },
+            navigateToVolunteer(volunteer) {
+                console.log("NavigateToVolunteer");
+                window.location = '/volunteers/'+volunteer.id
+            }
         },
         mounted() {
             // this.getVolunteers();

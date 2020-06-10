@@ -13,6 +13,7 @@
                 v-bind:key="idx"
                 class="alert-info"
                 v-on:cleared="removeInfo(idx)"
+                :duration="5000"
             >
                 {{msg}}
             </notice>

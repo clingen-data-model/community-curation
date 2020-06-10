@@ -89,13 +89,15 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         ]);
 
         $response->assertJson([
-            'topic_type' => CurationActivity::class,
-            'topic_id' => 1,
-            'starts_at' => $startsAt->format('Y-m-d H:i:s'),
-            'ends_at' => $startsAt->clone()->addHour(),
-            'url' => 'https://test@example.com',
-            'invite_message' => 'test test test',
-            'notes' => 'notes notes notes'
+            'data' => [
+                'topic_type' => CurationActivity::class,
+                'topic_id' => 1,
+                'starts_at' => $startsAt->format('Y-m-d H:i:s'),
+                'ends_at' => $startsAt->clone()->addHour(),
+                'url' => 'https://test@example.com',
+                'invite_message' => 'test test test',
+                'notes' => 'notes notes notes'
+            ]
         ]);
     }
 
@@ -196,7 +198,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
 
         $response = $this->actingAs($this->createVolunteer(), 'api')
             ->get('/api/training-sessions/'.$trainingSession->id)
-            ->assertJson($trainingSession->toArray());
+            ->assertJson(['data' => $trainingSession->toArray()]);
     }
 
     /**
@@ -221,7 +223,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
 
         $freshTraining = $trainingSession->fresh();
 
-        $response->assertJson($freshTraining->toArray());
+        $response->assertJson(['data' => $freshTraining->toArray()]);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 <template>
     <div class="alert">
-        <a class="float-right crsr-pointer" @click="$emit('cleared')">x</a>
+        <strong><a class="float-right crsr-pointer ml-2" @click="$emit('cleared')">x</a></strong>
         <slot></slot>
     </div>
 </template>

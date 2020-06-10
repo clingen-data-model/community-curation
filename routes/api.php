@@ -33,6 +33,7 @@ Route::group([
             Route::group(['middleware' => ['role:admin|programmer']], function () {
                 Route::resource('training-sessions/{id}/attendees', 'TrainingSessionAttendeeController')->only(['index', 'store', 'destroy']);
                 Route::get('training-sessions/{id}/trainable-volunteers', 'TrainingSessionAttendeeController@trainableVolunteers');
+                Route::post('training-sessions/{id}/attendees/email', 'TrainingSessionAttendeeController@emailAttendees');
             });
 
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
