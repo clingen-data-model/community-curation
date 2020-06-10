@@ -19,6 +19,8 @@
                         &nbsp;
                         <input type="text" class="form-control" id="last_name" v-model="volunteer.last_name" placeholder="Last">
                     </div>
+                    <validation-error :errors="errors.first_name"></validation-error>
+                    <validation-error :errors="errors.last_name"></validation-error>
                 </div>
             </div>
 
@@ -32,6 +34,7 @@
                             This is the email {{$store.state.user.isVolunteer() ? 'you' : 'the volunteer'}} will use to log.
                         </small>
                     </div>
+                    <validation-error :errors="errors.email"></validation-error>
                 </div>
             </div>
 
@@ -122,7 +125,7 @@
         },
         data: function() {
             return {
-                
+                errors: {}
             }
         },
         methods: {
@@ -146,6 +149,12 @@
                     }
                 ).then(response => {
                     this.$emit('saved');
+                })
+                .catch(error => {
+                    console.log(error.response.data.errors);
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors
+                    }
                 })
             }
         }
