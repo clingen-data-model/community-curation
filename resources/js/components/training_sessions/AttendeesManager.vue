@@ -24,11 +24,17 @@
             <transition name="slide-fade">
                 <div v-show="!showEmailForm">
                     <div v-if="hasAttendees">
-                        <b-table :fields="fields" :items="attendees" 
+                        <b-table :fields="attendeeFields" :items="attendees" 
                             small 
                             sticky-header="305px"
                             class="border-bottom"
-                        ></b-table>
+                        >
+                            <template v-slot:cell(id)="{item}">
+                                <button class="btn btn-default btn-xs border" v-if="sessionStarted">
+                                    Mark Attended
+                                </button>
+                            </template>
+                        </b-table>
                     </div>
                     <div v-else class="alert alert-light border">
                             <span v-if="loadingAttendees">Loading...</span>
@@ -129,6 +135,7 @@ export default {
             selectAll: false,
             showEmailForm: false,
             inviting: false,
+            currentDateTime: moment()
         }
     },
     watch: {
@@ -138,6 +145,9 @@ export default {
         }
     },
     computed: {
+        sessionStarted() {
+            return this.trainingSession.starts_at.isBefore(this.currentDateTime)
+        },
         hasAttendees() {
             return this.attendees.length > 0;
         },
@@ -146,6 +156,12 @@ export default {
                     key: 'id',
                     label: ''
                 }])
+        },
+        attendeeFields() {
+            return this.fields.concat([{
+                key: 'id',
+                label: ''
+            }])
         },
         canInvite() {
             return this.trainableVolunteers.length > 0 && this.selectedVolunteers.length > 0 && !this.inviting;
@@ -198,10 +214,12 @@ export default {
         },
         handleInviteRowClick (item, index, evt) {
             this.selectedVolunteers.push(item);
-        }
+        },
     },
     mounted () {
-
+        setInterval(() => {
+            this.currentDateTime = moment();
+        }, 1000);
     }
 }
 </script>
