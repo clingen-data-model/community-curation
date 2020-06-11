@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
-
+const { webpackConfig } = require('laravel-mix');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const IgnorePlugin = require('webpack').IgnorePlugin;
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -29,9 +31,19 @@ mix.webpackConfig({
         host: "localhost",
         port: '8081'
     },
+    plugins: [
+        // new BundleAnalyzerPlugin()
+        // new IgnorePlugin(/^\.\/locale$/, /moment$/)
+    ],
+    resolve: {
+        alias: {
+            moment: 'moment/src/moment',
+        }
+    }
 });
+
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['vue', 'bootstrap-vue', 'moment', 'bootstrap-datepicker', 'timepicker', 'axios', 'lodash', 'jquery'])
+    .extract(['vue', 'moment', 'bootstrap-datepicker', 'timepicker', 'axios', 'jquery'])
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
 
