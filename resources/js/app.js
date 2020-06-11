@@ -135,27 +135,29 @@ function clearSessionStorage()
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new window.Vue({
-    el: '#app',
-    store: store,
-    computed: {
-        infoMessages() {
-            console.log('getInfoMessages');
-            return this.$store.state.messages.info
-        }
-    },
-    methods: {
-        ...mapActions([
-            'fetchUser',
-        ]),
-        clearSessionStorage() {
-            clearSessionStorage();
-        }
-    },
-    mounted() {
-        this.fetchUser();
-    }
-});
+ if (document.getElementById('app')) {
+     const app = new window.Vue({
+         el: '#app',
+         store: store,
+         computed: {
+             infoMessages() {
+                 console.log('getInfoMessages');
+                 return this.$store.state.messages.info
+             }
+         },
+         methods: {
+             ...mapActions([
+                 'fetchUser',
+             ]),
+             clearSessionStorage() {
+                 clearSessionStorage();
+             }
+         },
+         mounted() {
+             this.fetchUser();
+         }
+     });
+ }
 
 
 function clearChildren(el) {
@@ -176,13 +178,12 @@ function createOption({ value, label }) {
 let curationActivities = [];
 async function loadActivities() {
     curationActivities = await getAllCurationActivities();
+    
     Array.from(document.querySelectorAll('select.curation-activity-question'))
         .forEach(question => {
             question.disabled = false;
         })
 }
-
-loadActivities();
 
 let panels = [];
 async function loadPanels() {
@@ -193,11 +194,13 @@ async function loadPanels() {
         })
 }
 
-loadPanels();
-
 document.addEventListener('DOMContentLoaded', () => {
     const curationActivityQuestions = Array.from(document.querySelectorAll('select.curation-activity-question'));
 
+    loadActivities();
+
+    loadPanels();
+    
     curationActivityQuestions
         .forEach(question => {
             question.addEventListener('change', (evt) => {
