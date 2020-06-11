@@ -30,9 +30,13 @@
                             class="border-bottom"
                         >
                             <template v-slot:cell(id)="{item}">
-                                <button class="btn btn-default btn-xs border" v-if="sessionStarted">
-                                    Mark Attended
+                                <button v-if="sessionStarted && !item.training_complete"
+                                    @click="markTrainingComplete(item)"
+                                    class="btn btn-default btn-xs border" 
+                                >
+                                    Mark Training Complete
                                 </button>
+                                <small class="text-muted" v-show="item.training_complete">Training Complete</small>
                             </template>
                         </b-table>
                     </div>
@@ -89,6 +93,7 @@
 <script>
 import moment from 'moment'
 import inviteAttendees from '../../resources/training_sessions/attendees/invite'
+import markTrainingComplete from '../../resources/trainings/mark_training_complete'
 import getAttendees from '../../resources/training_sessions/attendees/get_attendees'
 import getTrainableVolunteers from '../../resources/training_sessions/attendees/get_trainable_volunteers'
 import AttendeeEmailForm from './AttendeeEmailForm'
@@ -106,6 +111,7 @@ export default {
     },
     data() {
         return {
+            test: false,
             attendees: [],
             selectedVolunteers: [],
             fields: [
@@ -215,6 +221,13 @@ export default {
         handleInviteRowClick (item, index, evt) {
             this.selectedVolunteers.push(item);
         },
+        markTrainingComplete (item) {
+            this.$set(item, 'training_complete', true)
+            markTrainingComplete(item.assignments[0].user_aptitudes[0].id, moment())
+                .then(response => {
+                    this.addInfo('Training marked completed for '+item.first_name+' '+item.last_name)
+                });
+        }
     },
     mounted () {
         setInterval(() => {

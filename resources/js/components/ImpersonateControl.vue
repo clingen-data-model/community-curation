@@ -55,7 +55,7 @@ export default {
         impersonateSelected() {
             this.$emit('impersonated');
             this.showProgress = true;
-            impersonateUser(this.seletedUser.id)
+            impersonateUser(this.selectedUser.id)
             
         },
         async getImpersonatableUsers () {
