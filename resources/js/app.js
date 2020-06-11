@@ -11,8 +11,15 @@ import getAllCurationActivities from './resources/curation_activities/get_all_cu
 import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
 import moment from 'moment'
-
+/**
+ * Import all bootstrap view
+ */
+// import {BootstrapVue} from 'bootstrap-vue';
 // window.Vue.use(BootstrapVue);
+
+/**
+ * Import Plugins
+ */
 import { BadgePlugin, CardPlugin, CollapsePlugin, DropdownPlugin, ModalPlugin, PaginationPlugin, TabsPlugin, TablePlugin, PopoverPlugin } from 'bootstrap-vue';
 window.Vue.use(BadgePlugin);
 window.Vue.use(CardPlugin);
@@ -23,6 +30,7 @@ window.Vue.use(PaginationPlugin);
 window.Vue.use(TabsPlugin);
 window.Vue.use(TablePlugin);
 window.Vue.use(PopoverPlugin);
+
 
 // localStorage.clear();
 
