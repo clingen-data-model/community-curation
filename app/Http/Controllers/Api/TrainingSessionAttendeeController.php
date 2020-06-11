@@ -13,6 +13,7 @@ use App\Exceptions\NotImplementedException;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\CustomTrainingEmailRequest;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
+use App\Http\Resources\TrainingSessionAttendeeResource;
 
 class TrainingSessionAttendeeController extends Controller
 {
@@ -24,12 +25,15 @@ class TrainingSessionAttendeeController extends Controller
     public function index($trainingSessionId)
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
-        $attendees = $trainingSession->attendees()->with(['assignments' => function ($q) use ($trainingSession) {
-            $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
-                ->select('created_at as date_assigned', 'user_id');
-        }])->get();
+        $attendees = $trainingSession->attendees()->with([
+            'assignments' => function ($q) use ($trainingSession) {
+                $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
+                    ->select('created_at as date_assigned', 'user_id', 'id');
+            },
+            'assignments.userAptitudes'
+        ])->get();
 
-        return new DefaultResource($attendees);
+        return TrainingSessionAttendeeResource::collection($attendees);
     }
 
 
@@ -44,12 +48,15 @@ class TrainingSessionAttendeeController extends Controller
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $trainingSession->attendees()->syncWithoutDetaching($request->attendee_ids);
 
-        $attendees = $trainingSession->attendees()->with(['assignments' => function ($q) use ($trainingSession) {
-            $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
-                ->select('created_at as date_assigned', 'user_id');
-        }])->get();
+        $attendees = $trainingSession->attendees()->with([
+            'assignments' => function ($q) use ($trainingSession) {
+                $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
+                    ->select('created_at as date_assigned', 'user_id', 'id');
+            },
+            'assignments.userAptitudes'
+         ])->get();
 
-        return new DefaultResource($attendees);
+        return TrainingSessionAttendeeResource::collection($attendees);
     }
 
     /**
