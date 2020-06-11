@@ -152,7 +152,7 @@ export default {
             this.errors = {};
             createTrainingSession(trainingSession)
                 .then(response => {
-                    this.sessions.push(response.data);
+                    this.sessions.push(response.data.data);
                     this.currentSession = {};
                     this.showCreate = false;
                 })
