@@ -11,6 +11,7 @@
                 :value="option.value" 
                 :id="`${name}-${option.value}`" 
                 v-model="valueCopy"
+                @change="$emit('change')"
             >
             <label :for="`${name}-${option.value}`">
                 {{option.label}}
