@@ -32,7 +32,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         \App\Events\AttestationSigned::class => [
             \App\Listeners\GrantAptitudeForSignedAttestation::class,
-            \App\Listeners\SetAssignmentStatusToTrained::class
+            \App\Listeners\SetAssignmentStatusToTrained::class,
+            \App\Listeners\setHypothesisIdFromBaselineAttestation::class
         ],
         
         \App\Events\TrainingCreated::class => [
