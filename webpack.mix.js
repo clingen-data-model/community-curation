@@ -44,7 +44,14 @@ mix.webpackConfig({
 });
 
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['vue', 'moment', 'bootstrap-datepicker', 'timepicker', 'axios', 'jquery'])
+    .extract([
+        'vue', 
+        'moment', 
+        'bootstrap-datepicker', 
+        'timepicker', 
+        'axios', 
+        'jquery'
+    ])
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
 
