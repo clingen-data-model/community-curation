@@ -121,10 +121,16 @@ export default {
             updateTrainingSession(this.trainingSession.id, data)
                 .then(response => {
                     this.showEdit = false;
-                    this.trainingSession = response.data.data;
+                    var session = response.data.data;
+                    session.starts_at = moment(session.starts_at);
+                    session.ends_at = moment(session.ends_at);
+                    this.trainingSession = session;
                 })
                 .catch(error => {
-                    this.errors = error.response.data.errors
+                    if (error.response && error.response.status == 422) {
+                        this.errors = error.response.data.errors
+                    }
+                    console.error(error);
                 })
         },
         cancelUpdate() {
