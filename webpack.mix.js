@@ -20,8 +20,9 @@ mix.options({
     },
 });
 
+if (mix.dev)
 mix.webpackConfig({
-    mode: "development",
+    // mode: "development",
     devtool: "inline-source-map",
     devServer: {
         disableHostCheck: true,
