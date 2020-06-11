@@ -22,6 +22,9 @@
                                     <button class="btn border btn-xs" @click="destroy(value)">Delete</button>
                                 </div>
                             </template>
+                            <template v-slot:cell(starts_at)="{item}">
+                                {{item.starts_at.format('MMMM D, YYYY - h:mm a')}}
+                            </template>
                         </b-table>        
                     </b-tab>
                     <b-tab title="Past">
@@ -29,6 +32,9 @@
                             :sort-by.sync="pastSortBy"
                             :sort-desc.sync="pastSortDesc"
                         >
+                            <template v-slot:cell(starts_at)="{item}">
+                                {{item.starts_at.format('MMMM D, YYYY - h:mm a')}}
+                            </template>
                             <template v-slot:cell(id)="{value}">
                                 <div class="text-right">
                                     <button class="btn border btn-xs" @click="show(value)">View</button>
@@ -85,8 +91,8 @@ export default {
                     key: 'starts_at',
                     label: 'Date & Time',
                     sortable: 'true',
-                    formatter: (value, key, item) => this.$options.filters.formatDate(value, 'MMM D, YYYY - h:mm')+' EST'
-
+                    formatter: (value, key, item) => this.$options.filters.formatDate(value, 'YYYY-MM-DD HH:mm')+' EST',
+                    sortByFormatted: true
                 },
                 {
                     key: 'id',
