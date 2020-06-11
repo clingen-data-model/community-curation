@@ -30,7 +30,15 @@
                 name="created_hypothesis_account"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
                 v-model="created_hypothesis_account"
+                @input="toggleHypothesisIdQuestion"
             ></radio-group>
+        </question-block>
+
+        <question-block v-show="showHyptothesisId" class="form-inline ml-4">
+            <template slot="question-text">
+                My hypothes.is username:
+            </template>
+            <input type="text" v-model="hypothesis_id" slot="answer-block" class="form-control">
         </question-block>
 
         <question-block>
@@ -60,10 +68,12 @@ export default {
         return {
             watched_anotation_tutorial: null,
             read_hypothesis_overview: null,
-            created_hypothesis_account: null,
+            created_hypothesis_account: this.attestation.user.hypothesis_id ? 1 : 0,
             attended_web_training: null,
             signature: null,
-            signedAt: moment().format('YYYY-MM-DD')
+            signedAt: moment().format('YYYY-MM-DD'),
+            hypothesis_id: this.attestation.user.hypothesis_id,
+            showHyptothesisId: this.attestation.user.hypothesis_id ? true : false,
         }
     },
     computed: {
@@ -74,5 +84,18 @@ export default {
                     && this.attended_web_training === 1;
         }
     },
+    methods: {
+        toggleHypothesisIdQuestion() {
+            console.log('toggleHypothesisIdQuestion')
+            console.log(this.created_hypothesis_account);
+            if (this.created_hypothesis_account == 1) {
+                this.showHyptothesisId = true;
+                return;
+            }
+            this.showHyptothesisId = false;
+            this.hyptothesis_id = this.attestation.user.hypothesis_id;
+
+        }
+    }
 }
 </script>
