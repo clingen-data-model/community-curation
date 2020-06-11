@@ -10,7 +10,6 @@ window.Vue = require('vue');
 import getAllCurationActivities from './resources/curation_activities/get_all_curation_activities'
 import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
-// import BootstrapVue from 'bootstrap-vue'
 import moment from 'moment'
 
 // window.Vue.use(BootstrapVue);
