@@ -4,6 +4,7 @@
         top: 70px; 
         right: 1em;
         min-width: 300px;
+        z-index: 2000;
     }
 </style>
 <template>
