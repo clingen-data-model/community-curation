@@ -39,6 +39,12 @@ class Assignment extends Model
                 Event::dispatch(new TrainingCompleted($model));
             }
         });
+
+        static::deleting(function ($model) {
+            if ($model->subAssignments->count() > 0) {
+                $model->subAssignments->each->delete();
+            }
+        });
     }
 
 
