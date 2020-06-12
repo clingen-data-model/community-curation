@@ -71,6 +71,7 @@ class AssignmentController extends Controller
      */
     public function destroy(Assignment $assignment)
     {
-        //
+        $assignment->delete();
+        return $assignment->volunteer->structuredAssignments;
     }
 }
