@@ -4,14 +4,17 @@
 <template>
     <div class="component-container">
         <table class="table table-borderless table-sm mb-1">
-            <tr v-for="(panel, i) in assignment.sub_assignments" :key="i">
+            <tr v-for="(subAss, i) in assignment.sub_assignments" :key="i">
                 <td style="width: 60%">
-                    <div>{{panel.assignable.name}}</div>
+                    <div>{{subAss.assignable.name}}</div>
                 </td>
                 <td>
-                    <status-badge :assignment="panel"
+                    <status-badge :assignment="subAss"
                     @assignmentsupdated="$emit('assignmentsupdated')"
                     ></status-badge>
+                </td>
+                <td class="text-right">
+                    <delete-button @click="removeAssignment(subAss)"></delete-button>
                 </td>
             </tr>
         </table>
@@ -87,6 +90,11 @@
                 this.newExpertPanel = null
                 this.addingExpertPanel = false;
                 this.$emit('cancel');
+            },
+            removeAssignment(subAss) {
+                if (confirm("You are about to unassign "+this.volunteer.name+" from "+subAss.assignable.name+". \n\nThis cannot be undone.")) {
+                    this.$emit('unassign', subAss);
+                }
             }
         }
     

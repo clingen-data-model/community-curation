@@ -100,3 +100,7 @@ button.rotate:focus {
     transform: translateY(-10px);
     opacity: 0;
 }
+
+.loading {
+    cursor: progress !important;
+}

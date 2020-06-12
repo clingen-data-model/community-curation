@@ -31,7 +31,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div id="app" :class="{loading: loading}">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -92,6 +92,7 @@
             </div>
         </nav>
         @include('partials.no-mail')
+        <global-progress></global-progress>
 
         @include('partials.impersonate')
         @include('partials.messages')

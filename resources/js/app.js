@@ -20,16 +20,18 @@ import moment from 'moment'
 /**
  * Import Plugins
  */
-import { BadgePlugin, CardPlugin, CollapsePlugin, DropdownPlugin, ModalPlugin, PaginationPlugin, TabsPlugin, TablePlugin, PopoverPlugin } from 'bootstrap-vue';
+import { BadgePlugin, CardPlugin, CollapsePlugin, DropdownPlugin, IconsPlugin, ModalPlugin, PaginationPlugin, PopoverPlugin, ProgressPlugin, TabsPlugin, TablePlugin } from 'bootstrap-vue';
 window.Vue.use(BadgePlugin);
 window.Vue.use(CardPlugin);
 window.Vue.use(CollapsePlugin);
 window.Vue.use(DropdownPlugin);
+window.Vue.use(IconsPlugin);
 window.Vue.use(ModalPlugin);
 window.Vue.use(PaginationPlugin);
+window.Vue.use(PopoverPlugin);
+window.Vue.use(ProgressPlugin);
 window.Vue.use(TabsPlugin);
 window.Vue.use(TablePlugin);
-window.Vue.use(PopoverPlugin);
 
 
 // localStorage.clear();
@@ -73,8 +75,15 @@ import ImpersonateControl from './components/ImpersonateControl'
 
 import Row from './components/layout/Row'
 window.Vue.component('row', Row);
+
 import Column from './components/layout/Col'
 window.Vue.component('column', Column);
+
+import GlobalProgress from './components/GlobalProgress'
+window.Vue.component('global-progress', GlobalProgress);
+
+import DeleteButton from './components/DeleteButton'
+window.Vue.component('delete-button', DeleteButton);
 
 window.Vue.component('impersonate-control', ImpersonateControl);
 
@@ -136,34 +145,55 @@ function clearSessionStorage()
     sessionStorage.removeItem('impersonatable-users');
 }
 
+
+window.axios.interceptors.request.use(function (config) {
+    store.commit('addRequest');
+    const apiParts = config.url.split(/[\/?&]/)
+    return config;
+})
+
+window.axios.interceptors.response.use(
+    function (response) {
+        store.commit('removeRequest');
+        return response;
+    }, 
+    function (error) {
+        store.commit('removeRequest');
+        return Promise.reject(error);
+    }
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
- if (document.getElementById('app')) {
-     const app = new window.Vue({
-         el: '#app',
-         store: store,
-         computed: {
-             infoMessages() {
-                 console.log('getInfoMessages');
-                 return this.$store.state.messages.info
-             }
-         },
-         methods: {
-             ...mapActions([
-                 'fetchUser',
-             ]),
-             clearSessionStorage() {
-                 clearSessionStorage();
-             }
-         },
-         mounted() {
-             this.fetchUser();
-         }
-     });
+if (document.getElementById('app')) {
+    const app = new window.Vue({
+        el: '#app',
+        store: store,
+        computed: {
+            infoMessages() {
+                console.log('getInfoMessages');
+                return this.$store.state.messages.info
+            },
+            loading() {
+                return this.$store.getters.loading;
+            }
+        },
+        methods: {
+            ...mapActions([
+                'fetchUser',
+            ]),
+            clearSessionStorage() {
+                clearSessionStorage();
+            }
+        },
+        mounted() {
+            this.fetchUser();
+        }
+    });
  }
 
 

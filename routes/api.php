@@ -24,7 +24,7 @@ Route::group([
             'middleware' => 'auth:api'
         ], function () {
             Route::resource('assignments', 'AssignmentController')
-                ->only(['index', 'store','show', 'update']);
+                ->only(['index', 'store','show', 'update', 'destroy']);
 
             Route::resource('trainings', 'TrainingController')
                 ->only(['store','update']);
