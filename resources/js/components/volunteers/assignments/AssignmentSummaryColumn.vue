@@ -8,7 +8,17 @@
             >
                 <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id">
                     <small>
-                        {{subAsn.assignable.name}}
+                        
+                        <span v-if="subAsn.assignable.url">
+                            <a :href="subAsn.assignable.url" target="expert-panel" title="expert panel info page">
+                                {{subAsn.assignable.name}}
+                                <b-icon-box-arrow-up-right />
+                            </a>
+                        </span>
+                        <span v-else>
+                            {{subAsn.assignable.name}}
+                        </span>
+
                         <div class="float-right">
                             <a 
                                 v-if="subAsn.assignable.protocol_path"

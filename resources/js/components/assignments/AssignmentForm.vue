@@ -9,82 +9,94 @@
             <priorities-list :volunteer="volunteer" :disable-set-new="true" :disable-view-complete="true"></priorities-list>
         </div>
         <div class="mt-4">
-            <h5>Assignments</h5>
+            <h5>
+                <!-- <b-icon-arrow-repeat class="float-right"></b-icon-arrow-repeat> -->
+                Assignments
+            </h5>
             
-            <table class="table table-sm table-bordered mb-1">
-                <thead>
-                    <tr>
-                        <th style="width:30%">Curation Activities:</th>
-                        <th>
-                            <span v-if="volunteer.isComprehensive()">Panels / </span>Genes:
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="assignment in volunteer.assignments" :key="assignment.id">
-                        <td
-                            :class="{'text-strike text-muted': (assignment.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
-                        >
-                            <strong>{{assignment.assignable.name}}</strong>
-                            <status-badge :assignment="assignment"
-                                @assignmentsupdated="$emit('assignmentsupdated')"
-                            ></status-badge>
-                            <secondary-aptitude-control 
-                                :assignment="assignment"
-                                @assignAptitude="createAptitudeTraining($event, assignment)"
-                                @trainingcompleted="markTrainingCompleted"
-                                class="mt-1"
-                            ></secondary-aptitude-control>
-                        </td>
-                        <td>
-                            <div v-if="assignment.user_aptitudes.pending().primary().length > 0">
-                                <training-and-attestation-control
-                                    :userAptitude="assignment.user_aptitudes.pending().primary().get(0)"
-                                    @trainingcompleted="markTrainingCompleted"
-                                ></training-and-attestation-control>
-                            </div>
-
-                            <div v-else>
-                                <expert-panel-cell 
-                                    v-if="assignment.assignable.curation_activity_type_id == 1"
-                                    :assignment="assignment" 
-                                    :expert-panels="getExpertPanelsForCurationActivity(assignment.assignable.id)"
-                                    :volunteer="volunteer"
-                                    @save="saveNewAssignment('App\\ExpertPanel', $event)"
-                                    @assignmentsupdated="$emit('assignmentsupdated')"
-                                ></expert-panel-cell>
-
-                                <gene-group-selector 
-                                    v-if="assignment.assignable.curation_activity_type_id == 2"
+            <div class="position-relative">
+                <table class="table table-sm table-bordered mb-1">
+                    <thead>
+                        <tr>
+                            <th style="width:30%">Curation Activities:</th>
+                            <th>
+                                <span v-if="volunteer.isComprehensive()">Panels / </span>Genes:
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="assignment in volunteer.assignments" :key="assignment.id">
+                            <td
+                                :class="{'text-strike text-muted': (assignment.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
+                            >
+                                <div>
+                                    <delete-button class="float-right" @click="confirmUnassign(assignment)"></delete-button>
+                                    <strong>{{assignment.assignable.name}}</strong>
+                                    <status-badge :assignment="assignment"
+                                        @assignmentsupdated="$emit('assignmentsupdated')"
+                                    ></status-badge>
+                                </div>
+                                <secondary-aptitude-control 
                                     :assignment="assignment"
-                                    :volunteer="volunteer"
-                                    @save="saveNewAssignment('App\\Gene', $event)"
-                                    @assignmentsupdated="$emit('assignmentsupdated')"
-                                ></gene-group-selector>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-between">
-                <assign-activity-button :volunteer="volunteer"
-                    @activity_selected="saveNewAssignment('App\\CurationActivity', $event)"
-                    v-if="volunteer.isComprehensive()"
-                ></assign-activity-button>
-                <assign-baseline-button :volunteer="volunteer"
-                    @assigned="saveNewAssignment('App\\CurationActivity', $event)"
-                ></assign-baseline-button>
+                                    @assignAptitude="createAptitudeTraining($event, assignment)"
+                                    @trainingcompleted="markTrainingCompleted"
+                                    class="mt-1"
+                                ></secondary-aptitude-control>
+                            </td>
+                            <td colspan="2">
+                                <div v-if="assignment.user_aptitudes.pending().primary().length > 0">
+                                    <training-and-attestation-control
+                                        :userAptitude="assignment.user_aptitudes.pending().primary().get(0)"
+                                        @trainingcompleted="markTrainingCompleted"
+                                    ></training-and-attestation-control>
+                                </div>
+
+                                <div v-else>
+                                    <expert-panel-cell 
+                                        v-if="assignment.assignable.curation_activity_type_id == 1"
+                                        :assignment="assignment" 
+                                        :expert-panels="getExpertPanelsForCurationActivity(assignment.assignable.id)"
+                                        :volunteer="volunteer"
+                                        @save="saveNewAssignment('App\\ExpertPanel', $event)"
+                                        @assignmentsupdated="$emit('assignmentsupdated')"
+                                        @unassign="removeAssignment($event)"
+                                    ></expert-panel-cell>
+
+                                    <gene-group-selector 
+                                        v-if="assignment.assignable.curation_activity_type_id == 2"
+                                        :assignment="assignment"
+                                        :volunteer="volunteer"
+                                        @save="saveNewAssignment('App\\Gene', $event)"
+                                        @assignmentsupdated="$emit('assignmentsupdated')"
+                                        @unassign="removeAssignment($event)"
+                                    ></gene-group-selector>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between">
+                    <assign-activity-button :volunteer="volunteer"
+                        @activity_selected="saveNewAssignment('App\\CurationActivity', $event)"
+                        v-if="volunteer.isComprehensive()"
+                    ></assign-activity-button>
+                    <assign-baseline-button :volunteer="volunteer"
+                        @assigned="saveNewAssignment('App\\CurationActivity', $event)"
+                    ></assign-baseline-button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapMutations} from 'vuex'
     import createAssignment from '../../resources/assignments/create_assignment'
     import markTrainingComplete from '../../resources/trainings/mark_training_complete'
     import createTraining from '../../resources/trainings/create_training'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
     import getAllAptitudes from '../../resources/aptitudes/get_all_aptitudes'
+    import deleteAssignment from '../../resources/assignments/delete_assignment'
     
     import ExpertPanelCell from './ExpertPanelCell'
     import GeneGroupSelector from './GeneGroupSelector'
@@ -99,6 +111,10 @@
         props: {
             volunteer: {
                 required: true
+            },
+            updating: {
+                required: false,
+                default: false
             }
         },
         components: {
@@ -128,7 +144,7 @@
                 curationActivities: [],
                 expertPanels: [],
                 aptitudes: [],
-                configs: window.configs
+                configs: window.configs,
             }
         },
         computed: {
@@ -145,6 +161,7 @@
             }
         },
         methods: {
+            ...mapMutations('messages', ['addInfo']),
             fetchExpertPanels: async function()
             {
                 this.expertPanels = await getAllExpertPanels();
@@ -183,6 +200,25 @@
 
                 createTraining(data)
                     .then(response => this.$emit('saved'));
+            },
+            confirmUnassign(assignment) {
+                if (confirm('You are about the unassign '+this.volunteer.name+' from '+assignment.assignable.name+" and all related panels/genes.\n\nThis cannot be undone.")) {
+                    this.removeAssignment(assignment);
+                }
+            },
+            removeAssignment(assignment)
+            {
+                deleteAssignment(assignment)
+                    .then(response => {
+                        this.addInfo(this.volunteer.name+' has been unassigned from '+assignment.assignable.name);
+                        this.$emit('saved')
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        if (error.response) {
+                            alert(error.response.statusMessage)
+                        }
+                    })
             }
         },
         mounted() {
