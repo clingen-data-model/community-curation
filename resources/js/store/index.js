@@ -7,25 +7,33 @@ import getCurrentUser from '../resources/users/get_current_user';
 import User from '../user.js';
 import configs from './../configs.json';
 
-console.log(configs);
-
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
     configs: configs,
-    user: new User()
+    user: new User(),
+    requestCount: 0,
 }
 
 const getters = {
-    getUser: state => state.user
+    getUser: state => state.user,
+    loading (state) {
+        return state.requestCount > 0
+    },
 }
 
 const mutations = {
     setUser (state, user) {
         state.user = new User(user);
-    }
+    },
+    addRequest(state) {
+        state.requestCount++;
+    },
+    removeRequest(state) {
+        state.requestCount--;
+    },    
 }
 
 const actions = {
