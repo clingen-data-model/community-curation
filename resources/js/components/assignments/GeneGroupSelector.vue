@@ -4,7 +4,7 @@
             <tr>
                 <th class="border-bottom" style="width: 50%"><small>Gene Symbol</small></th>
                 <th class="border-bottom"><small>Status</small></th>
-                <th class="border-bottom"><small>Links</small></th>
+                <th class="border-bottom" colspan="2"><small>Links</small></th>
             </tr>
             <tr v-for="(subAss, i) in assignment.sub_assignments" :key="i">
                 <td>
@@ -25,7 +25,11 @@
                         <a :href="'/storage/'+subAss.assignable.hypothesis_group_url" v-if="subAss.assignable.hypothesis_group_url">
                             Hypothes.is
                         </a>
+
                     </small>
+                </td>
+                <td class="text-right">
+                    <delete-button @click="removeAssignment(subAss)"></delete-button>
                 </td>
             </tr>
             <tr>
@@ -57,25 +61,6 @@
                 </td>
             </tr>
         </table>
-        <!-- <ul class="list-unstyled mb-0">
-            <li v-for="(subAss, i) in assignment.sub_assignments" :key="i"
-                :class="{'text-strike text-muted': (subAss.assignment_status_id == $store.state.configs.project.assignmentStatuses.retired)}"
-                class="d-flex justify-content-between"
-            >
-                <div>
-                    {{subAss.assignable.symbol}} 
-                    <small class="text-muted">
-                        ({{subAss.assignable.hgnc_id}})
-                    </small>
-                    <status-badge :assignment="subAss"
-                        @assignmentsupdated="$emit('assignmentsupdated')"
-                    ></status-badge>
-                </div>
-                <div v-if="subAss.assignable.protocol_path" class="mr-3">
-                    <a :href="'/storage/'+subAss.assignable.protocol_path">Protocol</a>
-                </div>
-            </li>
-        </ul> -->
     </div>
 </template>
 <script>
@@ -99,7 +84,7 @@ export default {
             loadingGenes: false,
             newGene: null,
             addingGene: false,
-            genes: []
+            genes: [],
         }
     },
     computed: {
@@ -124,6 +109,11 @@ export default {
             this.genes = await getAllGenes();    
             this.loadingGenes = true;
             this.loadingGenes = false;
+        },
+        removeAssignment(panelAssignment) {
+            if (confirm("You are about to unassign "+this.volunteer.name+" from "+panelAssignment.assignable.name+". \n\nThis cannot be undone.")) {
+                this.$emit('unassign', panelAssignment);
+            }
         }
     },
     mounted() {
