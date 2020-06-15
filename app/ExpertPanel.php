@@ -21,7 +21,8 @@ class ExpertPanel extends Model implements AssignableContract
         'name',
         'curation_activity_id',
         'working_group_id',
-        'accepting_volunteers'
+        'accepting_volunteers',
+        'url'
     ];
 
     public function workingGroup()
