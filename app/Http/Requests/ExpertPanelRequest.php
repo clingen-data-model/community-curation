@@ -26,7 +26,9 @@ class ExpertPanelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
+            'working_group' => 'nullable|exists:working_groups,id',
+            'url' => 'nullable|url'
         ];
     }
 
