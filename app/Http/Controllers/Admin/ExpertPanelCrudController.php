@@ -92,6 +92,8 @@ class ExpertPanelCrudController extends CrudController
             ]
         ]);
 
+        $this->crud->removeColumn(['url']);
+
         if (!\Auth::user()->can('create', ExpertPanel::class)) {
             $this->crud->RemoveButton('create');
         }
