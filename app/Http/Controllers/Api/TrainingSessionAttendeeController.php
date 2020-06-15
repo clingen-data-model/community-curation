@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\CustomTrainingEmailRequest;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
 use App\Http\Resources\TrainingSessionAttendeeResource;
+use App\Jobs\InviteVolunteersToTrainingSession;
 
 class TrainingSessionAttendeeController extends Controller
 {
@@ -46,7 +47,8 @@ class TrainingSessionAttendeeController extends Controller
     public function store(TrainingSessionAttendeeInviteRequest $request, $trainingSessionId)
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
-        $trainingSession->attendees()->syncWithoutDetaching($request->attendee_ids);
+        $volunteers = User::find($request->attendee_ids);
+        InviteVolunteersToTrainingSession::dispatch($trainingSession, $volunteers);
 
         $attendees = $trainingSession->attendees()->with([
             'assignments' => function ($q) use ($trainingSession) {
