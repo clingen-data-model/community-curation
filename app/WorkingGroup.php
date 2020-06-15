@@ -12,7 +12,8 @@ class WorkingGroup extends Model
     use RevisionableTrait;
     
     protected $fillable = [
-        'name'
+        'name',
+        'url'
     ];
 
     public function expertPanels()
