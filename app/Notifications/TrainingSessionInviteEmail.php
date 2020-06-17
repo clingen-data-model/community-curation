@@ -47,7 +47,15 @@ class TrainingSessionInviteEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->view('email.training_session_invite', ['trainingSession' => $this->trainingSession, 'volunteer' => $notifiable]);
+            ->attach($this->trainingSession->getIcsFilePath(), [
+                'as' => snake_case($this->trainingSession->title).'.pdf',
+                'mime' => 'text/calendar'
+
+            ])
+            ->view('email.training_session_invite', [
+                'trainingSession' => $this->trainingSession,
+                'volunteer' => $notifiable
+            ]);
     }
 
     /**
