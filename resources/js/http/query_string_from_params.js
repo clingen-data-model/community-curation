@@ -4,7 +4,6 @@ const queryStringFromParams = function (params = {}) {
         let {filter, ...rest} = params;
         parsedParams = {...filter, ...rest};
     }
-    console.log(parsedParams);
 
     let queryStringParts = [
         'page=' + (parsedParams.currentPage ? parsedParams.currentPage : 1)

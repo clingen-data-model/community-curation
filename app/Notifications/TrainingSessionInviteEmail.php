@@ -47,7 +47,7 @@ class TrainingSessionInviteEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->view('email.training_session_invite', [$this->trainingSession]);
+            ->view('email.training_session_invite', ['trainingSession' => $this->trainingSession, 'volunteer' => $notifiable]);
     }
 
     /**
