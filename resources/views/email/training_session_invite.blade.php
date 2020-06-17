@@ -32,8 +32,10 @@ Cheers!
 <div>
     Add the training session to your calendar:
     <ul>
-    @foreach ($trainingSession->calendarLinks as $label => $url)
-        <li><a href="{{$url}}">{{$label}}</a></li>
-    @endforeach
+        @foreach ($trainingSession->calendarLinks as $label => $url)
+            @if ($label != 'Apple & Outlook')
+                <li><a href="{{$url}}">{{$label}}</a></li>
+            @endif
+        @endforeach
     </ul>
 </div>
