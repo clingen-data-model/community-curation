@@ -48,7 +48,7 @@ class TrainingSessionInviteEmail extends Notification
     {
         return (new MailMessage)
             ->attach($this->trainingSession->getIcsFilePath(), [
-                'as' => snake_case($this->trainingSession->title).'.pdf',
+                'as' => snake_case($this->trainingSession->title).'.ics',
                 'mime' => 'text/calendar'
 
             ])
