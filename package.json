@@ -43,7 +43,9 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^19.0.2",
         "@ckeditor/ckeditor5-vue": "^1.0.1",
+        "autotrack": "^2.4.1",
         "moment": "^2.24.0",
+        "moment-timezone": "^0.5.31",
         "webpack-bundle-analyzer": "^3.8.0"
     }
 }
