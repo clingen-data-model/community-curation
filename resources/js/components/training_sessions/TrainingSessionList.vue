@@ -158,6 +158,9 @@ export default {
             this.errors = {};
             createTrainingSession(trainingSession)
                 .then(response => {
+                    let session = response.data.data;
+                    session.starts_at = moment(session.starts_at);
+                    session.ends_at = moment(session.ends_at);
                     this.sessions.push(response.data.data);
                     this.currentSession = {};
                     this.showCreate = false;

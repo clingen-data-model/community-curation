@@ -11,7 +11,6 @@
 
     <script src="{{mix('/js/manifest.js')}}"></script>
     <script src="{{ mix('/js/vendor.js') }}"></script>
-    <script src="{{ mix('/js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -86,6 +85,7 @@
         </main>
     </div>
 
+    <script src="{{ mix('/js/app.js') }}"></script>
     <!-- Scripts -->
     @stack('scripts')
 </body>
