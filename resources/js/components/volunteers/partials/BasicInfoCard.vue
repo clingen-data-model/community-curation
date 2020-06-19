@@ -50,6 +50,8 @@
                     </div>
                     <div v-if="volunteer.country_id">{{ countryLookup[volunteer.country_id] }}</div>
                 </dd>
+                <dt class="col-sm-5">Closest City &amp; Timezone<br></dt>
+                <dd class="col-sm-7">{{volunteer.timezone}} - {{currentTimezone}}</dd>
             </dl>
 
             <b-modal v-model="showBasicInfoForm" title="Edit Contact Info" hide-footer size="lg">
@@ -101,6 +103,9 @@
                     lookup[country.id] = country.name
                 }
                 return lookup
+            },
+            currentTimezone() {
+                return moment().tz(this.volunteer.timezone).zoneAbbr();
             }
         },
         mounted() {

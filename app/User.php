@@ -62,7 +62,8 @@ class User extends Authenticatable
         'state',
         'zip',
         'country_id',
-        'hypothesis_id'
+        'timezone',
+        'hypothesis_id',
     ];
 
     /**
@@ -293,6 +294,12 @@ class User extends Authenticatable
     {
         return false;
     }
+
+    public function getTimezoneAttribute()
+    {
+        return $this->attributes['timezone'] ?? 'UTC';
+    }
+    
 
     public function hasAptitude($aptitudeId)
     {

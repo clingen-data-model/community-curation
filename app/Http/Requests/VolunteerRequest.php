@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VolunteerRequest extends FormRequest
@@ -29,6 +30,11 @@ class VolunteerRequest extends FormRequest
             'first_name' => 'required|min:2|max:255',
             'last_name' => 'required|min:2|max:255',
             'email' => 'required|email:rfc,dns',
+            'country_id' => 'required|exists:countries,id',
+            'timezone' => [
+                            'required',
+                            Rule::in(timezone_identifiers_list())
+                        ]
         ];
     }
 
