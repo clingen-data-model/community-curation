@@ -1,18 +1,12 @@
 <template>
-    <span>
-        <input type="date" 
+    <b-input-group :append="currentTimezone">
+        <b-form-datepicker 
             v-model="dateValue" 
-            placeholder="YYYY-MM-DD" 
             @change="handleChange"
-            class="form-control"
-        >
-        <input type="time" 
-            v-model="timeValue" 
-            placeholder="HH:mm am/pm" 
-            @change="handleChange"
-            class="form-control"
-        >
-    </span>
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+        ></b-form-datepicker>
+        <b-form-timepicker v-model="timeValue" @change="handleChange"></b-form-timepicker>
+    </b-input-group>
 </template>
 <script>
 import moment from 'moment'
@@ -29,17 +23,28 @@ export default {
             timeValue: null
         }
     },
+    computed: {
+        currentTimezone() {
+            return `${moment().tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z')} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`
+        }
+    },
     watch: {
         value: {
             immediate: true,
             handler: function (to, from) { 
                 this.syncDateAndTime() 
             }
+        },
+        dateValue() {
+            this.handleChange();
+        },
+        timeValue() {
+            this.handleChange();
         }
     },
     methods: {
         handleChange() {
-            let newDateTime = moment(this.dateValue + ' ' +this.timeValue, 'YYYY-MM-DD HH:mm A');
+            let newDateTime = moment(this.dateValue + ' ' +this.timeValue, 'YYYY-MM-DD HH:mm:ss A');
             this.$emit('input', newDateTime);
             this.$emit('change');
         },

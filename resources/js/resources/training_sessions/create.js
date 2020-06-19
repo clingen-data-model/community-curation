@@ -1,6 +1,6 @@
 const createTrainingSession = function (trainingSession) {
-    trainingSession.starts_at = trainingSession.starts_at.format('YYYY-MM-DD HH:mm:ss')
-    trainingSession.ends_at = trainingSession.ends_at.format('YYYY-MM-DD HH:mm:ss')
+    trainingSession.starts_at = trainingSession.starts_at.toISOString()
+    trainingSession.ends_at = trainingSession.ends_at.toISOString()  
     return window.axios.post('api/training-sessions', trainingSession);
 }
 

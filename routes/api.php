@@ -34,6 +34,7 @@ Route::group([
                 Route::resource('training-sessions/{id}/attendees', 'TrainingSessionAttendeeController')->only(['index', 'store', 'destroy']);
                 Route::get('training-sessions/{id}/trainable-volunteers', 'TrainingSessionAttendeeController@trainableVolunteers');
                 Route::post('training-sessions/{id}/attendees/email', 'TrainingSessionAttendeeController@emailAttendees');
+                Route::get('training-sessions/{id}/invite-preview', 'TrainingSessionController@inviteEmailPreview');
             });
 
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
@@ -46,6 +47,8 @@ Route::group([
             Route::resource('curator-uploads', 'CuratorUploadController')->only(['index', 'show', 'store', 'update', 'destroy']);
 
             Route::get('impersonatable-users', 'UserController@impersonatableUsers');
+
+            Route::get('timezones', 'TimeZoneController@index');
 
             /**
              * Catch-all route for generic API read exposure

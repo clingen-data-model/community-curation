@@ -12,7 +12,9 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="start-date-field" class="col-sm-3">Start Date &amp; time*</label>
+            <label for="start-date-field" class="col-sm-3">
+                Start Date &amp; time*
+            </label>
             <div class="col-sm-9">
                 <date-time v-model="newSession.starts_at" class="form-inline" @change="updateEndsAt"></date-time>
                 <validation-error :errors="errors.starts_at"></validation-error>
@@ -103,6 +105,11 @@ export default {
             durationMin: 15,
             durationMax: 240,
             durationErrors: []
+        }
+    },
+    computed: {
+        currentTimezone() {
+            return Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
     },
     methods: {

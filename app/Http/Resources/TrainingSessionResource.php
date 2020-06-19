@@ -17,6 +17,8 @@ class TrainingSessionResource extends JsonResource
         // self::withoutWrapping();
         $data = parent::toArray($request);
         $data['calendar_links'] = $this->calendarLinks;
+        $data['starts_at'] = $this->starts_at->format('Y-m-d\TH:i:s\Z');
+        $data['ends_at'] = $this->ends_at->format('Y-m-d\TH:i:s\Z');
 
         return $data;
     }

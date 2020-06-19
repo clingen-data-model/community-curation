@@ -2,7 +2,7 @@
 
 <p>
     You are invited to join our {{$trainingSession->topic->name}} training 
-    on {{$trainingSession->starts_at->format('l, F j, Y \a\t j:i a e')}}.  
+    on {{$trainingSession->starts_at->addSeconds($timezone->getOffset($trainingSession->starts_at))->format('l, F j, Y \a\t g:i a')}} {{strtoupper($timezone->getAbbr())}}.  
 </p>
 
 <p>
