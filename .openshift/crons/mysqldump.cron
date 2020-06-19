@@ -11,7 +11,7 @@ TOKEN=$(oc describe $(oc get secrets -o name | grep "cron-token-" | head -n1) | 
 
 oc run db-backup --restart=OnFailure \
     --overrides='{ "spec": {"successfulJobsHistoryLimit": "5", "failedJobsHistoryLimit": "5", "concurrencyPolicy": "Forbid"} }' \
-    --schedule="5 */2 * * *" \
+    --schedule="5 */12 * * *" \
     --image=192.168.227.248:5000/openshift/cron \
     --env="PROJECT=$(oc project -q)" \
     --env="DEPLOYMENT=mysql" \
