@@ -10,7 +10,9 @@ window.Vue = require('vue');
 import getAllCurationActivities from './resources/curation_activities/get_all_curation_activities'
 import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
 
-import moment from 'moment'
+import moment from 'moment-timezone'
+window.moment = moment;
+
 /**
  * Import all bootstrap view
  */
@@ -20,12 +22,31 @@ import moment from 'moment'
 /**
  * Import Plugins
  */
-import { BadgePlugin, CardPlugin, CollapsePlugin, DropdownPlugin, IconsPlugin, ModalPlugin, PaginationPlugin, PopoverPlugin, ProgressPlugin, TabsPlugin, TablePlugin } from 'bootstrap-vue';
+import { 
+    BadgePlugin, 
+    CardPlugin, 
+    CollapsePlugin,
+    DropdownPlugin, 
+    FormDatepickerPlugin,
+    FormTimepickerPlugin,
+    IconsPlugin, 
+    InputGroupPlugin,
+    ModalPlugin, 
+    PaginationPlugin, 
+    PopoverPlugin, 
+    ProgressPlugin, 
+    TabsPlugin, 
+    TablePlugin 
+} from 'bootstrap-vue';
+
 window.Vue.use(BadgePlugin);
 window.Vue.use(CardPlugin);
 window.Vue.use(CollapsePlugin);
 window.Vue.use(DropdownPlugin);
+window.Vue.use(FormDatepickerPlugin);
+window.Vue.use(FormTimepickerPlugin);
 window.Vue.use(IconsPlugin);
+window.Vue.use(InputGroupPlugin);
 window.Vue.use(ModalPlugin);
 window.Vue.use(PaginationPlugin);
 window.Vue.use(PopoverPlugin);

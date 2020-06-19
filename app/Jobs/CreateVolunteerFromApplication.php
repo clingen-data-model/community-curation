@@ -47,7 +47,8 @@ class CreateVolunteerFromApplication
             'country_id' => $this->response->country_id,
             'volunteer_type_id' => $this->response->volunteer_type,
             'volunteer_status_id' => 1,
-            'hypothesis_id' => $this->response->hypothesis_id
+            'hypothesis_id' => $this->response->hypothesis_id,
+            'timezone' => $this->response->timezone
         ]);
         $user->assignRole('volunteer');
         $this->response->respondent_type = User::class;

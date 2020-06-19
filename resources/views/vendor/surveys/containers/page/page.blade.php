@@ -80,4 +80,14 @@
 @push('scripts')
   @include('surveys::js.plugins')
   @include('surveys::js.autosave')
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const existingValue = '{{$context['response']->timezone}}';
+          console.log(existingValue);
+          let timezoneSelect = document.querySelector('[name=timezone]');
+          if (timezoneSelect) {
+            timezoneSelect.value = Intl.DateTimeFormat().resolvedOptions().timeZone; 
+          }
+      })
+  </script>
 @endpush

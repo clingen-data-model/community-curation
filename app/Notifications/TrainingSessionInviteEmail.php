@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\TrainingSession;
+use Carbon\CarbonTimeZone;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -47,7 +48,17 @@ class TrainingSessionInviteEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->view('email.training_session_invite', ['trainingSession' => $this->trainingSession, 'volunteer' => $notifiable]);
+            ->subject($this->trainingSession->title)
+            ->attach($this->trainingSession->getIcsFilePath(), [
+                'as' => snake_case($this->trainingSession->title).'.ics',
+                'mime' => 'text/calendar'
+
+            ])
+            ->view('email.training_session_invite', [
+                'trainingSession' => $this->trainingSession,
+                'volunteer' => $notifiable,
+                'timezone' => new CarbonTimeZone($notifiable->timezone)
+            ]);
     }
 
     /**
