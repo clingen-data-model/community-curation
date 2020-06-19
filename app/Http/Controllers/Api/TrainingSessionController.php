@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\TrainingSession;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TrainingSessionRequest;
 use App\Http\Resources\TrainingSessionResource;
+use App\Notifications\TrainingSessionInviteEmail;
 
 class TrainingSessionController extends Controller
 {
@@ -43,7 +46,11 @@ class TrainingSessionController extends Controller
      */
     public function store(TrainingSessionRequest $request)
     {
-        $trainingSession = TrainingSession::create($request->except('csrf'));
+        $data = $request->except('csrf');
+        $data['starts_at'] = Carbon::parse($data['starts_at']);
+        $data['ends_at'] = Carbon::parse($data['ends_at']);
+
+        $trainingSession = TrainingSession::create($data);
         $trainingSession->load('topic');
 
         return new TrainingSessionResource($trainingSession);
@@ -72,7 +79,11 @@ class TrainingSessionController extends Controller
     public function update(TrainingSessionRequest $request, $id)
     {
         $trainingSession = TrainingSession::findOrFail($id);
-        $trainingSession->update($request->all());
+
+        $data = $request->all();
+        $data['starts_at'] = Carbon::parse($data['starts_at']);
+        $data['ends_at'] = Carbon::parse($data['ends_at']);
+        $trainingSession->update($data);
         $trainingSession->load('topic');
 
         return new TrainingSessionResource($trainingSession);
@@ -87,5 +98,13 @@ class TrainingSessionController extends Controller
     public function destroy($id)
     {
         TrainingSession::findOrFail($id)->delete();
+    }
+
+    public function inviteEmailPreview($id)
+    {
+        $trainingSession = TrainingSession::findOrFail($id);
+
+        return (new TrainingSessionInviteEmail($trainingSession))
+                    ->toMail(Auth::user());
     }
 }

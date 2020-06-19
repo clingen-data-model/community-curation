@@ -2,7 +2,7 @@
 
 <p>
     You are invited to join our {{$trainingSession->topic->name}} training 
-    on {{$trainingSession->starts_at->format('l, F j, Y \a\t j:i a e')}}.  
+    on {{$trainingSession->starts_at->addSeconds($timezone->getOffset($trainingSession->starts_at))->format('l, F j, Y \a\t g:i a')}} {{strtoupper($timezone->getAbbr())}}.  
 </p>
 
 <p>
@@ -32,8 +32,10 @@ Cheers!
 <div>
     Add the training session to your calendar:
     <ul>
-    @foreach ($trainingSession->calendarLinks as $label => $url)
-        <li><a href="{{$url}}">{{$label}}</a></li>
-    @endforeach
+        @foreach ($trainingSession->calendarLinks as $label => $url)
+            @if ($label != 'Apple & Outlook')
+                <li><a href="{{$url}}">{{$label}}</a></li>
+            @endif
+        @endforeach
     </ul>
 </div>

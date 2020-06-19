@@ -38,6 +38,14 @@
                     </row>
                     <row class="mb-2">
                         <column class="col-md-2 text-right">
+                            <strong>Duration</strong>
+                        </column>
+                        <column class="col-md-9">
+                            {{duration}}
+                        </column>
+                    </row>
+                    <row class="mb-2">
+                        <column class="col-md-2 text-right">
                             <strong>Invite Message</strong>
                         </column>
                         <column class="col-md-9">
@@ -48,6 +56,8 @@
                         <column class="col-md-2 text-right"><strong>Notes</strong></column>
                         <column class="col-md-9">{{trainingSession.notes}}</column>
                     </row>
+                    <br>
+                    <invite-email-preview :training-session="trainingSession"></invite-email-preview>
                 </section>
                 <section id="attendees" class="mt-5">
                     <attendees-manager :training-session="trainingSession"></attendees-manager>
@@ -91,12 +101,14 @@
 import updateTrainingSession from '../../resources/training_sessions/update';
 import TrainingSessionForm from './TrainingSessionForm'
 import AttendeesManager from './AttendeesManager'
+import InviteEmailPreview from './InviteEmailPreview'
 import moment from 'moment'
 
 export default {
     components: {
         TrainingSessionForm,
-        AttendeesManager
+        AttendeesManager,
+        InviteEmailPreview
     },
     props: {
         id: {
@@ -113,6 +125,26 @@ export default {
             errors: {},
             show404: false,
             showCalendarHelp: false,
+            showEmailPreview: false,
+        }
+    },
+    computed: {
+        duration() {
+            if (!this.trainingSession.starts_at || !this.trainingSession.ends_at ) {
+                return '';
+            }
+
+            const diffInMinutes = this.trainingSession.ends_at.diff(this.trainingSession.starts_at, 'minutes');
+            if (diffInMinutes > 60) {
+                const hours = Math.floor(diffInMinutes/60);
+                const minutes = diffInMinutes%60;
+                let parts = [hours];
+                parts.push((hours > 1) ? 'hours' : 'hour');
+                parts.push(minutes);
+                parts.push((minutes > 1) ? 'minutes' : 'minute');
+                return parts.join(' ');
+            }
+            return `${diffInMinutes} minutes`
         }
     },
     methods: {
