@@ -29,13 +29,14 @@ class CreateSurveyRspApplication1 extends Migration
             $table->string('zip')->nullable();
             $table->integer('country_id')->nullable();
             $table->string('email')->nullable();
-            $table->integer('timezone')->nullable();
+            $table->string('timezone')->nullable();
             $table->string('hypothesis_id')->nullable();
             $table->integer('highest_ed')->nullable();
             $table->text('highest_ed_other')->nullable();
             $table->string('adv_cert')->nullable();
             $table->integer('self_desc')->nullable();
             $table->text('self_desc_other')->nullable();
+            $table->json('race_ethnicity')->nullable();
             $table->json('ad_campaign')->nullable();
             $table->text('ad_campaign_other_detail')->nullable();
             $table->json('motivation')->nullable();

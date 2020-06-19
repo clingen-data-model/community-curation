@@ -101,6 +101,17 @@
                             {{ country.name }}
                         </option>
                     </select>
+                    <validation-error :errors="errors.country_id"></validation-error>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="timezone" class="col-sm-3 col-form-label">Closest City <small>(for timezone)</small></label>
+                <div class="col-sm-6">
+                    <select name="" id="" v-model="timezone" class="form-control form-control-sm">
+                        <option :value="tz" v-for="tz in timezones" :key="tz">{{tz}}</option>
+                    </select>
+                    <validation-error :errors="errors.timezone"></validation-error>
                 </div>
             </div>
             <button class="btn btn-primary" @click="updateContactInfo">Save</button>
@@ -111,6 +122,8 @@
 <script>
 
     import updateVolunteer from '../../../resources/volunteers/update_volunteer'
+    import getAllTimezones from '../../../resources/timezones/all'
+
 
     export default {
         props: {
@@ -125,7 +138,21 @@
         },
         data: function() {
             return {
-                errors: {}
+                errors: {},
+                timezones: [],
+            }
+        },
+        computed: {
+            timezone: {
+                get: function () {
+                    if (!this.volunteer.timezone || this.volunteer.timezone === null) { 
+                        this.volunteer.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                     } 
+                    return this.volunteer.timezone
+                },
+                set: function (value) {
+                    this.volunteer.timezone = value;
+                }
             }
         },
         methods: {
@@ -145,7 +172,8 @@
                         'city': this.volunteer.city,
                         'state': this.volunteer.state,
                         'zip': this.volunteer.zip,
-                        'country_id': this.volunteer.country_id
+                        'country_id': this.volunteer.country_id,
+                        'timezone': this.volunteer.timezone
                     }
                 ).then(response => {
                     this.$emit('saved');
@@ -157,6 +185,9 @@
                     }
                 })
             }
+        },
+        async mounted() {
+            this.timezones = await getAllTimezones();
         }
     }
 </script>
