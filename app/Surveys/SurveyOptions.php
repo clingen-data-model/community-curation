@@ -14,18 +14,13 @@ class SurveyOptions
 {
     public function timezones()
     {
-        $zones = timezone_abbreviations_list();
+        $zones = timezone_identifiers_list();
         $options = [];
-        $count = 1;
-        foreach ($zones as $zone => $items) {
-            if (strlen($zone) == 1) {
-                continue;
-            }
+        foreach ($zones as $zone) {
             $options[] = (object)[
-                'id' => $count,
-                'name' => $zone.' ('.$items[0]['timezone_id'].')'
+                'name' => $zone,
+                'id' => $zone,
             ];
-            $count++;
         }
         return $options;
     }
