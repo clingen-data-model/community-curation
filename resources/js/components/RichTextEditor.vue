@@ -1,6 +1,12 @@
 <template>
     <div>
-        <ckeditor :editor="editor" :value="value" @input="handleInput" :config="mergedConfig"></ckeditor>
+        <ckeditor 
+            :editor="editor" 
+            :value="editorData" 
+            @input="handleInput" 
+            :config="mergedConfig"
+            @ready="prefill"
+        ></ckeditor>
     </div>
 </template>
 <style>
@@ -25,14 +31,16 @@ export default {
             type: Object,
             default: function () {
                 return {}
-            }
+            },
         }
     },
     data() {
         return {
             editor: ClassicEditor,
+            editorData: '',
             defaultConfig: {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'table', 'undo', 'redo']
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'table', 'undo', 'redo'],
+                skin: 'myskin'
             }
         }
     },
@@ -44,6 +52,10 @@ export default {
     methods: {
         handleInput (val) {
             this.$emit('input', val)
+        },
+        prefill () {
+            this.editorData = this.value;
+            console.log('prefill')
         }
     }
 }
