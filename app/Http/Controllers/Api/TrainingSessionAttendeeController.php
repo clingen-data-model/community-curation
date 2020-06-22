@@ -15,6 +15,8 @@ use App\Http\Requests\CustomTrainingEmailRequest;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
 use App\Http\Resources\TrainingSessionAttendeeResource;
 use App\Jobs\InviteVolunteersToTrainingSession;
+use League\HTMLToMarkdown\HtmlConverter;
+use Parsedown;
 
 class TrainingSessionAttendeeController extends Controller
 {
@@ -106,10 +108,14 @@ class TrainingSessionAttendeeController extends Controller
 
     public function emailAttendees(CustomTrainingEmailRequest $request, $trainingSessionId)
     {
+        $htmlToMarkdown = new HtmlConverter(['strip tags' => true, 'remove_nodes' => 'script']);
+        $parsedown = new Parsedown();
+        $parsedown->setSafeMode('true');
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
+        $safeBody = $parsedown->parse($htmlToMarkdown->convert($request->body));
         $trainingSession->attendees
-            ->each(function ($attendee) use ($request, $trainingSession) {
-                $attendee->notify(new CustomTrainingEmail($trainingSession, $request->body, $request->from, $request->subject));
+            ->each(function ($attendee) use ($request, $trainingSession, $safeBody) {
+                $attendee->notify(new CustomTrainingEmail($trainingSession, $safeBody, $request->from, $request->subject));
             });
     }
 }

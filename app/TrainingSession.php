@@ -2,9 +2,11 @@
 
 namespace App;
 
+use Parsedown;
 use Carbon\Carbon;
 use Spatie\CalendarLinks\Link;
 use Illuminate\Database\Eloquent\Model;
+use League\HTMLToMarkdown\HtmlConverter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TrainingSession extends Model
@@ -25,6 +27,16 @@ class TrainingSession extends Model
         'starts_at',
         'ends_at'
     ];
+
+    /**
+     * Parsdown instance for invite_message accessor
+     */
+    private $parsdown;
+
+    /**
+     * Html-to-markdown converter
+     */
+    private $converter;
 
     public function topic()
     {
@@ -115,6 +127,34 @@ class TrainingSession extends Model
         $string = implode("\r\n", $url);
 
         return $string;
+    }
+
+    public function setInviteMessageAttribute($value)
+    {
+        $this->attributes['invite_message'] = $this->getConverter()->convert($value);
+    }
+
+    private function getConverter()
+    {
+        if (!$this->converter) {
+            $this->converter = new HtmlConverter(['strip tags' => true, 'remove_nodes' => 'script']);
+        }
+        return $this->converter;
+    }
+    
+
+    public function getInviteMessageAttribute()
+    {
+        return $this->getParsedown()->text($this->attributes['invite_message']);
+    }
+    
+    protected function getParsedown()
+    {
+        if (!$this->parsedown) {
+            $this->parsedown = new Parsedown();
+            $this->parsedown->setSafeMode(true);
+        }
+        return $this->parsedown;
     }
     
 
