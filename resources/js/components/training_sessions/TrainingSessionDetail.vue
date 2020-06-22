@@ -48,8 +48,7 @@
                         <column class="col-md-2 text-right">
                             <strong>Invite Message</strong>
                         </column>
-                        <column class="col-md-9">
-                            {{trainingSession.invite_message}}
+                        <column class="col-md-9" v-html="trainingSession.invite_message">
                         </column>
                     </row>
                     <row class="mb-2">

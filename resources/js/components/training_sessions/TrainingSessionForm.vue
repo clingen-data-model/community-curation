@@ -38,12 +38,13 @@
         <div class="form-group row align-items-start">
             <label class="col-sm-3" for="invie-message-field">Inivite Message</label>
             <div class="col-sm-9">
-                <textarea id="invite-message-field"
+                <!-- <textarea id="invite-message-field"
                     cols="30"
                     rows="5"
                     v-model="newSession.invite_message"
                     class="form-control w-100"
-                ></textarea>
+                ></textarea> -->
+                <rich-text-editor v-model="newSession.invite_message" id="message-body"></rich-text-editor>
                 <validation-error :errors="errors.invite_message"></validation-error>
             </div>
         </div>
@@ -98,13 +99,14 @@ export default {
                 starts_at: null,
                 ends_at: null,
                 url: null,
-                invite_message: null,
-                notes: null,
+                invite_message: '',
+                notes: '',
             },
             duration: 60,
             durationMin: 15,
             durationMax: 240,
-            durationErrors: []
+            durationErrors: [],
+            newInviteMessage: '',
         }
     },
     computed: {
