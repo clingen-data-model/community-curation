@@ -45,20 +45,30 @@ class VolunteerController extends Controller
             }
 
             if ($key == 'expert_panel_id') {
-                $query->whereHas('assignments', function ($q) use ($value) {
-                    $q->where([
-                        'assignable_type' => 'App\ExpertPanel',
-                        'assignable_id' => $value
-                    ]);
-                });
+                if ($value == -1) {
+                    $query->comprehensive()->whereDoesntHave('assignments', function ($q) {
+                        $q->expertPanel();
+                    });
+                } else {
+                    $query->whereHas('assignments', function ($q) use ($value) {
+                        $q->where([
+                            'assignable_type' => 'App\ExpertPanel',
+                            'assignable_id' => $value
+                        ]);
+                    });
+                }
             }
             if ($key == 'curation_activity_id') {
-                $query->whereHas('assignments', function ($q) use ($value) {
-                    $q->where([
-                        'assignable_type' => 'App\CurationActivity',
-                        'assignable_id' => $value
-                    ]);
-                });
+                if ($value == -1) {
+                    $query->doesntHave('assignments');
+                } else {
+                    $query->whereHas('assignments', function ($q) use ($value) {
+                        $q->where([
+                            'assignable_type' => 'App\CurationActivity',
+                            'assignable_id' => $value
+                        ]);
+                    });
+                }
             }
             if ($key == 'gene_id') {
                 $query->whereHas('assignments', function ($q) use ($value) {

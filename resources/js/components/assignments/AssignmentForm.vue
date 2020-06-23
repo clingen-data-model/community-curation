@@ -2,7 +2,10 @@
 
 <template>
     <div>
-        <h3>Assign Activity and Expert Panel</h3>
+        <h4>
+            Assign Activity and Expert Panel
+            <span v-if="showVolunteer"> - {{volunteer.name}}</span>
+        </h4>
         <hr>
         <div>
             <h5>Volunteer Priorities</h5>
@@ -115,6 +118,11 @@
             updating: {
                 required: false,
                 default: false
+            },
+            showVolunteer: {
+                required: false,
+                default: false,
+                type: Boolean
             }
         },
         components: {

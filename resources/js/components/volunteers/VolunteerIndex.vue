@@ -9,6 +9,10 @@
             margin-left: 0;
         }
     }
+    .filter-row .active {
+        box-shadow: 0 0 5px #6cb2eb;
+        font-weight: 700;
+    }
 </style>
 
 <template>
@@ -18,7 +22,7 @@
             <h1>Volunteers</h1>
         </div>
         <div class="card-body">
-            <div class="flex-row mb-2 p-0">
+            <div class="flex-row mb-2 p-0 filter-row">
                 <div class="form-inline">
                     <label for="filter-input">Search:</label>
                     &nbsp;
@@ -31,7 +35,8 @@
                 </div>
                 <div class="border-left pl-3" id="type-filter-container">
                     <select id="type-select" 
-                        class="form-control form-control-sm" 
+                        class="form-control form-control-sm"
+                        :class="{active: filters.volunteer_type_id}"
                         v-model="filters.volunteer_type_id" 
                         @change="reconcileFilters"
                     >
@@ -46,6 +51,7 @@
                 <div id="status-filter-container">
                     <select id="status-select" 
                         class="form-control form-control-sm" 
+                        :class="{active: filters.volunteer_status_id}"
                         v-model="filters.volunteer_status_id"
                     >
                         <option :value="null">Any Status</option>
@@ -60,6 +66,7 @@
                     <select id="activity-select" 
                         class="form-control form-control-sm" 
                         v-model="filters.curation_activity_id" 
+                        :class="{active: filters.curation_activity_id}"
                         :disabled="filters.volunteer_type_id == 1"
                     >
                         <option :value="null">Any Activity</option>
@@ -68,6 +75,7 @@
                             :value="activity.id">
                             {{activity.name}}
                         </option>
+                        <option :value="-1">Not Assigned to activity</option>
                     </select>
                 </div>
                 <div id="expert-panel-filter-container">
@@ -75,9 +83,11 @@
                         class="form-control form-control-sm" 
                         v-model="filters.expert_panel_id"
                         :disabled="filters.volunteer_type_id == 1"
+                        :class="{active: filters.expert_panel_id}"
                         style="max-width: 200px"
                     >
                         <option :value="null">Any Expert Panel</option>
+                        <option :value="-1">Not assigned to expert panel</option>
                         <option v-for="(panel, idx) in filteredExpertPanels"
                             :key="idx"
                             :value="panel.id">
@@ -98,6 +108,7 @@
             </div>
             <div>
                 <b-table 
+                    ref="volunteersTable"
                     :items="volunteerProvider" 
                     :fields="tableFields"
                     :sort-by.sync="sortKey"
@@ -124,6 +135,7 @@
                             :assignments="item.assignments"
                             v-if="item && item.assignments.length > 0"
                         ></assignment-brief-list>
+                        <button @click="addAssignmentsToVolunteer(item)" class="btn btn-light border btn-xs" v-if="item.assignments.length == 0 && filters.curation_activity_id == -1">Assign</button>
                     </template>
                 </b-table>
             </div>
@@ -131,7 +143,8 @@
         <b-modal v-model="showAssignmentModal" hide-header hide-footer>
             <assignment-form 
                 :volunteer="currentVolunteer" 
-                @saved="updateVolunteers">
+                @saved="updateCurrentVolunteer"
+                showVolunteer>
             </assignment-form>
         </b-modal>
     </div>
@@ -139,6 +152,7 @@
 
 <script>
     import getAllVolunteers from '../../resources/volunteers/get_all_volunteers'
+    import findVolunteer from '../../resources/volunteers/find_volunteer'
     import getPageOfVolunteers from '../../resources/volunteers/get_page_of_volunteers'
     import getAllCurationActivitys from '../../resources/curation_activities/get_all_curation_activities'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
@@ -238,10 +252,11 @@
             }
         },
         watch: {
-            filter: function (to, from) {
-                if (to != from) {
-                    this.resetCurrentPage();
-                }
+            filters: {
+                handler: function (to, from) {
+                    localStorage.setItem('volunteers-table-filters', JSON.stringify(this.filters));
+                },
+                deep: true
             }
         },
         methods: {
@@ -252,7 +267,6 @@
                 }
             },
             volunteerProvider (context, callback) {
-                console.log('volunteerProvider')
                 // this.loadingVolunteers = true;
                 getPageOfVolunteers(context)
                     .then(response => {
@@ -267,14 +281,12 @@
             handleFiltered() {
                 this.resetCurrentPage();
             },
-            updateVolunteers: async function() {
-                await this.getVolunteers()
-                if (this.currentVolunteer !== null) {
-                    this.currentVolunteer = this.volunteers.find(v => v.id == this.currentVolunteer.id)
-                }
+            async updateCurrentVolunteer () {
+                this.$refs.volunteersTable.refresh()
+                this.currentVolunteer = await findVolunteer(this.currentVolunteer.id)
             },
-            addAssignmentsToVolunteer(volunteer) {
-                this.currentVolunteer = volunteer;
+            async addAssignmentsToVolunteer(volunteer) {
+                this.currentVolunteer = await findVolunteer(volunteer.id);
                 this.showAssignmentModal = true;
             },
             resetCurrentPage() {
@@ -295,6 +307,12 @@
             navigateToVolunteer(volunteer) {
                 console.log("NavigateToVolunteer");
                 window.location = '/volunteers/'+volunteer.id
+            },
+            syncFiltersFromLocalStorage () {
+                const storedFilters = JSON.parse(localStorage.getItem('volunteers-table-filters'));
+                if (storedFilters) {
+                    this.filters = storedFilters;
+                }
             }
         },
         mounted() {
@@ -303,6 +321,7 @@
             this.getExpertPanels()
             this.getStatuses()
             this.getTypes()
+            this.syncFiltersFromLocalStorage();
         }
     
 }
