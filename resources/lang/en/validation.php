@@ -114,7 +114,7 @@ return [
     'timezone' => 'The :attribute must be a valid zone.',
     'unique' => 'The :attribute has already been taken.',
     'uploaded' => 'The :attribute failed to upload.',
-    'url' => 'The :attribute format is invalid like "https://clinicalgenome.org".',
+    'url' => 'The :attribute format is invalid.  Valid urls look like "https://clinicalgenome.org".',
     'uuid' => 'The :attribute must be a valid UUID.',
 
     /*
