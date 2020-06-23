@@ -5,7 +5,6 @@ const findVolunteer = async function (volunteerId) {
         .then(response => {
             let volunteer = response.data.data
             volunteer = new Volunteer(volunteer);
-            console.log(volunteer.assignments);
             return volunteer;
         });
 }
