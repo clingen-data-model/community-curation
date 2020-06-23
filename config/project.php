@@ -5,6 +5,10 @@ use App\ExpertPanel;
 use App\CurationActivity;
 
 return [
+    'volunteer_types' => [
+        'baseline' => 1,
+        'comprehensive' => 2
+    ],
     'aptitudes' => [
         'actionability-basic' => 1,
         'dosage-basic' => 2,

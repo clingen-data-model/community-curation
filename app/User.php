@@ -242,6 +242,12 @@ class User extends Authenticatable
         return $query->role('volunteer');
     }
 
+    public function scopeComprehensive($query)
+    {
+        // dump(config('project.volunteer_types.comprehensive'));
+        return $query->where('volunteer_type_id', config('project.volunteer_types.comprehensive'));
+    }
+
     public function hasPermissionTo($permString)
     {
         return $this->getAllPermissions()->contains('name', $permString);
