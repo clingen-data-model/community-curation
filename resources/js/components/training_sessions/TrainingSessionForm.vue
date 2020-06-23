@@ -31,7 +31,7 @@
         <div class="form-group row">
             <label class="col-sm-3" for="url-field">URL*</label>
             <div class="col-sm-9">
-                <input type="text" id="url-field" v-model="newSession.url" class="form-control w-100">
+                <input type="text" id="url-field" v-model="newSession.url" class="form-control w-100" placeholder="https://zoom.com">
                 <validation-error :errors="errors.url"></validation-error>
             </div>
         </div>
