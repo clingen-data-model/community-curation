@@ -48,7 +48,6 @@ class TrainingSessionRequest extends FormRequest
         return [
             'topic_id.required' => 'A topic is required.',
             'url.required' => 'A URL is required.',
-            'url.url' => 'You must provide a valid URL.',
             'starts_at.required' => 'A start date and time are required.',
             'starts_at.date' => 'You must provide a valid start date and time.',
             'ends_at.required' => 'An end date and time are required.',
