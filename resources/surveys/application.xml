@@ -58,7 +58,7 @@
             <multiple-choice name="country_id" id="country_id" num-selectable="1" required="1">
                 <template source="surveys::questions.multiple_choice.select"></template>
                 <question-text>
-                    <![CDATA[Country]]>
+                    <![CDATA[Country*]]>
                 </question-text>
                 <options>
                     <data-source URI="\App\Country@allAsOptions"></data-source>
@@ -155,7 +155,7 @@
         <multiple-choice name="race_ethnicity" id="race_ethnicity" num-selectable="6" data-format="json">
             <question-text>
                 <![CDATA[
-                    What is your race/ethnicity (choose one that most accurately describes yourself)?
+                    What is your race/ethnicity?
                     <small v-b-toggle.race-ethnicity-info>More info about this question</small>
                     <b-collapse id="race-ethnicity-info">
                         <div class="alert alert-info">
@@ -168,7 +168,7 @@
                             <h5>About the options</h5>
                             <p>
                                 ClinGen is a National Institues of Health (NIH)-funded organization. The options below come from the NIH 
-                                <a href="https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html">Racial and Ethnic Categories and Definitions for NIH Diversity Programs and for Other Reporting Purposes</a>.
+                                <a target="nih" href="https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html">Racial and Ethnic Categories and Definitions for NIH Diversity Programs and for Other Reporting Purposes</a>.
                                 We understand that these options do not capture the diversity of racial and ethnic identities in the US, let alone around the world. Please choose the options that best describes you.
                             </p>
                     </div>
