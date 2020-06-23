@@ -40,6 +40,18 @@ class AssignmentReportGenerator implements ReportGenerator
                 'ca_assignments' => $volunteer->assignments->isCurationActivity()->count(),
                 'survey_completion_date' => ($volunteer->application) ? $volunteer->application->finalized_at : null,
             ];
+            if ($volunteer->assignments->count() == 0) {
+                return collect([array_merge(
+                    $root,
+                    [
+                        'curation_activity_id' => null,
+                        'curation_activity' => null,
+                        'training_completion_date' => null,
+                        'attestation_date' => null,
+                        'assigned_expert_panel' => null
+                    ]
+                )]);
+            }
             return $volunteer->assignments
                 ->isCurationActivity()
                 ->transform(function ($assignment) use ($root, $volunteer) {
@@ -62,8 +74,6 @@ class AssignmentReportGenerator implements ReportGenerator
                 });
         })->flatten(1);
 
-        // dd($allRows);
-        
         $data = collect([
             'all' => $allRows
         ]);
@@ -76,6 +86,9 @@ class AssignmentReportGenerator implements ReportGenerator
                 });
             });
         $data = $data->merge($caSheets);
+        $data['unassigned'] = $allRows->filter(function ($item) {
+            return is_null($item['curation_activity_id']);
+        });
 
         return $data;
     }
