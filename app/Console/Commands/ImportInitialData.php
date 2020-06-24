@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\User;
+use Exception;
 use Throwable;
 use App\Aptitude;
 use App\Priority;
@@ -90,6 +91,7 @@ class ImportInitialData extends Command
         $this->expertPanels = ExpertPanel::all();
         $this->curationActivities = CurationActivity::all();
 
+
         $assignmentsSheet = base_path('import_files/cc-volunteers.xlsx');
         $reader = ReaderEntityFactory::createReaderFromFile($assignmentsSheet);
 
@@ -101,6 +103,7 @@ class ImportInitialData extends Command
         foreach ($reader->getSheetIterator() as $sheet) {
             $rows = $handlerChain->handle($sheet);
             foreach ($rows as $email => $data) {
+                $email = strtolower($email);
                 if (!isset($volunteerRows[$email])) {
                     $volunteerRows[$email] = collect();
                 }
@@ -138,7 +141,6 @@ class ImportInitialData extends Command
             ->each(function ($attestationData, $nameKey) use ($volunteerCollection, $nameToEmailAddress) {
                 if ($volunteerCollection->keys()->contains($nameKey)) {
                     $email = $nameToEmailAddress->get(mb_strtolower($nameKey));
-                        
                     if (!$volunteerCollection->get($email)) {
                         $this->warn('We can not find an email address for name '.$nameKey);
                         return;
@@ -377,15 +379,19 @@ class ImportInitialData extends Command
     
     private function updateTraining($assignment, $data)
     {
-        $userAptitude = $assignment->userAptitudes()->first();
-        $userAptitude->created_at = $data['ca_assignment_date'];
-        $userAptitude->updated_at = $data['ca_assignment_date'];
-        $userAptitude->save();
-        
-        $this->outputInfo('    - import training info');
-        $userAptitude->trained_at = $data['training_date'];
-        $userAptitude->updated_at = $data['training_date'];
-        $userAptitude->save();
+        try {
+            $userAptitude = $assignment->userAptitudes()->first();
+            $userAptitude->created_at = $data['ca_assignment_date'];
+            $userAptitude->updated_at = $data['ca_assignment_date'];
+            $userAptitude->save();
+            
+            $this->outputInfo('    - import training info');
+            $userAptitude->trained_at = $data['training_date'];
+            $userAptitude->updated_at = $data['training_date'];
+            $userAptitude->save();
+        } catch (Exception $e) {
+            dump($e->getMessage());
+        }
     }
     
     private function updateAttestation($assignment, $data, $attestationData)
