@@ -62,7 +62,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerMailLogging();
+        // $this->registerMailLogging();
         parent::boot();
     }
 
