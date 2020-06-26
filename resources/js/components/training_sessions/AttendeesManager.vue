@@ -29,6 +29,12 @@
                             sticky-header="305px"
                             class="border-bottom"
                         >
+                            <template v-slot:cell(first_name)="{item}">
+                                <a :href="`/volunteers/${item.id}`">{{item.first_name}}</a>
+                            </template>
+                            <template v-slot:cell(last_name)="{item}">
+                                <a :href="`/volunteers/${item.id}`">{{item.last_name}}</a>
+                            </template>
                             <template v-slot:cell(id)="{item}">
                                 <button v-if="sessionStarted && !item.training_complete"
                                     @click="markTrainingComplete(item)"
@@ -51,6 +57,9 @@
         <section class="mt-5">
             <header class="clearfix">
                 <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
+                <div class="float-right mr-2 pr-2 border-right">
+                    <b-form-input type="text" v-model="trainableFilter" class="form-control form-control-sm mr-1" placeholder="search first or last" debounce="250"></b-form-input>
+                </div>
                 <h5>
                     Volunteers who need {{trainingSession.topic.name}} training 
                     <small>({{trainableVolunteers.length}})</small>
@@ -58,7 +67,7 @@
                 </h5>
             </header>
 
-            <b-table :fields="inviteFields" :items="trainableVolunteers" 
+            <b-table :fields="inviteFields" :items="filteredTrainable" 
                 v-if="trainableVolunteers.length > 0" 
                 sort-by="assignments[0].date_assigned" 
                 small
@@ -67,6 +76,12 @@
                 class="border-bottom"
                 @row-clicked="handleInviteRowClick"
             >
+                <template v-slot:cell(first_name)="{item}">
+                    <a :href="`/volunteers/${item.id}`">{{item.first_name}}</a>
+                </template>
+                <template v-slot:cell(last_name)="{item}">
+                    <a :href="`/volunteers/${item.id}`">{{item.last_name}}</a>
+                </template>
                 <template v-slot:cell(id)="data">
                     <div class="text-center">
                         <input type="checkbox" :value="data.item" v-model="selectedVolunteers">
@@ -141,7 +156,8 @@ export default {
             selectAll: false,
             showEmailForm: false,
             inviting: false,
-            currentDateTime: moment()
+            currentDateTime: moment(),
+            trainableFilter: null,
         }
     },
     watch: {
@@ -174,6 +190,17 @@ export default {
         },
         inviteButtonText() {
             return this.inviting ? 'Busy...' : 'Invite Selected'
+        },
+        filteredTrainable() {
+            console.log(this.trainableFilter);
+            if (this.trainableFilter === null || this.trainableFilter === '') {
+                return this.trainableVolunteers;
+            }
+            return this.trainableVolunteers
+                    .filter(vol => {
+                        return vol.first_name.toLowerCase().includes(this.trainableFilter.toLowerCase())
+                            || vol.last_name.toLowerCase().includes(this.trainableFilter.toLowerCase())
+                    });
         }
     },
     methods: {
@@ -219,6 +246,12 @@ export default {
             this.loadingVolunteers = false;
         },
         handleInviteRowClick (item, index, evt) {
+            // console.info('handleInviteRowClick', item, index, evt);
+            const itemIdx = this.selectedVolunteers.indexOf(item)
+            if (itemIdx > -1) {
+                this.selectedVolunteers.splice(itemIdx, 1);
+                return;
+            }
             this.selectedVolunteers.push(item);
         },
         markTrainingComplete (item) {
