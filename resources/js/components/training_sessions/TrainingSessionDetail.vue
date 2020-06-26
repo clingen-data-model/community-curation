@@ -2,7 +2,7 @@
     <div>
         <div class="card">
             <div class="card-header">
-                <div class="float-right ">
+                <div class="float-right">
                     <b-dropdown size="sm" text="Add to Calendar" variant="primary">
                         <b-dropdown-item 
                             v-for="(val, key) in trainingSession.calendar_links" :key="key"
@@ -23,6 +23,8 @@
                 </h3>
             </div>
             <div class="card-body">
+                <div class="alert alert-success mt-0 mb-2" v-if="trainingSession.started && !trainingSession.ended" :key="timestamp">This session has started.</div>
+                <div class="alert alert-info mt-0 mb-2" v-if="trainingSession.ended" :key="(timestamp+1)">This session has already happened.</div>
                 <div v-if="show404" class="alert alert-warning">
                     The session you're looking for could not be found.
                 </div>
@@ -33,7 +35,8 @@
                             <strong>URL</strong>
                         </column>
                         <column class="col-md-9">
-                            {{trainingSession.url}}
+                            <a :href="trainingSession.url" target="training-session">{{trainingSession.url}}</a>
+                        
                         </column>
                     </row>
                     <row class="mb-2">
@@ -102,6 +105,7 @@ import TrainingSessionForm from './TrainingSessionForm'
 import AttendeesManager from './AttendeesManager'
 import InviteEmailPreview from './InviteEmailPreview'
 import moment from 'moment'
+import TrainingSession from '../../entities/training_session'
 
 export default {
     components: {
@@ -125,6 +129,9 @@ export default {
             show404: false,
             showCalendarHelp: false,
             showEmailPreview: false,
+            started: false,
+            ended: false,
+            timestamp: new Date().getTime()
         }
     },
     computed: {
@@ -152,7 +159,7 @@ export default {
             updateTrainingSession(this.trainingSession.id, data)
                 .then(response => {
                     this.showEdit = false;
-                    var session = response.data.data;
+                    var session = new TrainingSession(response.data.data);
                     session.starts_at = moment(session.starts_at);
                     session.ends_at = moment(session.ends_at);
                     this.trainingSession = session;
@@ -177,18 +184,25 @@ export default {
             this.show404 = false;
             this.trainingSession = await window.axios.get('/api/training-sessions/'+this.id)
                                     .then(response => {
-                                        let ses = response.data.data;
-                                        ses.starts_at = moment(ses.starts_at)
-                                        ses.ends_at = moment(ses.ends_at)
+                                        let ses = new TrainingSession(response.data.data)
+                                        // let ses = response.data.data;
+                                        // ses.starts_at = moment(ses.starts_at)
+                                        // ses.ends_at = moment(ses.ends_at)
                                         return ses
                                     })
                                     .catch(error => {
-                                        if (error.response.status == 404) {
+                                        if (error.response && error.response.status == 404) {
                                             this.show404 = true;
                                             return
                                         }
                                         new Error(error);
                                     })
+            setInterval(() => {
+                this.started = this.trainingSession.started; 
+                this.ended = this.trainingSession.ended;
+                this.timestamp = new Date().getTime()
+            }, 1000)
+
         }
     },
     mounted() {
