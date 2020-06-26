@@ -28,6 +28,7 @@ import {
     CollapsePlugin,
     DropdownPlugin, 
     FormDatepickerPlugin,
+    FormInputPlugin,
     FormTimepickerPlugin,
     IconsPlugin, 
     InputGroupPlugin,
@@ -44,6 +45,7 @@ window.Vue.use(CardPlugin);
 window.Vue.use(CollapsePlugin);
 window.Vue.use(DropdownPlugin);
 window.Vue.use(FormDatepickerPlugin);
+window.Vue.use(FormInputPlugin);
 window.Vue.use(FormTimepickerPlugin);
 window.Vue.use(IconsPlugin);
 window.Vue.use(InputGroupPlugin);

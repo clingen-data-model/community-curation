@@ -1,9 +1,10 @@
 import moment from 'moment'
 
-const updateTrainingSession = function (id, trainingSession) {
-    trainingSession.starts_at = moment(trainingSession.starts_at).toISOString();
-    trainingSession.ends_at = moment(trainingSession.ends_at).toISOString();
-    return window.axios.put('/api/training-sessions/'+id, trainingSession);
+const updateTrainingSession = function (id, data) {
+    console.info('updateTrainingSession', data);
+    data.starts_at = moment(data.starts_at).toISOString();
+    data.ends_at = moment(data.ends_at).toISOString();
+    return window.axios.put('/api/training-sessions/'+id, data);
 }
 
 export default updateTrainingSession;
