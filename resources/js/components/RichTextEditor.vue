@@ -39,7 +39,7 @@ export default {
             editor: ClassicEditor,
             editorData: '',
             defaultConfig: {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'table', 'undo', 'redo'],
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
                 skin: 'myskin'
             }
         }
@@ -55,7 +55,6 @@ export default {
         },
         prefill () {
             this.editorData = this.value;
-            console.log('prefill')
         }
     }
 }
