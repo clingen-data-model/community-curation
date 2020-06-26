@@ -1,3 +1,9 @@
+<style>
+    tr > td:hover {
+        /* background-color: #f0f; */
+        cursor: pointer;
+    }
+</style>
 <template>
     <div>
         <div class="card">
@@ -9,7 +15,10 @@
             </div>
             <div class="card-body">
                 <b-tabs pills v-model="selectedTab">
-                    <b-tab title="Future">
+                    <b-tab>
+                        <template v-slot:title>
+                            Upcoming <b-badge class="ml-1" variant="light">{{sessions.length}}</b-badge>
+                        </template>
                         <b-table :fields="fields" :items="sessions" class="mt-4"
                             :sort-by.sync="sortBy"
                             :sort-desc.sync="sortDesc"
@@ -17,9 +26,9 @@
                         >
                             <template v-slot:cell(id)="{value}">
                                 <div class="text-right">
-                                    <a :href="`/training-sessions/${value}`" class="btn border btn-xs">View</a>
-                                    <button class="btn border btn-xs" @click="edit(value)">Edit</button>
-                                    <button class="btn border btn-xs" @click="destroy(value)">Delete</button>
+                                    <a :href="`/training-sessions/${value}`" class="btn border btn-light btn-xs">View</a>
+                                    <button class="btn border btn-light btn-xs" @click="edit(value)">Edit</button>
+                                    <button class="btn border btn-light btn-xs" @click="destroy(value)">Delete</button>
                                 </div>
                             </template>
                             <template v-slot:cell(starts_at)="{item}">
@@ -28,18 +37,23 @@
                         </b-table>        
                     </b-tab>
                     <b-tab title="Past">
+                        <template v-slot:title>
+                            Past <b-badge class="ml-1" variant="light">{{pastSessions.length}}</b-badge>
+                        </template>
                         <b-table :fields="fields" :items="pastSessions" class="mt-4"
                             :sort-by.sync="pastSortBy"
                             :sort-desc.sync="pastSortDesc"
+                            @row-clicked="navigateToTrainingSession"
+                            hover
                         >
                             <template v-slot:cell(starts_at)="{item}">
                                 {{item.starts_at.format('MMMM D, YYYY - h:mm a')}}
                             </template>
                             <template v-slot:cell(id)="{value}">
                                 <div class="text-right">
-                                    <button class="btn border btn-xs" @click="show(value)">View</button>
-                                    <button class="btn border btn-xs" @click="edit(value)">Edit</button>
-                                    <button class="btn border btn-xs" @click="destroy(value)">Delete</button>
+                                    <a :href="`/training-sessions/${value}`" class="btn border btn-light btn-xs">View</a>
+                                    <button class="btn border btn-light btn-xs" @click="edit(value)">Edit</button>
+                                    <button class="btn border btn-light btn-xs" @click="destroy(value)">Delete</button>
                                 </div>
                             </template>
                         </b-table>        
@@ -71,6 +85,7 @@ import createTrainingSession from '../../resources/training_sessions/create';
 import updateTrainingSession from '../../resources/training_sessions/update';
 
 import TrainingSessionForm from '../training_sessions/TrainingSessionForm'
+import TrainingSession from '../../entities/training_session'
 
 export default {
     components: {
@@ -154,14 +169,12 @@ export default {
             }
             return 0;
         },
-        createSession(trainingSession) {
+        createSession(data) {
             this.errors = {};
-            createTrainingSession(trainingSession)
+            createTrainingSession(data)
                 .then(response => {
-                    let session = response.data.data;
-                    session.starts_at = moment(session.starts_at);
-                    session.ends_at = moment(session.ends_at);
-                    this.sessions.push(response.data.data);
+                    let session = new TrainingSession(response.data.data);
+                    this.sessions.push(session);
                     this.currentSession = {};
                     this.showCreate = false;
                 })
