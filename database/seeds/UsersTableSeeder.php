@@ -53,18 +53,19 @@ class UsersTableSeeder extends Seeder
         ];
         
         foreach ($admins as $admin) {
-            User::firstOrCreate(
+            $user = User::firstOrCreate(
                 [
                     'email' => $admin['email']
                 ],
                 array_merge(
                     $admin,
                     [
-                        'password' => Hash::make('tester'),
+                        'password' => (app()->environment('production')) ? Hash::make(uniqid()) : Hash::make('tester'),
                         'country_id' => 225
                     ]
                 )
             );
+            $user->assignRole('admin');
         }
     }
 }
