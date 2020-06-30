@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
 
         $admins = [
             ['first_name' => 'Courtney', 'last_name' => 'Thaxton', 'email' => 'courtney_thaxton@med.unc.edu'],
-            ['first_name' => 'Liz', 'last_name' => 'Kearns', 'email' => 'liz_kearns@med.unc.edu'],
+            [ 'first_name' => "Elizabeth", 'last_name' => 	"Kearns", 'email' =>	"liz_kearns@med.unc.edu"],
             [ 'first_name' => "Erin", 'last_name' =>	"Riggs", 'email' =>	"eriggs@geisinger.edu"],
             [ 'first_name' => "Marina", 'last_name' =>	"DiStefano", 'email' =>	"mdistefano1@bwh.harvard.edu"],
             [ 'first_name' => "Laura", 'last_name' =>	"Milko", 'email' =>	"laura_milko@med.unc.edu"],
@@ -48,15 +48,14 @@ class UsersTableSeeder extends Seeder
             [ 'first_name' => "Shruti", 'last_name' =>	"Rao", 'email' =>	"sr879@georgetown.edu"],
             [ 'first_name' => "Deb", 'last_name' =>	"Ritter", 'email' =>	"dritter@bcm.edu"],
             [ 'first_name' => "Taylor", 'last_name' =>	"Bingaman", 'email' =>	"tibingaman@geisinger.edu"],
-            [ 'first_name' => "Chris", 'last_name' =>	"Catlin", 'email' =>	"Chris.L.Catlin@kpchr.org"],
-            [ 'first_name' => "Christine", 'last_name' =>	"Pak", 'email' =>	"Christine.Pak@kpchr.org"],
-            [ 'first_name' => "Elizabeth", 'last_name' => 	"Kearns", 'email' =>	"liz_kearns@med.unc.edu"],
+            [ 'first_name' => "Chris", 'last_name' =>	"Catlin", 'email' =>	"chris.l.catlin@kpchr.org"],
+            [ 'first_name' => "Christine", 'last_name' =>	"Pak", 'email' =>	"christine.pak@kpchr.org"],
         ];
         
         foreach ($admins as $admin) {
             User::firstOrCreate(
                 [
-                    'email' => $admin['email'];
+                    'email' => $admin['email']
                 ],
                 array_merge(
                     $admin,
@@ -67,6 +66,5 @@ class UsersTableSeeder extends Seeder
                 )
             );
         }
-
     }
 }
