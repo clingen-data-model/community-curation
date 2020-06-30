@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
         ];
         
         foreach ($admins as $admin) {
-            User::firstOrCreate(
+            $user = User::firstOrCreate(
                 [
                     'email' => $admin['email']
                 ],
@@ -65,6 +65,7 @@ class UsersTableSeeder extends Seeder
                     ]
                 )
             );
+            $user->assignRole('admin');
         }
     }
 }
