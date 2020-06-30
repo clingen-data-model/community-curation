@@ -60,7 +60,7 @@ class UsersTableSeeder extends Seeder
                 array_merge(
                     $admin,
                     [
-                        'password' => Hash::make('tester'),
+                        'password' => (app()->environment('production')) ? Hash::make(uniqid()) : Hash::make('tester'),
                         'country_id' => 225
                     ]
                 )
