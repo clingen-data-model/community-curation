@@ -50,6 +50,8 @@ class UsersTableSeeder extends Seeder
             [ 'first_name' => "Taylor", 'last_name' =>	"Bingaman", 'email' =>	"tibingaman@geisinger.edu"],
             [ 'first_name' => "Chris", 'last_name' =>	"Catlin", 'email' =>	"chris.l.catlin@kpchr.org"],
             [ 'first_name' => "Christine", 'last_name' =>	"Pak", 'email' =>	"christine.pak@kpchr.org"],
+            [ 'first_name' => "Lianna", 'last_name' =>	"Paul", 'email' =>	"ldpaul@geisinger.edu"],
+            [ 'first_name' => "Molly", 'last_name' =>	"Good", 'email' =>	"megood1@geisinger.edu"],
         ];
         
         foreach ($admins as $admin) {
