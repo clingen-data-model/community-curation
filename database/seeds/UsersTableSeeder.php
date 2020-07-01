@@ -24,19 +24,6 @@ class UsersTableSeeder extends Seeder
         ]);
         $programmer->assignRole('programmer');
         
-        // $admin = User::firstOrcreate(
-        //     [
-        //         'email' => 'courtney_thaxton@med.unc.edu',
-        //     ],
-        //     [
-        //         'first_name' => 'Courtney',
-        //         'last_name' => 'Thaxton',
-        //         'email' => 'courtney_thaxton@med.unc.edu',
-        //         'password' => Hash::make(uniqid()),
-        //         'country_id' => 225
-        //     ]
-        // );
-
         $admins = [
             ['first_name' => 'Courtney', 'last_name' => 'Thaxton', 'email' => 'courtney_thaxton@med.unc.edu'],
             [ 'first_name' => "Elizabeth", 'last_name' => 	"Kearns", 'email' =>	"liz_kearns@med.unc.edu"],
