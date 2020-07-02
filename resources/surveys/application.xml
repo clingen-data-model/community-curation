@@ -275,7 +275,7 @@
             <options>
                 <option name="volunteer_typeBaseline">
                     <value>1</value>
-                    <label>Basline</label>
+                    <label>Baseline</label>
                 </option>
                 <option name="volunteer_typeComprehensive">
                     <value>2</value>
