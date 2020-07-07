@@ -16,8 +16,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @assignments
- * @reports
+ * @group assignments
+ * @group reports
  */
 class AssignmentsReportTest extends TestCase
 {
