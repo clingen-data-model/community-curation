@@ -1,27 +1,17 @@
 <?php
 namespace App\Surveys;
 
-use Sirs\Surveys\SurveyRules;
+use App\Surveys\SurveyRules;
+use Illuminate\Support\Facades\Auth;
 
 class Application1Rules extends SurveyRules
 {
     const VOLUNTEER_TYPE_COMPREHENSIVE = 2;
     const VOLUNTEER_TYPE_BASELINE = 1;
 
-    public function beforeShow()
-    {
-        // $context = parent::beforeShow();
-        $context = [
-            'hideSaveExit' => true,
-            'hideSave' => true,
-        ];
-
-        return $context;
-    }
-
     public function getRedirectUrl()
     {
-        if (\Auth::guest()) {
+        if (Auth::guest()) {
             return '/apply/thank-you';
         }
         return null;
@@ -34,5 +24,4 @@ class Application1Rules extends SurveyRules
         }
         return 0;
     }
-    
 }
