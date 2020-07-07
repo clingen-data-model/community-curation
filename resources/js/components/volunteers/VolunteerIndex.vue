@@ -18,7 +18,11 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <a href="/assignments-report" class="float-right btn btn-sm btn-primary">Assignments Report</a>
+            <assignments-report-button 
+                :filter="filters" 
+                :sort-by="sortKey" 
+                :sort-desc="sortDesc"
+            ></assignments-report-button>
             <h1>Volunteers</h1>
         </div>
         <div class="card-body">
@@ -161,12 +165,14 @@
     import getAllVolunteerTypes from '../../resources/volunteers/get_all_volunteer_types';
 
     import AssignmentBriefList from './../assignments/AssignmentBriefList'
+    import AssignmentsReportButton from '../reports/AssignmentsReportButton'
 
     import { randomBytes } from 'crypto';
 
     export default {
         components: {
-            AssignmentBriefList
+            AssignmentBriefList,
+            AssignmentsReportButton
         },
         data() {
             return {
@@ -249,7 +255,7 @@
                     return this.panels.filter(panel => panel.curation_activity_id == this.filters.curation_activity_id)
                 }
                 return this.panels
-            }
+            },
         },
         watch: {
             filters: {

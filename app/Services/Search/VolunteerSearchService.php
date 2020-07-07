@@ -3,9 +3,11 @@
 namespace App\Services\Search;
 
 use App\User;
-use App\Contracts\SearchService;
+use Illuminate\Support\Collection;
+use App\Contracts\ModelSearchService;
+use Illuminate\Database\Eloquent\Builder;
 
-class VolunteerSearchService implements SearchService
+class VolunteerSearchService implements ModelSearchService
 {
     protected $validFilters = [
         'first_name',
@@ -15,13 +17,13 @@ class VolunteerSearchService implements SearchService
         'volunteer_type_id',
     ];
 
-    public function search($params)
+    public function search($params):Collection
     {
         return $this->buildQuery($params)
                 ->get();
     }
 
-    public function buildQuery($params)
+    public function buildQuery($params):Builder
     {
         $query = User::query()
                         ->with([
@@ -32,6 +34,10 @@ class VolunteerSearchService implements SearchService
                         ->isVolunteer();
 
         foreach ($params as $key => $value) {
+            if ($key == 'select') {
+                $query->select($value);
+            }
+
             if ($key == 'with') {
                 $query->with($value);
             }
@@ -57,7 +63,7 @@ class VolunteerSearchService implements SearchService
         }
 
         $this->setOrder($params, $query);
-        
+ 
         return $query;
     }
 
@@ -118,8 +124,8 @@ class VolunteerSearchService implements SearchService
 
     private function setOrder($params, $query)
     {
-        $sortField = ($params['sortBy']) ?? 'last_name';
-        $sortDir = ($params['sortDesc'] === 'true') ? 'desc' : 'asc';
+        $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'last_name';
+        $sortDir = (isset($params['sortDesc']) && $params['sortDesc'] === 'true') ? 'desc' : 'asc';
         $query->orderBy($sortField, $sortDir);
     }
 }
