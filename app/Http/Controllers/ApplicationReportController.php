@@ -23,9 +23,11 @@ class ApplicationReportController extends Controller
     {
         $filePath = storage_path('app/reports/application-report-'.Carbon::now()->format('Y-m-d_H:i:s').'.xlsx');
 
+        $data = $this->generator->generate($request->all());
+
         $this->writer
             ->setPath($filePath)
-            ->writeData($this->generator->generate());
+            ->writeData($data);
 
         
         return response()

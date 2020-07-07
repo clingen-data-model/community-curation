@@ -5,13 +5,24 @@ namespace App\Services\Reports;
 use App\Application;
 use App\Contracts\ReportGenerator;
 use Illuminate\Support\Collection;
+use App\Services\Search\VolunteerSearchService;
 
 class ApplicationReportGenerator implements ReportGenerator
 {
-    public function generate():Collection
+    protected $volunteerSearchService;
+
+    public function __construct(VolunteerSearchService $volunteerSearchService)
+    {
+        $this->volunteerSearchService = $volunteerSearchService;
+    }
+
+    public function generate($filterParams = []):Collection
     {
         $query = Application::query()
                     ->finalized();
+        if ($filterParams) {
+            $this->filterByVolunteer($filterParams, $query);
+        }
         $applications = $query->get();
 
         $questionDefs = class_survey()::findBySlug('application1')->getQuestions();
@@ -41,5 +52,12 @@ class ApplicationReportGenerator implements ReportGenerator
         }
 
         return $readableValue;
+    }
+
+    private function filterByVolunteer($params, $query)
+    {
+        $params = array_merge($params, ['select' => ['users.id']]);
+        $volunteers = $this->volunteerSearchService->search($params);
+        $query->whereIn('respondent_id', $volunteers->pluck('id'));
     }
 }
