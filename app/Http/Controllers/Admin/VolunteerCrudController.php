@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Country;
 use App\VolunteerType;
 use App\VolunteerStatus;
 use Backpack\CRUD\CrudPanel;
+use App\Surveys\SurveyOptions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\VolunteerRequest as StoreRequest;
 use App\Http\Requests\VolunteerRequest as UpdateRequest;
@@ -84,6 +86,28 @@ class VolunteerCrudController extends CrudController
                 'attribute' => 'name'
             ],
         ]);
+
+        $this->crud->modifyField(
+            'country_id',
+            [
+                'type' => 'select2',
+                'name'=>'country_id',
+                'entity'=>'country',
+                'attribute'=>'name',
+                'model' => Country::class
+            ]
+        );
+
+        $this->crud->modifyField(
+            'timezone',
+            [
+                'type' => 'select2_from_array',
+                'name'=>'timezone',
+                'label' => 'Timezone (Select city closest to you)',
+                'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray()
+            ]
+        );
+
 
         $this->crud->removeFields(['password']);
 
