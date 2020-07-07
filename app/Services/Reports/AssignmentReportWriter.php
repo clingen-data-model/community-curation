@@ -28,7 +28,7 @@ class AssignmentReportWriter extends AbstractReportWriter implements ReportWrite
             $sheet = $this->getCurrentSheet();
             $sheet->setName($sheetName);
 
-            $this->addRow($this->buildHeader($data), (new StyleBuilder())->setFontBold()->build());
+            $this->addRow($this->buildHeader($sheetData), (new StyleBuilder())->setFontBold()->build());
 
             foreach ($sheetData->toArray() as $rowData) {
                 $row = $this->createRow($rowData);
