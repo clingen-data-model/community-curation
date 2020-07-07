@@ -215,7 +215,7 @@ class ExpertPanelsTableSeeder extends Seeder
                 'curation_activity_id' => 4
             ],
             [
-                'name' => 'Actionability-Pediatric',
+                'name' => 'Actionability-Adult/Pediatric',
                 'working_group_id' => 10,
                 'curation_activity_id' => 1
             ],

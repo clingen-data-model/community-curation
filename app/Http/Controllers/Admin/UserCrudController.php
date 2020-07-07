@@ -6,6 +6,7 @@ use App\Country;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
+use App\Surveys\SurveyOptions;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Query\Builder;
 use Spatie\Permission\Models\Permission;
@@ -70,6 +71,16 @@ class UserCrudController extends CrudController
             ],
         ], 'both');
         $this->crud->modifyField('country_id', ['type' => 'select2', 'name'=>'country_id', 'entity'=>'country', 'attribute'=>'name', 'model' => Country::class]);
+
+        $this->crud->modifyField(
+            'timezone',
+            [
+                'type' => 'select2_from_array',
+                'name'=>'timezone',
+                'label' => 'Timezone (Select city closest to you)',
+                'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray()
+            ]
+        );
 
         $this->crud->removeColumns(['volunteer_type_id', 'volunteer_status_id', 'street1', 'street2', 'city', 'zip', 'country_id', 'state']);
 
