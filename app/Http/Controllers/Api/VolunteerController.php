@@ -8,16 +8,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VolunteerRequest;
 use App\Exceptions\NotImplementedException;
 use App\Http\Resources\VolunteerUserResource;
+use App\Services\Search\VolunteerSearchService;
 
 class VolunteerController extends Controller
 {
-    protected $validFilters = [
-        'first_name',
-        'last_name',
-        'name',
-        'volunteer_status_id',
-        'volunteer_type_id',
-    ];
+    protected $searchService;
+
+    public function __construct(VolunteerSearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
+
+
 
     /**
      * Display a listing of the resource.
@@ -28,76 +30,7 @@ class VolunteerController extends Controller
     {
         $pageSize = ($request->has('perPage') && !is_null($request->perPage)) ? $request->perPage : 25;
 
-        $query = User::query()
-                        ->with([
-                            'volunteerType',
-                            'volunteerStatus',
-                            'structuredAssignments',
-                        ])
-                        ->isVolunteer();
-
-        foreach ($request->all() as $key => $value) {
-            if ($key == 'with') {
-                $query->with($value);
-            }
-            if (in_array($key, $this->validFilters)) {
-                $query->where($key, $value);
-            }
-
-            if ($key == 'expert_panel_id') {
-                if ($value == -1) {
-                    $query->comprehensive()->whereDoesntHave('assignments', function ($q) {
-                        $q->expertPanel();
-                    });
-                } else {
-                    $query->whereHas('assignments', function ($q) use ($value) {
-                        $q->where([
-                            'assignable_type' => 'App\ExpertPanel',
-                            'assignable_id' => $value
-                        ]);
-                    });
-                }
-            }
-            if ($key == 'curation_activity_id') {
-                if ($value == -1) {
-                    $query->doesntHave('assignments');
-                } else {
-                    $query->whereHas('assignments', function ($q) use ($value) {
-                        $q->where([
-                            'assignable_type' => 'App\CurationActivity',
-                            'assignable_id' => $value
-                        ]);
-                    });
-                }
-            }
-            if ($key == 'gene_id') {
-                $query->whereHas('assignments', function ($q) use ($value) {
-                    $q->where([
-                        'assignable_type' => 'App\Gene',
-                        'assignable_id' => $value
-                    ]);
-                });
-            }
-        }
-
-        if (!is_null($request->searchTerm)) {
-            $query->leftJoin('volunteer_statuses', 'users.volunteer_status_id', '=', 'volunteer_statuses.id')
-                ->leftJoin('volunteer_types', 'users.volunteer_type_id', '=', 'volunteer_types.id')
-                ->select('users.*')
-                ;
-            $query->where(function ($q) use ($request) {
-                $q->where('first_name', 'like', '%'.$request->searchTerm.'%')
-                ->orWhere('last_name', 'like', '%'.$request->searchTerm.'%')
-                ->orWhere('email', 'like', '%'.$request->searchTerm.'%')
-                ->orWhere('volunteer_statuses.name', 'like', '%'.$request->searchTerm.'%')
-                ->orWhere('volunteer_types.name', 'like', '%'.$request->searchTerm.'%')
-                ;
-            });
-        }
-
-        $sortField = ($request->sortBy) ?? 'last_name';
-        $sortDir = ($request->sortDesc === 'true') ? 'desc' : 'asc';
-        $query->orderBy($sortField, $sortDir);
+        $query = $this->searchService->buildQuery($request->all());
 
         $volunteers = ($request->has('page'))
                         ? $query->paginate($pageSize)
