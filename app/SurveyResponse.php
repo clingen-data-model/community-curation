@@ -26,4 +26,9 @@ class SurveyResponse extends SirsResponse
         return $this->hasMany(Revision::class, 'response_id')
             ->where('response_table', '=', $this->getTable());
     }
+
+    public function scopeFinalized($query)
+    {
+        return $query->whereNotNull('finalized');
+    }
 }
