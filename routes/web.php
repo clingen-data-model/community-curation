@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->only('show', 'edit', 'update');
 
     Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
+    Route::get('applications-report', 'ApplicationReportController@index')->name('appication-report');
 
     Route::get('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@show')->name('volunteer-followup.show');
     Route::post('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@store')->name('volunteer-followup.store');
