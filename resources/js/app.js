@@ -196,6 +196,9 @@ if (document.getElementById('app')) {
     const app = new window.Vue({
         el: '#app',
         store: store,
+        data: {
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        },
         computed: {
             infoMessages() {
                 console.log('getInfoMessages');
