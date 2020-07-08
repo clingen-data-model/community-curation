@@ -23,6 +23,7 @@ Route::redirect('/home', '/volunteers');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('required-info', 'RequiredInfoController@edit');
     Route::put('required-info', 'RequiredInfoController@update');
+    Route::post('required-info', 'RequiredInfoController@bypass');
 });
 
 Route::group(['middleware' => ['auth', 'required-info']], function () {

@@ -17,7 +17,7 @@ class RequiredInfoMiddleware
     {
         $response = $next($request);
 
-        if (\Auth::user()->timezone == 'UTC' || \Auth::user()->country_id === null) {
+        if (!session()->get('app_impersonate_required_info_bypass') && (\Auth::user()->timezone == 'UTC' || \Auth::user()->country_id === null)) {
             return redirect('/required-info');
         }
 
