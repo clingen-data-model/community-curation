@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('attestations', 'AttestationController')
         ->only('show', 'edit', 'update');
 
+    Route::get('reports', 'ReportController@index')->name('report-index');
     Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
     Route::get('applications-report', 'ApplicationReportController@index')->name('appication-report');
 

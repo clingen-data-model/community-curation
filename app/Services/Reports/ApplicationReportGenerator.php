@@ -10,20 +10,21 @@ use App\Services\Search\VolunteerSearchService;
 class ApplicationReportGenerator implements ReportGenerator
 {
     protected $volunteerSearchService;
+    protected $query;
 
     public function __construct(VolunteerSearchService $volunteerSearchService)
     {
         $this->volunteerSearchService = $volunteerSearchService;
+        $this->query = Application::query()->finalized();
     }
 
     public function generate($filterParams = []):Collection
     {
-        $query = Application::query()
-                    ->finalized();
         if ($filterParams) {
-            $this->filterByVolunteer($filterParams, $query);
+            $this->filterByVolunteer($filterParams);
         }
-        $applications = $query->get();
+
+        $applications = $this->query->get();
 
         $questionDefs = class_survey()::findBySlug('application1')->getQuestions();
         return $applications->map(function ($application) use ($questionDefs) {
@@ -34,6 +35,13 @@ class ApplicationReportGenerator implements ReportGenerator
             }
             return $application;
         });
+    }
+
+    public function addConstraint(callable $func)
+    {
+        $func($this->query);
+
+        return $this;
     }
 
     private function getReadableResponse($responseValue, $questionDef)
@@ -54,10 +62,10 @@ class ApplicationReportGenerator implements ReportGenerator
         return $readableValue;
     }
 
-    private function filterByVolunteer($params, $query)
+    private function filterByVolunteer($params)
     {
         $params = array_merge($params, ['select' => ['users.id']]);
         $volunteers = $this->volunteerSearchService->search($params);
-        $query->whereIn('respondent_id', $volunteers->pluck('id'));
+        $this->query->whereIn('respondent_id', $volunteers->pluck('id'));
     }
 }

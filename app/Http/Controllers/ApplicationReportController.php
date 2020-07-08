@@ -22,6 +22,20 @@ class ApplicationReportController extends Controller
     public function index(Request $request)
     {
         $filePath = storage_path('app/reports/application-report-'.Carbon::now()->format('Y-m-d_H:i:s').'.xlsx');
+       
+        if ($request->start_date) {
+            $this->generator
+                ->addConstraint(function ($q) use ($request) {
+                    $q->where('finalized_at', '>=', $request->start_date);
+                });
+        }
+
+        if ($request->end_date) {
+            $this->generator
+                ->addConstraint(function ($q) use ($request) {
+                    $q->where('finalized_at', '<=', $request->end_date);
+                });
+        }
 
         $data = $this->generator->generate($request->all());
 

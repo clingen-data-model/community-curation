@@ -108,6 +108,9 @@ window.Vue.component('global-progress', GlobalProgress);
 import DeleteButton from './components/DeleteButton'
 window.Vue.component('delete-button', DeleteButton);
 
+import ReportForm from './components/reports/ReportForm';
+window.Vue.component('report-form', ReportForm);
+
 window.Vue.component('impersonate-control', ImpersonateControl);
 
 window.Vue.component('validation-error', ValidationError);
