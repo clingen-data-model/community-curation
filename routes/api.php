@@ -48,7 +48,7 @@ Route::group([
 
             Route::get('impersonatable-users', 'UserController@impersonatableUsers');
 
-            Route::get('timezones', 'TimeZoneController@index');
+            Route::get('timezones', 'TimezoneController@index');
 
             /**
              * Catch-all route for generic API read exposure
