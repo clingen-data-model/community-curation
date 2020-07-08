@@ -1,7 +1,7 @@
 <?php
 namespace App\Surveys;
 
-use Sirs\Surveys\SurveyRules;
+use App\Surveys\SurveyRules;
 
 class FollowupSurveyRules extends SurveyRules
 {

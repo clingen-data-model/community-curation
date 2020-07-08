@@ -76,7 +76,7 @@ class VolunteerController extends Controller
      * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Volunteer $volunteer)
+    public function update(Request $request, User $volunteer)
     {
         throw new NotImplementedException();
     }
