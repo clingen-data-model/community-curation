@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\Reports\ApplicationReportWriter;
 use App\Services\Reports\ApplicationReportGenerator;
@@ -37,7 +38,15 @@ class ApplicationReportController extends Controller
                 });
         }
 
-        $data = $this->generator->generate($request->all());
+        $filterParams = $request->all();
+        $data = $this->generator->generate($filterParams);
+
+        $data->put('metadata', $this->getMetadata($filterParams));
+
+        if (!$data->has('personal')) {
+            session()->flash('warning', 'Nothing matched your filters.');
+            return redirect()->back();
+        }
 
         $this->writer
             ->setPath($filePath)
@@ -47,5 +56,38 @@ class ApplicationReportController extends Controller
         return response()
             ->download($filePath)
             ->deleteFileAfterSend();
+    }
+
+    private function getMetadata($filterParams)
+    {
+        $metadata = collect();
+        if (count($filterParams) == 0) {
+            $metadata->push(collect(['filter' => '', 'value' => '']));
+            return $metadata;
+        }
+        foreach ($filterParams as $key => $value) {
+            if ($key == 'page') {
+                continue;
+            }
+
+            $label = $key;
+            $valueLabel = $value;
+
+            if (substr($key, -3) === '_id') {
+                $label = ucfirst(str_replace('_', ' ', (preg_replace('/_id$/', '', $key))));
+                $model = 'App\\'.ucfirst(Str::camel(preg_replace('/_id$/', '', $key)));
+                $valueLabel = 'unassigned';
+    
+                if ($value != -1) {
+                    $instance = $model::find($value);
+                    $valueLabel = ($instance) ? $instance->name : '?';
+                }
+            }
+
+
+
+            $metadata->push(collect(['filter' => $label, 'value' => $valueLabel]));
+        }
+        return $metadata;
     }
 }
