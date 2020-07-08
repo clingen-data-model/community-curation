@@ -23,12 +23,18 @@ class RequiredInfoController extends Controller
     public function update(RequiredUserInfoRequest $request)
     {
         $user = User::find($request->user_id);
-
+        
         $user->update([
             'timezone' => $request->timezone,
             'country_id' => $request->country_id
         ]);
         session()->flash('success', 'Your information has been updated.  Thanks!');
+        return redirect('/');
+    }
+
+    public function bypass()
+    {
+        session()->put('app_impersonate_required_info_bypass', true);
         return redirect('/');
     }
 }
