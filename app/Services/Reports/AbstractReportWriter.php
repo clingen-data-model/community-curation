@@ -26,7 +26,7 @@ abstract class AbstractReportWriter implements ReportWriter
     }
 
 
-    protected function arrayToCells(array $array)
+    protected function arrayToCells($array)
     {
         return array_map(function ($item) {
             $value = $item;
