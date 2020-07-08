@@ -158,7 +158,6 @@
     import getAllVolunteers from '../../resources/volunteers/get_all_volunteers'
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import getPageOfVolunteers from '../../resources/volunteers/get_page_of_volunteers'
-    import getAllCurationActivitys from '../../resources/curation_activities/get_all_curation_activities'
     import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
     import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities';
     import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses';
