@@ -14,6 +14,11 @@ class RequiredInfoController extends Controller
     public function edit()
     {
         $user = Auth::user();
+
+        if (!is_null($user->country_id) && !is_null($user->timezone) && $user->timezone != 'UTC') {
+            return redirect('/');
+        }
+
         $countries = Country::all();
         $timezones = (new SurveyOptions())->timezones();
 
