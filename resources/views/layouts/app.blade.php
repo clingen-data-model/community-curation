@@ -77,8 +77,11 @@
                                     @endif
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"
+                                       onclick="
+                                            event.preventDefault();
+                                            document.getElementById('logout-form').submit();
+                                            window.clearSessionStorage();
+                                        "
                                     >
                                         {{ __('Logout') }}
                                     </a>
