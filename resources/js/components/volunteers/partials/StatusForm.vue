@@ -44,12 +44,12 @@
                 let confirmationMessage = 'Are you sure you want to update the volunteer\'s status?';
                 switch (this.newStatus.name) {
                     case this.volunteer.volunteer_status.name:
-                        this.closeStatusWindow();
+                        this.$emit('no-change')
                         return;
                         break;
-                    // case 'Retired':
-                    //     confirmationMessage = 'You are about to retire this volunteer.  This will also retire all of their assignments.  Are you sure you want to continue?'
-                    //     break;
+                    case 'Retired':
+                        confirmationMessage = 'You are about to retire this volunteer.  This will also retire all of their assignments.  Are you sure you want to continue?'
+                        break;
                     default:
                         break;
                 }
