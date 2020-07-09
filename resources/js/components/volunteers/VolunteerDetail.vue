@@ -62,6 +62,7 @@
             <status-form
                 :volunteer="volunteer"
                 @updatevolunteer="reloadVolunteer"
+                @no-change="showStatusForm = false"
             ></status-form>
         </b-modal>
         <b-modal title="Convert Volunteer to Comprehensive?" hide-footer v-model="showVolunteerTypeForm">
