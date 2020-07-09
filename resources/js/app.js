@@ -162,11 +162,12 @@ function evaluate(el, binding, vnode) {
     console.log(binding);
 }
 
-function clearSessionStorage()
-{
+
+window.clearSessionStorage = function () {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('impersonatable-users');
 }
+
 
 
 window.axios.interceptors.request.use(function (config) {
@@ -213,7 +214,7 @@ if (document.getElementById('app')) {
                 'fetchUser',
             ]),
             clearSessionStorage() {
-                clearSessionStorage();
+                window.clearSessionStorage();
             }
         },
         mounted() {

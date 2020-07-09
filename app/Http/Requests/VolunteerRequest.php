@@ -27,14 +27,16 @@ class VolunteerRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|min:2|max:255',
-            'last_name' => 'required|min:2|max:255',
-            'email' => 'required|email:rfc,dns',
-            'country_id' => 'required|exists:countries,id',
+            'first_name' => 'sometimes|required|min:2|max:255',
+            'last_name' => 'sometimes|required|min:2|max:255',
+            'email' => 'sometimes|required|email:rfc,dns',
+            'country_id' => 'sometimes|required|exists:countries,id',
             'timezone' => [
-                            'required',
-                            Rule::in(timezone_identifiers_list())
-                        ]
+                'sometimes',
+                'required',
+                Rule::in(timezone_identifiers_list()),
+                'not_in:UTC'
+            ]
         ];
     }
 
@@ -46,8 +48,10 @@ class VolunteerRequest extends FormRequest
     public function attributes()
     {
         return [
-            'first_name' => 'A first and last name is required',
-            'last_name' => 'A first and last name is required',
+            'first_name' => 'first and last name',
+            'last_name' => 'first and last name',
+            'country_id' => 'country',
+            'timezone' => 'closest city'
         ];
     }
 
@@ -59,7 +63,7 @@ class VolunteerRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'required' => 'A :attribute is required',
         ];
     }
 }

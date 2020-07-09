@@ -6,7 +6,7 @@ const getAllTimeZones = async function () {
         localStorage.setItem('timezones', JSON.stringify(data));
     }
 
-    return data;
+    return data.filter(tz => tz !== 'UTC');
 }
 
 export default getAllTimeZones;
