@@ -51,6 +51,8 @@ class CreateVolunteerFromApplication
             'timezone' => $this->response->timezone
         ]);
         $user->assignRole('volunteer');
+        $user->created_at = $this->response->finalized_at;
+        $user->save();
         $this->response->respondent_type = User::class;
         $this->response->respondent_id = $user->id;
     }
