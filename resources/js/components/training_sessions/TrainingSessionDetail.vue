@@ -73,24 +73,24 @@
                 @canceled="cancelUpdate"
             ></training-session-form>
         </b-modal>
-        <b-modal v-model="showCalendarHelp" title="How to add this training session to your calendar">
+        <b-modal v-model="showCalendarHelp" title="How to add this training session to your calendar" hide-footer>
             <b-modal-body>
                 <dl>
-                    <dt v-b-toggle.collapse-google><h5>Google, Yahoo, or web-based Outlook Calendar</h5></dt>
+                    <dt class="text-primary" v-b-toggle.collapse-google><h5>Google, Yahoo, or web-based Outlook Calendar</h5></dt>
                     <dl class="pl-3"> 
-                        <b-collapse id="collapse-google">
+                        <b-collapse visible id="collapse-google">
                             Clicking on the link for your web-based calendar link will open your calendar in another tab/window and prompt your to save the event.
                         </b-collapse>
                     </dl>
 
-                    <dt v-b-toggle.collapse-apple-outlook><h5>Apple or Outlook Calendar</h5></dt>
+                    <dt class="text-primary" v-b-toggle.collapse-apple-outlook><h5>Apple or Outlook Calendar</h5></dt>
                     <dl class="pl-3"> 
-                        <b-collapse id="collapse-apple-outlook">Clicking the link will download an .ics (iCalendar) standard file. Your operating system should open the file in the appropriate calendar application.</b-collapse>
+                        <b-collapse visible id="collapse-apple-outlook">Clicking the link will download an .ics (iCalendar) standard file. Your operating system should open the file in the appropriate calendar application.</b-collapse>
                     </dl>
 
-                    <dt v-b-toggle.collapse-other><h5>Other calendar apps</h5></dt>
+                    <dt class="text-primary" v-b-toggle.collapse-other><h5>Other calendar apps</h5></dt>
                     <dl class="pl-3">
-                        <b-collapse id="collapse-other">
+                        <b-collapse visible id="collapse-other">
                             Most calendar apps support the open iCalendar format so you should  download and open the .ics file by clicking on 'Apple &amp; Outlook'
                         </b-collapse>
                     </dl>

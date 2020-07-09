@@ -1,7 +1,7 @@
 @extends('layouts.app');
 
 @section('content')
-    <div class="col-md-8 offset-md-2">
+    <div class="col-lg-8 offset-md-2">
         <div class="card">
             <div class="card-header">
                 <h4 class="mb-0">Before you continue&hellip;</h4>
@@ -19,8 +19,8 @@
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                     @if ($user->country_id == null) 
                         <div class="form-group row">
-                            <label for="country-id-field" class="col-sm-2">Country:</label>
-                            <div class="col-sm-10">
+                            <label for="country-id-field" class="col-lg-2">Country:</label>
+                            <div class="col-lg-10">
                                 <select name="country_id" id="country-id-field" class="form-control form-control-sm">
                                     <option value="">Select...</option>
                                     @foreach ($countries as $country)
@@ -40,8 +40,8 @@
 
                     @if (is_null($user->timezone) || $user->timezone == 'UTC')
                         <div class="form-group row">
-                            <label for="timezone-field" class="col-sm-2">Nearest city:</label>
-                            <div class="col-sm-10">
+                            <label for="timezone-field" class="col-lg-2">Nearest city:</label>
+                            <div class="col-lg-10">
                                 <select name="timezone" id="timezone-field" class="form-control form-control-sm">
                                     <option value="">Select...</option>
                                     @foreach ($timezones as $timezone)
@@ -61,7 +61,7 @@
                         <input type="hidden" name="timezone" value="{{$user->timezone}}">
                     @endif
                     <div class="form-group row">
-                        <div class="col-sm-10 offset-sm-2">
+                        <div class="col-lg-10 offset-lg-2">
                             <button class="btn btn-primary btn-sm" type="submit">Submit</button>
                         </div>
                     </div>

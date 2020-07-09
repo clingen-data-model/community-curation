@@ -8,9 +8,11 @@ const getCurrentUser = async function () {
                             .then(response => response.data)
             sessionStorage.setItem('user', JSON.stringify(user));
         } catch (error) {
-            if (error.response.status != 401) {
-                throw error
+            if (error.respons.status == 401) {
+                window.clearSessionStorage();
+                return;
             }
+            throw error
         }
     }
 
