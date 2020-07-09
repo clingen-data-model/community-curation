@@ -256,7 +256,7 @@
             fields() {
                 let fields = JSON.parse(JSON.stringify(this.tableFields));
                 if (this.filters.curation_activity_id == -1) {
-                    fields.splice(fields.findIndex(item => item.key == 'volunteer_status.name'), 1)
+                    // fields.splice(fields.findIndex(item => item.key == 'volunteer_status.name'), 1)
                     fields.splice(fields.findIndex(item => item.key == 'volunteer_type.name'), 1)
                     fields.push({
                         label: 'Priorities',
