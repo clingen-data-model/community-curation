@@ -17,7 +17,7 @@ const queryStringFromParams = function (params = {}) {
 
         if (Array.isArray(parsedParams[param]) ) {
             parsedParams[param].forEach(val => {
-                queryStringParts.push(encodeURIComponent(param) + '[]=' + encodeURIComponent(parsedParams[param]));
+                queryStringParts.push(encodeURIComponent(param) + '[]=' + encodeURIComponent(val));
             })
         } else {
             queryStringParts.push(encodeURIComponent(param) + '=' + encodeURIComponent(parsedParams[param]));
