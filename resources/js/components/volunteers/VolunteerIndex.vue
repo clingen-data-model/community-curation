@@ -114,7 +114,7 @@
                 <b-table 
                     ref="volunteersTable"
                     :items="volunteerProvider" 
-                    :fields="tableFields"
+                    :fields="fields"
                     :sort-by.sync="sortKey"
                     :sort-desc.sync="sortDesc"
                     @sort-changed="handleSortChanged"
@@ -141,6 +141,21 @@
                         ></assignment-brief-list>
                         <button @click="addAssignmentsToVolunteer(item)" class="btn btn-light border btn-xs" v-if="item.assignments.length == 0 && filters.curation_activity_id == -1">Assign</button>
                     </template>
+                    <template v-slot:cell(latest_priorities)="{item}">
+                        <small>
+                            <ol class="pl-3">
+                                <li v-for="priority in item.priorities" :key="priority.id">
+                                    {{priority.curation_activity.name}}
+                                    <span v-if="priority.expert_panel">
+                                        - {{priority.expert_panel.name}}
+                                    </span>
+                                </li>
+                            </ol>
+                        </small>
+                    </template>
+                    <template v-slot:cell(created_at)="{item}">
+                        {{item.created_at | formatDate('YYYY-MM-DD')}}
+                    </template>   
                 </b-table>
             </div>
         </div>
@@ -238,6 +253,25 @@
             }
         },
         computed: {
+            fields() {
+                let fields = JSON.parse(JSON.stringify(this.tableFields));
+                if (this.filters.curation_activity_id == -1) {
+                    // fields.splice(fields.findIndex(item => item.key == 'volunteer_status.name'), 1)
+                    fields.splice(fields.findIndex(item => item.key == 'volunteer_type.name'), 1)
+                    fields.push({
+                        label: 'Priorities',
+                        sortable: false,
+                        key: 'latest_priorities'
+                    });
+                    fields.push({
+                        label: 'Sign-up date',
+                        sortable: false,
+                        key: 'created_at',
+                        sortable: true
+                    })
+                }
+                return fields;
+            },
             activeFilters: function () {
                 return Object.keys(this.filters)
                     .filter(key => this.filters[key] !== null)
@@ -273,6 +307,14 @@
             },
             volunteerProvider (context, callback) {
                 // this.loadingVolunteers = true;
+                if (this.filters.curation_activity_id == -1) {
+                    context.with = [
+                        'priorities',
+                        'priorities.curationActivity',
+                        'priorities.expertPanel'
+                    ];
+                }
+
                 getPageOfVolunteers(context)
                     .then(response => {
                         this.totalRows = response.data.meta.total;
