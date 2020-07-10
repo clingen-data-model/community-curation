@@ -3,30 +3,36 @@
 namespace App\Services\Reports;
 
 use App\User;
+use App\ExpertPanel;
 use App\CurationActivity;
 use App\Contracts\ReportGenerator;
-use App\ExpertPanel;
 use Illuminate\Support\Collection;
+use App\Services\Search\VolunteerSearchService;
 
 class AssignmentReportGenerator implements ReportGenerator
 {
-    public function generate():Collection
-    {
-        $volunteers = User::query()
-                        ->with([
-                            'country',
-                            'volunteerStatus',
-                            'assignments',
-                            'assignments.status',
-                            'assignments.userAptitudes',
-                            'assignments.assignable',
-                            'assignments.attestations',
-                            'application'
-                        ])
-                        ->isVolunteer()
-                        ->get();
+    protected $searchService;
 
-        // dd($volunteers->toArray());
+    public function __construct(VolunteerSearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
+
+    public function generate($filterParams = []):Collection
+    {
+        $params = array_merge([
+            'with' => [
+                'country',
+                'volunteerStatus',
+                'assignments',
+                'assignments.status',
+                'assignments.userAptitudes',
+                'assignments.assignable',
+                'assignments.attestations',
+                'application'
+            ]
+            ], $filterParams);
+        $volunteers = $this->searchService->search($params);
         
         $allRows = $volunteers->transform(function ($volunteer) {
             $root = [

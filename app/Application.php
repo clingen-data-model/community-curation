@@ -39,4 +39,9 @@ class Application extends Model
     {
         return $this->belongsTo(SelfDescription::class, 'self_desc');
     }
+
+    public function scopeFinalized($query)
+    {
+        return $query->whereNotNull('finalized_at');
+    }
 }
