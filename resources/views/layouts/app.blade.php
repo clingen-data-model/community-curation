@@ -67,6 +67,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="/faq" class="dropdown-item" target="faq">FAQ</a>
+
+
                                     @if(\Auth::user()->hasPermissionTo('administer'))
                                         <a class="dropdown-item" href="/admin" target="admin">
                                             Admin
@@ -105,7 +108,20 @@
         <main class="py-4 container">
             @yield('content')
         </main>
+        
         <alerts></alerts>
+
+        <footer class="bg-white pt-4 mt-3 pb-4 border-top">
+                <div class="container d-flex justify-content-between">
+                    <div>
+                        © 2020 <a href="https://clinicalgenome.org" taret="clin-gen">ClinGen</a>
+                    </div>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="/faq" target="faq">FAQ</a></li>
+                        <li class="list-inline-item"><a href="https://clinicalgenome.org/working-groups/c3/" target="clinicalgenome">About Community Curation</a></li>
+                    </ul>
+                </div>
+        </footer>
     </div>
 </body>
 </html>
