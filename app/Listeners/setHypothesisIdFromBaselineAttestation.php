@@ -6,7 +6,7 @@ use App\Events\AttestationSigned;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class setHypothesisIdFromBaselineAttestation
+class SetHypothesisIdFromBaselineAttestation
 {
     /**
      * Create the event listener.
