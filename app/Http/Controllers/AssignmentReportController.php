@@ -26,12 +26,11 @@ class AssignmentReportController extends Controller
 
         $this->writer
             ->setPath($filePath)
-            ->writeData($this->generator->generate());
+            ->writeData($this->generator->generate($request->all()));
 
         
         return response()
             ->download($filePath)
             ->deleteFileAfterSend();
-
-    }    
+    }
 }
