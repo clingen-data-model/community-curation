@@ -38,7 +38,7 @@
             <template slot="question-text">
                 My hypothes.is username:
             </template>
-            <input type="text" v-model="hypothesis_id" slot="answer-block" class="form-control">
+            <input type="text" v-model="hypothesis_id" slot="answer-block" class="form-control" name="hypothesis_id">
         </question-block>
 
         <question-block>
