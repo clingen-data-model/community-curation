@@ -25,6 +25,7 @@ Route::group([
     CRUD::resource('/motivation', 'MotivationCrudController');
     CRUD::resource('/self-description', 'SelfDescriptionCrudController');
     CRUD::resource('/upload-category', 'UploadCategoryCrudController');
+    CRUD::resource('/faq', 'FaqCrudController');
 
     CRUD::resource('email', 'EmailCrudController');
     // CRUD::resource('notification', 'NotificationCrudController');
