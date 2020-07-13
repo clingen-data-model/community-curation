@@ -37,6 +37,7 @@ class CreateSurveyRspApplication1 extends Migration
             $table->integer('self_desc')->nullable();
             $table->text('self_desc_other')->nullable();
             $table->json('race_ethnicity')->nullable();
+            $table->text('race_ethnicity_other_detail')->nullable();
             $table->json('ad_campaign')->nullable();
             $table->text('ad_campaign_other_detail')->nullable();
             $table->json('motivation')->nullable();

@@ -10,7 +10,7 @@ class ExpertPanelMap
 {
     private $map = [
         'ACADVL' => 'ACADVL VCEP',
-        'Actionability' => 'Actionability-Pediatric',
+        'Actionability' => 'Actionability-Adult/Pediatric',
         'Aminoacidopathy' => 'Aminoacidopathy GCEP',
         'Brain Malformations' => ['Brain Malformations GCEP', 'Brain Malformations VCEP'],
         'Cardiomyopathy' => 'Cardiomyopathy VCEP',

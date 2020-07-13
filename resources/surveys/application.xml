@@ -200,8 +200,14 @@
                     <value>White</value>
                     <label>White</label>
                 </option>
+                <option name="race_other" show="race_ethnicity_other_detail">
+                    <value>Other</value>
+                    <label>Other</label>
+                </option>
             </options>
         </multiple-choice>
+        <question name="race_ethnicity_other_detail" id="race_ethnicity_other_detail" class="followup" placeholder="Details" data-format="text">
+        </question>
     </page>
 
     <page name="outreach" title="Outreach and Motivation Questions">
