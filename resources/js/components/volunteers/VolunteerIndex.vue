@@ -79,7 +79,7 @@
                             :value="activity.id">
                             {{activity.name}}
                         </option>
-                        <option :value="-1">Not Assigned to activity</option>
+                        <option :value="-1">Not assigned to activity</option>
                     </select>
                 </div>
                 <div id="expert-panel-filter-container">
