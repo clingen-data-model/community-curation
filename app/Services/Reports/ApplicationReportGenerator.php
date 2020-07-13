@@ -83,9 +83,8 @@ class ApplicationReportGenerator implements ReportGenerator
                         'zip' => $app->zip,
                         'country_id' => $app->country_id,
                         'timezone' => $app->timezone,
-                    ],
-                    $outroColumns
-                ),
+                    ]
+                )->merge($outroColumns),
                 'professional' => $introColumns->merge(
                     [
                         'volunteer_id' => $app->respondent_id,
@@ -94,32 +93,26 @@ class ApplicationReportGenerator implements ReportGenerator
                         'advanced_certification' => $app->adv_cert,
                         'self_description' => $app->self_desc ? $app->self_desc : '',
                         'self_description_other' => $app->self_desc_other,
-                    ],
-                    $outroColumns
-                ),
+                    ]
+                )->merge($outroColumns),
                 'demographic' => $introColumns->merge(
-                    $this->getQuestionColumns('race_ethnicity', $app),
-                    $outroColumns
-                ),
+                    $this->getQuestionColumns('race_ethnicity', $app)
+                )->merge($outroColumns),
                 'outreach' => $introColumns->merge(
                     $this->getQuestionColumns('ad_campaign', $app),
-                    ['other' => $app->ad_campaign_other],
-                    $outroColumns
-                ),
+                    ['other' => $app->ad_campaign_other]
+                )->merge($outroColumns),
                 'motivation' => $introColumns->merge(
                     $this->getQuestionColumns('motivation', $app),
-                    ['other' => $app->motivationother],
-                    $outroColumns
-                ),
+                    ['other' => $app->motivationother]
+                )->merge($outroColumns),
                 'goals' => $introColumns->merge(
                     $this->getQuestionColumns('goals', $app),
-                    ['other' => $app->goals_other],
-                    $outroColumns
-                ),
+                    ['other' => $app->goals_other]
+                )->merge($outroColumns),
                 'interestes' => $introColumns->merge(
-                    $this->getQuestionColumns('interests', $app),
-                    $outroColumns
-                )
+                    $this->getQuestionColumns('interests', $app)
+                )->merge($outroColumns)
             ];
         });
     }
