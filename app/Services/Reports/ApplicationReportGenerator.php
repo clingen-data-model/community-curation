@@ -4,6 +4,7 @@ namespace App\Services\Reports;
 
 use App\Application;
 use App\Contracts\ReportGenerator;
+use App\Country;
 use Illuminate\Support\Collection;
 use App\Services\Search\VolunteerSearchService;
 
@@ -16,7 +17,7 @@ class ApplicationReportGenerator implements ReportGenerator
     public function __construct(VolunteerSearchService $volunteerSearchService)
     {
         $this->volunteerSearchService = $volunteerSearchService;
-        $this->query = Application::query()->finalized();
+        $this->query = Application::query()->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.expertPanel')->finalized();
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
     }
 
@@ -58,7 +59,8 @@ class ApplicationReportGenerator implements ReportGenerator
 
     private function tidyUpData(Collection $data): Collection
     {
-        return $data->map(function ($app) {
+        $countries = Country::all()->pluck('name', 'id');
+        return $data->map(function ($app) use ($countries) {
             $introColumns = collect([
                 'volunteer_id' => $app->respondent_id,
                 'first_name' => $app->first_name,
@@ -70,52 +72,85 @@ class ApplicationReportGenerator implements ReportGenerator
                 'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No'
     
             ]);
+
             return [
-                'personal' => $introColumns->merge(
-                    [
-                        'institution' => $app->institution,
-                        'orcid_id' => $app->orcid_id,
-                        'hypothesis_id' => $app->hypothesis_id,
-                        'street1' => $app->street1,
-                        'street2' => $app->street2,
-                        'city' => $app->city,
-                        'state' => $app->state,
-                        'zip' => $app->zip,
-                        'country_id' => $app->country_id,
-                        'timezone' => $app->timezone,
-                    ]
-                )->merge($outroColumns),
-                'professional' => $introColumns->merge(
-                    [
-                        'volunteer_id' => $app->respondent_id,
-                        'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
-                        'heights_ed_other' => $app->highest_ed_other,
-                        'advanced_certification' => $app->adv_cert,
-                        'self_description' => $app->self_desc ? $app->self_desc : '',
-                        'self_description_other' => $app->self_desc_other,
-                    ]
-                )->merge($outroColumns),
-                'demographic' => $introColumns->merge(
-                    $this->getQuestionColumns('race_ethnicity', $app)
-                )->merge($outroColumns),
-                'outreach' => $introColumns->merge(
-                    $this->getQuestionColumns('ad_campaign', $app),
-                    ['other' => $app->ad_campaign_other]
-                )->merge($outroColumns),
-                'motivation' => $introColumns->merge(
-                    $this->getQuestionColumns('motivation', $app),
-                    ['other' => $app->motivationother]
-                )->merge($outroColumns),
-                'goals' => $introColumns->merge(
-                    $this->getQuestionColumns('goals', $app),
-                    ['other' => $app->goals_other]
-                )->merge($outroColumns),
-                'interestes' => $introColumns->merge(
-                    $this->getQuestionColumns('interests', $app)
-                )->merge($outroColumns)
+                'personal' =>   $introColumns
+                                    ->merge([
+                                            'institution' => $app->institution,
+                                            'orcid_id' => $app->orcid_id,
+                                            'hypothesis_id' => $app->hypothesis_id,
+                                            'street1' => $app->street1,
+                                            'street2' => $app->street2,
+                                            'city' => $app->city,
+                                            'state' => $app->state,
+                                            'zip' => $app->zip,
+                                            'country' => ($app->country_id) ? $countries[$app->country_id] : '',
+                                            'timezone' => $app->timezone,
+                                    ])->merge($outroColumns),
+
+                'professional' => $introColumns
+                                    ->merge([
+                                            'volunteer_id' => $app->respondent_id,
+                                            'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
+                                            'heighest_ed_other' => $app->highest_ed_other,
+                                            'advanced_certification' => $app->adv_cert,
+                                            'self_description' => $app->self_desc ? $app->self_desc : '',
+                                            'self_description_other' => $app->self_desc_other,
+                                    ])->merge($outroColumns),
+                
+                'demographic' => $introColumns
+                                    ->merge($this->getQuestionColumns('race_ethnicity', $app))
+                                    ->merge(['other' => $app->race_ethnicity_other_detail])
+                                    ->merge($outroColumns),
+
+                'outreach' =>   $introColumns
+                                    ->merge($this->getQuestionColumns('ad_campaign', $app))
+                                    ->merge(['other' => $app->ad_campaign_other])
+                                    ->merge($outroColumns),
+
+                'motivation' => $introColumns
+                                    ->merge($this->getQuestionColumns('motivation', $app))
+                                    ->merge(['other' => $app->motivation_other])
+                                    ->merge($outroColumns),
+
+                'goals' =>      $introColumns
+                                    ->merge($this->getQuestionColumns('goals', $app))
+                                    ->merge(['other' => $app->goals_other])
+                                    ->merge($outroColumns),
+                            
+                'interests' =>  $introColumns
+                                    ->merge($this->getQuestionColumns('interests', $app))
+                                    ->merge($outroColumns),
+
+                'ccdb' =>       $introColumns
+                                    ->merge([
+                                        'baseline/comprehensive' => $app->volunteer_type,
+                                    ])
+                                    ->merge($this->getPriorityData($app))
+                                    ->merge($outroColumns)
             ];
         });
     }
+
+    private function getPriorityData($app)
+    {
+        $data = [];
+        $priorities = $app->respondent->latestPriorities->values();
+        for ($i=0; $i < 3; $i++) {
+            if ($priorities) {
+                $data = array_merge($data, [
+                    'curation_activity_priority_'.($i+1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,
+                    'curation_group_priority'.($i+1) => ($priorities->get($i) && $priorities->get($i)->expertPanel) ? $priorities->get($i)->expertPanel->name : null,
+                    'priority_'.($i+1).'_activity_experience' => $priorities->get($i) ? $priorities->get($i)->activity_experience : null,
+                    'priority_'.($i+1).'_activity_experience_details' => ($priorities->get($i) && $priorities->get($i)->activity_experience == 1) ? $priorities->get($i)->activity_experience_details : null,
+                    'priority_'.($i+1).'_effort_experience' => $priorities->get($i) ? $priorities->get($i)->effort_experience : null,
+                    'priority_'.($i+1).'_effort_experience_details' => ($priorities->get($i) && $priorities->get($i)->effort_experience == 1) ? $priorities->get($i)->effort_experience_details : null
+                ]);
+            }
+        }
+        return $data;
+    }
+    
 
     private function getQuestionColumns($questionName, Application $app)
     {
