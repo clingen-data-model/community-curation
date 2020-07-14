@@ -1,7 +1,11 @@
 <?php
 namespace Deployer;
 
+use Symfony\Component\Console\Input\InputOption;
+
 require 'recipe/laravel.php';
+
+option('class', null, InputOption::VALUE_REQUIRED, 'Class to seed');
 
 // Project name
 set('application', 'community-curation');
@@ -30,6 +34,14 @@ task('build', function () {
 
 task('freshseed', function () {
     run('cd {{release_path}} && php artisan migrate:fresh --seed');
+});
+
+task('seed', function () {
+    $command = 'cd {{release_path}} && php artisan db:seed';
+    if (input()->hasOption('class')) {
+        $command .= ' --class='.input()->getOption('class');
+    }
+    run($command);
 });
 
 // [Optional] if deploy fails automatically unlock.
