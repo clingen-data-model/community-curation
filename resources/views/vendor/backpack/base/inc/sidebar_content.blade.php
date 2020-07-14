@@ -41,7 +41,10 @@
 
 <hr>
 
-<li><a href="{{ backpack_url('elfinder') }}"><i class="fa fa-files-o"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
+<li>
+    <a href="{{backpack_url('faq')}}"><i class="fa fa-question"></i><span>FAQ</span></a>
+</li>
+{{-- <li><a href="{{ backpack_url('elfinder') }}"><i class="fa fa-files-o"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li> --}}
 
 @if (\Auth::user()->hasRole('programmer'))
     <li><a href="/admin/logs" target="logs"><i class="fa fa-list"></i> <span>Logs</span></a></li>
