@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
     Route::get('volunteer-three-month/{responseId?}', 'VolunteerFollowupController@threeMonth')->name('volunteer-six-month.show');
 
     Route::get('genes/{symbol}/protocol', 'GeneProtocolController@show')->name('gene.download-protocol');
+
+    Route::get('faq', 'FaqController@index')->name('faq');
 });
 
 Route::get('apply/thank-you', 'ThankYouController@show');
