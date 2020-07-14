@@ -14,52 +14,6 @@ import moment from 'moment-timezone'
 window.moment = moment;
 
 /**
- * Import all bootstrap view
- */
-// import {BootstrapVue} from 'bootstrap-vue';
-// window.Vue.use(BootstrapVue);
-
-/**
- * Import Plugins
- */
-import { 
-    BadgePlugin, 
-    CardPlugin, 
-    CollapsePlugin,
-    DropdownPlugin, 
-    FormDatepickerPlugin,
-    FormInputPlugin,
-    FormTimepickerPlugin,
-    IconsPlugin, 
-    InputGroupPlugin,
-    ModalPlugin, 
-    PaginationPlugin, 
-    PopoverPlugin, 
-    ProgressPlugin, 
-    TabsPlugin, 
-    TablePlugin 
-} from 'bootstrap-vue';
-
-window.Vue.use(BadgePlugin);
-window.Vue.use(CardPlugin);
-window.Vue.use(CollapsePlugin);
-window.Vue.use(DropdownPlugin);
-window.Vue.use(FormDatepickerPlugin);
-window.Vue.use(FormInputPlugin);
-window.Vue.use(FormTimepickerPlugin);
-window.Vue.use(IconsPlugin);
-window.Vue.use(InputGroupPlugin);
-window.Vue.use(ModalPlugin);
-window.Vue.use(PaginationPlugin);
-window.Vue.use(PopoverPlugin);
-window.Vue.use(ProgressPlugin);
-window.Vue.use(TabsPlugin);
-window.Vue.use(TablePlugin);
-
-
-// localStorage.clear();
-
-/**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
@@ -70,93 +24,9 @@ window.Vue.use(TablePlugin);
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-import VolunteerIndex from './components/volunteers/VolunteerIndex';
-import VolunteerDetail from './components/volunteers/VolunteerDetail';
-import AssignmentForm from './components/assignments/AssignmentForm';
-import NonVolunteer from './components/NonVolunteer';
-import OnlyVolunteer from './components/OnlyVolunteer';
-import QuestionBlock from './components/forms/QuestionBlock'
-import RadioInput from './components/forms/inputs/RadioInput'
-import RadioGroup from './components/forms/inputs/RadioGroup'
-
-import AttestationForm from './components/attestations/AttestationForm'
-import ActionabilityBasicForm from './components/attestations/forms/ActionabilityBasic'
-import DosageBasicForm from './components/attestations/forms/DosageBasic'
-import BaselineBasicForm from './components/attestations/forms/BaselineBasic'
-import BaselineGeneticForm from './components/attestations/forms/BaselineGenetic'
-import GeneBasicForm from './components/attestations/forms/GeneBasic'
-import SomaticBasicForm from './components/attestations/forms/SomaticBasic'
-import VariantBasicForm from './components/attestations/forms/VariantBasic'
-
-import ValidationError from './components/ValidationError';
-import DateField from './components/DateField'
-import HypothesisLink from './components/HypothesisLink'
-import TrainingSessionList from './components/training_sessions/TrainingSessionList'
-import TrainingSessionDetail from './components/training_sessions/TrainingSessionDetail'
-
-import ImpersonateControl from './components/ImpersonateControl'
-
-import Row from './components/layout/Row'
-window.Vue.component('row', Row);
-
-import Column from './components/layout/Col'
-window.Vue.component('column', Column);
-
-import GlobalProgress from './components/GlobalProgress'
-window.Vue.component('global-progress', GlobalProgress);
-
-import DeleteButton from './components/DeleteButton'
-window.Vue.component('delete-button', DeleteButton);
-
-import ReportForm from './components/reports/ReportForm';
-window.Vue.component('report-form', ReportForm);
-
-window.Vue.component('impersonate-control', ImpersonateControl);
-
-window.Vue.component('validation-error', ValidationError);
-
-window.Vue.component('volunteer-index', VolunteerIndex);
-window.Vue.component('volunteer-detail', VolunteerDetail);
-window.Vue.component('assignment-form', AssignmentForm);
-window.Vue.component('non-volunteer', NonVolunteer);
-window.Vue.component('only-volunteer', OnlyVolunteer);
-window.Vue.component('question-block', QuestionBlock);
-window.Vue.component('radio-input', RadioInput);
-window.Vue.component('radio-group', RadioGroup);
-
-window.Vue.component('attestation-form', AttestationForm);
-window.Vue.component('actionability-basic-form', ActionabilityBasicForm);
-window.Vue.component('dosage-basic-form', DosageBasicForm);
-window.Vue.component('baseline-basic-form', BaselineBasicForm);
-window.Vue.component('baseline-genetic-form', BaselineGeneticForm);
-window.Vue.component('gene-basic-form', GeneBasicForm);
-window.Vue.component('somatic-basic-form', SomaticBasicForm);
-window.Vue.component('variant-basic-form', VariantBasicForm);
-window.Vue.component('date-field', DateField)
-window.Vue.component('hypothesis-link', HypothesisLink)
-window.Vue.component('training-session-list', TrainingSessionList)
-window.Vue.component('training-session-detail', TrainingSessionDetail)
-
-import RichTextEditor from './components/RichTextEditor'
-window.Vue.component('rich-text-editor', RichTextEditor)
-
-import Alerts from './components/Alerts'
-window.Vue.component('alerts', Alerts)
-
-window.Vue.filter('ucfirst', s => {
-    if (typeof s !== 'string') return ''
-    return s.charAt(0).toUpperCase() + s.slice(1)
-})
-
-Vue.filter('formatDate', function(dateString, format = 'YYYY-MM-DD HH:mm') {
-    if (dateString === null) {
-        return null;
-    }
-
-    return moment(dateString).format(format)
-})
-
-window.Vue.filter('boolToHuman', val => val ? 'Yes' : 'No')
+import './register_bootstrapvue_plugins.js'
+import './register_components.js';
+import './register_filters.js';
 
 import store from './store/index'
 import { mapActions, mapGetters } from 'vuex'
@@ -164,7 +34,6 @@ import { mapActions, mapGetters } from 'vuex'
 function evaluate(el, binding, vnode) {
     console.log(binding);
 }
-
 
 window.clearSessionStorage = function () {
     sessionStorage.removeItem('user');

@@ -96,6 +96,9 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item" style="margin-right: -46px">
+                            <help-button></help-button>
+                        </li>
                     </ul>
                 </div>
             </div>
