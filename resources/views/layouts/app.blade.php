@@ -114,7 +114,7 @@
         
         <alerts></alerts>
 
-        <footer class="bg-white pt-4 mt-3 pb-2 border-top position-absolute w-100" style="bottom: 0px;">
+        <footer class="bg-white pt-4 mt-3 pb-2 border-top w-100">
             <div class="container d-flex justify-content-between">
                 <div>
                     © 2020 <a href="https://clinicalgenome.org" taret="clin-gen">ClinGen</a>
