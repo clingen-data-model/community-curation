@@ -33,6 +33,15 @@ import Column from './components/layout/Col'
 window.Vue.component('column', Column);
 
 /**
+ * Curation groups
+ */
+import CurationGroupList from './components/curation_groups/CurationGroupList';
+window.Vue.component('curation-group-list', CurationGroupList);
+import CurationGroupDetail from './components/curation_groups/CurationGroupDetail';
+window.Vue.component('curation-group-detail', CurationGroupDetail);
+
+
+/**
  * Form components
  */
 import QuestionBlock from './components/forms/QuestionBlock'

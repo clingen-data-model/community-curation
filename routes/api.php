@@ -17,6 +17,7 @@ Route::group([
         'namespace' => 'Api',
     ], function () {
         Route::resource('expert-panels', 'ExpertPanelController')->only(['index', 'show']);
+        Route::resource('curation-groups', 'ExpertPanelController')->only(['index', 'show']);
         Route::get('curation-activities', 'CurationActivitiesController@index')->name('curation-activities-index');
 
         

@@ -17,7 +17,11 @@ class CurationGroupController extends Controller
 
     public function index()
     {
-        $groups = ExpertPanel::all();
-        return $groups;
+        return view('curation-groups.index');
+    }
+
+    public function show($id)
+    {
+        return view('curation-groups.show', compact('id'));
     }
 }
