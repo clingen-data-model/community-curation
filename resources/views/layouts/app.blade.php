@@ -49,6 +49,7 @@
                         @if (!Auth::guest() && !Auth::user()->hasRole('volunteer'))
                             <li><a href="/volunteers" class="nav-link">Volunteers</a></li>
                             <li><a href="/trainings" class="nav-link">Trainings</a></li>
+                            <li><a href="/curation-groups" class="nav-link">Curation Groups</a></li>
                             <li><a href="/reports" class="nav-link">Reports</a></li>
                         @endif
                     </ul>
