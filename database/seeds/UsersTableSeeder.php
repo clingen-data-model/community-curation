@@ -20,13 +20,22 @@ class UsersTableSeeder extends Seeder
             'last_name' => 'Ward',
             'email' => 'jward3@email.unc.edu',
             'password' => Hash::make('tester'),
-            'country_id' => 225
+            'country_id' => 225,
+            'timezone' => 'America/New_York'
         ]);
         $programmer->assignRole('programmer');
         
-        $admins = [
+        $superAdmins = [
             ['first_name' => 'Courtney', 'last_name' => 'Thaxton', 'email' => 'courtney_thaxton@med.unc.edu'],
             [ 'first_name' => "Elizabeth", 'last_name' => 	"Kearns", 'email' =>	"liz_kearns@med.unc.edu"],
+        ];
+
+        foreach ($superAdmins as $user) {
+            $user = User::firstOrCreate(['email' => $user['email']], array_merge($user, ['password' => $this->generatePassword(), 'country_id' => 225 ]));
+            $user->assignRole('super-admin');
+        }
+        
+        $admins = [
             [ 'first_name' => "Erin", 'last_name' =>	"Riggs", 'email' =>	"eriggs@geisinger.edu"],
             [ 'first_name' => "Marina", 'last_name' =>	"DiStefano", 'email' =>	"mdistefano1@bwh.harvard.edu"],
             [ 'first_name' => "Laura", 'last_name' =>	"Milko", 'email' =>	"laura_milko@med.unc.edu"],
@@ -49,12 +58,17 @@ class UsersTableSeeder extends Seeder
                 array_merge(
                     $admin,
                     [
-                        'password' => (app()->environment('production')) ? Hash::make(uniqid()) : Hash::make('tester'),
+                        'password' => $this->generatePassword(),
                         'country_id' => 225
                     ]
                 )
             );
             $user->assignRole('admin');
         }
+    }
+
+    private function generatePassword()
+    {
+        return (app()->environment('production')) ? Hash::make(uniqid()) : Hash::make('tester');
     }
 }

@@ -37,6 +37,10 @@ class FaqCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
+        $this->crud->modifyField('answer', [
+            'type' => 'ckeditor'
+        ]);
+
         $this->crud->modifyColumn('answer', [
             'visibleInTable' => false,
             'visibleInModal' => true
