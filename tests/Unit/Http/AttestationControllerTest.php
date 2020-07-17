@@ -10,6 +10,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * @group attestations
+ */
 class AttestationControllerTest extends TestCase
 {
     use DatabaseTransactions;
@@ -17,10 +20,11 @@ class AttestationControllerTest extends TestCase
     public function setUp():void
     {
         parent::setUp();
-        $this->programmer = factory(User::class)->states('programmer')->create([]);
-        $this->admin = factory(User::class)->states('admin')->create([]);
+        $this->programmer = factory(User::class)->states(['programmer'])->create([]);
+        $this->admin = factory(User::class)->states(['admin'])->create([]);
         $this->volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
-        $this->otherVolunteer = factory(User::class)->states('volunteer', 'comprehensive')->create();
+        $this->otherVolunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        $this->otherOtherVolunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $this->attestation = $this->volunteer->attestations()->create([
             'user_id' => $this->volunteer->id,
             'aptitude_id' => 2,
@@ -44,7 +48,7 @@ class AttestationControllerTest extends TestCase
      */
     public function other_volunteer_cannot_view_attestation()
     {
-        $this->actingAs($this->otherVolunteer)
+        $this->actingAs($this->otherOtherVolunteer)
             ->call('GET', '/attestations/'.$this->attestation->id)
             ->assertStatus(403);
     }

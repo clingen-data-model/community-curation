@@ -3,11 +3,14 @@
 namespace Tests;
 
 use App\User;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use DatabaseTransactions;
 
     private function createUser($data, $number, $roles = [])
     {
@@ -35,5 +38,11 @@ abstract class TestCase extends BaseTestCase
     protected function createVolunteer($data = [], $number = 1)
     {
         return $this->createUser($data, $number, ['volunteer']);
+    }
+
+    protected function expectUnauthorized()
+    {
+        $this->withoutExceptionHandling();
+        $this->expectException(AuthorizationException::class);
     }
 }
