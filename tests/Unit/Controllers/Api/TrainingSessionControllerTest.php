@@ -92,10 +92,10 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
             'data' => [
                 'topic_type' => CurationActivity::class,
                 'topic_id' => 1,
-                'starts_at' => $startsAt->format('Y-m-d H:i:s'),
-                'ends_at' => $startsAt->clone()->addHour(),
+                'starts_at' => $startsAt->format('Y-m-d\TH:i:s\Z'),
+                'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z'),
                 'url' => 'https://test@example.com',
-                'invite_message' => 'test test test',
+                'invite_message' => '<p>test test test</p>',
                 'notes' => 'notes notes notes'
             ]
         ]);
@@ -189,7 +189,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
             ]);
         $response->assertStatus(422);
 
-        $this->assertContains('You must provide a valid URL.', $response->original['errors']['url']);
+        $this->assertContains('url', array_keys($response->original['errors']));
     }
 
     public function a_user_can_view_a_TrainingSession()
@@ -217,13 +217,18 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
 
         $this->assertDatabaseHas('training_sessions', [
             'id' => $trainingSession->id,
-            'starts_at' => $startsAt->format("Y-m-d H:i:s"),
-            'ends_at' => $startsAt->clone()->addHour()->format("Y-m-d H:i:s"),
+            'starts_at' => $startsAt->format('Y-m-d H:i:s'),
+            'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d H:i:s'),
         ]);
 
         $freshTraining = $trainingSession->fresh();
 
-        $response->assertJson(['data' => $freshTraining->toArray()]);
+        $response->assertJson(['data' => [
+                                            'id' => $freshTraining->id,
+                                            'starts_at' => $startsAt->format('Y-m-d\TH:i:s\Z'),
+                                            'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z')
+                                        ]
+                            ]);
     }
 
     /**

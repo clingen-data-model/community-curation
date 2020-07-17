@@ -4,8 +4,9 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Services\Reports\VolunteerSearchService;
+use App\Services\Search\VolunteerSearchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group volunteers
@@ -13,6 +14,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 class VolunteerSearchServiceTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setup():void
     {
         parent::setup();

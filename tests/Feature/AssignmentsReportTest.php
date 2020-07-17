@@ -73,7 +73,7 @@ class AssignmentsReportTest extends TestCase
      */
     public function rows_have_all_relevant_data()
     {
-        $report = (new AssignmentReportGenerator)->generate();
+        $report = app()->make(AssignmentReportGenerator::class)->generate([]);
         
         $vol = $this->volunteers->get(1)->fresh();
         $testRow = $report->get('all')
@@ -111,7 +111,7 @@ class AssignmentsReportTest extends TestCase
      */
     public function first_sheet_of_report_has_all_volunteers()
     {
-        $report = (new AssignmentReportGenerator)->generate();
+        $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
         $this->assertInstanceOf(Collection::class, $report);
 
@@ -125,7 +125,7 @@ class AssignmentsReportTest extends TestCase
      */
     public function includes_a_sheet_for_each_curation_activity()
     {
-        $report = (new AssignmentReportGenerator)->generate();
+        $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
         $this->assertContains('Actionability', $report->keys()->toArray());
     }
@@ -135,7 +135,7 @@ class AssignmentsReportTest extends TestCase
      */
     public function curation_activity_rows_only_include_rows_for_that_curation_activity()
     {
-        $report = (new AssignmentReportGenerator)->generate();
+        $report = app()->make(AssignmentReportGenerator::class)->generate([]);
         
         $sheetName = $this->curationActivities->get(3)->name;
         $caSheet = $report->get($sheetName);
