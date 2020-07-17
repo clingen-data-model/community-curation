@@ -10,7 +10,7 @@ return [
     | The dir where to store the images (relative from public).
     |
     */
-    'dir' => ['uploads'],
+    'dir' => ['storage/admin_uploads'],
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |    ]
     */
     'disks' => [
-        // 'uploads',
+        'uploads',
     ],
 
     /*
