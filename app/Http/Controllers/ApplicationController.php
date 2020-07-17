@@ -65,7 +65,7 @@ class ApplicationController extends Controller
 
             $response = $survey->responses()->findOrFail($id);
 
-            if (Auth::user() && Auth::user()->id != $response->respondent_id && !Auth::user()->hasAnyRole(['programmer', 'admin'])) {
+            if (Auth::user() && Auth::user()->id != $response->respondent_id && !Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin'])) {
                 throw new AuthorizationException('You don\'t have permission to access this survey response');
             }
 

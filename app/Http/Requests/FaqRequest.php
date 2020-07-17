@@ -14,7 +14,7 @@ class FaqRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->hasAnyRole(['admin', 'programmer']);
+        return Auth::user()->hasAnyPermission('create faq', 'update faq');
     }
 
     /**
