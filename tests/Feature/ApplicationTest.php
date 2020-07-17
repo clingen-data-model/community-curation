@@ -95,11 +95,11 @@ class ApplicationTest extends TestCase
 
         Session::put('application-response', $rsp1);
 
-        $this->call('GET', 'apply/'.$rsp2->id)
-            ->assertStatus(403);
+        $this->expectUnauthorized();
+        $this->call('GET', 'apply/'.$rsp2->id);
 
-        $this->call('POST', 'apply/'.$rsp2->id, ['nav' => 'next'])
-            ->assertStatus(403);
+        $this->expectUnauthorized();
+        $this->call('POST', 'apply/'.$rsp2->id, ['nav' => 'next']);
     }
     
     /**
@@ -107,21 +107,23 @@ class ApplicationTest extends TestCase
      */
     public function user_cannot_access_response_of_another_respondent()
     {
-        $u1 = factory(User::class)->create();
-        $u2 = factory(User::class)->create();
+        $u1 = $this->createVolunteer();
+        $u2 = $this->createVolunteer();
 
         $rsp1 = $this->survey->getNewResponse(null);
         $rsp1->save();
         $rsp2 = $this->survey->getNewResponse($u1);
         $rsp2->save();
-        
-        $this->actingAs($u2)
-            ->call('GET', 'apply/'.$rsp1->id)
-            ->assertStatus(403);
 
+        $anotherUser = $u2->fresh();
+        
+        $this->expectUnauthorized();
         $this->actingAs($u2)
-            ->call('GET', 'apply/'.$rsp2->id)
-            ->assertStatus(403);
+            ->call('GET', 'apply/'.$rsp1->id);
+
+        $this->expectUnauthorized();
+        $this->actingAs($u2)
+            ->call('GET', 'apply/'.$rsp2->id);
     }
     
 
