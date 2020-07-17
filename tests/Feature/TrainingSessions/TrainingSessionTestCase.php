@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\TrainingSessions;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 /**
@@ -10,6 +11,8 @@ use Tests\TestCase;
  */
 class TrainingSessionTestCase extends TestCase
 {
+    use DatabaseTransactions;
+    
     public function setup():void
     {
         parent::setup();

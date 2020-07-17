@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\Controllers;
 
 use App\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -79,9 +80,9 @@ class FollowupControllerTest extends TestCase
 
         $vol2 = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
 
+        $this->expectUnauthorized();
         $this->actingAs($vol2)
-            ->call('GET', $this->getUrl($rsp->id))
-            ->assertStatus(403);
+            ->call('GET', $this->getUrl($rsp->id));
     }
     
     /**
@@ -95,6 +96,8 @@ class FollowupControllerTest extends TestCase
 
         $url = $this->getUrl($rsp->id);
 
+    
+        $this->expectUnauthorized();
         $response = $this->actingAs($this->volunteer)
             ->call(
                 'POST',
@@ -102,7 +105,7 @@ class FollowupControllerTest extends TestCase
                 ['highest_ed' => 1]
             );
 
-        $response->assertStatus(403);
+        // $response->assertStatus(403);
     }
 
     /**
@@ -116,6 +119,7 @@ class FollowupControllerTest extends TestCase
 
         $vol2 = factory(User::class)->states(['volunteer', 'comprehensive'])->create([]);
 
+        $this->expectUnauthorized();
         $this->actingAs($vol2)
             ->call('POST', $this->getUrl($rsp->id), ['highest_ed' => 1])
             ->assertStatus(403);

@@ -32,7 +32,6 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
      */
     public function volunteer_can_not_invite_attendees()
     {
-        // $this->withoutExceptionHandling();
         $this->actingAs($this->createVolunteer(), 'api')
             ->json('POST', '/api/training-sessions/'.$this->trainingSession->id.'/attendees', [$this->vol1->id, $this->vol2->id])
             ->assertStatus(403);
@@ -144,7 +143,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
         Notification::fake();
 
         $admin = $this->createAdmin();
-        $bodyText = 'This is a <b>test</b> of the <a href="http://clinicalgenome.org/">Link</a>';
+        $bodyText = 'This is a <strong>test</strong> of the <a href="http://clinicalgenome.org/">Link</a>';
         $this->actingAs($admin, 'api')
             ->json(
                 'POST',
@@ -162,7 +161,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
             function ($notification, $channels) use ($admin, $bodyText) {
                 return $notification->fromEmail == $admin->email
                     && $notification->subject == 'Test custom email'
-                    && $notification->body == $bodyText;
+                    && $notification->body == '<p>'.$bodyText.'</p>';
             }
         );
 
