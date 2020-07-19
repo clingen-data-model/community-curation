@@ -23,7 +23,7 @@
         "jsdom": "^15.2.1",
         "jsdom-global": "^3.0.2",
         "laravel-mix": "^5.0",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.19",
         "material-design-icons": "^3.0.1",
         "mocha": "^5.0.0",
         "mocha-webpack": "^2.0.0-beta.0",
