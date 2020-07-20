@@ -20,6 +20,6 @@ class CurationActivitiesController extends Controller
             return DefaultResource::collection($query->geneType()->get());
         }
 
-        return Defaultresource::collection($query->expertPanelType()->get());
+        return Defaultresource::collection($query->curationGroupType()->get());
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ExpertPanel;
+use App\CurationGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DefaultResource;
 use App\Http\Resources\CurationGroupResource;
 use App\Services\Search\CurationGroupSearchService;
 
-class ExpertPanelController extends Controller
+class CurationGroupController extends Controller
 {
     protected $searchService;
 
@@ -27,7 +27,7 @@ class ExpertPanelController extends Controller
      */
     public function index(Request $request)
     {
-        // $groups = ExpertPanel::orderBy('name')->paginate();
+        // $groups = CurationGroup::orderBy('name')->paginate();
         $query = $this->searchService->buildQuery($request->all());
         $page = $query->paginate();
 
@@ -42,6 +42,6 @@ class ExpertPanelController extends Controller
      */
     public function show($id)
     {
-        return new CurationGroupResource(ExpertPanel::find($id));
+        return new CurationGroupResource(CurationGroup::find($id));
     }
 }

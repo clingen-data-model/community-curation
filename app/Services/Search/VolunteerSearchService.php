@@ -45,8 +45,8 @@ class VolunteerSearchService implements ModelSearchService
                 $query->where($key, $value);
             }
 
-            if ($key == 'expert_panel_id') {
-                $this->filterByExpertPanel($value, $query);
+            if ($key == 'curation_group_id') {
+                $this->filterByCurationGroup($value, $query);
             }
 
             if ($key == 'curation_activity_id') {
@@ -67,16 +67,16 @@ class VolunteerSearchService implements ModelSearchService
         return $query;
     }
 
-    private function filterByExpertPanel($value, $query)
+    private function filterByCurationGroup($value, $query)
     {
         if ($value == -1) {
             $query->comprehensive()->whereDoesntHave('assignments', function ($q) {
-                $q->expertPanel();
+                $q->curationGroup();
             });
         } else {
             $query->whereHas('assignments', function ($q) use ($value) {
                 $q->where([
-                    'assignable_type' => 'App\ExpertPanel',
+                    'assignable_type' => 'App\CurationGroup',
                     'assignable_id' => $value
                 ]);
             });

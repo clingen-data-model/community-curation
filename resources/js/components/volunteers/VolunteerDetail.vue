@@ -67,7 +67,7 @@
         </b-modal>
         <b-modal title="Convert Volunteer to Comprehensive?" hide-footer v-model="showVolunteerTypeForm">
             <p>You are about to convert this volunteer from Baseline to Comprehensive.</p>  
-            <p>If you confirm the volunteer will be notified and instructed prioritize Curation Activities and Expert Panels.</p>
+            <p>If you confirm the volunteer will be notified and instructed prioritize Curation Activities and Curation Groups.</p>
             <button class="btn btn-default" @click="showVolunteerTypeForm = false">Cancel</button>
             <button class="btn btn-primary" @click="convertVolunteerToComprehensive">Convert</button>
         </b-modal>

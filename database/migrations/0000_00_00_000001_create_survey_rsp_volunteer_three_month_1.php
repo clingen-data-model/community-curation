@@ -18,7 +18,7 @@ class CreateSurveyRspVolunteerThreeMonth1 extends Migration
             $table->string('respondent_type');
             $table->integer('survey_id')->unsigned();
             $table->json('curation_effort')->nullable();
-            $table->json('expert_panels')->nullable();
+            $table->json('curation_groups')->nullable();
             $table->integer('highest_ed')->nullable();
             $table->text('highest_ed_other')->nullable();
             $table->integer('satisfaction')->nullable();

@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ExpertPanel;
+use App\CurationGroup;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use App\Http\Requests\ExpertPanelRequest as StoreRequest;
-use App\Http\Requests\ExpertPanelRequest as UpdateRequest;
+use App\Http\Requests\CurationGroupRequest as StoreRequest;
+use App\Http\Requests\CurationGroupRequest as UpdateRequest;
 use App\WorkingGroup;
 use App\CurationActivity;
 
 /**
- * Class ExpertPanelCrudController
+ * Class CurationGroupCrudController
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
-class ExpertPanelCrudController extends CrudController
+class CurationGroupCrudController extends CrudController
 {
     public function setup()
     {
@@ -26,9 +26,9 @@ class ExpertPanelCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel(ExpertPanel::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/expert-panel');
-        $this->crud->setEntityNameStrings('expert panel', 'expert panels');
+        $this->crud->setModel(CurationGroup::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/curation-group');
+        $this->crud->setEntityNameStrings('curation group', 'curation groups');
 
         /*
         |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ class ExpertPanelCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
-        // add asterisk for fields that are required in ExpertPanelRequest
+        // add asterisk for fields that are required in CurationGroupRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
@@ -94,7 +94,7 @@ class ExpertPanelCrudController extends CrudController
 
         $this->crud->removeColumn(['url']);
 
-        if (!\Auth::user()->can('create', ExpertPanel::class)) {
+        if (!\Auth::user()->can('create', CurationGroup::class)) {
             $this->crud->RemoveButton('create');
         }
 

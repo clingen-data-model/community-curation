@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class ExpertPanel extends Model implements AssignableContract
+class CurationGroup extends Model implements AssignableContract
 {
     use CrudTrait;
     use RevisionableTrait;

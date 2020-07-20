@@ -70,17 +70,17 @@ class CreateTestVolunteer extends Command
 
         if($response->volunteer_type == 2) {
             $response->curation_activity_1 = $this->randomModelId(CurationActivity::class);
-            $response->panel_1 = CurationActivity::find(1)->expertPanels->random()->id;
+            $response->panel_1 = CurationActivity::find(1)->curationGroups->random()->id;
             $response->effort_experience_1 = rand(0,1);
             $response->activity_experience_1 = rand(0,1);
 
             $response->curation_activity_2 = $this->randomModelId(CurationActivity::class);
-            $response->panel_2 = CurationActivity::find(1)->expertPanels->random()->id;
+            $response->panel_2 = CurationActivity::find(1)->curationGroups->random()->id;
             $response->effort_experience_2 = rand(0,1);
             $response->activity_experience_2 = rand(0,1);
 
             $response->curation_activity_3 = $this->randomModelId(CurationActivity::class);
-            $response->panel_3 = CurationActivity::find(1)->expertPanels->random()->id;
+            $response->panel_3 = CurationActivity::find(1)->curationGroups->random()->id;
             $response->effort_experience_3 = rand(0,1);
             $response->activity_experience_3 = rand(0,1);
         }

@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExpertPanelUserPivotTable extends Migration
+class CreateCurationGroupUserPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +13,12 @@ class CreateExpertPanelUserPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('expert_panel_user', function (Blueprint $table) {
-            $table->bigInteger('expert_panel_id')->unsigned()->index();
-            $table->foreign('expert_panel_id')->references('id')->on('expert_panels')->onDelete('cascade');
+        Schema::create('curation_group_user', function (Blueprint $table) {
+            $table->bigInteger('curation_group_id')->unsigned()->index();
+            $table->foreign('curation_group_id')->references('id')->on('curation_groups')->onDelete('cascade');
             $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->primary(['expert_panel_id', 'user_id']);
+            $table->primary(['curation_group_id', 'user_id']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +31,6 @@ class CreateExpertPanelUserPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expert_panel_user');
+        Schema::dropIfExists('curation_group_user');
     }
 }

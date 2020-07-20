@@ -42,14 +42,14 @@
             </options>
         </multiple-choice>
         
-        <multiple-choice name="expert_panels" id="expert_panels" num-selectable="10" data-format="json">
+        <multiple-choice name="curation_groups" id="curation_groups" num-selectable="10" data-format="json">
             <question-text>
                 <![CDATA[
-                    Which ClinGen Expert Panel (EP) or Working Group (WG) have you been assigned? (Optional)
+                    Which ClinGen Curation Group (EP) or Working Group (WG) have you been assigned? (Optional)
                 ]]>
             </question-text>
             <options>
-                <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+                <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
             </options>
         </multiple-choice>
         

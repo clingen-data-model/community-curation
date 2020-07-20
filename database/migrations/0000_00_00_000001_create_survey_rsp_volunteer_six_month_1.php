@@ -21,7 +21,7 @@ class CreateSurveyRspVolunteerSixMonth1 extends Migration
 			$table->integer('number_deferred')->nullable();
 			$table->text('why_deferred')->nullable();
 			$table->integer('time_spent')->nullable();
-			$table->text('enjoying_expert_panel')->nullable();
+			$table->text('enjoying_curation_group')->nullable();
 			$table->integer('plan_to_continue')->nullable();
 			$table->text('why_discontinue')->nullable();
 			$table->integer('join_addtional_ep')->nullable();

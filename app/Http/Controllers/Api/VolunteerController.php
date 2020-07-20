@@ -82,7 +82,7 @@ class VolunteerController extends Controller
             'attestations.aptitude',
             'priorities',
             'priorities.curationActivity',
-            'priorities.expertPanel',
+            'priorities.curationGroup',
             'volunteer3MonthSurvey',
             'volunteer6MonthSurvey'
         ]);

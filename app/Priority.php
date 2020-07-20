@@ -10,7 +10,7 @@ class Priority extends Model
         'priority_order',
         'user_id',
         'curation_activity_id',
-        'expert_panel_id',
+        'curation_group_id',
         'activity_experience',
         'activity_experience_details',
         'effort_experience',
@@ -31,9 +31,9 @@ class Priority extends Model
         return $this->belongsTo(CurationActivity::class);
     }
     
-    public function expertPanel()
+    public function curationGroup()
     {
-        return $this->belongsTo(ExpertPanel::class);
+        return $this->belongsTo(CurationGroup::class);
     }
 
     public function survey()

@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use App\Priority;
 use Tests\TestCase;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,7 +43,7 @@ class PrioritiesTest extends TestCase
     public function redirects_to_thank_you_on_finalized()
     {
         $cA = CurationActivity::select('id')->get()->random();
-        $ep = factory(ExpertPanel::class)->create(['curation_activity_id' => $cA->id]);
+        $ep = factory(CurationGroup::class)->create(['curation_activity_id' => $cA->id]);
         $data = [
             'curation_activity_1' => $cA->id,
             'panel_1' => $ep->id,

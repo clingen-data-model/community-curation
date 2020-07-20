@@ -131,9 +131,9 @@ class User extends Authenticatable
         return $this->belongsToMany(CurationActivity::class);
     }
     
-    public function expertPanels()
+    public function curationGroups()
     {
-        return $this->belongsToMany(ExpertPanel::class);
+        return $this->belongsToMany(CurationGroup::class);
     }
 
     public function application()
@@ -205,10 +205,10 @@ class User extends Authenticatable
             ->curationActivity();
     }
 
-    public function expertPanelAssignments()
+    public function curationGroupAssignments()
     {
         return $this->hasMany(Assignment::class)
-            ->expertPanel();
+            ->curationGroup();
     }
 
     public function priorities()

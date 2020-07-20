@@ -74,10 +74,10 @@
             </options>
         </multiple-choice>
         
-        <question name="enjoying_expert_panel" id="enjoying_expert_panel" data-format="text" required="true">
+        <question name="enjoying_curation_group" id="enjoying_curation_group" data-format="text" required="true">
             <question-text>
                 <![CDATA[
-                    Are you enjoying curating for your ClinGen Expert Panel? Why or why not?
+                    Are you enjoying curating for your ClinGen Curation Group? Why or why not?
                 ]]>
             </question-text>
         </question>
@@ -115,7 +115,7 @@
         <multiple-choice name="join_addtional_ep" id="join_addtional_ep" num-selectable="1" required="true">
             <question-text>
                 <![CDATA[
-                    Would you like to join an additional Working Group or Expert Panel? 
+                    Would you like to join an additional Working Group or Curation Group? 
                     <br>
                     <small class="text-muted">Note that this may require additional training and double the amount of time spent volunteering per month.</small>
                 ]]>

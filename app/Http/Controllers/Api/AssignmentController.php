@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use App\Assignment;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

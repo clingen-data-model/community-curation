@@ -30,7 +30,7 @@
         },
         "assignableTypes": [
             "App\\CurationActivity",
-            "App\\ExpertPanel",
+            "App\\CurationGroup",
             "App\\Gene"
         ],
         "assignmentStatuses": {
@@ -48,7 +48,7 @@
             "baseline": 6
         },
         "curationActivityTypes": {
-            "expert-panel": 1,
+            "curation-group": 1,
             "gene": 2
         },
         "uploadCategories": {

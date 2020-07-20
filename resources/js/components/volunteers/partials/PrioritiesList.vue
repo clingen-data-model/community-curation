@@ -31,7 +31,7 @@
                     <tr>
                         <th>Rank</th>
                         <th>Curation Activity</th>
-                        <th>Expert Panel</th>
+                        <th>Curation Group</th>
                         <th>Effort Experience</th>
                         <th>Activity Experience</th>
                     </tr>
@@ -40,7 +40,7 @@
                     <tr v-for="(priority, idx) in volunteer.latest_priorities" :key="idx">
                         <td>{{priority.priority_order}}</td>
                         <td>{{priority.curation_activity.name}}</td>
-                        <td>{{(priority.expert_panel) ? priority.expert_panel.name : '--'}}</td>
+                        <td>{{(priority.curation_group) ? priority.curation_group.name : '--'}}</td>
                         <td>
                             {{priority.effort_experience | boolToHuman }}
                             <span v-if="priority.effort_experience == 1">

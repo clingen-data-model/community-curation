@@ -6,7 +6,7 @@
                 <p>
                     You have chosen to become an active member of a curation group. 
                     
-                    In order to best place your efforts, we ask if you would please choose a curation activity and and expert panel of interest. 
+                    In order to best place your efforts, we ask if you would please choose a curation activity and and curation group of interest. 
                     
                     Further, please indicate any prior experience and willingness to participate in more than one.
                     
@@ -23,7 +23,7 @@
                 </p>
 
                 <p>
-                    For more information on current expert panels accepting volunteers see: 
+                    For more information on current curation groups accepting volunteers see: 
                     <a href="https://www.clinicalgenome.org/working-groups/c3/" target="volunteer-info-wg">https://www.clinicalgenome.org/working-groups/c3/</a>
                 </p>
             ]]>
@@ -51,17 +51,17 @@
         <multiple-choice name="panel_1" id="panel_1" num-selectable="1" class="form-inline panel-question">
             <template source="questions.multiple_choice.select"></template>
             <question-text>
-                <![CDATA[Expert Panel]]>
+                <![CDATA[Curation Group]]>
             </question-text>
             <options>
-                <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+                <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
             </options>
         </multiple-choice>
 
         <question-group name="effort_experience_1_grp" id="effort_experience_1_grp" class="with-followup">
             <multiple-choice name="effort_experience_1" id="effort_experience_1" num-selectable="1" class="form-inline">
                 <template source="questions.multiple_choice.radio_group"></template>
-                <question-text>Do you have any prior curation experience with this expert panel domain?</question-text>
+                <question-text>Do you have any prior curation experience with this curation group domain?</question-text>
                 <options>
                     <option name="effort_experience_1_1" show="effort_experience_1_detail">
                         <value>1</value>
@@ -139,17 +139,17 @@
             <multiple-choice name="panel_2" id="panel_2" num-selectable="1" class="form-inline panel-question">
                 <template source="questions.multiple_choice.select"></template>
                 <question-text>
-                    <![CDATA[Expert Panel]]>
+                    <![CDATA[Curation Group]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
                 </options>
             </multiple-choice>
 
             <question-group name="effort_experience_2_grp" id="effort_experience_2_grp" class="with-followup">
                 <multiple-choice name="effort_experience_2" id="effort_experience_2" num-selectable="1" class="form-inline">
                     <template source="questions.multiple_choice.radio_group"></template>
-                    <question-text>Do you have any prior curation experience with this expert panel domain?</question-text>
+                    <question-text>Do you have any prior curation experience with this curation group domain?</question-text>
                     <options>
                         <option name="effort_experience_2_1" show="effort_experience_2_detail">
                             <value>1</value>
@@ -207,17 +207,17 @@
             <multiple-choice name="panel_3" id="panel_3" num-selectable="1" class="form-inline panel-question">
                 <template source="questions.multiple_choice.select"></template>
                 <question-text>
-                    <![CDATA[Expert Panel]]>
+                    <![CDATA[Curation Group]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@expertPanels"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
                 </options>
             </multiple-choice>
 
             <question-group name="effort_experience_3_grp" id="effort_experience_3_grp" class="with-followup">
                 <multiple-choice name="effort_experience_3" id="effort_experience_3" num-selectable="1" class="form-inline">
                     <template source="questions.multiple_choice.radio_group"></template>
-                    <question-text>Do you have any prior curation experience with this expert panel domain?</question-text>
+                    <question-text>Do you have any prior curation experience with this curation group domain?</question-text>
                     <options>
                         <option name="effort_experience_3_1" show="effort_experience_3_detail">
                             <value>1</value>
@@ -257,7 +257,7 @@
     </question-group>
 
     <multiple-choice name="outside_panel" id="outside_panel" num-selectable="1">
-        <question-text>If you indicated a preference for a certain expert panel, or to work within a certain disease area (e.g. cancer, neurodevelopmental disorders, cardiovascular diseases, etc.), would you still be willing to volunteer if there were no available opportunities in this area?</question-text>
+        <question-text>If you indicated a preference for a certain curation group, or to work within a certain disease area (e.g. cancer, neurodevelopmental disorders, cardiovascular diseases, etc.), would you still be willing to volunteer if there were no available opportunities in this area?</question-text>
         <options>
             <option name="outside_panel_1">
                 <value>1</value>

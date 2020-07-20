@@ -34,8 +34,8 @@ class VolunteerFollowupNotificationsTest extends TestCase
         $this->otherVol90 = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
         
         $curationActivity = CurationActivity::all()->first();
-        AssignVolunteerToAssignable::dispatch($this->volunteer90, $curationActivity->expertPanels->first());
-        AssignVolunteerToAssignable::dispatch($this->otherVol90, $curationActivity->expertPanels->first());
+        AssignVolunteerToAssignable::dispatch($this->volunteer90, $curationActivity->curationGroups->first());
+        AssignVolunteerToAssignable::dispatch($this->otherVol90, $curationActivity->curationGroups->first());
 
         $this->survey = class_survey()::findBySlug('volunteer-three-month1');
         $this->rsp = $this->survey->getNewResponse($this->otherVol90);
@@ -46,8 +46,8 @@ class VolunteerFollowupNotificationsTest extends TestCase
         $this->otherVol6m = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
         
         $curationActivity = CurationActivity::all()->first();
-        AssignVolunteerToAssignable::dispatch($this->volunteer6m, $curationActivity->expertPanels->first());
-        AssignVolunteerToAssignable::dispatch($this->otherVol6m, $curationActivity->expertPanels->first());
+        AssignVolunteerToAssignable::dispatch($this->volunteer6m, $curationActivity->curationGroups->first());
+        AssignVolunteerToAssignable::dispatch($this->otherVol6m, $curationActivity->curationGroups->first());
 
         $this->survey = class_survey()::findBySlug('volunteer-six-month1');
         $this->rsp = $this->survey->getNewResponse($this->otherVol6m);

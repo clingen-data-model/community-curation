@@ -3,7 +3,7 @@
 <template>
     <div>
         <h4>
-            Assign Activity and Expert Panel
+            Assign Activity and Curation Group
             <span v-if="showVolunteer"> - {{volunteer.name}}</span>
         </h4>
         <hr>
@@ -55,15 +55,15 @@
                                 </div>
 
                                 <div v-else>
-                                    <expert-panel-cell 
+                                    <curation-group-cell 
                                         v-if="assignment.assignable.curation_activity_type_id == 1"
                                         :assignment="assignment" 
-                                        :expert-panels="getExpertPanelsForCurationActivity(assignment.assignable.id)"
+                                        :curation-groups="getCurationGroupsForCurationActivity(assignment.assignable.id)"
                                         :volunteer="volunteer"
-                                        @save="saveNewAssignment('App\\ExpertPanel', $event)"
+                                        @save="saveNewAssignment('App\\CurationGroup', $event)"
                                         @assignmentsupdated="$emit('assignmentsupdated')"
                                         @unassign="removeAssignment($event)"
-                                    ></expert-panel-cell>
+                                    ></curation-group-cell>
 
                                     <gene-group-selector 
                                         v-if="assignment.assignable.curation_activity_type_id == 2"
@@ -97,11 +97,11 @@
     import createAssignment from '../../resources/assignments/create_assignment'
     import markTrainingComplete from '../../resources/trainings/mark_training_complete'
     import createTraining from '../../resources/trainings/create_training'
-    import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
+    import getAllCurationGroups from '../../resources/curation_groups/get_all_curation_groups'
     import getAllAptitudes from '../../resources/aptitudes/get_all_aptitudes'
     import deleteAssignment from '../../resources/assignments/delete_assignment'
     
-    import ExpertPanelCell from './ExpertPanelCell'
+    import CurationGroupCell from './CurationGroupCell'
     import GeneGroupSelector from './GeneGroupSelector'
     import PrioritiesList from '../volunteers/partials/PrioritiesList'
     import TrainingAndAttestationControl from './TrainingAndAttestationControl'
@@ -126,7 +126,7 @@
             }
         },
         components: {
-            ExpertPanelCell,
+            CurationGroupCell,
             PrioritiesList,
             TrainingAndAttestationControl,
             GeneGroupSelector,
@@ -140,25 +140,25 @@
                 priorities: [
                     {
                         activity: 'Gene',
-                        expertPanel: 'test EP'
+                        curationGroup: 'test EP'
                     },
                     {
                         activity: 'Dosage',
-                        expertPanel: 'test EP'
+                        curationGroup: 'test EP'
                     }
                 ],
                 newCurationActivity: null,
-                newExpertPanelId: null,
+                newCurationGroupId: null,
                 curationActivities: [],
-                expertPanels: [],
+                curationGroups: [],
                 aptitudes: [],
                 configs: window.configs,
             }
         },
         computed: {
-            unassignedExpertPanels: function () {
+            unassignedCurationGroups: function () {
                 const assignedPanels = Object.values(this.volunteer.assignments.map(ac => ac.sub_assignments)).flat().map(subAss => subAss.assignable);
-                return this.expertPanels.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
+                return this.curationGroups.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
             },
             geneticEvidenceAptitude: function () {
                 return this.aptitudes.find(item => item.name === 'Baseline, Genetic Evidence');
@@ -170,16 +170,16 @@
         },
         methods: {
             ...mapMutations('messages', ['addInfo']),
-            fetchExpertPanels: async function()
+            fetchCurationGroups: async function()
             {
-                this.expertPanels = await getAllExpertPanels();
+                this.curationGroups = await getAllCurationGroups();
             },
             fetchAptitudes: async function ()
             {
                 this.aptitudes = await getAllAptitudes();
             },
-            getExpertPanelsForCurationActivity(curationActivityId) {
-                return this.unassignedExpertPanels
+            getCurationGroupsForCurationActivity(curationActivityId) {
+                return this.unassignedCurationGroups
                         .filter(panel => {
                             return panel.curation_activity_id == curationActivityId
                                 && panel.accepting_volunteers == 1
@@ -230,7 +230,7 @@
             }
         },
         mounted() {
-            this.fetchExpertPanels();
+            this.fetchCurationGroups();
             this.fetchAptitudes();
         }
     

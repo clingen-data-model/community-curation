@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ExpertPanel;
+use App\CurationGroup;
 use Illuminate\Http\Request;
 use App\Services\Search\VolunteerSearchService;
 

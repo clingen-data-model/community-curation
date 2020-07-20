@@ -3,7 +3,7 @@
 namespace Tests\Unit\Services\Search;
 
 use Tests\TestCase;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\WorkingGroup;
 use App\CurationActivity;
 use App\Contracts\ModelSearchService;
@@ -39,7 +39,7 @@ class CurationGroupSearchServiceTest extends TestCase
         // Assumption: we have curation groups b/c of seeding
         $all = $this->service->search([]);
         $this->assertInstanceOf(Collection::class, $all);
-        $this->assertEquals(ExpertPanel::count(), $all->count());
+        $this->assertEquals(CurationGroup::count(), $all->count());
     }
 
 
@@ -49,7 +49,7 @@ class CurationGroupSearchServiceTest extends TestCase
     public function filters_group_by_curation_activity_id()
     {
         $searchGroups = $this->service->search(['curation_activity_id'=>config('project.curation-activities.gene')]);
-        $testGroups = ExpertPanel::where('curation_activity_id', config('project.curation-activities.gene'))->get();
+        $testGroups = CurationGroup::where('curation_activity_id', config('project.curation-activities.gene'))->get();
 
         $this->assertEquals($testGroups->count(), $searchGroups->count());
         $this->assertEquals($testGroups->sortBy('id')->pluck('id'), $searchGroups->sortBy('id')->pluck('id'));
@@ -61,7 +61,7 @@ class CurationGroupSearchServiceTest extends TestCase
     public function filters_group_by_working_group_id()
     {
         $searchGroups = $this->service->search(['working_group_id'=>1]);
-        $testGroups = ExpertPanel::where('working_group_id', 1)->get();
+        $testGroups = CurationGroup::where('working_group_id', 1)->get();
 
         $this->assertEquals($testGroups->count(), $searchGroups->count());
         $this->assertEquals($testGroups->sortBy('id')->pluck('id'), $searchGroups->sortBy('id')->pluck('id'));
@@ -73,7 +73,7 @@ class CurationGroupSearchServiceTest extends TestCase
     public function filters_group_by_accepting_volunteers()
     {
         $searchGroups = $this->service->search(['accepting_volunteers'=>1]);
-        $testGroups = ExpertPanel::where('accepting_volunteers', 1)->get();
+        $testGroups = CurationGroup::where('accepting_volunteers', 1)->get();
 
         $this->assertEquals($testGroups->count(), $searchGroups->count());
         $this->assertEquals($testGroups->sortBy('id')->pluck('id'), $searchGroups->sortBy('id')->pluck('id'));
@@ -86,9 +86,9 @@ class CurationGroupSearchServiceTest extends TestCase
     {
         $wg = factory(WorkingGroup::class)->create(['name' => 'monkeys']);
         $ca = factory(CurationActivity::class)->create(['name' => 'Monkey']);
-        factory(ExpertPanel::class, 2)->create(['working_group_id' => $wg->id]);
-        factory(ExpertPanel::class)->create(['curation_activity_id' => $ca->id]);
-        factory(ExpertPanel::class)->create(['name' => 'monkey vcep']);
+        factory(CurationGroup::class, 2)->create(['working_group_id' => $wg->id]);
+        factory(CurationGroup::class)->create(['curation_activity_id' => $ca->id]);
+        factory(CurationGroup::class)->create(['name' => 'monkey vcep']);
 
 
 
