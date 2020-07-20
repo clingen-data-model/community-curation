@@ -14,7 +14,7 @@ Route::group([
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     CRUD::resource('/user', 'UserCrudController');
     CRUD::resource('/working-group', 'WorkingGroupCrudController');
-    CRUD::resource('/expert-panel', 'ExpertPanelCrudController');
+    CRUD::resource('/curation-group', 'CurationGroupCrudController');
     CRUD::resource('/gene', 'GeneCrudController');
     CRUD::resource('/volunteer-type', 'VolunteerTypeCrudController');
     CRUD::resource('/volunteer-status', 'VolunteerStatusCrudController');

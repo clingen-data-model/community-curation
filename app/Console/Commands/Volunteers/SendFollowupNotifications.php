@@ -24,7 +24,7 @@ class SendFollowupNotifications extends Command
      *
      * @var string
      */
-    protected $description = 'Send notifications to comprehensive volunteers that were assigned to an expert panel 90 days ago.';
+    protected $description = 'Send notifications to comprehensive volunteers that were assigned to an curation group 90 days ago.';
 
     /**
      * URL for three month survey
@@ -120,8 +120,8 @@ class SendFollowupNotifications extends Command
     {
         return User::isVolunteer()
         ->whereHas('assignments', function ($q) use ($date) {
-            //we only want  who's first expert_panel was assigned on the date
-            $q->expertPanel()
+            //we only want  who's first curation_group was assigned on the date
+            $q->curationGroup()
                 ->select('user_id')
                 ->selectRaw('DATE(MIN(created_at)) as min_date')
                 ->groupBy('user_id')

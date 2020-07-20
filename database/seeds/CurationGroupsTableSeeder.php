@@ -1,9 +1,9 @@
 <?php
 
-use App\ExpertPanel;
+use App\CurationGroup;
 use Illuminate\Database\Seeder;
 
-class ExpertPanelsTableSeeder extends Seeder
+class CurationGroupsTableSeeder extends Seeder
 {
     
     /**
@@ -13,7 +13,7 @@ class ExpertPanelsTableSeeder extends Seeder
      */
     public function run()
     {
-        $expertPanels = [
+        $curationGroups = [
             [
                 'name' => 'Intellectual Disability and Autism GCEP',
                 'working_group_id' => 1,
@@ -270,8 +270,8 @@ class ExpertPanelsTableSeeder extends Seeder
 
         ];
 
-        foreach ($expertPanels as $panel) {
-            ExpertPanel::firstOrCreate($panel);
+        foreach ($curationGroups as $panel) {
+            CurationGroup::firstOrCreate($panel);
         }
     }
 }

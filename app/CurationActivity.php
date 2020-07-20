@@ -32,9 +32,9 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
         'legacy_name'
     ];
 
-    public function expertPanels()
+    public function curationGroups()
     {
-        return $this->hasMany(ExpertPanel::class);
+        return $this->hasMany(CurationGroup::class);
     }
     
     public function curationActivityType()
@@ -48,14 +48,14 @@ class CurationActivity extends Model implements AssignableContract, AptitudeSubj
         return $query->where('curation_activity_type_id', $typeId);
     }
 
-    public function scopeExpertPanelType($query)
+    public function scopeCurationGroupType($query)
     {
-        return $query->oftype(config('project.curation-activity-types.expert-panel'));
+        return $query->oftype(config('project.curation-activity-types.curation-group'));
     }
     
     public function scopeComprehensive($query)
     {
-        return $query->expertPanelType();
+        return $query->curationGroupType();
     }
     
 

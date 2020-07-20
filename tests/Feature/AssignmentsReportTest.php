@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -30,7 +30,7 @@ class AssignmentsReportTest extends TestCase
         Carbon::setTestNow('2020-01-01 00:00:00');
 
         $this->curationActivities = CurationActivity::all()->keyBy('id');
-        $this->expertPanels = ExpertPanel::all()->groupBy('curation_activity_id');
+        $this->curationGroups = CurationGroup::all()->groupBy('curation_activity_id');
 
         $this->volunteers = factory(User::class, 3)->states('volunteer', 'comprehensive')->create();
 
@@ -41,8 +41,8 @@ class AssignmentsReportTest extends TestCase
         AssignVolunteerToAssignable::dispatch($this->volunteers->first(), $this->curationActivities->get(1));
         AssignVolunteerToAssignable::dispatch($this->volunteers->first(), $this->curationActivities->get(2));
 
-        AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->expertPanels->get(3)->first());
-        AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->expertPanels->get(3)->last());
+        AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->curationGroups->get(3)->first());
+        AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->curationGroups->get(3)->last());
 
         $this->date = Carbon::now();
 
@@ -97,9 +97,9 @@ class AssignmentsReportTest extends TestCase
                 'curation_activity' => $this->curationActivities->get(3)->name,
                 'training_completion_date' => $this->date,
                 'attestation_date' => $this->date,
-                'assigned_expert_panel' => $this->expertPanels->get(3)->first()->name
+                'assigned_curation_group' => $this->curationGroups->get(3)->first()->name
                                             .",\n"
-                                            .$this->expertPanels->get(3)->last()->name
+                                            .$this->curationGroups->get(3)->last()->name
             ],
             $testRow
         );

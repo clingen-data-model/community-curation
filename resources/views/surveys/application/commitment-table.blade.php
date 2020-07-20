@@ -19,7 +19,7 @@
             <td style="font-size: 1.5rem;">✅</td>
         </tr>
         <tr>
-            <td class="text-left">Join and participate on expert panel conference calls.</td>
+            <td class="text-left">Join and participate on curation group conference calls.</td>
             <td style="font-size: 1.5rem;">✅</td>
             <td>&nbsp;</td>
         </tr>

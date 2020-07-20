@@ -261,13 +261,13 @@ class ApplicationTest extends TestCase
 
         $this->assertDatabaseHas('priorities', [
             'curation_activity_id' => 1,
-            'expert_panel_id' => 1,
+            'curation_group_id' => 1,
             'activity_experience' => 1,
             'activity_experience_details' => 'test details'
         ]);
         $this->assertDatabaseHas('priorities', [
             'curation_activity_id' => 2,
-            'expert_panel_id' => 2,
+            'curation_group_id' => 2,
             'activity_experience' => 0,
             'activity_experience_details' => null,
             'effort_experience' => 1,

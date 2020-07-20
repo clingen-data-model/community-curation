@@ -60,7 +60,7 @@ export default {
         return {
             totalRows: 0,
             currentPage: 1,
-            sortKey: 'expert_panels.name',
+            sortKey: 'curation_groups.name',
             sortDesc: false,
             filters: {
                 searchTerm: null

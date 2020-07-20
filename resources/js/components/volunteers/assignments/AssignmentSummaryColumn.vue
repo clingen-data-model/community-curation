@@ -10,7 +10,7 @@
                     <small>
                         
                         <span v-if="subAsn.assignable.url">
-                            <a :href="subAsn.assignable.url" target="expert-panel" title="expert panel info page">
+                            <a :href="subAsn.assignable.url" target="curation-group" title="curation group info page">
                                 {{subAsn.assignable.name}}
                                 <b-icon-box-arrow-up-right />
                             </a>
@@ -94,7 +94,7 @@ export default {
             return this.assignment;
         },
         subAssignmentType: function () {
-            return this.assignment.assignable.curation_activity_type_id == 1 ? 'expert panel' : 'gene';
+            return this.assignment.assignable.curation_activity_type_id == 1 ? 'curation group' : 'gene';
         }
     }
 }

@@ -68,7 +68,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'database'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_TEST_DATABASE', 'ccdb_test'),
+            'database' => env('DB_TEST_DATABASE', 'testing'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'password'),
             'unix_socket' => env('DB_SOCKET', ''),

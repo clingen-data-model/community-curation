@@ -16,7 +16,7 @@ class PriorityResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['curation_activity'] =  new DefaultResource($this->whenLoaded('curationActivity'));
-        $data['expert_panel'] = new DefaultResource($this->whenLoaded('expertPanel'));
+        $data['curation_group'] = new DefaultResource($this->whenLoaded('curationGroup'));
 
         $data['outside_panel'] = 'No';
         if ($this->outside_panel == 2) {

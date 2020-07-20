@@ -2,11 +2,11 @@
 
 namespace App\Import\Maps;
 
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\Import\Exceptions\ImportException;
 use InvalidArgumentException;
 
-class ExpertPanelMap
+class CurationGroupMap
 {
     private $map = [
         'ACADVL' => 'ACADVL VCEP',
@@ -53,19 +53,19 @@ class ExpertPanelMap
         'Storage Disease' => null,
         'TP53' => 'TP53 VCEP',
     ];
-    protected $expertPanels;
+    protected $curationGroups;
 
     public function __construct()
     {
-        $this->expertPanels = ExpertPanel::all()->keyBy('name');
-        // dd($this->expertPanels->keys());
+        $this->curationGroups = CurationGroup::all()->keyBy('name');
+        // dd($this->curationGroups->keys());
     }
 
 
 
     public function map($input)
     {
-        $ep = $this->expertPanels->get($input);
+        $ep = $this->curationGroups->get($input);
         if ($ep) {
             return $ep;
         }
@@ -82,7 +82,7 @@ class ExpertPanelMap
             throw new ImportException('EP Ambiguous: "'.$input.'" could map to '.implode(', ', $this->map[$input]), 409);
         }
         
-        return $this->expertPanels->get($this->map[$input]);
+        return $this->curationGroups->get($this->map[$input]);
     }
 
     public function mapAbiguous($ep, $ca)
@@ -96,7 +96,7 @@ class ExpertPanelMap
                 $suffix = ' GCEP';
                 break;
             default:
-                throw new ImportException('Can not map ambiguous expert panel name for curatio activity "'.$ca.'"');
+                throw new ImportException('Can not map ambiguous curation group name for curatio activity "'.$ca.'"');
         }
 
         return $this->map($ep.$suffix);

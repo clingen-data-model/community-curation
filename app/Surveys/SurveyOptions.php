@@ -8,7 +8,7 @@ use App\Interest;
 use App\Motivation;
 use App\SelfDescription;
 use App\CurationActivity;
-use App\ExpertPanel;
+use App\CurationGroup;
 
 class SurveyOptions
 {
@@ -30,10 +30,10 @@ class SurveyOptions
         return CurationActivity::select('id', 'name')->comprehensive()->get();
     }
     
-    public function expertPanels()
+    public function curationGroups()
     {
-        $expertPanels = ExpertPanel::select('id', 'name', 'accepting_volunteers')->acceptingVolunteers()->get();
-        return $expertPanels;
+        $curationGroups = CurationGroup::select('id', 'name', 'accepting_volunteers')->acceptingVolunteers()->get();
+        return $curationGroups;
     }
 
     public function selfDescriptions()

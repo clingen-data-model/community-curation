@@ -8,7 +8,7 @@ window.timepicker = require('timepicker');
 window.Vue = require('vue');
 
 import getAllCurationActivities from './resources/curation_activities/get_all_curation_activities'
-import getAllExpertPanels from './resources/expert_panels/get_all_expert_panels'
+import getAllCurationGroups from './resources/curation_groups/get_all_curation_groups'
 
 import moment from 'moment-timezone'
 window.moment = moment;
@@ -123,7 +123,7 @@ async function loadActivities() {
 
 let panels = [];
 async function loadPanels() {
-    panels = await await getAllExpertPanels();
+    panels = await await getAllCurationGroups();
     Array.from(document.querySelectorAll('select.panel-question'))
         .forEach(question => {
             question.disabled = false;
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     curationActivityQuestions
         .forEach(question => {
             question.addEventListener('change', (evt) => {
-                // Update options for expert panel selection
+                // Update options for curation group selection
                 const activityPanels = panels.filter(panel => {
                     return panel.curation_activity_id == question.value &&
                         panel.accepting_volunteers == 1

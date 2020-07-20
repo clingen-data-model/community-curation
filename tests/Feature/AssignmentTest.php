@@ -6,7 +6,7 @@ use App\Gene;
 use App\User;
 use App\Assignment;
 use Tests\TestCase;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 use App\Events\AssignmentCreated;
 use Illuminate\Support\Facades\Event;
@@ -68,12 +68,12 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function expert_panels_can_be_assigned_without_a_parent_assignment()
+    public function curation_groups_can_be_assigned_without_a_parent_assignment()
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
-        $expertPanel = ExpertPanel::all()->first();
+        $curationGroup = CurationGroup::all()->first();
 
-        AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup);
         
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
     }
@@ -82,14 +82,14 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function expert_panel_assignment_has_ca_assignment_as_parent_if_exists()
+    public function curation_group_assignment_has_ca_assignment_as_parent_if_exists()
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
-        $expertPanel = $curationActivity->expertPanels->random();
+        $curationGroup = $curationActivity->curationGroups->random();
 
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
-        AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+        AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup);
 
         $assignments = $volunteer->assignments;
         
@@ -97,7 +97,7 @@ class AssignmentTest extends TestCase
 
         $this->assertEquals(
             $assignments->isCurationActivity()->first()->id,
-            $volunteer->assignments()->expertPanel()->first()->parent_id
+            $volunteer->assignments()->curationGroup()->first()->parent_id
         );
     }
 
@@ -158,7 +158,7 @@ class AssignmentTest extends TestCase
     {
         $curationActivity = factory(CurationActivity::class)->create([]);
         $gene = factory(Gene::class)->create([]);
-        $ep = factory(ExpertPanel::class)->create(['curation_activity_id' => $curationActivity->id]);
+        $ep = factory(CurationGroup::class)->create(['curation_activity_id' => $curationActivity->id]);
 
         $volunteer = factory(User::class)->create();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
@@ -176,7 +176,7 @@ class AssignmentTest extends TestCase
     {
         $curationActivity = factory(CurationActivity::class)->create([]);
         $gene = factory(Gene::class)->create([]);
-        $ep = factory(ExpertPanel::class)->create(['curation_activity_id' => $curationActivity->id]);
+        $ep = factory(CurationGroup::class)->create(['curation_activity_id' => $curationActivity->id]);
 
         $volunteer = factory(User::class)->create();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);

@@ -17,7 +17,7 @@ class ApplicationReportGenerator implements ReportGenerator
     public function __construct(VolunteerSearchService $volunteerSearchService)
     {
         $this->volunteerSearchService = $volunteerSearchService;
-        $this->query = Application::query()->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.expertPanel')->finalized();
+        $this->query = Application::query()->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
     }
 
@@ -140,7 +140,7 @@ class ApplicationReportGenerator implements ReportGenerator
             if ($priorities) {
                 $data = array_merge($data, [
                     'curation_activity_priority_'.($i+1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,
-                    'curation_group_priority'.($i+1) => ($priorities->get($i) && $priorities->get($i)->expertPanel) ? $priorities->get($i)->expertPanel->name : null,
+                    'curation_group_priority'.($i+1) => ($priorities->get($i) && $priorities->get($i)->curationGroup) ? $priorities->get($i)->curationGroup->name : null,
                     'priority_'.($i+1).'_activity_experience' => $priorities->get($i) ? $priorities->get($i)->activity_experience : null,
                     'priority_'.($i+1).'_activity_experience_details' => ($priorities->get($i) && $priorities->get($i)->activity_experience == 1) ? $priorities->get($i)->activity_experience_details : null,
                     'priority_'.($i+1).'_effort_experience' => $priorities->get($i) ? $priorities->get($i)->effort_experience : null,

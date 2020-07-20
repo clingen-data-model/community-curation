@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(VolunteerStatusesTableSeeder::class);
         $this->call(WorkingGroupsTableSeeder::class);
         $this->call(UploadCategoriesTableSeeder::class);
-        $this->call(ExpertPanelsTableSeeder::class);
+        $this->call(CurationGroupsTableSeeder::class);
         $this->call(GoalsTableSeeder::class);
         $this->call(InterestsTableSeeder::class);
         $this->call(MotivationsTableSeeder::class);

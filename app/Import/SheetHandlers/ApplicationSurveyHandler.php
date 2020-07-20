@@ -5,7 +5,7 @@ namespace App\Import\SheetHandlers;
 use App\Goal;
 use App\Campaign;
 use App\CurationActivity;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\Interest;
 use App\Motivation;
 use App\VolunteerType;
@@ -64,7 +64,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $this->motivations = Motivation::all();
         $this->goals = Goal::all();
         $this->campaigns = Campaign::all();
-        $this->expertPanels = ExpertPanel::all();
+        $this->curationGroups = CurationGroup::all();
         $this->curationActivities = CurationActivity::all();
         $this->highestEd = Collect([
             (object)[
@@ -179,7 +179,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $data['curation_activity_3'] = $this->getSingleId($row['curation_activity_3'], $this->curationActivities, 'legacy_name');
         
         $data['additional_priority'] = $this->getSingleId($row['additional_priority'], $this->additionalPriority);
-        $data['panel_1'] = $this->getSingleId($row['panel_1'], $this->expertPanels);
+        $data['panel_1'] = $this->getSingleId($row['panel_1'], $this->curationGroups);
         $data['goals'] = '[]';
         $data['street1'] = $row['address'];
         $data['imported_survey_data'] = json_encode($row);

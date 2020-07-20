@@ -12,13 +12,13 @@ use Carbon\Carbon;
 use App\Assignment;
 use App\Application;
 use App\Attestation;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\UserAptitude;
 use App\CurationActivity;
 use InvalidArgumentException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use App\Import\Maps\ExpertPanelMap;
+use App\Import\Maps\CurationGroupMap;
 use App\Jobs\AssignVolunteerToAssignable;
 use App\Import\Exceptions\ImportException;
 use App\Exceptions\InvalidAssignmentException;
@@ -52,9 +52,9 @@ class ImportInitialData extends Command
     protected $description = 'Import existing data from google sheet';
 
     /**
-     * @var ExpertPanelMap mapper for expert panels
+     * @var CurationGroupMap mapper for curation groups
      */
-    private $expertPanelMap;
+    private $curationGroupMap;
     
     /**
      * @var Collection Collection of CurationActivity models
@@ -77,7 +77,7 @@ class ImportInitialData extends Command
      *
      * @return mixed
      */
-    public function handle(ExpertPanelMap $expertPanelMap)
+    public function handle(CurationGroupMap $curationGroupMap)
     {
         $this->clearAllUsers();
         if (!app()->environment('production')) {
@@ -85,10 +85,10 @@ class ImportInitialData extends Command
             config(['mail.driver' => 'log']);
         }
 
-        $this->expertPanelMap = $expertPanelMap;
+        $this->curationGroupMap = $curationGroupMap;
 
         config(['mail.driver' => 'log']);
-        $this->expertPanels = ExpertPanel::all();
+        $this->curationGroups = CurationGroup::all();
         $this->curationActivities = CurationActivity::all();
 
 
@@ -340,7 +340,7 @@ class ImportInitialData extends Command
                 $this->outputInfo('    - Not assigned to WG/EP'.' ('.$data['email'].')');
                 return;
             }
-            $this->assignExpertPanel($volunteer, $data);
+            $this->assignCurationGroup($volunteer, $data);
         });
     }
 
@@ -431,24 +431,24 @@ class ImportInitialData extends Command
                 ->flip();
     }
     
-    private function assignExpertPanel($volunteer, $data)
+    private function assignCurationGroup($volunteer, $data)
     {
-        $expertPanel = null;
+        $curationGroup = null;
         try {
-            $expertPanel = $this->expertPanelMap->map($data['ep_assignment']);
+            $curationGroup = $this->curationGroupMap->map($data['ep_assignment']);
         } catch (ImportException $th) {
             if ($th->getCode() == 409) {
-                $expertPanel = $this->expertPanelMap->mapAbiguous($data['ep_assignment'], $data['ca_assignment']);
+                $curationGroup = $this->curationGroupMap->mapAbiguous($data['ep_assignment'], $data['ca_assignment']);
             }
         }
 
-        if (is_null($expertPanel)) {
+        if (is_null($curationGroup)) {
             throw new ImportException('EP Uknown: '.$data['ep_assignment'].' ('.$data['email'].')');
         }
 
         try {
-            $this->outputInfo('    - assign expert panel ['.$expertPanel->name.']');
-            AssignVolunteerToAssignable::dispatch($volunteer, $expertPanel);
+            $this->outputInfo('    - assign curation group ['.$curationGroup->name.']');
+            AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup);
         } catch (InvalidArgumentException $th) {
             throw new ImportException($th->getMessage());
         }
@@ -481,7 +481,7 @@ class ImportInitialData extends Command
             if ($assignmentsData['training_date']) {
                 $statusId = $statuses['trained'];
             }
-            if ($volunteer->assignments()->expertPanel()->first()) {
+            if ($volunteer->assignments()->curationGroup()->first()) {
                 $statusId = $statuses['active'];
             }
             $volunteer->update([

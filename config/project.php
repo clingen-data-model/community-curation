@@ -1,7 +1,7 @@
 <?php
 
 use App\Gene;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 
 return [
@@ -21,7 +21,7 @@ return [
     ],
     'assignable-types' => [
         CurationActivity::class,
-        ExpertPanel::class,
+        CurationGroup::class,
         Gene::class,
     ],
     'assignment-statuses' => [
@@ -39,7 +39,7 @@ return [
         'baseline' => 6,
     ],
     'curation-activity-types' => [
-        'expert-panel' => 1,
+        'curation-group' => 1,
         'gene' => 2
     ],
     'upload-categories' => [

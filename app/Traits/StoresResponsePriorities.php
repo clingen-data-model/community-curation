@@ -24,7 +24,7 @@ trait StoresResponsePriorities
                     'user_id' => $this->response->respondent_id,
                     'priority_order' => $num,
                     'curation_activity_id' => $this->response->{'curation_activity_'.$num},
-                    'expert_panel_id' => $this->response->{'panel_'.$num},
+                    'curation_group_id' => $this->response->{'panel_'.$num},
                     'activity_experience' => $this->response->{'activity_experience_'.$num} ?? 0,
                     'activity_experience_details' => $this->response->{'activity_experience_'.$num.'_detail'},
                     'effort_experience' => $this->response->{'effort_experience_'.$num} ?? 0,

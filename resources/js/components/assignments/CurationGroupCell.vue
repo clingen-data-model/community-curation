@@ -21,23 +21,23 @@
         <button 
             v-if="showAddButton" 
             class="btn btn-sm btn-xs border" 
-            @click="addingExpertPanel = true"
+            @click="addingCurationGroup = true"
             :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
         >
-            Add expert panel
+            Add curation group
         </button>
-        <small class="text-muted btn border btn-xs" v-if="!hasMoreExpertPanels">All panels assigned</small>
+        <small class="text-muted btn border btn-xs" v-if="!hasMoreCurationGroups">All panels assigned</small>
 
-        <div v-if="addingExpertPanel" class="form-inline">
-            <select v-model="newExpertPanel" class="form-control form-control-sm">
+        <div v-if="addingCurationGroup" class="form-inline">
+            <select v-model="newCurationGroup" class="form-control form-control-sm">
                 <option :value="null">Select&hellip;</option>
-                <option v-for="(panel, idx) in expertPanels" :key="idx" :value="panel">
+                <option v-for="(panel, idx) in curationGroups" :key="idx" :value="panel">
                     {{panel.name}}
                 </option>
             </select>
             &nbsp;
             <button class="btn btn-sm btn-primary" @click="emitSave">Save</button>
-            <button class="btn btn-sm btn-default" @click="cancelAddingExpertPanel">Cancel</button>
+            <button class="btn btn-sm btn-default" @click="cancelAddingCurationGroup">Cancel</button>
         </div>
     </div>
 </template>
@@ -59,36 +59,36 @@
             assignment: {
                 required: true
             },
-            expertPanels: {
+            curationGroups: {
                 required: true,
                 type: Array
             }
         },
         data() {
             return {
-                newExpertPanel: null,
-                addingExpertPanel: false,
+                newCurationGroup: null,
+                addingCurationGroup: false,
             }
         },
         computed: {
             showAddButton: function () {
-                return !this.addingExpertPanel 
+                return !this.addingCurationGroup 
                         && !this.assignment.needsAptitude
-                        && this.hasMoreExpertPanels;
+                        && this.hasMoreCurationGroups;
             },
-            hasMoreExpertPanels: function () {
-                return this.expertPanels.length > 0;
+            hasMoreCurationGroups: function () {
+                return this.curationGroups.length > 0;
             }
         },
         methods: {
             emitSave() {
-                this.$emit('save', this.newExpertPanel)
-                this.addingExpertPanel = false;
-                this.newExpertPanel = null
+                this.$emit('save', this.newCurationGroup)
+                this.addingCurationGroup = false;
+                this.newCurationGroup = null
             },
-            cancelAddingExpertPanel() {
-                this.newExpertPanel = null
-                this.addingExpertPanel = false;
+            cancelAddingCurationGroup() {
+                this.newCurationGroup = null
+                this.addingCurationGroup = false;
                 this.$emit('cancel');
             },
             removeAssignment(subAss) {

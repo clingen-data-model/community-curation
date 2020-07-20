@@ -106,9 +106,9 @@ class Assignment extends Model
         return $query->where('assignable_type', CurationActivity::class);
     }
 
-    public function scopeExpertPanel($query)
+    public function scopeCurationGroup($query)
     {
-        return $query->where('assignable_type', ExpertPanel::class);
+        return $query->where('assignable_type', CurationGroup::class);
     }
 
     public function scopeGene($query)

@@ -16,8 +16,8 @@ class WorkingGroup extends Model
         'url'
     ];
 
-    public function expertPanels()
+    public function curationGroups()
     {
-        return $this->hasMany(ExpertPanel::class);
+        return $this->hasMany(CurationGroup::class);
     }
 }

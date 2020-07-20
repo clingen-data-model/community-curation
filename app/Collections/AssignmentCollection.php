@@ -3,7 +3,7 @@
 namespace App\Collections;
 
 use App\Assignment;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 use App\Gene;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,9 +32,9 @@ class AssignmentCollection extends Collection
         return $this->isType(CurationActivity::class);
     }
 
-    public function isExpertPanel()
+    public function isCurationGroup()
     {
-        return $this->isType(ExpertPanel::class);
+        return $this->isType(CurationGroup::class);
     }
 
     public function isGene()

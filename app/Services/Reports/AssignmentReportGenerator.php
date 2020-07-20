@@ -3,7 +3,7 @@
 namespace App\Services\Reports;
 
 use App\User;
-use App\ExpertPanel;
+use App\CurationGroup;
 use App\CurationActivity;
 use App\Contracts\ReportGenerator;
 use Illuminate\Support\Collection;
@@ -54,7 +54,7 @@ class AssignmentReportGenerator implements ReportGenerator
                         'curation_activity' => null,
                         'training_completion_date' => null,
                         'attestation_date' => null,
-                        'assigned_expert_panel' => null
+                        'assigned_curation_group' => null
                     ]
                 )]);
             }
@@ -68,9 +68,9 @@ class AssignmentReportGenerator implements ReportGenerator
                                 'curation_activity' => $assignment->assignable->name,
                                 'training_completion_date' => ($assignment->userAptitudes->first()) ? $assignment->userAptitudes->first()->trained_at : null,
                                 'attestation_date' => ($assignment->attestations->first()) ? $assignment->attestations->first()->signed_at : null,
-                                'assigned_expert_panel' => $volunteer->assignments
+                                'assigned_curation_group' => $volunteer->assignments
                                                                 ->filter(function ($item) use ($assignment) {
-                                                                    return $item->assignable_type == ExpertPanel::class
+                                                                    return $item->assignable_type == CurationGroup::class
                                                                         && $item->assignable->curation_activity_id == $assignment->assignable_id;
                                                                 })
                                                                 ->pluck('assignable.name')

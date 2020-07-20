@@ -4,7 +4,7 @@ namespace App\Services\Search;
 
 use Illuminate\Support\Collection;
 use App\Contracts\ModelSearchService;
-use App\ExpertPanel;
+use App\CurationGroup;
 use Illuminate\Database\Eloquent\Builder;
 
 class CurationGroupSearchService implements ModelSearchService
@@ -23,8 +23,8 @@ class CurationGroupSearchService implements ModelSearchService
 
     public function buildQuery($params):Builder
     {
-        $query = ExpertPanel::query()
-                    ->select(['expert_panels.*']);
+        $query = CurationGroup::query()
+                    ->select(['curation_groups.*']);
         foreach ($params as $key => $value) {
             if ($key == 'select') {
                 $query->select($value);
@@ -49,12 +49,12 @@ class CurationGroupSearchService implements ModelSearchService
 
     private function filterBySearchTerm($searchTerm, $query)
     {
-        $query->leftJoin('curation_activities', 'expert_panels.curation_activity_id', '=', 'curation_activities.id')
-            ->leftJoin('working_groups', 'expert_panels.working_group_id', '=', 'working_groups.id')
-            ->select('expert_panels.*');
+        $query->leftJoin('curation_activities', 'curation_groups.curation_activity_id', '=', 'curation_activities.id')
+            ->leftJoin('working_groups', 'curation_groups.working_group_id', '=', 'working_groups.id')
+            ->select('curation_groups.*');
 
         $query->where(function ($q) use ($searchTerm) {
-            $q->where('expert_panels.name', 'like', '%'.$searchTerm.'%')
+            $q->where('curation_groups.name', 'like', '%'.$searchTerm.'%')
                 ->orWhere('curation_activities.name', 'like', '%'.$searchTerm.'%')
                 ->orWhere('working_groups.name', 'like', '%'.$searchTerm.'%');
         });
@@ -62,17 +62,17 @@ class CurationGroupSearchService implements ModelSearchService
 
     private function setOrder($params, $query)
     {
-        $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'expert_panels.name';
+        $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'curation_groups.name';
         $sortDir = (isset($params['sortDesc']) && $params['sortDesc'] === 'true') ? 'desc' : 'asc';
-        if ($params['sortBy'] == 'curation_activity.name') {
+        if ($sortField == 'curation_activity.name') {
             $query->addSelect('curation_activities.name as curation_activities.name');
-            $query->leftJoin('curation_activities', 'expert_panels.curation_activity_id', '=', 'curation_activities.id');
+            $query->leftJoin('curation_activities', 'curation_groups.curation_activity_id', '=', 'curation_activities.id');
             $query->orderBy('curation_activities.name', $sortDir);
             return;
         }
-        if ($params['sortBy'] == 'working_group.name') {
+        if ($sortField == 'working_group.name') {
             $query->addSelect('working_groups.name as working_groups.name');
-            $query->leftJoin('working_groups', 'expert_panels.working_group_id', '=', 'working_groups.id');
+            $query->leftJoin('working_groups', 'curation_groups.working_group_id', '=', 'working_groups.id');
             $query->orderBy('working_groups.name', $sortDir);
             return;
         }

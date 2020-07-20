@@ -17,7 +17,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
         $this->createPermissionGroup('users', ['list','create','update','delete']);
-        $this->createPermissionGroup('expert-panels', ['list','create','update','delete']);
+        $this->createPermissionGroup('curation-groups', ['list','create','update','delete']);
         $this->createPermissionGroup('working-groups', ['list','create','update','delete']);
         $this->createPermissionGroup('volunteer-types', ['list','create','update','delete']);
         $this->createPermissionGroup('volunteer-statuses', ['list','create','update','delete']);
@@ -34,7 +34,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
         $programmer = Role::firstOrCreate(['name' => 'programmer']);
         $this->giveActionPermissionsToRole($programmer, 'users', ['list', 'create','update', 'delete']);
-        $this->giveActionPermissionsToRole($programmer, 'expert-panels', ['list', 'create','update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'curation-groups', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'working-groups', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'volunteer-types', ['list', 'create','update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'volunteer-statuses', ['list', 'create','update', 'delete']);
@@ -50,7 +50,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $this->giveActionPermissionsToRole($superAdmin, 'users', ['list', 'create','update']);
-        $this->giveActionPermissionsToRole($superAdmin, 'expert-panels', ['list', 'create','update']);
+        $this->giveActionPermissionsToRole($superAdmin, 'curation-groups', ['list', 'create','update']);
         $this->giveActionPermissionsToRole($superAdmin, 'working-groups', ['list', 'create','update']);
         $this->giveActionPermissionsToRole($superAdmin, 'volunteer-statuses', ['list', 'update']);
         $this->giveActionPermissionsToRole($superAdmin, 'lookups', ['list', 'create','update']);
@@ -64,7 +64,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create','update']);
-        $this->giveActionPermissionsToRole($admin, 'expert-panels', ['list', 'create','update']);
+        $this->giveActionPermissionsToRole($admin, 'curation-groups', ['list', 'create','update']);
         $this->giveActionPermissionsToRole($admin, 'working-groups', ['list', 'create','update']);
         $this->giveActionPermissionsToRole($admin, 'volunteer-statuses', ['list', 'update']);
         $this->giveActionPermissionsToRole($admin, 'lookups', ['list', 'create','update']);

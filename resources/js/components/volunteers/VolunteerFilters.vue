@@ -56,17 +56,17 @@
                 <option :value="-1">Not Assigned to activity</option>
             </select>
         </div>
-        <div id="expert-panel-filter-container">
+        <div id="curation-group-filter-container">
             <select id="panel-select" 
                 class="form-control form-control-sm" 
-                v-model="filters.expert_panel_id"
+                v-model="filters.curation_group_id"
                 :disabled="filters.volunteer_type_id == 1"
-                :class="{active: filters.expert_panel_id}"
+                :class="{active: filters.curation_group_id}"
                 style="max-width: 200px"
             >
-                <option :value="null">Any Expert Panel</option>
-                <option :value="-1">Not assigned to expert panel</option>
-                <option v-for="(panel, idx) in filteredExpertPanels"
+                <option :value="null">Any Curation Group</option>
+                <option :value="-1">Not assigned to curation group</option>
+                <option v-for="(panel, idx) in filteredCurationGroups"
                     :key="idx"
                     :value="panel.id">
                     {{panel.name}}
@@ -77,7 +77,7 @@
     </div>
 </template>
 <script>
-    import getAllExpertPanels from '../../resources/expert_panels/get_all_expert_panels'
+    import getAllCurationGroups from '../../resources/curation_groups/get_all_curation_groups'
     import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities';
     import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses';
     import getAllVolunteerTypes from '../../resources/volunteers/get_all_volunteer_types';
@@ -96,7 +96,7 @@ export default {
                     volunteer_type_id: null,
                     volunteer_status_id: null,
                     curation_activity_id: null,
-                    expert_panel_id: null
+                    curation_group_id: null
                 },
                 volunteerTypes: [],
                 volunteerStatuses: [],
@@ -113,7 +113,7 @@ export default {
                         return obj;
                     }, {})
             },
-            filteredExpertPanels: function () {
+            filteredCurationGroups: function () {
                 if (!this.panels) {
                     return [];
                 }
@@ -135,14 +135,14 @@ export default {
             reconcileFilters() {
                 if (this.filters.volunteer_type_id == 1) {
                     this.filters.curation_activity_id = null;
-                    this.filters.expert_panel_id = null;
+                    this.filters.curation_group_id = null;
                 }
             },
             async getCurationActivities() {
                 this.activities = await getAllCurationActivities()
             },
-            async getExpertPanels() {
-                this.panels = await getAllExpertPanels()
+            async getCurationGroups() {
+                this.panels = await getAllCurationGroups()
             },
             async getStatuses() {
                 this.volunteerStatuses = await getAllVolunteerStatuses()
@@ -156,13 +156,13 @@ export default {
                     volunteer_type_id: null,
                     volunteer_status_id: null,
                     curation_activity_id: null,
-                    expert_panel_id: null
+                    curation_group_id: null
                 };
             }
         },
         mounted() {
             this.getCurationActivities()
-            this.getExpertPanels()
+            this.getCurationGroups()
             this.getStatuses()
             this.getTypes()
         }
