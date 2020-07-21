@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <div class="lead mb-4">{{title}}</div>
+    <div class="chart pie-chart">
         <canvas ref="chartCanvas"></canvas>
     </div>
 </template>
@@ -31,6 +30,7 @@ export default {
             defaultConfig: {
                 legend: {
                     position: 'left',
+                    display: false
                 }
             } 
         }
@@ -44,7 +44,7 @@ export default {
         }
     },
     methods: {
-        renderChart() {
+        renderChart(context, options) {
             const data  = {
                 type: 'pie',
                 data: {
@@ -67,7 +67,7 @@ export default {
         },
         generateRandomColor(max) {
             return Math.floor(Math.random() * Math.floor(max));
-        }
+        },
     },
     mounted () {
         this.renderChart()
