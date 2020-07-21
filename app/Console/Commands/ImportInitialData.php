@@ -405,10 +405,10 @@ class ImportInitialData extends Command
         $signedAt = Carbon::now();
         if ($attestationData[$assignment->assignable_id]) {
             $signedAt = $attestationData[$assignment->assignable_id]->get('signed_at');
+            $attestation->signed_at = $signedAt;
+            $attestation->data = $attestationData[$assignment->assignable_id]['data'];
+            $attestation->save();
         }
-        $attestation->signed_at = $signedAt;
-        $attestation->data = $attestationData[$assignment->assignable_id]['data'];
-        $attestation->save();
     }
     
     private function getNameToEmailMap(Collection $collection)
