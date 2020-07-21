@@ -7,6 +7,7 @@ use App\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\NotImplementedException;
+use App\Http\Resources\VolunteerUserResource;
 
 class VolunteerController extends Controller
 {
@@ -55,7 +56,24 @@ class VolunteerController extends Controller
         if (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id) {
             return redirect('/volunteers/'.Auth::user()->id);
         }
-        return view('volunteers.detail', ['volunteerId' => $volunteer->id]);
+        $volunteer->load([
+            'volunteerStatus',
+            'volunteerType',
+            'application',
+            'structuredAssignments',
+            'structuredAssignments.userAptitudes', // with moved here for more efficient index
+            'structuredAssignments.userAptitudes.aptitude', // with moved here for more efficient index
+            'structuredAssignments.userAptitudes.attestation', // with moved here for more efficient index
+            'structuredAssignments.assignable.aptitudes', // with moved here for more efficient index
+            'attestations',
+            'attestations.aptitude',
+            'priorities',
+            'priorities.curationActivity',
+            'priorities.curationGroup',
+            'volunteer3MonthSurvey',
+            'volunteer6MonthSurvey'
+        ]);
+        return view('volunteers.detail', ['volunteerId' => $volunteer->id, 'volunteerJson' => json_encode(new VolunteerUserResource($volunteer))]);
     }
 
     /**
