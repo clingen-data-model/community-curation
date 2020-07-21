@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <curation-group-detail :id="{{$id}}"></curation-group-detail>
+    <curation-group-detail :initial-group="{{$curationGroup}}"></curation-group-detail>
 @endsection
