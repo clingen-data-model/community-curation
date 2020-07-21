@@ -42,33 +42,43 @@
                     <h4>{{curationGroup.assignments.length}} Volunteers</h4>
                 </header>
 
-                <div class="d-flex">
-                    <pie-chart 
+                <div class="d-flex flex-wrap chart-container">
+                    <div>
+                        <div class="lead text-center">Assignment Status</div>
+                        <pie-chart 
                         :chart-data="volunteersByStatus" 
-                        style="width: 50%; height: 100%"
-                        title="Volunteer assignment statuses"
-                    ></pie-chart>
-                    <pie-chart 
-                        :chart-data="volunteersByTimezone" 
-                        style="width: 50%; height: 100%"
-                        title="Volunteer timezones"
-                    ></pie-chart>
-                    <pie-chart 
-                        :chart-data="volunteersByCountry" 
-                        style="width: 50%; height: 100%"
-                        title="Volunteer countries"
-                    ></pie-chart>
+                        ></pie-chart>
+                    </div>
+                    <div>
+                        <div class="lead text-center">Timezones</div>
+                        <pie-chart 
+                            :chart-data="volunteersByTimezone"
+                        ></pie-chart>
+                    </div>
+                    <div>
+                        <div class="lead text-center">Countries</div>
+                        <pie-chart 
+                            :chart-data="volunteersByCountry"
+                        ></pie-chart>
+                    </div>
+                    <div>
+                        <div class="lead text-center">Self Description</div>
+                        <pie-chart 
+                            :chart-data="volunteersByRole"
+                        ></pie-chart>
+                    </div>
                 </div>
-            </section>
-
-            <section>
-                <header>
-                    <h4>Volunteers</h4>
-                </header>
+                <b-table 
+                    :fields="volunteerFields" 
+                    :items="curationGroup.assignments"
+                    @row-clicked="navigateToVolunteer"
+                >
+                </b-table>
             </section>
         </div>
     </b-card>
 </template>
+
 <script>
 import PieChart from '../charts/PieChart';
 
@@ -91,7 +101,7 @@ export default {
                       name: 'loading...'
                   },
                   accepting_volunteers: 1,
-                  assignments: []
+                  assignments: [],
               }
           }
       }
@@ -99,28 +109,55 @@ export default {
     data() {
         return {
             curationGroup: this.initialGroup,
-            testChartData: {
-                a: 11,
-                b: 7,
-                c: 5
-            },
-            testChartData2: {
-                a: 100,
-                b: 25,
-                c: 10
-            }
+            volunteerFields: [
+                {
+                    key: 'volunteer.id',
+                    sortable: true,
+                    label: 'ID'
+                },
+                {
+                    key: 'volunteer.first_name',
+                    sortable: true,
+                    label: 'First'
+                },                      
+                {
+                    key: 'volunteer.last_name',
+                    sortable: true,
+                    label: "Last"
+                },
+                {
+                    key: 'status.name',
+                    sortable: true,
+                    label: 'Status'
+                },
+                {
+                    key: 'created_at',
+                    sortable: true,
+                    label: 'Date Assigned',
+                    formatter: (value, key, item) =>{
+                        return this.$options.filters.formatDate(value, 'YYYY-MM-DD')
+                    }
+                },
+                {
+                    key: 'user_aptitude.trained_at',
+                    sortable: true,
+                    label: 'Date trained',
+                    formatter: (value, key, item) =>{
+                        return this.$options.filters.formatDate(value, 'YYYY-MM-DD')
+                    }
+                }
+
+            ]
         }
     },
     computed: {
+        volunteers () {
+            return this.curationGroup.assignments.map(assignment => assignment.volunteer);
+        },
         volunteersByStatus() {
-            let byStatus = {};
-            this.curationGroup.assignments.forEach(assignment => {
-                if (!byStatus[assignment.status.name]) {
-                    byStatus[assignment.status.name] = 0;
-                }   
-                byStatus[assignment.status.name] += 1;
+            return this.countVolunteersBy(assignment => {
+                return assignment.status ? assignment.status.name : 'Unknown'
             });
-            return byStatus;
         },
         volunteersByTimezone() {
             return this.countVolunteersBy(assignment => assignment.volunteer.timezone);
@@ -129,6 +166,11 @@ export default {
             return this.countVolunteersBy(assignment => {
                 return assignment.volunteer.country ? assignment.volunteer.country.name : 'Unknown';
             })
+        },
+        volunteersByRole() {
+            return this.countVolunteersBy(assignment => {
+                return (assignment.volunteer.application && assignment.volunteer.application.self_description) ? assignment.volunteer.application.self_description.name : 'Unknown'; 
+            });
         }
     },
     methods: {
@@ -143,6 +185,9 @@ export default {
                 grouped[value] += 1;
             });
             return grouped;
+        },
+        navigateToVolunteer (item, index, event) {
+            window.location = `/volunteers/${item.volunteer.id}`;
         }
     }
 }
@@ -157,5 +202,11 @@ export default {
 
     .small { 
         max-width: 600px;
+    }
+    .chart-container > div {
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        /* border-right: 1px solid #f0f; */
+        width: 23%;
     }
 </style>
