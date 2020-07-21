@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\User;
 use Backpack\CRUD\CrudTrait;
-use App\Contracts\AssignableContract;
 use App\Traits\AssignableTrait;
+use App\Contracts\AssignableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -30,7 +31,6 @@ class CurationGroup extends Model implements AssignableContract
         return $this->belongsTo(WorkingGroup::class);
     }
     
-
     public function curationActivity()
     {
         return $this->belongsTo(CurationActivity::class);

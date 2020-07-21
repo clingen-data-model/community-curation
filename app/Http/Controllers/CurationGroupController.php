@@ -22,6 +22,15 @@ class CurationGroupController extends Controller
 
     public function show($id)
     {
-        return view('curation-groups.show', compact('id'));
+        $curationGroup = CurationGroup::findOrFail($id)
+                            ->load(
+                                'curationActivity',
+                                'workingGroup',
+                                'assignments',
+                                'assignments.status',
+                                'assignments.volunteer',
+                                'assignments.volunteer.country'
+                            );
+        return view('curation-groups.show', compact('curationGroup'));
     }
 }
