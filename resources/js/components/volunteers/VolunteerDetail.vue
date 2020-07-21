@@ -111,6 +111,12 @@
             id: {
                 type: Number,
                 required: true
+            },
+            initialVolunteer: {
+                type: Object,
+                default() {
+                    return {};
+                }
             }
         },
         components: {
@@ -128,7 +134,7 @@
             return {
                 testing: true,
                 loading: false,
-                volunteer: new Volunteer(),
+                volunteer: new Volunteer(this.initialVolunteer),
                 application: {},
                 showStatusForm: false,
                 showVolunteerTypeForm: false,
@@ -176,7 +182,9 @@
             }
         },
         created() {
-            this.findVolunteer()
+            if (this.initialVolunteer == {}) {
+                this.findVolunteer()
+            }
         }
     
 }
