@@ -49,7 +49,7 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
                 ];
             } catch (Exception $e) {
                 if ($e->getCode() == 909) {
-                    dump($row);
+                    // dump($row);
                     dd($e->getMessage().'; row '.$idx);
                 }
                 throw $e;
@@ -66,10 +66,10 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
         if (!$typeString) {
             return null;
         }
-        if ($typeString == 'baseline') {
+        if (preg_match('/baseline/', $typeString)) {
             return 1;
         }
-        if ($typeString == 'comprehensive') {
+        if (preg_match('/comprehensive/', $typeString)) {
             return 2;
         }
 
