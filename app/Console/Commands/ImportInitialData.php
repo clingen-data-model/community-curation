@@ -79,58 +79,15 @@ class ImportInitialData extends Command
      */
     public function handle(CurationGroupMap $curationGroupMap)
     {
-        $this->clearAllUsers();
-        if (!app()->environment('production')) {
-            $this->info('Setting mail driver to log');
-            config(['mail.driver' => 'log']);
-        }
-
         $this->curationGroupMap = $curationGroupMap;
+        
+        $this->clearAllUsers();
+        $this->setConfiguration();
 
-        config(['mail.driver' => 'log']);
         $this->curationGroups = CurationGroup::all();
         $this->curationActivities = CurationActivity::all();
 
-
-        $assignmentsSheet = base_path('import_files/cc-volunteers.xlsx');
-        $reader = ReaderEntityFactory::createReaderFromFile($assignmentsSheet);
-
-        $reader->open($assignmentsSheet);
-
-        $handlerChain = $this->buildHandlerChain();
-
-        $volunteerRows = [];
-        foreach ($reader->getSheetIterator() as $sheet) {
-            $rows = $handlerChain->handle($sheet);
-            foreach ($rows as $email => $data) {
-                $email = strtolower($email);
-                if (!isset($volunteerRows[$email])) {
-                    $volunteerRows[$email] = collect();
-                }
-                $volunteerRows[$email][$sheet->getName()] = $data;
-            }
-        }
-        $reader->close();
-
-        $volunteerCollection = collect($volunteerRows)->filter(function ($val, $key) {
-            return $key != ""
-                && !in_array($key, [
-                    'Emma Wilcox',
-                    'Revathi Rajkumar',
-                    'Rajiv Machado',
-                    'Carrie Welch',
-                    'Laura Southgate',
-                    'Micheala Aldred',
-                    'Britt Johnson',
-                    'Jair Tenorio',
-                    'Divya Pandya',
-                    'Emilia Swietlik',
-                    'Christina A. Eichstaedt',
-                    'Madeline Hughes',
-                    '1',
-                    'Krzysztof SzczaÅ‚uba'
-                ]);
-        });
+        $volunteerCollection = $this->buildVolunteerCollectionFromSpreadsheet();
 
         $nameToEmailAddress = $this->getNameToEmailMap($volunteerCollection);
 
@@ -163,6 +120,64 @@ class ImportInitialData extends Command
 
         if (!app()->environment('production')) {
             $this->dummifyEmails();
+        }
+    }
+
+    private function buildVolunteerCollectionFromSpreadsheet()
+    {
+        $assignmentsSheet = base_path('import_files/cc-volunteers.xlsx');
+        $reader = ReaderEntityFactory::createReaderFromFile($assignmentsSheet);
+
+        $reader->open($assignmentsSheet);
+
+        $handlerChain = $this->buildHandlerChain();
+
+        $volunteerRows = [];
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $rows = $handlerChain->handle($sheet);
+            foreach ($rows as $email => $data) {
+                $email = strtolower($email);
+                if (!isset($volunteerRows[$email])) {
+                    $volunteerRows[$email] = collect();
+                }
+                $volunteerRows[$email][$sheet->getName()] = $data;
+            }
+        }
+        $reader->close();
+
+        return $this->filterKnownCurators($volunteerRows);
+    }
+   
+    private function filterKnownCurators($volunteerRows)
+    {
+        return collect($volunteerRows)->filter(function ($val, $key) {
+            return $key != ""
+                && !in_array($key, [
+                    'emma wilcox',
+                    'revathi rajkumar',
+                    'rajiv machado',
+                    'carrie welch',
+                    'laura southgate',
+                    'micheala aldred',
+                    'britt johnson',
+                    'jair tenorio',
+                    'divya pandya',
+                    'emilia swietlik',
+                    'christina a. eichstaedt',
+                    'madeline hughes',
+                    '1',
+                    'krzysztof szczaå‚uba',
+                    'krzysztof szczaÅ‚uba'
+                ]);
+        });
+    }
+    
+
+    private function setConfiguration()
+    {
+        if (!app()->environment('production')) {
+            $this->info('Setting mail driver to log');
+            config(['mail.driver' => 'log']);
         }
     }
 
@@ -390,7 +405,8 @@ class ImportInitialData extends Command
             $userAptitude->updated_at = $data['training_date'];
             $userAptitude->save();
         } catch (Exception $e) {
-            dump($e->getMessage());
+            dump('Bad Trainng Date: '.$e->getMessage());
+            dump($data);
         }
     }
     

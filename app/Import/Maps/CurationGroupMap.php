@@ -15,7 +15,10 @@ class CurationGroupMap
         'Brain Malformations' => ['Brain Malformations GCEP', 'Brain Malformations VCEP'],
         'Cardiomyopathy' => 'Cardiomyopathy VCEP',
         'CDH1' => 'CDH1 VCEP',
+        'CCDS' => 'Cerebral Creatine Deficiency Syndrome VCEP',
+        'CMT GCEP' => 'Charcot Marie Tooth GCEP',
         'Coagulation Factor Deficiency' => 'Coagulation Factor Deficiencies VCEP',
+        'Congenital Myopathy VCEP' => 'Congenital Myopathies VCEP',
         'Dilated Cardiomyopathy' => 'Dilated Cardiomyopathy GCEP',
         'Epilepsy' => 'Epilepsy GCEP',
         'Hearing Loss' => 'Hearing Loss VCEP',
@@ -34,6 +37,7 @@ class CurationGroupMap
         'Mitochondrial GCEP' => 'Mitochondrial Diseases GCEP',
         'Monogenic Diabetes' => ['Monogenic Diabetes GCEP', 'Monogenic Diabetes VCEP'],
         'Neurodevelopmental Dosage' => 'Dosage-Neurodevelopmental',
+        'Neurodevelopmental' => 'Dosage-Neurodevelopmental',
         'PAH' => 'PAH VCEP',
         'pancreatic cancer taskforce' => null,
         'Pediatric cancer taskforce' => null,
@@ -65,7 +69,7 @@ class CurationGroupMap
 
     public function map($input)
     {
-        $ep = $this->curationGroups->get($input);
+        $ep = $this->curationGroups->get(trim($input));
         if ($ep) {
             return $ep;
         }

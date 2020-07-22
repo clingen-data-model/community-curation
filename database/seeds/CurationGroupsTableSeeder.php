@@ -267,7 +267,6 @@ class CurationGroupsTableSeeder extends Seeder
                 'curation_activity_id' => 2,
                 'accepting_volunteers' => 0
             ],
-
         ];
 
         foreach ($curationGroups as $panel) {
