@@ -27,6 +27,7 @@ class CurationGroupController extends Controller
                                 'curationActivity',
                                 'workingGroup',
                                 'assignments',
+                                'assignments.parent',
                                 'assignments.status',
                                 'assignments.volunteer',
                                 'assignments.volunteer.volunteerStatus',
@@ -41,6 +42,7 @@ class CurationGroupController extends Controller
             })->first();
             return $ass;
         });
+        
         return view('curation-groups.show', compact('curationGroup'));
     }
 }
