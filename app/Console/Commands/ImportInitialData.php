@@ -167,7 +167,8 @@ class ImportInitialData extends Command
                     'madeline hughes',
                     '1',
                     'krzysztof szczaå‚uba',
-                    'krzysztof szczaÅ‚uba'
+                    'krzysztof szczaÅ‚uba',
+                    'Mayher Patel'
                 ]);
         });
     }
@@ -211,6 +212,10 @@ class ImportInitialData extends Command
             $this->importVolunteerAssignments($volunteer, $volunteerData);
             $this->updateVolunteerStatus($volunteer, $volunteerData);
         } catch (ImportException $th) {
+            if ($th->getCode() == 301) {
+                return;
+            }
+            
             $this->warn(
                 // str_repeat('-', strlen($th->getMessage()))."\n"
                 // .
@@ -318,7 +323,7 @@ class ImportInitialData extends Command
     private function importVolunteerAssignments($volunteer, $volunteerData)
     {
         if (!$volunteerData->keys()->contains('Assignments')) {
-            throw new ImportException('Missing Assignments data for '. $volunteer->email);
+            throw new ImportException('Missing Assignments data for '. $volunteer->email, 301);
         }
         
         $assignmentData = collect($volunteerData->get('Assignments'));

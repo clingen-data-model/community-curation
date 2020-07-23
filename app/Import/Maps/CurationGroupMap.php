@@ -21,6 +21,7 @@ class CurationGroupMap
         'Congenital Myopathy VCEP' => 'Congenital Myopathies VCEP',
         'Dilated Cardiomyopathy' => 'Dilated Cardiomyopathy GCEP',
         'Epilepsy' => 'Epilepsy GCEP',
+        'Glaucoma' => 'Glaucoma and Neuro-ocular',
         'Hearing Loss' => 'Hearing Loss VCEP',
         'Hemo/Thrombo' => 'Hemostasis/ Thrombosis GCEP',
         'Hematological Cancer taskforce' => null,
@@ -31,9 +32,10 @@ class CurationGroupMap
         'ID/Autism' => 'Intellectual Disability and Autism GCEP',
         'ID- Autism' => 'Intellectual Disability and Autism GCEP',
         'Intellectual Disability and Autism' => 'Intellectual Disability and Autism GCEP',
+        'Kidney' => 'Cystic and Ciliopathy Disorders',
         'Mito' => 'Mitochondrial Diseases VCEP',
         'LGMD VCEP' => 'Limb Girdle Muscular Dystrophy VCEP',
-        'LGMD GCEP' => 'Limb Girdle Muscular Dystrophy GCEP',
+        'LGMD GCEP' => 'Limb Girdle Muscular Dystrophy VCEP',
         'Mitochondrial GCEP' => 'Mitochondrial Diseases GCEP',
         'Monogenic Diabetes' => ['Monogenic Diabetes GCEP', 'Monogenic Diabetes VCEP'],
         'Neurodevelopmental Dosage' => 'Dosage-Neurodevelopmental',
@@ -69,6 +71,7 @@ class CurationGroupMap
 
     public function map($input)
     {
+        // dd($input);
         $ep = $this->curationGroups->get(trim($input));
         if ($ep) {
             return $ep;
