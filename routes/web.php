@@ -53,7 +53,10 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
 
     Route::get('genes/{symbol}/protocol', 'GeneProtocolController@show')->name('gene.download-protocol');
 
-    Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
+    Route::group(['middleware' => ['role:programmer|admin']], function () {
+        Route::resource('curation-activities', 'CurationActivityController')->only(['index', 'show']);
+        Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
+    });
 });
 
 Route::get('faq', 'FaqController@index')->name('faq');

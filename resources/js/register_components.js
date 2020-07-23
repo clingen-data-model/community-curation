@@ -33,6 +33,14 @@ import Column from './components/layout/Col'
 window.Vue.component('column', Column);
 
 /**
+ * Curation activitys
+ */
+import CurationActivityList from './components/curation_activities/CurationActivityList';
+window.Vue.component('curation-activity-list', CurationActivityList);
+import CurationActivityDetail from './components/curation_activities/CurationActivityDetail';
+window.Vue.component('curation-activity-detail', CurationActivityDetail);
+
+/**
  * Curation groups
  */
 import CurationGroupList from './components/curation_groups/CurationGroupList';
