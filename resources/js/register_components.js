@@ -111,3 +111,8 @@ window.Vue.component('training-session-detail', TrainingSessionDetail)
 import ReportForm from './components/reports/ReportForm';
 window.Vue.component('report-form', ReportForm);
 
+/**
+ * Notes
+ */
+import NotesList from './components/notes/NotesList';
+window.Vue.component('notes-list', NotesList);

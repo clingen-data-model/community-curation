@@ -43,6 +43,7 @@ class NotesController extends Controller
         $data = $request->all();
         $data['created_by_id'] = Auth::user()->id;
         $note = Note::create($data);
+        $note->load('creator');
 
         return new NotesResource($note);
     }
@@ -68,6 +69,7 @@ class NotesController extends Controller
     public function update(NoteUpdateRequest $request, Note $note)
     {
         $note->update($request->all());
+        $note->load('creator');
         
         return new NotesResource($note);
     }

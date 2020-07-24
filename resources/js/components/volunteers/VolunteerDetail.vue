@@ -55,6 +55,9 @@
                     <b-tab title="Survey Data">
                         <survey-responses :volunteer="volunteer"></survey-responses>
                     </b-tab>
+                    <b-tab title="Notes">
+                        <notes-list notable-type="App\User" :notable-id="volunteer.id"></notes-list>
+                    </b-tab>
                 </b-tabs>
             </div>
         </div>
