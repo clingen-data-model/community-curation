@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Gene;
+use App\Contracts\IsNotable;
 use Backpack\CRUD\CrudTrait;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
@@ -19,6 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use App\Events\Volunteers\ConvertedToComprehensive;
+use App\Traits\IsNotable as TraitsIsNotable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -26,7 +28,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements IsNotable
 {
     use RevisionableTrait;
     use Notifiable;
@@ -36,6 +38,7 @@ class User extends Authenticatable
     use HasRoles;
     use SoftDeletes;
     use HasApiTokens;
+    use TraitsIsNotable;
 
     protected $revisionCreationsEnabled = true;
 

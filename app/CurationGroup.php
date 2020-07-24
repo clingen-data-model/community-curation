@@ -6,17 +6,20 @@ use App\User;
 use Backpack\CRUD\CrudTrait;
 use App\Traits\AssignableTrait;
 use App\Contracts\AssignableContract;
+use App\Contracts\IsNotable;
+use App\Traits\IsNotable as TraitsIsNotable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class CurationGroup extends Model implements AssignableContract
+class CurationGroup extends Model implements AssignableContract, IsNotable
 {
     use CrudTrait;
     use RevisionableTrait;
     use SoftDeletes;
     use AssignableTrait;
+    use TraitsIsNotable;
 
     protected $fillable = [
         'name',

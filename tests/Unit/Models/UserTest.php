@@ -5,10 +5,14 @@ namespace Tests\Unit\Models;
 use App\User;
 use App\Priority;
 use Tests\TestCase;
+use App\Contracts\IsNotable;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * @group user
+ */
 class UserTest extends TestCase
 {
     use DatabaseTransactions;
@@ -117,5 +121,15 @@ class UserTest extends TestCase
         $volunteer->update(['orcid_id' => 'test']);
 
         $this->assertEquals('test', $volunteer->orcid_id);
+    }
+
+    /**
+     * @test
+     * @group notes
+     */
+    public function implements_notable_trait()
+    {
+        $volunteer = $this->createVolunteer();
+        $this->assertInstanceOf(IsNotable::class, $volunteer);
     }
 }
