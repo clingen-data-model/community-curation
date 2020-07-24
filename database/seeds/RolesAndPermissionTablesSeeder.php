@@ -27,6 +27,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->createPermissionGroup('genes', ['list','create','update','delete']);
         $this->createPermissionGroup('trainings', ['list','create','update','delete']);
         $this->createPermissionGroup('faq', ['list','create','update','delete']);
+        $this->createPermissionGroup('notes', ['list','create','update','delete']);
 
         $administerPermission = Permission::firstOrCreate(['name' => 'administer']);
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
@@ -44,6 +45,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($programmer, 'genes', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'trainings', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'faq', ['list', 'create', 'update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'notes', ['list', 'create', 'update', 'delete']);
         $this->givePermissionToRole($programmer, $administerPermission);
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
         $this->givePermissionToRole($programmer, $canViewLogsPermission);
@@ -59,6 +61,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($superAdmin, 'genes', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($superAdmin, 'trainings', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($superAdmin, 'faq', ['list', 'create', 'update', 'delete']);
+        $this->giveActionPermissionsToRole($superAdmin, 'notes', ['list', 'create', 'update', 'delete']);
         $this->givePermissionToRole($superAdmin, $administerPermission);
         $this->givePermissionToRole($superAdmin, $canImpersonatePermission);
 
@@ -72,6 +75,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($admin, 'uploads', ['list', 'create', 'create for others','update', 'delete']);
         $this->giveActionPermissionsToRole($admin, 'genes', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($admin, 'trainings', ['list', 'create', 'update', 'delete']);
+        $this->giveActionPermissionsToRole($admin, 'notes', ['list', 'create', 'update', 'delete']);
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
 
@@ -81,11 +85,6 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
     protected function giveActionPermissionsToRole($role, $entity, $actions = null)
     {
-        if ($entity == 'faq') {
-            dump($role->name);
-            dump($entity);
-            dump($actions);
-        }
         $actions = $actions ?? ['list', 'create', 'update', 'delete'];
         foreach ($actions as $action) {
             $perm = $action.' '.$entity;
