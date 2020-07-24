@@ -104,6 +104,7 @@ class NotesControllerTest extends TestCase
      */
     public function gets_an_existing_note()
     {
+        $this->withoutExceptionHandling();
         $use = $this->createAdmin();
         $curationGroup = factory(CurationGroup::class)->create([]);
 
@@ -113,5 +114,48 @@ class NotesControllerTest extends TestCase
             ->json('get', 'api/notes/'.$note->id)
             ->assertStatus(200)
             ->assertJson(['data' => ['content' => $note->content]]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_update_an_existing_note()
+    {
+        $use = $this->createAdmin();
+        $curationGroup = factory(CurationGroup::class)->create([]);
+
+        $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
+
+        $this->actingAs($this->user, 'api')
+            ->json('put', 'api/notes/'.$note->id, [
+                'content' => 'This is an updated note.'
+            ])
+            ->assertStatus(200)
+            ->assertJson(['data' => ['content' => 'This is an updated note.']]);
+
+        $this->assertDatabaseHas('notes', [
+            'id' => $note->id,
+            'content' => 'This is an updated note.'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_delete_a_note()
+    {
+        $use = $this->createAdmin();
+        $curationGroup = factory(CurationGroup::class)->create([]);
+
+        $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
+
+        $this->actingAs($this->user, 'api')
+            ->json('delete', 'api/notes/'.$note->id)
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('notes', [
+            'id' => $note->id,
+            'deleted_at' => null
+        ]);
     }
 }

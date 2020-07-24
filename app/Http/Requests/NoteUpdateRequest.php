@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NoteRequest extends FormRequest
+class NoteUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class NoteRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->can('create notes') || \Auth::use()->can('update notes');
+        return Auth::user()->can('update notes');
     }
 
     /**
@@ -24,8 +25,6 @@ class NoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'notable_type' => 'required',
-            'notable_id' => 'required',
             'content' => 'required'
         ];
     }

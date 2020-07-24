@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Note;
-use App\Notes;
 use Illuminate\Http\Request;
 use App\Http\Requests\NoteRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotesResource;
+use App\Http\Requests\NoteCreateRequest;
+use App\Http\Requests\NoteUpdateRequest;
 use App\Services\Search\NotesSearchService;
+use Illuminate\Validation\UnauthorizedException;
 
 class NotesController extends Controller
 {
@@ -36,7 +38,7 @@ class NotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NoteRequest $request)
+    public function store(NoteCreateRequest $request)
     {
         $data = $request->all();
         $data['created_by_id'] = Auth::user()->id;
@@ -48,10 +50,10 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Notes  $notes
+     * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function show(Notes $note)
+    public function show(Note $note)
     {
         return new NotesResource($note);
     }
@@ -60,22 +62,28 @@ class NotesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Notes  $notes
+     * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Notes $notes)
+    public function update(NoteUpdateRequest $request, Note $note)
     {
-        //
+        $note->update($request->all());
+        
+        return new NotesResource($note);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Notes  $notes
+     * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notes $notes)
+    public function destroy(Note $note)
     {
-        //
+        if (!Auth::user()->can('delete notes')) {
+            throw new UnauthorizedException('User does not have permission to delete notes.');
+        }
+        $note->delete();
+        return response('successfully deleted', 200);
     }
 }
