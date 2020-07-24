@@ -17,7 +17,7 @@ class Note extends Model
         'notable_type',
         'notable_id',
         'content',
-        'created_by'
+        'created_by_id'
     ];
 
     public function creator()

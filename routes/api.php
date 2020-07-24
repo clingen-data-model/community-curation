@@ -51,6 +51,8 @@ Route::group([
 
             Route::get('timezones', 'TimezoneController@index');
 
+            Route::resource('notes', 'NotesController')->except(['create', 'edit']);
+
             /**
              * Catch-all route for generic API read exposure
              **/
