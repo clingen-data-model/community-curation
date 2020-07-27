@@ -273,21 +273,21 @@ class CurationGroupsTableSeeder extends Seeder
                 'accepting_volunteers' => 0
             ],
             [
-                'name' => 'Retina',
-                'working_group_id' => 11,
-                'curation_activity_id' => config('project.curation-activities.dosage'),
-                'accepting_volunteers' => 0
+                'name' => 'Retina GCEP',
+                'working_group_id' => 20,
+                'curation_activity_id' => config('project.curation-activities.gene'),
+                'accepting_volunteers' => 1
             ],
             [
-                'name' => 'Glaucoma and Neuro-ocular',
-                'working_group_id' => 11,
-                'curation_activity_id' => config('project.curation-activities.dosage'),
-                'accepting_volunteers' => 0
+                'name' => 'Glaucoma and Neuro-ocular GCEP',
+                'working_group_id' => 20,
+                'curation_activity_id' => config('project.curation-activities.gene'),
+                'accepting_volunteers' => 1
             ],
             [
-                'name' => 'Cystic and Ciliopathy Disorders',
-                'working_group_id' => 11,
-                'curation_activity_id' => config('project.curation-activities.dosage'),
+                'name' => 'Cystic and Ciliopathy Disorders GCEP',
+                'working_group_id' => 21,
+                'curation_activity_id' => config('project.curation-activities.gene'),
                 'accepting_volunteers' => 0
             ],
             [
