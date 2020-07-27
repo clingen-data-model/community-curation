@@ -32,6 +32,8 @@ class WorkingGroupsTableSeeder extends Seeder
             ['id' => 17, 'name' => 'Phenylketonuria'],
             ['id' => 18, 'name' => 'CDH1'],
             ['id' => 19, 'name' => 'Malignant Hyperthermia Susceptibility'],
+            ['id' => 20, 'name' => 'Ocular'],
+            ['id' => 21, 'name' => 'Kidney'],
         ];
 
         WorkingGroup::unguard();
