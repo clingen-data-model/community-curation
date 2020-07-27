@@ -3,7 +3,7 @@
         <template v-slot:header>
             <div class="d-flex justify-content-between">
                 <h3 class="mb-0">
-                    <a :href="`/${groupUrl}`">{{groupType}}</a> - {{group.name}}
+                    <a :href="`${groupUrl}`">{{groupType}}</a> - {{group.name}}
                 </h3>
                 <div>
                     <a 
