@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Volunteers;
 
-use App\Events\Volunteers\Retired;
+use App\Events\Volunteers\VolunteerStatusChanged;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -24,7 +24,7 @@ class RetireAssignments
      * @param  Retired  $event
      * @return void
      */
-    public function handle(Retired $event)
+    public function handle(VolunteerStatusChanged $event)
     {
         $event->volunteer
             ->assignments

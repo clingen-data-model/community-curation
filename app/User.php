@@ -14,13 +14,15 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Http\Resources\DefaultResource;
 use Illuminate\Notifications\Notifiable;
 use App\Events\Volunteers\MarkedBaseline;
+use App\Events\Volunteers\MarkedDeclined;
 use App\Http\Resources\AssignmentResource;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Traits\IsNotable as TraitsIsNotable;
+use App\Events\Volunteers\MarkedUnresponsive;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use App\Events\Volunteers\ConvertedToComprehensive;
-use App\Traits\IsNotable as TraitsIsNotable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -100,10 +102,20 @@ class User extends Authenticatable implements IsNotable
             }
         });
         static::saved(function ($model) {
-            if ($model->isDirty('volunteer_status_id')
-                && $model->volunteer_status_id == config('volunteers.statuses.retired')
-            ) {
-                Event::dispatch(new Retired($model));
+            if ($model->isDirty('volunteer_status_id')) {
+                switch ($model->volunteer_status_id) {
+                    case config('volunteers.statuses.retired'):
+                        Event::dispatch(new Retired($model));
+                        break;
+                    case config('volunteers.statuses.unresponsive'):
+                        Event::dispatch(new MarkedUnresponsive($model));
+                        break;
+                    case config('volunteers.statuses.declined'):
+                        Event::dispatch(new MarkedDeclined($model));
+                        break;
+                    default:
+                        break;
+                }
             }
             if ($model->isDirty('volunteer_type_id')) {
                 if ($model->volunteer_type_id == config('volunteers.types.comprehensive')
