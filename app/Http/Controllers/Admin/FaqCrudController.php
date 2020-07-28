@@ -8,6 +8,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\FaqRequest as StoreRequest;
 use App\Http\Requests\FaqRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 use Backpack\CRUD\CrudPanel;
 
 /**
@@ -17,6 +18,18 @@ use Backpack\CRUD\CrudPanel;
  */
 class FaqCrudController extends CrudController
 {
+    // use ReorderOperation;
+
+
+    /**
+     * Reorder method for backpack 4.1
+     */
+    // protected function setupReorderOperation()
+    // {
+    //     $this->crud->set('reorder.label', 'question');
+    //     $this->crud->set('reorder.max_level', 1);
+    // }
+
     public function setup()
     {
         /*
@@ -34,22 +47,39 @@ class FaqCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
+        $this->crud->allowAccess('reorder');
+        $this->crud->enableReorder('question', 1);
 
         $this->crud->modifyField('screenshots', [
             'type' => 'upload_multiple',
             'upload' => true,
         ]);
 
+        $this->crud->removeColumn('screenshots');
+
+        $this->crud->modifyColumn('question', [
+            'type' => 'text',
+            'limit' => 160,
+        ]);
+
         $this->crud->modifyColumn('answer', [
             'visibleInTable' => false,
-            'visibleInModal' => true
+            'visibleInModal' => true,
+            'priority' => 1
         ]);
+        $this->crud->addColumn([
+            'name' => 'id',
+            'label' => 'ID',
+            'visibleInTable' => true,
+            'priority' => 1
+        ])->makeFirstColumn();
 
         // add asterisk for fields that are required in FaqCrudControllerRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+
+        $this->crud->orderBy('lft');
     }
 
     public function showDetailsRow($id)

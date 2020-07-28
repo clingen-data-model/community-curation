@@ -14,6 +14,6 @@ class FaqController extends Controller
      */
     public function index()
     {
-        return view('faq.index', ['faqs' => Faq::all()]);
+        return view('faq.index', ['faqs' => Faq::orderBy('lft')->get()]);
     }
 }
