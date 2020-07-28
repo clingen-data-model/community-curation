@@ -69,8 +69,7 @@ export default {
         canEdit(){
             // @if (\Auth::user() && \Auth::user()->hasAnyPermission('create faq', 'update faq'))
 
-            // return this.$store.state.user.
-            return true;
+            return this.$store.state.user.isAdmin() || this.$store.state.user.isProgrammer();
         },
         modalSize(){
             if (this.currentImage.width > 800) {
