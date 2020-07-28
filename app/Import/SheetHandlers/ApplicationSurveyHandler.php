@@ -66,7 +66,8 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $this->campaigns = Campaign::all();
         $this->curationGroups = CurationGroup::all();
         $this->curationActivities = CurationActivity::all();
-        $this->highestEd = Collect([
+        $this->highestEd = Collect(
+            [
             (object)[
                 'id' => 1,
                 'name' => 'Some high school education'
@@ -162,7 +163,9 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $data['last_name'] = implode(" ", $nameParts);
 
         $data['timezone'] = $this->getSingleId($row['timezone'], collect($this->surveyOptions->timezones()));
-        $data['volunteer_type'] = $this->getSingleId(strtolower($row['volunteer_type']), VolunteerType::all());
+        // $data['volunteer_type'] = $this->getSingleId(strtolower($row['volunteer_type']), VolunteerType::all());
+        $data['volunteer_type'] = preg_match('/comprehensive/', $row['volunteer_type']) ? 2 : 1;
+
         $data['self_desc'] = $this->getSingleId($row['self_desc'], $this->selfDescriptions);
         $data['self_desc_other'] = $this->getOtherStringForSingle($row['self_desc'], $this->selfDescriptions);
         $data['ad_campaign'] = $this->getMultipleIds($row['ad_campaign'], $this->campaigns)->toJson();
@@ -196,8 +199,8 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
     {
         $selected = explode(', ', $value);
         $ids = $options->filter(function ($option) use ($selected) {
-                    return in_array($option->name, $selected);
-                })->pluck('id');
+            return in_array($option->name, $selected);
+        })->pluck('id');
         
         return $ids;
     }
@@ -225,7 +228,4 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
 
         return implode('; ', $otherResponses);
     }
-    
-    
-    
 }
