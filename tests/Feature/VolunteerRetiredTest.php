@@ -48,4 +48,46 @@ class VolunteerRetiredTest extends TestCase
             'assignment_status_id' => config('project.assignment-statuses.retired')
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_declined()
+    {
+        $this->volunteer->update(['volunteer_status_id' => config('volunteers.statuses.declined')]);
+
+        $this->assertDatabaseHas('assignments', [
+            'user_id' => $this->volunteer->id,
+            'assignable_type' => get_class($this->activity),
+            'assignable_id' => $this->activity->id,
+            'assignment_status_id' => config('project.assignment-statuses.retired')
+        ]);
+        $this->assertDatabaseHas('assignments', [
+            'user_id' => $this->volunteer->id,
+            'assignable_type' => get_class($this->curationGroup),
+            'assignable_id' => $this->curationGroup->id,
+            'assignment_status_id' => config('project.assignment-statuses.retired')
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_unresponsive()
+    {
+        $this->volunteer->update(['volunteer_status_id' => config('volunteers.statuses.unresponsive')]);
+
+        $this->assertDatabaseHas('assignments', [
+            'user_id' => $this->volunteer->id,
+            'assignable_type' => get_class($this->activity),
+            'assignable_id' => $this->activity->id,
+            'assignment_status_id' => config('project.assignment-statuses.retired')
+        ]);
+        $this->assertDatabaseHas('assignments', [
+            'user_id' => $this->volunteer->id,
+            'assignable_type' => get_class($this->curationGroup),
+            'assignable_id' => $this->curationGroup->id,
+            'assignment_status_id' => config('project.assignment-statuses.retired')
+        ]);
+    }
 }

@@ -54,6 +54,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Volunteers\Retired::class => [
             \App\Listeners\Volunteers\RetireAssignments::class
         ],
+        \App\Events\Volunteers\MarkedDeclined::class => [
+            \App\Listeners\Volunteers\RetireAssignments::class
+        ],
+        \App\Events\Volunteers\MarkedUnresponsive::class => [
+            \App\Listeners\Volunteers\RetireAssignments::class
+        ],
         LeaveImpersonation::class => [
             \App\Listeners\ClearImpersonateSessionData::class
         ]
