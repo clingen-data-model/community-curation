@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\User;
+use Carbon\Carbon;
 use App\assignable;
 use App\Assignment;
 use Illuminate\Bus\Queueable;
@@ -18,6 +19,8 @@ class AssignVolunteerToAssignable
 
     protected $assignable;
 
+    protected $assignmentDate;
+
     /**
      * Create a new job instance.
      *
@@ -26,10 +29,11 @@ class AssignVolunteerToAssignable
      *
      * @return void
      */
-    public function __construct(User $volunteer, AssignableContract $assignable)
+    public function __construct(User $volunteer, AssignableContract $assignable, $assignmentDate = null)
     {
         $this->volunteer = $volunteer;
         $this->assignable = $assignable;
+        $this->assignmentDate = $assignmentDate ?? Carbon::now();
     }
 
     /**
@@ -54,6 +58,8 @@ class AssignVolunteerToAssignable
         ];
 
         $asn = Assignment::firstOrCreate($data);
+        $asn->created_at = $this->assignmentDate;
+        $asn->updated_at = $this->assignmentDate;
     }
 
     private function getParentAssignmentId()

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Session;
 use App\Exceptions\NotImplementedException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
@@ -54,11 +55,11 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof AuthorizationException) {
-            session()->flash('error', 'Not authorized.');
+            Session::flash('error', 'Not authorized.');
             return redirect('/');
         }
         if ($exception instanceof UnauthorizedException) {
-            request()->session->flash('error', 'Not authorized.');
+            Session::flash('error', 'Not authorized.');
             return redirect('/');
         }
 
