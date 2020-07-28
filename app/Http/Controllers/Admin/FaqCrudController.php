@@ -37,8 +37,9 @@ class FaqCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
-        $this->crud->modifyField('answer', [
-            'type' => 'ckeditor'
+        $this->crud->modifyField('screenshots', [
+            'type' => 'upload_multiple',
+            'upload' => true,
         ]);
 
         $this->crud->modifyColumn('answer', [
