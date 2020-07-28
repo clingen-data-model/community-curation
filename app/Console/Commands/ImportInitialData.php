@@ -469,7 +469,15 @@ class ImportInitialData extends Command
 
         try {
             $this->outputInfo('    - assign curation group ['.$curationGroup->name.']');
-            AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup);
+            AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup, );
+            $assignment = $volunteer->assignments()
+                ->assignableIs(get_class($curationGroup), $curationGroup->id)
+                ->get()
+                ->first();
+            $assignment->created_at = $data['ca_assignment_date'];
+            $assignment->updated_at = $data['ca_assignment_date'];
+            $assignment->save();
+            
         } catch (InvalidArgumentException $th) {
             throw new ImportException($th->getMessage());
         }
