@@ -32,9 +32,11 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
      */
     public function volunteer_can_not_invite_attendees()
     {
+        // $this->withoutExceptionHandling();
         $this->actingAs($this->createVolunteer(), 'api')
             ->json('POST', '/api/training-sessions/'.$this->trainingSession->id.'/attendees', [$this->vol1->id, $this->vol2->id])
-            ->assertStatus(403);
+            ->assertRedirect('/')
+            ->assertSessionHas('error', 'Not authorized.');
     }
 
     /**
@@ -42,6 +44,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
      */
     public function admin_can_invite_attendees()
     {
+        $this->withoutExceptionHandling();
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions/'.$this->trainingSession->id.'/attendees', ['attendee_ids'=>[$this->vol1->id, $this->vol2->id]])
             ->assertStatus(200);
