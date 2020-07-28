@@ -116,3 +116,9 @@ window.Vue.component('report-form', ReportForm);
  */
 import NotesList from './components/notes/NotesList';
 window.Vue.component('notes-list', NotesList);
+
+/**
+ * Faqs
+ */
+import FaqList from './components/faq/FaqList';
+window.Vue.component('faq-list', FaqList);
