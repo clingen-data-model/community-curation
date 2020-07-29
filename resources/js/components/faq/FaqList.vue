@@ -15,19 +15,20 @@
                                         <b-icon-pencil></b-icon-pencil>
                                     </a>
                                 </div>
-                                <!-- v-b-toggle.faq-collapse-{{faq.id}} -->
+                                
+                                <!-- <h5 v-b-toggle="`faq-collapse-${faq.id}`">{{faq.question}}</h5> -->
                                 <h5>{{faq.question}}</h5>
                             </dt>
                             <dd class="mb-4 pb-3 pl-3 border-bottom" style="font-size: 1rem;">
-                                <!-- <b-collapse :id="`faq-collapse-${faq->id}`" class="clearfix"> -->
-                                    {{faq.answer}}
+                                <!-- <b-collapse :id="`faq-collapse-${faq.id}`" class="clearfix"> -->
+                                    <div v-html="faq.answer"></div>
                                     <div
                                         v-if="faq.screenshots"
                                         class="d-flex align-items-start flex-wrap w-100"
                                     >
                                         <div v-for="path in faq.screenshots" 
                                             :key="path" 
-                                            style="width: 30%; margin-right: 3%; margin-bottom: 1rem; border: 1px solid #777"
+                                            style="width: 47%; margin-right: 3%; margin-bottom: 1rem; border: 1px solid #777"
                                             @click="showFullsizeImage(path)"
                                         >
                                             <img :src="`${path}`" class="w-100"/>
