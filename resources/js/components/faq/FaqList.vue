@@ -72,6 +72,7 @@ export default {
             return this.$store.state.user.isAdmin() || this.$store.state.user.isProgrammer();
         },
         modalSize(){
+            console.info('this.currentImage.width', this.currentImage.width);
             if (this.currentImage.width > 800) {
                 return 'xl';
             }

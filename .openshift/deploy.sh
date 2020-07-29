@@ -6,4 +6,5 @@ php artisan cache:clear
 php artisan config:cache
 php artisan route:cache
 php artisan event:cache
+php artisan storage:link
 php artisan notify:deployed
