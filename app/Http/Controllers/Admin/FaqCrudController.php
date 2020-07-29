@@ -80,6 +80,7 @@ class FaqCrudController extends CrudController
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
         $this->crud->orderBy('lft');
+        $this->crud->orderBy('id');
     }
 
     public function showDetailsRow($id)
