@@ -62,39 +62,25 @@ export default {
         return {
             currentScreenshot: {},
             showFullsizeModal: false,
-            currentImage: {}
+            currentImage: {},
+            modalSize: 'lg'
         }
     },
     computed: {
         canEdit(){
-            // @if (\Auth::user() && \Auth::user()->hasAnyPermission('create faq', 'update faq'))
-
             return this.$store.state.user.isAdmin() || this.$store.state.user.isProgrammer();
         },
-        modalSize(){
-            if (this.currentImage.width > 800) {
-                return 'xl';
-            }
-
-            if (this.currentImage.width > 500) {
-                return 'lg';
-            }
-
-            if (this.currentImage.width > 300) {
-                return 'md';
-            }
-
-            return 'sm';
-        }
     },
     methods: {
         showFullsizeImage(path) {
             const img = new Image();
-            img.src = '/storage/'+path;
+            img.onload = () => {
+                this.currentScreenshot = path;
+                this.showFullsizeModal = true;
+            }
+            img.src = path;
             this.currentImage = img;
-            this.currentScreenshot = path;
-            this.showFullsizeModal = true;
-        }
+        },
     }
 }
 </script>
