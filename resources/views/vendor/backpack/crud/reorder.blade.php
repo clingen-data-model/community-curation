@@ -25,7 +25,7 @@ function tree_element($entry, $key, $all_entries, $crud)
 
         // show the tree element
         echo '<li id="list_'.$entry->getKey().'">';
-        echo '<div><span class="disclose"><span></span></span>'.object_get($entry, $crud->reorder_label).'</div>';
+        echo '<div><span class="disclose"><span></span></span>('.$entry->id.') '.object_get($entry, $crud->reorder_label).'</div>';
 
         // see if this element has any children
         $children = [];
@@ -58,6 +58,7 @@ function tree_element($entry, $key, $all_entries, $crud)
 @endif
 
 <div class="row m-t-20">
+    <pre>{{Request::url()}}</pre>
     <div class="{{ $crud->getReorderContentClass() }}">
 
         <div class="col-md-12">
@@ -139,7 +140,7 @@ function tree_element($entry, $key, $all_entries, $crud)
 
         // send it with POST
         $.ajax({
-            url: '{{ Request::url() }}',
+            url: '{{ preg_replace('/http:\/\//', 'https://', Request::url()) }}',
             type: 'POST',
             data: { tree: arraied },
         })
