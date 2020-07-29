@@ -23,6 +23,7 @@ use App\Events\Volunteers\MarkedUnresponsive;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use App\Events\Volunteers\ConvertedToComprehensive;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -69,6 +70,8 @@ class User extends Authenticatable implements IsNotable
         'country_id',
         'timezone',
         'hypothesis_id',
+        'last_logged_in_at',
+        'last_logged_out_at'
     ];
 
     /**
@@ -91,6 +94,11 @@ class User extends Authenticatable implements IsNotable
 
     protected $appends = [
         'name'
+    ];
+
+    protected $dates = [
+        'last_logged_in_at',
+        'last_logged_out_at'
     ];
 
     public static function boot()
@@ -261,6 +269,17 @@ class User extends Authenticatable implements IsNotable
     {
         // dump(config('project.volunteer_types.comprehensive'));
         return $query->where('volunteer_type_id', config('project.volunteer_types.comprehensive'));
+    }
+
+    public function scopeIsLoggedIn($query)
+    {
+        return $query->where('last_logged_in_at', '<=', Carbon::now())
+                    ->where(function ($q) {
+                        $q->whereColumn('last_logged_out_at', '<=', 'last_logged_in_at')
+                            ->orWhere(function ($qu) {
+                                $qu->WhereNull('last_logged_out_at');
+                            });
+                    });
     }
 
     public function hasPermissionTo($permString)

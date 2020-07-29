@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -62,6 +64,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         LeaveImpersonation::class => [
             \App\Listeners\ClearImpersonateSessionData::class
+        ],
+        Login::class => [
+            \App\Listeners\User\SetLastLoggedInAt::class
+        ],
+        Logout::class => [
+            \App\Listeners\User\SetLastLoggedOut::class
         ]
     ];
 

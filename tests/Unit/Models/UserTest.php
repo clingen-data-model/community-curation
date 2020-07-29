@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\User;
 use App\Priority;
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Contracts\IsNotable;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -131,5 +132,22 @@ class UserTest extends TestCase
     {
         $volunteer = $this->createVolunteer();
         $this->assertInstanceOf(IsNotable::class, $volunteer);
+    }
+
+    /**
+     * @test
+     * @group login
+     */
+    public function can_scope_to_logged_in_users()
+    {
+        $user = $this->createVolunteer();
+        $volunteer = $this->createVolunteer(['last_logged_in_at' => Carbon::now()->addHours(-2)]);
+        $programmer = $this->createProgrammer(['last_logged_in_at' => Carbon::now()->addHours(-2), 'last_logged_out_at' => Carbon::now()->addHours(-4)]);
+        $admin = $this->createAdmin(['last_logged_in_at' => Carbon::now()->addHours(-2), 'last_logged_out_at' => Carbon::now()->addHours(-1)]);
+
+        $loggedInUsers = User::isLoggedIn()->get();
+
+        $this->assertEquals(2, $loggedInUsers->count());
+        $this->assertEquals([$volunteer->id, $programmer->id], $loggedInUsers->pluck('id')->values()->toArray());
     }
 }
