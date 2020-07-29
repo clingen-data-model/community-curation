@@ -28,6 +28,8 @@ RUN composer install \
         --no-scripts \
         --prefer-dist
 
+
+RUN php artisan storage:link
 # COPY .docker/php/xdebug-dev.ini /usr/local/etc/php/conf.d/xdebug-dev.ini
 
 # RUN cp -R /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d-dev \
