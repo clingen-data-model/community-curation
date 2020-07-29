@@ -56,6 +56,13 @@ class FaqCrudController extends CrudController
             'upload' => true,
         ]);
 
+        $this->crud->modifyField('answer', [
+            'type' => 'ckeditor',
+            'options' => [
+                'removePlugins' => 'image,maximize,oembed',
+            ]
+        ]);
+
         $this->crud->removeColumn('screenshots');
 
         $this->crud->modifyColumn('question', [
