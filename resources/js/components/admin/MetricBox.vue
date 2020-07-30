@@ -6,8 +6,12 @@
         border-radius: 7px;
         text-align: center;
     }
-    .metric {
+    .metric-box>h3 {
         font-size: 2rem;
+        margin: 0;
+    }
+    .metric {
+        font-size: 1.8rem;
         font-weight: 900;
     }
 </style>
