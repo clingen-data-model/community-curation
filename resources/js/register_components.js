@@ -122,3 +122,12 @@ window.Vue.component('notes-list', NotesList);
  */
 import FaqList from './components/faq/FaqList';
 window.Vue.component('faq-list', FaqList);
+
+/**
+ * Admin
+ */
+import LoggedInUsersList from './components/admin/LoggedInUsersList'
+window.Vue.component('logged-in-users-list', LoggedInUsersList);
+
+import ActivityMetrics from './components/admin/ActivityMetrics'
+window.Vue.component('activity-metrics', ActivityMetrics);

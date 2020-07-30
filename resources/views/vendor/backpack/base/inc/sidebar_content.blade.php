@@ -10,15 +10,15 @@
 @endcan
 
 @can('list working-groups')
-    <li><a href="{{ backpack_url('working-group') }}"><i class="fa fa-group"></i> <span>Working-groups</span></a></li>
+    <li><a href="{{ backpack_url('working-group') }}"><i class="fa fa-group"></i> <span>Working groups</span></a></li>
 @endcan
 
-@can('list expert-panels')
-    <li><a href="{{ backpack_url('expert-panel') }}"><i class="fa fa-group"></i> <span>Expert-panels</span></a></li>
+@can('list curation-groups')
+    <li><a href="{{ backpack_url('curation-group') }}"><i class="fa fa-group"></i> <span>Curation groups</span></a></li>
 @endcan
 
 @can('list volunteer-types')
-    <li><a href="{{ backpack_url('volunteer-type') }}"><i class="fa fa-list"></i> <span>Volunteer-types</span></a></li>
+    <li><a href="{{ backpack_url('volunteer-type') }}"><i class="fa fa-list"></i> <span>Volunteer types</span></a></li>
 @endcan
 
 @can('list genes')

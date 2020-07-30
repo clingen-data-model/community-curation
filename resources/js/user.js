@@ -1,3 +1,14 @@
+import { indexOf } from "lodash";
+import moment from 'moment-timezone'
+
+const dates = [
+    'created_at',
+    'updated_at',
+    'deleted_at',
+    'last_logged_in_at',
+    'last_logged_out_at'
+];
+
 let User = class {
 
     constructor(data)
@@ -5,6 +16,10 @@ let User = class {
         this.attributes = data;
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
+                if (dates.indexOf(key) > -1 && data[key] !== null) {
+                    this[key] = moment(data[key]);
+                    continue;
+                }
                 this[key] = data[key];
             }
         }
