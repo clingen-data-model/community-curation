@@ -4,12 +4,11 @@ namespace App\Services\Search;
 
 use App\User;
 use Illuminate\Support\Collection;
-use App\Contracts\ModelSearchService;
 use Illuminate\Database\Eloquent\Builder;
 
-class VolunteerSearchService implements ModelSearchService
+class VolunteerSearchService extends UserSearchService
 {
-    protected $validFilters = [
+    protected static $validFilters = [
         'first_name',
         'last_name',
         'name',
@@ -17,34 +16,23 @@ class VolunteerSearchService implements ModelSearchService
         'volunteer_type_id',
     ];
 
-    public function search($params):Collection
+    public function __construct()
     {
-        return $this->buildQuery($params)
-                ->get();
+        self::$validFilters = array_merge(self::$validFilters, parent::$validFilters);
     }
+    
 
     public function buildQuery($params):Builder
     {
-        $query = User::query()
-                        ->with([
-                            'volunteerType',
-                            'volunteerStatus',
-                            'structuredAssignments',
-                        ])
-                        ->isVolunteer();
+        $query = parent::buildQuery($params)
+            ->with([
+                'volunteerType',
+                'volunteerStatus',
+                'structuredAssignments',
+            ])
+            ->isVolunteer();
 
         foreach ($params as $key => $value) {
-            if ($key == 'select') {
-                $query->select($value);
-            }
-
-            if ($key == 'with') {
-                $query->with($value);
-            }
-            if (in_array($key, $this->validFilters)) {
-                $query->where($key, $value);
-            }
-
             if ($key == 'curation_group_id') {
                 $this->filterByCurationGroup($value, $query);
             }
@@ -58,15 +46,8 @@ class VolunteerSearchService implements ModelSearchService
             }
         }
 
-        if (isset($params['searchTerm'])) {
-            $this->filterBySearchTerm($params['searchTerm'], $query);
-        }
-
-        $this->setOrder($params, $query);
- 
         return $query;
     }
-
     private function filterByCurationGroup($value, $query)
     {
         if ($value == -1) {
@@ -107,7 +88,7 @@ class VolunteerSearchService implements ModelSearchService
         });
     }
 
-    private function filterBySearchTerm($searchTerm, $query)
+    protected function filterBySearchTerm($searchTerm, $query)
     {
         $query->leftJoin('volunteer_statuses', 'users.volunteer_status_id', '=', 'volunteer_statuses.id')
             ->leftJoin('volunteer_types', 'users.volunteer_type_id', '=', 'volunteer_types.id')
@@ -120,12 +101,5 @@ class VolunteerSearchService implements ModelSearchService
             ->orWhere('volunteer_statuses.name', 'like', '%'.$searchTerm.'%')
             ->orWhere('volunteer_types.name', 'like', '%'.$searchTerm.'%');
         });
-    }
-
-    private function setOrder($params, $query)
-    {
-        $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'last_name';
-        $sortDir = (isset($params['sortDesc']) && $params['sortDesc'] === 'true') ? 'desc' : 'asc';
-        $query->orderBy($sortField, $sortDir);
     }
 }
