@@ -1,4 +1,4 @@
-<style></style>
+
 
 <template>
     <attestation-form title="Volunteer Variant Curator Attestation" :signable="allYes">

@@ -1,4 +1,4 @@
-<style>
+<style scoped>
     .alerts-container {
         position:fixed; 
         top: 70px; 

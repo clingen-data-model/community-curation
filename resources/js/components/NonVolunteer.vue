@@ -1,5 +1,3 @@
-<style></style>
-
 <template>
     <div v-if="user.notVolunteer()">
         <slot></slot>

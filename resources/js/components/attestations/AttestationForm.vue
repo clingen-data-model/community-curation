@@ -1,5 +1,3 @@
-<style></style>
-
 <template>
     <div class="w-75 m-auto">
     <b-card>

@@ -1,5 +1,3 @@
-<style></style>
-
 <template>
     <div class="alert">
         <strong><a class="float-right crsr-pointer ml-2" @click="$emit('cleared')">x</a></strong>

@@ -9,7 +9,7 @@
         ></ckeditor>
     </div>
 </template>
-<style>
+<style scoped>
     .ck-editor__editable_inline {
         min-height: 200px;
     }

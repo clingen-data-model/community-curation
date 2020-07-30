@@ -162,7 +162,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .chart-container > div {
         margin-right: 1rem;
         margin-bottom: 1rem;

@@ -1,6 +1,3 @@
-<style>
-</style>
-
 <template>
     <div class="component-container">
         <table class="table table-borderless table-sm mb-1">

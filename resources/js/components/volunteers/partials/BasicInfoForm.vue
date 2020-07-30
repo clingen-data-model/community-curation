@@ -1,4 +1,4 @@
-<style>
+<style scoped>
     ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: #c0c0c0 !important;
     }

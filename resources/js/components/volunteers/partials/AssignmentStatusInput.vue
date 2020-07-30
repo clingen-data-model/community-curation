@@ -1,4 +1,4 @@
-<style>
+<style scoped>
     .highlight-on-hover:hover {
         background-color: rgba(173, 247, 222, .20);
     }
