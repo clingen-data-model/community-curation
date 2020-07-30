@@ -47,7 +47,6 @@ export default {
             context['is_logged_in'] = 1;
             getUsers(context)
                 .then(response => {
-                    this.totalRows = response.data.meta.total;
                     callback(response.data.data)
                 })
         }
