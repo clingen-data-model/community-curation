@@ -24,6 +24,9 @@ Route::group([
         Route::group([
             'middleware' => 'auth:api'
         ], function () {
+            Route::resource('applicaitons', 'ApplicationController')
+                ->only(['index', 'show']);
+
             Route::resource('assignments', 'AssignmentController')
                 ->only(['index', 'store','show', 'update', 'destroy']);
 

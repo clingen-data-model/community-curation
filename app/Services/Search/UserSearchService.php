@@ -55,8 +55,6 @@ class UserSearchService implements ModelSearchService
 
         $this->setOrder($params, $query);
  
-        // dump(renderQuery($query));
-
         return $query;
     }
 

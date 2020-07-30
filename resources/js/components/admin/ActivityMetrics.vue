@@ -1,55 +1,36 @@
-<style scoped>
-    .activity-metrics-container>div {
-        border: solid 2px #aaa;
-        margin-right: 1rem;
-        padding: 1rem;
-        border-radius: 7px;
-        text-align: center;
-    }
-    .activity-metrics-container > div > .metric {
-        font-size: 2rem;
-        font-weight: 900;
-    }
-</style>
 <template>
     <div>
         <div class="activity-metrics-container d-flex justify-items-between">
-            <div>
-                <h3>Logged in last 7 days</h3>
-                <div class="metric">{{sevenDayLogins}}</div>
-            </div>
-            <div>
-                <h3>Logged in last 30 days</h3>
-                <div class="metric">{{sevenDayLogins}}</div>
-            </div>
-            <div>
-                <h3>Never logged in</h3>
-                <div class="metric">{{neverLoggedIn}}</div>
-            </div>
-            <!-- <div>
-                <h3>Applications completed in last 7 days</h3>
-                <div class="metric">Coming soon</div>
-            </div> -->
+            <metric-box title="New applications in last 7 days" :value="sevenDayApplications"></metric-box>
+            <metric-box title="New applications in last 30 days" :value="thirtyDayApplications"></metric-box>
+            <metric-box title="Logged in last 7 days" :value="sevenDayLogins"></metric-box>
+            <metric-box title="Logged in last 30 days" :value="thirtyDayLogins"></metric-box>
+            <metric-box title="Never logged in" :value="neverLoggedIn"></metric-box>
         </div>
+        <div class="note text-muted" v-if="now < aug6"><small>* 7 day login numbers will not be accurate until Aug. 6</small></div>
+        <div class="note text-muted" v-if="now < aug29"><small>* 30 day login numbers will not be accurate until Aug. 29</small></div>
     </div>
 </template>
 <script>
 import getUsers from '../../resources/users/get_users'
-import moment from 'moment'
+import moment from 'moment-timezone'
+import MetricBox from './MetricBox'
 
 export default {
-    props: {
-        
+    components: {
+        MetricBox
     },
     data() {
         return {
-            sevenDayLogins: 0,
-            thirtyDayLogins: 0,
-            neverLoggedIn: 0,
+            sevenDayLogins: null,
+            thirtyDayLogins: null,
+            neverLoggedIn: null,
+            sevenDayApplications: null,
+            thirtyDayApplications: null,
+            now: new Date(),
+            aug6: new Date(2020,8,6),
+            aug29: new Date(2020,8,29)
         }
-    },
-    computed: {
-
     },
     methods: {
         async getNeverLoggedIn() {
@@ -63,7 +44,7 @@ export default {
         },
         async getLoginsInLast(quantity, unit)
         {
-            const val =  await getUsers({'last_logged_in_at': moment().subtract(quantity, unit).format('YYYY-MM-DD HH:mm:ss')})
+            const val =  await getUsers({'last_logged_in_at': moment().subtract(quantity, unit).utc().format('YYYY-MM-DD HH:mm:ss')})
                 .then(response => {
                     return response.data.data.length
                 });
@@ -71,10 +52,31 @@ export default {
             console.log(val);
             return val;
         },
+        async getSevenDayApplications()
+        {
+            this.sevenDayApplications = await this.getApplicationsInLast(7, 'day');
+        },
+        async getThirtyDayApplications()
+        {
+            this.thirtyDayApplications = await this.getApplicationsInLast(30, 'day');
+        },
+        async getApplicationsInLast(quantity, unit)
+        {
+            // const val = await getApplications({
+            //                 'finalized_at': moment().subtract(quantity, unit).format('YYYY-MM-DD HH:mm:ss'), 
+            //                 'only_count': 1
+            //             });
+            const val = await window.axios.get(`/api/applicaitons?finalized_at=${moment().subtract(quantity, unit).utc().format('YYYY-MM-DD HH:mm:ss')}&only_count=1`)
+                            .then(response => response.data.data);
+            return val;
+        },
         getMetrics () {
             this.getSevenDayLogins();
             this.getThirtyDayLogins();
+            this.getSevenDayApplications();
+            this.getThirtyDayApplications();
             this.getNeverLoggedIn();
+            
         }
     },
     mounted() {
