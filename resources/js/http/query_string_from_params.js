@@ -1,13 +1,15 @@
-const queryStringFromParams = function (params = {}) {
+const queryStringFromParams = function (params = {}, paginate) {
     let parsedParams = params;
     if (Object.keys(params).includes('filter')) {
         let {filter, ...rest} = params;
         parsedParams = {...filter, ...rest};
     }
 
-    let queryStringParts = [
-        'page=' + (parsedParams.currentPage ? parsedParams.currentPage : 1)
-    ];
+    let queryStringParts = [];
+    if (paginate) {
+        queryStringParts.push('page=' + (parsedParams.currentPage ? parsedParams.currentPage : 1))
+    }
+
     delete (parsedParams.currentPage)
     
     for (let param in parsedParams) {

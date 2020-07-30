@@ -26,14 +26,19 @@
 
 @section('content')
     <div id="app">
-	{{-- <div class="box">
+	<div class="box">
 		<div class="box-header with-border">
-			<div class="box-title">Activity Metrics</div>
+			<div class="box-title w-100">
+				<button class="btn btn-sm btn-light border float-right" @click="$refs.metrics.getMetrics()">
+					<b-icon icon="arrow-clockwise"></b-icon>
+				</button>
+				Activity Metrics
+			</div>
 			<div class="box-body">
-				<activity-metrics></activity-metrics>
+				<activity-metrics ref="metrics"></activity-metrics>
 			</div>
 		</div>
-	</div> --}}
+	</div>
     <row>
 		<div class="col-md-12">
 			<div class="box">

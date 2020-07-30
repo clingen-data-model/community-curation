@@ -3,6 +3,7 @@
 namespace App\Services\Search;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Contracts\ModelSearchService;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,6 +41,10 @@ class UserSearchService implements ModelSearchService
             }
         }
 
+        if (isset($params['last_logged_in_at'])) {
+            $this->filterByLastLoggedIn($params['last_logged_in_at'], $query);
+        }
+
         if (isset($params['searchTerm'])) {
             $this->filterBySearchTerm($params['searchTerm'], $query);
         }
@@ -50,6 +55,8 @@ class UserSearchService implements ModelSearchService
 
         $this->setOrder($params, $query);
  
+        // dump(renderQuery($query));
+
         return $query;
     }
 
@@ -59,6 +66,21 @@ class UserSearchService implements ModelSearchService
         $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'last_name';
         $sortDir = (isset($params['sortDesc']) && $params['sortDesc'] === 'true') ? 'desc' : 'asc';
         $query->orderBy($sortField, $sortDir);
+    }
+
+    protected function filterByLastLoggedIn($value, $query)
+    {
+        if ($value == 0) {
+            $query->whereNull('last_logged_in_at');
+            return;
+        }
+
+        if ($value == 1) {
+            $query->whereNotNull('last_logged_in_at');
+            return;
+        }
+        $query->whereNotNull('last_logged_in_at')
+            ->where('last_logged_in_at', '>', $value);
     }
 
     protected function filterBySearchTerm($searchTerm, $query)
