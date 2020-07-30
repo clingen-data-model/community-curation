@@ -1,4 +1,4 @@
-<style></style>
+
 
 <template>
     <div v-if="user.isVolunteer()">

@@ -1,4 +1,4 @@
-<style></style>
+
 
 <template>
     <attestation-form title="Somatic Cancer Volunteer Curator Attestation" :signable="allYes">

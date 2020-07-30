@@ -1,4 +1,4 @@
-<style></style>
+
 
 <template>
     <div class="component-container">

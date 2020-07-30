@@ -1,4 +1,4 @@
-<style>
+<style scoped>
     tr > td:hover {
         /* background-color: #f0f; */
         cursor: pointer;

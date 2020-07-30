@@ -1,4 +1,3 @@
-<style></style>
 <template>
     <input 
         ref="input"

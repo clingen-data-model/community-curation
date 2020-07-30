@@ -1,4 +1,4 @@
-<style></style>
+
 
 <template>
     <attestation-form :title="'Dosage Volunteer Attestation'" :signable="allYes">
