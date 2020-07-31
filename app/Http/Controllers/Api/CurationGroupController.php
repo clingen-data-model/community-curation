@@ -29,9 +29,13 @@ class CurationGroupController extends Controller
     {
         // $groups = CurationGroup::orderBy('name')->paginate();
         $query = $this->searchService->buildQuery($request->all());
-        $page = $query->paginate();
+        if ($request->page) {
+            $groups = $query->paginate();
+        }
 
-        return CurationGroupResource::collection($page);
+        $groups = $query->get();
+
+        return CurationGroupResource::collection($groups);
     }
 
     /**

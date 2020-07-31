@@ -110,7 +110,9 @@ export default {
             this.loadingGroups = true;
             getCurationGroups(context)
                 .then(response => {
-                    this.totalRows = response.data.meta.total;
+                    if (response.data.meta && response.data.meta.total) {
+                        this.totalRows = response.data.meta.total;
+                    }
                     callback(response.data.data);
                     this.loadingGroups = false;
                 });
