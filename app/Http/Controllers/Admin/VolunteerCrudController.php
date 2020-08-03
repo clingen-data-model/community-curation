@@ -11,8 +11,8 @@ use App\VolunteerStatus;
 use Backpack\CRUD\CrudPanel;
 use App\Surveys\SurveyOptions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use App\Http\Requests\VolunteerRequest as StoreRequest;
-use App\Http\Requests\VolunteerRequest as UpdateRequest;
+use App\Http\Requests\VolunteerAdminRequest as StoreRequest;
+use App\Http\Requests\VolunteerAdminRequest as UpdateRequest;
 
 /**
  * Class VolunteerCrudController
@@ -43,7 +43,7 @@ class VolunteerCrudController extends CrudController
             $query->where('name', 'volunteer');
         });
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
+        // TODO: setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
         // add asterisk for fields that are required in VolunteerRequest
@@ -109,11 +109,12 @@ class VolunteerCrudController extends CrudController
         );
 
 
-        $this->crud->removeFields(['password']);
+        $this->crud->removeFields(['password', 'last_logged_in_at', 'last_logged_out_at',]);
 
+        $this->crud->removeColumns(['password', 'last_logged_in_at', 'last_logged_out_at', 'orcid_id', 'hypothesis_id', 'zip', 'country_id', 'timezone', 'street1', 'street2', 'city', 'state', 'zip', 'institution']);
         $this->crud->addColumns([
             [
-                'label' => 'Volunteer Type',
+                'label' => 'Type',
                 'type' => 'select',
                 'name' => 'volunteer_type_id',
                 'entity' => 'volunteerType',
@@ -121,7 +122,7 @@ class VolunteerCrudController extends CrudController
                 'attribute' => 'name'
             ],
             [
-                'label' => 'Volunteer Status',
+                'label' => 'Status',
                 'type' => 'select',
                 'name' => 'volunteer_status_id',
                 'entity' => 'volunteerStatus',
