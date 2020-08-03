@@ -49,7 +49,18 @@ class UserCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        $this->crud->removeFields(['password', 'volunteer_type_id', 'volunteer_status_id', 'address']);
+        $this->crud->removeFields([
+            'password',
+            'volunteer_type_id',
+            'volunteer_status_id',
+            'address',
+            'last_logged_in_at',
+            'last_logged_out_at',
+            'orcid_id',
+            'hypothesis_id',
+            ''
+        ]);
+        
         $this->crud->addFields([
             [
                 'label' => "Roles",
@@ -82,7 +93,20 @@ class UserCrudController extends CrudController
             ]
         );
 
-        $this->crud->removeColumns(['volunteer_type_id', 'volunteer_status_id', 'street1', 'street2', 'city', 'zip', 'country_id', 'state']);
+        $this->crud->removeColumns([
+            'volunteer_type_id',
+            'volunteer_status_id',
+            'street1', 'street2',
+            'city',
+            'zip',
+            'country_id',
+            'state',
+            'last_logged_in_at',
+            'last_logged_out_at',
+            'institution',
+            'hypothesis_id',
+            'orcid_id'
+        ]);
 
         if (!\Auth::user()->can('create users')) {
             $this->crud->RemoveButton('create');
