@@ -253,6 +253,10 @@ class User extends Authenticatable implements IsNotable
         if (Auth::user()->hasRole('programmer')) {
             return true;
         }
+        
+        if (Auth::user()->hasRole('admin') && $this->hasAnyRole(['programmer','super-admin'])) {
+            return false;
+        }
         if (Auth::user()->roles->intersect($this->roles)->count() > 0) {
             return false;
         }
