@@ -9,7 +9,7 @@
             ?
         </a>
         <b-modal id="help-modal" title="Get Answers" hide-footer>
-            <p class="lead">Many common issues and questions are coverd in our check out the <a href="/faq" target="faq">FAQ</a>.</p>
+            <p class="lead">Many common issues and questions are covered in our check out the <a href="/faq" target="faq">FAQ</a>.</p>
             <p>
                 If you still have any questions, please contact our help desk at 
                 <a :href="`mailto:${$store.state.configs.mailFrom.address}`">{{$store.state.configs.mailFrom.address|ucfirst}}</a>.
