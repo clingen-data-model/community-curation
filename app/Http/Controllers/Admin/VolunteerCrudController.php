@@ -32,6 +32,8 @@ class VolunteerCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/volunteer');
         $this->crud->setEntityNameStrings('volunteer', 'volunteers');
 
+        $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'show']);
+
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
