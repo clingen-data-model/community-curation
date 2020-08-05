@@ -28,8 +28,6 @@ class VolunteerRequest extends FormRequest
      */
     public function rules()
     {
-        $timezones = SurveyOptions::timezones();
-
         $rules = parent::rule();
         $rules['timezone'] = ['sometimes', 'nullable', Rule::in(timezone_identifiers_list())];
         $rules['country_id'] = 'sometimes|nullable|exists:countries,id';
