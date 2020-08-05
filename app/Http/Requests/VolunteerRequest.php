@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-use App\Surveys\SurveyOptions;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,9 +26,19 @@ class VolunteerRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = parent::rule();
-        $rules['timezone'] = ['sometimes', 'nullable', Rule::in(timezone_identifiers_list())];
-        $rules['country_id'] = 'sometimes|nullable|exists:countries,id';
+        return [
+            'first_name' => 'sometimes|required|min:2|max:255',
+            'last_name' => 'sometimes|required|min:2|max:255',
+            'email' => 'sometimes|required|email:rfc,dns',
+            'country_id' => 'sometimes|required|exists:countries,id',
+            'timezone' => [
+                'sometimes',
+                'required',
+                Rule::in(timezone_identifiers_list()),
+                'not_in:UTC'
+            ]
+            //
+        ];
     }
 
     /**

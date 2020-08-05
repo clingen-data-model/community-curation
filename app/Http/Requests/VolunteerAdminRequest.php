@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 class VolunteerAdminRequest extends VolunteerRequest
 {
     /**
@@ -11,7 +14,7 @@ class VolunteerAdminRequest extends VolunteerRequest
      */
     public function authorize()
     {
-        return backpack_auth()->check();
+        return Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin']);
     }
 
     /**
@@ -21,8 +24,9 @@ class VolunteerAdminRequest extends VolunteerRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $rules = parent::rules();
+        $rules['timezone'] = ['sometimes', 'nullable', Rule::in(timezone_identifiers_list())];
+        $rules['country_id'] = 'sometimes|nullable|exists:countries,id';
+        return $rules;
     }
 }
