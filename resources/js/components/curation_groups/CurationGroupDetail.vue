@@ -9,7 +9,6 @@
                     <a 
                         :href="`${adminBaseUrl}/${group.id}/edit`" 
                         class="btn btn-primary btn-sm" 
-                        target="admin"
                         v-if="adminBaseUrl !== null"
                     >
                         Edit
@@ -20,7 +19,8 @@
         <section class="lead">
             <dl class="row mb-0">
                 <dt class="col-md-4">Curation activity</dt>
-                <dd class="col-md-8">{{group.curation_activity.name}}</dd>
+                <dd class="col-md-8">
+                    <a :href="`/curation-activities/${group.curation_activity.id}`">{{group.curation_activity.name}}</a></dd>
                 
                 <dt class="col-md-4">Working group</dt>
                 <dd class="col-md-8">{{group.working_group ? group.working_group.name : '--'}}</dd>
