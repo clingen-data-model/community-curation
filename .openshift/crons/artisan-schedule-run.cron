@@ -14,7 +14,7 @@ oc run artisan-schedule-run \
     --schedule="* * * * *" \
     --image=192.168.227.248:5000/openshift/cron \
     --env="PROJECT=$(oc project -q)" \
-    --env="DEPLOYMENT=$DEPLOYMENT" \
+    --env="DEPLOYMENT=ccdb" \
     --env="OPENSHIFT_TOKEN=$TOKEN" \
     -- \
     cron "php artisan schedule:run"
