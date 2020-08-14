@@ -20,14 +20,14 @@ Route::group([
         Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
         Route::get('curation-activities', 'CurationActivitiesController@index')->name('curation-activities-index');
 
-        Route::get('test-504', function () {
-            return response()->json(['test 504'], 504);
-        });
+        // Route::get('test-504', function () {
+        //     return response()->json(['test 504'], 504);
+        // });
 
-        Route::post('log-504', function (Request $request) {
-            \Log::error('504 response detected', $request->all());
-            return response('logged', 200);
-        });
+        // Route::post('log-504', function (Request $request) {
+        //     \Log::error('504 response detected', $request->all());
+        //     return response('logged', 200);
+        // });
 
         
         Route::group([
