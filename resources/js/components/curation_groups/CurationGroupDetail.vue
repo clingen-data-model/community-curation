@@ -37,7 +37,10 @@
                 <h4>{{group.assignments.length}} Volunteers</h4>
             </header>
 
-            <group-volunteer-info :assignments="group.assignments"></group-volunteer-info>
+            <group-volunteer-info 
+                v-if="group.assignments.length > 0"
+                :assignments="group.assignments"
+            ></group-volunteer-info>
 
         </section>
         <section>

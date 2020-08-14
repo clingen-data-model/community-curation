@@ -84,7 +84,7 @@ class ApplicationReportGenerator implements ReportGenerator
                                             'city' => $app->city,
                                             'state' => $app->state,
                                             'zip' => $app->zip,
-                                            'country' => ($app->country_id) ? $countries[$app->country_id] : '',
+                                            'country' => $app->country_id,
                                             'timezone' => $app->timezone,
                                     ])->merge($outroColumns),
 
