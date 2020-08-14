@@ -181,8 +181,7 @@
             getCurationGroupsForCurationActivity(curationActivityId) {
                 return this.unassignedCurationGroups
                         .filter(panel => {
-                            return panel.curation_activity_id == curationActivityId
-                                && panel.accepting_volunteers == 1
+                            return panel.curation_activity_id == curationActivityId;
                         })
             },
             saveNewAssignment(assignableType, assignable) {
