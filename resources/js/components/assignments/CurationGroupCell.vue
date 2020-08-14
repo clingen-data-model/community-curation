@@ -29,12 +29,13 @@
             <select v-model="newCurationGroup" class="form-control form-control-sm">
                 <option :value="null">Select&hellip;</option>
                 <option v-for="(panel, idx) in curationGroups" :key="idx" :value="panel">
-                    {{panel.name}}
+                    {{panel.name}} {{panel.accepting_volunteers == 0 ? '*' : ''}}
                 </option>
             </select>
             &nbsp;
             <button class="btn btn-sm btn-primary" @click="emitSave">Save</button>
             <button class="btn btn-sm btn-default" @click="cancelAddingCurationGroup">Cancel</button>
+            <div class="text-muted">* = not accepting volunteers.</div>
         </div>
     </div>
 </template>
@@ -78,10 +79,20 @@
             }
         },
         methods: {
+            confirmSave() {
+                if (this.newCurationGroup && this.newCurationGroup.accepting_volunteers == 1) {
+                    return true;
+                }
+                if (confirm('The curation group you are about to assign is not currently accepting volunteers.  Are you sure you want to assign this assign this group?')) {
+                    return true;
+                }
+            },
             emitSave() {
-                this.$emit('save', this.newCurationGroup)
-                this.addingCurationGroup = false;
-                this.newCurationGroup = null
+                if (this.confirmSave()) {
+                    this.$emit('save', this.newCurationGroup)
+                    this.addingCurationGroup = false;
+                    this.newCurationGroup = null
+                }
             },
             cancelAddingCurationGroup() {
                 this.newCurationGroup = null
