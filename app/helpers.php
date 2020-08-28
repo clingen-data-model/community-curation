@@ -24,3 +24,10 @@ if (! function_exists('seedFromConfig')) {
         }
     }
 }
+
+// if (! function_exists('resolveBundleUrl')) {
+//     function resolveBundleUrl($bundle) {
+//         $manifest = json_decode(file_get_contents(base_path('/public/js/mainfest.json')));
+//         return '/'
+//     }
+// }

@@ -1,15 +1,8 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-@import 'node_modules/bootstrap/scss/bootstrap';
-@import 'node_modules/bootstrap-vue/src/index.scss';
-@import '../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css';
 
 // Sirs-Surveys
 @import './sirs-surveys.scss';
@@ -35,17 +28,12 @@ $theme-colors: (
     border-radius: 0.2rem;
 }
 
-.btn.commitment-button.commitment-button {
-    // color: #666;
-}
-
 .btn.commitment-button.active.commitment-button::before {
     content: '✅';
     font-size: .8em;
 }
 
 .btn.commitment-button.active.commitment-button {
-    // background-color: darken($gray-light, 20%);
     border-bottom: solid #a09e9e 2px;
 }
 

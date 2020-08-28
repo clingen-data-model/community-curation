@@ -9,15 +9,29 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <script src="{{mix('/js/manifest.js')}}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link 
+        rel="preload" 
+        href="https://fonts.googleapis.com/css?family=Nunito&display=swap" 
+        as="style" 
+        onload="this.onload=null;this.rel='stylesheet'"
+    >
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link 
+        rel="preload" 
+        href="{{ mix('css/app.css') }}" 
+        as="style" 
+        onload="this.onload=null;this.rel='stylesheet'"
+    >
+
+    <noscript>
+        {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito&display=swap"> --}}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    </noscript>
+
     @stack('styles')
 </head>
 <body>
@@ -85,7 +99,10 @@
         </main>
     </div>
 
+    <script src="{{ mix('/js/manifest.js') }}"></script>
+    <script src="{{ mix('/js/vendor.js') }}"></script>
     <script src="{{ mix('/js/app.js') }}"></script>
+
     <!-- Scripts -->
     @stack('scripts')
 </body>

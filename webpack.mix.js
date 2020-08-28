@@ -18,11 +18,12 @@ mix.options({
         host: "localhost",
         port: '8081'
     },
+    // purifyCss: true,
 });
 
 if (mix.dev)
 mix.webpackConfig({
-    // mode: "development",
+    mode: "development",
     devtool: "inline-source-map",
     devServer: {
         disableHostCheck: true,
@@ -43,16 +44,18 @@ mix.webpackConfig({
     }
 });
 
+mix.sass('resources/sass/app.scss', 'public/css')
+    .sourceMaps();
+
 mix.js('resources/js/app.js', 'public/js')
     .extract([
         'vue', 
         'moment', 
         'bootstrap-datepicker', 
-        'timepicker', 
+        'timepicker',
         'axios', 
-        'jquery'
+        'jquery',
     ])
-    .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
 
 if (mix.inProduction()) {
