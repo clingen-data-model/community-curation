@@ -1,0 +1,5 @@
+{
+    "plugings: [
+        "@babel/plugin-syntax-dynamic-import"
+    ]
+}
