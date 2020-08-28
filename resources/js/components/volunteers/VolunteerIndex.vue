@@ -1,22 +1,5 @@
-<style lang="scss">
-    .flex-row {
-        display: flex;
-        flex-direction: row;
-    }
-    .flex-row > div {
-        margin-left: 1rem;
-        &:first-child {
-            margin-left: 0;
-        }
-    }
-    .filter-row .active {
-        box-shadow: 0 0 5px #6cb2eb;
-        font-weight: 700;
-    }
-</style>
-
 <template>
-    <div class="card">
+    <div class="card volunteer-index">
         <div class="card-header">
             <assignments-report-button 
                 :filter="filters" 
@@ -26,7 +9,7 @@
             <h1>Volunteers</h1>
         </div>
         <div class="card-body">
-            <div class="flex-row mb-2 p-0 filter-row">
+            <div class="d-flex mb-2 p-0 filter-row">
                 <div class="form-inline">
                     <label for="filter-input">Search:</label>
                     &nbsp;

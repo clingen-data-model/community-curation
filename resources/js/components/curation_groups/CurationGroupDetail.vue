@@ -1,5 +1,5 @@
 <template>
-    <b-card>
+    <b-card class="curation-group-detail">
         <template v-slot:header>
             <div class="d-flex justify-content-between">
                 <h3 class="mb-0">
@@ -100,11 +100,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    section {
-        margin-bottom: 1rem;
-        border-bottom: solid 1px #eee;
-        padding-bottom: .5rem;
-    }
-</style>

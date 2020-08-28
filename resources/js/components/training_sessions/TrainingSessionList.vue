@@ -1,9 +1,3 @@
-<style scoped>
-    tr > td:hover {
-        /* background-color: #f0f; */
-        cursor: pointer;
-    }
-</style>
 <template>
     <div>
         <div class="card">
@@ -19,7 +13,7 @@
                         <template v-slot:title>
                             Upcoming <b-badge class="ml-1" variant="light">{{sessions.length}}</b-badge>
                         </template>
-                        <b-table :fields="fields" :items="sessions" class="mt-4"
+                        <b-table :fields="fields" :items="sessions" class="mt-4 cursor-pointer"
                             :sort-by.sync="sortBy"
                             :sort-desc.sync="sortDesc"
                             @row-clicked="navigateToTrainingSession"

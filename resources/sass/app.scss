@@ -7,6 +7,12 @@
 // Sirs-Surveys
 @import './sirs-surveys.scss';
 
+@import './alert.scss';
+@import './group_volunteer_info.scss';
+@import './rich-text-editor.scss';
+@import './metric_box.scss';
+@import './volunteer_index.scss';
+
 $theme-colors: (
     "grey": #999,
     "primary": #f0f
@@ -51,6 +57,7 @@ $theme-colors: (
     }
 }
 
+table.cursor-pointer tr > td:hover,
 .cursor-pointer,
 .crsr-pointer {
     cursor: pointer;
