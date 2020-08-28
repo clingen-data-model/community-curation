@@ -9,26 +9,45 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{mix('/js/manifest.js')}}"></script>
-    <script src="{{ mix('/js/vendor.js') }}" defer></script>
-    <script src="{{ mix('/js/app.js') }}" defer></script>
 
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="manifest" href="/site.webmanifest" rel="preload">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link 
+        rel="preload" 
+        href="https://fonts.googleapis.com/css?family=Nunito&display=swap" 
+        as="style" 
+        onload="this.onload=null;this.rel='stylesheet'"
+    >
+    <link 
+        rel="preload" 
+        href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" 
+        as="style" 
+        onload="this.onload=null;this.rel='stylesheet'"
+    >
+    
+    
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link 
+        rel="preload" 
+        href="{{ mix('css/app.css') }}" 
+        as="style" 
+        onload="this.onload=null;this.rel='stylesheet'"
+    >
+
+    <noscript>
+        {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito&display=swap"> --}}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    </noscript>
 
     @stack('styles')
 </head>
@@ -128,5 +147,11 @@
             </div>
         </footer>
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ mix('/js/manifest.js') }}"></script>
+    <script src="{{ mix('/js/vendor.js') }}" defer></script>
+    <script src="{{ mix('/js/app.js') }}" defer></script>
+
 </body>
 </html>
