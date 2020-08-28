@@ -1,33 +1,18 @@
-<style scoped>
-    .highlight-on-hover:hover {
-        background-color: rgba(173, 247, 222, .20);
-    }
-</style>
-
 <template>
-    <!-- <div class="row highlight-on-hover p-1">
-        <label for=""
-            class="col-7"
+    <select 
+        v-model="newAssignmentStatusId"
+        class="form-control form-control-sm"
+        @change="$emit('assignmentstatuschange', newAssignmentStatusId)"
+    >
+        <option :value="null">Select</option>
+        <option 
+            v-for="assignmentStatus in assignmentStatuses"
+            :key="assignmentStatus.id"
+            :value="assignmentStatus.id"
         >
-            {{assignment.assignable.name}}
-        </label>
-        <div class="col-5"> -->
-            <select 
-                v-model="newAssignmentStatusId"
-                class="form-control form-control-sm"
-                @change="$emit('assignmentstatuschange', newAssignmentStatusId)"
-            >
-                <option :value="null">Select</option>
-                <option 
-                    v-for="assignmentStatus in assignmentStatuses"
-                    :key="assignmentStatus.id"
-                    :value="assignmentStatus.id"
-                >
-                    {{assignmentStatus.name}}
-                </option>
-            </select>
-        <!-- </div>
-    </div> -->
+            {{assignmentStatus.name}}
+        </option>
+    </select>
 </template>
 
 <script>
