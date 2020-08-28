@@ -1,9 +1,3 @@
-<style>
-    .activity-metrics-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-</style>
 <template>
     <div>
         <div class="activity-metrics-container">

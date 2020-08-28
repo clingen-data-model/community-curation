@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="group-volonteer-info">
         <div class="d-flex flex-wrap chart-container border-bottom mb-4">
             <div>
                 <div class="lead text-center">Assignment Status</div>
@@ -161,12 +161,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .chart-container > div {
-        margin-right: 1rem;
-        margin-bottom: 1rem;
-        /* border-right: 1px solid #f0f; */
-        width: 23%;
-    }
-</style>
