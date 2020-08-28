@@ -9,11 +9,6 @@
         ></ckeditor>
     </div>
 </template>
-<style scoped>
-    .ck-editor__editable_inline {
-        min-height: 200px;
-    }
-</style>
 <script>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CKEditor from '@ckeditor/ckeditor5-vue';
