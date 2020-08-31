@@ -38,8 +38,8 @@ mix.config.webpackConfig.output = {
 mix.webpackConfig({
     plugins: [
         new CleanWebpackPlugin({
-            dry: true,
-            cleanAfterEveryBuildPatterns: ['js/**/*']
+            // dry: true,
+            cleanOnceBeforeBuildPatterns: ['!**/*', 'js/**/*', 'js/modules/*', 'css/**/*']
         }),
     ]
 })
