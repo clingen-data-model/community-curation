@@ -11,7 +11,12 @@
     </only-volunteer>
 </template>
 <script>
+import HypothesisLink from '../../HypothesisLink'
+
 export default {
+    components: {
+         HypothesisLink 
+    },
     props: {
         volunteer: {
             required: true,
