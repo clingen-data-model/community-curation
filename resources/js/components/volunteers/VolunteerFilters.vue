@@ -1,3 +1,14 @@
+<style>
+    .flex-row {
+        display: flex;
+    }
+    .flex-row > div {
+        margin-right: 1rem;
+    }
+    .flex-row > div:last-child {
+        margin-right: 0;
+    }
+</style>
 <template>
     <div class="flex-row mb-2 p-0 filter-row">
         <slot name="before"></slot>
