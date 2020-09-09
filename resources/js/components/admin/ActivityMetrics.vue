@@ -62,10 +62,6 @@ export default {
         },
         async getApplicationsInLast(quantity, unit)
         {
-            // const val = await getApplications({
-            //                 'finalized_at': moment().subtract(quantity, unit).format('YYYY-MM-DD HH:mm:ss'), 
-            //                 'only_count': 1
-            //             });
             const val = await window.axios.get(`/api/applicaitons?finalized_at=${moment().subtract(quantity, unit).utc().format('YYYY-MM-DD HH:mm:ss')}&only_count=1`)
                             .then(response => response.data.data);
             return val;
