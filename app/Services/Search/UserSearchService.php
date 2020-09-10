@@ -2,11 +2,10 @@
 
 namespace App\Services\Search;
 
-use App\User;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use App\Contracts\ModelSearchService;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class UserSearchService implements ModelSearchService
 {
@@ -18,13 +17,13 @@ class UserSearchService implements ModelSearchService
         'volunteer_type_id',
     ];
 
-    public function search($params):Collection
+    public function search($params): Collection
     {
         return $this->buildQuery($params)
                 ->get();
     }
 
-    public function buildQuery($params):Builder
+    public function buildQuery($params): Builder
     {
         $query = User::query();
 
@@ -54,13 +53,15 @@ class UserSearchService implements ModelSearchService
         }
 
         $this->setOrder($params, $query);
- 
+
         return $query;
     }
 
-
     protected function setOrder($params, $query)
     {
+        if (isset($params['sortBy']) && $params['sortBy'] == '') {
+            return;
+        }
         $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'last_name';
         $sortDir = (isset($params['sortDesc']) && $params['sortDesc'] === 'true') ? 'desc' : 'asc';
         $query->orderBy($sortField, $sortDir);
@@ -70,11 +71,13 @@ class UserSearchService implements ModelSearchService
     {
         if ($value == 0) {
             $query->whereNull('last_logged_in_at');
+
             return;
         }
 
         if ($value == 1) {
             $query->whereNotNull('last_logged_in_at');
+
             return;
         }
         $query->whereNotNull('last_logged_in_at')
