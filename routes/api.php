@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,31 +14,23 @@ use Illuminate\Http\Request;
 Route::group([
         'namespace' => 'Api',
     ], function () {
+        Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
+
         Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
         Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
         Route::get('curation-activities', 'CurationActivitiesController@index')->name('curation-activities-index');
 
-        // Route::get('test-504', function () {
-        //     return response()->json(['test 504'], 504);
-        // });
-
-        // Route::post('log-504', function (Request $request) {
-        //     \Log::error('504 response detected', $request->all());
-        //     return response('logged', 200);
-        // });
-
-        
         Route::group([
-            'middleware' => 'auth:api'
+            'middleware' => 'auth:api',
         ], function () {
             Route::resource('applicaitons', 'ApplicationController')
                 ->only(['index', 'show']);
 
             Route::resource('assignments', 'AssignmentController')
-                ->only(['index', 'store','show', 'update', 'destroy']);
+                ->only(['index', 'store', 'show', 'update', 'destroy']);
 
             Route::resource('trainings', 'TrainingController')
-                ->only(['store','update']);
+                ->only(['store', 'update']);
 
             Route::resource('training-sessions', 'TrainingSessionController');
             Route::group(['middleware' => ['role:admin|programmer']], function () {
@@ -50,11 +40,12 @@ Route::group([
                 Route::get('training-sessions/{id}/invite-preview', 'TrainingSessionController@inviteEmailPreview');
             });
 
+            // Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
             Route::get('volunteers/{id}/attestations', 'AttestationController@volunteer');
             Route::resource('volunteers', 'VolunteerController');
-            
-            Route::get('users/current', 'UserController@currentUser')->name("current-user");
+
+            Route::get('users/current', 'UserController@currentUser')->name('current-user');
             Route::resource('users', 'UserController');
 
             Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')->name('curator-upload-file');
@@ -66,13 +57,13 @@ Route::group([
 
             Route::resource('notes', 'NotesController')->except(['create', 'edit']);
 
-            /**
+            /*
              * Catch-all route for generic API read exposure
              **/
-    
+
             // index
             Route::get('{model}', 'ApiController@index');
-    
+
             // show
             Route::get('{model}/{id}', 'ApiController@show');
         });
