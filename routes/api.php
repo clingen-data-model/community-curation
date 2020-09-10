@@ -14,8 +14,6 @@
 Route::group([
         'namespace' => 'Api',
     ], function () {
-        Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
-
         Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
         Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
         Route::get('curation-activities', 'CurationActivitiesController@index')->name('curation-activities-index');
@@ -40,7 +38,7 @@ Route::group([
                 Route::get('training-sessions/{id}/invite-preview', 'TrainingSessionController@inviteEmailPreview');
             });
 
-            // Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
+            Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
             Route::get('volunteers/{id}/attestations', 'AttestationController@volunteer');
             Route::resource('volunteers', 'VolunteerController');
