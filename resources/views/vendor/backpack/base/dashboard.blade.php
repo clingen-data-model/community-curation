@@ -1,8 +1,6 @@
 @extends('backpack::layout')
 
 @section('before_styles')
-    <script src="{{mix('/js/manifest.js')}}"></script>
-    <script src="{{ mix('/js/vendor.js') }}" defer></script>
     <script src="{{ mix('/js/app.js') }}" defer></script>
     <style>
         body {
@@ -14,7 +12,7 @@
 @section('header')
     <section class="content-header">
 		<h1>
-			{{ trans('backpack::base.dashboard') }}<small>{{ trans('backpack::base.first_page_you_see') }}</small>
+			{{ trans('backpack::base.dashboard') }}
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
@@ -28,14 +26,22 @@
     <div id="app">
 	<div class="box">
 		<div class="box-header with-border">
+			<div class="box-title w-100">Demographic Metrics</div>
+			<div class="box-body">
+				<global-metrics ref="glabalmetrics"></global-metrics>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="box-header with-border">
 			<div class="box-title w-100">
-				<button class="btn btn-sm btn-light border float-right" @click="$refs.metrics.getMetrics()">
+				<button class="btn btn-sm btn-light border float-right" @click="$refs.activitymetrics.getMetrics()">
 					<b-icon icon="arrow-clockwise"></b-icon>
 				</button>
 				Activity Metrics
 			</div>
 			<div class="box-body">
-				<activity-metrics ref="metrics"></activity-metrics>
+				<activity-metrics ref="activitymetrics"></activity-metrics>
 			</div>
 		</div>
 	</div>

@@ -22,25 +22,25 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link 
-        rel="preload" 
+        rel="preload stylesheet" 
         href="https://fonts.googleapis.com/css?family=Nunito&display=swap" 
         as="style" 
-        onload="this.onload=null;this.rel='stylesheet'"
+        onload="this.rel = 'stylesheet'"
     >
     <link 
-        rel="preload" 
+        rel="preload stylesheet" 
         href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" 
         as="style" 
-        onload="this.onload=null;this.rel='stylesheet'"
+        onload="this.rel = 'stylesheet'"
     >
     
     
     <!-- Styles -->
     <link 
-        rel="preload" 
+        rel="preload stylesheet" 
         href="{{ mix('css/app.css') }}" 
         as="style" 
-        onload="this.onload=null;this.rel='stylesheet'"
+        onload="this.rel = 'stylesheet'"
     >
 
     <noscript>
@@ -149,8 +149,6 @@
     </div>
 
     <!-- Scripts -->
-    {{-- <script src="{{ mix('/js/manifest.js') }}"></script> --}}
-    {{-- <script src="{{ mix('/js/modules/vendors.bundle.js') }}" defer></script> --}}
     <script src="{{ mix('/js/app.js') }}" defer></script>
 
 </body>

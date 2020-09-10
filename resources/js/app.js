@@ -37,25 +37,25 @@ function evaluate(el, binding, vnode) {
     console.log(binding);
 }
 
-window.clearSessionStorage = function () {
+window.clearSessionStorage = function() {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('impersonatable-users');
 }
 
 
 
-window.axios.interceptors.request.use(function (config) {
+window.axios.interceptors.request.use(function(config) {
     store.commit('addRequest');
     const apiParts = config.url.split(/[\/?&]/)
     return config;
 })
 
 window.axios.interceptors.response.use(
-    function (response) {
+    function(response) {
         store.commit('removeRequest');
         return response;
-    }, 
-    function (error) {
+    },
+    function(error) {
         store.commit('removeRequest');
         return Promise.reject(error);
     }
@@ -130,7 +130,7 @@ function createOption({ value, label }) {
 let curationActivities = [];
 async function loadActivities() {
     curationActivities = await getAllCurationActivities();
-    
+
     Array.from(document.querySelectorAll('select.curation-activity-question'))
         .forEach(question => {
             question.disabled = false;
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadActivities();
 
     loadPanels();
-    
+
     curationActivityQuestions
         .forEach(question => {
             question.addEventListener('change', (evt) => {

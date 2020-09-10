@@ -44,7 +44,13 @@ export default {
         }
     },
     methods: {
+        clearChart() {
+            if (this.chart !== null) {
+                this.chart.destroy();
+            }
+        },
         renderChart(context, options) {
+            this.clearChart();
             const data  = {
                 type: 'pie',
                 data: {
@@ -54,7 +60,11 @@ export default {
                         data: Object.values(this.chartData),
                         backgroundColor: (context) => {
                             if (this.colors.length < Object.keys(this.chartData).length) {
-                                this.$set(this.colors, context.dataIndex, `rgba(${this.generateRandomColor(256)},${this.generateRandomColor(256)},${this.generateRandomColor(256)},0.4)`);
+                                if (Object.keys(this.chartData)[context.dataIndex].toLowerCase() == 'unknown') {
+                                    this.$set(this.colors, context.dataIndex, `rgba(100,100,100,.4)`)
+                                    return;
+                                }
+                                this.$set(this.colors, context.dataIndex, this.generateRandomColor());
                             }
                             return this.colors[context.dataIndex]
                         }
@@ -66,7 +76,12 @@ export default {
             this.chart = new Chart(this.$refs.chartCanvas.getContext('2d'), data)
         },
         generateRandomColor(max) {
-            return Math.floor(Math.random() * Math.floor(max));
+            const randNum = () => Math.floor(Math.random() * Math.floor(256));
+            let color = `rgba(${randNum()},${randNum()},${randNum()},0.4)`;
+            while (color == `rgba(100,100,100,0.4)`) {
+                color = `rgba(${randNum()},${randNum()},${randNum()},0.4)`;
+            }
+            return color;
         },
     },
     mounted () {
