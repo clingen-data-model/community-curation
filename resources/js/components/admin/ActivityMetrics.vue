@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="activity-metrics-container">
+        <div class="activity-metrics-container d-flex">
             <metric-box title="New applications in last 7 days" :value="sevenDayApplications"></metric-box>
             <metric-box title="New applications in last 30 days" :value="thirtyDayApplications"></metric-box>
             <metric-box title="Logged in last 7 days" :value="sevenDayLogins"></metric-box>
@@ -49,7 +49,6 @@ export default {
                     return response.data.data.length
                 });
 
-            console.log(val);
             return val;
         },
         async getSevenDayApplications()

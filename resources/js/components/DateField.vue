@@ -10,6 +10,7 @@
 <script>
     import moment from 'moment';
     import datepicker from 'bootstrap-datepicker';
+    require('bootstrap-datepicker/dist/css/bootstrap-datepicker.css')
 
     export default {
         name: 'date-field',
