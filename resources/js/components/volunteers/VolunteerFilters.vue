@@ -10,7 +10,7 @@
     }
 </style>
 <template>
-    <div class="flex-row mb-2 p-0 filter-row">
+    <div class="d-flex mb-2 p-0 filter-row">
         <slot name="before"></slot>
         <div class="form-inline border-right pr-3" v-if="!hideSearch">
             <label for="filter-input">Search:</label>
@@ -93,7 +93,7 @@
     import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses';
     import getAllVolunteerTypes from '../../resources/volunteers/get_all_volunteer_types';
 
-export default {
+    export default {
         props: {
             hideSearch: {
                 required: false,

@@ -59,7 +59,7 @@
     </div>
 </template>
 <script>
-import PieChart from './charts/PieChart';
+// import PieChart from './charts/PieChart';
 export default {
     components: {
         PieChart,

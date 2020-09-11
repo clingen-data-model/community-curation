@@ -3,6 +3,11 @@ require('./bootstrap');
 require('sirs-skiptrigger')
 require('mutually-exclusive')
 
+/**
+ * require blank scss file to force include of style-loader and css-loader
+ */
+require('../sass/blank.scss')
+
 window.datepicker = require('bootstrap-datepicker');
 window.timepicker = require('timepicker');
 window.Vue = require('vue');

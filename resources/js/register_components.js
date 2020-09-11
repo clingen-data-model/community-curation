@@ -109,6 +109,12 @@ window.Vue.component('training-session-detail', () =>
 window.Vue.component('report-form', () =>
     import ( /* webpackChunkName: "report-form" */ './components/reports/ReportForm'));
 
+window.Vue.component('volunteer-filters', () =>
+    import ( /* webpackChunkName: "volunteer-filters" */ './components/volunteers/VolunteerFilters'));
+
+window.Vue.component('pie-chart', () =>
+    import ( /* webpackChunkName: "pie-chart" */ './components/charts/PieChart'));
+
 /**
  * Notes
  */
