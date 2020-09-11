@@ -1,8 +1,9 @@
-<style>
+<style scoped>
     .flex-row {
         display: flex;
     }
-    .flex-row > div {
+    .flex-row > div,
+    .d-flex > * {
         margin-right: 1rem;
     }
     .flex-row > div:last-child {

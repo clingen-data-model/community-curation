@@ -1,9 +1,17 @@
-<style>
+<style scoped>
     .charts-container {
         min-height: 150px;
     }
     .pie-container {
         width: 225px;
+    }
+    .loading {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(256,256,256,.5);
     }
 </style>
 <template>
@@ -17,14 +25,19 @@
                 </div>
             </div>
         </volunteer-filters>
-        <div class="d-relative chart-container mt-1">
+        <div class="position-relative chart-container mt-1">
+            <div v-if="hasFilters && !hasMetrics" class="alert alert-light text-center">
+                No volunteers matched your filters.
+            </div>
             <div class="d-flex flex-wrap" v-if="!loading || hasMetrics">
                 <div v-for="(metric, index) in metrics" :key="index" class="pie-container px-1">
                     <h4 class="text-center">{{index|titleCase}}</h4>
                     <pie-chart :chart-data="metric"></pie-chart>
                 </div>
             </div>
-            <div class="text-muted text-center p-1 w-100 h-100 p-absolute" v-if="loading">Loading...</div>
+            <div class="text-muted text-center loading d-flex align-items-center justify-content-center" v-if="loading">
+                <div class="alert alert-light border">Loading...</div>
+            </div>
         </div>
     </div>
 </template>
@@ -58,6 +71,14 @@ export default {
     computed: {
         hasMetrics() {
             return Object.keys(this.metrics).length > 0;
+        },
+        hasFilters() {
+            if (this.startDate || this.endDate) {
+                return true;
+            }
+            return Object.keys(this.volunteerFilters)
+                .filter(key => (this.volunteerFilters[key] !== null))
+                .length > 0;
         }
     },
     methods: {
@@ -83,7 +104,10 @@ export default {
             this.loading = false;
         },
         updateFilters(filters) {
-            this.volunterFilters = {...this.volunterFilters, ...filters};
+            for (const key in filters) {
+                console.info('key in filters', [key, filters[key]]);
+                this.$set(this.volunteerFilters, key, filters[key]);
+            }
             this.getMetrics();
         }
     },
