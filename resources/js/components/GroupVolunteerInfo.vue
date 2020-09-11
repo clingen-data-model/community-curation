@@ -59,11 +59,7 @@
     </div>
 </template>
 <script>
-// import PieChart from './charts/PieChart';
 export default {
-    components: {
-        PieChart,
-    },
     props: {
         assignments: {
             required: true,
