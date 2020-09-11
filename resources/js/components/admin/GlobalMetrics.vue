@@ -1,3 +1,11 @@
+<style>
+    .charts-container {
+        min-height: 150px;
+    }
+    .pie-container {
+        width: 225px;
+    }
+</style>
 <template>
     <div>
         <volunteer-filters @filters-changed="updateFilters" :hide-search="true">
@@ -9,33 +17,30 @@
                 </div>
             </div>
         </volunteer-filters>
-        <div class="d-flex">
-            <div v-for="(metric, index) in metrics" :key="index" class="mr-1 w-50">
-                <h3 class="text-center">{{index|titleCase}}</h3>
-                <pie-chart :chart-data="metric"></pie-chart>
+        <div class="d-relative chart-container mt-1">
+            <div class="d-flex flex-wrap" v-if="!loading || hasMetrics">
+                <div v-for="(metric, index) in metrics" :key="index" class="pie-container px-1">
+                    <h4 class="text-center">{{index|titleCase}}</h4>
+                    <pie-chart :chart-data="metric"></pie-chart>
+                </div>
             </div>
+            <div class="text-muted text-center p-1 w-100 h-100 p-absolute" v-if="loading">Loading...</div>
         </div>
     </div>
 </template>
 <script>
-import PieChart from '../charts/PieChart'
 import getMetrics from '../../resources/volunteers/get_metrics'
-import VolunteerFilters from '../volunteers/VolunteerFilters'
 import {omitBy, isUndefined} from 'lodash';
 import moment from 'moment-timezone';
 
 export default {
-    components: {
-        // 'volunteer-filters': () => import(/* volunteer-filters */ '../volunteers/VolunteerFilters')
-        VolunteerFilters,
-        PieChart
-    },
     data() {
         return {
             metrics: {},
             startDate: null,
             endDate: null,
-            volunteerFilters: {}
+            volunteerFilters: {},
+            loading: false
         }
     },
     filters: {
@@ -50,11 +55,15 @@ export default {
                     .join(' ');
         }
     },
+    computed: {
+        hasMetrics() {
+            return Object.keys(this.metrics).length > 0;
+        }
+    },
     methods: {
         async getMetrics() {
             const staticParams = {};
 
-            console.log(this.volunteerFilters);
             let params = {...staticParams, ...this.volunteerFilters};
             console.info('this.startDate', this.startDate)
             if (this.startDate) {
@@ -69,8 +78,9 @@ export default {
                 params.end_date = moment(this.endDate).format('YYYY-MM-DD');
             }
             params = omitBy(params, isUndefined);
-            console.log(params);
+            this.loading = true;
             this.metrics = await getMetrics(params);
+            this.loading = false;
         },
         updateFilters(filters) {
             this.volunterFilters = {...this.volunterFilters, ...filters};
