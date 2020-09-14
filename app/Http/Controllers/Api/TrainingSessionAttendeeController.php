@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
-use App\TrainingSession;
-use App\CurationActivity;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\DefaultResource;
-use App\Notifications\CustomTrainingEmail;
 use App\Exceptions\NotImplementedException;
-use Illuminate\Support\Facades\Notification;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomTrainingEmailRequest;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
+use App\Http\Resources\DefaultResource;
 use App\Http\Resources\TrainingSessionAttendeeResource;
 use App\Jobs\InviteVolunteersToTrainingSession;
+use App\Notifications\CustomTrainingEmail;
+use App\TrainingSession;
+use App\User;
 use League\HTMLToMarkdown\HtmlConverter;
 use Parsedown;
 
@@ -33,17 +30,17 @@ class TrainingSessionAttendeeController extends Controller
                 $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
                     ->select('created_at as date_assigned', 'user_id', 'id');
             },
-            'assignments.userAptitudes'
+            'assignments.userAptitudes',
         ])->get();
 
         return TrainingSessionAttendeeResource::collection($attendees);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TrainingSessionAttendeeInviteRequest $request, $trainingSessionId)
@@ -57,7 +54,7 @@ class TrainingSessionAttendeeController extends Controller
                 $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
                     ->select('created_at as date_assigned', 'user_id', 'id');
             },
-            'assignments.userAptitudes'
+            'assignments.userAptitudes',
          ])->get();
 
         return TrainingSessionAttendeeResource::collection($attendees);
@@ -66,7 +63,8 @@ class TrainingSessionAttendeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,20 +75,19 @@ class TrainingSessionAttendeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($trainingSessionId, $userId)
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
-        
+
         $trainingSession->attendees()->detach($userId);
     }
-    
+
     public function trainableVolunteers($trainingSessionId)
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
-        $volunteers = User::isVolunteer()
+        $volunteerQuery = User::isVolunteer()
                         ->whereNotIn('id', $trainingSession->attendees->pluck('id'))
                         ->whereHas('userAptitudes', function ($q) use ($trainingSession) {
                             $q->needsTraining()
@@ -101,8 +98,10 @@ class TrainingSessionAttendeeController extends Controller
                         ->with(['assignments' => function ($q) use ($trainingSession) {
                             $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
                                 ->select('created_at as date_assigned', 'user_id');
-                        }])
-                        ->get();
+                        }]);
+
+        $volunteers = $volunteerQuery->get();
+
         return DefaultResource::collection($volunteers);
     }
 
