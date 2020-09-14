@@ -2,12 +2,12 @@
 
 namespace App;
 
+use App\Collections\AssignmentCollection;
 use App\Events\AssignmentCreated;
 use App\Events\TrainingCompleted;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
-use App\Collections\AssignmentCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Event;
 
 class Assignment extends Model
 {
@@ -18,16 +18,16 @@ class Assignment extends Model
         'assignment_status_id',
         'assignable_id',
         'assignable_type',
-        'parent_id'
+        'parent_id',
     ];
 
     protected $with = [
         'status',
-        'assignable'
+        'assignable',
     ];
 
     protected $dispatchesEvents = [
-        'created' => AssignmentCreated::class
+        'created' => AssignmentCreated::class,
     ];
 
     public static function boot()
@@ -44,14 +44,18 @@ class Assignment extends Model
             if ($model->subAssignments->count() > 0) {
                 $model->subAssignments->each->delete();
             }
+
+            $model->volunteer->userAptitudes()
+                    ->whereIn('aptitude_id', $model->assignable->aptitudes->pluck('id'))
+                    ->get()
+                    ->each
+                    ->delete();
         });
     }
 
-
     /**
-     * RELATIONS
+     * RELATIONS.
      */
-
     public function parent()
     {
         return $this->belongsTo(__CLASS__);
@@ -88,9 +92,8 @@ class Assignment extends Model
     }
 
     /**
-     * SCOPES
+     * SCOPES.
      */
-
     public function scopeIsParent($query)
     {
         return $query->curationActivity();
@@ -100,7 +103,7 @@ class Assignment extends Model
     {
         return $query->whereNotNull('parent_id');
     }
-    
+
     public function scopeCurationActivity($query)
     {
         return $query->where('assignable_type', CurationActivity::class);
@@ -115,7 +118,6 @@ class Assignment extends Model
     {
         return $query->assignableType(Gene::class);
     }
-    
 
     public function scopeAssignableType($query, $param)
     {
