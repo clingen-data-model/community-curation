@@ -145,7 +145,11 @@ export default {
                     label: 'Date Assigned',
                     sortable: true,
                     formatter: (value, key, item) => {
-                         return this.$root.$options.filters.formatDate(item.assignments[0].date_assigned, 'YYYY-MM-DD')
+                        if (item.assignments[0]) {
+                            return this.$root.$options.filters.formatDate(item.assignments[0].date_assigned, 'YYYY-MM-DD')
+                        } else {
+                            console.info('missing assignments',item)
+                        }
                     }
                 },
                 
