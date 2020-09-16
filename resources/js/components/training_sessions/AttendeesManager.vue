@@ -1,3 +1,9 @@
+<style>
+    tr.table-muted {
+        background-color: #ddd;
+        color: 999 !important;
+    }
+</style>
 <template>
     <div>
         <section>
@@ -57,12 +63,15 @@
         <section class="mt-5">
             <header class="clearfix">
                 <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
-                <div class="float-right mr-2 pr-2 border-right">
+                <div class="float-right mr-2 mb-2 pr-2 border-right">
                     <b-form-input type="text" v-model="trainableFilter" class="form-control form-control-sm mr-1" placeholder="search first or last" debounce="250"></b-form-input>
+                    <button @click="showInactiveTrainables = !showInactiveTrainables" class="btn btn-xs btn-default">
+                        {{showInactiveTrainables ? 'Hide' : 'Show'}} inactive volunteers
+                    </button>
                 </div>
                 <h5>
-                    Volunteers who need {{trainingSession.topic.name}} training 
-                    <small>({{trainableVolunteers.length}})</small>
+                    {{showInactiveTrainables ? 'All' : 'Active'}} volunteers who need {{trainingSession.topic.name}} training 
+                    <small>({{filteredTrainable.length}})</small>
                     <button class="btn btn-default material-icons" :class="{rotate: loadingVolunteers}" @click="getTrainableVolunteers">cached</button>
                 </h5>
             </header>
@@ -71,9 +80,8 @@
                 v-if="trainableVolunteers.length > 0" 
                 sort-by="assignments[0].date_assigned" 
                 small
-                sticky-header="307px"
                 no-border-collapse
-                class="border-bottom"
+                class="border-bottom overflow-auto"
                 @row-clicked="handleInviteRowClick"
             >
                 <template v-slot:cell(first_name)="{item}">
@@ -145,7 +153,11 @@ export default {
                     label: 'Date Assigned',
                     sortable: true,
                     formatter: (value, key, item) => {
-                         return this.$root.$options.filters.formatDate(item.assignments[0].date_assigned, 'YYYY-MM-DD')
+                        if (item.assignments[0]) {
+                            return this.$root.$options.filters.formatDate(item.assignments[0].date_assigned, 'YYYY-MM-DD')
+                        } else {
+                            console.info('missing assignments',item)
+                        }
                     }
                 },
                 
@@ -158,6 +170,7 @@ export default {
             inviting: false,
             currentDateTime: moment(),
             trainableFilter: null,
+            showInactiveTrainables: false
         }
     },
     watch: {
@@ -192,11 +205,16 @@ export default {
             return this.inviting ? 'Busy...' : 'Invite Selected'
         },
         filteredTrainable() {
-            console.log(this.trainableFilter);
-            if (this.trainableFilter === null || this.trainableFilter === '') {
-                return this.trainableVolunteers;
+            let trainable = this.trainableVolunteers;
+            if (!this.showInactiveTrainables) {
+                trainable = trainable.filter(row => ['unresponsive', 'declined', 'retired'].indexOf(row.volunteer_status.name) == -1)
             }
-            return this.trainableVolunteers
+
+            if (this.trainableFilter === null || this.trainableFilter === '') {
+                return trainable;
+            }
+            
+            return trainable
                     .filter(vol => {
                         return vol.first_name.toLowerCase().includes(this.trainableFilter.toLowerCase())
                             || vol.last_name.toLowerCase().includes(this.trainableFilter.toLowerCase())
@@ -243,6 +261,13 @@ export default {
         async getTrainableVolunteers() {
             this.loadingVolunteers = true;
             this.trainableVolunteers = await getTrainableVolunteers(this.trainingSession);
+            this.trainableVolunteers  = this.trainableVolunteers
+                                        .map(row => {
+                                            if (['unresponsive', 'declined', 'retired'].indexOf(row.volunteer_status.name) > -1) {
+                                                row._rowVariant = 'muted'
+                                            }
+                                            return row
+                                        });
             this.loadingVolunteers = false;
         },
         handleInviteRowClick (item, index, evt) {

@@ -1,12 +1,12 @@
 <template>
     <div class="border p-3 rounded">
         <div class="form-group row">
-            <label class="col-sm-1">To:</label>
-            <small class="col-sm-11">{{attendees.map(atnd => `${atnd.first_name} ${atnd.last_name}`).join(', ')}}</small>
+            <label class="col-lg-1">To:</label>
+            <small class="col-lg-11">{{attendees.map(atnd => `${atnd.first_name} ${atnd.last_name}`).join(', ')}}</small>
         </div>
         <div class="form-group row">
-            <label for="from" class="col-sm-1">From:</label>
-            <div class="col-sm-6">
+            <label for="from" class="col-lg-1">From:</label>
+            <div class="col-lg-6">
                 <select v-model="fromEmail" class="form-control" id="from">
                     <option :value="$store.state.configs.mailFrom.address">{{$store.state.configs.mailFrom.address}}</option>
                     <option :value="$store.state.user.email">{{$store.state.user.email}}</option>
@@ -14,12 +14,12 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-1" for="subject">Subject:</label>
-            <div class="col-sm-8">
+            <label class="col-lg-1" for="subject">Subject:</label>
+            <div class="col-lg-8">
                 <input type="text" v-model="subject" class="form-control w-50" id="subject">
             </div>
         </div>
-        <rich-text-editor v-model="emailContent" id="message-body"></rich-text-editor>
+        <rich-text v-model="emailContent" id="message-body"></rich-text>
 
         <div class="mt-3">
             <button class="btn btn-sm btn-default border" @click="cancelEmail">Cancel</button>

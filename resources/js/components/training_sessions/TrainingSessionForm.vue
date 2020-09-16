@@ -38,7 +38,7 @@
         <div class="form-group row align-items-start">
             <label class="col-sm-3" for="invie-message-field">Inivite Message</label>
             <div class="col-sm-9">
-                <rich-text-editor v-model="newSessionData.invite_message" id="message-body"></rich-text-editor>
+                <rich-text v-model="newSessionData.invite_message" id="message-body"></rich-text>
                 <validation-error :errors="errors.invite_message"></validation-error>
             </div>
         </div>
