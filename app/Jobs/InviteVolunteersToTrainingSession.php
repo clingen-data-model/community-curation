@@ -2,16 +2,17 @@
 
 namespace App\Jobs;
 
+use App\Notifications\TrainingSessionInviteEmail;
 use App\TrainingSession;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\TrainingSessionInviteEmail;
 
 class InviteVolunteersToTrainingSession
 {
-    use Dispatchable, Queueable;
+    use Dispatchable;
+    use Queueable;
 
     protected $trainingSession;
 
@@ -24,7 +25,6 @@ class InviteVolunteersToTrainingSession
      */
     public function __construct(TrainingSession $trainingSession, Collection $volunteers)
     {
-        //
         $this->trainingSession = $trainingSession;
         $this->volunteers = $volunteers;
     }
@@ -37,6 +37,8 @@ class InviteVolunteersToTrainingSession
     public function handle()
     {
         $this->trainingSession->attendees()->syncWithoutDetaching($this->volunteers->pluck('id'));
-        Notification::send($this->volunteers, new TrainingSessionInviteEmail($this->trainingSession));
+        if ($this->trainingSession->isUpcoming()) {
+            Notification::send($this->volunteers, new TrainingSessionInviteEmail($this->trainingSession));
+        }
     }
 }

@@ -2,20 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Gene;
-use App\User;
 use App\Assignment;
-use Tests\TestCase;
-use App\CurationGroup;
 use App\CurationActivity;
+use App\CurationGroup;
 use App\Events\AssignmentCreated;
-use Illuminate\Support\Facades\Event;
-use App\Jobs\AssignVolunteerToAssignable;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Exceptions\InvalidAssignmentException;
-use App\Events\Assignments\GroupAssignmentCreated;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Gene;
+use App\Jobs\AssignVolunteerToAssignable;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 /**
  * @group assignments
@@ -29,7 +27,7 @@ class AssignmentTest extends TestCase
      */
     public function baseline_volunteers_cannot_be_assigned_to_a_CurationActivity()
     {
-        $baselineVolunteer = factory(User::class)->states(['volunteer','baseline'])->create(['volunteer_type_id' => 1]);
+        $baselineVolunteer = factory(User::class)->states(['volunteer', 'baseline'])->create(['volunteer_type_id' => 1]);
         $this->curationActivity = CurationActivity::query()->first();
 
         $this->expectException(InvalidAssignmentException::class);
@@ -50,7 +48,7 @@ class AssignmentTest extends TestCase
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
         $this->assertEquals($curationActivity->id, $volunteer->fresh()->assignments->first()->assignable_id);
     }
-    
+
     /**
      * @test
      */
@@ -61,7 +59,7 @@ class AssignmentTest extends TestCase
 
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
-        
+
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
     }
 
@@ -74,10 +72,9 @@ class AssignmentTest extends TestCase
         $curationGroup = CurationGroup::all()->first();
 
         AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup);
-        
+
         $this->assertEquals(1, $volunteer->fresh()->assignments->count());
     }
-    
 
     /**
      * @test
@@ -92,7 +89,7 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer, $curationGroup);
 
         $assignments = $volunteer->assignments;
-        
+
         $this->assertEquals(2, $volunteer->fresh()->assignments->count());
 
         $this->assertEquals(
@@ -114,7 +111,7 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer, $gene);
 
         $assignments = $volunteer->assignments;
-        
+
         $this->assertEquals(2, $volunteer->fresh()->assignments->count());
 
         $this->assertEquals(
@@ -122,8 +119,6 @@ class AssignmentTest extends TestCase
             $volunteer->assignments()->gene()->first()->parent_id
         );
     }
-    
-    
 
     /**
      * @test
@@ -182,7 +177,6 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
         $this->assertNotEquals(config('volunteers.statuses.active'), $volunteer->fresh()->volunteer_status_id);
 
-
         AssignVolunteerToAssignable::dispatch($volunteer, $gene);
 
         $this->assertEquals(config('volunteers.statuses.active'), $volunteer->fresh()->volunteer_status_id);
@@ -191,5 +185,32 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer2, $ep);
 
         $this->assertEquals(config('volunteers.statuses.active'), $volunteer2->fresh()->volunteer_status_id);
+    }
+
+    /**
+     * @test
+     */
+    public function deletes_user_aptitudes_related_to_assignment_when_deleting()
+    {
+        Carbon::setTestNow('2020-01-01 01:01:01');
+        $ca = CurationActivity::all()->random();
+        $apt = $ca->aptitudes->first();
+        $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
+        AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+
+        $aptitudes = $volunteer->fresh()
+                        ->userAptitudes()
+                        ->where('aptitude_id', $apt->id)
+                        ->get();
+        $this->assertEquals(1, $aptitudes->count());
+
+        $assignment = $volunteer->assignments()->first();
+        $assignment->delete();
+
+        $this->assertDatabaseHas('user_aptitudes', [
+            'user_id' => $volunteer->id,
+            'aptitude_id' => $apt->id,
+            'deleted_at' => '2020-01-01 01:01:01',
+        ]);
     }
 }

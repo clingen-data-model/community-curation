@@ -40,7 +40,7 @@ export default {
         return {
             group: this.initalGroup,
             groupType: 'Curation Activities',
-            groupUrl: '/curation-activities/',
+            groupUrl: '/curation-activities',
             additionalTableFields: [
                 {
                     key: 'sub_assignments',

@@ -4,9 +4,9 @@ namespace App;
 
 use App\Traits\TranscodesHtmlToMarkdown;
 use Carbon\Carbon;
-use Spatie\CalendarLinks\Link;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\CalendarLinks\Link;
 
 class TrainingSession extends Model
 {
@@ -20,12 +20,12 @@ class TrainingSession extends Model
         'ends_at',
         'url',
         'invite_message',
-        'notes'
+        'notes',
     ];
 
     public $dates = [
         'starts_at',
-        'ends_at'
+        'ends_at',
     ];
 
     public function topic()
@@ -51,7 +51,7 @@ class TrainingSession extends Model
     public function getCalendarLinksAttribute()
     {
         $link = $this->getCalendarLink();
-        
+
         return [
             'Apple & Outlook' => $link->ics(),
             'Google' => $link->google(),
@@ -62,14 +62,14 @@ class TrainingSession extends Model
 
     public function getTitleAttribute()
     {
-        return 'ClinGen ' . $this->topic->name . ' Training';
+        return 'ClinGen '.$this->topic->name.' Training';
     }
 
     public function getDescriptionAttribute()
     {
-        return 'Training for ClinGen ' . $this->topic->name;
+        return 'Training for ClinGen '.$this->topic->name;
     }
-    
+
     public function getIcsFilePath()
     {
         if (!file_exists(storage_path('/app/calendar_ics'))) {
@@ -81,6 +81,7 @@ class TrainingSession extends Model
             fwrite($fh, $this->getIcsString());
             fclose($fh);
         }
+
         return $filepath;
     }
 
@@ -119,11 +120,21 @@ class TrainingSession extends Model
         return $string;
     }
 
+    public function isUpcoming()
+    {
+        return $this->starts_at->gt(Carbon::now());
+    }
+
+    public function isPast()
+    {
+        return $this->starts_at->lt(Carbon::now());
+    }
+
     public function setInviteMessageAttribute($value)
     {
         $this->attributes['invite_message'] = $this->htmlToMarkdown($value);
     }
-    
+
     public function getInviteMessageAttribute()
     {
         return $this->markdownToHtml($this->attributes['invite_message']);
