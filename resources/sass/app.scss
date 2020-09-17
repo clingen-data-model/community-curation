@@ -130,3 +130,7 @@ button.rotate:focus {
         @extend .text-light;
     }
 }
+
+.modal-backdrop {
+    opacity: .5;
+}

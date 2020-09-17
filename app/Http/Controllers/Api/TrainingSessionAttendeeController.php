@@ -100,10 +100,20 @@ class TrainingSessionAttendeeController extends Controller
                                     $qu->forSubject($trainingSession->topic_type, $trainingSession->topic_id);
                                 });
                         })
-                        ->with(['assignments' => function ($q) use ($trainingSession) {
-                            $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
-                                ->select('created_at as date_assigned', 'user_id');
-                        }, 'volunteerStatus']);
+                        ->with([
+                            'assignments' => function ($q) use ($trainingSession) {
+                                $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
+                                    ->select('created_at as date_assigned', 'user_id', 'id', 'assignable_type', 'assignable_id', 'assignment_status_id');
+                            },
+                            'assignments.status',
+                            'volunteerStatus',
+                        ])
+                        ->withCount([
+                            'trainingSessions' => function ($q) use ($trainingSession) {
+                                $q->topicIs($trainingSession->topic)
+                                    ->past();
+                            },
+                        ]);
 
         $volunteers = $volunteerQuery->get();
 

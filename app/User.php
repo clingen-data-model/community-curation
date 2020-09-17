@@ -2,32 +2,29 @@
 
 namespace App;
 
-use App\Gene;
 use App\Contracts\IsNotable;
-use Backpack\CRUD\CrudTrait;
+use App\Events\Volunteers\ConvertedToComprehensive;
+use App\Events\Volunteers\MarkedBaseline;
+use App\Events\Volunteers\MarkedDeclined;
+use App\Events\Volunteers\MarkedUnresponsive;
 use App\Events\Volunteers\Retired;
-use Laravel\Passport\HasApiTokens;
+use App\Traits\IsNotable as TraitsIsNotable;
+use Backpack\CRUD\CrudTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
-use Spatie\Permission\Traits\HasRoles;
-use App\Http\Resources\DefaultResource;
-use Illuminate\Notifications\Notifiable;
-use App\Events\Volunteers\MarkedBaseline;
-use App\Events\Volunteers\MarkedDeclined;
-use App\Http\Resources\AssignmentResource;
 use Lab404\Impersonate\Models\Impersonate;
+use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Traits\IsNotable as TraitsIsNotable;
-use App\Events\Volunteers\MarkedUnresponsive;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 use Venturecraft\Revisionable\RevisionableTrait;
-use App\Events\Volunteers\ConvertedToComprehensive;
-use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
- * User model class
+ * User model class.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
@@ -46,7 +43,7 @@ class User extends Authenticatable implements IsNotable
     protected $revisionCreationsEnabled = true;
 
     protected $allPermissions;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -71,7 +68,7 @@ class User extends Authenticatable implements IsNotable
         'timezone',
         'hypothesis_id',
         'last_logged_in_at',
-        'last_logged_out_at'
+        'last_logged_out_at',
     ];
 
     /**
@@ -93,12 +90,12 @@ class User extends Authenticatable implements IsNotable
     ];
 
     protected $appends = [
-        'name'
+        'name',
     ];
 
     protected $dates = [
         'last_logged_in_at',
-        'last_logged_out_at'
+        'last_logged_out_at',
     ];
 
     public static function boot()
@@ -138,7 +135,7 @@ class User extends Authenticatable implements IsNotable
             }
         });
     }
-    
+
     public function volunteerType()
     {
         return $this->belongsTo(VolunteerType::class);
@@ -148,12 +145,12 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->belongsTo(VolunteerStatus::class);
     }
-    
+
     public function curationActivities()
     {
         return $this->belongsToMany(CurationActivity::class);
     }
-    
+
     public function curationGroups()
     {
         return $this->belongsToMany(CurationGroup::class);
@@ -168,17 +165,17 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->morphOne(Volunteer3MonthSurvey::class, 'respondent');
     }
-    
+
     public function volunteer6MonthSurvey()
     {
         return $this->morphOne(Volunteer6MonthSurvey::class, 'respondent');
     }
-    
+
     public function country()
     {
         return $this->belongsTo(Country::class);
     }
-    
+
     public function assignments()
     {
         return $this->hasMany(Assignment::class);
@@ -192,7 +189,7 @@ class User extends Authenticatable implements IsNotable
                     'status',
                     'assignable',
                     'subAssignments',
-                    'subAssignments.assignable'
+                    'subAssignments.assignable',
                     // 'userAptitudes',             // moved to VolunteerController@show for more efficient index listing
                     // 'userAptitudes.aptitude',    // moved to VolunteerController@show for more efficient index listing
                     // 'userAptitudes.attestation', // moved to VolunteerController@show for more efficient index listing
@@ -204,7 +201,7 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->hasMany(Attestation::class);
     }
-    
+
     public function aptitudes()
     {
         return $this->belongsToMany(Aptitude::class, 'user_aptitudes')
@@ -221,7 +218,7 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->hasMany(UserAptitude::class);
     }
-    
+
     public function curationActivityAssignments()
     {
         return $this->hasMany(Assignment::class)
@@ -239,6 +236,11 @@ class User extends Authenticatable implements IsNotable
         return $this->hasMany(Priority::class);
     }
 
+    public function trainingSessions()
+    {
+        return $this->belongsToMany(TrainingSession::class, 'training_session_user', 'user_id', 'training_session_id');
+    }
+
     public function canImpersonate()
     {
         return $this->can('impersonate');
@@ -253,8 +255,8 @@ class User extends Authenticatable implements IsNotable
         if (Auth::user()->hasRole('programmer')) {
             return true;
         }
-        
-        if (Auth::user()->hasRole('admin') && $this->hasAnyRole(['programmer','super-admin'])) {
+
+        if (Auth::user()->hasRole('admin') && $this->hasAnyRole(['programmer', 'super-admin'])) {
             return false;
         }
         if (Auth::user()->roles->intersect($this->roles)->count() > 0) {
@@ -263,7 +265,7 @@ class User extends Authenticatable implements IsNotable
 
         return true;
     }
-    
+
     public function scopeIsVolunteer($query)
     {
         return $query->role('volunteer');
@@ -290,29 +292,29 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->getAllPermissions()->contains('name', $permString);
     }
-   
+
     public function getAllPermissions()
     {
         if (is_null($this->allPermissions)) {
-            $this->allPermissions = Cache::remember('user-'.$this->id.'-allPermissions', 60*20, function () {
+            $this->allPermissions = Cache::remember('user-'.$this->id.'-allPermissions', 60 * 20, function () {
                 $permissions = $this->permissions;
-        
+
                 if ($this->roles) {
                     $permissions = $permissions->merge($this->getPermissionsViaRoles());
                 }
-        
+
                 return $permissions->sort()->values();
             });
         }
-        
+
         return $this->allPermissions;
     }
 
     public function getNameAttribute()
     {
-        return trim($this->first_name . ' '. $this->last_name);
+        return trim($this->first_name.' '.$this->last_name);
     }
-    
+
     public function getAddressAttribute()
     {
         return [
@@ -331,6 +333,7 @@ class User extends Authenticatable implements IsNotable
         if ($this->priorities->count() == 0) {
             return collect([]);
         }
+
         return $this->priorities->groupBy('prioritization_round')->last();
     }
 
@@ -343,7 +346,6 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->attributes['timezone'] ?? 'UTC';
     }
-    
 
     public function hasAptitude($aptitudeId)
     {
