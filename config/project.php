@@ -1,13 +1,13 @@
 <?php
 
-use App\Gene;
-use App\CurationGroup;
 use App\CurationActivity;
+use App\CurationGroup;
+use App\Gene;
 
 return [
     'volunteer_types' => [
         'baseline' => 1,
-        'comprehensive' => 2
+        'comprehensive' => 2,
     ],
     'aptitudes' => [
         'actionability-basic' => 1,
@@ -29,6 +29,7 @@ return [
         'trained' => 2,
         'active' => 3,
         'retired' => 4,
+        'unresponsive' => 5,
     ],
     'curation-activities' => [
         'actionability' => 1,
@@ -40,7 +41,7 @@ return [
     ],
     'curation-activity-types' => [
         'curation-group' => 1,
-        'gene' => 2
+        'gene' => 2,
     ],
     'upload-categories' => [
         'resume/cv' => 1,
@@ -49,6 +50,6 @@ return [
         'certification-of-biocurator-trainer-status' => 4,
         'variant-curation-training-logbook' => 5,
         'employer-attestation-letter' => 6,
-        'other' => 7
+        'other' => 7,
     ],
 ];

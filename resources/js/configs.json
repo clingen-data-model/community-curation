@@ -37,7 +37,8 @@
             "assigned": 1,
             "trained": 2,
             "active": 3,
-            "retired": 4
+            "retired": 4,
+            "unresponsive": 5
         },
         "curationActivities": {
             "actionability": 1,
