@@ -48,6 +48,21 @@ class TrainingSession extends Model
         return $query->where('starts_at', '<=', Carbon::now());
     }
 
+    public function scopeTopicIs($query, $topic)
+    {
+        $topicId = $topic;
+        $topicType = CurationActivity::class;
+        if (is_object($topic) && $topic instanceof Model) {
+            $topicId = $topic->id;
+            $topicType = get_class($topic);
+        }
+
+        return $query->where([
+            'topic_type' => $topicType,
+            'topic_id' => $topicId,
+        ]);
+    }
+
     public function getCalendarLinksAttribute()
     {
         $link = $this->getCalendarLink();
