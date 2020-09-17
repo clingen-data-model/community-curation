@@ -90,9 +90,27 @@
                 <template v-slot:cell(last_name)="{item}">
                     <a :href="`/volunteers/${item.id}`">{{item.last_name}}</a>
                 </template>
-                <template v-slot:cell(id)="data">
+                <template v-slot:cell(id)="{item}">
                     <div class="text-center">
-                        <input type="checkbox" :value="data.item" v-model="selectedVolunteers">
+                        <input type="checkbox" :value="item" v-model="selectedVolunteers">
+                    </div>
+                </template>
+                <template v-slot:cell(training_sessions_count)="{item}">
+                    <div
+                        v-if="item.training_sessions_count > 0"
+                        :id="`attendence-warning-${item.id}`"
+                    >
+                        <b-icon 
+                            icon="exclamation-triangle-fill" 
+                            style="color: #ffc107!important"
+                            class="cursor-pointer"
+                            @click.stop="showUpdateStatus = true; currentVolunteer = item"
+                        ></b-icon>
+                        <b-popover :target="`attendence-warning-${item.id}`" triggers="hover">
+                            {{item.training_sessions_count}} previous
+                            invite{{item.training_sessions_count > 1 ? `s` : ''}} 
+                            to {{trainingSession.topic.name.toLowerCase()}} training
+                        </b-popover>
                     </div>
                 </template>
                 <template v-slot:head(id)="data">
@@ -110,7 +128,28 @@
                 <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
             </footer>
         </section>
-
+        <b-modal v-model="showUpdateStatus" title="Update Volunteer Statuses">
+            <table class="table table-striped table-sm">
+                <tr>
+                    <th>Name</th>
+                    <th>Date Assigned</th>
+                    <th>Invite #</th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+                <tr v-for="vol in previouslyInvited" :key="vol.id">
+                    <td>{{vol.name}}</td>
+                    <td>{{vol.assignments[0].date_assigned | formatDate('YYYY-MM-DD')}}</td>
+                    <td>{{vol.training_sessions_count}}</td>
+                    <td>
+                        <status-badge :assignment="vol.assignments[0]"
+                            @assignmentsupdated="getTrainableVolunteers"
+                        ></status-badge>
+                    </td>
+                </tr>
+            </table>
+        </b-modal>
     </div>
 </template>
 <script>
@@ -121,10 +160,13 @@ import getAttendees from '../../resources/training_sessions/attendees/get_attend
 import getTrainableVolunteers from '../../resources/training_sessions/attendees/get_trainable_volunteers'
 import AttendeeEmailForm from './AttendeeEmailForm'
 import {mapMutations} from 'vuex'
+import updateVolunteer from '../../resources/volunteers/update_volunteer'
+import StatusBadge from '../assignments/StatusBadge'
 
 export default {
     components: {
-        AttendeeEmailForm
+        AttendeeEmailForm,
+        StatusBadge
     },
     props: {
         trainingSession: {
@@ -134,6 +176,8 @@ export default {
     },
     data() {
         return {
+            statusChange: 0,
+            currentVolunteer: {assignments: []},
             test: false,
             attendees: [],
             selectedVolunteers: [],
@@ -170,7 +214,8 @@ export default {
             inviting: false,
             currentDateTime: moment(),
             trainableFilter: null,
-            showInactiveTrainables: false
+            showInactiveTrainables: false,
+            showUpdateStatus: false
         }
     },
     watch: {
@@ -190,7 +235,11 @@ export default {
             return this.fields.concat([{
                     key: 'id',
                     label: ''
-                }])
+                },
+            {
+                key: 'training_sessions_count',
+                label: ''
+            }])
         },
         attendeeFields() {
             return this.fields.concat([{
@@ -204,21 +253,26 @@ export default {
         inviteButtonText() {
             return this.inviting ? 'Busy...' : 'Invite Selected'
         },
-        filteredTrainable() {
-            let trainable = this.trainableVolunteers;
+        activeTrainable() {
             if (!this.showInactiveTrainables) {
-                trainable = trainable.filter(row => ['unresponsive', 'declined', 'retired'].indexOf(row.volunteer_status.name) == -1)
+                return this.trainableVolunteers.filter(row => ['unresponsive', 'declined', 'retired'].indexOf(row.assignments[0].status.name) == -1)
             }
 
+            return this.trainableVolunteers;
+        },
+        filteredTrainable() {
             if (this.trainableFilter === null || this.trainableFilter === '') {
-                return trainable;
+                return this.activeTrainable;
             }
             
-            return trainable
+            return this.activeTrainable
                     .filter(vol => {
                         return vol.first_name.toLowerCase().includes(this.trainableFilter.toLowerCase())
                             || vol.last_name.toLowerCase().includes(this.trainableFilter.toLowerCase())
                     });
+        },
+        previouslyInvited() {
+            return this.filteredTrainable.filter(vol => vol.training_sessions_count > 0)
         }
     },
     methods: {
@@ -263,7 +317,7 @@ export default {
             this.trainableVolunteers = await getTrainableVolunteers(this.trainingSession);
             this.trainableVolunteers  = this.trainableVolunteers
                                         .map(row => {
-                                            if (['unresponsive', 'declined', 'retired'].indexOf(row.volunteer_status.name) > -1) {
+                                            if (['unresponsive', 'declined', 'retired'].indexOf(row.assignments[0].status.name) > -1) {
                                                 row._rowVariant = 'muted'
                                             }
                                             return row
@@ -285,6 +339,12 @@ export default {
                 .then(response => {
                     this.addInfo('Training marked completed for '+item.first_name+' '+item.last_name)
                 });
+        },
+        async markUnresponsive (volunteer) {
+            const msg = `You are about to mark ${volunteer.name} unresponsive to their ${this.trainingSession.topic.name} variant curation activity assignment.  If you continue and the volunteer does not have other assignments their volunteer-status will be set to unresponsive. Do you want to continue?`
+            if (confirm(msg)) {
+                volunteer = await updateVolunteer(volunteer.id, {})
+            }
         }
     },
     mounted () {
