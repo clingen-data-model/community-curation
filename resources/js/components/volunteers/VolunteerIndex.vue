@@ -10,15 +10,15 @@
         </div>
         <div class="card-body">
             <div class="d-flex mb-2 p-0 filter-row">
-                <div class="form-inline">
+                <div class="form-inline pr-3">
                     <label for="filter-input">Search:</label>
                     &nbsp;
-                    <input type="text" 
+                    <b-form-input debounce="500" type="text" 
                         class="form-control form-control-sm" 
                         v-model="filters.searchTerm" 
                         placeholder="filter rows" 
                         id="filter-input"
-                    >
+                    ></b-form-input>
                 </div>
                 <div class="border-left pl-3" id="type-filter-container">
                     <select id="type-select" 

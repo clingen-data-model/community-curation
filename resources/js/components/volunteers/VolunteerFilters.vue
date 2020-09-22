@@ -16,12 +16,13 @@
         <div class="form-inline border-right pr-3" v-if="!hideSearch">
             <label for="filter-input">Search:</label>
             &nbsp;
-            <input type="text" 
+            <b-form-input type="text" 
                 class="form-control form-control-sm" 
                 v-model="filters.searchTerm" 
                 placeholder="filter rows" 
                 id="filter-input"
-            >
+                :debounce="250"
+            ></b-form-input>
         </div>
         <div class="pl-3" id="type-filter-container">
             <select id="type-select" 
@@ -139,6 +140,7 @@
             filters: {
                 handler: function (to, from) {
                     this.$emit('filters-changed', this.filters)
+                    this.$emit('input', this.filters)
                 },
                 deep: true
             }
