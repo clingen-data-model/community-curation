@@ -255,7 +255,12 @@ export default {
         },
         activeTrainable() {
             if (!this.showInactiveTrainables) {
-                return this.trainableVolunteers.filter(row => ['unresponsive', 'declined', 'retired'].indexOf(row.assignments[0].status.name) == -1)
+                return this.trainableVolunteers.filter(row => {
+                    if (!row.assignments[0]) {
+                        return false;
+                    }
+                    return ['unresponsive', 'declined', 'retired'].indexOf(row.assignments[0].status.name) == -1
+                })
             }
 
             return this.trainableVolunteers;
@@ -317,6 +322,9 @@ export default {
             this.trainableVolunteers = await getTrainableVolunteers(this.trainingSession);
             this.trainableVolunteers  = this.trainableVolunteers
                                         .map(row => {
+                                            if (!row.assignments[0]) {
+                                                return row
+                                            }
                                             if (['unresponsive', 'declined', 'retired'].indexOf(row.assignments[0].status.name) > -1) {
                                                 row._rowVariant = 'muted'
                                             }
