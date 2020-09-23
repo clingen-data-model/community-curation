@@ -361,4 +361,16 @@ class User extends Authenticatable implements IsNotable
     {
         return config('logging.channels.slack.url');
     }
+
+    public function hasRequiredInfo()
+    {
+        return $this->timezone != 'UTC' && $this->country_id !== null;
+    }
+
+    public function hasDemographicInfo()
+    {
+        return $this->application->highest_ed !== null
+            && $this->application->race_ethnicity !== null
+            && $this->application->self_desc !== null;
+    }
 }
