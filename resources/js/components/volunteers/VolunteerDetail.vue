@@ -24,6 +24,9 @@
                 <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3>
             </div>
             <div class="card-body">
+
+                <demographic-info :volunteer="volunteer" @updated="handleUpdate"></demographic-info>
+
                 <non-volunteer>
                     <volunteer-status-alert 
                         :volunteer="volunteer"
@@ -107,6 +110,7 @@
     import Volunteer from '../../entities/volunteer'
     import DocumentsCard from './partials/DocumentsCard'
     import TrainingsList from './partials/TrainingsList'
+    import DemographicInfo from './partials/DemographicInfo'
 
     export default {
         props: {
@@ -131,6 +135,7 @@
             AttestationsList,
             SurveyResponses,
             TrainingsList,
+            DemographicInfo
         },
         data() {
             return {

@@ -1,0 +1,38 @@
+<question-group name="highest-ed-grp" id="highest-ed-grp" class="with-followup">
+    <multiple-choice name="highest_ed" id="highest_ed" num-selectable="1" required="1">
+        <question-text>
+            <![CDATA[What is your highest level of education?*]]>
+        </question-text>
+        <options>
+            <option name="highest_ed1">
+                <value>1</value>
+                <label>Some high school education</label>
+            </option>
+            <option name="highest_ed2">
+                <value>2</value>
+                <label>High school diploma</label>
+            </option>
+            <option name="highest_ed3">
+                <value>3</value>
+                <label>Bachelor's degree</label>
+            </option>
+            <option name="highest_ed4">
+                <value>4</value>
+                <label>Master's degree</label>
+            </option>
+            <option name="highest_ed5">
+                <label>M.D.</label>
+                <value>5</value>
+            </option>
+            <option name="highest_ed5">
+                <label>Ph.D.</label>
+                <value>6</value>
+            </option>
+            <option name="highest_ed6" show="highest_ed_other">
+                <value>100</value>
+                <label>Other</label>
+            </option>
+        </options>
+    </multiple-choice>
+    <question name="highest_ed_other" id="highest_ed_other" class="followup" placeholder="Details" data-format="text"></question>
+</question-group>
