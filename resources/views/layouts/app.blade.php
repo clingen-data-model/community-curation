@@ -127,13 +127,14 @@
         @include('partials.no-mail')
         <global-progress></global-progress>
 
-        @include('partials.impersonate')
         @include('partials.messages')
         <main class="py-4 container">
             @yield('content')
         </main>
         
         <alerts></alerts>
+
+        @include('partials.impersonate')
 
         <footer class="bg-white pt-4 mt-3 pb-2 border-top w-100">
             <div class="container d-flex justify-content-between">
