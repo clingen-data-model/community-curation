@@ -17,7 +17,6 @@
                 <non-volunteer>
                     <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
                         <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
-                        <b-dropdown-item @click="showAssignmentForm = true" v-if="volunteer.isComprehensive()">Update Assignments</b-dropdown-item>
                         <b-dropdown-item @click="showVolunteerTypeForm = true" v-if="!volunteer.isComprehensive()">Make Comprehensive</b-dropdown-item>
                         <b-dropdown-item @click="impersonateVolunteer" v-if="$store.state.user.isProgrammer() || $store.state.user.isAdmin()">Impersonate this volunteer</b-dropdown-item>
                     </b-dropdown>
