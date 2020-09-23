@@ -40,7 +40,8 @@ Route::group([
 
             Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
             Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
-            Route::get('volunteers/{id}/attestations', 'AttestationController@volunteer');
+            Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
+            Route::put('volunteers/{id}/demographics', 'DemographicsController@update');
             Route::resource('volunteers', 'VolunteerController');
 
             Route::get('users/current', 'UserController@currentUser')->name('current-user');

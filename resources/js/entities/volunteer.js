@@ -1,8 +1,7 @@
 import Assignment from './assignment';
 
 let Volunteer = class {
-    constructor(data = {})
-    {
+    constructor(data = {}) {
         let defaults = {
             name: null,
             id: null,
@@ -15,15 +14,13 @@ let Volunteer = class {
                 name: ''
             },
             priorities: [],
-            latest_priorities: [
-                {
-                    
-                }
-            ],
+            latest_priorities: [{
+
+            }],
             assignments: []
         };
 
-        this.attributes = {...defaults, ...data};
+        this.attributes = {...defaults, ...data };
 
         for (const key in this.attributes) {
             if (this.attributes.hasOwnProperty(key)) {
@@ -32,45 +29,57 @@ let Volunteer = class {
         }
     }
 
-    isLoaded()
-    {
+    isLoaded() {
         const loaded = this.attributes !== null && typeof this.attributes !== 'undefined';
         return loaded;
     }
 
-    isBaseline() 
-    {
+    isBaseline() {
         if (this.isLoaded()) {
             return this.attributes.volunteer_type_id == 1;
         }
     }
 
-    isComprehensive() 
-    {
+    isComprehensive() {
         if (this.isLoaded()) {
             return this.attributes.volunteer_type_id == 2;
         }
     }
 
-    getAssignedActivities()
-    {
+    getAssignedActivities() {
         if (this.isLoaded) {
             return this.attributes.assignments.map(assignment => assignment.assignable);
         }
         return [];
     }
 
-    assignedToBaseline()
-    {
+    assignedToBaseline() {
         return this.getAssignedActivities().map(ca => ca.name).includes('Baseline');
     }
 
-    hydrateAttribute(key, value)
-    {
+    hydrateAttribute(key, value) {
         if (key == 'assignments' && value) {
             value = value.map(asn => new Assignment(asn));
         }
         return value;
+    }
+
+    hasApplication() {
+        return typeof this.application != 'undefined' && this.application !== null;
+    }
+
+    hasDemographicInfo() {
+        if (this.application.self_desc.rawValue == null) {
+            return false;
+        }
+        if (this.application.highest_ed.rawValue == null) {
+            return false;
+        }
+        if (this.application.race_ethnicity.rawValue == null || this.application.race_enthnicity == []) {
+            return false;
+        }
+
+        return true;
     }
 }
 
