@@ -11,8 +11,7 @@ const dates = [
 
 let User = class {
 
-    constructor(data)
-    {
+    constructor(data) {
         this.attributes = data;
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
@@ -25,8 +24,7 @@ let User = class {
         }
     }
 
-    isLoaded()
-    {
+    isLoaded() {
         const loaded = this.attributes !== null && typeof this.attributes !== 'undefined';
         return loaded;
     }
