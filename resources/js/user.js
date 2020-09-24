@@ -59,6 +59,16 @@ let User = class {
     isComprehensiveVolunteer() {
         return this.isVolunteer() && this.attributes.volunteer_type_id == 2;
     }
+
+    getPreference(prefName) {
+        if (this.isLoaded() && this.preferences) {
+            const pref = this.preferences.find(pref => pref.name == prefName);
+            if (pref) {
+                return pref.value;
+            }
+        }
+        return null;
+    }
 }
 
 export default User;
