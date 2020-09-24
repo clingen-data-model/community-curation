@@ -3,11 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Support\Facades\Session;
-use App\Exceptions\NotImplementedException;
 use Illuminate\Auth\Access\AuthorizationException;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class Handler extends ExceptionHandler
 {
@@ -17,7 +16,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        NotImplementedException::class
+        NotImplementedException::class,
     ];
 
     /**
@@ -33,7 +32,6 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -44,8 +42,8 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -54,13 +52,17 @@ class Handler extends ExceptionHandler
             return response('Not implemented', 501);
         }
 
-        if ($exception instanceof AuthorizationException) {
-            Session::flash('error', 'Not authorized.');
-            return redirect('/');
-        }
-        if ($exception instanceof UnauthorizedException) {
-            Session::flash('error', 'Not authorized.');
-            return redirect('/');
+        if (!$request->expectsJson()) {
+            if ($exception instanceof AuthorizationException) {
+                Session::flash('error', 'Not authorized.');
+
+                return redirect('/');
+            }
+            if ($exception instanceof UnauthorizedException) {
+                Session::flash('error', 'Not authorized.');
+
+                return redirect('/');
+            }
         }
 
         return parent::render($request, $exception);
