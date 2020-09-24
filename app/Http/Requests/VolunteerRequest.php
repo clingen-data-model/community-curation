@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class VolunteerRequest extends FormRequest
 {
@@ -16,7 +16,8 @@ class VolunteerRequest extends FormRequest
     public function authorize()
     {
         // only allow updates if the user is logged in
-        return Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin']);
+        // return Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin']);
+        return true;
     }
 
     /**
@@ -35,9 +36,8 @@ class VolunteerRequest extends FormRequest
                 'sometimes',
                 'required',
                 Rule::in(timezone_identifiers_list()),
-                'not_in:UTC'
-            ]
-            //
+                'not_in:UTC',
+            ],
         ];
     }
 
@@ -52,7 +52,7 @@ class VolunteerRequest extends FormRequest
             'first_name' => 'first and last name',
             'last_name' => 'first and last name',
             'country_id' => 'country',
-            'timezone' => 'closest city'
+            'timezone' => 'closest city',
         ];
     }
 
