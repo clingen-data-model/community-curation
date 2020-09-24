@@ -135,18 +135,28 @@
         <alerts></alerts>
 
         @include('partials.impersonate')
-
+    
         <footer class="bg-white pt-4 mt-3 pb-2 border-top w-100">
-            <div class="container d-flex justify-content-between">
-                <div>
-                    © 2020 <a href="https://clinicalgenome.org" taret="clin-gen">ClinGen</a>
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        © 2020 <a href="https://clinicalgenome.org" taret="clin-gen">ClinGen</a>
+                    </div>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="/faq" target="faq">FAQ</a></li>
+                        <li class="list-inline-item"><a href="https://clinicalgenome.org/working-groups/c3/" target="clinicalgenome">About Community Curation</a></li>
+                    </ul>
                 </div>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/faq" target="faq">FAQ</a></li>
-                    <li class="list-inline-item"><a href="https://clinicalgenome.org/working-groups/c3/" target="clinicalgenome">About Community Curation</a></li>
-                </ul>
+                @if(\Auth::user() && (\Auth::user()->hasRole('programmer') || \Auth::user()->isImpersonated() && \Auth::user()->impersonatedBy->hasRole('programmer')))
+                <div class="mt-3 border-top pt-3 d-flex flex-row-reverse">
+                    <button class="btn btn-xs btn-light border" v-on:click="refreshUser">
+                        <b-icon icon="arrow-clockwise"></b-icon>
+                        Refresh session user
+                    </button>        
+                </div>
+                @endif
             </div>
-        </footer>
+    </footer>
     </div>
 
     <!-- Scripts -->
