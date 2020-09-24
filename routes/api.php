@@ -45,6 +45,7 @@ Route::group([
             Route::resource('volunteers', 'VolunteerController');
 
             Route::get('users/current', 'UserController@currentUser')->name('current-user');
+            Route::put('users/{id}/preferences/{preference_name}', 'UserPreferenceController@update')->name('set-user-preference');
             Route::resource('users', 'UserController');
 
             Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')->name('curator-upload-file');
