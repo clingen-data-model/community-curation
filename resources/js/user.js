@@ -36,6 +36,13 @@ let User = class {
         return false
     }
 
+    hasPermission(permissionName) {
+        if (this.isLoaded()) {
+            return this.permissions.filter(perm => perm.name == permissionName).length > 0;
+        }
+        return false
+    }
+
     isVolunteer() {
         return this.hasRole('volunteer');
     }

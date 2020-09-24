@@ -59,7 +59,7 @@
                     <b-tab title="Survey Data">
                         <survey-responses :volunteer="volunteer"></survey-responses>
                     </b-tab>
-                    <b-tab title="Notes">
+                    <b-tab title="Notes" v-if="user.hasPermission('create notes')">
                         <notes-list notable-type="App\User" :notable-id="volunteer.id"></notes-list>
                     </b-tab>
                 </b-tabs>
@@ -97,6 +97,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import updateVolunteer from '../../resources/volunteers/update_volunteer'
     import impersonateUser from '../../resources/users/impersonate_user'
@@ -154,7 +155,8 @@
         computed: {
             isComprehensive: function () {
                 return this.volunteer.volunteer_type_id == 2;
-            }
+            },
+            ...mapGetters({user: 'getUser'})
         },
         methods: {
             findVolunteer: async function () {
