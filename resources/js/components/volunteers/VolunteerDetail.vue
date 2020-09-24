@@ -2,7 +2,7 @@
 
 <template>
     <div class="component-container">
-        <div v-if="$store.state.user.isProgrammer()" class="p-2 border my-2">
+        <div v-if="$store.state.user.isProgrammer() " class="p-2 border my-2">
             <div>
                 <small class="text-muted">Dev tools</small>
             </div>
@@ -25,7 +25,9 @@
             </div>
             <div class="card-body">
 
-                <demographic-info :volunteer="volunteer" @updated="handleUpdate"></demographic-info>
+                <only-volunteer>
+                    <demographic-info :volunteer="volunteer" @updated="handleUpdate"></demographic-info>
+                </only-volunteer>
 
                 <non-volunteer>
                     <volunteer-status-alert 
