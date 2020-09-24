@@ -85,7 +85,8 @@
     </div>
 </template>
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations, mapGetters, mapActions} from 'vuex'
+import updateUserPreference from '../../../resources/users/update_user_preference'
 
 export default {
     props: {
@@ -122,10 +123,13 @@ export default {
                 'White',
             ],
             submitting: false,
-            responded: false
+            responded: true
         }
     },
     computed: {
+        ...mapGetters({
+            user: 'getUser'
+        }),
         showSelfDesc() {
             return this.volunteer.application.self_desc.rawValue === null;
         },
@@ -136,8 +140,18 @@ export default {
             return this.volunteer.application.race_ethnicity.rawValue === null;
         }
     },
+    watch: {
+        user() {
+            if (this.user.isLoaded()) {
+                this.responded = (this.user.getPreference('hide_demographic_ad')) ? true : false;
+            }
+        },
+    },
     methods: {
-        ...mapMutations('messages', ['addInfo']),
+        ...mapMutations([
+            'setUser',
+            'messages/addInfo'
+        ]),
         showForm() {
             this.formVisible = true
         },
@@ -145,7 +159,7 @@ export default {
             this.formVisible = false
         },
         declineDemographics() {
-            alert('Store declination');
+            this.setResponded()
         },
         clearForm() {
             this.selfDesc = null;
@@ -160,10 +174,14 @@ export default {
             this.clearForm()
             this.formVisible = false;
         },
+        async setResponded() {
+            const newUserData = await updateUserPreference(this.user.id, 'hide_demographic_ad', true);
+            this.setUser(newUserData);
+        },
         submitDemographics() {
             this.formVisible = false;
             this.submitting = true;
-            this.addInfo('Thanks for sharing your demographic info with us.')
+            this['messages/addInfo']('Thanks for sharing your demographic info with us.')
             const data = {
                 'self_desc': this.selfDesc,
                 'self_desc_other': this.selfDescOther,
@@ -172,18 +190,24 @@ export default {
                 'race_ethnicity': (this.race === null) ? this.race : JSON.stringify(this.race),
                 'race_ethnicity_other_detail': this.raceOther
             };
-            console.info('data', data);
+
+            if (Object.values(data).filter(val => val !== null).length > 0) {
+                this.setResponded();
+            }
+
             window.axios.put('/api/volunteers/'+this.volunteer.id+'/demographics/', data)
-            .then(response => {
-                this.submitting = false
-                this.clearForm();
-                this.$emit('updated');
-            })
+                .then(response => {
+                    this.submitting = false
+                    this.clearForm();
+                    this.$emit('updated');
+                })
         }
     },
     async mounted() {
         this.selfDescriptions = await window.axios.get('/api/self-descriptions')
                                     .then(response => response.data.data.filter(sd => sd.active == 1 && sd.id != 100));
+
+        this.responded = (this.user.getPreference('hide_demographic_ad') == 1) ? true : false;
     }
 }
 </script>
