@@ -45,11 +45,13 @@ class Assignment extends Model
                 $model->subAssignments->each->delete();
             }
 
-            $model->volunteer->userAptitudes()
-                    ->whereIn('aptitude_id', $model->assignable->aptitudes->pluck('id'))
-                    ->get()
-                    ->each
-                    ->delete();
+            if ($model->assignable->aptitudes) {
+                $model->volunteer->userAptitudes()
+                        ->whereIn('aptitude_id', $model->assignable->aptitudes->pluck('id'))
+                        ->get()
+                        ->each
+                        ->delete();
+            }
         });
     }
 

@@ -11,8 +11,7 @@ const dates = [
 
 let User = class {
 
-    constructor(data)
-    {
+    constructor(data) {
         this.attributes = data;
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
@@ -25,8 +24,7 @@ let User = class {
         }
     }
 
-    isLoaded()
-    {
+    isLoaded() {
         const loaded = this.attributes !== null && typeof this.attributes !== 'undefined';
         return loaded;
     }
@@ -34,6 +32,13 @@ let User = class {
     hasRole(roleName) {
         if (this.isLoaded()) {
             return this.roles.filter(role => role.name == roleName).length > 0;
+        }
+        return false
+    }
+
+    hasPermission(permissionName) {
+        if (this.isLoaded()) {
+            return this.permissions.filter(perm => perm.name == permissionName).length > 0;
         }
         return false
     }
@@ -60,6 +65,16 @@ let User = class {
 
     isComprehensiveVolunteer() {
         return this.isVolunteer() && this.attributes.volunteer_type_id == 2;
+    }
+
+    getPreference(prefName) {
+        if (this.isLoaded() && this.preferences) {
+            const pref = this.preferences.find(pref => pref.name == prefName);
+            if (pref) {
+                return pref.value;
+            }
+        }
+        return null;
     }
 }
 

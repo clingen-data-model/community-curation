@@ -9,15 +9,15 @@ class RequiredInfoMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         $response = $next($request);
 
-        if (!session()->get('app_impersonate_required_info_bypass') && (\Auth::user()->timezone == 'UTC' || \Auth::user()->country_id === null)) {
+        if (!session()->get('app_impersonate_required_info_bypass') && !\Auth::user()->hasRequiredInfo()) {
             return redirect('/required-info');
         }
 

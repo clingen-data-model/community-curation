@@ -2,7 +2,7 @@
 
 <template>
     <div class="component-container">
-        <div v-if="$store.state.user.isProgrammer()" class="p-2 border my-2">
+        <div v-if="$store.state.user.isProgrammer() " class="p-2 border my-2">
             <div>
                 <small class="text-muted">Dev tools</small>
             </div>
@@ -17,7 +17,6 @@
                 <non-volunteer>
                     <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
                         <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
-                        <b-dropdown-item @click="showAssignmentForm = true" v-if="volunteer.isComprehensive()">Update Assignments</b-dropdown-item>
                         <b-dropdown-item @click="showVolunteerTypeForm = true" v-if="!volunteer.isComprehensive()">Make Comprehensive</b-dropdown-item>
                         <b-dropdown-item @click="impersonateVolunteer" v-if="$store.state.user.isProgrammer() || $store.state.user.isAdmin()">Impersonate this volunteer</b-dropdown-item>
                     </b-dropdown>
@@ -25,6 +24,11 @@
                 <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3>
             </div>
             <div class="card-body">
+
+                <only-volunteer>
+                    <demographic-info :volunteer="volunteer" @updated="handleUpdate"></demographic-info>
+                </only-volunteer>
+
                 <non-volunteer>
                     <volunteer-status-alert 
                         :volunteer="volunteer"
@@ -55,7 +59,7 @@
                     <b-tab title="Survey Data">
                         <survey-responses :volunteer="volunteer"></survey-responses>
                     </b-tab>
-                    <b-tab title="Notes">
+                    <b-tab title="Notes" v-if="user.hasPermission('create notes')">
                         <notes-list notable-type="App\User" :notable-id="volunteer.id"></notes-list>
                     </b-tab>
                 </b-tabs>
@@ -93,6 +97,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import updateVolunteer from '../../resources/volunteers/update_volunteer'
     import impersonateUser from '../../resources/users/impersonate_user'
@@ -108,6 +113,7 @@
     import Volunteer from '../../entities/volunteer'
     import DocumentsCard from './partials/DocumentsCard'
     import TrainingsList from './partials/TrainingsList'
+    import DemographicInfo from './partials/DemographicInfo'
 
     export default {
         props: {
@@ -132,6 +138,7 @@
             AttestationsList,
             SurveyResponses,
             TrainingsList,
+            DemographicInfo
         },
         data() {
             return {
@@ -148,7 +155,8 @@
         computed: {
             isComprehensive: function () {
                 return this.volunteer.volunteer_type_id == 2;
-            }
+            },
+            ...mapGetters({user: 'getUser'})
         },
         methods: {
             findVolunteer: async function () {

@@ -108,6 +108,11 @@ if (document.getElementById('app')) {
             ]),
             clearSessionStorage() {
                 window.clearSessionStorage();
+            },
+            refreshUser() {
+                console.log('refreshUser');
+                sessionStorage.removeItem('user');
+                this.fetchUser();
             }
         },
         mounted() {

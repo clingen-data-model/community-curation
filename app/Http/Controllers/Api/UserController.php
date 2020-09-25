@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\CurrentUserResource;
+use App\Http\Resources\UserResource;
+use App\Services\Search\UserSearchService;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Search\UserSearchService;
 
 class UserController extends Controller
 {
@@ -19,8 +20,6 @@ class UserController extends Controller
         $this->searchService = $userSearch;
     }
 
-
-
     public function index(Request $request)
     {
         $pageSize = ($request->has('perPage') && !is_null($request->perPage)) ? $request->perPage : 25;
@@ -30,18 +29,17 @@ class UserController extends Controller
         $users = ($request->has('page'))
                         ? $query->paginate($pageSize)
                         : $query->get();
-      
+
         return UserResource::collection($users);
     }
-    
 
     public function currentUser()
     {
         $user = \Auth::guard('api')->user();
-        $user->load('roles', 'permissions');
+        $user->load('roles', 'permissions', 'preferences');
         $user->permissions = $user->getAllPermissions();
 
-        return $user;
+        return new CurrentUserResource($user);
     }
 
     public function impersonatableUsers()
@@ -60,6 +58,7 @@ class UserController extends Controller
                 });
             });
         }
+
         return $impersonatable;
     }
 }

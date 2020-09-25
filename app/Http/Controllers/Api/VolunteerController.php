@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
-use Illuminate\Http\Request;
+use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VolunteerRequest;
-use App\Exceptions\NotImplementedException;
 use App\Http\Resources\VolunteerUserResource;
+use App\Policies\VolunteerPolicy;
 use App\Services\Search\VolunteerSearchService;
+use App\User;
+use Illuminate\Http\Request;
 
 class VolunteerController extends Controller
 {
     protected $searchService;
+    protected $policy;
 
-    public function __construct(VolunteerSearchService $searchService)
+    public function __construct(VolunteerSearchService $searchService, VolunteerPolicy $policy)
     {
         $this->searchService = $searchService;
+        $this->policy = $policy;
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -35,7 +36,7 @@ class VolunteerController extends Controller
         $volunteers = ($request->has('page'))
                         ? $query->paginate($pageSize)
                         : $query->get();
-      
+
         return VolunteerUserResource::collection($volunteers);
     }
 
@@ -52,7 +53,6 @@ class VolunteerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,7 +63,8 @@ class VolunteerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -84,7 +85,7 @@ class VolunteerController extends Controller
             'priorities.curationActivity',
             'priorities.curationGroup',
             'volunteer3MonthSurvey',
-            'volunteer6MonthSurvey'
+            'volunteer6MonthSurvey',
         ]);
 
         return new VolunteerUserResource($volunteer);
@@ -93,7 +94,8 @@ class VolunteerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -104,13 +106,18 @@ class VolunteerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(VolunteerRequest $request, $id)
     {
         $volunteer = User::findOrFail($id);
+        if (!$this->policy->update(\Auth::user(), $volunteer)) {
+            return response('Unauthorized', 403);
+        }
+
         $volunteer->update($request->all());
 
         return new VolunteerUserResource($volunteer);
@@ -119,7 +126,8 @@ class VolunteerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
