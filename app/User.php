@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Lab404\Impersonate\Models\Impersonate;
+use Lab404\Impersonate\Services\ImpersonateManager;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
@@ -231,6 +232,11 @@ class User extends Authenticatable implements IsNotable
             ->curationGroup();
     }
 
+    public function preferences()
+    {
+        return $this->hasMany(UserPreference::class);
+    }
+
     public function priorities()
     {
         return $this->hasMany(Priority::class);
@@ -264,6 +270,15 @@ class User extends Authenticatable implements IsNotable
         }
 
         return true;
+    }
+
+    public function getImpersonatedByAttribute()
+    {
+        if ($this->isImpersonated()) {
+            return app(ImpersonateManager::class)->getImpersonator();
+        }
+
+        return null;
     }
 
     public function scopeIsVolunteer($query)
@@ -360,5 +375,41 @@ class User extends Authenticatable implements IsNotable
     public function routeNotificationForSlack()
     {
         return config('logging.channels.slack.url');
+    }
+
+    public function hasRequiredInfo()
+    {
+        return $this->timezone != 'UTC' && $this->country_id !== null;
+    }
+
+    public function hasDemographicInfo()
+    {
+        return $this->application->highest_ed !== null
+            && $this->application->race_ethnicity !== null
+            && $this->application->self_desc !== null;
+    }
+
+    public function setPreference($preferenceName, $value)
+    {
+        $preference = Preference::where('name', $preferenceName)->firstOrFail();
+
+        $this->preferences()->updateOrCreate([
+            'preference_id' => $preference->id,
+            'value' => $value,
+        ]);
+
+        return $this;
+    }
+
+    public function getPreference($preferenceName)
+    {
+        $userPreference = $this->preferences->keyBy('preference.name')->get($preferenceName);
+        if ($userPreference) {
+            return $userPreference->value;
+        }
+
+        $preference = Preference::findByName($preferenceName);
+
+        return $preference->default;
     }
 }

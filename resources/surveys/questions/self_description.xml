@@ -1,0 +1,17 @@
+<question-group name="self_desc_grp" id="self_desc_grp" class="with-followup">
+    <multiple-choice name="self_desc" id="self_desc" num-selectable="1" required="1">
+        <question-text>
+            <![CDATA[I am a... (choose one that most accurately describes yourself)*]]>
+        </question-text>
+        <options>
+            <data-source URI="App\Surveys\SurveyOptions@selfDescriptions"></data-source>
+            <option name="self_desc_other" show="self_desc_other_detail">
+                <value>100</value>
+                <label>Other</label>
+            </option>
+        </options>
+    </multiple-choice>
+
+    <question name="self_desc_other" id="self_desc_other_detail" class="followup" placeholder="Details" data-format="text">
+    </question>
+</question-group>

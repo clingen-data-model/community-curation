@@ -1,0 +1,58 @@
+<question-group name="race_group">
+    <multiple-choice name="race_ethnicity" id="race_ethnicity" num-selectable="6" data-format="json">
+        <question-text>
+            <![CDATA[
+                What is your race/ethnicity?
+                <small v-b-toggle.race-ethnicity-info>More info about this question</small>
+                <b-collapse id="race-ethnicity-info">
+                    <div class="alert alert-info">
+                        <h5>Why are we asking this question?</h5>
+                        <p>
+                            ClinGen strives to be a diverse and inclusive organization. 
+                            We're asking you about your race and ethnicity so that we can evaluate our efforts to include people with various racial and ethnic identities.
+                        </p>
+
+                        <h5>About the options</h5>
+                        <p>
+                            ClinGen is a National Institues of Health (NIH)-funded organization. The options below come from the NIH 
+                            <a target="nih" href="https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html">Racial and Ethnic Categories and Definitions for NIH Diversity Programs and for Other Reporting Purposes</a>.
+                            We understand that these options do not capture the diversity of racial and ethnic identities in the US, let alone around the world. Please choose the options that best describes you.
+                        </p>
+                </div>
+                </b-collapse>
+            ]]>
+        </question-text>
+        <options>
+            <option name="race_am_ind_ak_ntv">
+                <value>American Indian or Alaska Native</value>
+                <label>American Indian or Alaska Native</label>
+            </option>
+            <option name="race_asian">
+                <value>Asian</value>
+                <label>Asian</label>
+            </option>
+            <option name="race_afam">
+                <value>Black or African American</value>
+                <label>Black or African American</label>
+            </option>
+            <option name="race_hisp_lat">
+                <value>Hispanic or Latino</value>
+                <label>Hispanic or Latino</label>
+            </option>
+            <option name="race_ntv_hwi_pac_isl">
+                <value>Native Hawaiian or Other Pacific Islander</value>
+                <label>Native Hawaiian or Other Pacific Islander</label>
+            </option>
+            <option name="race_white">
+                <value>White</value>
+                <label>White</label>
+            </option>
+            <option name="race_other" show="race_ethnicity_other_detail">
+                <value>Other</value>
+                <label>Other</label>
+            </option>
+        </options>
+    </multiple-choice>
+    <question name="race_ethnicity_other_detail" id="race_ethnicity_other_detail" class="followup" placeholder="Details" data-format="text">
+    </question>
+</question-group>
