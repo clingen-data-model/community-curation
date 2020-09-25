@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('clone'))
-	<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="btn btn-xs btn-default" data-button-type="clone"><i class="fa fa-clone"></i> Clone</a>
+	<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="bp-crud btn btn-xs btn-default" data-button-type="clone"><i class="fa fa-clone"></i> Clone</a>
 @endif
 
 {{-- Button Javascript --}}
