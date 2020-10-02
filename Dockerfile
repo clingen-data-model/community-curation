@@ -8,6 +8,7 @@ LABEL maintainer="TJ Ward" \
     io.openshift.tags="php,apache"
 
 COPY .docker/php/conf.d/* $PHP_INI_DIR/conf.d/
+COPY .docker/start.sh /usr/local/bin/start
 
 COPY . /srv/app
 
@@ -16,17 +17,18 @@ ENV XDG_CONFIG_HOME=/srv/app
 USER root
 RUN chgrp -R 0 /srv/app \
     && chmod -R g+w /srv/app \
-    && chmod g+x /srv/app/.openshift/deploy.sh
+    && chmod g+x /srv/app/.openshift/deploy.sh \
+    && chmod g+x /usr/local/bin/start
     # && pecl install xdebug-2.9.5 \
     # && docker-php-ext-enable xdebug \
 
 WORKDIR /srv/app
 
-RUN composer install \
-        --no-interaction \
-        --no-plugins \
-        --no-scripts \
-        --prefer-dist
+# RUN composer install \
+#         --no-interaction \
+#         --no-plugins \
+#         --no-scripts \
+#         --prefer-dist
 
 
 RUN php artisan storage:link
@@ -39,3 +41,5 @@ RUN php artisan storage:link
 # RUN  echo 'alias art="php artisan"' >> ~/.bash_profile
 
 USER 1001
+
+CMD ["/usr/local/bin/start"]
