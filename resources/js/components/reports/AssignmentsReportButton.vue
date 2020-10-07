@@ -1,6 +1,6 @@
 <template>
     <span>
-        <a :href="assignmentReportUrl" class="float-right btn btn-sm btn-primary"
+        <a :href="assignmentReportUrl" class="btn btn-sm btn-primary"
             id="assignments-button"
         >
             Assignments Report

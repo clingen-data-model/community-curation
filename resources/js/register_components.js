@@ -20,6 +20,10 @@ window.Vue.component('alerts', () =>
     import ( /* webpackChunkName: "global-components" */ './components/Alerts'));
 window.Vue.component('help-button', () =>
     import ( /* webpackChunkName: "global-components" */ './components/HelpButton'));
+window.Vue.component('screen-info', () =>
+    import ( /* webpackChunkName: "global-components" */ './components/ScreenInfo'));
+window.Vue.component('sticky-footer', () =>
+    import ( /* webpackChunkName: "global-components" */ './components/StickyFooter'));
 
 window.Vue.component('rich-text', () =>
     import ( /* webpackChunkName: "rich-text" */ './components/RichTextEditor'));
