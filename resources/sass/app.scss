@@ -26,6 +26,13 @@ $theme-colors: ( "grey": #999, "primary": #f0f);
     border-radius: 0.2rem;
 }
 
+.btn.btn-xxs:not(.bp-crud) {
+    padding: 0.1rem 0.2rem;
+    font-size: 0.3rem;
+    line-height: 1.3;
+    border-radius: 0.2rem;
+}
+
 .btn.commitment-button.active.commitment-button::before {
     content: '✅';
     font-size: .8em;
