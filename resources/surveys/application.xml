@@ -92,7 +92,7 @@
     <page name="education" title="Education and Certification Questions">
         <include source="questions/education_level.xml"></include>
 
-        <question name="adv_cert" id="adv_cert">
+        <question name="adv_cert" id="adv_cert" data-format="text" validation-rules="max:15000">
             <template source="questions.text.large_text"></template>
             <question-text>If you have an advanced genetic certification or fellowship (i.e. CGC or FACMG), please indicate:</question-text>
         </question>        
