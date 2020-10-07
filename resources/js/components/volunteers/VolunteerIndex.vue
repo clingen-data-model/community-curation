@@ -1,11 +1,21 @@
 <template>
     <div class="card volunteer-index">
+        <sticky-footer>
+            We've added a video showing you how to use this page: 
+            <screen-info
+                video-url="https://www.youtube.com/embed/q25Ok1gScS0" 
+                title="Learn about the Volunteers List"
+            ></screen-info>            
+        </sticky-footer>
         <div class="card-header">
-            <assignments-report-button 
-                :filter="filters" 
-                :sort-by="sortKey" 
-                :sort-desc="sortDesc"
-            ></assignments-report-button>
+            <div class="float-right d-flex">
+                <assignments-report-button 
+                    class="mr-1 "
+                    :filter="filters" 
+                    :sort-by="sortKey" 
+                    :sort-desc="sortDesc"
+                ></assignments-report-button>
+            </div>
             <h1>Volunteers</h1>
         </div>
         <div class="card-body">
