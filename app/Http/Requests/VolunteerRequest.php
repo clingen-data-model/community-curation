@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Contracts\VolunteerRequestContract;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class VolunteerRequest extends FormRequest
+class VolunteerRequest extends FormRequest implements VolunteerRequestContract
 {
     /**
      * Determine if the user is authorized to make this request.
