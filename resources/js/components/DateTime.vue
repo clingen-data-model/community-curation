@@ -1,17 +1,21 @@
 <template>
-    <b-input-group :append="currentTimezone">
-        <b-form-datepicker 
-            v-model="dateValue" 
-            @change="handleChange"
-            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-        ></b-form-datepicker>
-        <b-form-timepicker v-model="timeValue" @change="handleChange"></b-form-timepicker>
-    </b-input-group>
+    <div>
+        <b-input-group :append="currentTimezone">
+            <date-picker class="form-control" v-model="dateValue"></date-picker>
+            <time-picker class="form-control" v-model="timeValue"></time-picker>
+        </b-input-group>
+    </div>
 </template>
 <script>
 import moment from 'moment'
+import TimePicker from './forms/inputs/TimePicker'
+import DatePicker from './forms/inputs/DatePicker'
 
 export default {
+    components: {
+        TimePicker,
+        DatePicker
+    },
     props: {
         value: {
             required: true,
@@ -25,7 +29,7 @@ export default {
     },
     computed: {
         currentTimezone() {
-            return `${moment().tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z')} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`
+            return `${moment().tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z')}`
         }
     },
     watch: {
@@ -45,12 +49,14 @@ export default {
     methods: {
         handleChange() {
             let newDateTime = moment(this.dateValue + ' ' +this.timeValue, 'YYYY-MM-DD HH:mm:ss A');
+            console.info('handleChange timeValue:', this.timeValue)
+            console.info('handleChange', newDateTime)
             this.$emit('input', newDateTime);
             this.$emit('change');
         },
         syncDateAndTime() {
             this.dateValue = moment(this.value).format('YYYY-MM-DD');
-            this.timeValue = moment(this.value).format('HH:mm');
+            this.timeValue = moment(this.value).format('HH:mm:ss');
         }
     },
 }

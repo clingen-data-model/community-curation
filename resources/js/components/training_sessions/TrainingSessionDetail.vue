@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="float-right">
-                    <b-dropdown size="sm" text="Add to Calendar" variant="primary">
+                    <b-dropdown size="sm" text="Add to Calendar" variant="primary" :disabled="loading">
                         <b-dropdown-item 
                             v-for="(val, key) in trainingSession.calendar_links" :key="key"
                             :href="val" 
@@ -12,14 +12,18 @@
                         <b-dropdown-divider></b-dropdown-divider>
                         <b-dropdown-item @click="showCalendarHelp = true"><small>Learn More</small></b-dropdown-item>
                     </b-dropdown>
-                    <button class="btn btn-sm btn-primary" @click="showEdit = true">Edit</button>
+                    <button class="btn btn-sm btn-primary" @click="showEdit = true" :disabled="loading">Edit</button>
                 </div>
                 <h3 class="m-0">
                     <a href="/training-sessions">Training Sessions</a>
                     -
-                    {{trainingSession.topic.name}}
-                    on
-                    {{trainingSession.starts_at | formatDate('YYYY-MM-DD \\at h:mm a')}}
+                    <span v-if="!loading">
+                        {{trainingSession.topic.name}}
+                        on
+                        {{trainingSession.starts_at | formatDate('YYYY-MM-DD \\at h:mm a')}}
+                    </span>
+
+                    <span v-else>Loading...</span>
                 </h3>
             </div>
             <div class="card-body">
@@ -30,36 +34,39 @@
                 </div>
                 <section id="session-info">
                     <h4>Session Info</h4>
-                    <row class="mb-2">
-                        <column class="col-md-2 text-right">
-                            <strong>URL</strong>
-                        </column>
-                        <column class="col-md-9">
-                            <a :href="trainingSession.url" target="training-session">{{trainingSession.url}}</a>
-                        
-                        </column>
-                    </row>
-                    <row class="mb-2">
-                        <column class="col-md-2 text-right">
-                            <strong>Duration</strong>
-                        </column>
-                        <column class="col-md-9">
-                            {{duration}}
-                        </column>
-                    </row>
-                    <row class="mb-2">
-                        <column class="col-md-2 text-right">
-                            <strong>Invite Message</strong>
-                        </column>
-                        <column class="col-md-9" v-html="trainingSession.invite_message">
-                        </column>
-                    </row>
-                    <row class="mb-2">
-                        <column class="col-md-2 text-right"><strong>Notes</strong></column>
-                        <column class="col-md-9">{{trainingSession.notes}}</column>
-                    </row>
+                    <div v-if="loading">Loading...</div>
+                    <div v-if="!loading">
+                        <row class="mb-2">
+                            <column class="col-md-2 text-right">
+                                <strong>URL</strong>
+                            </column>
+                            <column class="col-md-9">
+                                <a :href="trainingSession.url" target="training-session">{{trainingSession.url}}</a>
+                            
+                            </column>
+                        </row>
+                        <row class="mb-2">
+                            <column class="col-md-2 text-right">
+                                <strong>Duration</strong>
+                            </column>
+                            <column class="col-md-9">
+                                {{duration}}
+                            </column>
+                        </row>
+                        <row class="mb-2">
+                            <column class="col-md-2 text-right">
+                                <strong>Invite Message</strong>
+                            </column>
+                            <column class="col-md-9" v-html="trainingSession.invite_message">
+                            </column>
+                        </row>
+                        <row class="mb-2">
+                            <column class="col-md-2 text-right"><strong>Notes</strong></column>
+                            <column class="col-md-9">{{trainingSession.notes}}</column>
+                        </row>
+                        <invite-email-preview :training-session="trainingSession"></invite-email-preview>
+                    </div>
                     <br>
-                    <invite-email-preview :training-session="trainingSession"></invite-email-preview>
                 </section>
                 <section id="attendees" class="mt-5">
                     <attendees-manager :training-session="trainingSession"></attendees-manager>
@@ -131,7 +138,8 @@ export default {
             showEmailPreview: false,
             started: false,
             ended: false,
-            timestamp: new Date().getTime()
+            timestamp: new Date().getTime(),
+            loading: false
         }
     },
     computed: {
@@ -182,6 +190,7 @@ export default {
         async getTrainingSession ()
         {
             this.show404 = false;
+            this.loading = true;
             this.trainingSession = await window.axios.get('/api/training-sessions/'+this.id)
                                     .then(response => {
                                         let ses = new TrainingSession(response.data.data)
@@ -197,6 +206,7 @@ export default {
                                         }
                                         new Error(error);
                                     })
+            this.loading = false;
             setInterval(() => {
                 this.started = this.trainingSession.started; 
                 this.ended = this.trainingSession.ended;
