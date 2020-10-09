@@ -2,9 +2,8 @@
 
 namespace App;
 
-use Sirs\Surveys\Revisions\Revision;
-use Illuminate\Database\Eloquent\Model;
 use Sirs\Surveys\Models\Response as SirsResponse;
+use Sirs\Surveys\Revisions\Revision;
 
 class SurveyResponse extends SirsResponse
 {
@@ -17,6 +16,7 @@ class SurveyResponse extends SirsResponse
         foreach ($dataCols as $column) {
             $data[$column] = $this->{$column};
         }
+
         return $data;
     }
 

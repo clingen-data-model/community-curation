@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Models;
 
-use App\User;
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\CurationActivity;
 use App\Events\TrainingCompleted;
-use Illuminate\Support\Facades\Event;
 use App\Jobs\AssignVolunteerToAssignable;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 /**
  * @group training
@@ -19,7 +19,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class UserAptitudeTest extends TestCase
 {
     use DatabaseTransactions;
-    
+
     /**
      * @test
      */

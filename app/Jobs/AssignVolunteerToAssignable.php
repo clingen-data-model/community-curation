@@ -2,18 +2,19 @@
 
 namespace App\Jobs;
 
-use App\User;
-use Carbon\Carbon;
 use App\assignable;
 use App\Assignment;
-use Illuminate\Bus\Queueable;
 use App\Contracts\AssignableContract;
-use Illuminate\Foundation\Bus\Dispatchable;
 use App\Exceptions\InvalidAssignmentException;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class AssignVolunteerToAssignable
 {
-    use Dispatchable, Queueable;
+    use Dispatchable;
+    use Queueable;
 
     protected $volunteer;
 
@@ -24,7 +25,7 @@ class AssignVolunteerToAssignable
     /**
      * Create a new job instance.
      *
-     * @param App\User $volunteer user to assign
+     * @param App\User                         $volunteer  user to assign
      * @param App\Contracts\AssignableContract $assignable Assignable to assign
      *
      * @return void
@@ -54,7 +55,7 @@ class AssignVolunteerToAssignable
             'user_id' => $this->volunteer->id,
             'assignable_id' => $this->assignable->id,
             'assignable_type' => get_class($this->assignable),
-            'parent_id' => $this->getParentAssignmentId()
+            'parent_id' => $this->getParentAssignmentId(),
         ];
 
         $asn = Assignment::firstOrCreate($data);
@@ -69,6 +70,7 @@ class AssignVolunteerToAssignable
                                 ->assignments()
                                 ->assignableIs(get_class($parentAssignable), $parentAssignable->id)
                                 ->first();
+
         return optional($parentAssignment)->id;
     }
 }

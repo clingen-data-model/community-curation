@@ -12,8 +12,8 @@ use Tests\TestCase;
 class TrainingSessionTestCase extends TestCase
 {
     use DatabaseTransactions;
-    
-    public function setup():void
+
+    public function setup(): void
     {
         parent::setup();
     }

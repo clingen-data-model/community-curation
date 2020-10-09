@@ -2,16 +2,10 @@
 
 namespace App\Services\Reports;
 
-use DateTime;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Contracts\ReportWriter;
-use Illuminate\Support\Collection;
-use App\Services\Reports\AbstractReportWriter;
-use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
-use Illuminate\Support\Carbon as IlluminateCarbon;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
+use Illuminate\Support\Collection;
 
 class AssignmentReportWriter extends AbstractReportWriter implements ReportWriter
 {

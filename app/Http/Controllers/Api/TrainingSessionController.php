@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
-use App\TrainingSession;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TrainingSessionRequest;
 use App\Http\Resources\TrainingSessionResource;
 use App\Notifications\TrainingSessionInviteEmail;
+use App\TrainingSession;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TrainingSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -30,7 +29,7 @@ class TrainingSessionController extends Controller
                 $query->$scope();
             }
         }
-        
+
         if (!$request->scopes || !in_array('past', $request->scopes)) {
             $query->future();
         }
@@ -41,7 +40,8 @@ class TrainingSessionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TrainingSessionRequest $request)
@@ -59,21 +59,24 @@ class TrainingSessionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $trainingSession  = TrainingSession::findOrFail($id);
+        $trainingSession = TrainingSession::findOrFail($id);
         $trainingSession->load('topic');
+
         return new TrainingSessionResource($trainingSession);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string $id
+     * @param \Illuminate\Http\Request $request
+     * @param string                   $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(TrainingSessionRequest $request, $id)
@@ -92,7 +95,8 @@ class TrainingSessionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TrainingSession  $trainingSession
+     * @param \App\TrainingSession $trainingSession
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

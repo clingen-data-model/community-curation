@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\CurationActivity;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DefaultResource;
+use Illuminate\Http\Request;
 
 class CurationActivitiesController extends Controller
 {

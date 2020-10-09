@@ -3,24 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Goal;
-
 // VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\GoalRequest as StoreRequest;
 use App\Http\Requests\GoalRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class GoalCrudControllerCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class GoalCrudControllerCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class GoalCrudController extends CrudController
 {
     public function setup()
     {
         $this->crud->setModel(Goal::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/goal');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/goal');
         $this->crud->setEntityNameStrings('goal', 'goals');
         $this->crud->setFromDb();
 
@@ -35,12 +34,14 @@ class GoalCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         $redirect_location = parent::storeCrud($request);
+
         return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
         $redirect_location = parent::updateCrud($request);
+
         return $redirect_location;
     }
 }

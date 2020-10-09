@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Motivation;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\MotivationRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\MotivationRequest as UpdateRequest;
+use App\Motivation;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class MotivationCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class MotivationCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class MotivationCrudController extends CrudController
 {
     public function setup()
     {
         $this->crud->setModel(Motivation::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/motivation');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/motivation');
         $this->crud->setEntityNameStrings('motivation', 'motivations');
 
         $this->crud->setFromDb();

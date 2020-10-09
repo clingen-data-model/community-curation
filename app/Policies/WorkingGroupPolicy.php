@@ -9,11 +9,10 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class WorkingGroupPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any working groups.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,8 +23,6 @@ class WorkingGroupPolicy
     /**
      * Determine whether the user can view the working group.
      *
-     * @param  \App\User  $user
-     * @param  \App\WorkingGroup  $workingGroup
      * @return mixed
      */
     public function view(User $user, WorkingGroup $workingGroup)
@@ -36,7 +33,6 @@ class WorkingGroupPolicy
     /**
      * Determine whether the user can create working groups.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +43,6 @@ class WorkingGroupPolicy
     /**
      * Determine whether the user can update the working group.
      *
-     * @param  \App\User  $user
-     * @param  \App\WorkingGroup  $workingGroup
      * @return mixed
      */
     public function update(User $user, WorkingGroup $workingGroup)
@@ -59,8 +53,6 @@ class WorkingGroupPolicy
     /**
      * Determine whether the user can delete the working group.
      *
-     * @param  \App\User  $user
-     * @param  \App\WorkingGroup  $workingGroup
      * @return mixed
      */
     public function delete(User $user, WorkingGroup $workingGroup)
@@ -71,8 +63,6 @@ class WorkingGroupPolicy
     /**
      * Determine whether the user can restore the working group.
      *
-     * @param  \App\User  $user
-     * @param  \App\WorkingGroup  $workingGroup
      * @return mixed
      */
     public function restore(User $user, WorkingGroup $workingGroup)
@@ -83,8 +73,6 @@ class WorkingGroupPolicy
     /**
      * Determine whether the user can permanently delete the working group.
      *
-     * @param  \App\User  $user
-     * @param  \App\WorkingGroup  $workingGroup
      * @return mixed
      */
     public function forceDelete(User $user, WorkingGroup $workingGroup)

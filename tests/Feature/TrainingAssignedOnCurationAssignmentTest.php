@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
 use App\CurationActivity;
 use App\Jobs\AssignVolunteerToAssignable;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group training
@@ -15,7 +15,7 @@ class TrainingAssignedOnCurationAssignmentTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();

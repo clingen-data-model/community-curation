@@ -2,12 +2,10 @@
 
 namespace App\Services\Search;
 
-use App\Note;
-use App\User;
-use App\CurationGroup;
-use Illuminate\Support\Collection;
 use App\Contracts\ModelSearchService;
+use App\Note;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class NotesSearchService implements ModelSearchService
 {
@@ -15,16 +13,16 @@ class NotesSearchService implements ModelSearchService
         'notable_type',
         'notable_id',
         'content',
-        'created_by_id'
+        'created_by_id',
     ];
 
-    public function search($params):Collection
+    public function search($params): Collection
     {
         return $this->buildQuery($params)
                     ->get();
     }
-    
-    public function buildQuery($params):Builder
+
+    public function buildQuery($params): Builder
     {
         $query = Note::query()
                     ->select(['notes.*']);
@@ -50,7 +48,7 @@ class NotesSearchService implements ModelSearchService
         }
 
         $this->setOrder($params, $query);
- 
+
         return $query;
     }
 

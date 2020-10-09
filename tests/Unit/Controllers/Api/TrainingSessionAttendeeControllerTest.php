@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Controllers\Api;
 
-use App\User;
-use Tests\TestCase;
-use App\TrainingSession;
 use App\Jobs\AssignVolunteerToAssignable;
 use App\Notifications\CustomTrainingEmail;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\TrainingSession;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
 use Tests\Feature\TrainingSessions\TrainingSessionTestCase;
 
 /**
@@ -20,7 +17,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->trainingSession = factory(TrainingSession::class)->create();
@@ -35,8 +32,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
         // $this->withoutExceptionHandling();
         $this->actingAs($this->createVolunteer(), 'api')
             ->json('POST', '/api/training-sessions/'.$this->trainingSession->id.'/attendees', [$this->vol1->id, $this->vol2->id])
-            ->assertRedirect('/')
-            ->assertSessionHas('error', 'Not authorized.');
+            ->assertStatus(403);
     }
 
     /**
@@ -46,26 +42,26 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     {
         $this->withoutExceptionHandling();
         $response = $this->actingAs($this->createAdmin(), 'api')
-            ->json('POST', '/api/training-sessions/'.$this->trainingSession->id.'/attendees', ['attendee_ids'=>[$this->vol1->id, $this->vol2->id]])
+            ->json('POST', '/api/training-sessions/'.$this->trainingSession->id.'/attendees', ['attendee_ids' => [$this->vol1->id, $this->vol2->id]])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('training_session_user', [
             'training_session_id' => $this->trainingSession->id,
-            'user_id' => $this->vol1->id
+            'user_id' => $this->vol1->id,
         ]);
         $this->assertDatabaseHas('training_session_user', [
             'training_session_id' => $this->trainingSession->id,
-            'user_id' => $this->vol2->id
+            'user_id' => $this->vol2->id,
         ]);
         $this->assertDatabaseMissing('training_session_user', [
             'training_session_id' => $this->trainingSession->id,
-            'user_id' => $this->vol3->id
+            'user_id' => $this->vol3->id,
         ]);
 
         $response->assertJson(['data' => [
                 ['id' => $this->vol1->id, 'first_name' => $this->vol1->first_name],
-                ['id' => $this->vol2->id, 'first_name' => $this->vol2->first_name]
-            ]
+                ['id' => $this->vol2->id, 'first_name' => $this->vol2->first_name],
+            ],
         ]);
     }
 
@@ -83,13 +79,13 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
                 'data' => [
                     [
                         'id' => $this->vol1->id,
-                        'first_name' => $this->vol1->first_name
+                        'first_name' => $this->vol1->first_name,
                     ],
                     [
                         'id' => $this->vol3->id,
-                        'first_name' => $this->vol3->first_name
-                    ]
-                ]
+                        'first_name' => $this->vol3->first_name,
+                    ],
+                ],
             ]);
     }
 
@@ -105,7 +101,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
 
         $this->assertDatabaseMissing('training_session_user', [
             'user_id' => $this->vol2->id,
-            'training_session_id' => $this->trainingSession->id
+            'training_session_id' => $this->trainingSession->id,
         ]);
     }
 
@@ -132,7 +128,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
                         'id' => $volunteers->get(1)->id,
                         'first_name' => $volunteers->get(1)->first_name,
                     ],
-                ]
+                ],
             ]);
     }
 
@@ -154,10 +150,10 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
                 [
                     'from' => $admin->email,
                     'subject' => 'Test custom email',
-                    'body' => $bodyText
+                    'body' => $bodyText,
                 ]
             );
-        
+
         Notification::assertSentTo(
             [$this->vol1, $this->vol3],
             CustomTrainingEmail::class,

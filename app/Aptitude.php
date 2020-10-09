@@ -20,14 +20,14 @@ class Aptitude extends Model
         'volunteer_type_id',
         'is_primary',
         'evaluator_class',
-        'is_active'
+        'is_active',
     ];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope(new ActiveAptitudeScope);
+        static::addGlobalScope(new ActiveAptitudeScope());
     }
 
     public function subject()
@@ -51,7 +51,7 @@ class Aptitude extends Model
     {
         return $query->where([
             'subject_type' => $subjectClass,
-            'subject_id' => $subjectId
+            'subject_id' => $subjectId,
         ]);
     }
 
@@ -59,8 +59,7 @@ class Aptitude extends Model
     {
         return $query->where('is_active', 1);
     }
-    
-    
+
     public function isBasic()
     {
         return $this->attributes['is_primary'];

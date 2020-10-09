@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FaqRequest extends FormRequest
 {
@@ -26,7 +26,7 @@ class FaqRequest extends FormRequest
     {
         return [
             'question' => 'required',
-            'answer' => 'required'
+            'answer' => 'required',
         ];
     }
 }

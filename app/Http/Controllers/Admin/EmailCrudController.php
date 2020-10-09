@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\CrudPanel;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
-use Yugen\DbMailLog\DbMailLogProvider;
-use App\Http\Requests\EmailRequest as StoreRequest;
-use App\Http\Requests\EmailRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\CrudPanel;
+use Yugen\DbMailLog\DbMailLogProvider;
 
 /**
- * Class EmailCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class EmailCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class EmailCrudController extends CrudController
 {
@@ -25,7 +22,7 @@ class EmailCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(DbMailLogProvider::getEmailLogEntryClass());
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/email');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/email');
         $this->crud->setEntityNameStrings('email', 'email');
 
         /*
@@ -41,7 +38,7 @@ class EmailCrudController extends CrudController
         $this->crud->setFromDb();
 
         $this->crud->removeColumns(['cc', 'bcc', 'reply_to', 'sender']);
-        $this->crud->setColumnsDetails(['from','to'], ['type' => 'json_email']);
+        $this->crud->setColumnsDetails(['from', 'to'], ['type' => 'json_email']);
         $this->crud->addColumn(['type' => 'datetime', 'name' => 'created_at', 'label' => 'Sent'])->makeFirstColumn();
 
         $this->crud->orderBy('created_at', 'DESC');

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Application;
 use App\Exceptions\NotImplementedException;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApplicationDataResource;
 use App\Services\Search\ApplicationSearchService;
+use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
@@ -27,9 +27,10 @@ class ApplicationController extends Controller
     {
         if ($request->only_count) {
             $query = $this->searchService->buildQuery($request->all());
+
             return [
                 'metadata' => $request->all(),
-                'data' => $query->count()
+                'data' => $query->count(),
             ];
         }
 
@@ -49,7 +50,6 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -60,7 +60,6 @@ class ApplicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function show(Application $application)
@@ -71,7 +70,6 @@ class ApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function edit(Application $application)
@@ -82,8 +80,6 @@ class ApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Application $application)
@@ -94,7 +90,6 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function destroy(Application $application)

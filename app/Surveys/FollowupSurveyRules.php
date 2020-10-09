@@ -1,7 +1,6 @@
 <?php
-namespace App\Surveys;
 
-use App\Surveys\SurveyRules;
+namespace App\Surveys;
 
 class FollowupSurveyRules extends SurveyRules
 {
@@ -10,6 +9,7 @@ class FollowupSurveyRules extends SurveyRules
         if (!session()->get('survey-previous')) {
             return '/';
         }
+
         return null;
     }
 }

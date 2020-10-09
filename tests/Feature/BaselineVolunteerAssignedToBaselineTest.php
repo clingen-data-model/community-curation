@@ -6,8 +6,6 @@ use App\CurationActivity;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @group baseline
@@ -16,7 +14,7 @@ class BaselineVolunteerAssignedToBaselineTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->volunteer = factory(User::class)->state('baseline')->create([]);

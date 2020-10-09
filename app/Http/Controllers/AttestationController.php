@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Attestation;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Contracts\AttestationFormResolver;
 use App\Http\Requests\UpdateAttestationRequest;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AttestationController extends Controller
 {
@@ -18,11 +18,9 @@ class AttestationController extends Controller
         $this->attestationFormResolver = $attestationFormResolver;
     }
 
-
     /**
      * Display the specified resource.
      *
-     * @param  \App\Attestation  $attestation
      * @return \Illuminate\Http\Response
      */
     public function show(Attestation $attestation)
@@ -37,7 +35,6 @@ class AttestationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Attestation  $attestation
      * @return \Illuminate\Http\Response
      */
     public function edit(Attestation $attestation)
@@ -54,8 +51,9 @@ class AttestationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Attestation  $attestation
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Attestation         $attestation
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateAttestationRequest $request, $id)
@@ -67,7 +65,7 @@ class AttestationController extends Controller
 
         $attestation->update([
             'signed_at' => Carbon::now(),
-            'data' => $request->except('_method', '_token')]);
+            'data' => $request->except('_method', '_token'), ]);
 
         session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');
 
@@ -77,11 +75,9 @@ class AttestationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Attestation  $attestation
      * @return \Illuminate\Http\Response
      */
     public function destroy(Attestation $attestation)
     {
-        //
     }
 }

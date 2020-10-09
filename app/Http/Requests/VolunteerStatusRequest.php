@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VolunteerStatusRequest extends FormRequest
@@ -26,7 +25,7 @@ class VolunteerStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
         ];
     }
 
@@ -38,7 +37,6 @@ class VolunteerStatusRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
         ];
     }
 
@@ -50,7 +48,6 @@ class VolunteerStatusRequest extends FormRequest
     public function messages()
     {
         return [
-            //
         ];
     }
 }

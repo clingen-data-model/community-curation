@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Services\Reports\AssignmentReportGenerator;
 use App\Services\Reports\AssignmentReportWriter;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AssignmentReportController extends Controller
 {
@@ -28,7 +26,6 @@ class AssignmentReportController extends Controller
             ->setPath($filePath)
             ->writeData($this->generator->generate($request->all()));
 
-        
         return response()
             ->download($filePath)
             ->deleteFileAfterSend();

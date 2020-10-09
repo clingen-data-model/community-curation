@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Contracts\AptitudeSubjectContract;
 use App\Events\AssignmentCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateCorrespondingTraining
 {
@@ -16,13 +14,11 @@ class CreateCorrespondingTraining
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  AssignmentCreated  $event
      * @return void
      */
     public function handle(AssignmentCreated $event)
@@ -42,7 +38,7 @@ class CreateCorrespondingTraining
             ->userAptitudes()
             ->create([
                 'aptitude_id' => $basicTraining->id,
-                'assignment_id' => $event->assignment->id
+                'assignment_id' => $event->assignment->id,
             ]);
     }
 }

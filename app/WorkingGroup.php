@@ -2,18 +2,18 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class WorkingGroup extends Model
 {
     use CrudTrait;
     use RevisionableTrait;
-    
+
     protected $fillable = [
         'name',
-        'url'
+        'url',
     ];
 
     public function curationGroups()

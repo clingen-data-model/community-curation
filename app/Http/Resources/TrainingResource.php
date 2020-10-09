@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\DefaultResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TrainingResource extends JsonResource
@@ -10,7 +9,8 @@ class TrainingResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -19,6 +19,7 @@ class TrainingResource extends JsonResource
         $data['aptitude'] = new DefaultResource($this->whenLoaded('aptitude'));
         $data['assignment'] = new DefaultResource($this->whenLoaded('assignment'));
         $data['user'] = new DefaultResource($this->whenLoaded('user'));
+
         return $data;
     }
 }

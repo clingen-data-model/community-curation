@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface ReportGenerator
 {
-    public function generate($filterParams = []):Collection;
+    public function generate($filterParams = []): Collection;
 }

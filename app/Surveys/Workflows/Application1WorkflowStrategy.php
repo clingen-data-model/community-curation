@@ -2,11 +2,10 @@
 
 namespace App\Surveys\Workflows;
 
-use App\User;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\CreateVolunteerFromApplication;
 use App\Mail\ApplicationCompletedMail;
 use App\Traits\StoresResponsePriorities;
-use App\Jobs\CreateVolunteerFromApplication;
+use Illuminate\Support\Facades\Mail;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
 /**

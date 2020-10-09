@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Contracts\TrainingTopicContract;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TrainingSessionRequest extends FormRequest
 {
@@ -34,7 +34,7 @@ class TrainingSessionRequest extends FormRequest
                         if (!in_array(TrainingTopicContract::class, class_implements($value))) {
                             $fail('The topic type is not valid.');
                         }
-                    }
+                    },
                 ],
             'topic_id' => 'required',
             'url' => 'required|url',
@@ -61,7 +61,7 @@ class TrainingSessionRequest extends FormRequest
         return [
             'starts_at' => 'start date and time',
             'ends_at' => 'end date and time',
-            'url' => 'URL'
+            'url' => 'URL',
         ];
     }
 }

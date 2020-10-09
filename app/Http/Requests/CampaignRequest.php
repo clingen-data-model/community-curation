@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CampaignRequest extends FormRequest
 {
@@ -28,11 +28,11 @@ class CampaignRequest extends FormRequest
             'name' => [
                 'required',
                 Rule::unique('campaigns', 'name')
-                    ->ignore(request()->id, 'id')
+                    ->ignore(request()->id, 'id'),
             ],
             'active' => [
-                'required', 
-                Rule::in([0,1])
+                'required',
+                Rule::in([0, 1]),
             ],
         ];
     }

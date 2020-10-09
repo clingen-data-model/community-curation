@@ -2,17 +2,15 @@
 
 namespace App;
 
-use App\Assignment;
-use Backpack\CRUD\CrudTrait;
-use App\Traits\AssignableTrait;
 use App\Contracts\AssignableContract;
+use App\Traits\AssignableTrait;
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Gene extends Model implements AssignableContract
 {
-    use CrudTrait, AssignableTrait;
+    use CrudTrait;
+    use AssignableTrait;
 
     public $fillable = [
         'symbol',
@@ -20,11 +18,11 @@ class Gene extends Model implements AssignableContract
         'protocol_path',
         'protocol_filename',
         'hypothesis_group',
-        'hypothesis_group_url'
+        'hypothesis_group_url',
     ];
 
     public $appends = [
-        'name'
+        'name',
     ];
 
     public function canBeAssignedToBaseline(): bool
@@ -41,11 +39,13 @@ class Gene extends Model implements AssignableContract
         if (is_null($value) && !empty($this->attributes['protocol_path'])) {
             $this->attributes['protocol_path'] = $value;
             $this->protocol_filename = null;
+
             return;
         }
 
         if (app()->environment('testing')) {
             $this->attributes['protocol_path'] = $value;
+
             return;
         }
 

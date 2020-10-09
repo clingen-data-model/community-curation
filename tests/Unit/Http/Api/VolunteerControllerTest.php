@@ -3,10 +3,8 @@
 namespace Tests\Unit\Http\Api;
 
 use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class VolunteerControllerTest extends TestCase
 {
@@ -15,9 +13,9 @@ class VolunteerControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 0");
+        \DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         \DB::table('users')->truncate();
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 1");
+        \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
         $this->volunteers = factory(User::class, 5)->states('volunteer')->create();
     }
 
@@ -36,7 +34,7 @@ class VolunteerControllerTest extends TestCase
         $this->volunteers->map(function ($v) {
             return [
                 'id' => $v->id,
-                'volunteer_type' => $v->volunteerType->toArray()
+                'volunteer_type' => $v->volunteerType->toArray(),
             ];
         });
 
@@ -55,7 +53,7 @@ class VolunteerControllerTest extends TestCase
 
         $response = $this->actingAs(factory(User::class)->create(), 'api')
             ->call('GET', '/api/volunteers');
-            
+
         $response->assertDontSee('"id": '.$coordinator->id);
     }
 
@@ -72,11 +70,11 @@ class VolunteerControllerTest extends TestCase
             'name' => $this->volunteers->first()->name,
             'volunteer_type' => [
                 'id' => $this->volunteers->first()->volunteerType->id,
-                'name' => $this->volunteers->first()->volunteerType->name
+                'name' => $this->volunteers->first()->volunteerType->name,
             ],
             'volunteer_status' => [
                 'id' => $this->volunteers->first()->volunteerStatus->id,
-                'name' => $this->volunteers->first()->volunteerStatus->name
+                'name' => $this->volunteers->first()->volunteerStatus->name,
             ],
         ]]);
     }

@@ -2,17 +2,16 @@
 
 namespace App\Providers;
 
-use App\User;
 use App\Attestation;
 use App\CurationGroup;
-use App\WorkingGroup;
-use App\Policies\UserPolicy;
-use Laravel\Passport\Passport;
 use App\Policies\AttestationPolicy;
 use App\Policies\CurationGroupPolicy;
+use App\Policies\UserPolicy;
 use App\Policies\WorkingGroupPolicy;
-use Illuminate\Support\Facades\Gate;
+use App\User;
+use App\WorkingGroup;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {

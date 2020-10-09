@@ -17,14 +17,14 @@ abstract class TestCase extends BaseTestCase
         $users = factory(User::class, $number)
             ->states($roles)
             ->create($data);
-        
+
         if ($users->count() == 1) {
             return $users->first();
         }
 
         return $users;
     }
-    
+
     protected function createAdmin($data = [], $number = 1)
     {
         return $this->createUser($data, $number, ['admin']);

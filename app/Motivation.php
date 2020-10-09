@@ -16,9 +16,9 @@ class Motivation extends Model
     use CrudTrait;
 
     protected $revisionCreationsEnabled = true;
-    
+
     protected $fillable = [
         'name',
-        'active'
+        'active',
     ];
 }

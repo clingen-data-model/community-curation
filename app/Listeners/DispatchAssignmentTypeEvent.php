@@ -6,8 +6,6 @@ use App\CurationActivity;
 use App\Events\AssignmentCreated;
 use App\Events\Assignments\GroupAssignmentCreated;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DispatchAssignmentTypeEvent
 {
@@ -26,7 +24,6 @@ class DispatchAssignmentTypeEvent
     /**
      * Handle the event.
      *
-     * @param  AssignmentCreated  $event
      * @return void
      */
     public function handle(AssignmentCreated $event)

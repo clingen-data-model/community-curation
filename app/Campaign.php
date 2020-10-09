@@ -15,13 +15,12 @@ class Campaign extends Model
     use HasOtherOption;
     use CrudTrait;
 
-
     protected $revisionCreationsEnabled = true;
     protected $fillable = [
         'name',
         'active',
         'starts_at',
-        'ends_at'
+        'ends_at',
     ];
     protected $dates = [
         'starts_at',

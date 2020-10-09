@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\VolunteerStatusRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\VolunteerStatusRequest as UpdateRequest;
-use Backpack\CRUD\CrudPanel;
 use App\Models\VolunteerStatus;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class VolunteerStatusCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class VolunteerStatusCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class VolunteerStatusCrudController extends CrudController
 {
@@ -25,7 +24,7 @@ class VolunteerStatusCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\VolunteerStatus');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/volunteer-status');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/volunteer-status');
         $this->crud->setEntityNameStrings('volunteer status', 'volunteer statuses');
 
         /*
@@ -52,7 +51,6 @@ class VolunteerStatusCrudController extends CrudController
         if (!\Auth::user()->can('delete volunteer-statuses')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
-
     }
 
     public function store(StoreRequest $request)

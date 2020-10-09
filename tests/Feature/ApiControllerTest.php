@@ -3,10 +3,8 @@
 namespace Tests\Feature;
 
 use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ApiControllerTest extends TestCase
 {
@@ -17,7 +15,6 @@ class ApiControllerTest extends TestCase
         parent::setUp();
         $this->user = factory(User::class)->create();
     }
-    
 
     /**
      * @test
@@ -61,14 +58,14 @@ class ApiControllerTest extends TestCase
             ->assertJson([
                 'data' => [
                     [
-                        'id' => 1, 
-                        'name' => 'baseline'
+                        'id' => 1,
+                        'name' => 'baseline',
                     ],
                     [
-                        'id' => 2, 
-                        'name' => 'comprehensive'
-                    ]
-                ]
+                        'id' => 2,
+                        'name' => 'comprehensive',
+                    ],
+                ],
             ]);
     }
 
@@ -83,13 +80,8 @@ class ApiControllerTest extends TestCase
             ->assertJson([
                 'data' => [
                     'id' => 1,
-                    'name' => 'baseline'
-                ]
+                    'name' => 'baseline',
+                ],
             ]);
     }
-    
-    
-    
-    
-    
 }

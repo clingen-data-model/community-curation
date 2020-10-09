@@ -5,8 +5,6 @@ namespace App\Listeners\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SetLastLoggedInAt
 {
@@ -17,13 +15,11 @@ class SetLastLoggedInAt
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  Login  $event
      * @return void
      */
     public function handle(Login $event)
