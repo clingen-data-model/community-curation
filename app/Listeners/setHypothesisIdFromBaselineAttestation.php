@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\AttestationSigned;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SetHypothesisIdFromBaselineAttestation
 {
@@ -15,13 +13,11 @@ class SetHypothesisIdFromBaselineAttestation
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  AttestationSigned  $event
      * @return void
      */
     public function handle(AttestationSigned $event)
@@ -37,7 +33,7 @@ class SetHypothesisIdFromBaselineAttestation
         $event->attestation
             ->user
             ->update([
-                'hypothesis_id' => $event->attestation->data['hypothesis_id']
+                'hypothesis_id' => $event->attestation->data['hypothesis_id'],
             ]);
     }
 }

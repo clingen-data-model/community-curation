@@ -29,7 +29,7 @@ class CuratorUploadIndexRequest extends FormRequest
             'sort.field' => 'nullable',
             'sort.dir' => 'nullable',
             'with' => 'nullable',
-            'with_deleted' => 'nullabel'
+            'with_deleted' => 'nullabel',
         ];
     }
 }

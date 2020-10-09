@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Gene;
-
 // VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\GeneRequest as StoreRequest;
 use App\Http\Requests\GeneRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class GeneCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class GeneCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class GeneCrudController extends CrudController
 {
@@ -25,7 +24,7 @@ class GeneCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(Gene::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/gene');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/gene');
         $this->crud->setEntityNameStrings('gene', 'genes');
         $this->crud
             ->orderBy('symbol', 'asc');
@@ -57,7 +56,6 @@ class GeneCrudController extends CrudController
         $this->crud->removeColumns(['protocol_path', 'hypothesis_group_url']);
         $this->crud->modifyColumn('hgnc_id', ['label' => 'HGNC ID']);
     }
-    
 
     private function configureFields()
     {
@@ -68,7 +66,7 @@ class GeneCrudController extends CrudController
             'name' => 'protocol_path',
             'type' => 'upload',
             'upload' => true,
-            'disk' => 'public'
+            'disk' => 'public',
         ]);
         $this->crud->removeField('protocol_filename');
 

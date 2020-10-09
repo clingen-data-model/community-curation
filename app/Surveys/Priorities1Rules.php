@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Surveys;
 
-use App\Surveys\SurveyRules;
 use Illuminate\Support\Facades\Auth;
 
 class Priorities1Rules extends SurveyRules
@@ -11,6 +11,7 @@ class Priorities1Rules extends SurveyRules
         if (Auth::guest()) {
             return '/apply/thank-you';
         }
+
         return null;
     }
 }

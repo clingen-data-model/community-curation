@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\UploadCategoryRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\UploadCategoryRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
 
 /**
- * Class UploadCategoryCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class UploadCategoryCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class UploadCategoryCrudController extends CrudController
 {
@@ -24,7 +23,7 @@ class UploadCategoryCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\UploadCategory');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/upload-category');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/upload-category');
         $this->crud->setEntityNameStrings('upload category', 'upload categories');
 
         /*

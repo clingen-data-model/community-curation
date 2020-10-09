@@ -9,7 +9,8 @@ class SurveyResponseResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -23,7 +24,7 @@ class SurveyResponseResource extends JsonResource
                 'variable' => $question->name,
                 'questionText' => trim($question->questionText),
                 'rawValue' => $this->{$question->name},
-                'value' => $this->{$question->name}
+                'value' => $this->{$question->name},
             ];
 
             if ($question->hasOptions()) {
@@ -34,6 +35,7 @@ class SurveyResponseResource extends JsonResource
                 $data[$question->name]['value'] = $options;
             }
         }
+
         return $data;
     }
 }

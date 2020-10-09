@@ -2,13 +2,13 @@
 
 namespace App\Surveys;
 
-use App\Goal;
 use App\Campaign;
+use App\CurationActivity;
+use App\CurationGroup;
+use App\Goal;
 use App\Interest;
 use App\Motivation;
 use App\SelfDescription;
-use App\CurationActivity;
-use App\CurationGroup;
 
 class SurveyOptions
 {
@@ -17,22 +17,24 @@ class SurveyOptions
         $zones = timezone_identifiers_list();
         $options = [];
         foreach ($zones as $zone) {
-            $options[] = (object)[
+            $options[] = (object) [
                 'name' => $zone,
                 'id' => $zone,
             ];
         }
+
         return $options;
     }
-    
+
     public function curationActivities()
     {
         return CurationActivity::select('id', 'name')->comprehensive()->get();
     }
-    
+
     public function curationGroups()
     {
         $curationGroups = CurationGroup::select('id', 'name', 'accepting_volunteers')->acceptingVolunteers()->get();
+
         return $curationGroups;
     }
 
@@ -55,7 +57,7 @@ class SurveyOptions
     {
         return Interest::select('id', 'name')->get();
     }
-    
+
     public function goals()
     {
         return Goal::select('id', 'name')->withoutOther()->get();

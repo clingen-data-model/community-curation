@@ -28,7 +28,7 @@ class CreateUploadRequest extends FormRequest
             'file' => 'required|file',
             'user_id' => 'required|exists:users,id',
             'upload_category_id' => 'nullable|exists:upload_categories,id',
-            'notes' => 'nullable|max:65535'
+            'notes' => 'nullable|max:65535',
         ];
     }
 }

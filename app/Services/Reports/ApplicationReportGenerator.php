@@ -5,8 +5,8 @@ namespace App\Services\Reports;
 use App\Application;
 use App\Contracts\ReportGenerator;
 use App\Country;
-use Illuminate\Support\Collection;
 use App\Services\Search\VolunteerSearchService;
+use Illuminate\Support\Collection;
 
 class ApplicationReportGenerator implements ReportGenerator
 {
@@ -21,7 +21,7 @@ class ApplicationReportGenerator implements ReportGenerator
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
     }
 
-    public function generate($filterParams = []):Collection
+    public function generate($filterParams = []): Collection
     {
         if ($filterParams) {
             $this->filterByVolunteer($filterParams);
@@ -36,6 +36,7 @@ class ApplicationReportGenerator implements ReportGenerator
                 $response = $this->getReadableResponse($application->{$qName}, $definition);
                 $application->{$qName} = $response ? $response : '';
             }
+
             return $application;
         });
 
@@ -60,6 +61,7 @@ class ApplicationReportGenerator implements ReportGenerator
     private function tidyUpData(Collection $data): Collection
     {
         $countries = Country::all()->pluck('name', 'id');
+
         return $data->map(function ($app) use ($countries) {
             $introColumns = collect([
                 'volunteer_id' => $app->respondent_id,
@@ -69,12 +71,11 @@ class ApplicationReportGenerator implements ReportGenerator
             ]);
             $outroColumns = collect([
                 'date_completed' => $app->finalized_at,
-                'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No'
-    
+                'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No',
             ]);
 
             return [
-                'personal' =>   $introColumns
+                'personal' => $introColumns
                                     ->merge([
                                             'institution' => $app->institution,
                                             'orcid_id' => $app->orcid_id,
@@ -97,13 +98,13 @@ class ApplicationReportGenerator implements ReportGenerator
                                             'self_description' => $app->self_desc ? $app->self_desc : '',
                                             'self_description_other' => $app->self_desc_other,
                                     ])->merge($outroColumns),
-                
+
                 'demographic' => $introColumns
                                     ->merge($this->getQuestionColumns('race_ethnicity', $app))
                                     ->merge(['other' => $app->race_ethnicity_other_detail])
                                     ->merge($outroColumns),
 
-                'outreach' =>   $introColumns
+                'outreach' => $introColumns
                                     ->merge($this->getQuestionColumns('ad_campaign', $app))
                                     ->merge(['other' => $app->ad_campaign_other])
                                     ->merge($outroColumns),
@@ -113,21 +114,21 @@ class ApplicationReportGenerator implements ReportGenerator
                                     ->merge(['other' => $app->motivation_other])
                                     ->merge($outroColumns),
 
-                'goals' =>      $introColumns
+                'goals' => $introColumns
                                     ->merge($this->getQuestionColumns('goals', $app))
                                     ->merge(['other' => $app->goals_other])
                                     ->merge($outroColumns),
-                            
-                'interests' =>  $introColumns
+
+                'interests' => $introColumns
                                     ->merge($this->getQuestionColumns('interests', $app))
                                     ->merge($outroColumns),
 
-                'ccdb' =>       $introColumns
+                'ccdb' => $introColumns
                                     ->merge([
                                         'baseline/comprehensive' => $app->volunteer_type,
                                     ])
                                     ->merge($this->getPriorityData($app))
-                                    ->merge($outroColumns)
+                                    ->merge($outroColumns),
             ];
         });
     }
@@ -136,21 +137,21 @@ class ApplicationReportGenerator implements ReportGenerator
     {
         $data = [];
         $priorities = $app->respondent->latestPriorities->values();
-        for ($i=0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             if ($priorities) {
                 $data = array_merge($data, [
-                    'curation_activity_priority_'.($i+1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,
-                    'curation_group_priority'.($i+1) => ($priorities->get($i) && $priorities->get($i)->curationGroup) ? $priorities->get($i)->curationGroup->name : null,
-                    'priority_'.($i+1).'_activity_experience' => $priorities->get($i) ? $priorities->get($i)->activity_experience : null,
-                    'priority_'.($i+1).'_activity_experience_details' => ($priorities->get($i) && $priorities->get($i)->activity_experience == 1) ? $priorities->get($i)->activity_experience_details : null,
-                    'priority_'.($i+1).'_effort_experience' => $priorities->get($i) ? $priorities->get($i)->effort_experience : null,
-                    'priority_'.($i+1).'_effort_experience_details' => ($priorities->get($i) && $priorities->get($i)->effort_experience == 1) ? $priorities->get($i)->effort_experience_details : null
+                    'curation_activity_priority_'.($i + 1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,
+                    'curation_group_priority'.($i + 1) => ($priorities->get($i) && $priorities->get($i)->curationGroup) ? $priorities->get($i)->curationGroup->name : null,
+                    'priority_'.($i + 1).'_activity_experience' => $priorities->get($i) ? $priorities->get($i)->activity_experience : null,
+                    'priority_'.($i + 1).'_activity_experience_details' => ($priorities->get($i) && $priorities->get($i)->activity_experience == 1) ? $priorities->get($i)->activity_experience_details : null,
+                    'priority_'.($i + 1).'_effort_experience' => $priorities->get($i) ? $priorities->get($i)->effort_experience : null,
+                    'priority_'.($i + 1).'_effort_experience_details' => ($priorities->get($i) && $priorities->get($i)->effort_experience == 1) ? $priorities->get($i)->effort_experience_details : null,
                 ]);
             }
         }
+
         return $data;
     }
-    
 
     private function getQuestionColumns($questionName, Application $app)
     {
@@ -158,13 +159,12 @@ class ApplicationReportGenerator implements ReportGenerator
         foreach ($this->applicationQuestions[$questionName]->getOptions() as $option) {
             $data[$option->label] = '';
             if (is_array($app->{$questionName})) {
-                $data[$option->label] = in_array($option->label, $app->{$questionName}) ? 1: 0;
+                $data[$option->label] = in_array($option->label, $app->{$questionName}) ? 1 : 0;
             }
         }
 
         return $data;
     }
-
 
     private function getReadableResponse($responseValue, $questionDef)
     {

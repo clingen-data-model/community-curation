@@ -3,9 +3,8 @@
 namespace App\Notifications\VolunteerFollowup;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class FollowupReminder2 extends Notification
 {
@@ -17,18 +16,19 @@ class FollowupReminder2 extends Notification
      * Create a new notification instance.
      *
      * @param string $surveyUrl URL for volunteer to complete survey
+     *
      * @return void
      */
     public function __construct($surveyUrl)
     {
-        //
         $this->surveyUrl = $surveyUrl;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -39,17 +39,18 @@ class FollowupReminder2 extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->view(
                         'email.volunteers.followups.reminder_2',
                         [
                             'volunteer' => $notifiable,
-                            'url' => $this->surveyUrl
+                            'url' => $this->surveyUrl,
                         ]
                     );
     }
@@ -57,13 +58,13 @@ class FollowupReminder2 extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

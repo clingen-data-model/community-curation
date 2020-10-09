@@ -16,9 +16,9 @@ trait StoresResponsePriorities
                                 ->where('user_id', $this->response->respondent_id)
                                 ->get()
                                 ->first()->prioritization_round ?? 0;
-        $prioritizationRound++;
+        ++$prioritizationRound;
 
-        foreach ([1,2,3] as $num) {
+        foreach ([1, 2, 3] as $num) {
             if ($this->response->{'curation_activity_'.$num}) {
                 Priority::create([
                     'user_id' => $this->response->respondent_id,
@@ -32,7 +32,7 @@ trait StoresResponsePriorities
                     'outside_panel' => $this->response->outside_panel,
                     'prioritization_round' => $prioritizationRound,
                     'survey_id' => $this->response->survey_id,
-                    'response_id' => $this->response->id
+                    'response_id' => $this->response->id,
                 ]);
             }
         }

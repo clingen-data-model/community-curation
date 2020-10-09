@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Note;
-use Illuminate\Http\Request;
-use App\Http\Requests\NoteRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\NotesResource;
 use App\Http\Requests\NoteCreateRequest;
 use App\Http\Requests\NoteUpdateRequest;
+use App\Http\Resources\NotesResource;
+use App\Note;
 use App\Services\Search\NotesSearchService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
 class NotesController extends Controller
@@ -35,7 +34,8 @@ class NotesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(NoteCreateRequest $request)
@@ -51,7 +51,8 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Note  $notes
+     * @param \App\Note $notes
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Note $note)
@@ -62,22 +63,24 @@ class NotesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Note  $notes
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Note                $notes
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(NoteUpdateRequest $request, Note $note)
     {
         $note->update($request->all());
         $note->load('creator');
-        
+
         return new NotesResource($note);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Note  $notes
+     * @param \App\Note $notes
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Note $note)
@@ -86,6 +89,7 @@ class NotesController extends Controller
             throw new UnauthorizedException('User does not have permission to delete notes.');
         }
         $note->delete();
+
         return response('successfully deleted', 200);
     }
 }

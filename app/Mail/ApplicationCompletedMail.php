@@ -6,11 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Sirs\Surveys\Contracts\SurveyResponse;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ApplicationCompletedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     protected $response;
 
@@ -36,6 +36,7 @@ class ApplicationCompletedMail extends Mailable
             ->with([
                 'name' => $this->response->first_name.' '.$this->response->last_name,
             ]);
+
         return $mailable;
     }
 }

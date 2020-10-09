@@ -15,9 +15,9 @@ class ImportHooks
     {
         if (!User::where('email', 'sirs@unc.edu')->get()->first()) {
             $user = factory(\App\User::class)->create([
-                'name'=>'Sirs Programmer',
-                'email'=>'sirs@unc.edu',
-                'password'=>'tester'
+                'name' => 'Sirs Programmer',
+                'email' => 'sirs@unc.edu',
+                'password' => 'tester',
             ]);
             $user->roles()->attach(1);
         }

@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\TrainingCompleted;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SetVolunteerStatusToTrained
 {
@@ -15,13 +13,11 @@ class SetVolunteerStatusToTrained
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  TrainingCompleted  $event
      * @return void
      */
     public function handle(TrainingCompleted $event)

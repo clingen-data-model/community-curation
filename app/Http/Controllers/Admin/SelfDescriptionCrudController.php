@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\SelfDescription;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\SelfDescriptionRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SelfDescriptionRequest as UpdateRequest;
+use App\SelfDescription;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class SelfDescriptionCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class SelfDescriptionCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class SelfDescriptionCrudController extends CrudController
 {
     public function setup()
     {
         $this->crud->setModel(SelfDescription::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/self-description');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/self-description');
         $this->crud->setEntityNameStrings('self-description', 'self-descriptions');
 
         $this->crud->setFromDb();

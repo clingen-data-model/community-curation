@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
 use App\Attestation;
-use App\CurationGroup;
-use App\CurationActivity;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Jobs\AssignVolunteerToAssignable;
 use App\Http\Resources\AttestationResource;
-use App\Http\Requests\AttestationUpdateRequest;
-use App\Http\Requests\ActivityAttestationCreateRequest;
+use App\User;
+use Illuminate\Http\Request;
 
 class AttestationController extends Controller
 {

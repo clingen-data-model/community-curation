@@ -14,5 +14,3 @@ class Priorities1WorkflowStrategy extends SurveyResponseWorkflowStrategy
         $this->storePriorities();
     }
 } // END class SurveyResponseTypeWorkflowStrategy
-
-?>

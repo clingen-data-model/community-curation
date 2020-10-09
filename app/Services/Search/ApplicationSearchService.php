@@ -3,9 +3,9 @@
 namespace App\Services\Search;
 
 use App\Application;
-use Illuminate\Support\Collection;
 use App\Contracts\ModelSearchService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class ApplicationSearchService implements ModelSearchService
 {
@@ -19,15 +19,15 @@ class ApplicationSearchService implements ModelSearchService
         'volunteer_type',
     ];
 
-    public function search($params) : Collection
+    public function search($params): Collection
     {
         return $this->buildQuery($params)->get();
     }
 
-    public function buildQuery($params) : Builder
+    public function buildQuery($params): Builder
     {
         $query = Application::query();
-        
+
         foreach ($params as $key => $value) {
             if ($key == 'select') {
                 $query->select($value);
@@ -45,7 +45,7 @@ class ApplicationSearchService implements ModelSearchService
             $this->filterByFinalizedAt($params['finalized_at'], $query);
         }
         $this->setOrder($params, $query);
- 
+
         return $query;
     }
 
@@ -53,17 +53,19 @@ class ApplicationSearchService implements ModelSearchService
     {
         if ($value == 0) {
             $query->whereNull('finalized_at');
+
             return;
         }
 
         if ($value == 1) {
             $query->whereNotNull('finalized_at');
+
             return;
         }
         $query->whereNotNull('finalized_at')
             ->where('finalized_at', '>', $value);
     }
-    
+
     protected function setOrder($params, $query)
     {
         $sortField = (isset($params['sortBy'])) ? $params['sortBy'] : 'last_name';

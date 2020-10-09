@@ -2,12 +2,11 @@
 
 namespace App\Services\Reports;
 
-use App\User;
-use App\CurationGroup;
-use App\CurationActivity;
 use App\Contracts\ReportGenerator;
-use Illuminate\Support\Collection;
+use App\CurationActivity;
+use App\CurationGroup;
 use App\Services\Search\VolunteerSearchService;
+use Illuminate\Support\Collection;
 
 class AssignmentReportGenerator implements ReportGenerator
 {
@@ -18,7 +17,7 @@ class AssignmentReportGenerator implements ReportGenerator
         $this->searchService = $searchService;
     }
 
-    public function generate($filterParams = []):Collection
+    public function generate($filterParams = []): Collection
     {
         $params = array_merge([
             'with' => [
@@ -29,11 +28,11 @@ class AssignmentReportGenerator implements ReportGenerator
                 'assignments.userAptitudes',
                 'assignments.assignable',
                 'assignments.attestations',
-                'application'
-            ]
+                'application',
+            ],
             ], $filterParams);
         $volunteers = $this->searchService->search($params);
-        
+
         $allRows = $volunteers->transform(function ($volunteer) {
             $root = [
                 'email' => $volunteer->email,
@@ -54,10 +53,11 @@ class AssignmentReportGenerator implements ReportGenerator
                         'curation_activity' => null,
                         'training_completion_date' => null,
                         'attestation_date' => null,
-                        'assigned_curation_group' => null
+                        'assigned_curation_group' => null,
                     ]
                 )]);
             }
+
             return $volunteer->assignments
                 ->isCurationActivity()
                 ->transform(function ($assignment) use ($root, $volunteer) {
@@ -81,9 +81,9 @@ class AssignmentReportGenerator implements ReportGenerator
         })->flatten(1);
 
         $data = collect([
-            'all' => $allRows
+            'all' => $allRows,
         ]);
-        
+
         $caSheets = CurationActivity::all()
             ->keyBy('name')
             ->transform(function ($ca) use ($allRows) {

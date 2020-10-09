@@ -2,18 +2,17 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Attestation;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AttestationPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any attestations.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,8 +23,6 @@ class AttestationPolicy
     /**
      * Determine whether the user can view the attestation.
      *
-     * @param  \App\User  $user
-     * @param  \App\Attestation  $attestation
      * @return mixed
      */
     public function view(User $user, Attestation $attestation)
@@ -34,13 +31,12 @@ class AttestationPolicy
             return true;
         }
 
-        return ($user->id === $attestation->user_id);
+        return $user->id === $attestation->user_id;
     }
 
     /**
      * Determine whether the user can create attestations.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -51,8 +47,6 @@ class AttestationPolicy
     /**
      * Determine whether the user can update the attestation.
      *
-     * @param  \App\User  $user
-     * @param  \App\Attestation  $attestation
      * @return mixed
      */
     public function update(User $user, Attestation $attestation)
@@ -61,14 +55,12 @@ class AttestationPolicy
             return true;
         }
 
-        return ($user->id === $attestation->user_id);
+        return $user->id === $attestation->user_id;
     }
 
     /**
      * Determine whether the user can delete the attestation.
      *
-     * @param  \App\User  $user
-     * @param  \App\Attestation  $attestation
      * @return mixed
      */
     public function delete(User $user, Attestation $attestation)
@@ -79,8 +71,6 @@ class AttestationPolicy
     /**
      * Determine whether the user can restore the attestation.
      *
-     * @param  \App\User  $user
-     * @param  \App\Attestation  $attestation
      * @return mixed
      */
     public function restore(User $user, Attestation $attestation)
@@ -91,8 +81,6 @@ class AttestationPolicy
     /**
      * Determine whether the user can permanently delete the attestation.
      *
-     * @param  \App\User  $user
-     * @param  \App\Attestation  $attestation
      * @return mixed
      */
     public function forceDelete(User $user, Attestation $attestation)

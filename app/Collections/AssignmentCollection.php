@@ -3,8 +3,8 @@
 namespace App\Collections;
 
 use App\Assignment;
-use App\CurationGroup;
 use App\CurationActivity;
+use App\CurationGroup;
 use App\Gene;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -23,6 +23,7 @@ class AssignmentCollection extends Collection
                     }
                 }
             }
+
             return false;
         });
     }

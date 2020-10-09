@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use Illuminate\Mail\Events\MessageSent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LogSentMessage
 {
@@ -15,13 +13,11 @@ class LogSentMessage
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  MessageSent  $event
      * @return void
      */
     public function handle(MessageSent $event)
@@ -32,7 +28,7 @@ class LogSentMessage
             'subject' => $event->message->getSubject(),
             'body' => $event->message->getBody(),
         ];
-        
+
         \Log::channel('mail')->info('Email sent', $messageInfo);
     }
 }

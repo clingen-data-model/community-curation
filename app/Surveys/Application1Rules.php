@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Surveys;
 
-use App\Surveys\SurveyRules;
 use Illuminate\Support\Facades\Auth;
 
 class Application1Rules extends SurveyRules
@@ -14,6 +14,7 @@ class Application1Rules extends SurveyRules
         if (Auth::guest()) {
             return '/apply/thank-you';
         }
+
         return null;
     }
 
@@ -22,6 +23,7 @@ class Application1Rules extends SurveyRules
         if ($this->response->volunteer_type == 1) {
             return 2;
         }
+
         return 0;
     }
 }

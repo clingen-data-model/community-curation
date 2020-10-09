@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\CurationGroup;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DefaultResource;
 use App\Http\Resources\CurationGroupResource;
 use App\Services\Search\CurationGroupSearchService;
+use Illuminate\Http\Request;
 
 class CurationGroupController extends Controller
 {
@@ -17,8 +16,6 @@ class CurationGroupController extends Controller
     {
         $this->searchService = $searchService;
     }
-
-    
 
     /**
      * Display a listing of the resource.
@@ -41,7 +38,8 @@ class CurationGroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)

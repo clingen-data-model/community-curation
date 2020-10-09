@@ -5,11 +5,11 @@ namespace App\Import\SheetHandlers;
 class VariantAttestationSheetHandler extends AbstractAttestationSheetHandler
 {
     public $sheetName = 'Variant Attestations';
-    
+
     private $keys = [
         'signed_at',
         'name',
-        'email'
+        'email',
     ];
 
     public function getRowKeys()
@@ -25,10 +25,7 @@ class VariantAttestationSheetHandler extends AbstractAttestationSheetHandler
             'reviewedSviRecommendations' => 1,
             'watchedLiteratureTraining' => 1,
             'watchedAlleleVideo' => 1,
-            'attendedTraining' => 1
+            'attendedTraining' => 1,
         ];
     }
-    
 }
-
-

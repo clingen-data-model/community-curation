@@ -24,7 +24,7 @@ class Faq extends Model
     ];
 
     public $casts = [
-        'screenshots' => 'array'
+        'screenshots' => 'array',
     ];
 
     public function setScreenshotsAttribute($value)
@@ -38,7 +38,7 @@ class Faq extends Model
     public function uploadMultipleFilesToDisk($value, $attribute_name, $disk, $destination_path)
     {
         $request = \Request::instance();
-        if (! is_array($this->{$attribute_name})) {
+        if (!is_array($this->{$attribute_name})) {
             $attribute_value = json_decode($this->{$attribute_name}, true) ?? [];
         } else {
             $attribute_value = $this->{$attribute_name};

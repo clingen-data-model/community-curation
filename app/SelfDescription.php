@@ -16,9 +16,9 @@ class SelfDescription extends Model
     use CrudTrait;
 
     protected $revisionCreationsEnabled = true;
-    
+
     protected $fillable = [
         'name',
-        'active'
+        'active',
     ];
 }

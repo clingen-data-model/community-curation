@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Country;
-
 // VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
-use App\Surveys\SurveyOptions;
-use Spatie\Permission\Models\Role;
-use Illuminate\Database\Query\Builder;
-use Spatie\Permission\Models\Permission;
 use App\Http\Requests\UserRequest as StoreRequest;
 use App\Http\Requests\UserRequest as UpdateRequest;
+use App\Surveys\SurveyOptions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 /**
- * Class UserCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class UserCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class UserCrudController extends CrudController
 {
@@ -29,7 +27,7 @@ class UserCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\User');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/user');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/user');
         $this->crud->setEntityNameStrings('user', 'users');
 
         /*
@@ -58,12 +56,12 @@ class UserCrudController extends CrudController
             'last_logged_out_at',
             'orcid_id',
             'hypothesis_id',
-            ''
+            '',
         ]);
-        
+
         $this->crud->addFields([
             [
-                'label' => "Roles",
+                'label' => 'Roles',
                 'type' => 'select2_multiple',
                 'name' => 'roles',
                 'entity' => 'roles',
@@ -72,7 +70,7 @@ class UserCrudController extends CrudController
                 'pivot' => true,
             ],
             [
-                'label' => "Additonal Permissions",
+                'label' => 'Additonal Permissions',
                 'type' => 'select2_multiple',
                 'name' => 'permissions',
                 'entity' => 'Permissions',
@@ -81,15 +79,15 @@ class UserCrudController extends CrudController
                 'pivot' => true,
             ],
         ], 'both');
-        $this->crud->modifyField('country_id', ['type' => 'select2', 'name'=>'country_id', 'entity'=>'country', 'attribute'=>'name', 'model' => Country::class]);
+        $this->crud->modifyField('country_id', ['type' => 'select2', 'name' => 'country_id', 'entity' => 'country', 'attribute' => 'name', 'model' => Country::class]);
 
         $this->crud->modifyField(
             'timezone',
             [
                 'type' => 'select2_from_array',
-                'name'=>'timezone',
+                'name' => 'timezone',
                 'label' => 'Timezone (Select city closest to you)',
-                'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray()
+                'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray(),
             ]
         );
 
@@ -105,7 +103,7 @@ class UserCrudController extends CrudController
             'last_logged_out_at',
             'institution',
             'hypothesis_id',
-            'orcid_id'
+            'orcid_id',
         ]);
 
         if (!\Auth::user()->can('create users')) {
