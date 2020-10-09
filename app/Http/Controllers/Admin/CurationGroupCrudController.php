@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CurationGroup;
-
+use App\CurationActivity;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use App\CurationGroup;
 use App\Http\Requests\CurationGroupRequest as StoreRequest;
 use App\Http\Requests\CurationGroupRequest as UpdateRequest;
 use App\WorkingGroup;
-use App\CurationActivity;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class CurationGroupCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class CurationGroupCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class CurationGroupCrudController extends CrudController
 {
@@ -27,7 +26,7 @@ class CurationGroupCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(CurationGroup::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/curation-group');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/curation-group');
         $this->crud->setEntityNameStrings('curation group', 'curation groups');
 
         /*
@@ -45,7 +44,7 @@ class CurationGroupCrudController extends CrudController
 
         $this->crud->addFields([
             [
-                'label' => "Curation Activity",
+                'label' => 'Curation Activity',
                 'type' => 'select2',
                 'name' => 'curation_activity_id',
                 'entity' => 'curationActivity',
@@ -53,7 +52,7 @@ class CurationGroupCrudController extends CrudController
                 'model' => CurationActivity::class,
             ],
             [
-                'label' => "Working Group",
+                'label' => 'Working Group',
                 'type' => 'select2',
                 'name' => 'working_group_id',
                 'entity' => 'workingGroup',
@@ -63,33 +62,32 @@ class CurationGroupCrudController extends CrudController
             [
                 'label' => 'Accepting Volunters',
                 'type' => 'checkbox',
-                'name' => 'accepting_volunteers'
-            ]
+                'name' => 'accepting_volunteers',
+            ],
         ], 'both');
 
         $this->crud->addColumns([
             [
-                'label' => "Curation Activity", // Table column heading
-                'type' => "select",
+                'label' => 'Curation Activity', // Table column heading
+                'type' => 'select',
                 'name' => 'curation_activity_id', // the column that contains the ID of that connected entity;
                 'entity' => 'curationActivity', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
+                'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => CurationActivity::class, // foreign key model
             ],
             [
-                'label' => "Working Group", // Table column heading
-                'type' => "select",
+                'label' => 'Working Group', // Table column heading
+                'type' => 'select',
                 'name' => 'working_group_id', // the column that contains the ID of that connected entity;
                 'entity' => 'workingGroup', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
+                'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => WorkingGroup::class, // foreign key model
             ],
             [
                 'label' => 'Accepting Volunters',
                 'type' => 'boolean',
-                'name' => 'accepting_volunteers'
-
-            ]
+                'name' => 'accepting_volunteers',
+            ],
         ]);
 
         $this->crud->removeColumn(['url']);

@@ -14,7 +14,6 @@ class AssignmentStatusController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -24,62 +23,50 @@ class AssignmentStatusController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\AssignmentStatus  $assignmentStatus
      * @return \Illuminate\Http\Response
      */
     public function show(AssignmentStatus $assignmentStatus)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AssignmentStatus  $assignmentStatus
      * @return \Illuminate\Http\Response
      */
     public function edit(AssignmentStatus $assignmentStatus)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AssignmentStatus  $assignmentStatus
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, AssignmentStatus $assignmentStatus)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AssignmentStatus  $assignmentStatus
      * @return \Illuminate\Http\Response
      */
     public function destroy(AssignmentStatus $assignmentStatus)
     {
-        //
     }
 }

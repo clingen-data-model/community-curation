@@ -9,11 +9,10 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class VolunteerStatusType
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any volunteer statuses.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,8 +23,6 @@ class VolunteerStatusType
     /**
      * Determine whether the user can view the volunteer status.
      *
-     * @param  \App\User  $user
-     * @param  \App\VolunteerType  $volunteerType
      * @return mixed
      */
     public function view(User $user, VolunteerType $volunteerType)
@@ -36,7 +33,6 @@ class VolunteerStatusType
     /**
      * Determine whether the user can create volunteer statuses.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +43,6 @@ class VolunteerStatusType
     /**
      * Determine whether the user can update the volunteer status.
      *
-     * @param  \App\User  $user
-     * @param  \App\VolunteerType  $volunteerType
      * @return mixed
      */
     public function update(User $user, VolunteerType $volunteerType)
@@ -59,8 +53,6 @@ class VolunteerStatusType
     /**
      * Determine whether the user can delete the volunteer status.
      *
-     * @param  \App\User  $user
-     * @param  \App\VolunteerType  $volunteerType
      * @return mixed
      */
     public function delete(User $user, VolunteerType $volunteerType)
@@ -71,8 +63,6 @@ class VolunteerStatusType
     /**
      * Determine whether the user can restore the volunteer status.
      *
-     * @param  \App\User  $user
-     * @param  \App\VolunteerType  $volunteerType
      * @return mixed
      */
     public function restore(User $user, VolunteerType $volunteerType)
@@ -83,8 +73,6 @@ class VolunteerStatusType
     /**
      * Determine whether the user can permanently delete the volunteer status.
      *
-     * @param  \App\User  $user
-     * @param  \App\VolunteerType  $volunteerType
      * @return mixed
      */
     public function forceDelete(User $user, VolunteerType $volunteerType)

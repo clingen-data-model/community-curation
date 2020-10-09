@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @group volunteers
@@ -12,10 +10,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 class VolunteerAdminTest extends TestCase
 {
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
-        $this->user = $this->createAdmin();    
+        $this->user = $this->createAdmin();
     }
 
     /**
@@ -32,7 +30,7 @@ class VolunteerAdminTest extends TestCase
         $this->actingAs($this->user)
             ->call('post', '/admin/volunteer', $data)
             ->assertStatus(302);
-        
+
         $this->assertDatabaseHas('users', $data);
     }
 
@@ -46,17 +44,13 @@ class VolunteerAdminTest extends TestCase
 
         $data = [
             'first_name' => 'Hubert',
-            'email' => uniqid().'hubert-email@example.com'
+            'email' => uniqid().'hubert-email@example.com',
         ];
         $this->withoutExceptionHandling();
         $this->actingAs($this->user)
             ->call('put', '/admin/volunteer/'.$volunteer->id, $data)
             ->assertStatus(302);
-        
+
         $this->assertDatabaseHas('users', $data);
     }
-    
-    
-    
-    
 }

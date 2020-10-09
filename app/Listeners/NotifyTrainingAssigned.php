@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\TrainingCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\TrainingAssignedNotification;
 
 class NotifyTrainingAssigned
@@ -16,13 +14,11 @@ class NotifyTrainingAssigned
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  TrainingCreated  $event
      * @return void
      */
     public function handle(TrainingCreated $event)

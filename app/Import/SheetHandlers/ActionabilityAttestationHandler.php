@@ -2,8 +2,6 @@
 
 namespace App\Import\SheetHandlers;
 
-use Box\Spout\Reader\SheetInterface;
-
 class ActionabilityAttestationHandler extends AbstractAttestationSheetHandler
 {
     /**
@@ -26,5 +24,5 @@ class ActionabilityAttestationHandler extends AbstractAttestationSheetHandler
     public function getRowKeys()
     {
         return $this->rowKeys;
-    }    
+    }
 }

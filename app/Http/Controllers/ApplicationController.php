@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Surveys\ApplicationControlService;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
@@ -19,30 +19,31 @@ class ApplicationController extends Controller
         $response = $this->getResponseObject($request);
 
         $service = new ApplicationControlService($request, $response);
+
         return $service->showPage();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $id = null)
     {
         $survey = class_survey()::findBySlug('application1');
         $survey->getSurveyDocument()->validate();
-        
 
         $response = $this->getResponseObject($request, $id);
         $control = new ApplicationControlService($request, $response);
+
         return $control->saveAndContinue();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id = null)
@@ -50,6 +51,7 @@ class ApplicationController extends Controller
         $response = $this->getResponseObject($request, $id);
 
         $service = new ApplicationControlService($request, $response);
+
         return $service->showPage();
     }
 
@@ -70,6 +72,7 @@ class ApplicationController extends Controller
             }
 
             $request->session()->put('application-response', $response);
+
             return $response;
         }
 
@@ -80,6 +83,7 @@ class ApplicationController extends Controller
 
         $response = $survey->getNewResponse(null);
         session()->put('application-response', $response);
+
         return $response;
     }
 }

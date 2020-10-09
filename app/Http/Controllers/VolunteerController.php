@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotImplementedException;
+use App\Http\Resources\VolunteerUserResource;
 use App\User;
 use App\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Exceptions\NotImplementedException;
-use App\Http\Resources\VolunteerUserResource;
 
 class VolunteerController extends Controller
 {
@@ -21,6 +21,7 @@ class VolunteerController extends Controller
         if (Auth::user()->hasRole('volunteer')) {
             return redirect('/volunteers/'.Auth::user()->id);
         }
+
         return view('volunteers.index');
     }
 
@@ -37,7 +38,6 @@ class VolunteerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,7 +48,8 @@ class VolunteerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Volunteer  $volunteer
+     * @param \App\Volunteer $volunteer
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(User $volunteer)
@@ -71,15 +72,17 @@ class VolunteerController extends Controller
             'priorities.curationActivity',
             'priorities.curationGroup',
             'volunteer3MonthSurvey',
-            'volunteer6MonthSurvey'
+            'volunteer6MonthSurvey',
         ]);
+
         return view('volunteers.detail', ['volunteerId' => $volunteer->id, 'volunteerJson' => json_encode(new VolunteerUserResource($volunteer))]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Volunteer  $volunteer
+     * @param \App\Volunteer $volunteer
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(User $volunteer)
@@ -90,8 +93,8 @@ class VolunteerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Volunteer  $volunteer
+     * @param \App\Volunteer $volunteer
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $volunteer)
@@ -102,7 +105,8 @@ class VolunteerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Volunteer  $volunteer
+     * @param \App\Volunteer $volunteer
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $volunteer)

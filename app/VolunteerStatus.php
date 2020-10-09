@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Venturecraft\Revisionable\RevisionableTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class VolunteerStatus extends Model
 {
@@ -16,6 +16,6 @@ class VolunteerStatus extends Model
     protected $revisionCreationsEnabled = true;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 }

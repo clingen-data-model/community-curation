@@ -6,9 +6,6 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @group attestations
@@ -17,7 +14,7 @@ class AttestationControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->programmer = factory(User::class)->states(['programmer'])->create([]);
@@ -30,7 +27,6 @@ class AttestationControllerTest extends TestCase
             'aptitude_id' => 2,
         ]);
     }
-    
 
     /**
      * @test
@@ -52,7 +48,6 @@ class AttestationControllerTest extends TestCase
             ->call('GET', '/attestations/'.$this->attestation->id)
             ->assertStatus(403);
     }
-    
 
     /**
      * @test
@@ -73,7 +68,6 @@ class AttestationControllerTest extends TestCase
             ->call('PUT', '/attestations/'.$this->attestation->id, ['signed_at' => Carbon::now(), 'signature' => 1])
             ->assertStatus(302);
     }
-    
 
     /**
      * @test

@@ -2,13 +2,12 @@
 
 namespace App;
 
-use Carbon\Carbon;
-use App\Assignment;
-use App\Events\TrainingCreated;
 use App\Events\TrainingCompleted;
-use Illuminate\Support\Facades\Event;
+use App\Events\TrainingCreated;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Event;
 
 class UserAptitude extends Model
 {
@@ -20,12 +19,12 @@ class UserAptitude extends Model
         'assignment_id',
         'trained_at',
         'attestation_id',
-        'granted_at'
+        'granted_at',
     ];
 
     public $dates = [
         'trained_at',
-        'granted_at'
+        'granted_at',
     ];
 
     private $evaluator;
@@ -46,7 +45,7 @@ class UserAptitude extends Model
     }
 
     /**
-     * Relations
+     * Relations.
      */
     public function aptitude()
     {
@@ -69,7 +68,7 @@ class UserAptitude extends Model
     }
 
     /**
-     * Scopes
+     * Scopes.
      */
     public function scopeGranted($query)
     {
@@ -95,6 +94,7 @@ class UserAptitude extends Model
     {
         // if (is_null($this->_evaluator)) {
         $class = $this->aptitude->evaluator_class;
+
         return new $class($this);
         // }
 
@@ -109,6 +109,7 @@ class UserAptitude extends Model
 
         if ($this->getEvaluator()->meetsCriteria()) {
             $this->granted_at = Carbon::now();
+
             return true;
         }
 

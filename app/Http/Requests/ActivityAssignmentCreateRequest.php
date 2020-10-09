@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ActivityAssignmentCreateRequest extends FormRequest
 {
@@ -28,12 +28,12 @@ class ActivityAssignmentCreateRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'assignable_id' => [
-                'required'
+                'required',
             ],
             'assignable_type' => [
                 'required',
                 Rule::in(config('project.assignable-types')),
-            ]
+            ],
         ];
     }
 }

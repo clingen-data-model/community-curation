@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Upload;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\UploadResource;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CreateUploadRequest;
 use App\Http\Requests\CuratorUploadIndexRequest;
+use App\Http\Resources\UploadResource;
+use App\Upload;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CuratorUploadController extends Controller
 {
@@ -51,49 +51,51 @@ class CuratorUploadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CreateUploadRequest $request)
     {
         if (!Auth::user()->can('create', Upload::class)) {
-            return response()->json(['error'=>'You do not have permission to create a document.'], 403);
+            return response()->json(['error' => 'You do not have permission to create a document.'], 403);
         }
 
-        if (Auth::user()->id !== (int)$request->user_id 
+        if (Auth::user()->id !== (int) $request->user_id
             && !Auth::user()->can('createForOthers', Upload::class)
         ) {
-            return response()->json(['error'=>'You do not have permission to create a document for another user.'], 403);
+            return response()->json(['error' => 'You do not have permission to create a document for another user.'], 403);
         }
 
         $path = $request->file->store('public/curator_uploads');
 
         $originalFileName = $request->file->getClientOriginalName();
-        
+
         $upload = Upload::create([
             'user_id' => $request->user_id,
             'name' => $request->name ?? $originalFileName,
             'file_name' => $originalFileName,
             'file_path' => $path,
             'upload_category_id' => $request->upload_category_id,
-            'notes' => $request->notes
+            'notes' => $request->notes,
         ]);
         $upload->load('category');
-        
+
         return new UploadResource($upload);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $upload = Upload::findOrFail($id);
         $upload->load('category');
-        
+
         if (Auth::user()->id !== $upload->user_id && !Auth::user()->can('list uploads')) {
             return response('', 403);
         }
@@ -105,7 +107,7 @@ class CuratorUploadController extends Controller
     {
         $upload = Upload::findOrFail($id);
         $upload->load('category');
-        
+
         if (!Auth::user()->can('view', $upload)) {
             return response('', 403);
         }
@@ -116,12 +118,12 @@ class CuratorUploadController extends Controller
 
         return Storage::download($upload->file_path);
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -140,7 +142,8 @@ class CuratorUploadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

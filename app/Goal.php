@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Traits\HasOtherOption;
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
-use App\Traits\HasOtherOption;
-use Backpack\CRUD\CrudTrait;
 
 class Goal extends Model
 {
@@ -19,6 +19,6 @@ class Goal extends Model
 
     protected $fillable = [
         'name',
-        'active'
+        'active',
     ];
 }

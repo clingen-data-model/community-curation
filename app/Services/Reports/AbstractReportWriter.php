@@ -2,16 +2,14 @@
 
 namespace App\Services\Reports;
 
-use DateTime;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Contracts\ReportWriter;
-use Illuminate\Support\Collection;
-use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
-use Illuminate\Support\Carbon as IlluminateCarbon;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\WriterAbstract;
+use Carbon\Carbon;
+use DateTime;
+use Illuminate\Support\Carbon as IlluminateCarbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 abstract class AbstractReportWriter implements ReportWriter
 {
@@ -19,12 +17,12 @@ abstract class AbstractReportWriter implements ReportWriter
 
     abstract public function writeData(Collection $data);
 
-    public function setPath($path):ReportWriter
+    public function setPath($path): ReportWriter
     {
         $this->getWriter()->openToFile($path);
+
         return $this;
     }
-
 
     protected function arrayToCells($array)
     {
@@ -33,9 +31,10 @@ abstract class AbstractReportWriter implements ReportWriter
             if (is_object($item)) {
                 $value = $item->toString();
                 if (in_array(get_class($item), [Carbon::class, IlluminateCarbon::class, DateTime::class])) {
-                    $value = $item->format("Y-m-d");
+                    $value = $item->format('Y-m-d');
                 }
             }
+
             return WriterEntityFactory::createCell($value);
         }, $array);
     }
@@ -54,7 +53,7 @@ abstract class AbstractReportWriter implements ReportWriter
         return WriterEntityFactory::createRow($this->getHeaderCells($data));
     }
 
-    public function getWriter():WriterAbstract
+    public function getWriter(): WriterAbstract
     {
         return $this->writer;
     }
@@ -79,7 +78,7 @@ abstract class AbstractReportWriter implements ReportWriter
         // if (!method_exists($this, $name)) {
         // Call the method on the writer.
         if (method_exists($this->getWriter(), $name)) {
-            return call_user_func_array([$this->writer,$name], $arguments);
+            return call_user_func_array([$this->writer, $name], $arguments);
         }
         // }
     }

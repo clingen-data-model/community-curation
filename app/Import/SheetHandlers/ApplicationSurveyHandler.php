@@ -2,23 +2,23 @@
 
 namespace App\Import\SheetHandlers;
 
-use App\Goal;
 use App\Campaign;
 use App\CurationActivity;
 use App\CurationGroup;
+use App\Goal;
+use App\Import\Contracts\SheetHandler;
 use App\Interest;
 use App\Motivation;
-use App\VolunteerType;
 use App\SelfDescription;
-use Illuminate\Support\Collection;
-use Box\Spout\Reader\SheetInterface;
-use App\Import\Contracts\SheetHandler;
 use App\Surveys\SurveyOptions;
+use App\VolunteerType;
+use Box\Spout\Reader\SheetInterface;
+use Illuminate\Support\Collection;
 
 class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHandler
 {
     /**
-     * @var array $rowKeys
+     * @var array
      */
     private $rowKeys = [
         'created_at',                   // A
@@ -45,7 +45,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         'highest_ed',                   // V
         'adv_cert',                     // W
         'timezone',                     // X
-        'notes'                         // Y
+        'notes',                         // Y
     ];
     protected $selfDescriptions;
 
@@ -68,70 +68,68 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $this->curationActivities = CurationActivity::all();
         $this->highestEd = Collect(
             [
-            (object)[
+            (object) [
                 'id' => 1,
-                'name' => 'Some high school education'
+                'name' => 'Some high school education',
             ],
-            (object)[
+            (object) [
                 'id' => 2,
-                'name' => 'High school diploma'
+                'name' => 'High school diploma',
             ],
-            (object)[
+            (object) [
                 'id' => 3,
-                'name' => 'Bachelor\'s degree'
+                'name' => 'Bachelor\'s degree',
             ],
-            (object)[
+            (object) [
                 'id' => 4,
-                'name' => 'Master\'s degree'
+                'name' => 'Master\'s degree',
             ],
-            (object)[
+            (object) [
                 'id' => 5,
-                'name' => 'M.D.'
+                'name' => 'M.D.',
             ],
-            (object)[
+            (object) [
                 'id' => 6,
-                'name' => 'Ph.D.'
+                'name' => 'Ph.D.',
             ],
-            (object)[
+            (object) [
                 'id' => 100,
-                'name' => 'Other'
-            ]]
+                'name' => 'Other',
+            ], ]
         );
 
         $this->outsidePanelOptions = collect([
-            (object)[
+            (object) [
                 'id' => 1,
-                'name' => 'Yes - I am willing to volunteer with any available ClinGen group'
+                'name' => 'Yes - I am willing to volunteer with any available ClinGen group',
             ],
-            (object)[
+            (object) [
                 'id' => 0,
-                'name' => 'No - I am only interested in the group(s) I previously indicate'
+                'name' => 'No - I am only interested in the group(s) I previously indicate',
             ],
-            (object)[
+            (object) [
                 'id' => 2,
-                'name' => 'Maybe - please contact me with other options, and I will decide based on what is available'
+                'name' => 'Maybe - please contact me with other options, and I will decide based on what is available',
             ],
         ]);
         $this->additionalPriority = Collect([
-            (object)[
+            (object) [
                 'id' => 1,
-                'name' => 'Yes'
+                'name' => 'Yes',
             ],
-            (object)[
+            (object) [
                 'id' => 0,
-                'name' => 'No'
+                'name' => 'No',
             ],
-            (object)[
+            (object) [
                 'id' => 2,
-                'name' => 'Possibly'
+                'name' => 'Possibly',
             ],
         ]);
         $this->surveyOptions = new SurveyOptions();
     }
 
-    
-
-    public function handle(SheetInterface $sheet):array
+    public function handle(SheetInterface $sheet): array
     {
         if ($sheet->getName() != 'Volunteer Survey') {
             return parent::handle($sheet);
@@ -150,17 +148,18 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
             $rows[] = $row;
         }
         $rows = collect($rows)->groupBy('email')->toArray();
+
         return $rows;
     }
 
     private function transcribeRowData($row)
     {
-        $data = collect($row)->except(['empty', 'address','volunteer_type', 'curation_activity_4', 'curation_activity_5']);
-        
+        $data = collect($row)->except(['empty', 'address', 'volunteer_type', 'curation_activity_4', 'curation_activity_5']);
+
         $nameParts = parseName($row['name']);
         $data['email'] = trim(preg_replace('/\"/', '', $data['email']));
         $data['first_name'] = array_shift($nameParts);
-        $data['last_name'] = implode(" ", $nameParts);
+        $data['last_name'] = implode(' ', $nameParts);
 
         $data['timezone'] = $this->getSingleId($row['timezone'], collect($this->surveyOptions->timezones()));
         // $data['volunteer_type'] = $this->getSingleId(strtolower($row['volunteer_type']), VolunteerType::all());
@@ -180,13 +179,13 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
         $data['curation_activity_1'] = $this->getSingleId($row['curation_activity_1'], $this->curationActivities, 'legacy_name');
         $data['curation_activity_2'] = $this->getSingleId($row['curation_activity_2'], $this->curationActivities, 'legacy_name');
         $data['curation_activity_3'] = $this->getSingleId($row['curation_activity_3'], $this->curationActivities, 'legacy_name');
-        
+
         $data['additional_priority'] = $this->getSingleId($row['additional_priority'], $this->additionalPriority);
         $data['panel_1'] = $this->getSingleId($row['panel_1'], $this->curationGroups);
         $data['goals'] = '[]';
         $data['street1'] = $row['address'];
         $data['imported_survey_data'] = json_encode($row);
-        
+
         return $data;
     }
 
@@ -194,17 +193,17 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
     {
         return ($options->firstWhere($attribute, $value)) ? $options->firstWhere($attribute, $value)->id : null;
     }
-    
+
     private function getMultipleIds($value, Collection $options)
     {
         $selected = explode(', ', $value);
         $ids = $options->filter(function ($option) use ($selected) {
             return in_array($option->name, $selected);
         })->pluck('id');
-        
+
         return $ids;
     }
-    
+
     private function getOtherStringForSingle($value, $options)
     {
         if (!$options->pluck('name')->contains($value)) {
@@ -213,7 +212,7 @@ class ApplicationSurveyHandler extends AbstractSheetHandler implements SheetHand
 
         return null;
     }
-    
+
     private function getOtherStringForMultiple($value, $options)
     {
         $responses = explode(', ', $value);

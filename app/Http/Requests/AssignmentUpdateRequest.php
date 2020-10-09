@@ -32,8 +32,8 @@ class AssignmentUpdateRequest extends FormRequest
         return [
             'assignment_status_id' => [
                 'required',
-                'exists:assignment_statuses,id'
-            ]
+                'exists:assignment_statuses,id',
+            ],
         ];
     }
 }

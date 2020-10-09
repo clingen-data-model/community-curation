@@ -2,22 +2,20 @@
 
 namespace Tests\Unit\Services\Search;
 
-use Tests\TestCase;
-use App\CurationGroup;
-use App\WorkingGroup;
-use App\CurationActivity;
 use App\Contracts\ModelSearchService;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\CurationActivity;
+use App\CurationGroup;
 use App\Services\Search\CurationGroupSearchService;
+use App\WorkingGroup;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CurationGroupSearchServiceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->service = new CurationGroupSearchService();
@@ -42,13 +40,12 @@ class CurationGroupSearchServiceTest extends TestCase
         $this->assertEquals(CurationGroup::count(), $all->count());
     }
 
-
     /**
      * @test
      */
     public function filters_group_by_curation_activity_id()
     {
-        $searchGroups = $this->service->search(['curation_activity_id'=>config('project.curation-activities.gene')]);
+        $searchGroups = $this->service->search(['curation_activity_id' => config('project.curation-activities.gene')]);
         $testGroups = CurationGroup::where('curation_activity_id', config('project.curation-activities.gene'))->get();
 
         $this->assertEquals($testGroups->count(), $searchGroups->count());
@@ -60,7 +57,7 @@ class CurationGroupSearchServiceTest extends TestCase
      */
     public function filters_group_by_working_group_id()
     {
-        $searchGroups = $this->service->search(['working_group_id'=>1]);
+        $searchGroups = $this->service->search(['working_group_id' => 1]);
         $testGroups = CurationGroup::where('working_group_id', 1)->get();
 
         $this->assertEquals($testGroups->count(), $searchGroups->count());
@@ -72,7 +69,7 @@ class CurationGroupSearchServiceTest extends TestCase
      */
     public function filters_group_by_accepting_volunteers()
     {
-        $searchGroups = $this->service->search(['accepting_volunteers'=>1]);
+        $searchGroups = $this->service->search(['accepting_volunteers' => 1]);
         $testGroups = CurationGroup::where('accepting_volunteers', 1)->get();
 
         $this->assertEquals($testGroups->count(), $searchGroups->count());
@@ -89,8 +86,6 @@ class CurationGroupSearchServiceTest extends TestCase
         factory(CurationGroup::class, 2)->create(['working_group_id' => $wg->id]);
         factory(CurationGroup::class)->create(['curation_activity_id' => $ca->id]);
         factory(CurationGroup::class)->create(['name' => 'monkey vcep']);
-
-
 
         $searchGroups = $this->service->search(['searchTerm' => 'monkey']);
 

@@ -2,11 +2,10 @@
 
 namespace App\Services\Reports;
 
-use App\Application;
 use App\Contracts\ReportWriter;
-use Illuminate\Support\Collection;
-use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
+use Illuminate\Support\Collection;
 
 class ApplicationReportWriter extends AbstractReportWriter implements ReportWriter
 {
@@ -27,13 +26,13 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
             $sheet->setName($sheetName);
 
             $this->getWriter()->addRow($this->buildHeader($sheetData), (new StyleBuilder())->setFontBold()->build());
-            
+
             foreach ($sheetData->toArray() as $rowData) {
                 $row = $this->createRow($rowData);
                 $this->getWriter()->addRow($row);
             }
 
-            if ($idx+1 < $sheetNames->count()) {
+            if ($idx + 1 < $sheetNames->count()) {
                 $this->addNewSheetAndMakeItCurrent();
             }
         }

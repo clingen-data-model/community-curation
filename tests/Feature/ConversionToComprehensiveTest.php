@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\ConversionToComprehensive;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class ConversionToComprehensiveTest extends TestCase
 {
@@ -27,7 +24,6 @@ class ConversionToComprehensiveTest extends TestCase
             ConversionToComprehensive::class
         );
     }
-    
 
     /**
      * @test
@@ -43,6 +39,7 @@ class ConversionToComprehensiveTest extends TestCase
             ConversionToComprehensive::class,
             function ($notification, $channels) use ($volunteer) {
                 $rendered = $notification->toMail($volunteer)->render();
+
                 return in_array('mail', $channels)
                     && $notification->volunteer->email == $volunteer->email
                     && $rendered == view('email.conversion_to_comprehensive', ['volunteer' => $volunteer])

@@ -11,7 +11,7 @@ class BasicAptitudeEvaluator implements AptitudeEvaluatorContract
         $this->userAptitude = $userAptitude;
     }
 
-    public function meetsCriteria():bool
+    public function meetsCriteria(): bool
     {
         if (is_null($this->userAptitude->trained_at)) {
             return false;

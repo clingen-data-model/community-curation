@@ -12,7 +12,7 @@ class AssignmentStatus extends Model
     use CrudTrait;
 
     protected $fillable = [
-        'names'
+        'names',
     ];
 
     public function assignments()

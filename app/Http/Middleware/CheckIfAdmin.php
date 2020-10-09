@@ -37,6 +37,7 @@ class CheckIfAdmin
         if ($request->ajax() || $request->wantsJson()) {
             return response(trans('backpack::base.unauthorized'), 401);
         }
+
         return redirect()->guest(backpack_url('login'));
     }
 
@@ -44,7 +45,6 @@ class CheckIfAdmin
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
      *
      * @return mixed
      */

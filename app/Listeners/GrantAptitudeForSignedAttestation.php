@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use Carbon\Carbon;
 use App\Events\AttestationSigned;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Carbon\Carbon;
 
 class GrantAptitudeForSignedAttestation
 {
@@ -16,13 +14,13 @@ class GrantAptitudeForSignedAttestation
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  AttestatioSigned  $event
+     * @param AttestatioSigned $event
+     *
      * @return void
      */
     public function handle(AttestationSigned $event)

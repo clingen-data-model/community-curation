@@ -20,7 +20,7 @@ class TrainingSessionListTest extends TrainingSessionTestCase
         $this->call('GET', '/volunteers')
             ->assertDontSee('<a href="/trainings" class="nav-link">Trainings</a>');
     }
-    
+
     /**
      * @test
      */

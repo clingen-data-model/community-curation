@@ -52,7 +52,7 @@ class ExportConfigsToJson extends Command
             }
             $export[$configName] = $camelCased;
         }
-        
+
         file_put_contents(base_path('resources/js/configs.json'), json_encode($export, JSON_PRETTY_PRINT));
     }
 }

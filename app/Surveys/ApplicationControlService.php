@@ -2,9 +2,9 @@
 
 namespace App\Surveys;
 
-use Sirs\Surveys\SurveyControlService;
 use Sirs\Surveys\Contracts\SurveyModel;
 use Sirs\Surveys\Contracts\SurveyResponse;
+use Sirs\Surveys\SurveyControlService;
 
 class ApplicationControlService extends SurveyControlService
 {
@@ -12,13 +12,14 @@ class ApplicationControlService extends SurveyControlService
     {
         $urlParts = [
             'apply',
-            $response->id
+            $response->id,
         ];
+
         return implode('/', $urlParts);
-    }    
+    }
 
     /**
-     * Aliases accessors  and mutators
+     * Aliases accessors  and mutators.
      *
      * @return mixed
      **/
@@ -28,8 +29,8 @@ class ApplicationControlService extends SurveyControlService
             return $this->{$attr};
         } elseif (method_exists($this, 'get'.camel_case($attr).'Attribute')) {
             $methodName = camel_case('get_'.$attr.'Attribute');
+
             return $this->$methodName();
         }
     }
-
 }

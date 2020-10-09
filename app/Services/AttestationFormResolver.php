@@ -1,11 +1,12 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Services;
 
-use Exception;
 use App\Attestation;
 use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
+use Exception;
 
 class AttestationFormResolver implements AttestationFormResolverContract
 {

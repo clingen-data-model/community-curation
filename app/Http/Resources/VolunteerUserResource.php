@@ -3,14 +3,14 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\VolunteerThreeMonthResource;
 
 class VolunteerUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -28,8 +28,9 @@ class VolunteerUserResource extends JsonResource
                                         ? PriorityResource::collection($this->latestPriorities)->sortBy('priority_order')
                                         : null;
         $array['priorities'] = PriorityResource::collection($this->whenLoaded('priorities'));
-        
+
         unset($array['structured_assignments']);
+
         return $array;
     }
 }

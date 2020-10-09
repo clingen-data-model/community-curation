@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands\Dev;
 
-use App\Survey;
 use App\Country;
-use App\Motivation;
 use App\CurationActivity;
+use App\Survey;
 use Illuminate\Console\Command;
 
 class CreateTestVolunteer extends Command
@@ -61,28 +60,28 @@ class CreateTestVolunteer extends Command
         $response->email = $this->faker->email;
         $response->timezone = 1;
         $response->highest_ed = rand(1, 6);
-        $response->ad_campaign = json_encode([1,2]);
-        $response->self_desc = rand(1,2);
-        $response->motivation = json_encode([1,2]);
-        $response->goals = json_encode([1,2]);
-        $response->interests = json_encode([1,2]);
+        $response->ad_campaign = json_encode([1, 2]);
+        $response->self_desc = rand(1, 2);
+        $response->motivation = json_encode([1, 2]);
+        $response->goals = json_encode([1, 2]);
+        $response->interests = json_encode([1, 2]);
         $response->volunteer_type = $this->getVolunteerType();
 
-        if($response->volunteer_type == 2) {
+        if ($response->volunteer_type == 2) {
             $response->curation_activity_1 = $this->randomModelId(CurationActivity::class);
             $response->panel_1 = CurationActivity::find(1)->curationGroups->random()->id;
-            $response->effort_experience_1 = rand(0,1);
-            $response->activity_experience_1 = rand(0,1);
+            $response->effort_experience_1 = rand(0, 1);
+            $response->activity_experience_1 = rand(0, 1);
 
             $response->curation_activity_2 = $this->randomModelId(CurationActivity::class);
             $response->panel_2 = CurationActivity::find(1)->curationGroups->random()->id;
-            $response->effort_experience_2 = rand(0,1);
-            $response->activity_experience_2 = rand(0,1);
+            $response->effort_experience_2 = rand(0, 1);
+            $response->activity_experience_2 = rand(0, 1);
 
             $response->curation_activity_3 = $this->randomModelId(CurationActivity::class);
             $response->panel_3 = CurationActivity::find(1)->curationGroups->random()->id;
-            $response->effort_experience_3 = rand(0,1);
-            $response->activity_experience_3 = rand(0,1);
+            $response->effort_experience_3 = rand(0, 1);
+            $response->activity_experience_3 = rand(0, 1);
         }
 
         return $response;
@@ -99,7 +98,6 @@ class CreateTestVolunteer extends Command
             return ($this->option('type') == 'baseline') ? 1 : 2;
         }
 
-        return rand(1,2);
+        return rand(1, 2);
     }
-
 }

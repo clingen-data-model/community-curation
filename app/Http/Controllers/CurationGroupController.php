@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\CurationGroup;
-use Illuminate\Http\Request;
 use App\Services\Search\VolunteerSearchService;
 
 class CurationGroupController extends Controller
@@ -33,16 +32,17 @@ class CurationGroupController extends Controller
                                 'assignments.volunteer.volunteerStatus',
                                 'assignments.volunteer.country',
                                 'assignments.volunteer.userAptitudes',
-                                'assignments.volunteer.application.selfDescription'
+                                'assignments.volunteer.application.selfDescription',
                             ]);
         $curationGroup->assignments = $curationGroup->assignments->map(function ($ass) use ($curationGroup) {
             $ass->user_aptitude = $ass->volunteer->userAptitudes->filter(function ($ua) use ($curationGroup) {
                 return $ua->aptitude->subject_type = 'App\\CurationActivity'
                                                 && $ua->aptitude->subject_id = $curationGroup->curation_activity_id;
             })->first();
+
             return $ass;
         });
-        
+
         return view('curation-groups.show', compact('curationGroup'));
     }
 }

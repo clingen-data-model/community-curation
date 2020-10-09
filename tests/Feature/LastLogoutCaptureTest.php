@@ -3,12 +3,9 @@
 namespace Tests\Feature;
 
 use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Auth;
+use Tests\TestCase;
 
 /**
  * @group login
@@ -18,7 +15,7 @@ class LastLogoutCaptureTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->user = $this->createVolunteer();

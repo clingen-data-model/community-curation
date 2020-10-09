@@ -4,9 +4,8 @@ namespace App\Notifications;
 
 use App\UserAptitude;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class TrainingAssignedNotification extends Notification
 {
@@ -27,7 +26,8 @@ class TrainingAssignedNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -38,18 +38,19 @@ class TrainingAssignedNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->subject('Training Assignment Notification.')
                     ->view(
                         'email.training_assigned',
                         [
                             'training' => $this->training,
-                            'recipient' => $notifiable
+                            'recipient' => $notifiable,
                         ]
                     );
     }
@@ -57,13 +58,13 @@ class TrainingAssignedNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

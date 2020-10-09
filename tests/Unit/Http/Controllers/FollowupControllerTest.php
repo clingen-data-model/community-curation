@@ -3,11 +3,8 @@
 namespace Tests\Unit\Http\Controllers;
 
 use App\User;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @group surveys
@@ -16,7 +13,7 @@ class FollowupControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
@@ -41,7 +38,6 @@ class FollowupControllerTest extends TestCase
             ->call('GET', $this->getUrl())
             ->assertStatus(200);
     }
-    
 
     /**
      * @test
@@ -84,7 +80,7 @@ class FollowupControllerTest extends TestCase
         $this->actingAs($vol2)
             ->call('GET', $this->getUrl($rsp->id));
     }
-    
+
     /**
      * @test
      */
@@ -96,7 +92,6 @@ class FollowupControllerTest extends TestCase
 
         $url = $this->getUrl($rsp->id);
 
-    
         $this->expectUnauthorized();
         $response = $this->actingAs($this->volunteer)
             ->call(
@@ -113,7 +108,7 @@ class FollowupControllerTest extends TestCase
      */
     public function volunteer_cannot_update_another_volunteers_response()
     {
-        $rsp = class_survey()::findBySlug("volunteer-three-month1")
+        $rsp = class_survey()::findBySlug('volunteer-three-month1')
                 ->getNewResponse($this->volunteer);
         $rsp->save();
 
@@ -138,8 +133,6 @@ class FollowupControllerTest extends TestCase
             ->call('GET', $this->getUrl(null, 'volunteer-six-month1'))
             ->assertSee('6 months');
     }
-    
-    
 
     private function getUrl($rspId = null, $surveySlug = 'volunteer-three-month1')
     {

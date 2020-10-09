@@ -2,13 +2,13 @@
 
 namespace App\Import\SheetHandlers;
 
-use Exception;
-use Box\Spout\Reader\SheetInterface;
 use App\Import\Contracts\SheetHandler;
+use Box\Spout\Reader\SheetInterface;
+use Exception;
 
 class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandler
 {
-    public function handle(SheetInterface $sheet):array
+    public function handle(SheetInterface $sheet): array
     {
         if ($sheet->getName() != 'Assignments') {
             return parent::handle($sheet);
@@ -32,7 +32,7 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
                     }, $rowValues);
                     continue;
                 }
-    
+
                 $row = arrayTrimStrings(array_combine($header, $rowValues));
                 $rows[] = [
                     'name' => $row['name'],
@@ -45,7 +45,7 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
                     'training_attended' => yesNoToBool($row['training attended']),
                     'attestation_signed' => yesNoToBool($row['attestation signed']),
                     'volunteer_type_id' => $this->getVolunteerTypeId($row['volunteer type']),
-                    'notes' => $row['notes']
+                    'notes' => $row['notes'],
                 ];
             } catch (Exception $e) {
                 if ($e->getCode() == 909) {
@@ -55,7 +55,6 @@ class AssignmentsSheetHandler extends AbstractSheetHandler implements SheetHandl
                 throw $e;
             }
         }
-
 
         return collect($rows)->groupBy('email')->toArray();
     }

@@ -2,36 +2,33 @@
 
 namespace App\Console\Commands;
 
-use App\User;
-use Exception;
-use Throwable;
-use App\Aptitude;
-use App\Priority;
-use App\Training;
-use Carbon\Carbon;
-use App\Assignment;
 use App\Application;
+use App\Assignment;
 use App\Attestation;
-use App\CurationGroup;
-use App\UserAptitude;
 use App\CurationActivity;
-use InvalidArgumentException;
+use App\CurationGroup;
+use App\Exceptions\InvalidAssignmentException;
+use App\Import\Exceptions\ImportException;
+use App\Import\Maps\CurationGroupMap;
+use App\Import\SheetHandlers\ActionabilityAttestationHandler;
+use App\Import\SheetHandlers\ApplicationSurveyHandler;
+use App\Import\SheetHandlers\AssignmentsSheetHandler;
+use App\Import\SheetHandlers\DosageAttestationHandler;
+use App\Import\SheetHandlers\GeneAttestationHandler;
+use App\Import\SheetHandlers\VariantAttestationSheetHandler;
+use App\Jobs\AssignVolunteerToAssignable;
+use App\Priority;
+use App\User;
+use App\UserAptitude;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use App\Import\Maps\CurationGroupMap;
-use App\Jobs\AssignVolunteerToAssignable;
-use App\Import\Exceptions\ImportException;
-use App\Exceptions\InvalidAssignmentException;
-use App\Import\SheetHandlers\GeneAttestationHandler;
-use App\Import\SheetHandlers\AssignmentsSheetHandler;
-use App\Import\SheetHandlers\ApplicationSurveyHandler;
-use App\Import\SheetHandlers\DosageAttestationHandler;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use App\Import\SheetHandlers\VariantAttestationSheetHandler;
-use App\Import\SheetHandlers\ActionabilityAttestationHandler;
+use InvalidArgumentException;
 
 /**
- * Command that imports initial data from spreadsheet
+ * Command that imports initial data from spreadsheet.
  *
  * @SuppressWarnings(PHPMD)
  */
@@ -55,12 +52,11 @@ class ImportInitialData extends Command
      * @var CurationGroupMap mapper for curation groups
      */
     private $curationGroupMap;
-    
+
     /**
      * @var Collection Collection of CurationActivity models
      */
     private $curationActivities;
-    
 
     /**
      * Create a new command instance.
@@ -80,7 +76,7 @@ class ImportInitialData extends Command
     public function handle(CurationGroupMap $curationGroupMap)
     {
         $this->curationGroupMap = $curationGroupMap;
-        
+
         $this->clearAllUsers();
         $this->setConfiguration();
 
@@ -100,6 +96,7 @@ class ImportInitialData extends Command
                     $email = $nameToEmailAddress->get(mb_strtolower($nameKey));
                     if (!$volunteerCollection->get($email)) {
                         $this->warn('We can not find an email address for name '.$nameKey);
+
                         return;
                     }
                     $volunteerCollection->put($email, $volunteerCollection->get($email)->merge($attestationData));
@@ -108,7 +105,7 @@ class ImportInitialData extends Command
 
         $volunteerCollection = $volunteerCollection
             ->filter(function ($val, $key) {
-                return strstr($key, '@') && $key != "" && is_string($key);
+                return strstr($key, '@') && $key != '' && is_string($key);
             });
 
         $bar = $this->output->createProgressBar($volunteerCollection->count());
@@ -147,11 +144,11 @@ class ImportInitialData extends Command
 
         return $this->filterKnownCurators($volunteerRows);
     }
-   
+
     private function filterKnownCurators($volunteerRows)
     {
         return collect($volunteerRows)->filter(function ($val, $key) {
-            return $key != ""
+            return $key != ''
                 && !in_array($key, [
                     'emma wilcox',
                     'revathi rajkumar',
@@ -168,11 +165,10 @@ class ImportInitialData extends Command
                     '1',
                     'krzysztof szczaå‚uba',
                     'krzysztof szczaÅ‚uba',
-                    'Mayher Patel'
+                    'Mayher Patel',
                 ]);
         });
     }
-    
 
     private function setConfiguration()
     {
@@ -203,7 +199,7 @@ class ImportInitialData extends Command
     private function processVolunteerData($volunteerData, $email)
     {
         $this->clearExistingUser($email);
-        
+
         try {
             $this->outputInfo("\n");
             $this->outputInfo('importing data for '.$email);
@@ -215,7 +211,7 @@ class ImportInitialData extends Command
             if ($th->getCode() == 301) {
                 return;
             }
-            
+
             $this->warn(
                 // str_repeat('-', strlen($th->getMessage()))."\n"
                 // .
@@ -233,7 +229,7 @@ class ImportInitialData extends Command
         $dosageAttestationHandler = new DosageAttestationHandler();
         $actionabilityAttestationHandler = new ActionabilityAttestationHandler();
         $variantAttestationHandler = new VariantAttestationSheetHandler();
-        
+
         $assignmentsSheetHandler
             ->setNext($applicationHandler)
             ->setNext($geneAttestationHandler)
@@ -294,16 +290,16 @@ class ImportInitialData extends Command
             $altEmail = $name.'1@example.com';
         }
         $user = User::where('email', $email)->orWhere('email', $altEmail)->first();
+
         return $user;
     }
 
     private function createSurveyResponse($volunteerData)
     {
         if (!$volunteerData->keys()->contains('Volunteer Survey')) {
-            throw new ImportException($volunteerData->first()['email'] . ' does not appear to have a volunteer survey.');
+            throw new ImportException($volunteerData->first()['email'].' does not appear to have a volunteer survey.');
         }
 
-        
         $lastRecord = collect($volunteerData->get('Volunteer Survey'))->last();
         $this->outputInfo(' - Application data.');
         unset($lastRecord['name']);
@@ -316,16 +312,15 @@ class ImportInitialData extends Command
         $response->finalize(Carbon::parse($lastRecord['created_at']));
         $response = $response->fresh();
 
-        
         return $response;
     }
-        
+
     private function importVolunteerAssignments($volunteer, $volunteerData)
     {
         if (!$volunteerData->keys()->contains('Assignments')) {
-            throw new ImportException('Missing Assignments data for '. $volunteer->email, 301);
+            throw new ImportException('Missing Assignments data for '.$volunteer->email, 301);
         }
-        
+
         $assignmentData = collect($volunteerData->get('Assignments'));
         $attestationData = [
             1 => $volunteerData->get('Actionability Attestations') ? collect($volunteerData->get('Actionability Attestations')) : null,
@@ -346,18 +341,21 @@ class ImportInitialData extends Command
 
             if (empty($data['training_date']) || !$data['training_attended']) {
                 $this->outputInfo('    - training not complete');
+
                 return;
             }
             $this->updateTraining($assignment, $data);
 
             if (!$data['attestation_signed']) {
                 $this->outputInfo('    - attestation not signed');
+
                 return;
             }
             $this->updateAttestation($assignment, $data, $attestationData);
-                
+
             if (empty($data['ep_assignment'])) {
                 $this->outputInfo('    - Not assigned to WG/EP'.' ('.$data['email'].')');
+
                 return;
             }
             $this->assignCurationGroup($volunteer, $data);
@@ -376,7 +374,7 @@ class ImportInitialData extends Command
         if (!$ca) {
             throw new ImportException('CA Unknown: '.$data['ca_assignment'].' ('.$data['email'].')');
         }
-        
+
         try {
             AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
         } catch (InvalidAssignmentException $th) {
@@ -396,7 +394,7 @@ class ImportInitialData extends Command
 
         return $assignment;
     }
-    
+
     private function updateTraining($assignment, $data)
     {
         try {
@@ -404,7 +402,7 @@ class ImportInitialData extends Command
             $userAptitude->created_at = $data['ca_assignment_date'];
             $userAptitude->updated_at = $data['ca_assignment_date'];
             $userAptitude->save();
-            
+
             $this->outputInfo('    - import training info');
             $userAptitude->trained_at = $data['training_date'];
             $userAptitude->updated_at = $data['training_date'];
@@ -414,7 +412,7 @@ class ImportInitialData extends Command
             dump($data);
         }
     }
-    
+
     private function updateAttestation($assignment, $data, $attestationData)
     {
         $attestation = $assignment->attestations()->first();
@@ -431,7 +429,7 @@ class ImportInitialData extends Command
             $attestation->save();
         }
     }
-    
+
     private function getNameToEmailMap(Collection $collection)
     {
         return $collection
@@ -442,16 +440,18 @@ class ImportInitialData extends Command
                     // if ($key == 'rodrigomendezh@gmail.com') {
                     //     return strtolower('Hector Rodrigo Méndez');
                     // }
-                    $name = $item->get('Volunteer Survey')[count($item->get('Volunteer Survey'))-1]['name'];
+                    $name = $item->get('Volunteer Survey')[count($item->get('Volunteer Survey')) - 1]['name'];
                     if (is_null($name)) {
                         $this->warn('expect name in volunteer survey to be a string, '.gettype($name).' found for email address '.$key.'.');
+
                         return '';
                     }
+
                     return mb_strtolower($name);
                 })
                 ->flip();
     }
-    
+
     private function assignCurationGroup($volunteer, $data)
     {
         $curationGroup = null;
@@ -494,13 +494,14 @@ class ImportInitialData extends Command
             'declined' => 5,
             'retired' => 6,
             'follow up email' => 1,
-            'recontact later' => 1
+            'recontact later' => 1,
         ];
 
         if (array_key_exists($statusString, $statuses)) {
             $volunteer->update([
-                'volunteer_status_id' => $statuses[$statusString]
+                'volunteer_status_id' => $statuses[$statusString],
             ]);
+
             return;
         }
 
@@ -513,8 +514,9 @@ class ImportInitialData extends Command
                 $statusId = $statuses['active'];
             }
             $volunteer->update([
-                'volunteer_status_id' => $statusId
+                'volunteer_status_id' => $statusId,
             ]);
+
             return;
         }
 
