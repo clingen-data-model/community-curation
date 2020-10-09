@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Services\Search\VolunteerSearchService;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group volunteers
@@ -17,18 +15,18 @@ class VolunteerSearchServiceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
     }
-    
+
     /**
      * @test
      */
     public function it_is_instantiable()
     {
         $search = new VolunteerSearchService();
-        
+
         $this->assertTrue(true);
     }
 

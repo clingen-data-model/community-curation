@@ -2,20 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use App\Priority;
-use Tests\TestCase;
-use App\CurationGroup;
 use App\CurationActivity;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\CurationGroup;
+use App\Priority;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class PrioritiesTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->survey = class_survey()::findBySlug('priorities1');
@@ -47,13 +45,13 @@ class PrioritiesTest extends TestCase
         $data = [
             'curation_activity_1' => $cA->id,
             'panel_1' => $ep->id,
-            'nav' => 'finalize'
+            'nav' => 'finalize',
         ];
 
         $this->call('POST', '/app-user/'.$this->user->id.'/survey/priorities1', $data)
             ->assertRedirect('/apply/thank-you');
     }
-    
+
     /**
      * @test
      **/
@@ -77,7 +75,7 @@ class PrioritiesTest extends TestCase
         $this->assertDatabaseHas('priorities', [
             'user_id' => $this->user->id,
             'curation_activity_id' => 1,
-            'prioritization_round' => 2
+            'prioritization_round' => 2,
         ]);
     }
 }

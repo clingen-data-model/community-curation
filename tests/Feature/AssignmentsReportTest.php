@@ -2,18 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use App\CurationGroup;
 use App\CurationActivity;
+use App\CurationGroup;
+use App\Jobs\AssignVolunteerToAssignable;
+use App\Services\Reports\AssignmentReportGenerator;
+use App\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use App\Jobs\AssignVolunteerToAssignable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\Reports\AssignmentReportGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Tests\TestCase;
 
 /**
  * @group assignments
@@ -23,7 +21,7 @@ class AssignmentsReportTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         // \Event::fake();
@@ -50,7 +48,7 @@ class AssignmentsReportTest extends TestCase
         $appRsp->fill([
             'email' => 'test@test.com',
             'first_name' => 'test',
-            'last_name' => 'testerson'
+            'last_name' => 'testerson',
         ]);
         $appRsp->save();
         $appRsp->finalize();
@@ -67,14 +65,14 @@ class AssignmentsReportTest extends TestCase
             ->first()
             ->update(['signed_at' => $this->date]);
     }
- 
+
     /**
      * @test
      */
     public function rows_have_all_relevant_data()
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
-        
+
         $vol = $this->volunteers->get(1)->fresh();
         $testRow = $report->get('all')
                     ->filter(function ($row) use ($vol) {
@@ -99,12 +97,11 @@ class AssignmentsReportTest extends TestCase
                 'attestation_date' => $this->date,
                 'assigned_curation_group' => $this->curationGroups->get(3)->first()->name
                                             .",\n"
-                                            .$this->curationGroups->get(3)->last()->name
+                                            .$this->curationGroups->get(3)->last()->name,
             ],
             $testRow
         );
     }
-    
 
     /**
      * @test
@@ -136,10 +133,10 @@ class AssignmentsReportTest extends TestCase
     public function curation_activity_rows_only_include_rows_for_that_curation_activity()
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
-        
+
         $sheetName = $this->curationActivities->get(3)->name;
         $caSheet = $report->get($sheetName);
-        
+
         $curationActivities = $caSheet->pluck('curation_activity')->unique();
 
         $this->assertEquals(1, $curationActivities->count());

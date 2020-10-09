@@ -6,18 +6,15 @@ use App\CurationActivity;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @group assignments
  */
-
 class AssignmentControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->state('admin')->create();
@@ -40,7 +37,7 @@ class AssignmentControllerTest extends TestCase
             ->json('POST', '/api/assignments', [
                 'assignable_type' => 'test',
                 'assignable_id' => 1,
-                'user_id' => 1000
+                'user_id' => 1000,
             ]);
         $response->assertSee('The selected assignable type is invalid.');
         $response->assertSee('The selected user id is invalid.');
@@ -50,7 +47,7 @@ class AssignmentControllerTest extends TestCase
             ->json('POST', '/api/assignments', [
                 'assignable_type' => CurationActivity::class,
                 'assignable_id' => 1,
-                'user_id' => $this->volunteer->id
+                'user_id' => $this->volunteer->id,
             ]);
     }
 
@@ -64,7 +61,7 @@ class AssignmentControllerTest extends TestCase
             ->json('POST', '/api/assignments', [
                 'assignable_type' => CurationActivity::class,
                 'assignable_id' => 1,
-                'user_id' => $this->volunteer->id
+                'user_id' => $this->volunteer->id,
             ]);
         $response->assertStatus(200);
 
@@ -73,9 +70,9 @@ class AssignmentControllerTest extends TestCase
         $this->assertDatabaseHas('assignments', [
             'assignable_type' => CurationActivity::class,
             'assignable_id' => 1,
-            'user_id' => $this->volunteer->id
+            'user_id' => $this->volunteer->id,
         ]);
-        
+
         $this->assertEquals(1, CurationActivity::find(1)->assignments->count());
     }
 }

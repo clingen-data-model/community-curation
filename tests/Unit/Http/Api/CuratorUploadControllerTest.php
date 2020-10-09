@@ -2,16 +2,14 @@
 
 namespace Tests\Unit\Http\Api;
 
-use App\User;
 use App\Upload;
-use Tests\TestCase;
 use App\UploadCategory;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group uploads
@@ -30,7 +28,7 @@ class CuratorUploadControllerTest extends TestCase
     private $dummyFile;
     private $otherVolunteer;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create();
@@ -50,7 +48,7 @@ class CuratorUploadControllerTest extends TestCase
         $this->actingAs($this->otherVolunteer, 'api')
             ->call('POST', static::URL, [
                 'file' => $this->dummyFile,
-                'user_id' => $this->volunteer->id
+                'user_id' => $this->volunteer->id,
             ])
             ->assertStatus(403);
     }
@@ -63,7 +61,7 @@ class CuratorUploadControllerTest extends TestCase
         $this->actingAs($this->admin, 'api')
             ->call('POST', static::URL, [
                 'file' => $this->dummyFile,
-                'user_id' => $this->volunteer->id
+                'user_id' => $this->volunteer->id,
             ])
             ->assertStatus(201);
         $expectedPath = static::UPLOAD_PATH.$this->dummyFile->hashName();
@@ -80,7 +78,7 @@ class CuratorUploadControllerTest extends TestCase
         $this->actingAs($this->volunteer, 'api')
             ->call('POST', static::URL, [
                 'file' => $this->dummyFile,
-                'user_id' => $this->volunteer->id
+                'user_id' => $this->volunteer->id,
             ])
             ->assertStatus(201);
 
@@ -100,7 +98,7 @@ class CuratorUploadControllerTest extends TestCase
         $this->actingAs($this->volunteer, 'api')
             ->call('POST', static::URL, [
                 'file' => $this->dummyFile,
-                'user_id' => $this->volunteer->id
+                'user_id' => $this->volunteer->id,
             ]);
 
         $expectedPath = static::UPLOAD_PATH.$this->dummyFile->hashName();
@@ -108,11 +106,11 @@ class CuratorUploadControllerTest extends TestCase
         $this->assertDatabaseHas('uploads', [
             'user_id' => $this->volunteer->id,
             'file_name' => 'document.pdf',
-            'file_path' => $expectedPath
+            'file_path' => $expectedPath,
         ]);
         unlink(storage_path('app/'.$expectedPath));
     }
-    
+
     /**
      * @test
      */
@@ -128,7 +126,7 @@ class CuratorUploadControllerTest extends TestCase
             ->call('POST', static::URL, [
                 'file' => $this->dummyFile,
                 'user_id' => $this->volunteer->id,
-                'upload_category_id' => $uploadCategory->id
+                'upload_category_id' => $uploadCategory->id,
             ]);
 
         $expectedPath = static::UPLOAD_PATH.$this->dummyFile->hashName();
@@ -136,7 +134,7 @@ class CuratorUploadControllerTest extends TestCase
             'user_id' => $this->volunteer->id,
             'file_name' => 'document.pdf',
             'file_path' => $expectedPath,
-            'upload_category_id' => $uploadCategory->id
+            'upload_category_id' => $uploadCategory->id,
         ]);
         unlink(storage_path('app/'.$expectedPath));
     }
@@ -150,7 +148,7 @@ class CuratorUploadControllerTest extends TestCase
         $category = factory(UploadCategory::class)->create();
         $upload = factory(Upload::class)->create([
             'user_id' => $this->volunteer->id,
-            'upload_category_id' => $category->id
+            'upload_category_id' => $category->id,
         ]);
 
         $this->actingAs($this->otherVolunteer, 'api')
@@ -166,7 +164,7 @@ class CuratorUploadControllerTest extends TestCase
         $category = factory(UploadCategory::class)->create();
         $upload = factory(Upload::class)->create([
             'user_id' => $this->volunteer->id,
-            'upload_category_id' => $category->id
+            'upload_category_id' => $category->id,
         ]);
 
         $response = $this->actingAs($this->volunteer, 'api')
@@ -178,10 +176,10 @@ class CuratorUploadControllerTest extends TestCase
                 'category' => [
                     'id' => $category->id,
                     'name' => $category->name,
-                ]
+                ],
             ]);
     }
-    
+
     /**
      * @test
      */
@@ -190,14 +188,14 @@ class CuratorUploadControllerTest extends TestCase
         $category = factory(UploadCategory::class)->create();
         $upload = factory(Upload::class)->create([
             'user_id' => $this->volunteer->id,
-            'upload_category_id' => $category->id
+            'upload_category_id' => $category->id,
         ]);
 
         $this->actingAs($this->otherVolunteer, 'api')
             ->call('GET', 'api/curator-uploads/'.$upload->id.'/file')
             ->assertStatus(404);
     }
-    
+
     /**
      * @test
      */
@@ -205,43 +203,43 @@ class CuratorUploadControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $category = factory(UploadCategory::class)->create();
-        
+
         $a = Storage::put('public/curator_uploads', $this->dummyFile);
 
         $upload = factory(Upload::class)->create([
             'user_id' => $this->volunteer->id,
             'upload_category_id' => $category->id,
-            'file_path' => $a
+            'file_path' => $a,
         ]);
-    
+
         $response = $this->actingAs($this->volunteer, 'api')
             ->call('GET', '/api/curator-uploads/'.$upload->id.'/file')
             ->assertStatus(200);
-           
+
         $response->streamedContent();
 
         unlink(storage_path('app/'.$a));
     }
-    
+
     /**
      * @test
      */
     public function admin_can_download_volunteer_file()
     {
         $category = factory(UploadCategory::class)->create();
-        
+
         $a = Storage::put('public/curator_uploads', $this->dummyFile);
 
         $upload = factory(Upload::class)->create([
             'user_id' => $this->volunteer->id,
             'upload_category_id' => $category->id,
-            'file_path' => $a
+            'file_path' => $a,
         ]);
-    
+
         $response = $this->actingAs($this->admin, 'api')
             ->call('GET', '/api/curator-uploads/'.$upload->id.'/file')
             ->assertStatus(200);
-           
+
         $response->streamedContent();
 
         unlink(storage_path('app/'.$a));
@@ -256,11 +254,11 @@ class CuratorUploadControllerTest extends TestCase
 
         $this->actingAs($this->otherVolunteer, 'api')
             ->call('PUT', '/api/curator-uploads/'.$upload->id, [
-                'name' => 'test'
+                'name' => 'test',
             ])
             ->assertStatus(403);
     }
-    
+
     /**
      * @test
      */
@@ -270,13 +268,13 @@ class CuratorUploadControllerTest extends TestCase
 
         $this->actingAs($this->volunteer, 'api')
             ->call('PUT', '/api/curator-uploads/'.$upload->id, [
-                'name' => 'test'
+                'name' => 'test',
             ])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('uploads', [
             'user_id' => $this->volunteer->id,
-            'name' => 'test'
+            'name' => 'test',
         ]);
     }
 
@@ -290,13 +288,13 @@ class CuratorUploadControllerTest extends TestCase
         $this->actingAs($this->volunteer, 'api')
             ->call('PUT', '/api/curator-uploads/'.$upload->id, [
                 'user_id' => $this->otherVolunteer->id,
-                'name' => 'test'
+                'name' => 'test',
             ])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('uploads', [
             'user_id' => $this->volunteer->id,
-            'name' => 'test'
+            'name' => 'test',
         ]);
     }
 
@@ -309,16 +307,16 @@ class CuratorUploadControllerTest extends TestCase
 
         $this->actingAs($this->admin, 'api')
             ->call('PUT', '/api/curator-uploads/'.$upload->id, [
-                'name' => 'test'
+                'name' => 'test',
             ])
             ->assertStatus(200);
 
         $this->assertDatabaseHas('uploads', [
             'user_id' => $this->volunteer->id,
-            'name' => 'test'
+            'name' => 'test',
         ]);
     }
-    
+
     /**
      * @test
      */
@@ -327,7 +325,7 @@ class CuratorUploadControllerTest extends TestCase
         $filepath = Storage::put('public/curator_uploads', $this->dummyFile);
         $upload = factory(Upload::class)->create([
             'user_id' => $this->volunteer->id,
-            'file_path' => $filepath
+            'file_path' => $filepath,
         ]);
 
         $this->actingAs($this->volunteer, 'api')
@@ -340,12 +338,11 @@ class CuratorUploadControllerTest extends TestCase
 
         $this->assertDatabaseHas('uploads', [
             'id' => $upload->id,
-            'deleted_at' => Carbon::now()
+            'deleted_at' => Carbon::now(),
         ]);
 
         unlink(storage_path('app/'.$filepath));
     }
-    
 
     /**
      * @test
@@ -357,7 +354,7 @@ class CuratorUploadControllerTest extends TestCase
         $this->makeUpload();
         $this->makeUpload([
                         'user_id' => $this->volunteer,
-                        'upload_category_id' => $category->id
+                        'upload_category_id' => $category->id,
                     ]);
         $this->makeUpload(['user_id' => $this->otherVolunteer->id]);
 
@@ -374,20 +371,19 @@ class CuratorUploadControllerTest extends TestCase
                 'upload_category_id' => $category->id,
             ])
             ->assertJsonFragment([
-                'email' => $this->volunteer->email
+                'email' => $this->volunteer->email,
             ])
             ->assertJsonFragment([
-                'name' => $category->name
+                'name' => $category->name,
             ])
             ->assertJsonMissing([
-                'upload_category_id' => null
+                'upload_category_id' => null,
             ])
             ->assertJsonMissing([
-                'user_id' => $this->otherVolunteer->id
+                'user_id' => $this->otherVolunteer->id,
             ])
             ;
     }
-    
 
     private function makeUpload($data = null)
     {

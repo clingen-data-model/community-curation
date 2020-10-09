@@ -2,12 +2,9 @@
 
 namespace Tests\Unit\Controllers\Api;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\TrainingSession;
 use App\CurationActivity;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\TrainingSession;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Feature\TrainingSessions\TrainingSessionTestCase;
 
@@ -19,7 +16,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->admin = $this->createAdmin();
@@ -75,7 +72,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
                 'ends_at' => $startsAt->clone()->addHour(),
                 'url' => 'https://test@example.com',
                 'invite_message' => 'test test test',
-                'notes' => 'notes notes notes'
+                'notes' => 'notes notes notes',
             ]);
         // ->assertStatus(201);
 
@@ -85,7 +82,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
             'starts_at' => $startsAt->format('Y-m-d H:i:s'),
             'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d H:i:s'),
             'invite_message' => 'test test test',
-            'notes' => 'notes notes notes'
+            'notes' => 'notes notes notes',
         ]);
 
         $response->assertJson([
@@ -96,8 +93,8 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
                 'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z'),
                 'url' => 'https://test@example.com',
                 'invite_message' => '<p>test test test</p>',
-                'notes' => 'notes notes notes'
-            ]
+                'notes' => 'notes notes notes',
+            ],
         ]);
     }
 
@@ -115,7 +112,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
                 'ends_at' => $startsAt->clone()->addHour(),
                 'url' => 'https://test@example.com',
                 'invite_message' => 'test test test',
-                'notes' => 'notes notes notes'
+                'notes' => 'notes notes notes',
             ])
             ->assertRedirect('/');
     }
@@ -135,7 +132,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
             'topic_id' => ['A topic is required.'],
             'url' => ['A URL is required.'],
             'starts_at' => ['A start date and time are required.'],
-            'ends_at' => ['An end date and time are required.']
+            'ends_at' => ['An end date and time are required.'],
         ]);
     }
 
@@ -146,7 +143,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     {
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
-                'topic_type' => 'App\User'
+                'topic_type' => 'App\User',
             ]);
         $response->assertStatus(422);
 
@@ -161,7 +158,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
                 'starts_at' => 'beans',
-                'ends_at' => 'monkeys'
+                'ends_at' => 'monkeys',
             ]);
         $response->assertStatus(422);
 
@@ -171,7 +168,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
                 'starts_at' => '2020-01-01 01:01:01',
-                'ends_at' => '2020-01-01 00:01:01'
+                'ends_at' => '2020-01-01 00:01:01',
             ]);
         $response->assertStatus(422);
 
@@ -185,7 +182,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     {
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
-                'url' => 'monkeys'
+                'url' => 'monkeys',
             ]);
         $response->assertStatus(422);
 
@@ -226,8 +223,8 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         $response->assertJson(['data' => [
                                             'id' => $freshTraining->id,
                                             'starts_at' => $startsAt->format('Y-m-d\TH:i:s\Z'),
-                                            'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z')
-                                        ]
+                                            'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z'),
+                                        ],
                             ]);
     }
 
@@ -237,14 +234,14 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     public function an_admin_or_programmer_can_delete_a_training_session()
     {
         $trainingSession = factory(TrainingSession::class)->create();
-        
+
         $this->actingAs($this->createAdmin(), 'api')
             ->json('DELETE', '/api/training-sessions/'.$trainingSession->id)
             ->assertStatus(200);
 
         $this->assertDatabaseMissing('training_sessions', [
             'id' => $trainingSession->id,
-            'deleted_at' => null
+            'deleted_at' => null,
         ]);
     }
 }

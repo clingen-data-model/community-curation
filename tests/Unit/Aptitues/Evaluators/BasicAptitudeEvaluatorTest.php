@@ -3,13 +3,11 @@
 namespace Tests\Unit\Aptitues\Evaluators;
 
 use App\Aptitudes\Evaluators\BasicAptitudeEvaluator;
+use App\Attestation;
 use App\User;
 use Carbon\Carbon;
-use Tests\TestCase;
-use App\Attestation;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group aptitudes
@@ -18,7 +16,7 @@ class BasicAptitudeEvaluatorTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->volunteer = factory(User::class)->states('volunteer', 'baseline')->create();
@@ -40,7 +38,7 @@ class BasicAptitudeEvaluatorTest extends TestCase
     {
         $userApt = $this->volunteer->userAptitudes->first();
         $userApt->update([
-            'trained_at' => Carbon::now()
+            'trained_at' => Carbon::now(),
         ]);
 
         $this->assertFalse((new BasicAptitudeEvaluator($this->userApt))->meetsCriteria());
@@ -53,12 +51,12 @@ class BasicAptitudeEvaluatorTest extends TestCase
     {
         $userApt = $this->volunteer->userAptitudes->first();
         $attestation = factory(Attestation::class)->create([
-            'aptitude_id' => $userApt->aptitude_id
+            'aptitude_id' => $userApt->aptitude_id,
         ]);
 
         $userApt->update([
             'trained_at' => Carbon::now(),
-            'attestation_id' => $attestation->id
+            'attestation_id' => $attestation->id,
         ]);
 
         $this->assertFalse((new BasicAptitudeEvaluator($this->userApt))->meetsCriteria());
@@ -72,12 +70,12 @@ class BasicAptitudeEvaluatorTest extends TestCase
         $userApt = $this->volunteer->userAptitudes->first();
         $attestation = factory(Attestation::class)->create([
             'aptitude_id' => $userApt->aptitude_id,
-            'signed_at' => Carbon::now()
+            'signed_at' => Carbon::now(),
         ]);
 
         $userApt->update([
             'trained_at' => Carbon::now(),
-            'attestation_id' => $attestation->id
+            'attestation_id' => $attestation->id,
         ]);
 
         $this->assertTrue((new BasicAptitudeEvaluator($this->userApt))->meetsCriteria());
