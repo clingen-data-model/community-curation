@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VolunteerRequest;
+use App\Http\Requests\Contracts\VolunteerRequestContract;
 use App\Http\Resources\VolunteerUserResource;
 use App\Policies\VolunteerPolicy;
 use App\Services\Search\VolunteerSearchService;
@@ -111,7 +111,7 @@ class VolunteerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(VolunteerRequest $request, $id)
+    public function update(VolunteerRequestContract $request, $id)
     {
         $volunteer = User::findOrFail($id);
         if (!$this->policy->update(\Auth::user(), $volunteer)) {
