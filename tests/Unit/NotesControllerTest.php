@@ -2,14 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Note;
-use App\User;
-use Tests\TestCase;
 use App\CurationGroup;
+use App\Note;
 use App\Services\Search\NotesSearchService;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group notes
@@ -18,12 +16,12 @@ class NotesControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->notes = factory(Note::class, 2)->create();
         $this->user = factory(User::class)->states(['admin'])->create([]);
-        $this->notes->merge(factory(Note::class, 2)->create(['notable_type'=>User::class, 'notable_id' => $this->user->id]));
+        $this->notes->merge(factory(Note::class, 2)->create(['notable_type' => User::class, 'notable_id' => $this->user->id]));
         $this->service = app()->make(NotesSearchService::class);
     }
 
@@ -64,19 +62,19 @@ class NotesControllerTest extends TestCase
             ->json('POST', 'api/notes', [
                 'notable_type' => CurationGroup::class,
                 'notable_id' => $curationGroup->id,
-                'content' => 'This is a test.'
+                'content' => 'This is a test.',
             ])
             ->assertStatus(201)
             ->assertJson(['data' => [
                 'notable_type' => 'App\\CurationGroup',
                 'notable_id' => $curationGroup->id,
-                'content' => 'This is a test.'
+                'content' => 'This is a test.',
             ]]);
 
         $this->assertDatabaseHas('notes', [
             'notable_type' => CurationGroup::class,
             'notable_id' => $curationGroup->id,
-            'content' => 'This is a test.'
+            'content' => 'This is a test.',
         ]);
     }
 
@@ -95,7 +93,7 @@ class NotesControllerTest extends TestCase
             ->assertJson(['errors' => [
                 'notable_type' => ['The notable type field is required.'],
                 'notable_id' => ['The notable id field is required.'],
-                'content' => ['The content field is required.']
+                'content' => ['The content field is required.'],
             ]]);
     }
 
@@ -128,14 +126,14 @@ class NotesControllerTest extends TestCase
 
         $this->actingAs($this->user, 'api')
             ->json('put', 'api/notes/'.$note->id, [
-                'content' => 'This is an updated note.'
+                'content' => 'This is an updated note.',
             ])
             ->assertStatus(200)
             ->assertJson(['data' => ['content' => 'This is an updated note.']]);
 
         $this->assertDatabaseHas('notes', [
             'id' => $note->id,
-            'content' => 'This is an updated note.'
+            'content' => 'This is an updated note.',
         ]);
     }
 
@@ -155,7 +153,7 @@ class NotesControllerTest extends TestCase
 
         $this->assertDatabaseMissing('notes', [
             'id' => $note->id,
-            'deleted_at' => null
+            'deleted_at' => null,
         ]);
     }
 }

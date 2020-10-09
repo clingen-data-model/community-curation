@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Search;
 
 use App\Note;
-use App\User;
-use Tests\TestCase;
 use App\Services\Search\NotesSearchService;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * @group notes
@@ -17,12 +15,11 @@ class NotesSearchServiceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->service = new NotesSearchService();
     }
-    
 
     /**
      * @test
@@ -52,7 +49,7 @@ class NotesSearchServiceTest extends TestCase
         $note = factory(Note::class)->create([
             'notable_type' => CurationGroup::class,
         ]);
-        
+
         $note = factory(Note::class)->create([
             'notable_type' => User::class,
         ]);
@@ -68,7 +65,7 @@ class NotesSearchServiceTest extends TestCase
         factory(Note::class)->create([
             'notable_type' => CurationGroup::class,
         ]);
-        
+
         factory(Note::class)->create([
             'notable_type' => User::class,
         ]);

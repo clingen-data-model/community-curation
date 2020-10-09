@@ -2,14 +2,12 @@
 
 namespace Tests\Unit\Models;
 
-use App\User;
-use App\Priority;
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Contracts\IsNotable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Priority;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group user
@@ -25,7 +23,7 @@ class UserTest extends TestCase
     {
         $prog = factory(User::class)->states('programmer')->create();
         $prog2 = factory(User::class)->states('programmer')->create([]);
-        
+
         $ad1 = factory(User::class)->states('admin')->create();
         $ad2 = factory(User::class)->states('admin')->create();
 
@@ -75,7 +73,7 @@ class UserTest extends TestCase
         $this->assertTrue($coordinator->canBeImpersonated());
         $this->assertTrue($volunteer->canBeImpersonated());
     }
-    
+
     /**
      * @test
      */
@@ -84,7 +82,7 @@ class UserTest extends TestCase
         \DB::statement('SET FOREIGN_KEY_CHECKS=0');
         \DB::table('users')->truncate();
         \DB::statement('SET FOREIGN_KEY_CHECKS=1');
-        
+
         $admin = factory(User::class)->create();
         $admin->roles()->sync([]);
         factory(User::class)->states('volunteer')->create();
@@ -100,11 +98,11 @@ class UserTest extends TestCase
     {
         $volunteer1 = factory(User::class)->states('volunteer', 'comprehensive')->create();
         $firstPriorities = factory(Priority::class, 3)->create([
-            'user_id' => $volunteer1->id
+            'user_id' => $volunteer1->id,
         ]);
         $secondPriorities = factory(Priority::class, 3)->create([
             'user_id' => $volunteer1->id,
-            'prioritization_round' => 2
+            'prioritization_round' => 2,
         ]);
 
         $latestPriorities = $volunteer1->fresh()->latestPriorities;
@@ -112,7 +110,7 @@ class UserTest extends TestCase
         $this->assertEquals($secondPriorities->pluck('id'), $latestPriorities->pluck('id'));
         $this->assertNotContains($firstPriorities->first()->id, $latestPriorities->pluck('id'));
     }
-    
+
     /**
      * @test
      */

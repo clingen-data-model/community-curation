@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationCompletedMail;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Tests\TestCase;
 
 /**
  * @group application
@@ -20,12 +17,11 @@ class ApplicationTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
         $this->survey = class_survey()::findBySlug('application1');
     }
-    
 
     /**
      * @test
@@ -40,7 +36,7 @@ class ApplicationTest extends TestCase
             ->assertSessionHas('application-response');
 
         $response = $this->call('POST', '/apply', [
-            'nav' => 'next'
+            'nav' => 'next',
         ]);
 
         $appRsp = class_survey()::findBySlug('application1')->responses->last();
@@ -79,10 +75,10 @@ class ApplicationTest extends TestCase
         $this->call('GET', 'apply/'.$rsp->id)
              ->assertStatus(200)
              ->assertSee('response_id: '.$rsp->id);
-                
+
         $this->assertEquals(session()->get('application-response')->id, $rsp->id);
     }
-    
+
     /**
      * @test
      */
@@ -101,7 +97,7 @@ class ApplicationTest extends TestCase
         $this->expectUnauthorized();
         $this->call('POST', 'apply/'.$rsp2->id, ['nav' => 'next']);
     }
-    
+
     /**
      * @test
      */
@@ -116,7 +112,7 @@ class ApplicationTest extends TestCase
         $rsp2->save();
 
         $anotherUser = $u2->fresh();
-        
+
         $this->expectUnauthorized();
         $this->actingAs($u2)
             ->call('GET', 'apply/'.$rsp1->id);
@@ -125,7 +121,6 @@ class ApplicationTest extends TestCase
         $this->actingAs($u2)
             ->call('GET', 'apply/'.$rsp2->id);
     }
-    
 
     /**
      * @test
@@ -137,7 +132,7 @@ class ApplicationTest extends TestCase
         $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->orcid_id = '123';
-        $rsp->volunteer_type   = 1;
+        $rsp->volunteer_type = 1;
         $rsp->institution = 'Monkey Biz U';
         $rsp->street1 = '123 test street';
         $rsp->street2 = 'Apt test';
@@ -146,13 +141,12 @@ class ApplicationTest extends TestCase
         $rsp->country_id = 225;
         $rsp->finalize();
 
-
         $this->assertDatabaseHas('users', [
             'first_name' => 'billy',
             'last_name' => 'pilgrim',
             'email' => 'test@test.com',
             'orcid_id' => '123',
-            'institution' => 'Monkey Biz U'
+            'institution' => 'Monkey Biz U',
         ]);
 
         $user = User::where('email', 'test@test.com')->first();
@@ -177,7 +171,7 @@ class ApplicationTest extends TestCase
         $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
         $rsp->orcid_id = '123';
-        $rsp->volunteer_type   = 1;
+        $rsp->volunteer_type = 1;
         $rsp->institution = 'Monkey Biz U';
         $rsp->street1 = '123 test street';
         $rsp->street2 = 'Apt test';
@@ -187,18 +181,16 @@ class ApplicationTest extends TestCase
         $rsp->hypothesis_id = 'beans';
         $rsp->finalize();
 
-
         $this->assertDatabaseHas('users', [
             'first_name' => 'billy',
             'last_name' => 'pilgrim',
             'email' => 'test@test.com',
             'orcid_id' => '123',
             'institution' => 'Monkey Biz U',
-            'hypothesis_id' => 'beans'
+            'hypothesis_id' => 'beans',
         ]);
     }
-    
-    
+
     /**
      * @test
      */
@@ -208,7 +200,7 @@ class ApplicationTest extends TestCase
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
-        $rsp->volunteer_type   = 1;
+        $rsp->volunteer_type = 1;
         $rsp->finalize();
 
         $this->assertNUll(session()->get('application-response'));
@@ -224,12 +216,12 @@ class ApplicationTest extends TestCase
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
-        $rsp->volunteer_type   = 1;
+        $rsp->volunteer_type = 1;
         $rsp->save();
 
         Session::put('application-response', $rsp);
 
-        $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
+        $this->call('POST', '/apply/'.$rsp->id, ['nav' => 'finalize'])
             ->assertRedirect('apply/thank-you');
     }
 
@@ -242,7 +234,7 @@ class ApplicationTest extends TestCase
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
         $rsp->email = 'test@test.com';
-        $rsp->volunteer_type   = 2;
+        $rsp->volunteer_type = 2;
         $rsp->curation_activity_1 = 1;
         $rsp->panel_1 = 1;
         $rsp->activity_experience_1 = 1;
@@ -256,14 +248,14 @@ class ApplicationTest extends TestCase
         Session::put('application-response', $rsp);
 
         $this->withoutExceptionHandling();
-        $this->call('POST', '/apply/'.$rsp->id, ['nav'=>'finalize'])
+        $this->call('POST', '/apply/'.$rsp->id, ['nav' => 'finalize'])
             ->assertStatus(302);
 
         $this->assertDatabaseHas('priorities', [
             'curation_activity_id' => 1,
             'curation_group_id' => 1,
             'activity_experience' => 1,
-            'activity_experience_details' => 'test details'
+            'activity_experience_details' => 'test details',
         ]);
         $this->assertDatabaseHas('priorities', [
             'curation_activity_id' => 2,
@@ -271,10 +263,10 @@ class ApplicationTest extends TestCase
             'activity_experience' => 0,
             'activity_experience_details' => null,
             'effort_experience' => 1,
-            'effort_experience_details' => 'test effort experience details 2'
+            'effort_experience_details' => 'test effort experience details 2',
         ]);
     }
-    
+
     /**
      * @test
      */
@@ -288,7 +280,7 @@ class ApplicationTest extends TestCase
 
         $mail = new ApplicationCompletedMail($rsp);
         $this->assertContains('Dear billy pilgrim,', $mail->render());
-        
+
         Mail::fake();
         $rsp->finalize();
 

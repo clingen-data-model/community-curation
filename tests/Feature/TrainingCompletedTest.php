@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
 use App\Attestation;
 use App\CurationActivity;
 use App\Jobs\AssignVolunteerToAssignable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group training
@@ -17,8 +15,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class TrainingCompletedTest extends TestCase
 {
     use DatabaseTransactions;
-    
-    public function setUp():void
+
+    public function setUp(): void
     {
         parent::setUp();
         $this->volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create();
@@ -37,7 +35,7 @@ class TrainingCompletedTest extends TestCase
         $attestationData = [
             'user_id' => $this->volunteer->id,
             'aptitude_id' => $training->aptitude_id,
-            'assignment_id' => $training->assignment_id
+            'assignment_id' => $training->assignment_id,
         ];
 
         $this->assertDatabaseHas('attestations', $attestationData);
@@ -48,10 +46,10 @@ class TrainingCompletedTest extends TestCase
             'user_id' => $this->volunteer->id,
             'aptitude_id' => $training->aptitude_id,
             'assignment_id' => $training->assignment_id,
-            'attestation_id' => $attestation->id
+            'attestation_id' => $attestation->id,
         ]);
     }
-    
+
     /**
      * @test
      */
@@ -62,7 +60,7 @@ class TrainingCompletedTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'id' => $this->volunteer->id,
-            'volunteer_status_id' => config('volunteers.statuses.trained')
+            'volunteer_status_id' => config('volunteers.statuses.trained'),
         ]);
     }
 }

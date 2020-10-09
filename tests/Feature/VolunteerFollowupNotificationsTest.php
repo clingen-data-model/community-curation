@@ -2,19 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\CurationActivity;
-use Illuminate\Support\Facades\Mail;
 use App\Jobs\AssignVolunteerToAssignable;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Notifications\VolunteerFollowup\FollowupReminder1;
 use App\Notifications\VolunteerFollowup\FollowupReminder2;
 use App\Notifications\VolunteerFollowup\InitialFollowupNotification;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 /**
  * @group comprehensive
@@ -26,13 +23,13 @@ class VolunteerFollowupNotificationsTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         //Create 90 day volunteer
         $this->volunteer90 = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
         $this->otherVol90 = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
-        
+
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($this->volunteer90, $curationActivity->curationGroups->first());
         AssignVolunteerToAssignable::dispatch($this->otherVol90, $curationActivity->curationGroups->first());
@@ -44,7 +41,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         // create 6 month volunteer
         $this->volunteer6m = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
         $this->otherVol6m = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
-        
+
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($this->volunteer6m, $curationActivity->curationGroups->first());
         AssignVolunteerToAssignable::dispatch($this->otherVol6m, $curationActivity->curationGroups->first());
@@ -63,7 +60,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addDays(90));
 
         $this->artisan('volunteers:notify-followup');
-        
+
         Notification::assertSentTo([$this->volunteer90, $this->otherVol90], InitialFollowupNotification::class);
     }
 
@@ -76,10 +73,9 @@ class VolunteerFollowupNotificationsTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addDays(182));
 
         $this->artisan('volunteers:notify-followup');
-        
+
         Notification::assertSentTo([$this->volunteer6m, $this->otherVol6m], InitialFollowupNotification::class);
     }
-    
 
     /**
      * @test
@@ -104,7 +100,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addDays(97));
 
         $this->artisan('volunteers:notify-followup');
-        
+
         Notification::assertSentTo([$this->volunteer90], FollowupReminder1::class);
 
         Notification::assertNotSentTo([$this->otherVol90], FollowupReminder1::class);
@@ -119,7 +115,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addDays(189));
 
         $this->artisan('volunteers:notify-followup');
-        
+
         Notification::assertSentTo([$this->volunteer6m], FollowupReminder1::class);
 
         Notification::assertNotSentTo([$this->otherVol6m], FollowupReminder1::class);
@@ -148,7 +144,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addDays(111));
 
         $this->artisan('volunteers:notify-followup');
-        
+
         Notification::assertSentTo([$this->volunteer90], FollowupReminder2::class);
 
         Notification::assertNotSentTo([$this->otherVol90], FollowupReminder2::class);
@@ -163,7 +159,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addDays(203));
 
         $this->artisan('volunteers:notify-followup');
-        
+
         Notification::assertSentTo([$this->volunteer6m], FollowupReminder2::class);
 
         Notification::assertNotSentTo([$this->otherVol6m], FollowupReminder2::class);
@@ -182,7 +178,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
         $this->assertEquals('email.volunteers.followups.reminder_2', $mailable6m->view);
         $this->assertContains(url('/volunteer-six-month'), $mailable6m->render());
     }
-    
+
     /**
      * @test
      */
