@@ -357,6 +357,11 @@ class User extends Authenticatable implements IsNotable
         return false;
     }
 
+    public function isAdminOrHigher()
+    {
+        return $this->hasAnyRole(['programmer', 'admin', 'super-admin']);
+    }
+
     public function getTimezoneAttribute()
     {
         return $this->attributes['timezone'] ?? 'UTC';
