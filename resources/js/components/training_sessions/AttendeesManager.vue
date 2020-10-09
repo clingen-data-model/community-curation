@@ -286,7 +286,7 @@ export default {
         ]),
         toggleAll() {
             if (this.selectAll) {
-                this.selectedVolunteers = this.trainableVolunteers;
+                this.selectedVolunteers = this.activeTrainable;
             } else {
                 this.selectedVolunteers = [];
             }
