@@ -3,23 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Campaign;
-
-use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\CampaignRequest as StoreRequest;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\CampaignRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class CampaignCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class CampaignCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class CampaignCrudController extends CrudController
 {
     public function setup()
     {
         $this->crud->setModel(Campaign::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/campaign');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/campaign');
         $this->crud->setEntityNameStrings('campaign', 'campaigns');
 
         $this->crud->setFromDb();
@@ -39,13 +38,13 @@ class CampaignCrudController extends CrudController
             [
                 'name' => 'starts_at',
                 'type' => 'date',
-                'format' => 'YYYY-MM-DD'
+                'format' => 'YYYY-MM-DD',
             ],
             [
                 'name' => 'ends_at',
                 'type' => 'date',
-                'format' => 'YYYY-MM-DD'
-            ]
+                'format' => 'YYYY-MM-DD',
+            ],
         ]);
 
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
@@ -60,12 +59,14 @@ class CampaignCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         $redirect_location = parent::storeCrud($request);
+
         return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
         $redirect_location = parent::updateCrud($request);
+
         return $redirect_location;
     }
 }

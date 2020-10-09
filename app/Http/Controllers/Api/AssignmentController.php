@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
 use App\Assignment;
-use App\CurationGroup;
-use App\CurationActivity;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Jobs\AssignVolunteerToAssignable;
-use App\Http\Resources\AssignmentResource;
-use App\Http\Requests\AssignmentUpdateRequest;
 use App\Http\Requests\ActivityAssignmentCreateRequest;
+use App\Http\Requests\AssignmentUpdateRequest;
+use App\Http\Resources\AssignmentResource;
+use App\Jobs\AssignVolunteerToAssignable;
+use App\User;
+use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
 {
@@ -30,14 +28,15 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(ActivityAssignmentCreateRequest $request)
     {
         $volunteer = User::find($request->user_id);
         $assignable = ($request->assignable_type)::find($request->assignable_id);
-        
+
         AssignVolunteerToAssignable::dispatch($volunteer, $assignable);
         $newAssignment = Assignment::orderBy('id', 'desc')
                             ->limit(1)
@@ -51,8 +50,8 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Assignment  $assignment
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(AssignmentUpdateRequest $request, Assignment $assignment)
@@ -66,12 +65,12 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Assignment  $assignment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Assignment $assignment)
     {
         $assignment->delete();
+
         return $assignment->volunteer->structuredAssignments;
     }
 }

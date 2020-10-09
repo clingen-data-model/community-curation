@@ -19,19 +19,19 @@ class DosageAttestationHandler extends AbstractAttestationSheetHandler implement
         'attended_zoom_training',
         'read_dosage_eval_process',
         'name',
-        'date'
+        'date',
     ];
 
     public function getRowKeys()
     {
         return $this->rowKeys;
-    }    
+    }
 
     public function getData($rowData)
     {
         return [
             'attended_zoom_training' => $rowData['attended_zoom_training'],
-            'read_dosage_eval_process' => $rowData['read_dosage_eval_process'],    
+            'read_dosage_eval_process' => $rowData['read_dosage_eval_process'],
         ];
     }
 }

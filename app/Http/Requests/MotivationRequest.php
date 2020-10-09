@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MotivationRequest extends FormRequest
 {
@@ -28,12 +28,12 @@ class MotivationRequest extends FormRequest
             'name' => [
                 'required',
                 Rule::unique('motivations', 'name')
-                    ->ignore(request()->id, 'id')
+                    ->ignore(request()->id, 'id'),
             ],
             'active' => [
-                'required', 
-                Rule::in([0,1])
-            ]
+                'required',
+                Rule::in([0, 1]),
+            ],
         ];
     }
 }

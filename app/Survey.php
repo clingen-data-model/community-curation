@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Sirs\Surveys\Models\Survey as SirsSurvey;
 use Sirs\Surveys\Contracts\SurveyModel;
+use Sirs\Surveys\Models\Survey as SirsSurvey;
 
 class Survey extends SirsSurvey implements SurveyModel
 {

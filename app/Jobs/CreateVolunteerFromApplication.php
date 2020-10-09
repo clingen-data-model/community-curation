@@ -2,15 +2,16 @@
 
 namespace App\Jobs;
 
-use App\User;
 use App\SurveyResponse;
+use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Hash;
 
 class CreateVolunteerFromApplication
 {
-    use Dispatchable, Queueable;
+    use Dispatchable;
+    use Queueable;
 
     protected $response;
 
@@ -21,7 +22,6 @@ class CreateVolunteerFromApplication
      */
     public function __construct(SurveyResponse $response)
     {
-        //
         $this->response = $response;
     }
 
@@ -48,7 +48,7 @@ class CreateVolunteerFromApplication
             'volunteer_type_id' => $this->response->volunteer_type,
             'volunteer_status_id' => 1,
             'hypothesis_id' => $this->response->hypothesis_id,
-            'timezone' => $this->response->timezone
+            'timezone' => $this->response->timezone,
         ]);
         $user->assignRole('volunteer');
         $user->created_at = $this->response->finalized_at;

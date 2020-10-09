@@ -2,19 +2,18 @@
 
 namespace App\Events;
 
-use App\User;
 use App\Aptitude;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
+use App\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class AptitudeGranted
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     protected $aptitude;
 
@@ -27,7 +26,6 @@ class AptitudeGranted
      */
     public function __construct(Aptitude $aptitude, User $user)
     {
-        //
         $this->aptitude = $aptitude;
         $this->user = $user;
     }

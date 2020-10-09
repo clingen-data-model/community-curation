@@ -17,6 +17,6 @@ class Interest extends Model
 
     protected $fillable = [
         'name',
-        'active'
+        'active',
     ];
 }

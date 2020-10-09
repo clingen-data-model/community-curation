@@ -26,7 +26,7 @@ class TrainingCreateRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'aptitude_id' => 'required|exists:aptitudes,id',
-            'assignment_id' => 'nullable|exists:assignments,id'
+            'assignment_id' => 'nullable|exists:assignments,id',
         ];
     }
 }

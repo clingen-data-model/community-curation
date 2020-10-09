@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class AttestationCreatedNotification extends Notification
 {
@@ -20,14 +19,14 @@ class AttestationCreatedNotification extends Notification
      */
     public function __construct($attestation)
     {
-        //
         $this->attestation = $attestation;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -38,18 +37,19 @@ class AttestationCreatedNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->subject('You have a new attestation')
                     ->view(
                         'email.new_attestation',
                         [
                             'attestation' => $this->attestation,
-                            'recipient' => $notifiable
+                            'recipient' => $notifiable,
                         ]
                     );
     }
@@ -57,13 +57,13 @@ class AttestationCreatedNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

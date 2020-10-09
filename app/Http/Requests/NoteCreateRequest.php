@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class NoteCreateRequest extends FormRequest
 {
@@ -27,7 +27,7 @@ class NoteCreateRequest extends FormRequest
         return [
             'notable_type' => 'required',
             'notable_id' => 'required',
-            'content' => 'required'
+            'content' => 'required',
         ];
     }
 }

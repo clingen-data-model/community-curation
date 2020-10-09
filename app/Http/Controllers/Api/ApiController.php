@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
@@ -23,8 +23,8 @@ class ApiController extends Controller
 
         return new $resourceClass($model);
     }
-    
-    private function resolveModelClass ($classString)
+
+    private function resolveModelClass($classString)
     {
         $className = $this->resolveClassName($classString);
         if (!class_exists($className)) {
@@ -34,7 +34,7 @@ class ApiController extends Controller
         return $className;
     }
 
-    private function resolveEloquentResource ($classString)
+    private function resolveEloquentResource($classString)
     {
         $className = '\\App\\Http\\Resources\\'.substr($this->resolveClassName($classString), 5).'Resource';
 
@@ -44,10 +44,11 @@ class ApiController extends Controller
 
         return $className;
     }
-    
-    private function resolveClassName ($classString) {
+
+    private function resolveClassName($classString)
+    {
         $className = '\\App\\'.ucfirst(camel_case(\Str::singular($classString)));
-        
+
         if (!class_exists($className)) {
             abort(404, 'We couldn\'t find what you were looking for.');
         }

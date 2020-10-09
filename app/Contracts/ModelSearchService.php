@@ -2,11 +2,12 @@
 
 namespace App\Contracts;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 interface ModelSearchService
 {
-    public function buildQuery($params):Builder;
-    public function search($params):Collection;
+    public function buildQuery($params): Builder;
+
+    public function search($params): Collection;
 }

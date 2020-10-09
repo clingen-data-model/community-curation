@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Sirs\Surveys\SurveyControlService;
 
 class VolunteerFollowupController
@@ -20,13 +20,13 @@ class VolunteerFollowupController
         if ($respondent->id == $response->respondent_id
             || Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin'])) {
             $control = new SurveyControlService($request, $response);
-    
+
             return $control->showPage();
         }
 
         throw new AuthorizationException('You do not have permission to view this survey response');
     }
-    
+
     public function store(Request $request, $surveySlug, $id = null)
     {
         $respondent = Auth::user();
@@ -41,7 +41,7 @@ class VolunteerFollowupController
             }
 
             $control = new SurveyControlService($request, $response);
-    
+
             return $control->saveAndContinue();
         }
 
@@ -67,7 +67,7 @@ class VolunteerFollowupController
 
         return $survey->getLatestResponse($respondent);
     }
-    
+
     protected function setPreviousLocation(Request $request)
     {
         $previous = $request->session()->pull('survey_previous');

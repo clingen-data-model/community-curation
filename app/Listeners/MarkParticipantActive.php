@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\Assignments\GroupAssignmentCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class MarkParticipantActive
 {
@@ -15,13 +13,11 @@ class MarkParticipantActive
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  GroupAssignmentCreated  $event
      * @return void
      */
     public function handle(GroupAssignmentCreated $event)

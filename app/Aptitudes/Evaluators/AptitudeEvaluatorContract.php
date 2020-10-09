@@ -4,5 +4,5 @@ namespace App\Aptitudes\Evaluators;
 
 interface AptitudeEvaluatorContract
 {
-    public function meetsCriteria():bool;
+    public function meetsCriteria(): bool;
 }

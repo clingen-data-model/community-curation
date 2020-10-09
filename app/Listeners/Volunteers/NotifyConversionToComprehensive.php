@@ -2,10 +2,8 @@
 
 namespace App\Listeners\Volunteers;
 
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Events\VolunteersConvertedToComprehensive;
 use App\Events\Volunteers\ConvertedToComprehensive;
+use App\Events\VolunteersConvertedToComprehensive;
 use App\Notifications\ConversionToComprehensive;
 
 class NotifyConversionToComprehensive
@@ -17,13 +15,13 @@ class NotifyConversionToComprehensive
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  VolunteersConvertedToComprehensive  $event
+     * @param VolunteersConvertedToComprehensive $event
+     *
      * @return void
      */
     public function handle(ConvertedToComprehensive $event)

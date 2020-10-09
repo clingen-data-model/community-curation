@@ -2,26 +2,26 @@
 
 namespace App\Services\Search;
 
-use Illuminate\Support\Collection;
 use App\Contracts\ModelSearchService;
 use App\CurationGroup;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class CurationGroupSearchService implements ModelSearchService
 {
     protected $validFilters = [
         'curation_activity_id',
         'working_group_id',
-        'accepting_volunteers'
+        'accepting_volunteers',
     ];
 
-    public function search($params):Collection
+    public function search($params): Collection
     {
         return $this->buildQuery($params)
             ->get();
     }
 
-    public function buildQuery($params):Builder
+    public function buildQuery($params): Builder
     {
         $query = CurationGroup::query()
                     ->select(['curation_groups.*']);
@@ -43,7 +43,7 @@ class CurationGroupSearchService implements ModelSearchService
         }
 
         $this->setOrder($params, $query);
- 
+
         return $query;
     }
 
@@ -68,12 +68,14 @@ class CurationGroupSearchService implements ModelSearchService
             $query->addSelect('curation_activities.name as curation_activities.name');
             $query->leftJoin('curation_activities', 'curation_groups.curation_activity_id', '=', 'curation_activities.id');
             $query->orderBy('curation_activities.name', $sortDir);
+
             return;
         }
         if ($sortField == 'working_group.name') {
             $query->addSelect('working_groups.name as working_groups.name');
             $query->leftJoin('working_groups', 'curation_groups.working_group_id', '=', 'working_groups.id');
             $query->orderBy('working_groups.name', $sortDir);
+
             return;
         }
         $query->orderBy($sortField, $sortDir);

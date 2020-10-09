@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CurationGroupRequest extends FormRequest
@@ -28,7 +27,7 @@ class CurationGroupRequest extends FormRequest
         return [
             'name' => 'required|min:5|max:255',
             'working_group' => 'nullable|exists:working_groups,id',
-            'url' => 'nullable|url'
+            'url' => 'nullable|url',
         ];
     }
 
@@ -40,7 +39,6 @@ class CurationGroupRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
         ];
     }
 
@@ -52,7 +50,6 @@ class CurationGroupRequest extends FormRequest
     public function messages()
     {
         return [
-            //
         ];
     }
 }

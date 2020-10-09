@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Events\AttestationSigned;
 use App\Events\AttestationCreated;
+use App\Events\AttestationSigned;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
@@ -19,18 +19,18 @@ class Attestation extends Model
         'user_id',
         'assignment_id',
         'signed_at',
-        'data'
+        'data',
     ];
     protected $dates = [
-        'signed_at'
+        'signed_at',
     ];
 
     protected $dispatchesEvents = [
-        'created' => AttestationCreated::class
+        'created' => AttestationCreated::class,
     ];
 
     protected $casts = [
-        'data' => 'array'
+        'data' => 'array',
     ];
 
     public static function boot()
@@ -48,12 +48,12 @@ class Attestation extends Model
     {
         return $this->belongsTo(Aptitude::class);
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function assignment()
     {
         return $this->belongsTo(Assignment::class);
@@ -66,14 +66,14 @@ class Attestation extends Model
 
     public function scopeSigned($query)
     {
-        return $query->whereNotNull("signed_at");
+        return $query->whereNotNull('signed_at');
     }
 
     public function scopeUnsigned($query)
     {
-        return $query->whereNull("signed_at");
+        return $query->whereNull('signed_at');
     }
-    
+
     public function isSigned()
     {
         return !is_null($this->signed_at);

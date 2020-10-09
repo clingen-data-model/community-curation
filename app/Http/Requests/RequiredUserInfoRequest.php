@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Surveys\SurveyOptions;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RequiredUserInfoRequest extends FormRequest
 {
@@ -30,8 +30,8 @@ class RequiredUserInfoRequest extends FormRequest
             'country_id' => 'required|exists:countries,id',
             'timezone' => [
                 'required',
-                Rule::in(collect((new SurveyOptions())->timezones())->pluck('id'))
-            ]
+                Rule::in(collect((new SurveyOptions())->timezones())->pluck('id')),
+            ],
         ];
     }
 
@@ -41,7 +41,7 @@ class RequiredUserInfoRequest extends FormRequest
             'country_id.required' => 'We need to know your country for reporting purposes.',
             'country_id.exists' => 'Invalid country given.',
             'timezone.required' => 'We need to know the city nearest you to determine your timezone',
-            'timezone.in' => 'The timezone you supplied is not valid.'
+            'timezone.in' => 'The timezone you supplied is not valid.',
         ];
     }
 }

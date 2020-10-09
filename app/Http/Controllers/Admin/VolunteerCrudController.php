@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Country;
-use App\VolunteerType;
-use App\VolunteerStatus;
-use Backpack\CRUD\CrudPanel;
-use App\Surveys\SurveyOptions;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\VolunteerAdminRequest as StoreRequest;
 use App\Http\Requests\VolunteerAdminRequest as UpdateRequest;
+use App\Surveys\SurveyOptions;
+use App\User;
+use App\VolunteerStatus;
+use App\VolunteerType;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class VolunteerCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class VolunteerCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class VolunteerCrudController extends CrudController
 {
@@ -29,7 +28,7 @@ class VolunteerCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(User::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/volunteer');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/volunteer');
         $this->crud->setEntityNameStrings('volunteer', 'volunteers');
 
         $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'show']);
@@ -39,7 +38,6 @@ class VolunteerCrudController extends CrudController
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-
 
         $this->crud->addClause('whereHas', 'roles', function ($query) {
             $query->where('name', 'volunteer');
@@ -77,7 +75,7 @@ class VolunteerCrudController extends CrudController
                 'name' => 'volunteer_type_id',
                 'entity' => 'volunteerType',
                 'model' => VolunteerType::class,
-                'attribute' => 'name'
+                'attribute' => 'name',
             ],
             [
                 'label' => 'Volunteer Status',
@@ -85,7 +83,7 @@ class VolunteerCrudController extends CrudController
                 'name' => 'volunteer_status_id',
                 'entity' => 'volunteerStatus',
                 'model' => VolunteerStatus::class,
-                'attribute' => 'name'
+                'attribute' => 'name',
             ],
         ]);
 
@@ -93,10 +91,10 @@ class VolunteerCrudController extends CrudController
             'country_id',
             [
                 'type' => 'select2',
-                'name'=>'country_id',
-                'entity'=>'country',
-                'attribute'=>'name',
-                'model' => Country::class
+                'name' => 'country_id',
+                'entity' => 'country',
+                'attribute' => 'name',
+                'model' => Country::class,
             ]
         );
 
@@ -104,14 +102,13 @@ class VolunteerCrudController extends CrudController
             'timezone',
             [
                 'type' => 'select2_from_array',
-                'name'=>'timezone',
+                'name' => 'timezone',
                 'label' => 'Timezone (Select city closest to you)',
-                'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray()
+                'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray(),
             ]
         );
 
-
-        $this->crud->removeFields(['password', 'last_logged_in_at', 'last_logged_out_at',]);
+        $this->crud->removeFields(['password', 'last_logged_in_at', 'last_logged_out_at']);
 
         $this->crud->removeColumns(['password', 'last_logged_in_at', 'last_logged_out_at', 'orcid_id', 'hypothesis_id', 'zip', 'country_id', 'timezone', 'street1', 'street2', 'city', 'state', 'zip', 'institution']);
         $this->crud->addColumns([
@@ -121,7 +118,7 @@ class VolunteerCrudController extends CrudController
                 'name' => 'volunteer_type_id',
                 'entity' => 'volunteerType',
                 'model' => VolunteerType::class,
-                'attribute' => 'name'
+                'attribute' => 'name',
             ],
             [
                 'label' => 'Status',
@@ -129,7 +126,7 @@ class VolunteerCrudController extends CrudController
                 'name' => 'volunteer_status_id',
                 'entity' => 'volunteerStatus',
                 'model' => VolunteerStatus::class,
-                'attribute' => 'name'
+                'attribute' => 'name',
             ],
         ]);
 
@@ -143,6 +140,7 @@ class VolunteerCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         $this->crud->entry->assignRole('volunteer');
+
         return $redirect_location;
     }
 

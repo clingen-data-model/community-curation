@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\CurationActivity;
-use Illuminate\Http\Request;
 
 class CurationActivityController extends Controller
 {
     public function index()
     {
         $curationActivities = CurationActivity::all();
-        
+
         return view('curation_activities.index', compact('curationActivities'));
     }
 
@@ -30,6 +29,7 @@ class CurationActivityController extends Controller
 
         $curationActivity->assignments = $curationActivity->assignments->map(function ($asn) {
             $asn->user_aptitude = $asn->userAptitudes->first();
+
             return $asn;
         });
 

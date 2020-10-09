@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 /**
- * trait for a training topic
+ * trait for a training topic.
  */
 trait TrainingTopicTrait
 {

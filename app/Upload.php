@@ -21,14 +21,14 @@ class Upload extends Model
         'file_name',
         'file_path',
         'upload_category_id',
-        'uploader_id'
+        'uploader_id',
     ];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope(new CuratorUploadScope);
+        static::addGlobalScope(new CuratorUploadScope());
 
         static::creating(function ($upload) {
             if (!$upload->uploader_id && \Auth::user()) {
@@ -46,8 +46,7 @@ class Upload extends Model
     {
         return $this->belongsTo(User::class, 'uploader_id');
     }
-    
-    
+
     public function category()
     {
         return $this->belongsTo(UploadCategory::class, 'upload_category_id');
@@ -74,7 +73,4 @@ class Upload extends Model
             return $query->where('category_id', $category->id);
         }
     }
-    
-    
-    
 }

@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 /**
- * trait for models that are used as options and have 'other' option
+ * trait for models that are used as options and have 'other' option.
  */
 trait HasOtherOption
 {

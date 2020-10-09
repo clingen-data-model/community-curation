@@ -4,7 +4,6 @@ namespace App\Import\Maps;
 
 use App\CurationGroup;
 use App\Import\Exceptions\ImportException;
-use InvalidArgumentException;
 
 class CurationGroupMap
 {
@@ -68,8 +67,6 @@ class CurationGroupMap
         // dd($this->curationGroups->keys());
     }
 
-
-
     public function map($input)
     {
         // dd($input);
@@ -89,7 +86,7 @@ class CurationGroupMap
         if (is_array($this->map[$input])) {
             throw new ImportException('EP Ambiguous: "'.$input.'" could map to '.implode(', ', $this->map[$input]), 409);
         }
-        
+
         return $this->curationGroups->get($this->map[$input]);
     }
 

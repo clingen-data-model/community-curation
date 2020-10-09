@@ -9,13 +9,14 @@ class PriorityResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['curation_activity'] =  new DefaultResource($this->whenLoaded('curationActivity'));
+        $data['curation_activity'] = new DefaultResource($this->whenLoaded('curationActivity'));
         $data['curation_group'] = new DefaultResource($this->whenLoaded('curationGroup'));
 
         $data['outside_panel'] = 'No';

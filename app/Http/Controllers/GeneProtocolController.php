@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Gene;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class GeneProtocolController extends Controller
 {
@@ -17,6 +16,7 @@ class GeneProtocolController extends Controller
 
         if (!$gene->protocol_path) {
             session()->flash('error', 'Protocol file not found for gene '.$symbol.'.');
+
             return redirect()->back();
         }
 

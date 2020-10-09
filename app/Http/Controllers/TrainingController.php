@@ -16,6 +16,7 @@ class TrainingController extends Controller
     {
         $trainingSession = TrainingSession::findOrFail($id);
         $trainingSession->load('topic');
+
         return view('training_sessions.detail', compact('trainingSession'));
     }
 }

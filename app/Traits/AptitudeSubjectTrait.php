@@ -6,11 +6,11 @@ use App\Aptitude;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Methods that fulfill AptitudeSubjectContract
+ * Methods that fulfill AptitudeSubjectContract.
  */
 trait AptitudeSubjectTrait
 {
-    public function aptitudes() :Relation
+    public function aptitudes(): Relation
     {
         return $this->morphMany(Aptitude::class, 'subject');
     }

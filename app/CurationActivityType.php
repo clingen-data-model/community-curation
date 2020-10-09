@@ -8,7 +8,7 @@ class CurationActivityType extends Model
 {
     public $fillable = [
         'name',
-        'description'
+        'description',
     ];
 
     public function curationActivities()

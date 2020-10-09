@@ -2,16 +2,14 @@
 
 namespace App;
 
-use App\User;
-use Backpack\CRUD\CrudTrait;
-use App\Traits\AssignableTrait;
 use App\Contracts\AssignableContract;
 use App\Contracts\IsNotable;
+use App\Traits\AssignableTrait;
 use App\Traits\IsNotable as TraitsIsNotable;
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class CurationGroup extends Model implements AssignableContract, IsNotable
 {
@@ -26,14 +24,14 @@ class CurationGroup extends Model implements AssignableContract, IsNotable
         'curation_activity_id',
         'working_group_id',
         'accepting_volunteers',
-        'url'
+        'url',
     ];
 
     public function workingGroup()
     {
         return $this->belongsTo(WorkingGroup::class);
     }
-    
+
     public function curationActivity()
     {
         return $this->belongsTo(CurationActivity::class);

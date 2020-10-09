@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -40,7 +39,6 @@ class UserRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
         ];
     }
 
@@ -52,7 +50,6 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            //
         ];
     }
 }

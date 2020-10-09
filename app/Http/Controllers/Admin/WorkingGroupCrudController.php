@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\WorkingGroupRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\WorkingGroupRequest as UpdateRequest;
-use Backpack\CRUD\CrudPanel;
 use App\WorkingGroup;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class WorkingGroupCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class WorkingGroupCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class WorkingGroupCrudController extends CrudController
 {
@@ -25,7 +24,7 @@ class WorkingGroupCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\WorkingGroup');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/working-group');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/working-group');
         $this->crud->setEntityNameStrings('working group', 'working groups');
 
         /*

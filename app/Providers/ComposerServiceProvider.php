@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -20,7 +19,7 @@ class ComposerServiceProvider extends ServiceProvider
             if (Auth::guest()) {
                 $user = [
                     'roles' => [],
-                    'permissions' => []
+                    'permissions' => [],
                 ];
                 $view->with('user', compact('user'));
 

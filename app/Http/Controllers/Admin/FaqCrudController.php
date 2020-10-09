@@ -3,26 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Faq;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\FaqRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\FaqRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 use Backpack\CRUD\CrudPanel;
 
 /**
- * Class FaqCrudControllerCrudController
- * @package App\Http\Controllers\Admin
- * @property-read CrudPanel $crud
+ * Class FaqCrudControllerCrudController.
+ *
+ * @property CrudPanel $crud
  */
 class FaqCrudController extends CrudController
 {
     // use ReorderOperation;
 
-
     /**
-     * Reorder method for backpack 4.1
+     * Reorder method for backpack 4.1.
      */
     // protected function setupReorderOperation()
     // {
@@ -38,7 +36,7 @@ class FaqCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Faq');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/faq');
+        $this->crud->setRoute(config('backpack.base.route_prefix').'/faq');
         $this->crud->setEntityNameStrings('FAQ', 'FAQs');
 
         /*
@@ -60,7 +58,7 @@ class FaqCrudController extends CrudController
             'type' => 'ckeditor',
             'options' => [
                 'removePlugins' => 'image,maximize,oembed',
-            ]
+            ],
         ]);
 
         $this->crud->removeColumn('screenshots');
@@ -73,13 +71,13 @@ class FaqCrudController extends CrudController
         $this->crud->modifyColumn('answer', [
             'visibleInTable' => false,
             'visibleInModal' => true,
-            'priority' => 1
+            'priority' => 1,
         ]);
         $this->crud->addColumn([
             'name' => 'id',
             'label' => 'ID',
             'visibleInTable' => true,
-            'priority' => 1
+            'priority' => 1,
         ])->makeFirstColumn();
 
         // add asterisk for fields that are required in FaqCrudControllerRequest
@@ -94,7 +92,6 @@ class FaqCrudController extends CrudController
     {
         return Faq::findOrFail($id)->answer;
     }
-    
 
     public function store(StoreRequest $request)
     {
