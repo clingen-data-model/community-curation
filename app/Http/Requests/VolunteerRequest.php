@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Contracts\VolunteerRequestContract;
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 
 class VolunteerRequest extends FormRequest implements VolunteerRequestContract
 {
@@ -28,10 +30,26 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
      */
     public function rules()
     {
-        return [
+        $volunteer = null;
+        if (request()->has('id')) {
+            $volunteer = User::find(request()->id);
+        }
+
+        if (request()->route()->parameter('volunteer')) {
+            $volunteer = User::find(request()->route()->parameter('volunteer'));
+        }
+
+        $rules = [
             'first_name' => 'sometimes|required|min:2|max:255',
             'last_name' => 'sometimes|required|min:2|max:255',
-            'email' => 'sometimes|required|email:rfc,dns',
+            'email' => [
+                'sometimes',
+                'required',
+                'email:rfc,dns',
+                ($volunteer)
+                    ? (new Unique('users', 'email'))->ignore($volunteer->id)
+                    : (new Unique('users', 'email')),
+            ],
             'country_id' => 'sometimes|required|exists:countries,id',
             'timezone' => [
                 'sometimes',
@@ -40,6 +58,8 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
                 'not_in:UTC',
             ],
         ];
+
+        return $rules;
     }
 
     /**
