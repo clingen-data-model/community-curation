@@ -106,6 +106,11 @@ class User extends Authenticatable implements IsNotable
             if ($model->password == null) {
                 $model->password = uniqid();
             }
+
+            // if creating volunteer and no status set assign status applied
+            if (!is_null($model->volunteer_type_id) && is_null($model->volunteer_status_id)) {
+                $model->volunteer_status_id = config('project.volunteer-statuses.applied');
+            }
         });
         static::saved(function ($model) {
             if ($model->isDirty('volunteer_status_id')) {
