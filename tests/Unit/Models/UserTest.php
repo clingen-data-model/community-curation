@@ -148,4 +148,20 @@ class UserTest extends TestCase
         $this->assertEquals(2, $loggedInUsers->count());
         $this->assertEquals([$volunteer->id, $programmer->id], $loggedInUsers->pluck('id')->values()->toArray());
     }
+
+    /**
+     * @test
+     */
+    public function status_set_to_applied_on_created_if_not_set_and_volunteer_type_not_null()
+    {
+        $user = factory(User::class)->states(['volunteer', 'comprehensive'])->make([
+            'volunteer_status_id' => null,
+        ]);
+
+        $this->assertEquals(null, $user->volunteer_status_id);
+
+        $user->save();
+
+        $this->assertEquals(config('project.volunteer-statuses.applied'), $user->volunteer_status_id);
+    }
 }
