@@ -24,6 +24,14 @@ return [
         CurationGroup::class,
         Gene::class,
     ],
+    'volunteer-statuses' => [
+        'applied' => 1,
+        'trained' => 2,
+        'active' => 3,
+        'unresponsive' => 4,
+        'declined' => 5,
+        'retired' => 6,
+    ],
     'assignment-statuses' => [
         'assigned' => 1,
         'trained' => 2,
