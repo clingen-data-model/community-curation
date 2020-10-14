@@ -29,10 +29,11 @@
             </transition>
             <transition name="slide-fade">
                 <div v-show="!showEmailForm">
-                    <div v-if="hasAttendees">
+                    <div v-if="hasAttendees" style="overflow-y: scroll; border-bottom: 1px solid #eee">
                         <b-table :fields="attendeeFields" :items="attendees" 
                             small 
                             sticky-header="305px"
+                            no-border-collapse
                             class="border-bottom"
                         >
                             <template v-slot:cell(first_name)="{item}">
@@ -82,7 +83,7 @@
                 sort-by="assignments[0].date_assigned" 
                 small
                 no-border-collapse
-                class="border-bottom overflow-auto"
+                class="border-bottom"
                 @row-clicked="handleInviteRowClick"
             >
                 <template v-slot:cell(first_name)="{item}">
