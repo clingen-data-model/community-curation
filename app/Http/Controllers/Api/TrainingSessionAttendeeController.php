@@ -32,7 +32,7 @@ class TrainingSessionAttendeeController extends Controller
             },
             'assignments.userAptitudes',
         ])
-        ->select('first_name', 'last_name', 'users.id')
+        ->select('first_name', 'last_name', 'users.id', 'email')
         ->get();
 
         return TrainingSessionAttendeeResource::collection($attendees);
@@ -58,7 +58,7 @@ class TrainingSessionAttendeeController extends Controller
             },
             'assignments.userAptitudes',
          ])
-         ->select('first_name', 'last_name', 'users.id')
+         ->select('first_name', 'last_name', 'users.id', 'email')
          ->get();
 
         return TrainingSessionAttendeeResource::collection($attendees);

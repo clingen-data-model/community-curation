@@ -48,11 +48,9 @@ export default {
     },
     computed: {
         topic() {
-            console.info('this.trainingSession.topic', this.trainingSession.topic);
             if (!this.trainingSession.topic || !this.trainingSession.topic.name) {
                 return {'name': '[TOPIC NAME]'};
             }
-            console.info('fuckme in the ass', this.trainingSession.topic.name)
             return this.trainingSession.topic
         },
         startsAt() {
