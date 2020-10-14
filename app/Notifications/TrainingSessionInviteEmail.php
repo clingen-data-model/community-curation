@@ -7,6 +7,7 @@ use Carbon\CarbonTimeZone;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 /**
  * @group training-sessions
@@ -51,7 +52,7 @@ class TrainingSessionInviteEmail extends Notification
         return (new MailMessage())
             ->subject($this->trainingSession->title)
             ->attach($this->trainingSession->getIcsFilePath(), [
-                'as' => snake_case($this->trainingSession->title).'.ics',
+                'as' => Str::snake($this->trainingSession->title).'.ics',
                 'mime' => 'text/calendar',
             ])
             ->view('email.training_session_invite', [

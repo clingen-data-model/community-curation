@@ -92,7 +92,7 @@ class TrainingSessionAttendeeController extends Controller
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $volunteerQuery = User::isVolunteer()
-                        ->select('first_name', 'last_name', 'id', 'volunteer_status_id')
+                        ->select('first_name', 'last_name', 'id', 'volunteer_status_id', 'email')
                         ->whereNotIn('id', $trainingSession->attendees->pluck('id'))
                         ->whereHas('userAptitudes', function ($q) use ($trainingSession) {
                             $q->needsTraining()
