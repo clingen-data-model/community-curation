@@ -4,7 +4,7 @@
         <div class="form-group row">
             <label for="topic" class="col-sm-3">Topic *</label>
             <div class="col-sm-9">
-                <select v-model="newSessionData.topic_id" id="topic" class="form-control">
+                <select v-model="newSessionData.topic_id" id="topic" class="form-control" @change="updateTopic">
                     <option value="">Select&hellip;</option>
                     <option :value="topic.id" v-for="topic in topics" :key="topic.id">{{topic.name}}</option>
                 </select>
@@ -36,7 +36,10 @@
             </div>
         </div>
         <div class="form-group row align-items-start">
-            <label class="col-sm-3" for="invie-message-field">Inivite Message</label>
+            <div class="col-sm-3">
+                <label for="invie-message-field">Invite Message</label>
+                <invite-email-preview :training-session="newSessionData"></invite-email-preview>
+            </div>
             <div class="col-sm-9">
                 <rich-text v-model="newSessionData.invite_message" id="message-body"></rich-text>
                 <validation-error :errors="errors.invite_message"></validation-error>
@@ -69,10 +72,12 @@ import TrainingSession from '../../entities/training_session'
 import DateTime from '../DateTime'
 import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities'
 import getBaselineActivities from '../../resources/curation_activities/getBaselineActivities'
+import InviteEmailPreview from './InviteEmailPreview'
 
 export default {
     components: {
-        DateTime
+        DateTime,
+        InviteEmailPreview
     },
     props: {
         trainingSession: {
@@ -102,6 +107,11 @@ export default {
         }
     },
     methods: {
+        updateTopic() {
+            if (this.newSessionData.topic_id) {
+                this.$set(this.newSessionData, 'topic', this.topics.find(topic => topic.id == this.newSessionData.topic_id))
+            }
+        },
         updateEndsAt() {
             if (this.newSessionData.starts_at && this.duration) {
                 this.newSessionData.ends_at = this.newSessionData.starts_at.clone().add(this.duration, 'minutes');
