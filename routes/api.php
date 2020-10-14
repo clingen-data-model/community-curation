@@ -36,6 +36,7 @@ Route::group([
                 Route::get('training-sessions/{id}/trainable-volunteers', 'TrainingSessionAttendeeController@trainableVolunteers');
                 Route::post('training-sessions/{id}/attendees/email', 'TrainingSessionAttendeeController@emailAttendees');
                 Route::get('training-sessions/{id}/invite-preview', 'TrainingSessionController@inviteEmailPreview');
+                Route::get('training-sessions/invite-preview', 'TrainingSessionController@inviteEmailPreview');
             });
 
             Route::get('volunteers/metrics', 'VolunteerMetricsController@index');

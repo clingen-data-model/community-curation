@@ -33,6 +33,14 @@
             "App\\CurationGroup",
             "App\\Gene"
         ],
+        "volunteerStatuses": {
+            "applied": 1,
+            "trained": 2,
+            "active": 3,
+            "unresponsive": 4,
+            "declined": 5,
+            "retired": 6
+        },
         "assignmentStatuses": {
             "assigned": 1,
             "trained": 2,

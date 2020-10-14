@@ -7,8 +7,6 @@
  
 <p>Attendance for this live training session is required for volunteer training completion and curation assignment.</p>
  
-<p>Please see any optional notes for the session below.</p>
-
 <blockquote>
     {!! $trainingSession->invite_message !!}
 </blockquote>

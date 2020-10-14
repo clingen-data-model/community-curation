@@ -166,4 +166,24 @@ class TrainingSession extends Model
     {
         return md5($this->starts_at->format("Y-m-d\TH:i:sP").$this->ends_at->format("Y-m-d\TH:i:sP").$this->title.$this->url);
     }
+
+    public static function createDummy($data = null)
+    {
+        if (!$data) {
+            $data = [
+                'starts_at' => Carbon::now(),
+                'ends_at' => Carbon::now(),
+                'invite_message' => '[YOUR INVITE MESSAGE]',
+                'url' => 'https://example.com',
+                'notes' => null,
+            ];
+        }
+
+        $trainingSession = new static($data);
+        $trainingSession->topic = new CurationActivity(['name' => '[TOPIC NAME]']);
+        $trainingSession->created_at = Carbon::create();
+        $trainingSession->updated_at = Carbon::create();
+
+        return $trainingSession;
+    }
 }
