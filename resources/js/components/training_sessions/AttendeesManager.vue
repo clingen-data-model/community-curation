@@ -62,6 +62,7 @@
         </section>
         <section class="mt-5">
             <header class="clearfix">
+                <button class="btn btn-sm btn-light border float-right ml-2" @click="getSelectedEmails" :disabled="!canInvite">Copy emails</button>
                 <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
                 <div class="float-right mr-2 mb-2 pr-2 border-right">
                     <b-form-input type="text" v-model="trainableFilter" class="form-control form-control-sm mr-1" placeholder="search first or last" debounce="250"></b-form-input>
@@ -125,6 +126,7 @@
                 <span v-else>There are no more volunteers who need this training at this time.</span>
             </div>
             <footer class="mt-1">
+                <button class="btn btn-sm btn-light border float-right ml-2" @click="getSelectedEmails" :disabled="!canInvite">Copy emails</button>
                 <button class="btn btn-sm btn-primary float-right" @click="inviteSelected" :disabled="!canInvite">{{inviteButtonText}}</button>
             </footer>
         </section>
@@ -162,6 +164,7 @@ import AttendeeEmailForm from './AttendeeEmailForm'
 import {mapMutations} from 'vuex'
 import updateVolunteer from '../../resources/volunteers/update_volunteer'
 import StatusBadge from '../assignments/StatusBadge'
+import copyToClipboard from '../../browser/copyToClipboard'
 
 export default {
     components: {
@@ -191,6 +194,11 @@ export default {
                     key: 'last_name',
                     label: 'Last Name',
                     sortable: true,
+                },
+                {
+                    key: 'email',
+                    label: 'Email',
+                    sortable: true
                 },
                 {
                     key: 'assignments[0].date_assigned',
@@ -311,6 +319,13 @@ export default {
                     this.selectAll = false;
                 })
                 .then(() => this.inviting = false);
+        },
+        getSelectedEmails() {
+            const emailString = this.selectedVolunteers.map(i => i.email).join(',');
+            copyToClipboard(emailString)
+                .then(() => {
+                    this.addInfo('Email addresses for '+ this.selectedVolunteers.length + ' volunteers copied to your clipboard');
+                })
         },
         async getAttendees() {
             this.loadingAttendees = true;
