@@ -95,8 +95,6 @@ class TrainingSessionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\TrainingSession $trainingSession
-     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -106,7 +104,11 @@ class TrainingSessionController extends Controller
 
     public function inviteEmailPreview($id)
     {
-        $trainingSession = TrainingSession::findOrFail($id);
+        if ($id == 'null') {
+            $trainingSession = TrainingSession::createDummy();
+        } else {
+            $trainingSession = TrainingSession::findOrFail($id);
+        }
 
         return (new TrainingSessionInviteEmail($trainingSession))
                     ->toMail(Auth::user());
