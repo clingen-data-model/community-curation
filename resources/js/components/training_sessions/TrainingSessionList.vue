@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div class="d-flex justify-content-between alert alert-info">
+            We've added a video showing you how to use this page: 
+            <screen-info
+                video-url="https://www.youtube.com/embed/WFFd6f-KaJA" 
+                title="Learn about Training Sessions"
+            ></screen-info>            
+        </div>
         <div class="card">
             <div class="card-header">
                 <button class="float-right btn btn-sm btn-primary" @click="showCreate = true">Add new</button>
