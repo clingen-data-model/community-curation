@@ -62,6 +62,23 @@
             <question-block v-if="showRace">
                 <div slot="question-text">
                     <strong>What is your race/ethnicity?</strong>
+                    <small v-b-toggle.race-ethnicity-info>More info about this question</small>
+                    <b-collapse id="race-ethnicity-info">
+                        <div class="alert alert-info">
+                            <h5>Why are we asking this question?</h5>
+                            <p>
+                                ClinGen strives to be a diverse and inclusive organization. 
+                                We're asking you about your race and ethnicity so that we can evaluate our efforts to include people with various racial and ethnic identities.
+                            </p>
+
+                            <h5>About the options</h5>
+                            <p>
+                                ClinGen is a National Institutes of Health (NIH)-funded organization. The options below come from the NIH 
+                                <a target="nih" href="https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html">Racial and Ethnic Categories and Definitions for NIH Diversity Programs and for Other Reporting Purposes</a>.
+                                We understand that these options do not capture the diversity of racial and ethnic identities in the US, let alone around the world. Please choose the options that best describes you.
+                            </p>
+                    </div>
+                    </b-collapse>
                 </div>
                 <div slot="answer-block">
                     <b-form-checkbox-group stacked class="pl-2">
