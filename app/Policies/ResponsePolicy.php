@@ -19,6 +19,11 @@ class ResponsePolicy
     {
     }
 
+    public function viewAny(User $user)
+    {
+        return true;
+    }
+
     public function editFinalized(User $user, Response $response)
     {
         return config('surveys.editAfterFinalized', true);
