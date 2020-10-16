@@ -16,6 +16,11 @@ use Backpack\CRUD\CrudPanel;
  */
 class GoalCrudController extends CrudController
 {
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
     public function setup()
     {
         $this->crud->setModel(Goal::class);
@@ -31,17 +36,13 @@ class GoalCrudController extends CrudController
             ->orderBy('name');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        $redirect_location = parent::storeCrud($request);
-
-        return $redirect_location;
+        $this->crud->setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        $redirect_location = parent::updateCrud($request);
-
-        return $redirect_location;
+        $this->crud->setValidation(UpdateRequest::class);
     }
 }

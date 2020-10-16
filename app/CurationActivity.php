@@ -8,7 +8,7 @@ use App\Contracts\TrainingTopicContract;
 use App\Traits\AptitudeSubjectTrait;
 use App\Traits\AssignableTrait;
 use App\Traits\TrainingTopicTrait;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;

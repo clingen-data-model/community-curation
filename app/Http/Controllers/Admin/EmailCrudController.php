@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\CrudPanel;
 use Yugen\DbMailLog\DbMailLogProvider;
 
@@ -14,6 +15,11 @@ use Yugen\DbMailLog\DbMailLogProvider;
  */
 class EmailCrudController extends CrudController
 {
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use ShowOperation {
+        show as traitShow;
+    }
+
     public function setup()
     {
         /*
@@ -37,8 +43,8 @@ class EmailCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
-        $this->crud->removeColumns(['cc', 'bcc', 'reply_to', 'sender']);
-        $this->crud->setColumnsDetails(['from', 'to'], ['type' => 'json_email']);
+        $this->crud->removeColumns(['cc', 'bcc', 'reply_to', 'sender', 'from']);
+        $this->crud->setColumnsDetails(['to'], ['type' => 'json_email']);
         $this->crud->addColumn(['type' => 'datetime', 'name' => 'created_at', 'label' => 'Sent'])->makeFirstColumn();
 
         $this->crud->orderBy('created_at', 'DESC');
@@ -46,7 +52,7 @@ class EmailCrudController extends CrudController
 
     public function show($id)
     {
-        $content = parent::show($id);
+        $content = $this->traitShow($id);
         foreach ($content->entry->getAttributes() as $key => $value) {
             if (is_null($content->entry->{$key})) {
                 $this->crud->removeColumn($key);

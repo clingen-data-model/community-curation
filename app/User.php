@@ -9,7 +9,7 @@ use App\Events\Volunteers\MarkedDeclined;
 use App\Events\Volunteers\MarkedUnresponsive;
 use App\Events\Volunteers\Retired;
 use App\Traits\IsNotable as TraitsIsNotable;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;

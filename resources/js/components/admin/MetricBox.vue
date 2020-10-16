@@ -1,7 +1,9 @@
 <template>
-    <div class="metric-box">
-        <h3 scope="heading">{{title}}</h3>
-        <div class="metric">{{value}}</div>
+    <div class="metric-box mx-3">
+        <h5 scope="heading">{{title}}</h5>
+        <div class="metric text-center lead">
+            {{value}}
+        </div>
     </div>
 </template>
 <script>
