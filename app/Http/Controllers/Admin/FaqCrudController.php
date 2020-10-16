@@ -17,6 +17,12 @@ use Backpack\CRUD\CrudPanel;
  */
 class FaqCrudController extends CrudController
 {
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+
     // use ReorderOperation;
 
     /**
@@ -46,8 +52,9 @@ class FaqCrudController extends CrudController
         */
 
         $this->crud->setFromDb();
-        $this->crud->allowAccess('reorder');
-        $this->crud->enableReorder('question', 1);
+
+        $this->crud->set('reorder.label', 'question'); // the attribute on the Model which will be shown on draggable elements
+        $this->crud->set('reorder.max_level', 1);
 
         $this->crud->modifyField('screenshots', [
             'type' => 'upload_multiple',
@@ -93,21 +100,13 @@ class FaqCrudController extends CrudController
         return Faq::findOrFail($id)->answer;
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        $this->crud->setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        $this->crud->setValidation(UpdateRequest::class);
     }
 }

@@ -9,8 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "backpack/base": "^1.1",
-        "backpack/crud": "^3.6",
+        "backpack/crud": "^4.0.0",
         "barryvdh/laravel-elfinder": "^0.4.2",
         "box/spout": "^3.1",
         "erusev/parsedown": "^1.7",
@@ -32,7 +31,7 @@
         "yugen/laravel-db-mail-log": "dev-master"
     },
     "require-dev": {
-        "backpack/generators": "^1.2",
+        "backpack/generators": "^2.0",
         "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
         "deployer/dist": "^6.4",

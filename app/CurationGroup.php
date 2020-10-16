@@ -6,7 +6,7 @@ use App\Contracts\AssignableContract;
 use App\Contracts\IsNotable;
 use App\Traits\AssignableTrait;
 use App\Traits\IsNotable as TraitsIsNotable;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;

@@ -16,6 +16,11 @@ use Backpack\CRUD\CrudPanel;
  */
 class GeneCrudController extends CrudController
 {
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
     public function setup()
     {
         /*
@@ -73,5 +78,15 @@ class GeneCrudController extends CrudController
         // add asterisk for fields that are required in GeneRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+    }
+
+    protected function setupCreateOperation()
+    {
+        $this->crud->setValidation(StoreRequest::class);
+    }
+
+    protected function setupUpdateOperation()
+    {
+        $this->crud->setValidation(UpdateRequest::class);
     }
 }
