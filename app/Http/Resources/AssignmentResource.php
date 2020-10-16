@@ -18,6 +18,7 @@ class AssignmentResource extends JsonResource
         return [
             'id' => $this->id,
             'assignable_type' => $this->assignable_type,
+            'assignment_status_id' => $this->assignment_status_id,
             'assignable' => new AssignableResource($this->whenLoaded('assignable')),
             'status' => new DefaultResource($this->whenLoaded('status')),
             'parent' => new AssignmentResource($this->whenLoaded('parent')),

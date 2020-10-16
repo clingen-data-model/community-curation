@@ -1,18 +1,19 @@
 <template>
-    <select 
-        v-model="newAssignmentStatusId"
-        class="form-control form-control-sm"
-        @change="$emit('assignmentstatuschange', newAssignmentStatusId)"
-    >
-        <option :value="null">Select</option>
-        <option 
-            v-for="assignmentStatus in assignmentStatuses"
-            :key="assignmentStatus.id"
-            :value="assignmentStatus.id"
+    <span>
+        <select 
+            v-model="newAssignmentStatusId"
+            class="form-control form-control-sm"
         >
-            {{assignmentStatus.name}}
-        </option>
-    </select>
+            <option :value="null">Select</option>
+            <option 
+                v-for="assignmentStatus in assignmentStatuses"
+                :key="assignmentStatus.id"
+                :value="assignmentStatus.id"
+            >
+                {{assignmentStatus.name}}
+            </option>
+        </select>
+    </span>
 </template>
 
 <script>
@@ -28,13 +29,18 @@
         },
         data() {
             return {
-                newAssignmentStatusId: null,
+                // newAssignmentStatusId: this.assignment.status.id,
                 assignmentStatuses: []
             }
         },
-        watch: {
-            assignment: function (to, from) {
-                this.newAssignmentStatusId = this.assignment.assignment_status_id
+        computed: {
+            newAssignmentStatusId: {
+                get() {
+                    return this.assignment.status.id
+                },
+                set(value) {
+                    this.$emit('assignmentstatuschange', value);
+                }
             }
         },
         methods: {
@@ -43,7 +49,6 @@
             },
         },
         mounted() {
-            this.newAssignmentStatusId = this.assignment.assignment_status_id
             this.fetchAssignmentStatuses();
         }
     
