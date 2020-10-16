@@ -24,7 +24,7 @@ class VolunteerAdminTest extends TestCase
         $data = [
             'first_name' => 'Test',
             'last_name' => 'Tester',
-            'email' => uniqid().'-email@example.com',
+            'email' => uniqid().'-email@beans.com',
         ];
         $this->withoutExceptionHandling();
         $this->actingAs($this->user)
