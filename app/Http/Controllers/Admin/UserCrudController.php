@@ -85,7 +85,17 @@ class UserCrudController extends CrudController
                 'pivot' => true,
             ],
         ], 'both');
-        $this->crud->modifyField('country_id', ['type' => 'select2', 'name' => 'country_id', 'entity' => 'country', 'attribute' => 'name', 'model' => Country::class]);
+
+        $this->crud->modifyField(
+            'country_id',
+            [
+                'type' => 'select2',
+                'name' => 'country_id',
+                'entity' => 'country',
+                'attribute' => 'name',
+                'model' => Country::class,
+            ]
+        );
 
         $this->crud->modifyField(
             'timezone',
