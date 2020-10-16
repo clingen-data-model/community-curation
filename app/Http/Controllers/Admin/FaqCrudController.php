@@ -72,7 +72,7 @@ class FaqCrudController extends CrudController
 
         $this->crud->modifyColumn('question', [
             'type' => 'text',
-            'limit' => 160,
+            'limit' => 100,
         ]);
 
         $this->crud->modifyColumn('answer', [
