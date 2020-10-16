@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Country;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\VolunteerAdminRequest as StoreRequest;
 use App\Http\Requests\VolunteerAdminRequest as UpdateRequest;
 use App\Surveys\SurveyOptions;
