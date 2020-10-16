@@ -4,7 +4,7 @@ namespace App;
 
 use App\Contracts\AssignableContract;
 use App\Traits\AssignableTrait;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Gene extends Model implements AssignableContract

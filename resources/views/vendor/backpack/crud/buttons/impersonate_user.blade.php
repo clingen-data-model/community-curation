@@ -1,6 +1,6 @@
 @canImpersonate
     @canBeImpersonated($entry)
-        <a href="{{ route('impersonate', $entry->id) }}" class="bp-crud btn btn-xs btn-default">
+    <a href="{{ route('impersonate', $entry->id) }}" class="btn btn-sm btn-link">
             <span class="fa fa-user-secret"></span>
             Impersonate
         </a>
