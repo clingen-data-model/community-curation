@@ -28,11 +28,11 @@ class TrainingSessionListTest extends TrainingSessionTestCase
     {
         $this->actingAs($this->createAdmin())
             ->call('GET', '/volunteers')
-            ->assertSee('<a href="/trainings" class="nav-link">Trainings</a>');
+            ->assertSee('<a href="/trainings" class="nav-link">Trainings</a>', false);
 
         $this->actingAs($this->createProgrammer())
             ->call('GET', '/volunteers')
-            ->assertSee('<a href="/trainings" class="nav-link">Trainings</a>');
+            ->assertSee('<a href="/trainings" class="nav-link">Trainings</a>', false);
     }
 
     /**
