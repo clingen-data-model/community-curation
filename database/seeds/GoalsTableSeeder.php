@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\Goal;
+use Illuminate\Database\Seeder;
 
 class GoalsTableSeeder extends Seeder
 {

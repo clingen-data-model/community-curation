@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\Campaign;
+use Illuminate\Database\Seeder;
 
 class CampaignsTableSeeder extends Seeder
 {
@@ -37,7 +39,7 @@ class CampaignsTableSeeder extends Seeder
         Campaign::unguard();
         foreach ($campaigns as $id => $name) {
             Campaign::updateOrCreate(['id' => $id], [
-                'name' => $name
+                'name' => $name,
             ]);
         }
         Campaign::reguard();
