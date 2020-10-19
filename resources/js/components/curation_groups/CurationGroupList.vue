@@ -96,7 +96,7 @@ export default {
     },
     methods: {
         handleSortChanged() {
-            resetCurrentPage();
+            this.resetCurrentPage();
         },
         handleFiltered() {
             this.resetCurrentPage();
