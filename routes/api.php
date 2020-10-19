@@ -35,27 +35,39 @@ Route::group([
             Route::resource('training-sessions', 'TrainingSessionController');
             Route::group(['middleware' => ['role:admin|programmer|super-admin']], function () {
                 Route::resource('training-sessions/{id}/attendees', 'TrainingSessionAttendeeController')->only(['index', 'store', 'destroy']);
-                Route::get('training-sessions/{id}/trainable-volunteers', 'TrainingSessionAttendeeController@trainableVolunteers');
-                Route::post('training-sessions/{id}/attendees/email', 'TrainingSessionAttendeeController@emailAttendees');
-                Route::get('training-sessions/{id}/invite-preview', 'TrainingSessionController@inviteEmailPreview');
-                Route::get('training-sessions/invite-preview', 'TrainingSessionController@inviteEmailPreview');
+                Route::get('training-sessions/{id}/trainable-volunteers', 'TrainingSessionAttendeeController@trainableVolunteers')
+                    ->name('training-sessions.trainable-volunteers');
+                Route::post('training-sessions/{id}/attendees/email', 'TrainingSessionAttendeeController@emailAttendees')
+                    ->name('training-sessions.email-attendees');
+                Route::get('training-sessions/{id}/invite-preview', 'TrainingSessionController@inviteEmailPreview')
+                    ->name('training-sessions.show.invite-preview');
+                Route::get('training-sessions/invite-preview', 'TrainingSessionController@inviteEmailPreview')
+                    ->name('training-sessions.invite-preview');
             });
 
-            Route::get('volunteers/metrics', 'VolunteerMetricsController@index');
-            Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer');
-            Route::put('volunteers/{id}/demographics', 'DemographicsController@update');
+            Route::get('volunteers/metrics', 'VolunteerMetricsController@index')
+                ->name('volunteers.metrics');
+            Route::get('volunteers/{id}/assignments', 'AssignmentController@volunteer')
+                ->name('volunteers.show.assignments');
+            Route::put('volunteers/{id}/demographics', 'DemographicsController@update')
+                ->name('volunteers.show.demographics');
             Route::resource('volunteers', 'VolunteerController');
 
-            Route::get('users/current', 'UserController@currentUser')->name('current-user');
-            Route::put('users/{id}/preferences/{preference_name}', 'UserPreferenceController@update')->name('set-user-preference');
+            Route::get('users/current', 'UserController@currentUser')->name('current-user')
+                ->name('users.current');
+            Route::put('users/{id}/preferences/{preference_name}', 'UserPreferenceController@update')
+                ->name('set-user-preference');
             Route::resource('users', 'UserController');
 
-            Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')->name('curator-upload-file');
+            Route::get('curator-uploads/{id}/file', 'CuratorUploadController@getFile')
+                ->name('curator-upload-file');
             Route::resource('curator-uploads', 'CuratorUploadController')->only(['index', 'show', 'store', 'update', 'destroy']);
 
-            Route::get('impersonatable-users', 'UserController@impersonatableUsers');
+            Route::get('impersonatable-users', 'UserController@impersonatableUsers')
+                ->name('impersonatable-users');
 
-            Route::get('timezones', 'TimezoneController@index');
+            Route::get('timezones', 'TimezoneController@index')
+                ->name('timezones');
 
             Route::resource('notes', 'NotesController')->except(['create', 'edit']);
 
@@ -64,9 +76,11 @@ Route::group([
              **/
 
             // index
-            Route::get('{model}', 'ApiController@index');
+            Route::get('{model}', 'ApiController@index')
+                ->name('catchall.index');
 
             // show
-            Route::get('{model}/{id}', 'ApiController@show');
+            Route::get('{model}/{id}', 'ApiController@show')
+                ->name('catchall.show');
         });
     });
