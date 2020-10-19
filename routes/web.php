@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,9 +40,11 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
     Route::resource('attestations', 'AttestationController')
         ->only('show', 'edit', 'update');
 
-    Route::get('reports', 'ReportController@index')->name('report-index');
-    Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
-    Route::get('applications-report', 'ApplicationReportController@index')->name('appication-report');
+    Route::group(['middleware' => ['can:run reports']], function () {
+        Route::get('reports', 'ReportController@index')->name('report-index');
+        Route::get('assignments-report', 'AssignmentReportController@index')->name('assignment-report');
+        Route::get('applications-report', 'ApplicationReportController@index')->name('appication-report');
+    });
 
     Route::get('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@show')->name('volunteer-followup.show');
     Route::post('volunteer-followup/{survey}/{responseId?}', 'VolunteerFollowupController@store')->name('volunteer-followup.store');
@@ -53,10 +54,13 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
 
     Route::get('genes/{symbol}/protocol', 'GeneProtocolController@show')->name('gene.download-protocol');
 
-    Route::group(['middleware' => ['role:programmer|admin']], function () {
-        Route::resource('curation-activities', 'CurationActivityController')->only(['index', 'show']);
-        Route::resource('curation-groups', 'CurationGroupController')->only(['index', 'show']);
-    });
+    Route::resource('curation-groups', 'CurationGroupController')
+        ->only(['index', 'show'])
+        ->middleware('can:list curation-groups');
+
+    Route::resource('curation-activities', 'CurationActivityController')
+        ->only(['index', 'show'])
+        ->middleware('can:list curation-activities');
 });
 
 Route::get('faq', 'FaqController@index')->name('faq');
