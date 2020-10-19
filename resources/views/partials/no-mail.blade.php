@@ -1,4 +1,4 @@
-@if (config('mail.driver') == 'log')
+@if (config('mail.default') == 'log')
 <div class="bg-warning py-2">
     <div class="container">
         <strong>Email is currently turned off for this system. <button v-b-toggle.no-mail-collapse class="btn btn-light btn-xs">More Info</button></strong>
