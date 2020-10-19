@@ -279,7 +279,7 @@ class ApplicationTest extends TestCase
         $rsp->save();
 
         $mail = new ApplicationCompletedMail($rsp);
-        $this->assertContains('Dear billy pilgrim,', $mail->render());
+        $this->assertStringContainsStringIgnoringCase('Dear billy pilgrim,', $mail->render());
 
         Mail::fake();
         $rsp->finalize();

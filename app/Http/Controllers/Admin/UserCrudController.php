@@ -9,6 +9,7 @@ use App\Http\Requests\UserRequest as UpdateRequest;
 use App\Surveys\SurveyOptions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -19,6 +20,11 @@ use Spatie\Permission\Models\Role;
  */
 class UserCrudController extends CrudController
 {
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
     public function setup()
     {
         /*
@@ -79,7 +85,17 @@ class UserCrudController extends CrudController
                 'pivot' => true,
             ],
         ], 'both');
-        $this->crud->modifyField('country_id', ['type' => 'select2', 'name' => 'country_id', 'entity' => 'country', 'attribute' => 'name', 'model' => Country::class]);
+
+        $this->crud->modifyField(
+            'country_id',
+            [
+                'type' => 'select2',
+                'name' => 'country_id',
+                'entity' => 'country',
+                'attribute' => 'name',
+                'model' => Country::class,
+            ]
+        );
 
         $this->crud->modifyField(
             'timezone',
@@ -106,38 +122,30 @@ class UserCrudController extends CrudController
             'orcid_id',
         ]);
 
-        if (!\Auth::user()->can('create users')) {
+        if (!Auth::user()->can('create users')) {
             $this->crud->RemoveButton('create');
         }
 
-        if (!\Auth::user()->can('update users')) {
+        if (!Auth::user()->can('update users')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!\Auth::user()->can('delete users')) {
+        if (!Auth::user()->can('delete users')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
 
-        if (\Auth::user()->canImpersonate()) {
+        if (Auth::user()->canImpersonate()) {
             $this->crud->addButtonFromView('line', 'impersonate-users', 'impersonate_user', 'end'); // add a button; possible types are: view, model_functiona
         }
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        $this->crud->setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        $this->crud->setValidation(UpdateRequest::class);
     }
 }

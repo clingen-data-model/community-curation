@@ -2,11 +2,11 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,8 +33,10 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * @return void
+     *
+     * @throws \Exception
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         parent::report($exception);
     }
@@ -44,9 +46,11 @@ class Handler extends ExceptionHandler
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Exception
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if ($exception instanceof NotImplementedException) {
             return response('Not implemented', 501);

@@ -84,11 +84,11 @@ class VolunteerFollowupNotificationsTest extends TestCase
     {
         $mailable90 = (new InitialFollowupNotification(url('/volunteer-three-month')))->toMail($this->volunteer90);
         $this->assertEquals('email.volunteers.followups.initial_notification', $mailable90->view);
-        $this->assertContains(url('/volunteer-three-month'), $mailable90->render());
+        $this->assertStringContainsStringIgnoringCase(url('/volunteer-three-month'), $mailable90->render());
 
         $mailable6m = (new InitialFollowupNotification(url('/volunteer-six-month')))->toMail($this->volunteer6m);
         $this->assertEquals('email.volunteers.followups.initial_notification', $mailable6m->view);
-        $this->assertContains(url('/volunteer-six-month'), $mailable6m->render());
+        $this->assertStringContainsStringIgnoringCase(url('/volunteer-six-month'), $mailable6m->render());
     }
 
     /**
@@ -128,11 +128,11 @@ class VolunteerFollowupNotificationsTest extends TestCase
     {
         $mailable90 = (new FollowupReminder1(url('/volunteer-three-month')))->toMail($this->volunteer90);
         $this->assertEquals('email.volunteers.followups.reminder_1', $mailable90->view);
-        $this->assertContains(url('/volunteer-three-month'), $mailable90->render());
+        $this->assertStringContainsStringIgnoringCase(url('/volunteer-three-month'), $mailable90->render());
 
         $mailable6m = (new FollowupReminder1(url('/volunteer-six-month')))->toMail($this->volunteer6m);
         $this->assertEquals('email.volunteers.followups.reminder_1', $mailable6m->view);
-        $this->assertContains(url('/volunteer-six-month'), $mailable6m->render());
+        $this->assertStringContainsStringIgnoringCase(url('/volunteer-six-month'), $mailable6m->render());
     }
 
     /**
@@ -172,11 +172,11 @@ class VolunteerFollowupNotificationsTest extends TestCase
     {
         $mailable90 = (new FollowupReminder2(url('/volunteer-three-month')))->toMail($this->volunteer90);
         $this->assertEquals('email.volunteers.followups.reminder_2', $mailable90->view);
-        $this->assertContains(url('/volunteer-three-month'), $mailable90->render());
+        $this->assertStringContainsStringIgnoringCase(url('/volunteer-three-month'), $mailable90->render());
 
         $mailable6m = (new FollowupReminder2(url('/volunteer-six-month')))->toMail($this->volunteer6m);
         $this->assertEquals('email.volunteers.followups.reminder_2', $mailable6m->view);
-        $this->assertContains(url('/volunteer-six-month'), $mailable6m->render());
+        $this->assertStringContainsStringIgnoringCase(url('/volunteer-six-month'), $mailable6m->render());
     }
 
     /**

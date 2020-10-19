@@ -1,4 +1,4 @@
-<a href="/volunteers/{{$entry->getKey()}}" class="bp-crud btn btn-xs btn-default" target="user-show">
-    <i class="fa fa-eye"></i>
+<a href="/volunteers/{{$entry->getKey()}}" class="bp-crud btn btn-sm btn-link" target="user-show">
+    <i class="la la-eye"></i>
     View
 </a>

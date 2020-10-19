@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\CurationActivityType;
 use Illuminate\Database\Seeder;
 
