@@ -1,10 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Aptitude;
-use App\Training;
-use Illuminate\Database\Seeder;
-use App\Scopes\ActiveAptitudeScope;
 use App\Aptitudes\Evaluators\BasicAptitudeEvaluator;
+use App\Scopes\ActiveAptitudeScope;
+use Illuminate\Database\Seeder;
 
 class AptitudesTableSeeder extends Seeder
 {
@@ -24,7 +25,7 @@ class AptitudesTableSeeder extends Seeder
                 'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/clinical-actionability/training-materials/',
                 'volunteer_type_id' => 2,
                 'is_primary' => 1,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
                 'id' => 2,
@@ -34,7 +35,7 @@ class AptitudesTableSeeder extends Seeder
                 'training_materials_url' => 'https://clinicalgenome.org/curation-activities/dosage-sensitivity/training-materials/',
                 'volunteer_type_id' => 2,
                 'is_primary' => 1,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
                 'id' => 3,
@@ -44,7 +45,7 @@ class AptitudesTableSeeder extends Seeder
                 'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/gene-disease-validity/training-materials/',
                 'volunteer_type_id' => 2,
                 'is_primary' => 1,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
                 'id' => 4,
@@ -54,7 +55,7 @@ class AptitudesTableSeeder extends Seeder
                 'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/somatic/training-materials/',
                 'volunteer_type_id' => 2,
                 'is_primary' => 1,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
                 'id' => 5,
@@ -64,7 +65,7 @@ class AptitudesTableSeeder extends Seeder
                 'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/variant-pathogenicity/training-materials/',
                 'volunteer_type_id' => 2,
                 'is_primary' => 1,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
                 'id' => 6,
@@ -75,7 +76,7 @@ class AptitudesTableSeeder extends Seeder
                 'volunteer_type_id' => 2,
                 'is_primary' => 0,
                 'evaluator_class' => BasicAptitudeEvaluator::class,
-                'is_active' => 0
+                'is_active' => 0,
             ],
             [
                 'id' => 7,
@@ -85,7 +86,7 @@ class AptitudesTableSeeder extends Seeder
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 6,
                 'is_primary' => 1,
-                'evaluator_class' => BasicAptitudeEvaluator::class
+                'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
                 'id' => 8,
@@ -95,8 +96,8 @@ class AptitudesTableSeeder extends Seeder
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 6,
                 'is_primary' => 0,
-                'evaluator_class' => BasicAptitudeEvaluator::class
-            ]
+                'evaluator_class' => BasicAptitudeEvaluator::class,
+            ],
         ];
 
         foreach ($aptitudes as $aptitude) {

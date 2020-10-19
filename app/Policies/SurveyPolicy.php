@@ -19,6 +19,11 @@ class SurveyPolicy
     {
     }
 
+    public function viewAny(User $user, Survey $survey)
+    {
+        return true;
+    }
+
     public function view(User $user, Survey $survey)
     {
         return true;

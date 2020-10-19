@@ -1,101 +1,150 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Backpack\CRUD preferences
     |--------------------------------------------------------------------------
     */
 
-    /*
-    |------------
-    | CREATE & UPDATE
-    |------------
-    */
-    // Where do you want to redirect the user by default, after a CRUD entry is saved in the Add or Edit forms?
-    'default_save_action' => 'save_and_back', //options: save_and_back, save_and_edit, save_and_new
+    // --------------------------
+    // Default operation settings
+    // --------------------------
+    'operations' => [
+        /*
+         * List Operation
+         */
+        'list' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setListContentClass('class-string')
+            'contentClass' => 'col-md-12',
 
-    // When the user chooses "save and back" or "save and new", show a bubble
-    // for the fact that the default save action has been changed?
-    'show_save_action_change' => true, //options: true, false
+            // enable the datatables-responsive plugin, which hides columns if they don't fit?
+            // if not, a horizontal scrollbar will be shown instead
+            'responsiveTable' => true,
 
-    // When using tabbed forms (create & update), what kind of tabs would you like?
-    'tabs_type' => 'horizontal', //options: horizontal, vertical
+            // stores pagination and filters in localStorage for two hours
+            // whenever the user tries to see that page, backpack loads the previous pagination and filtration
+            'persistentTable' => false,
 
-    // How would you like the validation errors to be shown?
-    'show_grouped_errors' => true,
-    'show_inline_errors' => true,
+            // the time the table will be persisted in minutes
+            // after this the table info is cleared from localStorage.
+            // use false to never force localStorage clear. (default)
+            // keep in mind: User can clear his localStorage whenever he wants.
 
-    // Here you may override the css-classes for the content section of the create view globally
-    // To override per view use $this->crud->setCreateContentClass('class-string')
-    'create_content_class' => 'col-md-8 col-md-offset-2',
+            'persistentTableDuration' => false,
 
-    // Here you may override the css-classes for the content section of the edit view globally
-    // To override per view use $this->crud->setEditContentClass('class-string')
-    'edit_content_class'   => 'col-md-8 col-md-offset-2',
+            // How many items should be shown by default by the Datatable?
+            // This value can be overwritten on a specific CRUD by calling
+            // $this->crud->setDefaultPageLength(50);
+            'defaultPageLength' => 25,
 
-    // Here you may override the css-classes for the content section of the revisions timeline view globally
-    // To override per view use $this->crud->setRevisionsTimelineContentClass('class-string')
-    'revisions_timeline_content_class'   => 'col-md-10 col-md-offset-1',
+            // A 1D array of options which will be used for both the displayed option and the value, or
+            // A 2D array in which the first array is used to define the value options and the second array the displayed options
+            // If a 2D array is used, strings in the right hand array will be automatically run through trans()
+            'pageLengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'backpack::crud.all']],
 
-    /*
-    |------------
-    | READ
-    |------------
-    */
+            // How important is it for the action buttons to be visible?
+            // - 0 - most important
+            // - 1 - as important as bulk buttons
+            // - 2-3 - more important than the rest of the columns
+            // - 4 - less important than most columns
+            'actionsColumnPriority' => 1,
+        ],
 
-    // LIST VIEW (table view)
+        /*
+         * Create Operation
+         */
+        'create' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setCreateContentClass('class-string')
+            'contentClass' => 'col-md-8 bold-labels',
 
-    // enable the datatables-responsive plugin, which hides columns if they don't fit?
-    // if not, a horizontal scrollbar will be shown instead
-    'responsive_table' => true,
+            // When using tabbed forms (create & update), what kind of tabs would you like?
+            'tabsType' => 'horizontal', //options: horizontal, vertical
 
-    // stores pagination and filters in localStorage for two hours
-    // whenever the user tries to see that page, backpack loads the previous pagination and filtration
-    'persistent_table' => false,
+            // How would you like the validation errors to be shown?
+            'groupedErrors' => true,
+            'inlineErrors' => true,
 
-    // How many items should be shown by default by the Datatable?
-    // This value can be overwritten on a specific CRUD by calling
-    // $this->crud->setDefaultPageLength(50);
-    'default_page_length' => 25,
+            // when the page loads, put the cursor on the first input?
+            'autoFocusOnFirstField' => true,
 
-    // A 1D array of options which will be used for both the displayed option and the value, or
-    // A 2D array in which the first array is used to define the value options and the second array the displayed options
-    // If a 2D array is used, strings in the right hand array will be automatically run through trans()
-    'page_length_menu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'backpack::crud.all']],
+            // Where do you want to redirect the user by default, save?
+            // options: save_and_back, save_and_edit, save_and_new
+            'defaultSaveAction' => 'save_and_back',
 
-    // Here you may override the css-class for the content section of the list view globally
-    // To override per view use $this->crud->setListContentClass('class-string')
-    'list_content_class' => 'col-md-12',
+            // When the user chooses "save and back" or "save and new", show a bubble
+            // for the fact that the default save action has been changed?
+            'showSaveActionChange' => true, //options: true, false
 
-    // SHOW (PREVIEW)
+            // Before saving the entry, how would you like the request to be stripped?
+            // - false - ONLY save inputs that have fields (safest)
+            // - [x, y, z] - save ALL inputs, EXCEPT the ones given in this array
+            'saveAllInputsExcept' => false,
+            // 'saveAllInputsExcept' => ['_token', '_method', 'http_referrer', 'current_tab', 'save_action'],
+        ],
 
-    // Here you may override the css-classes for the content section of the show view globally
-    // To override per view use $this->crud->setShowContentClass('class-string')
-    'show_content_class'   => 'col-md-8 col-md-offset-2',
+        /*
+         * Update Operation
+         */
+        'update' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setEditContentClass('class-string')
+            'contentClass' => 'col-md-8 bold-labels',
 
-    /*
-    |------------
-    | DELETE
-    |------------
-    */
+            // When using tabbed forms (create & update), what kind of tabs would you like?
+            'tabsType' => 'horizontal', //options: horizontal, vertical
 
-    /*
-    |------------
-    | REORDER
-    |------------
-    */
+            // How would you like the validation errors to be shown?
+            'groupedErrors' => true,
+            'inlineErrors' => true,
 
-    // Here you may override the css-classes for the content section of the reorder view globally
-    // To override per view use $this->crud->setReorderContentClass('class-string')
-    'reorder_content_class'   => 'col-md-8 col-md-offset-2',
+            // when the page loads, put the cursor on the first input?
+            'autoFocusOnFirstField' => true,
 
-    /*
-    |------------
-    | DETAILS ROW
-    |------------
-    */
+            // Where do you want to redirect the user by default, save?
+            // options: save_and_back, save_and_edit, save_and_new
+            'defaultSaveAction' => 'save_and_back',
+
+            // When the user chooses "save and back" or "save and new", show a bubble
+            // for the fact that the default save action has been changed?
+            'showSaveActionChange' => true, //options: true, false
+
+            // Before saving the entry, how would you like the request to be stripped?
+            // - false - Save ONLY inputs that have a field (safest, default);
+            // - [x, y, z] - Save ALL inputs, EXCEPT the ones given in this array;
+            'saveAllInputsExcept' => false,
+            // 'saveAllInputsExcept' => ['_token', '_method', 'http_referrer', 'current_tab', 'save_action'],
+        ],
+
+        /*
+         * Show Operation
+         */
+        'show' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per Controller use $this->crud->setShowContentClass('class-string')
+            'contentClass' => 'col-md-8',
+        ],
+
+        /*
+         * Reorder Operation
+         */
+        'reorder' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per Controller use $this->crud->setReorderContentClass('class-string')
+            'contentClass' => 'col-md-8 col-md-offset-2',
+        ],
+
+        /*
+         * Revisions Operation
+         */
+        'revisions' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setRevisionsTimelineContentClass('class-string')
+            'timelineContentClass' => 'col-md-12',
+        ],
+    ],
 
     /*
     |-------------------
@@ -542,5 +591,4 @@ return [
         // "zu_ZA" => "Zulu (South Africa)",
         // "zu" => "Zulu"
     ],
-
 ];

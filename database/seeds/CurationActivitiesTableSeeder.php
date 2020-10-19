@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\CurationActivity;
-use App\CurationActivityType;
+use Illuminate\Database\Seeder;
 
 class CurationActivitiesTableSeeder extends Seeder
 {
@@ -17,27 +18,27 @@ class CurationActivitiesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'Actionability',
-                'legacy_name' => 'Actionability'
+                'legacy_name' => 'Actionability',
             ],
             [
                 'id' => 2,
                 'name' => 'Dosage',
-                'legacy_name' => 'Dosage Sensitivity'
+                'legacy_name' => 'Dosage Sensitivity',
             ],
             [
                 'id' => 3,
                 'name' => 'Gene',
-                'legacy_name' => 'Gene Disease Validity'
+                'legacy_name' => 'Gene Disease Validity',
             ],
             [
                 'id' => 4,
                 'name' => 'Somatic Variant',
-                'legacy_name' => 'Somatic Cancer'
+                'legacy_name' => 'Somatic Cancer',
             ],
             [
                 'id' => 5,
                 'name' => 'Variant',
-                'legacy_name' => 'Variant Pathogenicity'
+                'legacy_name' => 'Variant Pathogenicity',
             ],
         ];
 
@@ -50,7 +51,7 @@ class CurationActivitiesTableSeeder extends Seeder
         CurationActivity::updateOrCreate(['id' => 6], [
             'name' => 'Baseline',
             'curation_activity_type_id' => 2,
-            'legacy_name' => 'Baseline'
+            'legacy_name' => 'Baseline',
         ]);
 
         CurationActivity::reguard();

@@ -7,6 +7,7 @@ use App\Http\Requests\Contracts\VolunteerRequestContract;
 use App\Http\Requests\VolunteerAdminRequest;
 use App\Http\Requests\VolunteerRequest;
 use App\Services\AttestationFormResolver;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::withoutComponentTags();
+
         if ($this->app->environment('production')) {
             config(['backpack.base.skin' => 'skin-blue']);
         }
