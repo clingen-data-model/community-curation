@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\Motivation;
+use Illuminate\Database\Seeder;
 
 class MotivationsTableSeeder extends Seeder
 {
@@ -29,7 +31,7 @@ class MotivationsTableSeeder extends Seeder
         foreach ($motivations as $id => $name) {
             Motivation::updateOrCreate(['id' => $id], [
                 'id' => $id,
-                'name' => $name
+                'name' => $name,
                 ]);
         }
         Motivation::reguard();

@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\SelfDescription;
+use Illuminate\Database\Seeder;
 
 class SelfDescriptionsTableSeeder extends Seeder
 {

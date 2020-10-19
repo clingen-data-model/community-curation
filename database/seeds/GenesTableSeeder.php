@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Gene;
 use Illuminate\Database\Seeder;
 
@@ -15,19 +17,19 @@ class GenesTableSeeder extends Seeder
         $genes = [
             [
                 'symbol' => 'LMNA',
-                'hgnc_id' => 'HGNC:6636'
+                'hgnc_id' => 'HGNC:6636',
             ],
             [
                 'symbol' => 'EXTL3',
-                'hgnc_id' => 'HGNC:3518'
+                'hgnc_id' => 'HGNC:3518',
             ],
             [
                 'symbol' => 'PCDH15',
-                'hgnc_id' => 'HGNC:14674'
+                'hgnc_id' => 'HGNC:14674',
             ],
             [
                 'symbol' => 'ABCC9',
-                'hgnc_id' => 'HGNC:60'
+                'hgnc_id' => 'HGNC:60',
             ],
         ];
 

@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\VolunteerStatus;
+use Illuminate\Database\Seeder;
 
 class VolunteerStatusesTableSeeder extends Seeder
 {
