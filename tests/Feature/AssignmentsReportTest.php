@@ -149,6 +149,7 @@ class AssignmentsReportTest extends TestCase
     public function assignments_report_endpoint_returns_an_xlsx_file()
     {
         $user = factory(User::class)->create([]);
+        $user->assignRole('programmer');
 
         $this->withoutExceptionHandling();
         $response = $this->actingAs($user)
