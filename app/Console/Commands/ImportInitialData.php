@@ -174,7 +174,7 @@ class ImportInitialData extends Command
     {
         if (!app()->environment('production')) {
             $this->info('Setting mail driver to log');
-            config(['mail.driver' => 'log']);
+            config(['mail.default' => 'log']);
         }
     }
 
