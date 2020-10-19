@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
+
 use App\Interest;
+use Illuminate\Database\Seeder;
 
 class InterestsTableSeeder extends Seeder
 {

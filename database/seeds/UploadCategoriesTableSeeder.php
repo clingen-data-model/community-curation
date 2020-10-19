@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\UploadCategory;
 use Illuminate\Database\Seeder;
 
