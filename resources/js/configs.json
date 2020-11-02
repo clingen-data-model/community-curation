@@ -10,7 +10,8 @@
             "active": 3,
             "unresponsive": 4,
             "declined": 5,
-            "retired": 6
+            "retired": 6,
+            "on-hold": 7
         }
     },
     "project": {
@@ -39,7 +40,8 @@
             "active": 3,
             "unresponsive": 4,
             "declined": 5,
-            "retired": 6
+            "retired": 6,
+            "on-hold": 7
         },
         "assignmentStatuses": {
             "assigned": 1,
@@ -71,7 +73,7 @@
         }
     },
     "mailFrom": {
-        "address": "volunteer@clinicalgenome.org",
-        "name": "ClinGen Community Curation "
+        "address": "hello@example.com",
+        "name": "Example"
     }
 }
