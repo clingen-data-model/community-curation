@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\VolunteerStatusesTableSeeder;
 use Illuminate\Database\Migrations\Migration;
 
 class AddOnHoldVolunteerStatus extends Migration
