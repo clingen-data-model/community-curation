@@ -13,7 +13,7 @@ return [
         'actionability-basic' => 1,
         'dosage-basic' => 2,
         'gene-basic' => 3,
-        'somantic-variant-basic' => 4,
+        'somatic-variant-basic' => 4,
         'variant-basic' => 5,
         'variant-proficiency' => 6,
         'baseline-basic-evidence' => 7,

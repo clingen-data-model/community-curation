@@ -1,109 +1,120 @@
+<style>
+    .header-select {
+        border: none;
+        background: transparent;
+    }
+</style>
 <template>
-    <div class="card volunteer-index">
-        <sticky-footer>
+    <div>
+        <div class="d-flex justify-content-between alert alert-info">
             We've added a video showing you how to use this page: 
             <screen-info
                 video-url="https://www.youtube.com/embed/q25Ok1gScS0" 
                 title="Learn about the Volunteers List"
             ></screen-info>            
-        </sticky-footer>
-        <div class="card-header">
-            <div class="float-right d-flex">
-                <assignments-report-button 
-                    class="mr-1 "
-                    :filter="filters" 
-                    :sort-by="sortKey" 
-                    :sort-desc="sortDesc"
-                ></assignments-report-button>
-            </div>
-            <h1>Volunteers</h1>
         </div>
-        <div class="card-body">
-            <div class="d-flex mb-2 p-0 filter-row">
-                <div class="form-inline pr-3">
-                    <label for="filter-input">Search:</label>
-                    &nbsp;
-                    <b-form-input debounce="500" type="text" 
-                        class="form-control form-control-sm" 
-                        v-model="filters.searchTerm" 
-                        placeholder="filter rows" 
-                        id="filter-input"
-                    ></b-form-input>
+        <div class="card volunteer-index">
+            <div class="card-header">
+                <div class="float-right d-flex">
+                    <assignments-report-button 
+                        class="mr-1 "
+                        :filter="filters" 
+                        :sort-by="sortKey" 
+                        :sort-desc="sortDesc"
+                    ></assignments-report-button>
                 </div>
-                <div class="border-left pl-3" id="type-filter-container">
-                    <select id="type-select" 
-                        class="form-control form-control-sm"
-                        :class="{active: filters.volunteer_type_id}"
-                        v-model="filters.volunteer_type_id" 
-                        @change="reconcileFilters"
-                    >
-                        <option :value="null">Any Type</option>
-                        <option v-for="(type, idx) in volunteerTypes"
-                            :key="idx"
-                            :value="type.id">
-                            {{type.name}}
-                        </option>
+                <h1>
+                    <select v-model="listType" class="header-select">
+                        <option value="unassigned">Unassigned Volunteers</option>
+                        <option value="all">All Volunteers</option>
                     </select>
-                </div>
-                <div id="status-filter-container">
-                    <select id="status-select" 
-                        class="form-control form-control-sm" 
-                        :class="{active: filters.volunteer_status_id}"
-                        v-model="filters.volunteer_status_id"
-                    >
-                        <option :value="null">Any Status</option>
-                        <option v-for="(status, idx) in volunteerStatuses"
-                            :key="idx"
-                            :value="status.id">
-                            {{status.name}}
-                        </option>
-                    </select>
-                </div>
-                <div id="curation-activity-filter-container">
-                    <select id="activity-select" 
-                        class="form-control form-control-sm" 
-                        v-model="filters.curation_activity_id" 
-                        :class="{active: filters.curation_activity_id}"
-                        :disabled="filters.volunteer_type_id == 1"
-                    >
-                        <option :value="null">Any Activity</option>
-                        <option v-for="(activity, idx) in activities"
-                            :key="idx"
-                            :value="activity.id">
-                            {{activity.name}}
-                        </option>
-                        <option :value="-1">Not assigned to activity</option>
-                    </select>
-                </div>
-                <div id="curation-group-filter-container">
-                    <select id="panel-select" 
-                        class="form-control form-control-sm" 
-                        v-model="filters.curation_group_id"
-                        :disabled="filters.volunteer_type_id == 1"
-                        :class="{active: filters.curation_group_id}"
-                        style="max-width: 200px"
-                    >
-                        <option :value="null">Any Curation Group</option>
-                        <option :value="-1">Not assigned to curation group</option>
-                        <option v-for="(panel, idx) in filteredCurationGroups"
-                            :key="idx"
-                            :value="panel.id">
-                            {{panel.name}}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <b-pagination
-                        size="sm"
-                        hide-goto-end-buttons
-                        :total-rows="totalRows"
-                        :per-page="pageLength"
-                        v-model="currentPage"
-                        class="border-left pl-3"
-                    ></b-pagination>
-                </div>
+                </h1>
             </div>
-            <div>
+            <div class="card-body">
+                <div class="d-flex mb-2 p-0 filter-row">
+                    <div class="form-inline pr-3 border-right mr-3 align-items-start">
+                        <label for="filter-input">Search:</label>
+                        &nbsp;
+                        <b-form-input debounce="500" type="text" 
+                            class="form-control form-control-sm align-top" 
+                            v-model="filters.searchTerm" 
+                            placeholder="filter rows" 
+                            id="filter-input"
+                        ></b-form-input>
+                    </div>
+                    <div id="type-filter-container" v-if="listType == 'all'">
+                        <select id="type-select" 
+                            class="form-control form-control-sm"
+                            :class="{active: filters.volunteer_type_id}"
+                            v-model="filters.volunteer_type_id" 
+                            @change="reconcileFilters"
+                        >
+                            <option :value="null">Any Type</option>
+                            <option v-for="(type, idx) in volunteerTypes"
+                                :key="idx"
+                                :value="type.id">
+                                {{type.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div id="status-filter-container">
+                        <select id="status-select" 
+                            class="form-control form-control-sm" 
+                            :class="{active: filters.volunteer_status_id}"
+                            v-model="filters.volunteer_status_id"
+                        >
+                            <option :value="null">Any Status</option>
+                            <option v-for="(status, idx) in volunteerStatuses"
+                                :key="idx"
+                                :value="status.id">
+                                {{status.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div id="curation-activity-filter-container" v-if="listType == 'all'">
+                        <select id="activity-select" 
+                            class="form-control form-control-sm" 
+                            v-model="filters.curation_activity_id" 
+                            :class="{active: filters.curation_activity_id}"
+                            :disabled="filters.volunteer_type_id == 1"
+                        >
+                            <option :value="null">Any Activity</option>
+                            <option v-for="(activity, idx) in activities"
+                                :key="idx"
+                                :value="activity.id">
+                                {{activity.name}}
+                            </option>
+                            <option :value="-1">Not assigned to activity</option>
+                        </select>
+                    </div>
+                    <div id="curation-group-filter-container" v-if="listType == 'all'">
+                        <select id="panel-select" 
+                            class="form-control form-control-sm" 
+                            v-model="filters.curation_group_id"
+                            :disabled="filters.volunteer_type_id == 1"
+                            :class="{active: filters.curation_group_id}"
+                            style="max-width: 200px"
+                        >
+                            <option :value="null">Any Curation Group</option>
+                            <option :value="-1">Not assigned to curation group</option>
+                            <option v-for="(panel, idx) in filteredCurationGroups"
+                                :key="idx"
+                                :value="panel.id">
+                                {{panel.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="ml-auto px-2">
+                        <b-pagination
+                            size="sm"
+                            hide-goto-end-buttons
+                            :total-rows="totalRows"
+                            :per-page="pageLength"
+                            v-model="currentPage"
+                            class="border-left pl-3"
+                        ></b-pagination>
+                    </div>
+                </div>
                 <b-table 
                     ref="volunteersTable"
                     :items="volunteerProvider" 
@@ -151,14 +162,14 @@
                     </template>   
                 </b-table>
             </div>
+            <b-modal v-model="showAssignmentModal" hide-header hide-footer>
+                <assignment-form 
+                    :volunteer="currentVolunteer" 
+                    @saved="updateCurrentVolunteer"
+                    showVolunteer>
+                </assignment-form>
+            </b-modal>
         </div>
-        <b-modal v-model="showAssignmentModal" hide-header hide-footer>
-            <assignment-form 
-                :volunteer="currentVolunteer" 
-                @saved="updateCurrentVolunteer"
-                showVolunteer>
-            </assignment-form>
-        </b-modal>
     </div>
 </template>
 
@@ -183,6 +194,7 @@
         },
         data() {
             return {
+                listType: 'unassigned',
                 volunteers: [],
                 loadingVolunteers: false,
                 showAssignmentModal: false,
@@ -289,9 +301,30 @@
                     localStorage.setItem('volunteers-table-filters', JSON.stringify(this.filters));
                 },
                 deep: true
+            },
+            listType() {
+                localStorage.setItem('volunteers-table-list-type', JSON.stringify(this.listType));
+                this.setFiltersForListType();
             }
         },
         methods: {
+            setFiltersForListType() {
+                if (this.listType == 'unassigned') {
+                    this.clearFilters();
+                    this.filters.curation_activity_id = -1;
+                } else {
+                    this.clearFilters();
+                }
+            },
+            clearFilters() {
+                this.filters = {
+                    searchTerm: null,
+                    volunteer_type_id: null,
+                    volunteer_status_id: null,
+                    curation_activity_id: null,
+                    curation_group_id: null
+                };
+            },
             reconcileFilters() {
                 if (this.filters.volunteer_type_id == 1) {
                     this.filters.curation_activity_id = null;
@@ -353,6 +386,13 @@
                 if (storedFilters) {
                     this.filters = storedFilters;
                 }
+            },
+            syncListTypeFromLocalStorage () {
+                const storedListType = JSON.parse(localStorage.getItem('volunteers-table-list-type'));
+                console.info('storedListType', storedListType)
+                if (storedListType) {
+                    this.listType = storedListType
+                }
             }
         },
         mounted() {
@@ -362,6 +402,8 @@
             this.getStatuses()
             this.getTypes()
             this.syncFiltersFromLocalStorage();
+            this.syncListTypeFromLocalStorage();
+            this.setFiltersForListType();
         }
     
 }
