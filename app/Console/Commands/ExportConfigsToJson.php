@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class ExportConfigsToJson extends Command
 {
@@ -40,15 +41,18 @@ class ExportConfigsToJson extends Command
         $configs = ($this->option('configs'))
                         ? explode(',', $this->option('configs'))
                         : ['volunteers', 'project', 'mail.from'];
+
         $this->info('Exporting '.implode(', ', $configs).' to JSON.');
+
         $export = [];
+
         foreach ($configs as $config) {
             $config = trim($config);
-            $configName = camel_case(preg_replace('/\./', '-', $config));
+            $configName = Str::camel(preg_replace('/\./', '-', $config));
 
             $camelCased = [];
             foreach (config($config) as $key => $value) {
-                $camelCased[camel_case($key)] = $value;
+                $camelCased[Str::camel($key)] = $value;
             }
             $export[$configName] = $camelCased;
         }
