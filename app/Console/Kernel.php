@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('volunteers:notify-followup')
                  ->dailyAt('01:00');
+        $schedule->command('applications:clean')
+                ->dailyAt('00:01');
     }
 
     /**
