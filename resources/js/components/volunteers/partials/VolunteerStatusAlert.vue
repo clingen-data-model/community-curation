@@ -8,6 +8,12 @@
             This volunteer has been marked
             <strong>{{volunteer.volunteer_status.name}}</strong>
         </div>
+        <div class="alert alert-info" v-if="hasInfoStatus">
+            <button class="float-right btn btn-light btn-sm" @click="$emit('updatestatus')">Update Status</button>
+            <strong>Status Notice:</strong>
+            This volunteer has been marked
+            <strong>{{volunteer.volunteer_status.name}}</strong>
+        </div>
     </div>
 </template>
 
@@ -22,6 +28,10 @@
         computed: {
             hasDangerStatus: function () {
                 return ['retired', 'unresponsive', 'declined']
+                            .indexOf(this.volunteer.volunteer_status.name.toLowerCase()) > -1
+            },
+            hasInfoStatus() {
+                return ['on-hold']
                             .indexOf(this.volunteer.volunteer_status.name.toLowerCase()) > -1
             }
         }

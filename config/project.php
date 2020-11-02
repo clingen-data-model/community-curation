@@ -31,6 +31,7 @@ return [
         'unresponsive' => 4,
         'declined' => 5,
         'retired' => 6,
+        'on-hold' => 7,
     ],
     'assignment-statuses' => [
         'assigned' => 1,
