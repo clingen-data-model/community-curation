@@ -43,4 +43,21 @@ class Application extends Model
     {
         return $query->whereNotNull('finalized_at');
     }
+
+    public function scopeNoUserData($query)
+    {
+        return $query->whereNull('respondent_id')
+                ->whereNull('first_name')
+                ->whereNull('last_name')
+                ->whereNull('institution')
+                ->whereNull('orcid_id')
+                ->whereNull('street1')
+                ->whereNull('street2')
+                ->whereNull('city')
+                ->whereNull('state')
+                ->whereNull('zip')
+                ->whereNull('country_id')
+                ->whereNull('email')
+                ->whereNull('hypothesis_id');
+    }
 }
