@@ -49,7 +49,7 @@ class AptitudesTableSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'name' => 'Somantic Variant, Basic',
+                'name' => 'Somatic Variant, Basic',
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 4,
                 'training_materials_url' => 'https://www.clinicalgenome.org/curation-activities/somatic/training-materials/',
