@@ -64,17 +64,13 @@
             "Database\\Factories\\": "database/factories"
         },
         "files": [
-            "app/Import/helpers.php",
             "app/helpers.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        },
-        "files": [
-            "app/Import/helpers.php"
-        ]
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
