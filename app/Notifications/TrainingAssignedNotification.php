@@ -11,16 +11,16 @@ class TrainingAssignedNotification extends Notification
 {
     use Queueable;
 
-    protected $training;
+    protected $userAptitude;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(UserAptitude $training)
+    public function __construct(UserAptitude $userAptitude)
     {
-        $this->training = $training;
+        $this->userAptitude = $userAptitude;
     }
 
     /**
@@ -49,7 +49,7 @@ class TrainingAssignedNotification extends Notification
                     ->view(
                         'email.training_assigned',
                         [
-                            'training' => $this->training,
+                            'userAptitude' => $this->userAptitude,
                             'recipient' => $notifiable,
                         ]
                     );

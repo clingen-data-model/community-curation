@@ -23,18 +23,18 @@ class CreateAttestationForCompletedTraining
      */
     public function handle(TrainingCompleted $event)
     {
-        $training = $event->training;
+        $userAptitude = $event->userAptitude;
 
-        if ($training->attestation_id) {
+        if ($userAptitude->attestation_id) {
             return;
         }
 
         $attestation = Attestation::create([
-            'user_id' => $training->user_id,
-            'aptitude_id' => $training->aptitude_id,
-            'assignment_id' => $training->assignment_id,
+            'user_id' => $userAptitude->user_id,
+            'aptitude_id' => $userAptitude->aptitude_id,
+            'assignment_id' => $userAptitude->assignment_id,
         ]);
 
-        $training->update(['attestation_id' => $attestation->id]);
+        $userAptitude->update(['attestation_id' => $attestation->id]);
     }
 }

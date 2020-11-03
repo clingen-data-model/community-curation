@@ -28,14 +28,14 @@ class TrainingCompletedTest extends TestCase
      */
     public function attestation_created_for_training_when_completed_and_related_to_user_aptitude()
     {
-        $training = $this->volunteer->userAptitudes()->first();
+        $userAptitude = $this->volunteer->userAptitudes()->first();
 
-        $training->update(['trained_at' => '2019-11-01']);
+        $userAptitude->update(['trained_at' => '2019-11-01']);
 
         $attestationData = [
             'user_id' => $this->volunteer->id,
-            'aptitude_id' => $training->aptitude_id,
-            'assignment_id' => $training->assignment_id,
+            'aptitude_id' => $userAptitude->aptitude_id,
+            'assignment_id' => $userAptitude->assignment_id,
         ];
 
         $this->assertDatabaseHas('attestations', $attestationData);
@@ -44,8 +44,8 @@ class TrainingCompletedTest extends TestCase
 
         $this->assertDatabaseHas('user_aptitudes', [
             'user_id' => $this->volunteer->id,
-            'aptitude_id' => $training->aptitude_id,
-            'assignment_id' => $training->assignment_id,
+            'aptitude_id' => $userAptitude->aptitude_id,
+            'assignment_id' => $userAptitude->assignment_id,
             'attestation_id' => $attestation->id,
         ]);
     }
@@ -55,8 +55,8 @@ class TrainingCompletedTest extends TestCase
      */
     public function volunteer_updated_to_trained_when_first_training_complete()
     {
-        $training = $this->volunteer->userAptitudes()->first();
-        $training->update(['trained_at' => '2019-11-01']);
+        $userAptitude = $this->volunteer->userAptitudes()->first();
+        $userAptitude->update(['trained_at' => '2019-11-01']);
 
         $this->assertDatabaseHas('users', [
             'id' => $this->volunteer->id,

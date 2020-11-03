@@ -23,10 +23,10 @@ class NotifyTrainingAssigned
      */
     public function handle(TrainingCreated $event)
     {
-        $training = $event->training;
+        $userAptitude = $event->userAptitude;
 
-        $training
+        $userAptitude
             ->user
-            ->notify(new TrainingAssignedNotification($training));
+            ->notify(new TrainingAssignedNotification($userAptitude));
     }
 }
