@@ -14,16 +14,16 @@ class TrainingCompleted
     use InteractsWithSockets;
     use SerializesModels;
 
-    public $training;
+    public $userAptitude;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(UserAptitude $training)
+    public function __construct(UserAptitude $userAptitude)
     {
-        $this->training = $training;
+        $this->userAptitude = $userAptitude;
     }
 
     /**

@@ -30,9 +30,9 @@ class TrainingController extends Controller
      */
     public function store(TrainingCreateRequest $request)
     {
-        $training = UserAptitude::create($request->all());
+        $userAptitude = UserAptitude::create($request->all());
 
-        return new DefaultResource($training);
+        return new DefaultResource($userAptitude);
     }
 
     /**
@@ -68,11 +68,11 @@ class TrainingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $training = UserAptitude::find($id);
+        $userAptitude = UserAptitude::find($id);
 
-        $training->update($request->all());
+        $userAptitude->update($request->all());
 
-        return new DefaultResource($training);
+        return new DefaultResource($userAptitude);
     }
 
     /**
