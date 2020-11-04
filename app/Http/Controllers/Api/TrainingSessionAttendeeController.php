@@ -10,6 +10,7 @@ use App\Http\Resources\DefaultResource;
 use App\Http\Resources\TrainingSessionAttendeeResource;
 use App\Jobs\InviteVolunteersToTrainingSession;
 use App\Notifications\CustomTrainingEmail;
+use App\Notifications\ValueObjects\MailAttachment;
 use App\TrainingSession;
 use App\User;
 use League\HTMLToMarkdown\HtmlConverter;
@@ -127,9 +128,14 @@ class TrainingSessionAttendeeController extends Controller
         $parsedown->setSafeMode('true');
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $safeBody = $parsedown->parse($htmlToMarkdown->convert($request->body));
+        $attachments = collect($request->attachments)
+                        ->map(function ($file) {
+                            return MailAttachment::createFromUploadedFile($file);
+                        })
+                        ->toArray();
         $trainingSession->attendees
-            ->each(function ($attendee) use ($request, $trainingSession, $safeBody) {
-                $attendee->notify(new CustomTrainingEmail($trainingSession, $safeBody, $request->from, $request->subject));
+            ->each(function ($attendee) use ($request, $trainingSession, $safeBody, $attachments) {
+                $attendee->notify(new CustomTrainingEmail($trainingSession, $safeBody, $request->from, $request->subject, $attachments));
             });
     }
 }
