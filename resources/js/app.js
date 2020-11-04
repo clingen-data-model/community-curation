@@ -66,26 +66,6 @@ window.axios.interceptors.response.use(
     }
 );
 
-// window.axios.interceptors.response.use(
-//     response  => response,
-//     error => {
-//         if (error.response.status != 504 || error.response.config.url == '/api/log-504') {
-//             return;
-//         }
-        
-//         const logUrl = '/api/log-504';
-//         const {url, method} = error.response.config;
-//         const data = QueryStringFromParams({url, method});
-
-//         window.axios.post(logUrl, data)
-//             .then(rsp => console.log('notification sent'));
-        
-//         alert('There was a problem retreiving data from the server.  Please hard-refresh (shift+reload) the CCDB and try again.  If the problem persists please notify us at beans@beans.com');
-        
-//         return Promise.reject(error);
-//     }
-// )
-
 if (document.getElementById('app')) {
     const app = new window.Vue({
         el: '#app',
