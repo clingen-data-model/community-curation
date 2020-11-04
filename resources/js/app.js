@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (activityPanels.length == 0 && question.value != '') {
                     const note = document.createElement('small');
                     note.classList.add('not-accepting-note', 'alert', 'alert-warning', 'mt-1');
-                    note.innerHTML = `No curation groups in ${question.value} are currently accepting volunteers. We'll hold your application until one becomes available.`;
+                    note.innerHTML = `No curation groups in the selected activity are currently accepting volunteers. We'll hold your application until one becomes available.`;
                     panelQuestion.setAttribute('style', { display: 'none' });
                     panelQuestionParent.appendChild(note);
                     panelQuestion.disabled = true;
