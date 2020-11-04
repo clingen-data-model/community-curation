@@ -19,17 +19,20 @@ class CustomTrainingEmail extends Notification
 
     public $trainingSession;
 
+    protected $attachments;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(TrainingSession $trainingSession, $body, $fromEmail = null, $subject = null)
+    public function __construct(TrainingSession $trainingSession, $body, $fromEmail = null, $subject = null, $attachments = [])
     {
         $this->trainingSession = $trainingSession;
         $this->fromEmail = $fromEmail ?? config('mail.from.address');
         $this->subject = $subject ?? 'A note about your ClinGen volunteer training on '.$trainingSession->starts_at->format('D, M j, Y');
         $this->body = $body;
+        $this->attachments = $attachments;
     }
 
     /**
@@ -53,7 +56,7 @@ class CustomTrainingEmail extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        $mail = (new MailMessage())
             ->subject($this->subject)
             ->from($this->fromEmail)
             ->view(
@@ -63,6 +66,16 @@ class CustomTrainingEmail extends Notification
                     'trainingSession' => $this->trainingSession,
                 ]
             );
+
+        if (count($this->attachments) > 0) {
+            foreach ($this->attachments as $attachment) {
+                $mail->attach($attachment->getPath(), [
+                    'as' => $attachment->getOriginalName(),
+                ]);
+            }
+        }
+
+        return $mail;
     }
 
     /**
