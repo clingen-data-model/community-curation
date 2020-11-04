@@ -21,7 +21,8 @@
                 <attendee-email-form 
                     :trainingSession="trainingSession" 
                     :attendees="attendees"
-                    v-show="showEmailForm" class="mb-2"
+                    v-show="showEmailForm" 
+                    class="mb-2"
                     @sending="showEmailForm = false"
                     @sent="showEmailForm = false"
                     @canceled="showEmailForm = false"
