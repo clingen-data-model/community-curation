@@ -114,23 +114,42 @@ class VolunteerCrudController extends CrudController
 
         $this->crud->removeFields(['password', 'last_logged_in_at', 'last_logged_out_at']);
 
-        $this->crud->removeColumns(['password', 'last_logged_in_at', 'last_logged_out_at', 'orcid_id', 'hypothesis_id', 'zip', 'country_id', 'timezone', 'street1', 'street2', 'city', 'state', 'zip', 'institution']);
+        $this->crud->removeColumns([
+            'password',
+            'last_logged_in_at',
+            'last_logged_out_at',
+            'orcid_id',
+            'hypothesis_id',
+            'zip',
+            'country_id',
+            'timezone',
+            'street1',
+            'street2',
+            'city',
+            'state',
+            'zip',
+            'institution',
+            'volunteer_status_id',
+            'volunteer_type_id',
+        ]);
+
+        $this->crud->addColumn([
+            'label' => 'ID',
+            'type' => 'integer',
+            'name' => 'id',
+        ])
+        ->makeFirstColumn();
+
         $this->crud->addColumns([
             [
                 'label' => 'Type',
-                'type' => 'select',
-                'name' => 'volunteer_type_id',
-                'entity' => 'volunteerType',
-                'model' => VolunteerType::class,
-                'attribute' => 'name',
+                'type' => 'relationship',
+                'name' => 'volunteerType',
             ],
             [
                 'label' => 'Status',
-                'type' => 'select',
-                'name' => 'volunteer_status_id',
-                'entity' => 'volunteerStatus',
-                'model' => VolunteerStatus::class,
-                'attribute' => 'name',
+                'type' => 'relationship',
+                'name' => 'volunteerStatus',
             ],
         ]);
 
