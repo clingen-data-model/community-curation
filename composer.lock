@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e2fb174e56b6e9ab34f5a6a3cd74dd8",
+    "content-hash": "d8f979b34d05a108713904516a83b83b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4399,16 +4399,16 @@
         },
         {
             "name": "sirs/surveys",
-            "version": "4.0.11",
+            "version": "4.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yugen/surveys.git",
-                "reference": "672e608b9ff578320d5b5f6651913d937ef14998"
+                "reference": "6ad4d34434872dafdbd6bc61a0245e29564fa28e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yugen/surveys/zipball/672e608b9ff578320d5b5f6651913d937ef14998",
-                "reference": "672e608b9ff578320d5b5f6651913d937ef14998",
+                "url": "https://api.github.com/repos/yugen/surveys/zipball/6ad4d34434872dafdbd6bc61a0245e29564fa28e",
+                "reference": "6ad4d34434872dafdbd6bc61a0245e29564fa28e",
                 "shasum": ""
             },
             "require": {
@@ -4458,10 +4458,10 @@
             ],
             "description": "Package for rapidly building surveys with data dictionaries and response storage",
             "support": {
-                "source": "https://github.com/yugen/surveys/tree/4.0.11",
+                "source": "https://github.com/yugen/surveys/tree/4.0.12",
                 "issues": "https://github.com/yugen/surveys/issues"
             },
-            "time": "2020-10-02T18:41:24+00:00"
+            "time": "2020-11-16T15:50:28+00:00"
         },
         {
             "name": "spatie/calendar-links",
@@ -7938,6 +7938,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
