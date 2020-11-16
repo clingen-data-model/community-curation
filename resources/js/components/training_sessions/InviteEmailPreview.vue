@@ -55,7 +55,7 @@ export default {
         },
         startsAt() {
             return moment(this.trainingSession.starts_at).isValid()
-                    ? moment(this.trainingSession.starts_at).format('dddd, MMMM MM YYYY [at] hh:mm a') 
+                    ? moment(this.trainingSession.starts_at).format('dddd, MMMM DD, YYYY [at] hh:mm a') 
                     : '[START DATE at TIME]'
         },
         inviteMessage() {
