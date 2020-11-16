@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60283ae87b0d9fdfd6dba06f4dd37d9b",
+    "content-hash": "1e2fb174e56b6e9ab34f5a6a3cd74dd8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4399,16 +4399,16 @@
         },
         {
             "name": "sirs/surveys",
-            "version": "4.0.9",
+            "version": "4.0.11",
             "source": {
                 "type": "git",
-                "url": "https://bitbucket.org/shepsweb/sirs-surveys.git",
-                "reference": "adda1aaf8c350afe49c8d9a65ae1175715f15c19"
+                "url": "https://github.com/yugen/surveys.git",
+                "reference": "672e608b9ff578320d5b5f6651913d937ef14998"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/shepsweb/sirs-surveys/get/adda1aaf8c350afe49c8d9a65ae1175715f15c19.zip",
-                "reference": "adda1aaf8c350afe49c8d9a65ae1175715f15c19",
+                "url": "https://api.github.com/repos/yugen/surveys/zipball/672e608b9ff578320d5b5f6651913d937ef14998",
+                "reference": "672e608b9ff578320d5b5f6651913d937ef14998",
                 "shasum": ""
             },
             "require": {
@@ -4438,7 +4438,11 @@
                     "src/Sirs/Surveys/helpers.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Sirs\\Surveys\\Tests\\": "tests"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -4453,8 +4457,11 @@
                 }
             ],
             "description": "Package for rapidly building surveys with data dictionaries and response storage",
-            "homepage": "https://bitbucket.org/shepsweb/sirs-surveys",
-            "time": "2020-06-22T21:23:06+00:00"
+            "support": {
+                "source": "https://github.com/yugen/surveys/tree/4.0.11",
+                "issues": "https://github.com/yugen/surveys/issues"
+            },
+            "time": "2020-10-02T18:41:24+00:00"
         },
         {
             "name": "spatie/calendar-links",
