@@ -7,13 +7,25 @@ LABEL maintainer="TJ Ward" \
     io.k8s.display-name="ccdb version 1" \
     io.openshift.tags="php,apache"
 
+ENV XDG_CONFIG_HOME=/srv/app
+
+USER root
+
+WORKDIR /srv/app
+COPY ./composer.lock ./composer.json /srv/app/
+
+RUN composer install \
+        --no-interaction \
+        --no-plugins \
+        --no-scripts \
+        # --no-dev \
+        # --no-suggest \
+        --prefer-dist
+
 COPY .docker/php/conf.d/* $PHP_INI_DIR/conf.d/
 
 COPY . /srv/app
 
-ENV XDG_CONFIG_HOME=/srv/app
-
-USER root
 RUN chgrp -R 0 /srv/app \
     && chmod -R g+w /srv/app \
     && chmod g+x /srv/app/.openshift/deploy.sh
@@ -22,20 +34,6 @@ RUN chgrp -R 0 /srv/app \
 
 WORKDIR /srv/app
 
-RUN composer install \
-        --no-interaction \
-        --no-plugins \
-        --no-scripts \
-        --prefer-dist
-
-
 RUN php artisan storage:link
-# COPY .docker/php/xdebug-dev.ini /usr/local/etc/php/conf.d/xdebug-dev.ini
-
-# RUN cp -R /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d-dev \
-#     && rm -f /usr/local//etc/php/conf.d/*-dev.ini \
-#     && rm -f /usr/local/etc/php/conf.d/*xdebug.ini
-
-# RUN  echo 'alias art="php artisan"' >> ~/.bash_profile
 
 USER 1001
