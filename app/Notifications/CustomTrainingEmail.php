@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\TrainingSession;
+use Carbon\CarbonTimeZone;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -30,7 +31,7 @@ class CustomTrainingEmail extends Notification
     {
         $this->trainingSession = $trainingSession;
         $this->fromEmail = $fromEmail ?? config('mail.from.address');
-        $this->subject = $subject ?? 'A note about your ClinGen volunteer training on '.$trainingSession->starts_at->format('D, M j, Y');
+        $this->subject = $subject;
         $this->body = $body;
         $this->attachments = $attachments;
     }
@@ -56,14 +57,23 @@ class CustomTrainingEmail extends Notification
      */
     public function toMail($notifiable)
     {
+        $timezone = new CarbonTimeZone($notifiable->timezone);
+        $subject = $this->subject;
+        if (!$subject) {
+            $subject = 'A note about your ClinGen volunteer training on '.$this->trainingSession->starts_at
+                        ->addSeconds($timezone->getOffset($this->trainingSession->starts_at))
+                        ->format('l, F j, Y \a\t g:i a');
+        }
+
         $mail = (new MailMessage())
-            ->subject($this->subject)
+            ->subject($subject)
             ->from($this->fromEmail)
             ->view(
                 'email.training_message_custom',
                 [
                     'body' => $this->body,
                     'trainingSession' => $this->trainingSession,
+                    'timezone' => $timezone,
                 ]
             );
 
