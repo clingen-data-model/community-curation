@@ -24,6 +24,8 @@ window.Vue.component('screen-info', () =>
     import ( /* webpackChunkName: "global-components" */ './components/ScreenInfo'));
 window.Vue.component('sticky-footer', () =>
     import ( /* webpackChunkName: "global-components" */ './components/StickyFooter'));
+window.Vue.component('demo-warning', () =>
+    import ( /* webpackChunkName: "global-components" */ './components/DemoWarning'));
 
 window.Vue.component('rich-text', () =>
     import ( /* webpackChunkName: "rich-text" */ './components/RichTextEditor'));

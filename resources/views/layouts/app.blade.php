@@ -53,6 +53,10 @@
 </head>
 <body>
     <div id="app" :class="{loading: loading}">
+        @if(config('app.env') == 'demo')
+        <demo-warning></demo-warning>
+        @endif
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -156,7 +160,7 @@
                 </div>
                 @endif
             </div>
-    </footer>
+        </footer>
     </div>
 
     <!-- Scripts -->
