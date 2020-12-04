@@ -73,7 +73,7 @@
         }
     },
     "mailFrom": {
-        "address": "hello@example.com",
+        "address": "volunteer@clinicalgenome.org",
         "name": "Example"
     }
 }
