@@ -17,7 +17,9 @@ class ApplicationReportGenerator implements ReportGenerator
     public function __construct(VolunteerSearchService $volunteerSearchService)
     {
         $this->volunteerSearchService = $volunteerSearchService;
-        $this->query = Application::query()->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
+        $this->query = Application::query()
+                        ->hasRespondent()
+                        ->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
     }
 
@@ -136,7 +138,11 @@ class ApplicationReportGenerator implements ReportGenerator
     private function getPriorityData($app)
     {
         $data = [];
+        if (!$app->respondent) {
+            dd($app->toArray());
+        }
         $priorities = $app->respondent->latestPriorities->values();
+
         for ($i = 0; $i < 3; ++$i) {
             if ($priorities) {
                 $data = array_merge($data, [

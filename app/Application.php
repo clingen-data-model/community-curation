@@ -60,4 +60,13 @@ class Application extends Model
                 ->whereNull('email')
                 ->whereNull('hypothesis_id');
     }
+
+    public function scopeHasRespondent($query)
+    {
+        return $query->whereHasMorph('respondent', [User::class], function ($query) {
+            $query->whereNull('deleted_at');
+        })
+        ->whereNotNull('respondent_type')
+        ->whereNotNull('respondent_id');
+    }
 }
