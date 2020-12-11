@@ -164,4 +164,28 @@ class UserTest extends TestCase
 
         $this->assertEquals(config('project.volunteer-statuses.applied'), $user->volunteer_status_id);
     }
+
+    /**
+     * @test
+     */
+    public function soft_deletes_related_application_survey_response_when_user_deleted()
+    {
+        $user = $this->createVolunteer();
+        $survey = class_survey()::find(1);
+        $response = $survey->getLatestResponse($user);
+        $user->application()->save($response);
+
+        $this->assertNotNull($user->application()->get());
+
+        $user->delete();
+
+        $this->assertDatabaseHas('rsp_application_1', [
+            'id' => $response->id,
+        ]);
+
+        $this->assertDatabaseMissing('rsp_application_1', [
+            'id' => $response->id,
+            'deleted_at' => null,
+        ]);
+    }
 }
