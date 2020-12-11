@@ -140,6 +140,13 @@ class User extends Authenticatable implements IsNotable
                 }
             }
         });
+
+        static::deleted(function ($model) {
+            $app = $model->application;
+            if ($app) {
+                $app->delete();
+            }
+        });
     }
 
     public function volunteerType()
