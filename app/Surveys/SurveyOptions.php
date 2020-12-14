@@ -31,9 +31,21 @@ class SurveyOptions
         return CurationActivity::select('id', 'name')->comprehensive()->get();
     }
 
-    public function curationGroups()
+    public function acceptingCurationGroups()
     {
-        $curationGroups = CurationGroup::select('id', 'name', 'accepting_volunteers')->acceptingVolunteers()->get();
+        $curationGroups = CurationGroup::select('id', 'name', 'accepting_volunteers')
+                            ->acceptingVolunteers()
+                            ->orderBy('name')
+                            ->get();
+
+        return $curationGroups;
+    }
+
+    public function allCurationGroups()
+    {
+        $curationGroups = CurationGroup::select('id', 'name', 'accepting_volunteers')
+                            ->orderBy('name')
+                            ->get();
 
         return $curationGroups;
     }
