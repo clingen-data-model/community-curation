@@ -49,7 +49,7 @@
                 ]]>
             </question-text>
             <options>
-                <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
+                <data-source URI="App\Surveys\SurveyOptions@allCurationGroups"></data-source>
             </options>
         </multiple-choice>
         

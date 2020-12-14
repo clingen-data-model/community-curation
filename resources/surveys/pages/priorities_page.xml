@@ -54,7 +54,7 @@
                 <![CDATA[Curation Group]]>
             </question-text>
             <options>
-                <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
+                <data-source URI="App\Surveys\SurveyOptions@acceptingCurationGroups"></data-source>
             </options>
         </multiple-choice>
 
@@ -142,7 +142,7 @@
                     <![CDATA[Curation Group]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@acceptingCurationGroups"></data-source>
                 </options>
             </multiple-choice>
 
@@ -210,7 +210,7 @@
                     <![CDATA[Curation Group]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@curationGroups"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@acceptingCurationGroups"></data-source>
                 </options>
             </multiple-choice>
 
