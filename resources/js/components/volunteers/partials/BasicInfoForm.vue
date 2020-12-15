@@ -130,7 +130,7 @@
                             <div class="form-check form-check" v-for="group in filteredCurationGroups" :key="group.id">
                                 <input 
                                     :value="group.id" 
-                                    v-model="updatedVolunteer.already_member_eps"
+                                    v-model="updatedVolunteer.already_member_cgs"
                                     type="checkbox" 
                                     :id="`curation-group-checkbox-${group.id}`" 
                                     class="form-check-input"
@@ -199,7 +199,7 @@
         methods: {
             clearAlreadyMemberEps(evt) {
                 if (this.updatedVolunteer.already_clingen_member == 0) {
-                    this.updatedVolunteer.already_member_eps = []
+                    this.updatedVolunteer.already_member_cgs = []
                 }
             },
             updateContactInfo(e) {
@@ -221,7 +221,7 @@
                         'country_id': this.updatedVolunteer.country_id,
                         'timezone': this.updatedVolunteer.timezone,
                         'already_clingen_member': this.updatedVolunteer.already_clingen_member,
-                        'already_member_eps': this.updatedVolunteer.already_member_eps
+                        'already_member_cgs': this.updatedVolunteer.already_member_cgs
                     }
                 ).then(response => {
                     this.$emit('saved');

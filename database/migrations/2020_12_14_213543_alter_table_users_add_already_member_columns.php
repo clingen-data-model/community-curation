@@ -15,7 +15,7 @@ class AlterTableUsersAddAlreadyMemberColumns extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('already_clingen_member')->nullable()->default(0)->after('volunteer_status_id');
-            $table->json('already_member_eps')->nullable()->after('already_clingen_member');
+            $table->json('already_member_cgs')->nullable()->after('already_clingen_member');
         });
     }
 
@@ -28,7 +28,7 @@ class AlterTableUsersAddAlreadyMemberColumns extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('already_clingen_member');
-            $table->dropColumn('already_member_eps');
+            $table->dropColumn('already_member_cgs');
         });
     }
 }

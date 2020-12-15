@@ -17,7 +17,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
-use InvalidArgumentException;
 use JsonException;
 use Lab404\Impersonate\Models\Impersonate;
 use Lab404\Impersonate\Services\ImpersonateManager;
@@ -62,7 +61,7 @@ class User extends Authenticatable implements IsNotable
         'volunteer_status_id',
         'volunteer_type_id',
         'already_clingen_member',
-        'already_member_eps',
+        'already_member_cgs',
         'institution',
         'street1',
         'street2',
@@ -92,7 +91,7 @@ class User extends Authenticatable implements IsNotable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'already_member_eps' => 'array',
+        'already_member_cgs' => 'array',
     ];
 
     protected $appends = [
@@ -384,30 +383,14 @@ class User extends Authenticatable implements IsNotable
         return $this->attributes['timezone'] ?? 'UTC';
     }
 
-    public function setAlreadyMemberEpsAttribute($value)
-    {
-        if (is_string($value) || is_null($value)) {
-            $this->attributes['already_member_eps'] = $value;
-
-            return;
-        }
-
-        if (is_array($value)) {
-            $this->attributes['already_member_eps'] = json_encode($value);
-
-            return;
-        }
-
-        throw new InvalidArgumentException('Expected ep_members_attribute value to be String or Array.  '.gettype($value).' received.');
-    }
-
     public function getAlreadyMemberCurationGroups()
     {
-        if (is_null($this->attributes['already_member_eps'])) {
+        if (is_null($this->already_member_cgs)) {
             return collect();
         }
+
         try {
-            $cgIds = json_decode($this->attributes['already_member_eps'], false, 512, JSON_THROW_ON_ERROR);
+            $cgIds = $this->already_member_cgs;
             if (!$cgIds) {
                 return collect();
             }
