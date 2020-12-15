@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\NotImplementedException;
 use App\Http\Resources\VolunteerUserResource;
 use App\User;
-use App\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,6 +73,7 @@ class VolunteerController extends Controller
             'volunteer3MonthSurvey',
             'volunteer6MonthSurvey',
         ]);
+        $volunteer->member_groups = $volunteer->already_member_eps->pluck('name', 'id');
 
         return view('volunteers.detail', ['volunteerId' => $volunteer->id, 'volunteerJson' => json_encode(new VolunteerUserResource($volunteer))]);
     }

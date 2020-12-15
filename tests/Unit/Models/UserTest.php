@@ -3,10 +3,12 @@
 namespace Tests\Unit\Models;
 
 use App\Contracts\IsNotable;
+use App\CurationGroup;
 use App\Priority;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use InvalidArgumentException;
 use Tests\TestCase;
 
 /**
@@ -187,5 +189,57 @@ class UserTest extends TestCase
             'id' => $response->id,
             'deleted_at' => null,
         ]);
+    }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function setAlreadyMemberEps_excepts_a_json_string()
+    {
+        $eps = factory(CurationGroup::class, 2)->create();
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_eps = json_encode($eps->pluck('id')->toArray());
+
+        $this->assertEquals($eps->pluck('id')->toArray(), json_decode($user->getAttributes()['already_member_eps']));
+    }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function setAlreadyMemberEps_excepts_an_array()
+    {
+        $eps = factory(CurationGroup::class, 2)->create();
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_eps = $eps->pluck('id')->toArray();
+
+        $this->assertEquals($eps->pluck('id')->toArray(), json_decode($user->getAttributes()['already_member_eps']));
+    }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function setAlreadyMemberEps_throws_Exception_if_value_not_string_or_array()
+    {
+        $eps = factory(CurationGroup::class, 2)->create();
+        $user = $this->makeVolunteer()->first();
+
+        $this->expectException(InvalidArgumentException::class);
+        $user->already_member_eps = $eps;
+    }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function returns_curation_group_models_for_already_member_eps()
+    {
+        $eps = factory(CurationGroup::class, 2)->create();
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_eps = json_encode($eps->pluck('id')->toArray());
+
+        $this->assertEquals($eps->pluck('name', 'id'), $user->already_member_eps->pluck('name', 'id'));
     }
 }

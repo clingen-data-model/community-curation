@@ -53,6 +53,8 @@
                 <dt class="col-sm-5">Closest City &amp; Timezone<br></dt>
                 <dd class="col-sm-7">{{volunteer.timezone}} - {{currentTimezone}}</dd>
             </dl>
+            
+            <already-member-notice :volunteer="volunteer"></already-member-notice>
 
             <b-modal v-model="showBasicInfoForm" title="Edit Contact Info" hide-footer size="lg">
                 <basic-info-form 
@@ -65,15 +67,17 @@
 </template>
 
 <script>
-
     import getAllCountries from '../../../resources/volunteers/get_all_countries'
+
+    import AlreadyMemberNotice from './AlreadyMemberNotice'
     import BasicInfoForm from './BasicInfoForm'
     import HypothesisReminder from './HypothesisReminder'
 
     export default {
         components: {
+            AlreadyMemberNotice,
             BasicInfoForm,
-            HypothesisReminder
+            HypothesisReminder,
         },
         props: {
             volunteer: {

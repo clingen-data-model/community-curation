@@ -49,6 +49,8 @@ class CreateVolunteerFromApplication
             'volunteer_status_id' => 1,
             'hypothesis_id' => $this->response->hypothesis_id,
             'timezone' => $this->response->timezone,
+            'already_clingen_member' => $this->response->already_clingen_member,
+            'already_member_eps' => $this->response->already_member_eps,
         ]);
         $user->assignRole('volunteer');
         $user->created_at = $this->response->finalized_at;
