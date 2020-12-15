@@ -73,7 +73,7 @@ class VolunteerController extends Controller
             'volunteer3MonthSurvey',
             'volunteer6MonthSurvey',
         ]);
-        $volunteer->member_groups = $volunteer->already_member_eps->pluck('name', 'id');
+        $volunteer->member_groups = $volunteer->member_groups;
 
         return view('volunteers.detail', ['volunteerId' => $volunteer->id, 'volunteerJson' => json_encode(new VolunteerUserResource($volunteer))]);
     }
