@@ -35,7 +35,8 @@ class VolunteerCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix').'/volunteer');
         $this->crud->setEntityNameStrings('volunteer', 'volunteers');
 
-        $this->crud->allowAccess(['list', 'create', 'update', 'delete', 'show']);
+        $this->crud->allowAccess(['list', 'create', 'delete', 'show']);
+        $this->crud->denyAccess(['update']);
 
         /*
         |--------------------------------------------------------------------------
@@ -53,24 +54,6 @@ class VolunteerCrudController extends CrudController
         // add asterisk for fields that are required in VolunteerRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
-
-        if (!\Auth::user()->can('create users')) {
-            $this->crud->RemoveButton('create');
-        }
-
-        if (!\Auth::user()->can('update users')) {
-            $this->crud->RemoveButtonFromStack('update', 'line');
-        }
-
-        if (!\Auth::user()->can('delete users')) {
-            $this->crud->RemoveButtonFromStack('delete', 'line');
-        }
-
-        if (\Auth::user()->canImpersonate()) {
-            $this->crud->addButtonFromView('line', 'impersonate-users', 'impersonate_user', 'end'); // add a button; possible types are: view, model_functiona
-        }
-
-        $this->crud->addButtonFromView('line', 'view_volunteer', 'view_volunteer', 'beginning');
 
         $this->crud->addFields([
             [
@@ -109,10 +92,54 @@ class VolunteerCrudController extends CrudController
                 'name' => 'timezone',
                 'label' => 'Timezone (Select city closest to you)',
                 'options' => collect((new SurveyOptions())->timezones())->pluck('name', 'id')->toArray(),
-            ]
+            ],
+        );
+
+        $this->crud->modifyField(
+            'already_member_eps',
+            [
+                'name' => 'already_member_eps',
+                'label' => 'Groups before C3',
+                'type' => 'filterable_multi_check',
+            ],
         );
 
         $this->crud->removeFields(['password', 'last_logged_in_at', 'last_logged_out_at']);
+
+        $this->crud->with('roles');
+    }
+
+    protected function setupCreateOperation()
+    {
+        $this->crud->setValidation(StoreRequest::class);
+    }
+
+    protected function setupUpdateOperation()
+    {
+        $this->crud->setValidation(UpdateRequest::class);
+    }
+
+    public function setupListOperation()
+    {
+        if (!\Auth::user()->can('create users')) {
+            $this->crud->RemoveButton('create');
+        }
+
+        // remove update button so we don't have to support member eps in multiple places.
+        // if (!\Auth::user()->can('update users')) {
+        //     $this->crud->RemoveButtonFromStack('update', 'line');
+        // }
+        $this->crud->removeButton('update');
+
+        if (!\Auth::user()->can('delete users')) {
+            $this->crud->RemoveButtonFromStack('delete', 'line');
+        }
+
+        if (\Auth::user()->canImpersonate()) {
+            $this->crud->addButtonFromView('line', 'impersonate-users', 'impersonate_user', 'end'); // add a button; possible types are: view, model_functiona
+        }
+
+        $this->crud->addButtonFromView('line', 'view_volunteer', 'view_volunteer', 'beginning');
 
         $this->crud->removeColumns([
             'password',
@@ -152,17 +179,5 @@ class VolunteerCrudController extends CrudController
                 'name' => 'volunteerStatus',
             ],
         ]);
-
-        $this->crud->with('roles');
-    }
-
-    protected function setupCreateOperation()
-    {
-        $this->crud->setValidation(StoreRequest::class);
-    }
-
-    protected function setupUpdateOperation()
-    {
-        $this->crud->setValidation(UpdateRequest::class);
     }
 }
