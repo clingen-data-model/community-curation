@@ -128,7 +128,13 @@
                         <input type="text" class="form-control" v-model="cgFilter" placeholder="filter">
                         <div class="border p-1 mt-2" style="height: 200px; overflow-y: scroll">
                             <div class="form-check form-check" v-for="group in filteredCurationGroups" :key="group.id">
-                                <input class="form-check-input" type="checkbox" :id="`curation-group-checkbox-${group.id}`" :value="group" v-model="updatedVolunteer.already_member_eps">
+                                <input 
+                                    :value="group.id" 
+                                    v-model="updatedVolunteer.already_member_eps"
+                                    type="checkbox" 
+                                    :id="`curation-group-checkbox-${group.id}`" 
+                                    class="form-check-input"
+                                >
                                 <label class="form-check-label" :for="`curation-group-checkbox-${group.id}`">
                                     {{group.name}}
                                 </label>
@@ -215,7 +221,7 @@
                         'country_id': this.updatedVolunteer.country_id,
                         'timezone': this.updatedVolunteer.timezone,
                         'already_clingen_member': this.updatedVolunteer.already_clingen_member,
-                        'already_member_eps': this.updatedVolunteer.already_member_eps.map(cg => cg.id)
+                        'already_member_eps': this.updatedVolunteer.already_member_eps
                     }
                 ).then(response => {
                     this.$emit('saved');

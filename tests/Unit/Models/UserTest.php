@@ -206,6 +206,17 @@ class UserTest extends TestCase
 
     /**
      * @test
+     */
+    public function setAlreadyMemberEpsAttribute_excepts_null()
+    {
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_eps = null;
+
+        $this->assertNull($user->already_member_eps);
+    }
+
+    /**
+     * @test
      * @group already-member-flag
      */
     public function setAlreadyMemberEps_excepts_an_array()
@@ -234,12 +245,12 @@ class UserTest extends TestCase
      * @test
      * @group already-member-flag
      */
-    public function returns_curation_group_models_for_already_member_eps()
+    public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_eps()
     {
         $eps = factory(CurationGroup::class, 2)->create();
         $user = $this->makeVolunteer()->first();
         $user->already_member_eps = json_encode($eps->pluck('id')->toArray());
 
-        $this->assertEquals($eps->pluck('name', 'id'), $user->already_member_eps->pluck('name', 'id'));
+        $this->assertEquals($eps->pluck('name', 'id'), $user->getAlreadyMemberCurationGroups()->pluck('name', 'id'));
     }
 }

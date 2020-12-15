@@ -92,6 +92,7 @@ class User extends Authenticatable implements IsNotable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'already_member_eps' => 'array',
     ];
 
     protected $appends = [
@@ -385,7 +386,7 @@ class User extends Authenticatable implements IsNotable
 
     public function setAlreadyMemberEpsAttribute($value)
     {
-        if (is_string($value)) {
+        if (is_string($value) || is_null($value)) {
             $this->attributes['already_member_eps'] = $value;
 
             return;
@@ -400,8 +401,11 @@ class User extends Authenticatable implements IsNotable
         throw new InvalidArgumentException('Expected ep_members_attribute value to be String or Array.  '.gettype($value).' received.');
     }
 
-    public function getAlreadyMemberEpsAttribute()
+    public function getAlreadyMemberCurationGroups()
     {
+        if (is_null($this->attributes['already_member_eps'])) {
+            return collect();
+        }
         try {
             $cgIds = json_decode($this->attributes['already_member_eps'], false, 512, JSON_THROW_ON_ERROR);
             if (!$cgIds) {
@@ -416,6 +420,11 @@ class User extends Authenticatable implements IsNotable
         }
 
         return collect();
+    }
+
+    public function getMemberGroupsAttribute()
+    {
+        return $this->getAlreadyMemberCurationGroups();
     }
 
     public function hasAptitude($aptitudeId)

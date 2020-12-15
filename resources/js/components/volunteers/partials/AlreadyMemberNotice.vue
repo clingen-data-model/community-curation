@@ -2,7 +2,7 @@
     <user-can permission="see clingen member info" class="alert alert-info" v-if="volunteer.isClingenMember()">
         {{volunteer.name}} is a ClinGen member in the following curation groups: 
         <ul>
-            <li v-for="cgName in volunteer.already_member_eps.map(i => i.name)" :key="cgName">
+            <li v-for="cgName in volunteer.member_groups.map(i => i.name)" :key="cgName">
                 {{cgName}}
             </li>
         </ul>
