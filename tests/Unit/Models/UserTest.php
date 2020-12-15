@@ -8,7 +8,7 @@ use App\Priority;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use InvalidArgumentException;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
@@ -193,63 +193,37 @@ class UserTest extends TestCase
 
     /**
      * @test
-     * @group already-member-flag
      */
-    public function setAlreadyMemberEps_excepts_a_json_string()
-    {
-        $eps = factory(CurationGroup::class, 2)->create();
-        $user = $this->makeVolunteer()->first();
-        $user->already_member_eps = json_encode($eps->pluck('id')->toArray());
-
-        $this->assertEquals($eps->pluck('id')->toArray(), json_decode($user->getAttributes()['already_member_eps']));
-    }
-
-    /**
-     * @test
-     */
-    public function setAlreadyMemberEpsAttribute_excepts_null()
+    public function setAlreadyMemberEpsAttribute_accepts_null_value()
     {
         $user = $this->makeVolunteer()->first();
-        $user->already_member_eps = null;
+        $user->already_member_cgs = null;
 
-        $this->assertNull($user->already_member_eps);
+        $this->assertNull($user->already_member_cgs);
     }
 
     /**
      * @test
      * @group already-member-flag
      */
-    public function setAlreadyMemberEps_excepts_an_array()
+    public function getAlreadyMemberCurationGroups_returns_empty_collection_when_already_member_cgs_is_null()
     {
-        $eps = factory(CurationGroup::class, 2)->create();
         $user = $this->makeVolunteer()->first();
-        $user->already_member_eps = $eps->pluck('id')->toArray();
+        $user->already_member_cgs = null;
 
-        $this->assertEquals($eps->pluck('id')->toArray(), json_decode($user->getAttributes()['already_member_eps']));
+        $this->assertInstanceOf(Collection::class, $user->getAlreadyMemberCurationGroups());
+        $this->assertEquals(0, $user->getAlreadyMemberCurationGroups()->count());
     }
 
     /**
      * @test
      * @group already-member-flag
      */
-    public function setAlreadyMemberEps_throws_Exception_if_value_not_string_or_array()
+    public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_cgs()
     {
         $eps = factory(CurationGroup::class, 2)->create();
         $user = $this->makeVolunteer()->first();
-
-        $this->expectException(InvalidArgumentException::class);
-        $user->already_member_eps = $eps;
-    }
-
-    /**
-     * @test
-     * @group already-member-flag
-     */
-    public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_eps()
-    {
-        $eps = factory(CurationGroup::class, 2)->create();
-        $user = $this->makeVolunteer()->first();
-        $user->already_member_eps = json_encode($eps->pluck('id')->toArray());
+        $user->already_member_cgs = $eps->pluck('id')->toArray();
 
         $this->assertEquals($eps->pluck('name', 'id'), $user->getAlreadyMemberCurationGroups()->pluck('name', 'id'));
     }

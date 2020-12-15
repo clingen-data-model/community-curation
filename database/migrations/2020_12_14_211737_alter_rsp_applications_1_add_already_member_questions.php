@@ -14,7 +14,7 @@ class AlterRspApplications1AddAlreadyMemberQuestions extends Migration
     {
         Schema::table('rsp_application_1', function ($table) {
             $table->integer('already_clingen_member')->nullable()->after('volunteer_type');
-            $table->json('already_member_eps')->nullable()->after('already_clingen_member');
+            $table->json('already_member_cgs')->nullable()->after('already_clingen_member');
         });
     }
 
@@ -27,7 +27,7 @@ class AlterRspApplications1AddAlreadyMemberQuestions extends Migration
     {
         Schema::table('rsp_application_1', function ($table) {
             $table->$table->dropColumn('already_clingen_member');
-            $table->$table->dropColumn('already_member_eps');
+            $table->$table->dropColumn('already_member_cgs');
         });
     }
 }

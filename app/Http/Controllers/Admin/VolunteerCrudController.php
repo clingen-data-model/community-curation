@@ -96,9 +96,9 @@ class VolunteerCrudController extends CrudController
         );
 
         $this->crud->modifyField(
-            'already_member_eps',
+            'already_member_cgs',
             [
-                'name' => 'already_member_eps',
+                'name' => 'already_member_cgs',
                 'label' => 'Groups before C3',
                 'type' => 'filterable_multi_check',
             ],
