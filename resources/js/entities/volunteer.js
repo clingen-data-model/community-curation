@@ -46,6 +46,12 @@ let Volunteer = class {
         }
     }
 
+    isClingenMember() {
+        if (this.isLoaded()) {
+            return this.already_clingen_member == 1;
+        }
+    }
+
     getAssignedActivities() {
         if (this.isLoaded) {
             return this.attributes.assignments.map(assignment => assignment.assignable);
@@ -80,6 +86,10 @@ let Volunteer = class {
         }
 
         return true;
+    }
+
+    clone() {
+        return new Volunteer(JSON.parse(JSON.stringify(this.attributes)));
     }
 }
 

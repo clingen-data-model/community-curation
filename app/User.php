@@ -17,6 +17,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
+use InvalidArgumentException;
+use JsonException;
 use Lab404\Impersonate\Models\Impersonate;
 use Lab404\Impersonate\Services\ImpersonateManager;
 use Laravel\Passport\HasApiTokens;
@@ -59,6 +61,8 @@ class User extends Authenticatable implements IsNotable
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
+        'already_clingen_member',
+        'already_member_eps',
         'institution',
         'street1',
         'street2',
@@ -377,6 +381,41 @@ class User extends Authenticatable implements IsNotable
     public function getTimezoneAttribute()
     {
         return $this->attributes['timezone'] ?? 'UTC';
+    }
+
+    public function setAlreadyMemberEpsAttribute($value)
+    {
+        if (is_string($value)) {
+            $this->attributes['already_member_eps'] = $value;
+
+            return;
+        }
+
+        if (is_array($value)) {
+            $this->attributes['already_member_eps'] = json_encode($value);
+
+            return;
+        }
+
+        throw new InvalidArgumentException('Expected ep_members_attribute value to be String or Array.  '.gettype($value).' received.');
+    }
+
+    public function getAlreadyMemberEpsAttribute()
+    {
+        try {
+            $cgIds = json_decode($this->attributes['already_member_eps'], false, 512, JSON_THROW_ON_ERROR);
+            if (!$cgIds) {
+                return collect();
+            }
+
+            return CurationGroup::find($cgIds);
+        } catch (JsonException $th) {
+            report($th);
+
+            return collect();
+        }
+
+        return collect();
     }
 
     public function hasAptitude($aptitudeId)

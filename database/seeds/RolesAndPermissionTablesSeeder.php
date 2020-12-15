@@ -36,6 +36,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
         $canViewLogsPermission = Permission::firstOrCreate(['name' => 'view logs']);
         $runReports = Permission::firstOrCreate(['name' => 'run reports']);
+        $seeAlreadyMember = Permission::firstOrCreate(['name' => 'see clingen member info']);
+        $setAlreadyMember = Permission::firstOrCreate(['name' => 'set clingen member info']);
 
         $programmer = Role::firstOrCreate(['name' => 'programmer']);
         $this->giveActionPermissionsToRole($programmer, 'users', ['list', 'create', 'update', 'delete']);
@@ -55,6 +57,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
         $this->givePermissionToRole($programmer, $canViewLogsPermission);
         $this->givePermissionToRole($programmer, $runReports);
+        $this->givePermissionToRole($programmer, $seeAlreadyMember);
+        $this->givePermissionToRole($programmer, $setAlreadyMember);
 
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $this->giveActionPermissionsToRole($superAdmin, 'users', ['list', 'create', 'update']);
@@ -72,6 +76,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->givePermissionToRole($superAdmin, $administerPermission);
         $this->givePermissionToRole($superAdmin, $canImpersonatePermission);
         $this->givePermissionToRole($superAdmin, $runReports);
+        $this->givePermissionToRole($superAdmin, $seeAlreadyMember);
+        $this->givePermissionToRole($superAdmin, $setAlreadyMember);
 
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $this->giveActionPermissionsToRole($admin, 'users', ['list', 'create', 'update']);
