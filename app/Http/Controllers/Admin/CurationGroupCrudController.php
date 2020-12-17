@@ -47,52 +47,65 @@ class CurationGroupCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        $this->crud->addFields([
-            [
-                'label' => 'Curation Activity',
-                'type' => 'select2',
-                'name' => 'curation_activity_id',
-                'entity' => 'curationActivity',
-                'attribute' => 'name',
-                'model' => CurationActivity::class,
-            ],
-            [
-                'label' => 'Working Group',
-                'type' => 'select2',
-                'name' => 'working_group_id',
-                'entity' => 'workingGroup',
-                'attribute' => 'name',
-                'model' => WorkingGroup::class,
-            ],
-            [
-                'label' => 'Accepting Volunters',
-                'type' => 'checkbox',
-                'name' => 'accepting_volunteers',
-            ],
-        ], 'both');
+        $this->crud->modifyField('curation_activity_id', [
+            'label' => 'Curation Activity',
+            'type' => 'select',
+            'entity' => 'curationActivity',
+            'name' => 'curation_activity_id',
+            'attribute' => 'name',
+            'model' => CurationActivity::class,
+            'options' => (function ($query) {
+                $options = $query->get();
+                $options->prepend(new CurationActivity(['name' => '-', 'id' => null]));
 
-        $this->crud->addColumns([
-            [
+                return $options;
+            }),
+        ]);
+
+        $this->crud->modifyField('working_group_id', [
+            'label' => 'Working Group',
+            'type' => 'select2',
+            'name' => 'working_group_id',
+            'entity' => 'workingGroup',
+            'attribute' => 'name',
+            'model' => WorkingGroup::class,
+        ]);
+
+        $this->crud->with('curationActivity');
+    }
+
+    protected function setupCreateOperation()
+    {
+        $this->crud->setValidation(StoreRequest::class);
+    }
+
+    protected function setupUpdateOperation()
+    {
+        $this->crud->setValidation(UpdateRequest::class);
+    }
+
+    protected function setupListOperation()
+    {
+        $this->crud->setColumnDetails('curation_activity_id', [
                 'label' => 'Curation Activity', // Table column heading
                 'type' => 'select',
                 'name' => 'curation_activity_id', // the column that contains the ID of that connected entity;
                 'entity' => 'curationActivity', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => CurationActivity::class, // foreign key model
-            ],
-            [
+        ]);
+        $this->crud->setColumnDetails('working_group_id', [
                 'label' => 'Working Group', // Table column heading
                 'type' => 'select',
                 'name' => 'working_group_id', // the column that contains the ID of that connected entity;
                 'entity' => 'workingGroup', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => WorkingGroup::class, // foreign key model
-            ],
-            [
+        ]);
+        $this->crud->addColumn([
                 'label' => 'Accepting Volunters',
                 'type' => 'boolean',
                 'name' => 'accepting_volunteers',
-            ],
         ]);
 
         $this->crud->removeColumn(['url']);
@@ -108,17 +121,5 @@ class CurationGroupCrudController extends CrudController
         if (!\Auth::user()->can('delete working-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
-
-        $this->crud->with('curationActivity');
-    }
-
-    protected function setupCreateOperation()
-    {
-        $this->crud->setValidation(StoreRequest::class);
-    }
-
-    protected function setupUpdateOperation()
-    {
-        $this->crud->setValidation(UpdateRequest::class);
     }
 }
