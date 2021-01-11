@@ -87,6 +87,7 @@ class VolunteerController extends Controller
             'volunteer3MonthSurvey',
             'volunteer6MonthSurvey',
         ]);
+        $volunteer->member_groups = $volunteer->member_groups;
 
         return new VolunteerUserResource($volunteer);
     }

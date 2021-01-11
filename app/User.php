@@ -17,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
+use JsonException;
 use Lab404\Impersonate\Models\Impersonate;
 use Lab404\Impersonate\Services\ImpersonateManager;
 use Laravel\Passport\HasApiTokens;
@@ -59,6 +60,8 @@ class User extends Authenticatable implements IsNotable
         'password',
         'volunteer_status_id',
         'volunteer_type_id',
+        'already_clingen_member',
+        'already_member_cgs',
         'institution',
         'street1',
         'street2',
@@ -88,6 +91,7 @@ class User extends Authenticatable implements IsNotable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'already_member_cgs' => 'array',
     ];
 
     protected $appends = [
@@ -377,6 +381,33 @@ class User extends Authenticatable implements IsNotable
     public function getTimezoneAttribute()
     {
         return $this->attributes['timezone'] ?? 'UTC';
+    }
+
+    public function getAlreadyMemberCurationGroups()
+    {
+        if (is_null($this->already_member_cgs)) {
+            return collect();
+        }
+
+        try {
+            $cgIds = $this->already_member_cgs;
+            if (!$cgIds) {
+                return collect();
+            }
+
+            return CurationGroup::find($cgIds);
+        } catch (JsonException $th) {
+            report($th);
+
+            return collect();
+        }
+
+        return collect();
+    }
+
+    public function getMemberGroupsAttribute()
+    {
+        return $this->getAlreadyMemberCurationGroups();
     }
 
     public function hasAptitude($aptitudeId)

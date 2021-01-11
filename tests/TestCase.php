@@ -40,6 +40,19 @@ abstract class TestCase extends BaseTestCase
         return $this->createUser($data, $number, ['volunteer']);
     }
 
+    protected function makeVolunteer($data = [], $number = 1)
+    {
+        $users = factory(User::class, $number)
+                ->states(['volunteer'])
+                ->make($data);
+
+        if ($users->count() == 1) {
+            return $users->first();
+        }
+
+        return $users;
+    }
+
     protected function expectUnauthorized()
     {
         $this->withoutExceptionHandling();
