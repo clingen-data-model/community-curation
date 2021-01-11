@@ -3,10 +3,12 @@
 namespace Tests\Unit\Models;
 
 use App\Contracts\IsNotable;
+use App\CurationGroup;
 use App\Priority;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
@@ -187,5 +189,42 @@ class UserTest extends TestCase
             'id' => $response->id,
             'deleted_at' => null,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function setAlreadyMemberEpsAttribute_accepts_null_value()
+    {
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_cgs = null;
+
+        $this->assertNull($user->already_member_cgs);
+    }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function getAlreadyMemberCurationGroups_returns_empty_collection_when_already_member_cgs_is_null()
+    {
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_cgs = null;
+
+        $this->assertInstanceOf(Collection::class, $user->getAlreadyMemberCurationGroups());
+        $this->assertEquals(0, $user->getAlreadyMemberCurationGroups()->count());
+    }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_cgs()
+    {
+        $eps = factory(CurationGroup::class, 2)->create();
+        $user = $this->makeVolunteer()->first();
+        $user->already_member_cgs = $eps->pluck('id')->toArray();
+
+        $this->assertEquals($eps->pluck('name', 'id'), $user->getAlreadyMemberCurationGroups()->pluck('name', 'id'));
     }
 }

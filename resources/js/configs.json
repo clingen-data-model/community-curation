@@ -74,6 +74,6 @@
     },
     "mailFrom": {
         "address": "volunteer@clinicalgenome.org",
-        "name": "Example"
+        "name": "ClinGen CCDB"
     }
 }

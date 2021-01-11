@@ -194,7 +194,7 @@
                     <value>0</value>
                     <label>No</label>
                 </option>
-                <option show="already_member_eps">
+                <option show="already_member_cgs">
                     <value>1</value>
                     <label>Yes</label>
                 </option>
@@ -202,7 +202,7 @@
         </multiple-choice>
 
 
-        <multiple-choice name="already_member_eps" id="already_member_eps" num-selectable="10" data-format="json">
+        <multiple-choice name="already_member_cgs" id="already_member_cgs" num-selectable="10" data-format="json">
             <question-text>
                 <![CDATA[In which expert panels are you currently a member? (Check all that apply)]]>
             </question-text>

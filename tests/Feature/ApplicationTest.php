@@ -288,4 +288,26 @@ class ApplicationTest extends TestCase
             return $mail->hasTo($rsp->email);
         });
     }
+
+    /**
+     * @test
+     * @group already-member-flag
+     */
+    public function copies_already_member_response_values_to_user_on_application_finalized()
+    {
+        $epJson = json_encode([1, 2]);
+        $rsp = $this->survey->getNewResponse(null);
+        $rsp->first_name = 'billy';
+        $rsp->last_name = 'pilgrim';
+        $rsp->email = 'test@test.com';
+        $rsp->already_clingen_member = 1;
+        $rsp->already_member_cgs = $epJson;
+        $rsp->save();
+        $rsp->finalize();
+
+        $user = $rsp->respondent()->first();
+
+        $this->assertEquals(1, $user->already_clingen_member);
+        $this->assertEquals(json_decode($epJson), json_decode($user->getAttributes()['already_member_cgs']));
+    }
 }
