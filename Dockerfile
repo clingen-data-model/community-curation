@@ -12,7 +12,10 @@ ENV XDG_CONFIG_HOME=/srv/app
 USER root
 
 WORKDIR /srv/app
+
 COPY ./composer.lock ./composer.json /srv/app/
+COPY ./database/seeds ./database/seeds
+COPY ./database/factories ./database/factories
 
 RUN composer install \
         --no-interaction \
@@ -24,16 +27,19 @@ RUN composer install \
 
 COPY .docker/php/conf.d/* $PHP_INI_DIR/conf.d/
 
+COPY .docker/start.sh /usr/local/bin/start
+
 COPY . /srv/app
 
 RUN chgrp -R 0 /srv/app \
     && chmod -R g+w /srv/app \
-    && chmod g+x /srv/app/.openshift/deploy.sh
+    && chmod g+x /srv/app/.openshift/deploy.sh \
+    && chmod g+x /usr/local/bin/start
     # && pecl install xdebug-2.9.5 \
     # && docker-php-ext-enable xdebug \
-
-WORKDIR /srv/app
 
 RUN php artisan storage:link
 
 USER 1001
+
+CMD ["/usr/local/bin/start"]
