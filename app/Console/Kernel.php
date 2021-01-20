@@ -22,6 +22,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        if (env('TEST_SCHEDULER')) {
+            $schedule->call(function () {
+                \Log::info('testing scheduler');
+            })->everyMinute();
+        }
+
         $schedule->command('volunteers:notify-followup')
                  ->dailyAt('01:00');
         $schedule->command('applications:clean')
