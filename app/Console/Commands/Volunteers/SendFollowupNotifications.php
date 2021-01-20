@@ -55,6 +55,7 @@ class SendFollowupNotifications extends Command
     public function __construct()
     {
         parent::__construct();
+        \Log::info('Send any followup survey notifications');
         $this->followups = [
             [
                 'days' => 90,

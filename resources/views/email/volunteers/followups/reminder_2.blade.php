@@ -1,4 +1,4 @@
-<p>Hello Volunteer!</p>
+<p>Hello {{$volunteer->name}}!</p>
 
 <p>
     Thanks again to all of those that have given us feedback via the volunteer survey. 
