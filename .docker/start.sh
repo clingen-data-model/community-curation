@@ -5,7 +5,7 @@ set -e
 role=${CONTAINER_ROLE:-app}
 env=${CONTAINER_ENV:-production}
 
-if [ "$env" != "local"]; then
+if [ "$env" != "local" ]; then
     echo "Caching configuration..."
     # (cd /srv/app && php artisan config:cache && php artisan route:cache && php artisan view:cache)
     (cd /srv/app && .openshift/deploy.sh)
