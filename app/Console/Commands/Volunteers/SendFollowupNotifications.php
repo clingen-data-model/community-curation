@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands\Volunteers;
 
-use App\Notifications\VolunteerFollowup\FollowupReminder1;
-use App\Notifications\VolunteerFollowup\FollowupReminder2;
-use App\Notifications\VolunteerFollowup\InitialFollowupNotification;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\VolunteerFollowup\FollowupReminder1;
+use App\Notifications\VolunteerFollowup\FollowupReminder2;
+use App\Notifications\VolunteerFollowup\InitialFollowupNotification;
 
 class SendFollowupNotifications extends Command
 {
@@ -48,6 +49,12 @@ class SendFollowupNotifications extends Command
     private $followups;
 
     /**
+     * @var array
+     */
+    private $followupsSent = [];
+    
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -55,7 +62,6 @@ class SendFollowupNotifications extends Command
     public function __construct()
     {
         parent::__construct();
-        \Log::info('Send any followup survey notifications');
         $this->followups = [
             [
                 'days' => 90,
@@ -79,16 +85,18 @@ class SendFollowupNotifications extends Command
     {
         foreach ($this->followups as $value) {
             extract($value);
-            $this->sendInitialNotification($days, $url);
+            $this->sendInitialNotification($days, $survey, $url);
             $this->sendFollowup1(($days + 7), $survey, $url);
             $this->sendFollowup2(($days + 21), $survey, $url);
         }
+        \Log::info('Sent followup survey notifications', $this->followupsSent);
     }
 
-    private function sendInitialNotification($days, $url)
+    private function sendInitialNotification($days, $survey, $url)
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays($days));
         $recipients = $recipientQuery->get();
+        $this->noteNotificaitonSent($survey, 'initial', $recipients);
         Notification::send($recipients, new InitialFollowupNotification($url));
     }
 
@@ -101,6 +109,8 @@ class SendFollowupNotifications extends Command
 
         $recipients = $recipientQuery->get();
 
+        $this->noteNotificaitonSent($survey, 'first-followup', $recipients);
+
         Notification::send($recipients, new FollowupReminder1($url));
     }
 
@@ -112,6 +122,7 @@ class SendFollowupNotifications extends Command
                             });
 
         $recipients = $recipientQuery->get();
+        $this->noteNotificaitonSent($survey, 'second-followup', $recipients);
 
         Notification::send($recipients, new FollowupReminder2($url));
     }
@@ -127,5 +138,10 @@ class SendFollowupNotifications extends Command
                 ->groupBy('user_id')
                 ->having('min_date', $date);
         });
+    }
+
+    private function noteNotificaitonSent($survey, $notification, Collection $recipients)
+    {
+        $this->followupsSent[$survey][$notification] = $recipients->pluck('email', 'id')->toArray();
     }
 }
