@@ -169,7 +169,7 @@
         <multiple-choice name="volunteer_type" id="volunteer_type" num-selectable="1" required="1">
             <template source="surveys.application.commitment-table"></template>
             <question-text>
-                <![CDATA[There are two levels at which you can volunteer: Baseline and Comprehensive.  <br>Please review the table belown and decide what level of commitment is right for you.*]]>
+                <![CDATA[There are two levels at which you can volunteer: Baseline and Comprehensive.  <br>Please review the table below and decide what level of commitment is right for you.*]]>
             </question-text>
             <options>
                 <option name="volunteer_typeBaseline">
