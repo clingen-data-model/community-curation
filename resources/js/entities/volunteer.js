@@ -17,7 +17,8 @@ let Volunteer = class {
             latest_priorities: [{
 
             }],
-            assignments: []
+            assignments: [],
+            already_member_cgs: []
         };
 
         this.attributes = {...defaults, ...data };
