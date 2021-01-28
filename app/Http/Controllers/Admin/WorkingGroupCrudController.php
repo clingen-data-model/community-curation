@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\WorkingGroupRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\WorkingGroupRequest as UpdateRequest;
 use App\WorkingGroup;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\CrudPanel;
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Redirect;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use App\Http\Requests\WorkingGroupRequest as StoreRequest;
+use App\Http\Requests\WorkingGroupRequest as UpdateRequest;
 
 /**
  * Class WorkingGroupCrudController.
@@ -19,7 +21,7 @@ class WorkingGroupCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation { destroy as traitDestroy; }
 
     public function setup()
     {
@@ -66,5 +68,19 @@ class WorkingGroupCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->crud->setValidation(UpdateRequest::class);
+    }
+
+    public function destroy($id)
+    {
+        $wg = WorkingGroup::findOrFail($id);
+        $curationGroupCount = $wg->curationGroups()->count();
+        if ($curationGroupCount > 0) {
+            $message = 'This working group has curation groups associated with it. You must delete those curation groups before you can delete the working group.';
+            return response(['error' => $message], 422);
+        }
+
+        return $this->traitDestroy($id);
+
+
     }
 }
