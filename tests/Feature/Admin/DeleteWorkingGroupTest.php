@@ -31,8 +31,8 @@ class DeleteWorkingGroupTest extends TestCase
 
         $this->actingAs($this->user, 'api')
             ->json('DELETE', 'admin/working-group/'.$this->wg->id)
-            ->assertStatus(302)
-            ->assertSessionHas('error', 'Working group has curation groups associated with it. You must delete those curation groups before you can delete the working group.');
+            ->assertStatus(422)
+            ->assertJson(['error' => 'This working group has curation groups associated with it. You must delete those curation groups before you can delete the working group.']);
     }
     
     
