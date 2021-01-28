@@ -100,7 +100,7 @@ class VolunteerCrudController extends CrudController
             [
                 'name' => 'already_member_cgs',
                 'label' => 'Groups before C3',
-                'type' => 'filterable_multi_check',
+                'type' => 'filterable_multicheck',
             ],
         );
 

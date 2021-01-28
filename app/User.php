@@ -410,6 +410,13 @@ class User extends Authenticatable implements IsNotable
         return $this->getAlreadyMemberCurationGroups();
     }
 
+    public function getAlreadyMemberCgsAttribute()
+    {
+        return is_null($this->attributes['already_member_cgs'])
+                ? []
+                : json_decode($this->attributes['already_member_cgs']);
+    }
+
     public function hasAptitude($aptitudeId)
     {
         return $this->aptitudes()->where('id', $aptitudeId)->count() > 0;

@@ -1,7 +1,6 @@
 <template>
     <div>
         <form>
-
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-6">
