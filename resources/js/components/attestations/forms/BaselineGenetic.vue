@@ -5,7 +5,7 @@
         <attestation-question
             v-for="(question, idx) in questions" :key="idx"
             :question="question.question"
-            value="question.value"
+            :value="question.value"
             :name="question.name"
             :required="question.required"
             @input="$set(question, 'value', $event);"
@@ -85,12 +85,12 @@ export default {
                 {
                     name: 'registered_with_hypothesis',
                     question: 'I have registered for a hypothes.is user account. *',
-                    value: null,
+                    value: (this.attestation.user.hypothesis_id) ? 1 : null,
                     required: true,
                 }
             ],
             hypothesis_id: this.attestation.user.hypothesis_id,
-            showHypothesisId: this.attestation.user.hypothesis_id ? true : false,
+            showHypothesisId: this.attestation.user.hypothesis_id ? 1 : false,
             signedAt: moment().format('YYYY-MM-DD'),
             canSubmit: false
         }
