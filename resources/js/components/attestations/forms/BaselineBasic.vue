@@ -1,63 +1,37 @@
 <template>
-    <attestation-form title="Baseline Annotation Attestation" :signable="allYes">
-        <question-block>
+    <attestation-form title="Baseline Annotation Attestation" :signable="canSubmit">
+        <p>Please review the statements below and check "Yes" or "No". Then sign your name to signify that you have reviewed these training materials.</p>
+
+        <attestation-question
+            v-for="(question, idx) in questions" :key="idx"
+            :question="question.question"
+            value="question.value"
+            :name="question.name"
+            :required="question.required"
+            @input="$set(question, 'value', $event);"
+        >
+        </attestation-question>
+
+
+        <question-block v-show="showHypothesisId" class="form-inline ml-4">
             <template slot="question-text">
-                I have watched the Baseline Annotation tutorial and understand the process of web assisted annotation? 
+                My hypothes.is username:&nbsp;
             </template>
-            <radio-group  slot="answer-block"
-                name="watched_anotation_tutorial"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                v-model="watched_anotation_tutorial"
-            ></radio-group>
+            <input type="text" v-model="hypothesis_id" slot="answer-block" class="form-control" name="hypothesis_id" @input="checkCanSubmit()">
         </question-block>
 
-        <question-block>
-            <template slot="question-text">
-                I have read the Hypothes.is Annotation Overview?
-            </template>
-            <radio-group  slot="answer-block"
-                name="read_hypothesis_overview"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                v-model="read_hypothesis_overview"
-            ></radio-group>
-        </question-block>
 
-        <question-block>
-            <template slot="question-text">
-                I have created a hypothes.is user account?
-            </template>
-            <radio-group  slot="answer-block"
-                name="created_hypothesis_account"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                v-model="created_hypothesis_account"
-                @input="toggleHypothesisIdQuestion"
-            ></radio-group>
-        </question-block>
-
-        <question-block v-show="showHyptothesisId" class="form-inline ml-4">
-            <template slot="question-text">
-                My hypothes.is username:
-            </template>
-            <input type="text" v-model="hypothesis_id" slot="answer-block" class="form-control" name="hypothesis_id">
-        </question-block>
-
-        <question-block>
-            <template slot="question-text">
-                I have attended/reviewed the live web conference training session for Baseline Annotation?
-            </template>
-            <radio-group  slot="answer-block"
-                name="attended_web_training"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                v-model="attended_web_training"
-            ></radio-group>
-        </question-block>
-        <div slot="signature-text">I, {{attestation.user.name}}, attest that as of {{signedAt}} I have completed all the elements of the ClinGen Baseline Annotation Training.</div>
+        <div slot="signature-text">I, {{attestation.user.name}}, attest that as of {{signedAt}} I have completed all the elements of the Baseline Basic evidence Training.</div>
     </attestation-form>
 </template>
 <script>
 import moment from 'moment';
+import AttestationQuestion from './AttestationQuestion'
 
 export default {
+    components: {
+        AttestationQuestion
+    },
     props: {
         attestation: {
             type: Object,
@@ -66,34 +40,93 @@ export default {
     },
     data() {
         return {
-            watched_anotation_tutorial: null,
-            read_hypothesis_overview: null,
-            created_hypothesis_account: this.attestation.user.hypothesis_id ? 1 : 0,
-            attended_web_training: null,
-            signature: null,
-            signedAt: moment().format('YYYY-MM-DD'),
+            questions: [
+                {
+                    name: "reviewed_annotation_overview",
+                    question: "I have reviewed the Baseline Annotation Overview and understand this curation process. *",
+                    value: null,
+                    required: true,
+                },
+                {
+                    name: "reviewed_protocol_review",
+                    question: "I have reviewed the Baseline Annotation Protocol Review and understand this resource. *",value: null,
+                    required: "true",
+                },
+                {            
+                    name: "watched_variants_and_nomenclature",
+                    question: "I have watched the “Introduction to Variants and Nomenclature” video and understand thi *s process.",
+                    value: null,
+                    required: "true"
+                },
+                {
+                    name: "watched_into_to_genome_build_and_transcripts",
+                    question: "I have watched the “Introduction to genome builds and transcripts” video and understan *d this process." ,
+                    value: null,
+                    required: "true"
+                },
+                {
+                    name: 'watched_allele_registry_overview',
+                    question: "I have watched the “Basic Overview of using the ClinGen Allele Registry” video an *d understand this resource.",
+                    value: null,
+                    required: true
+                },
+                {
+                    name: 'watched_utilizing_clinvar',
+                    question: 'I have watched the “Utilizing ClinVar for Allele Identifiers” video and understand thi *s resource.',
+                    value: null,
+                    required: true
+                },
+                {
+                    name: 'attended_live_training',
+                    question: 'I have attended the live, interactive virtual training session for Baseline Annotation. *',
+                    value: null,
+                    required: true
+                },
+                {
+                    name: 'registered_with_hypothesis',
+                    question: 'I have registered for a hypothes.is user account. *',
+                    value: null,
+                    required: true,
+                }
+            ],
             hypothesis_id: this.attestation.user.hypothesis_id,
-            showHyptothesisId: this.attestation.user.hypothesis_id ? true : false,
+            showHypothesisId: this.attestation.user.hypothesis_id ? true : false,
+            signedAt: moment().format('YYYY-MM-DD'),
+            canSubmit: false
         }
     },
-    computed: {
-        allYes: function () {
-            return this.watched_anotation_tutorial === 1
-                    && this.read_hypothesis_overview === 1
-                    && this.created_hypothesis_account === 1 
-                    && this.attended_web_training === 1;
+    watch: {
+        questions: {
+            deep: true,
+            handler: function() {
+                this.toggleHypothesisIdQuestion();
+                this.checkCanSubmit();
+            }
         }
     },
     methods: {
+        checkCanSubmit() {
+                for (let idx in this.questions.filter(q => q.required)) {
+                    console.info('question:', this.questions[idx])
+                    if (this.questions[idx].value != 1) {
+                        this.canSubmit = false;
+                        return;
+                    }
+                }
+                if (this.hypothesis_id === null || this.hypothesis_id == '') {
+                    this.canSubmit = false;
+                    return;
+                }
+
+                this.canSubmit = true;                
+        },
         toggleHypothesisIdQuestion() {
-            console.log('toggleHypothesisIdQuestion')
-            console.log(this.created_hypothesis_account);
-            if (this.created_hypothesis_account == 1) {
-                this.showHyptothesisId = true;
+            if (this.questions.find(i => i.name == 'registered_with_hypothesis').value == 1) {
+                this.showHypothesisId = true;
                 return;
             }
-            this.showHyptothesisId = false;
-            this.hyptothesis_id = this.attestation.user.hypothesis_id;
+            this.showHypothesisId = false;
+            this.hypothesis_id = this.attestation.user.hypothesis_id;
 
         }
     }

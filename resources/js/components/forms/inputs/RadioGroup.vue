@@ -2,7 +2,8 @@
 
 <template>
     <div class="radio-group">
-        <div class="form-check"
+        <div class="form-check mr-3"
+            :class="{'form-check-inline': inline}"
             v-for="(option, idx) in options" :key="idx"
         >
             <input 
@@ -13,6 +14,7 @@
                 v-model="valueCopy"
                 @change="$emit('change')"
             >
+            &nbsp;
             <label :for="`${name}-${option.value}`">
                 {{option.label}}
             </label>
@@ -33,6 +35,11 @@
             options: {
                 required: true,
                 type: Array
+            },
+            inline: {
+                required: false,
+                type: Boolean,
+                default: false,
             }
             
         },  
