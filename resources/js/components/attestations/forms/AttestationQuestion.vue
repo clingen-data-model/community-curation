@@ -3,6 +3,7 @@
         <template slot="question-text">
                 {{question}}
         </template>
+        <pre>{{proxyValue}}</pre>
         <boolean-radio-group
             slot="answer-block"
             :name="name"
