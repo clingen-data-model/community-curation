@@ -194,12 +194,12 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function setAlreadyMemberEpsAttribute_accepts_null_value()
+    public function setAlreadyMemberCgsAttribute_accepts_null_value()
     {
         $user = $this->makeVolunteer()->first();
         $user->already_member_cgs = null;
 
-        $this->assertNull($user->already_member_cgs);
+        $this->assertNull($user->getAttributes()['already_member_cgs']);
     }
 
     /**
