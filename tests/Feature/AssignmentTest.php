@@ -193,8 +193,10 @@ class AssignmentTest extends TestCase
     public function deletes_user_aptitudes_related_to_assignment_when_deleting()
     {
         Carbon::setTestNow('2020-01-01 01:01:01');
-        $ca = CurationActivity::all()->random();
-        $apt = $ca->aptitudes->first();
+        $ca = CurationActivity::query()
+                ->geneType()
+                ->get()->random();
+        $apt = $ca->getPrimaryAptitude();
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
 
@@ -202,6 +204,7 @@ class AssignmentTest extends TestCase
                         ->userAptitudes()
                         ->where('aptitude_id', $apt->id)
                         ->get();
+
         $this->assertEquals(1, $aptitudes->count());
 
         $assignment = $volunteer->assignments()->first();
