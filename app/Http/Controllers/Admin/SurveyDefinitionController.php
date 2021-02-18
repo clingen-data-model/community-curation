@@ -28,13 +28,14 @@ class SurveyDefinitionController extends Controller
                                 'name' => $q->variableName,
                                 'data-type' => $q->dataFormat,
                                 'required' => $q->required,
-                                'validationRules' => $q->validationRules
+                                'validationRules' => $q->validationRules,
                             ];
 
                             if ($q->hasOptions()) {
                                 $data['options'] = $q->options->map(function ($opt) {
                                     return $opt->label;
                                 });
+                                $data['single/multiple'] = $q->numSelectable > 1 ? 'multiple' : 'single';
                             }
                             return $data;
                         });
