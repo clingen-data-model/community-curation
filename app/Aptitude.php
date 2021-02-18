@@ -64,4 +64,14 @@ class Aptitude extends Model
     {
         return $this->attributes['is_primary'];
     }
+
+    public function scopeIsPrimary($query)
+    {
+        return $query->where('is_primary', 1);
+    }
+
+    public function scopeIsSecondary($query)
+    {
+        return $query->where('is_primary', '!=', 1);
+    }
 }
