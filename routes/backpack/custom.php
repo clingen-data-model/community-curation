@@ -12,6 +12,10 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+    Route::get('/survey-definitions', 'SurveyDefinitionController@index');
+    Route::get('/survey-definitions/{slug}', 'SurveyDefinitionController@show');
+
     Route::crud('/user', 'UserCrudController');
     Route::crud('/working-group', 'WorkingGroupCrudController');
     Route::crud('/curation-group', 'CurationGroupCrudController');
