@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Aptitude;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -17,6 +18,16 @@ trait AptitudeSubjectTrait
 
     public function getBasicAptitude()
     {
-        return $this->aptitudes->first();
+        return $this->aptitudes->isBasic()->first();
+    }
+
+    public function getPrimaryAptitude()
+    {
+        return $this->aptitudes()->isPrimary()->first();
+    }
+
+    public function getSecondaryAptitude()
+    {
+        return $this->aptitudes()->isSecondary()->first();
     }
 }
