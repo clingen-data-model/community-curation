@@ -65,6 +65,8 @@ window.Vue.component('radio-input', () =>
     import ( /* webpackChunkName: "form-components" */ './components/forms/inputs/RadioInput'));
 window.Vue.component('radio-group', () =>
     import ( /* webpackChunkName: "form-components" */ './components/forms/inputs/RadioGroup'));
+window.Vue.component('boolean-radio-group', () =>
+    import ( /* webpackChunkName: "form-components" */ './components/forms/inputs/BooleanRadioGroup'));
 window.Vue.component('validation-error', () =>
     import ( /* webpackChunkName: "form-components" */ './components/ValidationError'));
 
