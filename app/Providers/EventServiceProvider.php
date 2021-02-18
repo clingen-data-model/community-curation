@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         \App\Events\AssignmentCreated::class => [
-            \App\Listeners\CreateCorrespondingTraining::class,
+            \App\Listeners\CreateAptitudeForAssignment::class,
             \App\Listeners\DispatchAssignmentTypeEvent::class,
         ],
 

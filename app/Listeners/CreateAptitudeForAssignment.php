@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Contracts\AptitudeSubjectContract;
 use App\Events\AssignmentCreated;
 
-class CreateCorrespondingTraining
+class CreateAptitudeForAssignment
 {
     /**
      * Create the event listener.
@@ -27,7 +27,7 @@ class CreateCorrespondingTraining
             return;
         }
 
-        $basicTraining = $event->assignment->assignable->getBasicAptitude();
+        $basicTraining = $event->assignment->assignable->getPrimaryAptitude();
 
         if (!$basicTraining) {
             return;

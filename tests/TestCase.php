@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\User;
+use App\Aptitude;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -57,5 +58,21 @@ abstract class TestCase extends BaseTestCase
     {
         $this->withoutExceptionHandling();
         $this->expectException(AuthorizationException::class);
+    }
+
+    protected function assertUserAssignedTo(User $user, Aptitude $aptitude)
+    {
+        $this->assertDatabaseHas('user_aptitudes', [
+            'user_id' => $user->id,
+            'aptitude_id' => $aptitude->id
+        ]);
+    }
+
+    protected function assertUserNotAssignedTo(User $user, Aptitude $aptitude)
+    {
+        $this->assertDatabaseMissing('user_aptitudes', [
+            'user_id' => $user->id,
+            'aptitude_id' => $aptitude->id
+        ]);
     }
 }

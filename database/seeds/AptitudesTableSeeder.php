@@ -85,7 +85,7 @@ class AptitudesTableSeeder extends Seeder
                 'volunteer_type_id' => 1,
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 6,
-                'is_primary' => 1,
+                'is_primary' => 0,
                 'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
             [
@@ -95,7 +95,7 @@ class AptitudesTableSeeder extends Seeder
                 'volunteer_type_id' => 1,
                 'subject_type' => 'App\CurationActivity',
                 'subject_id' => 6,
-                'is_primary' => 0,
+                'is_primary' => 1,
                 'evaluator_class' => BasicAptitudeEvaluator::class,
             ],
         ];
