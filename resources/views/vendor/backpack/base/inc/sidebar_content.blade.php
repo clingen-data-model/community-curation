@@ -46,15 +46,28 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="nav-icon la la-files-o"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
 @endif
 
-@if (\Auth::user()->can('view logs'))
-    <li class="nav-item"><a class="nav-link" href="/admin/logs" target="logs"><i class="nav-icon la la-list"></i> <span>Logs</span></a></li>
-@endif
+<hr>
+
+<li class="nav-item">
+    <a href="/admin/survey-definitions/application1" class="nav-link">
+        <i class="nav-icon la la-book"></i>
+        Application definition
+    </a>
+</li>
+
+<hr>
+
 {{-- @if(Auth::user()->hasPermissionTo('view email')) --}}
     <li class="nav-item"><a class="nav-link" href="{{ url(config('backpack.base.route_prefix').'/email') }}"><i class="nav-icon la la-file-o"></i> <span>Emails</span></a></li>
 {{-- @endif --}}
 {{-- @if(Auth::user()->hasPermissionTo('view notification')) --}}
     {{-- <li class="nav-item"><a class="nav-link" href="{{ url(config('backpack.base.route_prefix').'/notification') }}"><i class="nav-icon la la-file-o"></i> <span>Notifications</span></a></li> --}}
 {{-- @endif --}}
+
+@if (\Auth::user()->can('view logs'))
+    <li class="nav-item"><a class="nav-link" href="/admin/logs" target="logs"><i class="nav-icon la la-list"></i> <span>Logs</span></a></li>
+@endif
+
 
 <hr style="margin-bottom: 0">
 <li class="nav-item">
