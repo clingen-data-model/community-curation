@@ -26,7 +26,7 @@ class UpdateBaselineAptitudeAttributes extends Migration
      */
     public function down()
     {
-        Aptitude::find(7)->update(['is_active' => 1, 'is_primary' => 1]);
+        Aptitude::withoutGlobalScopes()->find(7)->update(['is_active' => 1, 'is_primary' => 1]);
         Aptitude::find(8)->update(['is_primary' => 0]);
     }
 }
