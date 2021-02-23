@@ -22,7 +22,7 @@ class SetHypothesisIdFromBaselineAttestation
      */
     public function handle(AttestationSigned $event)
     {
-        if ($event->attestation->aptitude_id !== config('project.aptitudes.baseline-basic-evidence')) {
+        if (!in_array($event->attestation->aptitude_id, config('aptitudes.baseline'))) {
             return;
         }
 

@@ -5,7 +5,7 @@
             class="btn btn-sm border" 
             @click="assignBaselineActivity"
         >
-            Assign Baseline Evidence
+            Assign to baseline
         </button>
     </div>
 </template>
