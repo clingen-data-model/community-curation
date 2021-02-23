@@ -308,6 +308,12 @@ class User extends Authenticatable implements IsNotable
         return $query->where('volunteer_type_id', config('project.volunteer_types.comprehensive'));
     }
 
+    public function scopeBaseline($query)
+    {
+        return $query->where('volunteer_type_id', config('project.volunteer_types.baseline'));
+    }
+    
+
     public function scopeIsLoggedIn($query)
     {
         return $query->where('last_logged_in_at', '<=', Carbon::now())
