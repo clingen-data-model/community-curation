@@ -50,7 +50,9 @@ class CreateVolunteerFromApplication
             'hypothesis_id' => $this->response->hypothesis_id,
             'timezone' => $this->response->timezone,
             'already_clingen_member' => $this->response->already_clingen_member,
-            'already_member_cgs' => json_decode($this->response->already_member_cgs),
+            'already_member_cgs' => is_string($this->response->already_member_cgs)
+                                        ? json_decode($this->response->already_member_cgs)
+                                        : $this->response->already_member_cgs,
         ]);
         $user->assignRole('volunteer');
         $user->created_at = $this->response->finalized_at;
