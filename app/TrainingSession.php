@@ -7,11 +7,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\CalendarLinks\Link;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class TrainingSession extends Model
 {
     use SoftDeletes;
     use TranscodesHtmlToMarkdown;
+    use RevisionableTrait;
 
     public $fillable = [
         'topic_type',
@@ -27,6 +29,8 @@ class TrainingSession extends Model
         'starts_at',
         'ends_at',
     ];
+
+    protected $revisionCreationsEnabled = true;
 
     public function topic()
     {
