@@ -44,8 +44,9 @@ class AttestationController extends Controller
         }
 
         $attestation->load('user', 'aptitude');
+        $resolver = $this->attestationFormResolver;
 
-        return view($this->attestationFormResolver->resolve($attestation), compact('attestation'));
+        return view('attestations.attestation', compact('attestation', 'resolver'));
     }
 
     /**

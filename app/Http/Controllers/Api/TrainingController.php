@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\NotImplementedException;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\TrainingCreateRequest;
-use App\Http\Resources\DefaultResource;
 use App\UserAptitude;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\DefaultResource;
+use App\Exceptions\NotImplementedException;
+use App\Http\Requests\TrainingCreateRequest;
+use App\Http\Requests\UpdateAssignedTrainingRequest;
 
 class TrainingController extends Controller
 {
@@ -66,7 +67,7 @@ class TrainingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAssignedTrainingRequest $request, $id)
     {
         $userAptitude = UserAptitude::find($id);
 

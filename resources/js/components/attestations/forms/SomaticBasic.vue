@@ -7,58 +7,22 @@
                 Please review the statements below and check "Yes" or "No". Then sign your name to signify that you have reviewed these training materials.
             </strong>
         </p>
+        
         <question-block>
             <div slot="question-text">
-                I have reviewed the CIViC Knowledge Model and Standard Operating Procedures for Curation and Clinical Interpretation of Variants in Cancer: 
-                <a href="https://www.ncbi.nlm.nih.gov/pubmed/27814769" target="civic-sop">https://www.ncbi.nlm.nih.gov/pubmed/27814769</a>
+                 I have attended the live ClinGen Somatic – CIViC training Session.
             </div>
             <radio-group
                 slot="answer-block"
-                name="readSOP"
-                v-model="readSOP"
+                name="attendedCIVicTraining"
+                v-model="attendedCIVicTraining"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
             ></radio-group>
         </question-block>
 
         <question-block>
             <div slot="question-text">
-                I have watched the "CIViC - Getting Started" video.
-            </div>
-            <radio-group
-                slot="answer-block"
-                name="watchedGettingStarted"
-                v-model="watchedGettingStarted"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-            ></radio-group>
-        </question-block>
-
-        <question-block>
-            <div slot="question-text">
-                I have watched the "CIViC - Adding Evidence" video. 
-            </div>
-            <radio-group
-                slot="answer-block"
-                name="watchedAddingEvidence"
-                v-model="watchedAddingEvidence"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-            ></radio-group>
-        </question-block>
-
-        <question-block>
-            <div slot="question-text">
-                I have watched the "CIViC - Editing Entities" video.
-            </div>
-            <radio-group
-                slot="answer-block"
-                name="watchedEditingEntities"
-                v-model="watchedEditingEntities"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-            ></radio-group>
-        </question-block>
-
-        <question-block>
-            <div slot="question-text">
-                I have created an account in CIViC
+                   I have created a CIViC account
             </div>
             <radio-group
                 slot="answer-block"
@@ -66,6 +30,15 @@
                 v-model="createdCIVicAccount"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
             ></radio-group>
+        </question-block>
+
+        <question-block class="mb-4">
+            <div slot="question-text">
+                I have chosen a curation activity. (Please list your choice below)
+            </div>
+            <div slot="answer-block" class="form-inline">
+                <input type="text" name="chosenCurationActivity" v-model="chosenCurationActivity" class="form-control">
+            </div>
         </question-block>
 
         <question-block>
@@ -83,14 +56,6 @@
             ></radio-group>
         </question-block>
 
-        <question-block>
-            <div slot="question-text">
-                I have chosen a curation activity/disease task force. (Please list your choice below)
-            </div>
-            <div slot="answer-block" class="form-inline">
-                <input type="text" name="chosenTaskForce" v-model="chosenTaskForce" class="form-control">
-            </div>
-        </question-block>
         <br>
         
         <div slot="signature-text">I, {{attestation.user.name}}, attest that as of {{signedAt}} I have completed all the elements of the Somatic Cancer Training.</div>
@@ -109,25 +74,19 @@
         },
         data() {
             return {
-                readSOP: null,
-                watchedGettingStarted: null,
-                watchedAddingEvidence: null,
-                watchedEditingEntities: null,
+                attendedCIVicTraining: null,
                 createdCIVicAccount: null,
+                chosenCurationActivity: null,
                 signedUpForPractice: null,
-                chosenTaskForce: null,
                 signedAt: moment().format('YYYY-MM-DD') 
             }
         },
         computed: {
             allYes: function () {
-                return this.readSOP === 1
-                        && this.watchedGettingStarted === 1
-                        && this.watchedAddingEvidence === 1
-                        && this.watchedEditingEntities === 1
+                return this.attendedCIVicTraining === 1
                         && this.createdCIVicAccount === 1
+                        && this.chosenCurationActivity != '' && this.chosenCurationActivity !== null
                         && this.signedUpForPractice === 1
-                        && (this.chosenTaskForce !== null && this.chosenTaskForce !== '')
             }
         }
     
