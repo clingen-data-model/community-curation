@@ -41,8 +41,8 @@
                                 </div>
                                 <secondary-aptitude-control 
                                     :assignment="assignment"
+                                    @trainingcompleted="$emit('saved')"
                                     @assignAptitude="createAptitudeTraining($event, assignment)"
-                                    @trainingcompleted="markTrainingCompleted"
                                     class="mt-1"
                                 ></secondary-aptitude-control>
                             </td>
@@ -50,7 +50,7 @@
                                 <div v-if="assignment.user_aptitudes.pending().primary().length > 0">
                                     <training-and-attestation-control
                                         :userAptitude="assignment.user_aptitudes.pending().primary().get(0)"
-                                        @trainingcompleted="markTrainingCompleted"
+                                        @trainingcompleted="$emit('saved')"
                                     ></training-and-attestation-control>
                                 </div>
 
@@ -95,7 +95,6 @@
 <script>
     import {mapMutations} from 'vuex'
     import createAssignment from '../../resources/assignments/create_assignment'
-    import markTrainingComplete from '../../resources/trainings/mark_training_complete'
     import createTraining from '../../resources/trainings/create_training'
     import getAllCurationGroups from '../../resources/curation_groups/get_all_curation_groups'
     import getAllAptitudes from '../../resources/aptitudes/get_all_aptitudes'
@@ -125,6 +124,10 @@
                 type: Boolean
             }
         },
+        emits: [
+            'saved',
+            'assignmentsupdated',
+        ],
         components: {
             CurationGroupCell,
             PrioritiesList,
@@ -193,10 +196,6 @@
                 .then(response => {
                     this.$emit('saved');
                 })
-            },
-            markTrainingCompleted({id, trained_at}) {
-                markTrainingComplete(id, trained_at)
-                    .then(() => this.$emit('saved'));                
             },
             createAptitudeTraining(aptitude, assignment) {
                 let data = {
