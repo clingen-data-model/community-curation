@@ -18,7 +18,70 @@
                 v-model="attendedCIVicTraining"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
             ></radio-group>
+
         </question-block>
+
+        <div v-show="attendedCIVicTraining === 0" class="pl-4">
+            <question-block>
+                <div slot="question-text">
+                        I have watched the "CIViC - Getting Started" video.
+                </div>
+                <radio-group 
+                    slot="answer-block" 
+                    name="watchedCIVicGettingStarted"
+                    v-model="watchedCIVicGettingStarted"
+                    :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
+                ></radio-group>
+            </question-block>
+            
+            <question-block>
+                <div slot="question-text">
+                        I have watched the "CIViC - Adding Evidence" video.
+                </div>
+                <radio-group 
+                    slot="answer-block" 
+                    name="watchedCIVicAddingEvidence"
+                    v-model="watchedCIVicAddingEvidence"
+                    :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
+                ></radio-group>
+            </question-block>
+
+            <question-block>
+                <div slot="question-text">
+                        I have watched the "CIViC - Editing Entities" video.
+                </div>
+                <radio-group 
+                    slot="answer-block" 
+                    name="watchedCIVicEditingEntities"
+                    v-model="watchedCIVicEditingEntities"
+                    :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
+                ></radio-group>
+            </question-block>
+
+            <question-block>
+                <div slot="question-text">
+                        I have watched the "CIViC - Adding Source Suggestions" video.
+                </div>
+                <radio-group 
+                    slot="answer-block" 
+                    name="watchedCIVicAddingSourceSuggestions"
+                    v-model="watchedCIVicAddingSourceSuggestions"
+                    :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
+                ></radio-group>
+            </question-block>
+
+            <question-block>
+                <div slot="question-text">
+                        I have read the “Somatic cancer variant curation and harmonization through consensus minimum variant level data” pape.
+                </div>
+                <radio-group 
+                    slot="answer-block" 
+                    name="readCurationAndHarmonization"
+                    v-model="readCurationAndHarmonization"
+                    :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
+                ></radio-group>
+            </question-block>
+        </div>
 
         <question-block>
             <div slot="question-text">
@@ -75,18 +138,35 @@
         data() {
             return {
                 attendedCIVicTraining: null,
+                watchedCIVicGettingStarted: null,
+                watchedCIVicAddingEvidence: null,
+                watchedCIVicEditingEntities: null,
+                watchedCIVicAddingSourceSuggestions: null,
+                readCurationAndHarmonization: null,
                 createdCIVicAccount: null,
                 chosenCurationActivity: null,
                 signedUpForPractice: null,
+
                 signedAt: moment().format('YYYY-MM-DD') 
             }
         },
         computed: {
+            civicQuestionsCompleted() {
+                if (this.attendedCIVicTraining === 0) {
+                    return this.watchedCIVicGettingStarted == 1
+                        && this.watchedCIVicAddingEvidence == 1
+                        && this.watchedCIVicEditingEntities == 1
+                        && this.watchedCIVicAddingSourceSuggestions == 1
+                        && this.readCurationAndHarmonization == 1;
+                } else {
+                    return true;
+                }
+            },
             allYes: function () {
-                return this.attendedCIVicTraining === 1
+                return this.civicQuestionsCompleted
                         && this.createdCIVicAccount === 1
                         && this.chosenCurationActivity != '' && this.chosenCurationActivity !== null
-                        && this.signedUpForPractice === 1
+                        && this.signedUpForPractice === 1;
             }
         }
     
