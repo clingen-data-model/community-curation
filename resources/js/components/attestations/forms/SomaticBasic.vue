@@ -1,5 +1,3 @@
-
-
 <template>
     <attestation-form title="Somatic Cancer Volunteer Curator Attestation" :signable="allYes">
         <p>
@@ -9,7 +7,7 @@
         </p>
         
         <question-block>
-            <div slot="question-text">
+            <div slot="question-text" class="mb-1">
                  I have attended the live ClinGen Somatic – CIViC training Session.
             </div>
             <radio-group
@@ -31,7 +29,7 @@
                     name="watchedCIVicGettingStarted"
                     v-model="watchedCIVicGettingStarted"
                     :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                ></radio-group>
+                    ></radio-group>
             </question-block>
             
             <question-block>
@@ -43,7 +41,7 @@
                     name="watchedCIVicAddingEvidence"
                     v-model="watchedCIVicAddingEvidence"
                     :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                ></radio-group>
+                    ></radio-group>
             </question-block>
 
             <question-block>
@@ -55,7 +53,7 @@
                     name="watchedCIVicEditingEntities"
                     v-model="watchedCIVicEditingEntities"
                     :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                ></radio-group>
+                    ></radio-group>
             </question-block>
 
             <question-block>
@@ -67,7 +65,7 @@
                     name="watchedCIVicAddingSourceSuggestions"
                     v-model="watchedCIVicAddingSourceSuggestions"
                     :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                ></radio-group>
+                    ></radio-group>
             </question-block>
 
             <question-block>
@@ -79,7 +77,7 @@
                     name="readCurationAndHarmonization"
                     v-model="readCurationAndHarmonization"
                     :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                ></radio-group>
+                    ></radio-group>
             </question-block>
         </div>
 
@@ -92,7 +90,16 @@
                 name="createdCIVicAccount"
                 v-model="createdCIVicAccount"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-            ></radio-group>
+                ></radio-group>
+        </question-block>
+
+        <question-block v-if="createdCIVicAccount == 1" class="pl-4 mb-4" style="display:flex">
+            <div slot="question-text">
+                Please provide your CIViC username:
+            </div>
+            <div slot="answer-block" class="form-inline ml-2">
+                <input class="form-control form-control-sm" type="text" name="CIViCUsername" v-model="CIViCUsername">
+            </div>
         </question-block>
 
         <question-block class="mb-4">
@@ -100,7 +107,7 @@
                 I have chosen a curation activity. (Please list your choice below)
             </div>
             <div slot="answer-block" class="form-inline">
-                <input type="text" name="chosenCurationActivity" v-model="chosenCurationActivity" class="form-control">
+                <input type="text" name="chosenCurationActivity" v-model="chosenCurationActivity" class="form-control form-control-sm">
             </div>
         </question-block>
 
@@ -116,7 +123,7 @@
                 name="signedUpForPractice"
                 v-model="signedUpForPractice"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-            ></radio-group>
+                ></radio-group>
         </question-block>
 
         <br>
@@ -144,6 +151,7 @@
                 watchedCIVicAddingSourceSuggestions: null,
                 readCurationAndHarmonization: null,
                 createdCIVicAccount: null,
+                CIViCUsername: null,
                 chosenCurationActivity: null,
                 signedUpForPractice: null,
 
@@ -165,6 +173,7 @@
             allYes: function () {
                 return this.civicQuestionsCompleted
                         && this.createdCIVicAccount === 1
+                        && this.CIViCUsername != '' && this.CIViCUsername !== null
                         && this.chosenCurationActivity != '' && this.chosenCurationActivity !== null
                         && this.signedUpForPractice === 1;
             }
