@@ -66,7 +66,8 @@ class AttestationController extends Controller
 
         $attestation->update([
             'signed_at' => Carbon::now(),
-            'data' => $request->except('_method', '_token'), ]);
+            'data' => $request->except('_method', '_token'), 
+        ]);
 
         session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');
 
