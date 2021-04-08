@@ -45,6 +45,7 @@
             .message {
                 font-size: 18px;
                 text-align: center;
+                width: 75vh;
             }
         </style>
     </head>

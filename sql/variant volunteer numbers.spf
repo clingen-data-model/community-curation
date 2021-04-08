@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>colorIndex</key>
+			<integer>3</integer>
+			<key>database</key>
+			<string>ccdb</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>3513752238229365387</string>
+			<key>name</key>
+			<string>ccdb</string>
+			<key>port</key>
+			<integer>13309</integer>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>utf8mb4</string>
+			<key>contentFilterV2</key>
+			<dict>
+				<key>children</key>
+				<array/>
+				<key>filterClass</key>
+				<string>groupNode</string>
+				<key>isConjunction</key>
+				<true/>
+			</dict>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0
+			b3BYJG9iamVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRk
+			YXRhgAGtCwwZGhscHSEoLDA0OFUkbnVsbNMNDg8QFBhXTlMua2V5
+			c1pOUy5vYmplY3RzViRjbGFzc6MREhOAAoADgASjFRYXgAWABoAI
+			gAxUdHlwZVRyb3dzVGtleXNfECZTZWxlY3Rpb25EZXRhaWxUeXBl
+			UHJpbWFyeUtleWVkRGV0YWlsc9MNDg8eHyCgoIAH0iIjJCVaJGNs
+			YXNzbmFtZVgkY2xhc3Nlc18QE05TTXV0YWJsZURpY3Rpb25hcnmj
+			JCYnXE5TRGljdGlvbmFyeVhOU09iamVjdNIODykroSqACYAL0g8t
+			Li9ZTlMuc3RyaW5ngApSaWTSIiMxMl8QD05TTXV0YWJsZVN0cmlu
+			Z6MxMydYTlNTdHJpbmfSIiM1Nl5OU011dGFibGVBcnJheaM1NydX
+			TlNBcnJhedIiIyY5oiYnAAgAEQAaACQAKQAyADcASQBMAFEAUwBh
+			AGcAbgB2AIEAiACMAI4AkACSAJYAmACaAJwAngCjAKgArQDWAN0A
+			3gDfAOEA5gDxAPoBEAEUASEBKgEvATEBMwE1AToBRAFGAUkBTgFg
+			AWQBbQFyAYEBhQGNAZIAAAAAAAACAQAAAAAAAAA6AAAAAAAAAAAA
+			AAAAAAABlQ==
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {1230, 639}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>select 
+-- 	r.created_at as revision_date, 
+-- 	cg.id, 
+	distinct(cg.name)
+-- 	r.key, 
+-- 	r.old_value, 
+-- 	r.new_value 
+from curation_groups cg 
+	left join revisions r on cg.id = r.revisionable_id and r.revisionable_type = 'App\\CurationGroup'
+where cg.curation_activity_id = 5 
+	and r.key = 'accepting_volunteers'
+	and date(r.created_at) &gt; '2021-01-01'
+order by cg.name
+-- , r.created_at, `key`
+;
+	
+select count(*) from curation_groups where curation_activity_id = 5;
+
+select name, count(*) as count 
+from priorities p 
+	join curation_activities ca on ca.id = p.curation_activity_id
+	join users u on p.user_id = u.id
+where priority_order = 1
+group by curation_activity_id
+;
+
+select count(*)
+from users u
+where volunteer_type_id is not null
+	and id in (select user_id from priorities where priority_order = 1 and curation_activity_id = 5)
+	and id in (
+		select user_id 
+			from assignments a join curation_groups cg on a.assignable_id = cg.id 
+			where assignable_type = 'App\\CurationGroup'
+				and cg.curation_activity_id = 5
+				and a.deleted_at is null
+	)
+	and id in (
+		select a.user_id
+		from assignments a join curation_activities ca on a.assignable_id = ca.id
+			join user_aptitudes uapt on uapt.assignment_id = a.id
+		where assignable_type = 'App\\CurationActivity'
+			and ca.id = 5
+			and trained_at is not null
+			and granted_at is not null
+	)
+	and volunteer_status_id not in (4,5)
+	;
+
+
+select 'Assigned to variant Curation Activity', count(distinct(user_id)) 
+from assignments 
+where assignable_id = 5
+	and assignable_type = 'App\\CurationActivity'
+	and deleted_at is null
+UNION
+select 'Not trained; not attested', count(*) 
+from user_aptitudes ua join users u on u.id = ua.user_id
+where aptitude_id in (5,6)
+	and trained_at is null
+	and granted_at is null
+	and u.deleted_at is null and ua.deleted_at is null
+UNION	
+select 'Trained; not attested', count(*)
+from user_aptitudes ua join users u on u.id = ua.user_id
+where aptitude_id in (5,6)
+	and trained_at is not null
+	and granted_at is null
+	and u.deleted_at is null and ua.deleted_at is null
+UNION
+select 'Trained and attested', count(*)
+from user_aptitudes ua join users u on u.id = ua.user_id
+where aptitude_id in (5,6)
+	and trained_at is not null
+	and granted_at is not null
+	and u.deleted_at is null and ua.deleted_at is null
+;
+
+
+	
+select name, count(*) as assignment_count
+	from assignments a
+	join users u on u.id = a.user_id
+	join curation_groups cg on cg.id = a.assignable_id
+where assignable_type = 'App\\CurationGroup'
+	and cg.curation_activity_id = 5
+	and a.deleted_at is null
+	and cg.deleted_at is null
+	and u.already_clingen_member = 0
+GROUP BY cg.name, assignable_id
+order by name;
+
+</string>
+			<key>table</key>
+			<string>assignments</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>292</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.7.30</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
