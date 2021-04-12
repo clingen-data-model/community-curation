@@ -60,11 +60,6 @@ class Aptitude extends Model
         return $query->where('is_active', 1);
     }
 
-    public function isBasic()
-    {
-        return $this->attributes['is_primary'];
-    }
-
     public function scopeIsPrimary($query)
     {
         return $query->where('is_primary', 1);

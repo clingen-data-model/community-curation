@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\HasOtherOption;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,5 +37,12 @@ class Campaign extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('display_order', 'asc');
         });
+
+        static::saved(function ($model) {
+            Cache::forget('surveys:datasource:App\Surveys\SurveyOptions@adCampaigns');
+        });
+        static::deleted(function ($model) {
+            Cache::forget('surveys:datasource:App\Surveys\SurveyOptions@adCampaigns');
+        });        
     }
 }
