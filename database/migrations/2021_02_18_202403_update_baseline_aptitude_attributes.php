@@ -1,10 +1,11 @@
 <?php
 
 use App\Aptitude;
+use App\VolunteerType;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Database\Seeders\AptitudesTableSeeder;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class UpdateBaselineAptitudeAttributes extends Migration
 {
@@ -15,6 +16,9 @@ class UpdateBaselineAptitudeAttributes extends Migration
      */
     public function up()
     {
+        if (VolunteerType::count() == 0) {
+            return;
+        }
         $seeder = new AptitudesTableSeeder();
         $seeder->run();
     }

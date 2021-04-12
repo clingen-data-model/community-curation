@@ -16,11 +16,6 @@ trait AptitudeSubjectTrait
         return $this->morphMany(Aptitude::class, 'subject');
     }
 
-    public function getBasicAptitude()
-    {
-        return $this->aptitudes->isBasic()->first();
-    }
-
     public function getPrimaryAptitude()
     {
         return $this->aptitudes()->isPrimary()->first();

@@ -8,8 +8,6 @@ interface AptitudeSubjectContract
 {
     public function aptitudes(): Relation;
 
-    public function getBasicAptitude();
-    
     public function getPrimaryAptitude();
 
     public function getSecondaryAptitude();
