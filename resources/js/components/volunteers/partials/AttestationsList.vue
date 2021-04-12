@@ -12,7 +12,7 @@
                     <span class="text-muted" v-else>unsigned</span>
                 </td>
                 <td style="width: 8rem; text-align:right">
-                    <button class="btn btn-sm border" v-b-modal.attestation-data-modal @click="selectedAttestation = attestation">View data</button>
+                    <button v-if="attestation.signed_at" class="btn btn-sm border" v-b-modal.attestation-data-modal @click="selectedAttestation = attestation">View data</button>
                 </td>
             </tr>
             <tr v-if="volunteer.attestations.length == 0">

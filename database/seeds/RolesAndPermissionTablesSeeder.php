@@ -94,6 +94,8 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->givePermissionToRole($admin, $administerPermission);
         $this->givePermissionToRole($admin, $canImpersonatePermission);
         $this->givePermissionToRole($admin, $runReports);
+        $this->givePermissionToRole($programmer, $seeAlreadyMember);
+        $this->givePermissionToRole($programmer, $setAlreadyMember);
 
         $coordinator = Role::firstOrCreate(['name' => 'coordinator']);
         $volunteer = Role::firstOrCreate(['name' => 'volunteer']);
