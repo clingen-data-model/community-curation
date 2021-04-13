@@ -75,6 +75,8 @@ class AssignmentReportGenerator implements ReportGenerator
                                                                 })
                                                                 ->pluck('assignable.name')
                                                                 ->join(",\n"),
+                                'already_clingen_member' => $volunteer->already_clingen_member,
+                                'already_member_cgs' => $volunteer->memberGroups->pluck('name')->join(', ')
                             ]
                         );
                 });
