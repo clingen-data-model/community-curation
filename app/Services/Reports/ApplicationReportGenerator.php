@@ -99,6 +99,8 @@ class ApplicationReportGenerator implements ReportGenerator
                                             'advanced_certification' => $app->adv_cert,
                                             'self_description' => $app->self_desc ? $app->self_desc : '',
                                             'self_description_other' => $app->self_desc_other,
+                                            'already_clingen_member' => $app->respondent->already_clingen_member,
+                                            'already_member_cgs' => $app->respondent->memberGroups->pluck('name')->join(', ')
                                     ])->merge($outroColumns),
 
                 'demographic' => $introColumns
