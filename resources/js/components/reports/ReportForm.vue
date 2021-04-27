@@ -15,9 +15,9 @@
         <div class="form-group form-inline" v-show="reportUrl == '/applications-report'">
             <label for="start-date">Date range:</label>
             &nbsp;
-            <date-field v-model="startDate" class="form-control form-control-sm"></date-field>
+            <date-input v-model="startDate" class="form-control form-control-sm"></date-input>
             &nbsp;to&nbsp;
-            <date-field v-model="endDate" class="form-control form-control-sm"></date-field>
+            <date-input v-model="endDate" class="form-control form-control-sm"></date-input>
         </div>
         <div class="form-group">
             <button class="btn btn-light border btn-sm" @click="resetForm">Reset</button>

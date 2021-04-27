@@ -16,7 +16,12 @@
                 Start Date &amp; time*
             </label>
             <div class="col-sm-9">
-                <date-time v-model="newSessionData.starts_at" class="form-inline" @change="updateEndsAt"></date-time>
+                <date-time 
+                    v-model="newSessionData.starts_at" 
+                    class="form-inline" 
+                    @change="updateEndsAt"
+                    date-input-id="start-date-field"
+                ></date-time>
                 <validation-error :errors="errors.starts_at"></validation-error>
             </div>
         </div>

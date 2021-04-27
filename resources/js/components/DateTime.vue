@@ -1,8 +1,8 @@
 <template>
     <div>
         <b-input-group :append="currentTimezone">
-            <date-picker class="form-control" v-model="dateValue"></date-picker>
-            <time-picker class="form-control" v-model="timeValue"></time-picker>
+            <date-picker class="form-control" v-model="dateValue" :id="dateInputId"></date-picker>
+            <time-picker class="form-control" v-model="timeValue" :id="timeInputId"></time-picker>
         </b-input-group>
     </div>
 </template>
@@ -19,6 +19,14 @@ export default {
     props: {
         value: {
             required: true,
+        },
+        dateInputId: {
+            required: false,
+            type: String
+        },
+        timeInputId: {
+            required: false,
+            type: String
         }
     },
     data() {
