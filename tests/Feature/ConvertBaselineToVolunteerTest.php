@@ -20,7 +20,7 @@ class ConvertBaselineToVolunteerTest extends TestCase
     {
         $admin = $this->createAdmin();
         $this->actingAs($admin, 'api')
-            ->call('PUT', '/api/volunteers/'.$this->volunteer->id, ['volunteer_type_id' => 2])
+            ->json('PUT', '/api/volunteers/'.$this->volunteer->id, ['volunteer_type_id' => 2])
             ->assertStatus(200);
     }
 }

@@ -20,7 +20,7 @@ use Backpack\CRUD\CrudPanel;
 class VolunteerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
@@ -55,23 +55,22 @@ class VolunteerCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        $this->crud->addFields([
-            [
+        $this->crud->modifyField('volunteer_type_id',[
                 'label' => 'Volunteer Type',
                 'type' => 'select2',
                 'name' => 'volunteer_type_id',
                 'entity' => 'volunteerType',
                 'model' => VolunteerType::class,
                 'attribute' => 'name',
-            ],
-            [
+        ]);
+
+        $this->crud->modifyField('volunteer_status_id', [
                 'label' => 'Volunteer Status',
                 'type' => 'select2',
                 'name' => 'volunteer_status_id',
                 'entity' => 'volunteerStatus',
                 'model' => VolunteerStatus::class,
                 'attribute' => 'name',
-            ],
         ]);
 
         $this->crud->modifyField(

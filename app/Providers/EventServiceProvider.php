@@ -62,6 +62,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Volunteers\MarkedUnresponsive::class => [
             \App\Listeners\Volunteers\RetireAssignments::class,
         ],
+        \App\Events\Volunteers\Created::class => [
+            \App\Listeners\Volunteers\AssignVolunteerRole::class,
+        ],
+        \App\events\Users\UserCreated::class => [
+            \App\Listeners\Users\DispatchUserTypeCreated::class,
+        ],
         LeaveImpersonation::class => [
             \App\Listeners\ClearImpersonateSessionData::class,
         ],

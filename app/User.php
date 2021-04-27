@@ -2,28 +2,29 @@
 
 namespace App;
 
-use App\Contracts\IsNotable;
-use App\Events\Volunteers\ConvertedToComprehensive;
-use App\Events\Volunteers\MarkedBaseline;
-use App\Events\Volunteers\MarkedDeclined;
-use App\Events\Volunteers\MarkedUnresponsive;
-use App\Events\Volunteers\Retired;
-use App\Traits\IsNotable as TraitsIsNotable;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use JsonException;
+use App\Contracts\IsNotable;
+use App\events\Users\UserCreated;
+use App\Events\Volunteers\Retired;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
-use JsonException;
-use Lab404\Impersonate\Models\Impersonate;
-use Lab404\Impersonate\Services\ImpersonateManager;
-use Laravel\Passport\HasApiTokens;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use App\Events\Volunteers\MarkedBaseline;
+use App\Events\Volunteers\MarkedDeclined;
+use Lab404\Impersonate\Models\Impersonate;
+use Spatie\Activitylog\Traits\LogsActivity;
+use App\Traits\IsNotable as TraitsIsNotable;
+use App\Events\Volunteers\MarkedUnresponsive;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Venturecraft\Revisionable\RevisionableTrait;
+use App\Events\Volunteers\ConvertedToComprehensive;
+use Lab404\Impersonate\Services\ImpersonateManager;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * User model class.
@@ -45,6 +46,13 @@ class User extends Authenticatable implements IsNotable
     protected $revisionCreationsEnabled = true;
 
     protected $allPermissions;
+
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+        // 'saved' => UserSaved::class,
+        // 'updated' => UserUpdated::class,
+        // 'deleted' => UserDeleted::class
+    ];
 
     /**
      * The attributes that are mass assignable.
