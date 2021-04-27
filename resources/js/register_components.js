@@ -71,8 +71,8 @@ window.Vue.component('validation-error', () =>
     import ( /* webpackChunkName: "form-components" */ './components/ValidationError'));
 
 
-window.Vue.component('date-field', () =>
-    import ( /* webpackChunkName: "form-components" */ './components/DateField'));
+window.Vue.component('date-input', () =>
+    import ( /* webpackChunkName: "form-components" */ './components/forms/inputs/DateInput'));
 
 
 /**

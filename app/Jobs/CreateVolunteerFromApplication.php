@@ -54,7 +54,7 @@ class CreateVolunteerFromApplication
                                         ? json_decode($this->response->already_member_cgs)
                                         : $this->response->already_member_cgs,
         ]);
-        $user->assignRole('volunteer');
+        // $user->assignRole('volunteer');  // responsibility delegated to AssignVolunteerRole listener
         $user->created_at = $this->response->finalized_at;
         $user->save();
         $this->response->respondent_type = User::class;

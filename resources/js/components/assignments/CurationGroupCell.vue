@@ -41,12 +41,10 @@
 </template>
 
 <script>
-    import DateField from '../DateField'
     import StatusBadge from './StatusBadge'
 
     export default {
         components: {
-            DateField,
             StatusBadge
         },
         props: {

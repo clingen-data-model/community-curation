@@ -19,9 +19,9 @@
         <volunteer-filters @filters-changed="updateFilters" :hide-search="true">
             <div slot="before">
                 <div class="form-inline pr-3 border-right">
-                    <date-field v-model="startDate" class="form-control form-control-sm" placeholder="Start date" @input="updateFilters"/>
+                    <date-input v-model="startDate" class="form-control form-control-sm" placeholder="Start date" @input="updateFilters"/>
                     &nbsp;-&nbsp;
-                    <date-field v-model="endDate" class="form-control form-control-sm" placeholder="End date" @input="updateFilters"/>
+                    <date-input v-model="endDate" class="form-control form-control-sm" placeholder="End date" @input="updateFilters"/>
                 </div>
             </div>
         </volunteer-filters>
@@ -44,7 +44,6 @@
 <script>
 import getMetrics from '../../resources/volunteers/get_metrics'
 import {omitBy, isUndefined} from 'lodash';
-import moment from 'moment-timezone';
 
 export default {
     data() {
@@ -88,15 +87,10 @@ export default {
             let params = {...staticParams, ...this.volunteerFilters};
             console.info('this.startDate', this.startDate)
             if (this.startDate) {
-                console.info('this.startDate', this.startDate)
-                if (this.startDate instanceof moment) {
-                    params.start_date = this.startDate.format('YYYY-MM-DD');
-                } else {
-                    params.start_date = moment(this.startDate).format('YYYY-MM-DD');
-                }
+                params.start_date = this.startDate;
             }
             if (this.endDate) {
-                params.end_date = moment(this.endDate).format('YYYY-MM-DD');
+                params.end_date = this.endDate;
             }
             params = omitBy(params, isUndefined);
             this.loading = true;

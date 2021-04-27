@@ -7,7 +7,7 @@
                     <div v-show="setTrainingDate" class="form-inline">
                         <label>Date completed:</label>
                         &nbsp;
-                        <date-field v-model="newTrainingCompletedDate" class="form-control form-control-sm"></date-field>
+                        <date-input v-model="newTrainingCompletedDate" class="form-control form-control-sm"></date-input>
                         
                         <button class="d-block btn btn-sm btn-primary" @click="markTrainingCompleted(userAptitude)">Save</button>
                     </div>
