@@ -5,7 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use JsonException;
 use App\Contracts\IsNotable;
-use App\events\Users\UserCreated;
+use App\Events\Users\UserCreated;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
