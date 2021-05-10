@@ -79,7 +79,7 @@
                         </b-popover>
                     </div>
                 </template>
-                <template v-slot:head(id)="data">
+                <template v-slot:head(id)="">
                     <div class="text-center">
                         <input type="checkbox" v-model="selectAll" @change="toggleAll">
                     </div>

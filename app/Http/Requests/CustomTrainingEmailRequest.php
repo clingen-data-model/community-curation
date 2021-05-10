@@ -25,6 +25,7 @@ class CustomTrainingEmailRequest extends FormRequest
     {
         return [
             'body' => 'required',
+            'recipients' => 'required'
         ];
     }
 }

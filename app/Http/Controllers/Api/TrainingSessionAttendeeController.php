@@ -133,7 +133,10 @@ class TrainingSessionAttendeeController extends Controller
                             return MailAttachment::createFromUploadedFile($file);
                         })
                         ->toArray();
-        $trainingSession->attendees
+
+        $recipients = User::find(explode(',',$request->recipients));
+
+        $recipients
             ->each(function ($attendee) use ($request, $trainingSession, $safeBody, $attachments) {
                 $attendee->notify(new CustomTrainingEmail($trainingSession, $safeBody, $request->from, $request->subject, $attachments));
             });
