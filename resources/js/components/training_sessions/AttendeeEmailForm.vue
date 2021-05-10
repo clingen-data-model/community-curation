@@ -75,6 +75,7 @@ export default {
             formData.append('subject', this.subject);
             formData.append('body', this.emailContent);
             formData.append('recipients', this.attendees.map(vol => vol.id));
+
             Array.from(this.attachments).forEach((file, idx) => {
                 formData.append('attachments['+idx+']', file);
             });
