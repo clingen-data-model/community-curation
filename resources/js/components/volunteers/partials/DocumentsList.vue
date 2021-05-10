@@ -40,7 +40,7 @@
                     <dd class="col-md-10">{{currentDocument.created_at | formatDate('YYYY-MM-DD')}}</dd>
 
                     <dt class="col-md-2">Uploaded by:</dt>
-                    <dd class="col-md-10">{{(currentDocument.uploader) ? currentDocument.uploader.name : '--'}}</dd>
+                    <dd class="col-md-10">{{(currentDocument.uploader) ? getUploaderName(currentDocument.uploader) : '--'}}</dd>
 
                     <dt class="col-md-2">Notes:</dt>
                     <dd class="col-md-10">{{currentDocument.notes ? currentDocument.notes : '--'}}</dd>
@@ -104,9 +104,12 @@
                         }
                     },
                     {
-                        key: 'uploader.name',
+                        key: 'uploader',
                         label: 'Uploaded by',
-                        sortable: true
+                        sortable: true,
+                        formatter: (value, key, item) => {
+                            return this.getUploaderName(value);
+                        }
                     },
                     'action'
                 ],
@@ -163,6 +166,12 @@
                             this.getDocuments();
                         })
                 }
+            },
+            getUploaderName(uploader) {
+                if (this.user.isVolunteer() && uploader.id != this.user.id) {
+                    return 'Coordinator';
+                }
+                return uploader.name;
             }
         },
         mounted() {

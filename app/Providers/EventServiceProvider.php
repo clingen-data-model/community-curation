@@ -65,7 +65,7 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Volunteers\Created::class => [
             \App\Listeners\Volunteers\AssignVolunteerRole::class,
         ],
-        \App\events\Users\UserCreated::class => [
+        \App\Events\Users\UserCreated::class => [
             \App\Listeners\Users\DispatchUserTypeCreated::class,
         ],
         LeaveImpersonation::class => [
