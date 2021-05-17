@@ -29,6 +29,7 @@ class Preference extends Model
         if (!$preference) {
             throw new InvalidArgumentException('Unknown preference name: '.$name);
         }
+        return $preference;
     }
 
     public function setDataTypeAttribute($value)
