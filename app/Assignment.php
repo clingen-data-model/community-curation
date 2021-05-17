@@ -8,10 +8,14 @@ use App\Events\TrainingCompleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Event;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class Assignment extends Model
 {
     use SoftDeletes;
+    Use RevisionableTrait;
+
+    protected $revisionCreationsEnabled = true;
 
     protected $fillable = [
         'user_id',
