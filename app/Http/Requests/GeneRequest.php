@@ -27,7 +27,7 @@ class GeneRequest extends FormRequest
     {
         return [
             'symbol' => 'required|max:255',
-            'hgnc_id' => 'required|regex:/HGNC:\d+/',
+            // 'hgnc_id' => 'required|regex:/HGNC:\d+/',
             'protocol_path' => 'nullable|file|mimes:pdf,doc,xlsx,csv,docx,txt,rtf|max:2000',
             'hypothesis_group' => 'nullable|string',
             'hypothesis_group_url' => 'nullable|url|required_with:hypothesis_group',
