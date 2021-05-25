@@ -24,7 +24,7 @@
                             <th style="width: 40%">Curation Activity</th>
                             <th colspan="2">
                                 <span v-if="volunteer.isComprehensive()">Panel / </span>
-                                Gene
+                                Genes
                             </th>
                         </tr>
                     </thead>

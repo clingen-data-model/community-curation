@@ -2,14 +2,13 @@
     <div>
         <table class="table table-sm table-borderless mb-1">
             <tr>
-                <th class="border-bottom" style="width: 50%"><small>Gene Symbol</small></th>
+                <th class="border-bottom" style="width: 50%"><small>Genes</small></th>
                 <th class="border-bottom"><small>Status</small></th>
                 <th class="border-bottom" colspan="2"><small>Links</small></th>
             </tr>
             <tr v-for="(subAss, i) in assignment.sub_assignments" :key="i">
                 <td>
                     {{subAss.assignable.symbol}}
-                    <small class="text-muted">({{subAss.assignable.hgnc_id}})</small>
                 </td>
                 <td>
                     <status-badge :assignment="subAss"
@@ -51,7 +50,7 @@
                         >
                             <option :value="null">Select&hellip;</option>
                             <option v-for="(gene, idx) in filteredGenes" :key="idx" :value="gene">
-                                {{gene.symbol}} - {{gene.hgnc_id}}
+                                {{gene.symbol}}
                             </option>
                         </select>
                         &nbsp;
