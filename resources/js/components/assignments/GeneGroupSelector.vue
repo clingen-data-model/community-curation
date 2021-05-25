@@ -18,7 +18,7 @@
                 </td>
                 <td>
                     <small>
-                        <a :href="'/storage/'+subAss.assignable.protocol_path" v-if="subAss.assignable.protocol_path">
+                        <a :href="`/genes/${subAss.assignable.symbol}/protocol`" v-if="subAss.assignable.protocol_path">
                             Protocol
                         </a>
                         <br>
