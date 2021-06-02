@@ -66,7 +66,7 @@
             </multiple-choice>
         </question-group>
 
-        <question name="email" id="email" required="true" validation-rules="email|unique:users,email">
+        <question name="email" id="email" required="true" validation-rules="email|not_regex:/ /|unique:users,email">
             <question-text>Email address*</question-text>
         </question>
         <multiple-choice name="timezone" id="timezone" num-selectable="1" data-format="varchar" required="true">
