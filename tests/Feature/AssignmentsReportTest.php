@@ -90,6 +90,7 @@ class AssignmentsReportTest extends TestCase
                 'country' => $vol->country->name,
                 'state' => $vol->state,
                 'city' => $vol->city,
+                'hypothesis_id' => $vol->hypothesis_id,
                 'current_status' => $vol->volunteerStatus->name,
                 'ca_assignments' => 1,
                 'survey_completion_date' => $this->date->format('Y-m-d H:i:s'),
