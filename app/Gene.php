@@ -14,7 +14,6 @@ class Gene extends Model implements AssignableContract
 
     public $fillable = [
         'symbol',
-        'hgnc_id',
         'protocol_path',
         'protocol_filename',
         'hypothesis_group',
