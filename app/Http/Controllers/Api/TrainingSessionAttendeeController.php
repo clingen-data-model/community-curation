@@ -123,7 +123,6 @@ class TrainingSessionAttendeeController extends Controller
 
     public function emailAttendees(CustomTrainingEmailRequest $request, $trainingSessionId)
     {
-        \Log::debug(__METHOD__, $request->all());
         $htmlToMarkdown = new HtmlConverter(['strip tags' => true, 'remove_nodes' => 'script']);
         $parsedown = new Parsedown();
         $parsedown->setSafeMode('true');
@@ -135,7 +134,7 @@ class TrainingSessionAttendeeController extends Controller
                         })
                         ->toArray();
 
-        $recipients = User::find(explode(',',$request->recipients));
+        $recipients = User::find(explode(',', $request->recipients));
 
         $recipients
             ->each(function ($attendee) use ($request, $trainingSession, $safeBody, $attachments) {
