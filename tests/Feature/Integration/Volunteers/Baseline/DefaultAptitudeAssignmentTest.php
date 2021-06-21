@@ -27,10 +27,12 @@ class DefaultAptitudeAssignmentTest extends TestCase
 
     /**
      * @test
+     *
+     * Note Commented out b/c genetic evidence has been removed from the system.
      */
-    public function volunteer_not_assigned_basic_evidence_aptitude_when_assigned_to_baseline_ca()
-    {
-        $geneticEvidenceAptitude = Aptitude::find(config('aptitudes.baseline-basic-evidence'));
-        $this->assertUserNotAssignedTo($this->user, $geneticEvidenceAptitude);
-    }
+    // public function volunteer_not_assigned_basic_evidence_aptitude_when_assigned_to_baseline_ca()
+    // {
+    //     $geneticEvidenceAptitude = Aptitude::find(config('aptitudes.baseline-basic-evidence'));
+    //     $this->assertUserNotAssignedTo($this->user, $geneticEvidenceAptitude);
+    // }
 }

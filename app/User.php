@@ -160,7 +160,12 @@ class User extends Authenticatable implements IsNotable
             }
         });
     }
-
+    
+    static public function findByEmail($email)
+    {
+        return static::where('email', $email)->first();
+    }
+    
     public function volunteerType()
     {
         return $this->belongsTo(VolunteerType::class);
@@ -481,4 +486,5 @@ class User extends Authenticatable implements IsNotable
 
         return $preference->default;
     }
+
 }

@@ -135,7 +135,7 @@ class TrainingSessionAttendeeController extends Controller
                         })
                         ->toArray();
 
-        $recipients = User::find(explode(',',$request->recipients));
+        $recipients = User::find(explode(',', $request->recipients));
 
         $recipients
             ->each(function ($attendee) use ($request, $trainingSession, $safeBody, $attachments) {

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\CurationActivity;
 use App\CurationGroup;
+use App\Gene;
 use App\Jobs\AssignVolunteerToAssignable;
 use App\Services\Reports\AssignmentReportGenerator;
 use App\User;
@@ -32,7 +33,7 @@ class AssignmentsReportTest extends TestCase
 
         $this->volunteers = factory(User::class, 3)->states('volunteer', 'comprehensive')->create();
 
-        $this->volunteers->each(function ($volunteer) {
+        $this->volunteers->slice(0, 2)->each(function ($volunteer) {
             AssignVolunteerToAssignable::dispatch($volunteer, $this->curationActivities->get(3));
         });
         $this->volunteers->first()->update(['already_clingen_member' => 1, 'already_member_cgs' => ["23", "41"]]);
@@ -44,6 +45,12 @@ class AssignmentsReportTest extends TestCase
         AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->curationGroups->get(3)->first());
         AssignVolunteerToAssignable::dispatch($this->volunteers->get(1), $this->curationGroups->get(3)->last());
 
+        $this->genes = factory(Gene::class, 2)->create();
+
+        AssignVolunteerToAssignable::dispatch($this->volunteers->last(), $this->curationActivities->get(6));
+        AssignVolunteerToAssignable::dispatch($this->volunteers->last(), $this->genes->first());
+        AssignVolunteerToAssignable::dispatch($this->volunteers->last(), $this->genes->last());
+        
         $this->date = Carbon::now();
 
         $appRsp = class_survey()::findBySlug('application1')->getNewResponse($this->volunteers->get(1));
@@ -90,6 +97,7 @@ class AssignmentsReportTest extends TestCase
                 'country' => $vol->country->name,
                 'state' => $vol->state,
                 'city' => $vol->city,
+                'hypothesis_id' => $vol->hypothesis_id,
                 'current_status' => $vol->volunteerStatus->name,
                 'ca_assignments' => 1,
                 'survey_completion_date' => $this->date->format('Y-m-d H:i:s'),
@@ -100,12 +108,53 @@ class AssignmentsReportTest extends TestCase
                 'assigned_curation_group' => $this->curationGroups->get(3)->first()->name
                                             .",\n"
                                             .$this->curationGroups->get(3)->last()->name,
+                'assigned_gene' => null, //$this->genes->first()->symbol.",\n".$this->genes->last()->symbol
                 'already_clingen_member' => $vol->already_clingen_member,
                 'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', ')
             ],
             $testRow
         );
     }
+
+    /**
+     * @test
+     */
+    public function includes_gene_assignments()
+    {
+        $report = app()->make(AssignmentReportGenerator::class)->generate([]);
+
+        $vol = $this->volunteers->get(2)->fresh();
+        $testRow = $report->get('all')
+                    ->filter(function ($row) use ($vol) {
+                        return $row['email'] == $vol->email;
+                    })
+                    ->first();
+
+        $this->assertEquals(
+            [
+                'email' => $vol->email,
+                'first_name' => $vol->first_name,
+                'last_name' => $vol->last_name,
+                'country' => $vol->country->name,
+                'state' => $vol->state,
+                'city' => $vol->city,
+                'hypothesis_id' => $vol->hypothesis_id,
+                'current_status' => $vol->volunteerStatus->name,
+                'ca_assignments' => 1,
+                'survey_completion_date' => null,
+                'curation_activity_id' => $this->curationActivities->get(config('project.curation-activities.baseline'))->id,
+                'curation_activity' => $this->curationActivities->get(config('project.curation-activities.baseline'))->name,
+                'training_completion_date' => null,
+                'attestation_date' => null,
+                'assigned_curation_group' => '',
+                'assigned_gene' => $this->genes->first()->symbol.",\n".$this->genes->last()->symbol,
+                'already_clingen_member' => $vol->already_clingen_member,
+                'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', ')
+            ],
+            $testRow
+        );
+    }
+    
 
     /**
      * @test

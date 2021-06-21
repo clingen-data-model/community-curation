@@ -38,24 +38,6 @@ class GeneCrudController extends CrudController
         $this->configureColumns();
     }
 
-    public function store(StoreRequest $request)
-    {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
-    }
-
-    public function update(UpdateRequest $request)
-    {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
-    }
-
     private function configureColumns()
     {
         $this->crud->removeColumns(['protocol_path', 'hypothesis_group_url']);
@@ -65,10 +47,11 @@ class GeneCrudController extends CrudController
     private function configureFields()
     {
         $this->crud->setFromDb();
-        $this->crud->modifyField('hgnc_id', ['label' => 'HGNC ID']);
+        $this->crud->modifyField('symbol', ['label' => 'Genes']);
+        $this->crud->removeField('hgnc_id');
         $this->crud->modifyField('hypothesis_group_url', ['type' => 'url']);
-        $this->crud->addField([
-            'name' => 'protocol_path',
+        $this->crud->modifyField('protocol_path', [
+            'label' => 'Protocol File',
             'type' => 'upload',
             'upload' => true,
             'disk' => 'public',

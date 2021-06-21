@@ -148,11 +148,13 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
                 'POST',
                 '/api/training-sessions/'.$this->trainingSession->id.'/attendees/email',
                 [
+                    'recipients' => $this->vol1->id.','.$this->vol3->id,
                     'from' => $admin->email,
                     'subject' => 'Test custom email',
                     'body' => $bodyText,
                 ]
-            );
+            )
+            ->assertStatus(200);
 
         Notification::assertSentTo(
             [$this->vol1, $this->vol3],

@@ -17,19 +17,15 @@ class GenesTableSeeder extends Seeder
         $genes = [
             [
                 'symbol' => 'LMNA',
-                'hgnc_id' => 'HGNC:6636',
             ],
             [
                 'symbol' => 'EXTL3',
-                'hgnc_id' => 'HGNC:3518',
             ],
             [
                 'symbol' => 'PCDH15',
-                'hgnc_id' => 'HGNC:14674',
             ],
             [
                 'symbol' => 'ABCC9',
-                'hgnc_id' => 'HGNC:60',
             ],
         ];
 
