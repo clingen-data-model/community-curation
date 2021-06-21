@@ -79,16 +79,16 @@ class ApplicationReportGenerator implements ReportGenerator
             return [
                 'personal' => $introColumns
                                     ->merge([
-                                            'institution' => $app->institution,
-                                            'orcid_id' => $app->orcid_id,
+                                            'institution' => $app->respondent->institution,
+                                            'orcid_id' => $app->respondent->orcid_id,
                                             'hypothesis_id' => $app->hypothesis_id,
-                                            'street1' => $app->street1,
-                                            'street2' => $app->street2,
-                                            'city' => $app->city,
-                                            'state' => $app->state,
-                                            'zip' => $app->zip,
-                                            'country' => $app->country_id,
-                                            'timezone' => $app->timezone,
+                                            'street1' => $app->respondent->street1,
+                                            'street2' => $app->respondent->street2,
+                                            'city' => $app->respondent->city,
+                                            'state' => $app->respondent->state,
+                                            'zip' => $app->respondent->zip,
+                                            'country' => $app->respondent->country_id,
+                                            'timezone' => $app->respondent->timezone,
                                     ])->merge($outroColumns),
 
                 'professional' => $introColumns
@@ -140,9 +140,9 @@ class ApplicationReportGenerator implements ReportGenerator
     private function getPriorityData($app)
     {
         $data = [];
-        if (!$app->respondent) {
-            dd($app->toArray());
-        }
+        // if (!$app->respondent) {
+        //     dd($app->toArray());
+        // }
         $priorities = $app->respondent->latestPriorities->values();
 
         for ($i = 0; $i < 3; ++$i) {
