@@ -79,8 +79,8 @@ class ApplicationReportGenerator implements ReportGenerator
             return [
                 'personal' => $introColumns
                                     ->merge([
-                                            'institution' => $app->institution,
-                                            'orcid_id' => $app->orcid_id,
+                                            'institution' => $app->respondent->institution,
+                                            'orcid_id' => $app->respondent->orcid_id,
                                             'hypothesis_id' => $app->hypothesis_id,
                                             'street1' => $app->respondent->street1,
                                             'street2' => $app->respondent->street2,
