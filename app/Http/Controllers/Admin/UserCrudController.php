@@ -25,6 +25,8 @@ class UserCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
+    private $includeVolunteers = false;
+
     public function setup()
     {
         /*
@@ -42,9 +44,24 @@ class UserCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->addClause('whereDoesntHave', 'roles', function ($query) {
-            $query->where('name', 'volunteer');
-        });
+        $this->crud->addFilter(
+            [
+                'type' => 'simple',
+                'name' => 'include_volunteers',
+                'label' => 'Show Volunteers',
+            ],
+            false,
+            function ($value) {
+                $this->includeVolunteers = $value;
+            }
+        );
+
+        if (!$this->includeVolunteers) {
+            $this->crud->addClause('whereHas', 'roles', function ($query) {
+                $query->whereIn('name', ['programmer', 'super-admin', 'admin', 'coordinator']);
+            });
+        }
+
 
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
@@ -62,7 +79,6 @@ class UserCrudController extends CrudController
             'last_logged_out_at',
             'orcid_id',
             'hypothesis_id',
-            '',
         ]);
 
         $this->crud->addFields([
@@ -120,6 +136,18 @@ class UserCrudController extends CrudController
             'institution',
             'hypothesis_id',
             'orcid_id',
+            'already_clingen_member',
+            'already_member_cgs',
+            'timezone'
+        ]);
+
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'roles',
+            'label' => 'Roles',
+            'entity' => 'roles',
+            'attribute' => 'name',
+            'model' => Role::class
         ]);
 
         if (!Auth::user()->can('create users')) {
