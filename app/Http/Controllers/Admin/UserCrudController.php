@@ -74,11 +74,18 @@ class UserCrudController extends CrudController
             'password',
             'volunteer_type_id',
             'volunteer_status_id',
-            'address',
+            'institution',
+            'street1',
+            'street2',
+            'city',
+            'state',
+            'zip',
             'last_logged_in_at',
             'last_logged_out_at',
             'orcid_id',
             'hypothesis_id',
+            'already_clingen_member',
+            'already_member_cgs'
         ]);
 
         $this->crud->addFields([
