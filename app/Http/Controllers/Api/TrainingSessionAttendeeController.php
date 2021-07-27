@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\NotImplementedException;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CustomTrainingEmailRequest;
-use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
-use App\Http\Resources\DefaultResource;
-use App\Http\Resources\TrainingSessionAttendeeResource;
-use App\Jobs\InviteVolunteersToTrainingSession;
-use App\Notifications\CustomTrainingEmail;
-use App\Notifications\ValueObjects\MailAttachment;
-use App\TrainingSession;
 use App\User;
-use League\HTMLToMarkdown\HtmlConverter;
 use Parsedown;
+use App\CurationGroup;
+use App\TrainingSession;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\DefaultResource;
+use League\HTMLToMarkdown\HtmlConverter;
+use App\Notifications\CustomTrainingEmail;
+use App\Exceptions\NotImplementedException;
+use App\Jobs\InviteVolunteersToTrainingSession;
+use App\Http\Requests\CustomTrainingEmailRequest;
+use App\Http\Resources\AvailableTraineesResource;
+use App\Notifications\ValueObjects\MailAttachment;
+use App\Http\Resources\TrainingSessionAttendeeResource;
+use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
 
 class TrainingSessionAttendeeController extends Controller
 {
@@ -33,8 +35,20 @@ class TrainingSessionAttendeeController extends Controller
             },
             'assignments.userAptitudes',
         ])
-        ->select('first_name', 'last_name', 'users.id', 'email')
+        ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
         ->get();
+        $alreadyMemberCgIds = $attendees->pluck('already_member_cgs')->flatten()->unique()->sort();
+        $curationGroups = CurationGroup::find($alreadyMemberCgIds);
+ 
+        $attendees = $attendees->map(function ($a) use ($curationGroups) {
+            if (!$a->already_member_cgs) {
+                $a->already_member_groups = null;
+                return $a;
+            }
+ 
+            $a->already_member_groups = $curationGroups->whereIn('id', $a->already_member_cgs);
+            return $a;
+        });
 
         return TrainingSessionAttendeeResource::collection($attendees);
     }
@@ -59,7 +73,7 @@ class TrainingSessionAttendeeController extends Controller
             },
             'assignments.userAptitudes',
          ])
-         ->select('first_name', 'last_name', 'users.id', 'email')
+         ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
          ->get();
 
         return TrainingSessionAttendeeResource::collection($attendees);
@@ -93,7 +107,7 @@ class TrainingSessionAttendeeController extends Controller
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $volunteerQuery = User::isVolunteer()
-                        ->select('first_name', 'last_name', 'id', 'volunteer_status_id', 'email')
+                        ->select('first_name', 'last_name', 'id', 'volunteer_status_id', 'email', 'already_clingen_member', 'already_member_cgs')
                         ->whereNotIn('id', $trainingSession->attendees->pluck('id'))
                         ->whereHas('userAptitudes', function ($q) use ($trainingSession) {
                             $q->needsTraining()
@@ -118,7 +132,20 @@ class TrainingSessionAttendeeController extends Controller
 
         $volunteers = $volunteerQuery->get();
 
-        return DefaultResource::collection($volunteers);
+        $alreadyMemberCgIds = $volunteers->pluck('already_member_cgs')->flatten()->unique()->sort();
+        $curationGroups = CurationGroup::find($alreadyMemberCgIds);
+
+        $volunteers = $volunteers->map(function ($v) use ($curationGroups) {
+            if (!$v->already_member_cgs) {
+                $v->already_member_groups = null;
+                return $v;
+            }
+
+            $v->already_member_groups = $curationGroups->whereIn('id', $v->already_member_cgs);
+            return $v;
+        });
+
+        return AvailableTraineesResource::collection($volunteers);
     }
 
     public function emailAttendees(CustomTrainingEmailRequest $request, $trainingSessionId)

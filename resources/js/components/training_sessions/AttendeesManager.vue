@@ -6,7 +6,7 @@
 </style>
 <template>
     <div>
-        <invited-attendees :training-session="trainingSession"></invited-attendees>
+        <invited-attendees :training-session="trainingSession" ref="attendeesList"></invited-attendees>
         <section class="mt-5">
             <header class="d-flex justify-content-between">
                 <h5>
@@ -62,7 +62,7 @@
                     </div>
                 </template>
                 <template v-slot:cell(training_sessions_count)="{item}">
-                    <div
+                    <span
                         v-if="item.training_sessions_count > 0"
                         :id="`attendence-warning-${item.id}`"
                     >
@@ -77,7 +77,19 @@
                             invite{{item.training_sessions_count > 1 ? `s` : ''}} 
                             to {{trainingSession.topic.name.toLowerCase()}} training
                         </b-popover>
-                    </div>
+                    </span>
+                    <span v-if="item.already_clingen_member" :id="`already-clingen-member-${item.id}`">
+                        <b-icon 
+                            icon="person-badge-fill" 
+                            style="color: SteelBlue!important" 
+                        ></b-icon>
+                        <b-popover :target="`already-clingen-member-${item.id}`" triggers="hover">
+                            <strong>Already a ClinGen member of:</strong>
+                            <ul class="mb-0">
+                                <li v-for="ep in item.already_member_groups" :key="ep.id">{{ep.name}}</li>
+                            </ul>
+                        </b-popover>
+                    </span>
                 </template>
                 <template v-slot:head(id)="">
                     <div class="text-center">
@@ -269,6 +281,7 @@ export default {
                     this.selectedVolunteers = [];
                     this.getTrainableVolunteers();
                     this.selectAll = false;
+                    this.$refs.attendeesList.getAttendees();
                 })
                 .catch(error => {
                     alert('There was a problem inviting attendees: '+error.response.statusText+'.');
