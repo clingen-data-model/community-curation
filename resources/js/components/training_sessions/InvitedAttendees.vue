@@ -50,6 +50,21 @@
                                     Mark Training Complete
                                 </button>
                                 <small class="text-muted" v-show="item.training_complete">Training Complete</small>
+                                <span v-if="item.already_clingen_member" :id="`already-clingen-member-${item.id}`">
+                                    <b-icon 
+                                        icon="person-badge-fill" 
+                                        style="color: SteelBlue!important" 
+                                    ></b-icon>
+                                    <b-popover :target="`already-clingen-member-${item.id}`" triggers="hover">
+                                        <strong>Already a ClinGen member.</strong>
+                                        <div v-if="item.already_member_groups">
+                                            <strong>Curation Groups:</strong>
+                                            <ul class="mb-0">
+                                                <li v-for="ep in item.already_member_groups" :key="ep.id">{{ep.name}}</li>
+                                            </ul>
+                                        </div>
+                                    </b-popover>
+                                </span>
                             </template>
                         </b-table>
                     </div>
