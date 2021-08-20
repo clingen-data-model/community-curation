@@ -34,6 +34,7 @@ export default {
             editor: ClassicEditor,
             editorData: '',
             defaultConfig: {
+                plugins: [ Link, AutoLink],
                 toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
                 skin: 'myskin'
             }
