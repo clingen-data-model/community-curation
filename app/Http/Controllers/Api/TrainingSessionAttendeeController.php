@@ -150,6 +150,7 @@ class TrainingSessionAttendeeController extends Controller
 
     public function emailAttendees(CustomTrainingEmailRequest $request, $trainingSessionId)
     {
+        \Log::debug(__METHOD__, $request->all());
         $htmlToMarkdown = new HtmlConverter(['strip tags' => true, 'remove_nodes' => 'script']);
         $parsedown = new Parsedown();
         $parsedown->setSafeMode('true');
