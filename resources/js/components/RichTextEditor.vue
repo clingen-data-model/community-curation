@@ -7,6 +7,7 @@
             :config="mergedConfig"
             @ready="prefill"
         ></ckeditor>
+        <div class="text-muted mt-2">To ensure links work correctly in emails, please use the <img class="border" src="/images/link-icon.png" /> icon in the menu bar</div>
     </div>
 </template>
 <script>
@@ -34,9 +35,8 @@ export default {
             editor: ClassicEditor,
             editorData: '',
             defaultConfig: {
-                plugins: [ Link, AutoLink],
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
-                skin: 'myskin'
+                // toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
+                // skin: 'myskin'
             }
         }
     },
