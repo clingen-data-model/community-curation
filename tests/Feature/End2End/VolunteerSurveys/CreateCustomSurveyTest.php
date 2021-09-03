@@ -4,14 +4,20 @@ namespace Tests\Feature\End2End\VolunteerSurveys;
 
 use App\User;
 use Tests\TestCase;
-use App\CurationGroup;
 use App\CustomSurvey;
+use App\CurationGroup;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * @group custom-surveys
+ */
 class CreateCustomSurveyTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setup():void
     {
         parent::setup();

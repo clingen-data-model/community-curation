@@ -4,6 +4,7 @@
 <br>
 <form class="sirs-survey" method="POST" name="{{$context['survey']['name']}}-{{$renderable->name}}" novalidate>
   <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+  <input type="hidden" name="custom_survey_id" value="{{$context['response']->custom_survey_id}}">
   <div class="panel panel-default card">
     <div class="panel-heading card-header">
       @if (!\Auth::guest() && \Auth::user()->can('view survey data'))
