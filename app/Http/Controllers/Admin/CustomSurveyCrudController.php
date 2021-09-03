@@ -49,6 +49,23 @@ class CustomSurveyCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
+
+        $this->crud->modifyColumn('curation_group_id', [
+            'type' => 'select',
+            'label' => 'Curation Group',
+            'name' => 'curation_group_id',
+            'model' => CurationGroup::class,
+            'attribute' => 'name',
+            'entity' => 'curationGroup'
+         ]);
+        $this->crud->modifyColumn('volunteer_type_id', [
+            'type' => 'select',
+            'label' => 'Volunteer Type',
+            'name' => 'volunteer_type_id',
+            'model' => VolunteerType::class,
+            'attribute' => 'name',
+            'entity' => 'volunteerType'
+         ]);
     }
 
     /**

@@ -20,10 +20,23 @@ class Application1Rules extends SurveyRules
 
     public function prioritiesSkip()
     {
-        if ($this->response->volunteer_type == 1) {
+        if ($this->response->volunteer_type == static::VOLUNTEER_TYPE_BASELINE) {
+            return 2;
+        }
+
+        if ($this->response->custom_survey_id) {
             return 2;
         }
 
         return 0;
     }
+
+    public function commitmentSkip()
+    {
+        if ($this->response->custom_survey_id) {
+            return 2;
+        }
+        return 0;
+    }
+    
 }

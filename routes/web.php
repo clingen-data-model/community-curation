@@ -84,7 +84,16 @@ Route::get('faq', 'FaqController@index')
     ->name('faq');
 
 Route::get('apply/thank-you', 'ThankYouController@show')
-    ->name('than-you');
+    ->name('thank-you');
+
+Route::get('apply/group/thank-you', 'ThankYouController@show')
+    ->name('group.thank-you');
+
+Route::get('apply/group/{name}', 'CustomApplicationController@show')
+    ->name('application.custom.show');
+
+Route::post('apply/group/{responseId?}', 'CustomApplicationController@store')
+    ->name('application.store');
 
 Route::get('apply/{responseId?}', 'ApplicationController@show')
     ->name('application.show');
