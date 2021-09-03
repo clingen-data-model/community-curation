@@ -14,8 +14,9 @@ class VolunteerControllerTest extends TestCase
     {
         parent::setUp();
         \DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        \DB::table('users')->truncate();
+        \DB::table('users')->delete();
         \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
         $this->volunteers = factory(User::class, 5)->states('volunteer')->create();
     }
 
