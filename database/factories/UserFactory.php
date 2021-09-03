@@ -77,6 +77,16 @@ $factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
     $user->assignRole('admin');
 });
 
+$factory->state(User::class, 'super-admin', function (Faker $faker) {
+    return [
+        'volunteer_type_id' => null,
+        'volunteer_status_id' => null
+    ];
+});
+$factory->afterCreatingState(User::class, 'super-admin', function ($user, $faker) {
+    $user->assignRole('super-admin');
+});
+
 // Coordinator state
 $factory->state(User::class, 'coordinator', function (Faker $faker) {
     return [

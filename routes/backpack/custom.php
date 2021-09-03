@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 // --------------------------
 // Custom Backpack Routes
 // --------------------------
@@ -23,6 +25,7 @@ Route::group([
     Route::crud('/volunteer-type', 'VolunteerTypeCrudController');
     Route::crud('/volunteer-status', 'VolunteerStatusCrudController');
     Route::crud('/volunteer', 'VolunteerCrudController');
+    Route::crud('/custom-survey', 'CustomSurveyCrudController');
     Route::crud('/campaign', 'CampaignCrudController');
     Route::crud('/goal', 'GoalCrudController');
     Route::crud('/interest', 'InterestCrudController');

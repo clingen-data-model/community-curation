@@ -31,6 +31,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->createPermissionGroup('trainings', ['list', 'create', 'update', 'delete']);
         $this->createPermissionGroup('faq', ['list', 'create', 'update', 'delete']);
         $this->createPermissionGroup('notes', ['list', 'create', 'update', 'delete']);
+        $this->createPermissionGroup('custom-surveys', ['list', 'create', 'update', 'delete']);
 
         $administerPermission = Permission::firstOrCreate(['name' => 'administer']);
         $canImpersonatePermission = Permission::firstOrCreate(['name' => 'impersonate']);
@@ -53,6 +54,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($programmer, 'trainings', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'faq', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($programmer, 'notes', ['list', 'create', 'update', 'delete']);
+        $this->giveActionPermissionsToRole($programmer, 'custom-surveys', ['list', 'create', 'update', 'delete']);
         $this->givePermissionToRole($programmer, $administerPermission);
         $this->givePermissionToRole($programmer, $canImpersonatePermission);
         $this->givePermissionToRole($programmer, $canViewLogsPermission);
@@ -73,6 +75,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $this->giveActionPermissionsToRole($superAdmin, 'trainings', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($superAdmin, 'faq', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($superAdmin, 'notes', ['list', 'create', 'update', 'delete']);
+        $this->giveActionPermissionsToRole($superAdmin, 'custom-surveys', ['list', 'create', 'update', 'delete']);
         $this->givePermissionToRole($superAdmin, $administerPermission);
         $this->givePermissionToRole($superAdmin, $canImpersonatePermission);
         $this->givePermissionToRole($superAdmin, $runReports);
