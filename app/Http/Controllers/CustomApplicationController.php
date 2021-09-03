@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use App\CustomSurvey;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Surveys\ResponseObjectResolver;
 use App\Surveys\ApplicationControlService;
-use Illuminate\Auth\Access\AuthorizationException;
 
-class ApplicationController extends Controller
+class CustomApplicationController extends Controller
 {
     protected $responseResolver;
 
     public function __construct(ResponseObjectResolver $responseResolver)
     {
-        $this->responseResolver= $responseResolver;
+        $this->responseResolver = $responseResolver;
     }
 
     
@@ -25,9 +23,11 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $name)
     {
+        $customSurvey = CustomSurvey::findByNameOrFail($name);
         $response = $this->responseResolver->resolve($request);
+        $response->custom_survey_id = $customSurvey->id;
 
         $service = new ApplicationControlService($request, $response);
 
@@ -39,12 +39,19 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id = null)
+    public function store(Request $request, $name, $id = null)
     {
-        $survey = class_survey()::findBySlug('application1');
-        $survey->getSurveyDocument()->validate();
+        $customSurvey = CustomSurvey::findByNameOrFail($name);
+        $survey = class_survey()::findBySlug('application1')->getSurveyDocument()->validate();
 
         $response = $this->responseResolver->resolve($request, $id);
+
+        // Set the custom survey data on the response
+        $response->custom_survey_id = $customSurvey->id;
+        $response->curation_activity_1 = $customSurvey->curationGroup->curationActivity->id;
+        $response->panel_1 = $customSurvey->curation_group_id;
+        $response->volunteer_type = $customSurvey->volunteer_type_id;
+
         $control = new ApplicationControlService($request, $response);
 
         return $control->saveAndContinue();
@@ -57,10 +64,12 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = null)
+    public function show(Request $request, $name, $id = null)
     {
+        $customSurvey = CustomSurvey::findByNameOrFail($name);
         $response = $this->responseResolver->resolve($request, $id);
-
+        $response->custom_survey_id = $customSurvey->id;
+        
         $service = new ApplicationControlService($request, $response);
 
         return $service->showPage();

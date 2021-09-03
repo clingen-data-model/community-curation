@@ -50,4 +50,9 @@ class CustomSurvey extends Model
     {
         return $this->belongsTo(VolunteerType::class);
     }
+
+    public static function findByNameOrFail($name)
+    {
+        return static::where('name', $name)->sole();
+    }
 }
