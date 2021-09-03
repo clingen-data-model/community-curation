@@ -12,7 +12,7 @@
         "url": "https://github.com/yugen/surveys"
     }],
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "backpack/crud": "^4.1.0",
         "barryvdh/laravel-elfinder": "^0.4.2",
         "box/spout": "^3.1",
@@ -44,7 +44,7 @@
         "deployer/dist": "^6.4",
         "facade/ignition": "^2.3.6",
         "filp/whoops": "^2.0",
-        "fzaninotto/faker": "^1.4",
+        "fakerphp/faker": "^1.9.1",
         "laracasts/generators": "^1.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
