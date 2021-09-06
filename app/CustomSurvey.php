@@ -26,6 +26,10 @@ class CustomSurvey extends Model
         'curation_group_id' => 'integer',
         'volunteer_type_id' => 'integer',
     ];
+    
+    public $appends = [
+        'survey_url',
+    ];
 
     /**
      * RELATIONSHIPS
@@ -54,5 +58,14 @@ class CustomSurvey extends Model
     public static function findByNameOrFail($name)
     {
         return static::where('name', $name)->sole();
+    }
+
+    /**
+     * DOMAIN
+     */
+
+    public function getSurveyUrlAttribute(): String
+    {
+        return url('/apply/group/'.$this->name);
     }
 }
