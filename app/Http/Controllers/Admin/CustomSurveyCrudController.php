@@ -50,6 +50,16 @@ class CustomSurveyCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
 
+        $this->crud->addColumn([
+            'name' => 'survey_url',
+            'label' => 'URL',
+            'type' => 'text',
+            'wrapper' => [
+                'href' => function ($crud, $col, $entry, $related_key) {
+                    return $entry->survey_url;
+                }
+            ]
+        ]);
         $this->crud->modifyColumn('curation_group_id', [
             'type' => 'select',
             'label' => 'Curation Group',
@@ -58,6 +68,7 @@ class CustomSurveyCrudController extends CrudController
             'attribute' => 'name',
             'entity' => 'curationGroup'
          ]);
+
         $this->crud->modifyColumn('volunteer_type_id', [
             'type' => 'select',
             'label' => 'Volunteer Type',
