@@ -93,7 +93,7 @@ Route::get('apply/group/{name}', 'CustomApplicationController@show')
     ->name('application.custom.show');
 
 Route::post('apply/group/{responseId?}', 'CustomApplicationController@store')
-    ->name('application.store');
+    ->name('application.custom.store');
 
 Route::get('apply/{responseId?}', 'ApplicationController@show')
     ->name('application.show');
