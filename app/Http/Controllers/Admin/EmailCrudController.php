@@ -43,8 +43,9 @@ class EmailCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
-        $this->crud->removeColumns(['cc', 'bcc', 'reply_to', 'sender', 'from']);
+        $this->crud->removeColumns(['cc', 'bcc', 'reply_to', 'sender']);
         $this->crud->setColumnsDetails(['to'], ['type' => 'json_email']);
+        $this->crud->setColumnsDetails(['from'], ['type' => 'json_email']);
         $this->crud->addColumn(['type' => 'datetime', 'name' => 'created_at', 'label' => 'Sent'])->makeFirstColumn();
 
         $this->crud->orderBy('created_at', 'DESC');
