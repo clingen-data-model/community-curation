@@ -16,9 +16,9 @@ class TrainingSessionAttendeeResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        // if ($this->assignments->count() > 0) {
-        //     $data['training_complete'] = (bool) $this->assignments->first()->userAptitudes->first()->trained_at;
-        // }
+        if ($this->assignments->count() > 0) {
+            $data['training_complete'] = (bool) $this->assignments->first()->userAptitudes->first()->trained_at;
+        }
 
         return $data;
     }
