@@ -23,7 +23,7 @@ class Country extends Model
         });
         static::deleted(function ($model) {
             Cache::forget('surveys:datasource:App\Surveys\SurveyOptions@adCampaigns');
-        });        
+        });
     }
 
     public function users()
@@ -33,6 +33,11 @@ class Country extends Model
 
     public static function allAsOptions()
     {
-        return static::get();
+        return static::orderBy('name')->get();
+    }
+
+    public static function query()
+    {
+        return parent::query()->orderBy('name');
     }
 }
