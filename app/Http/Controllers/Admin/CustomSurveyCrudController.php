@@ -42,7 +42,7 @@ class CustomSurveyCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        // CRUD::setFromDb(); // columns
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -50,6 +50,22 @@ class CustomSurveyCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
 
+        $this->crud->addColumn([
+            'type' => 'select',
+            'label' => 'Curation Group',
+            'name' => 'curation_group_id',
+            'model' => CurationGroup::class,
+            'attribute' => 'name',
+            'entity' => 'curationGroup'
+         ]);
+        $this->crud->addColumn([
+            'type' => 'select',
+            'label' => 'Volunteer Type',
+            'name' => 'volunteer_type_id',
+            'model' => VolunteerType::class,
+            'attribute' => 'name',
+            'entity' => 'volunteerType'
+         ]);
         $this->crud->addColumn([
             'name' => 'survey_url',
             'label' => 'URL',
@@ -60,23 +76,6 @@ class CustomSurveyCrudController extends CrudController
                 }
             ]
         ]);
-        $this->crud->modifyColumn('curation_group_id', [
-            'type' => 'select',
-            'label' => 'Curation Group',
-            'name' => 'curation_group_id',
-            'model' => CurationGroup::class,
-            'attribute' => 'name',
-            'entity' => 'curationGroup'
-         ]);
-
-        $this->crud->modifyColumn('volunteer_type_id', [
-            'type' => 'select',
-            'label' => 'Volunteer Type',
-            'name' => 'volunteer_type_id',
-            'model' => VolunteerType::class,
-            'attribute' => 'name',
-            'entity' => 'volunteerType'
-         ]);
     }
 
     /**
@@ -123,5 +122,26 @@ class CustomSurveyCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->crud->set('show.setFromDb', false);
+
+        $this->crud->addColumn([
+            'name' => 'group_name',
+            'label' => 'Curation group',
+            'type' => 'text'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'volunteer_type_name',
+            'label' => 'Volunteer Type',
+            'type' => 'text'
+        ]);
+        $this->crud->addColumn([
+            'name' => 'survey_url',
+            'label' => 'URL',
+            'type' => 'link'
+        ]);
     }
 }

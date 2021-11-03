@@ -68,4 +68,14 @@ class CustomSurvey extends Model
     {
         return url('/apply/group/'.$this->name);
     }
+
+    public function getGroupNameAttribute()
+    {
+        return $this->curationGroup->name;
+    }
+
+    public function getVolunteerTypeNameAttribute()
+    {
+        return $this->volunteerType->name;
+    }
 }
