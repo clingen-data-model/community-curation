@@ -161,7 +161,7 @@ class User extends Authenticatable implements IsNotable
         });
     }
     
-    static public function findByEmail($email)
+    public static function findByEmail($email)
     {
         return static::where('email', $email)->first();
     }
@@ -310,9 +310,19 @@ class User extends Authenticatable implements IsNotable
         return null;
     }
 
+    /**
+     * SCOPES
+     */
+
     public function scopeIsVolunteer($query)
     {
         return $query->role('volunteer');
+    }
+
+    public function scopeIsActiveVolunteer($query)
+    {
+        return $query->isVolunter($query)
+            ->where('volunteer_status_id', config('volunteers.active'));
     }
 
     public function scopeComprehensive($query)
@@ -486,5 +496,4 @@ class User extends Authenticatable implements IsNotable
 
         return $preference->default;
     }
-
 }
