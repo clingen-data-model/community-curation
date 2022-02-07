@@ -321,7 +321,7 @@ class User extends Authenticatable implements IsNotable
 
     public function scopeIsActiveVolunteer($query)
     {
-        return $query->isVolunter($query)
+        return $query->isVolunteer($query)
             ->where('volunteer_status_id', config('volunteers.active'));
     }
 
