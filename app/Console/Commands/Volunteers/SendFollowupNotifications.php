@@ -5,6 +5,7 @@ namespace App\Console\Commands\Volunteers;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\VolunteerFollowup\FollowupReminder1;
@@ -89,7 +90,7 @@ class SendFollowupNotifications extends Command
             $this->sendFollowup1(($days + 7), $survey, $url);
             $this->sendFollowup2(($days + 21), $survey, $url);
         }
-        \Log::info('Sent followup survey notifications', $this->followupsSent);
+        Log::info('Sent followup survey notifications', $this->followupsSent);
     }
 
     private function sendInitialNotification($days, $survey, $url)
@@ -129,15 +130,17 @@ class SendFollowupNotifications extends Command
 
     private function buildRecipientQuery(Carbon $date)
     {
+        $statuses = config('projects.volunteer-statuses');
         return User::isVolunteer()
-        ->whereHas('assignments', function ($q) use ($date) {
-            //we only want  who's first curation_group was assigned on the date
-            $q->curationGroup()
-                ->select('user_id')
-                ->selectRaw('DATE(MIN(created_at)) as min_date')
-                ->groupBy('user_id')
-                ->having('min_date', $date);
-        });
+            ->isActiveVolunteer()
+            ->whereHas('assignments', function ($q) use ($date) {
+                //we only want  who's first curation_group was assigned on the date
+                $q->curationGroup()
+                    ->select('user_id')
+                    ->selectRaw('DATE(MIN(created_at)) as min_date')
+                    ->groupBy('user_id')
+                    ->having('min_date', $date);
+            });
     }
 
     private function noteNotificaitonSent($survey, $notification, Collection $recipients)
