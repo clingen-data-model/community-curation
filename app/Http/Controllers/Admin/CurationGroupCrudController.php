@@ -107,6 +107,11 @@ class CurationGroupCrudController extends CrudController
                 'type' => 'boolean',
                 'name' => 'accepting_volunteers',
         ]);
+        $this->crud->addColumn([
+            'label' => 'ID',
+            'type' => 'integer',
+            'name' => 'id',
+        ])->makeFirstColumn();
 
         $this->crud->removeColumn(['url']);
 
