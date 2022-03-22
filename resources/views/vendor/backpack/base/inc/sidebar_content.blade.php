@@ -135,6 +135,17 @@
         Application definition
     </a>
 </li>
+@if (\Auth::user()->can('run reports'))
+    <li class="nav-item"><a href="{{url('/reports/three-month-followup')}}" class="nav-link">
+        <i class="nav-icon la la-dashboard"></i>
+        <span>3 Month Survey Export</span>
+    </a></li>
+    <li class="nav-item"><a href="{{url('/reports/six-month-followup')}}" class="nav-link">
+        <i class="nav-icon la la-dashboard"></i>
+        <span>6 Month Survey Export</span>
+    </a></li>
+@endif
+
 
 <hr>
 

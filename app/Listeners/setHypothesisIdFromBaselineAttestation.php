@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\AttestationSigned;
 
-class SetHypothesisIdFromBaselineAttestation
+class setHypothesisIdFromBaselineAttestation
 {
     /**
      * Create the event listener.
