@@ -82,4 +82,21 @@ class CreateCustomSurveyTest extends TestCase
         $response->assertJsonFragment(['The selected volunteer type id is invalid.']);
         $response->assertJsonFragment(['The name has already been taken.']);
     }
+
+    /**
+     * @test
+     */
+    public function validates_name_does_not_contain_url_special_characters()
+    {
+        $cs = CustomSurvey::factory()->create();
+
+        $response = $this->actingAs($this->superAdmin, 'api')
+            ->json('POST', '/admin/custom-survey', [
+                'name' => 'test/me'
+            ]);
+        $response->assertStatus(422);
+
+        $response->assertJsonFragment(['The custom survey name may not include any of the following characters: [ ] { } | \ ” % ~ # < >']);
+    }
+    
 }
