@@ -65,7 +65,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $this->giveActionPermissionsToRole($superAdmin, 'users', ['list', 'create', 'update']);
         $this->giveActionPermissionsToRole($superAdmin, 'curation-activities', ['list', 'create', 'update', 'delete']);
-        $this->giveActionPermissionsToRole($superAdmin, 'curation-groups', ['list', 'create', 'update']);
+        $this->giveActionPermissionsToRole($superAdmin, 'curation-groups', ['list', 'create', 'update', 'delete']);
         $this->giveActionPermissionsToRole($superAdmin, 'working-groups', ['list', 'create', 'update']);
         $this->giveActionPermissionsToRole($superAdmin, 'volunteer-statuses', ['list', 'update']);
         $this->giveActionPermissionsToRole($superAdmin, 'lookups', ['list', 'create', 'update']);

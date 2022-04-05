@@ -27,6 +27,20 @@ class CurationGroup extends Model implements AssignableContract, IsNotable
         'url',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($cg) {
+            $cg->assignments->each->delete();
+            CustomSurvey::where('curation_group_id', $cg->id)
+                ->get()
+                ->each->delete();
+            Priority::where('curation_group_id', $cg->id)
+                ->get()
+                ->each->delete();
+        });
+    }
+
     public function workingGroup()
     {
         return $this->belongsTo(WorkingGroup::class);
