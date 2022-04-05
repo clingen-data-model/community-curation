@@ -41,7 +41,7 @@ class PrioritiesTest extends TestCase
     public function redirects_to_thank_you_on_finalized()
     {
         $cA = CurationActivity::select('id')->get()->random();
-        $ep = factory(CurationGroup::class)->create(['curation_activity_id' => $cA->id]);
+        $ep = CurationGroup::factory()->create(['curation_activity_id' => $cA->id]);
         $data = [
             'curation_activity_1' => $cA->id,
             'panel_1' => $ep->id,
@@ -57,7 +57,7 @@ class PrioritiesTest extends TestCase
      **/
     public function stores_priorities_with_new_priority_round()
     {
-        factory(Priority::class, 1)->create(['prioritization_round' => 1, 'user_id' => $this->user->id, 'curation_activity_id' => 5]);
+        Priority::factory(1)->create(['prioritization_round' => 1, 'user_id' => $this->user->id, 'curation_activity_id' => 5]);
 
         $rsp = $this->survey->getNewResponse($this->user);
         $rsp->curation_activity_1 = 1;

@@ -22,7 +22,7 @@ class CreateCustomSurveyTest extends TestCase
     {
         parent::setup();
         $this->superAdmin = factory(User::class)->state('super-admin')->create();
-        $this->curationGroup = factory(CurationGroup::class)->create();
+        $this->curationGroup = CurationGroup::factory()->create();
     }
 
     /**

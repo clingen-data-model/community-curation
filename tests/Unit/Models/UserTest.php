@@ -99,10 +99,10 @@ class UserTest extends TestCase
     public function gets_latest_priorities_relation()
     {
         $volunteer1 = factory(User::class)->states('volunteer', 'comprehensive')->create();
-        $firstPriorities = factory(Priority::class, 3)->create([
+        $firstPriorities = Priority::factory(3)->create([
             'user_id' => $volunteer1->id,
         ]);
-        $secondPriorities = factory(Priority::class, 3)->create([
+        $secondPriorities = Priority::factory(3)->create([
             'user_id' => $volunteer1->id,
             'prioritization_round' => 2,
         ]);
@@ -221,7 +221,7 @@ class UserTest extends TestCase
      */
     public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_cgs()
     {
-        $eps = factory(CurationGroup::class, 2)->create();
+        $eps = CurationGroup::factory(2)->create();
         $user = $this->makeVolunteer()->first();
         $user->already_member_cgs = $eps->pluck('id')->toArray();
 
