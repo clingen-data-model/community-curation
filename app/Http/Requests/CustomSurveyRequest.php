@@ -35,8 +35,17 @@ class CustomSurveyRequest extends FormRequest
             'volunteer_type_id' => 'required|exists:volunteer_types,id',
             'name' => [
                         'required',
+                        'not_regex:/[\[\]{}\|\\/\~#<>\\\]/',
                         Rule::unique('custom_surveys')->ignore($customSurvey->id)
                     ]
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.not_regex' => 'The custom survey name may not include any of the following characters: [ ] { } | \ ” % ~ # < >',
+        ];
+    }
+    
 }
