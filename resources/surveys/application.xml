@@ -86,7 +86,34 @@
                 ]]>
             </question-text>
         </question>
+
+        <html><content><![CDATA[<hr>]]></content></html>
+
+        <multiple-choice name="already_clingen_member" num-selectable="1" required="1">
+            <question-text>
+                Are you currently a member of a ClinGen expert panel?
+            </question-text>
+            <options>
+                <option>
+                    <value>0</value>
+                    <label>No</label>
+                </option>
+                <option show="already_member_cgs">
+                    <value>1</value>
+                    <label>Yes</label>
+                </option>
+            </options>
+        </multiple-choice>
         
+        <multiple-choice name="already_member_cgs" id="already_member_cgs" num-selectable="10" data-format="json">
+            <question-text>
+                <![CDATA[In which expert panels are you currently a member? (Check all that apply)]]>
+            </question-text>
+            <options>
+                <data-source URI="App\Surveys\SurveyOptions@allCurationGroups"></data-source>
+            </options>
+        </multiple-choice>
+
     </page>
     
     <page name="education" title="Education and Certification Questions">
@@ -180,34 +207,6 @@
                     <value>2</value>
                     <label>Comprehensive</label>
                 </option>
-            </options>
-        </multiple-choice>
-
-        <html><content><![CDATA[<hr>]]></content></html>
-
-        <multiple-choice name="already_clingen_member" num-selectable="1" required="1">
-            <question-text>
-                Are you currently a member of a ClinGen expert panel?
-            </question-text>
-            <options>
-                <option>
-                    <value>0</value>
-                    <label>No</label>
-                </option>
-                <option show="already_member_cgs">
-                    <value>1</value>
-                    <label>Yes</label>
-                </option>
-            </options>
-        </multiple-choice>
-
-
-        <multiple-choice name="already_member_cgs" id="already_member_cgs" num-selectable="10" data-format="json">
-            <question-text>
-                <![CDATA[In which expert panels are you currently a member? (Check all that apply)]]>
-            </question-text>
-            <options>
-                <data-source URI="App\Surveys\SurveyOptions@allCurationGroups"></data-source>
             </options>
         </multiple-choice>
 
