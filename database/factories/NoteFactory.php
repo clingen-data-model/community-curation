@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(Note::class, function (Faker $faker) {
     $groups = CurationGroup::all();
     if ($groups->count() == 0) {
-        $groups = factory(CurationGroup::class, 1)->create();
+        $groups = CurationGroup::factory(1)->create();
     }
     return [
         'notable_type' => CurationGroup::class,

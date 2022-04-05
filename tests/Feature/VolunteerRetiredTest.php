@@ -20,7 +20,7 @@ class VolunteerRetiredTest extends TestCase
     {
         parent::setUp();
         $this->activity = CurationActivity::find(1);
-        $this->curationGroup = factory(CurationGroup::class)->create(['curation_activity_id' => $this->activity->id]);
+        $this->curationGroup = CurationGroup::factory()->create(['curation_activity_id' => $this->activity->id]);
         $this->volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create();
         AssignVolunteerToAssignable::dispatch($this->volunteer, $this->activity);
         AssignVolunteerToAssignable::dispatch($this->volunteer, $this->curationGroup);

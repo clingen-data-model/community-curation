@@ -153,7 +153,7 @@ class AssignmentTest extends TestCase
     {
         $curationActivity = factory(CurationActivity::class)->create([]);
         $gene = factory(Gene::class)->create([]);
-        $ep = factory(CurationGroup::class)->create(['curation_activity_id' => $curationActivity->id]);
+        $ep = CurationGroup::factory()->create(['curation_activity_id' => $curationActivity->id]);
 
         $volunteer = factory(User::class)->create();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);
@@ -171,7 +171,7 @@ class AssignmentTest extends TestCase
     {
         $curationActivity = factory(CurationActivity::class)->create([]);
         $gene = factory(Gene::class)->create([]);
-        $ep = factory(CurationGroup::class)->create(['curation_activity_id' => $curationActivity->id]);
+        $ep = CurationGroup::factory()->create(['curation_activity_id' => $curationActivity->id]);
 
         $volunteer = factory(User::class)->create();
         AssignVolunteerToAssignable::dispatch($volunteer, $curationActivity);

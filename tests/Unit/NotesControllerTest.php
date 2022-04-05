@@ -56,7 +56,7 @@ class NotesControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user = $this->createAdmin();
-        $curationGroup = factory(CurationGroup::class)->create([]);
+        $curationGroup = CurationGroup::factory()->create([]);
 
         $response = $this->actingAs($this->user, 'api')
             ->json('POST', 'api/notes', [
@@ -84,7 +84,7 @@ class NotesControllerTest extends TestCase
     public function validates_for_required_notable_content_before_store()
     {
         $user = $this->createAdmin();
-        $curationGroup = factory(CurationGroup::class)->create([]);
+        $curationGroup = CurationGroup::factory()->create([]);
 
         $response = $this->actingAs($this->user, 'api')
             ->json('POST', 'api/notes', [
@@ -104,7 +104,7 @@ class NotesControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $use = $this->createAdmin();
-        $curationGroup = factory(CurationGroup::class)->create([]);
+        $curationGroup = CurationGroup::factory()->create([]);
 
         $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
 
@@ -120,7 +120,7 @@ class NotesControllerTest extends TestCase
     public function it_can_update_an_existing_note()
     {
         $use = $this->createAdmin();
-        $curationGroup = factory(CurationGroup::class)->create([]);
+        $curationGroup = CurationGroup::factory()->create([]);
 
         $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
 
@@ -143,7 +143,7 @@ class NotesControllerTest extends TestCase
     public function it_can_delete_a_note()
     {
         $use = $this->createAdmin();
-        $curationGroup = factory(CurationGroup::class)->create([]);
+        $curationGroup = CurationGroup::factory()->create([]);
 
         $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
 

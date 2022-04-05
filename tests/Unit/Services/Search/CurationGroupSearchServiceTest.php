@@ -83,9 +83,9 @@ class CurationGroupSearchServiceTest extends TestCase
     {
         $wg = factory(WorkingGroup::class)->create(['name' => 'monkeys']);
         $ca = factory(CurationActivity::class)->create(['name' => 'Monkey']);
-        factory(CurationGroup::class, 2)->create(['working_group_id' => $wg->id]);
-        factory(CurationGroup::class)->create(['curation_activity_id' => $ca->id]);
-        factory(CurationGroup::class)->create(['name' => 'monkey vcep']);
+        CurationGroup::factory(2)->create(['working_group_id' => $wg->id]);
+        CurationGroup::factory()->create(['curation_activity_id' => $ca->id]);
+        CurationGroup::factory()->create(['name' => 'monkey vcep']);
 
         $searchGroups = $this->service->search(['searchTerm' => 'monkey']);
 
