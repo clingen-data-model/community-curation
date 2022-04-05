@@ -119,11 +119,11 @@ class CurationGroupCrudController extends CrudController
             $this->crud->RemoveButton('create');
         }
 
-        if (!\Auth::user()->can('update working-groups')) {
+        if (!\Auth::user()->can('update curation-groups')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!\Auth::user()->can('delete working-groups')) {
+        if (!\Auth::user()->can('delete curation-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }
