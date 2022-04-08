@@ -124,3 +124,17 @@ Route::get('apply/{responseId?}', [ApplicationController::class, 'show'])
 
 Route::post('apply/{responseId?}', [ApplicationController::class, 'store'])
     ->name('application.store');
+
+
+Route::get('certificate', function (Request $request) {
+    $activities = App\CurationActivity::all()->keyBy(function ($ca) {
+        return strtolower($ca->name);
+    });
+    $data = [
+        'name' => \App\User::find(1)->name, 
+        'type' => $request->type, 
+        'curationActivity' => $activities[$request->type]->legacy_name,
+        'date' => Carbon\Carbon::now()
+    ];
+    return view('certificate', $data);
+});
