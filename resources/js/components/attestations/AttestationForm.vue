@@ -5,6 +5,7 @@
                 <h2 slot="header">{{title}}</h2>
 
                         <slot></slot>
+
                         <div class="d-flex mt-2 pt-3 border-top" style="font-size: 1rem" v-show="signable">
                             <div>
                                 <input 
@@ -18,11 +19,10 @@
                                     v-model="signature"
                                 >
                             </div>
-                            <label for="sig-checkbox" >
+                            <label for="sig-checkbox" :class="{'text-muted': !signable}">
                                 <slot name="signature-text"></slot>
                             </label>
                         </div>
-
 
                 <div slot="footer">
                     <button class="btn btn-default" @click="cancelFormSubmission">Cancel</button>

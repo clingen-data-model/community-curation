@@ -22,7 +22,7 @@
         <div v-show="attendedCIVicTraining === 0" class="pl-4">
             <question-block>
                 <div slot="question-text">
-                        I have watched the "CIViC - Getting Started" video.
+                    I have watched the "CIViC - Getting Started" video.
                 </div>
                 <radio-group 
                     slot="answer-block" 
@@ -34,7 +34,7 @@
             
             <question-block>
                 <div slot="question-text">
-                        I have watched the "CIViC - Adding Evidence" video.
+                    I have watched the "CIViC - Adding Evidence" video.
                 </div>
                 <radio-group 
                     slot="answer-block" 
@@ -102,16 +102,16 @@
             </div>
         </question-block>
 
-        <question-block class="mb-4">
+        <!-- <question-block class="mb-4">
             <div slot="question-text">
                 I have chosen a curation activity. (Please list your choice below)
             </div>
             <div slot="answer-block" class="form-inline">
                 <input type="text" name="chosenCurationActivity" v-model="chosenCurationActivity" class="form-control form-control-sm">
             </div>
-        </question-block>
+        </question-block> -->
 
-        <question-block>
+        <!-- <question-block>
             <div slot="question-text">
                 I have signed up for a practice curation assignment in CIViC: 
                 <a href="https://docs.google.com/spreadsheets/d/1vBDR3xVaKgkOSW_7VTO8Mxe2wo1WCJV1mbT3nO1lCM4/edit#gid=0"  target="practice-session">
@@ -124,7 +124,7 @@
                 v-model="signedUpForPractice"
                 :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
                 ></radio-group>
-        </question-block>
+        </question-block> -->
 
         <br>
         
@@ -152,8 +152,8 @@
                 readCurationAndHarmonization: null,
                 createdCIVicAccount: null,
                 CIViCUsername: null,
-                chosenCurationActivity: null,
-                signedUpForPractice: null,
+                // chosenCurationActivity: null,
+                // signedUpForPractice: null,
 
                 signedAt: moment().format('YYYY-MM-DD') 
             }
@@ -174,8 +174,8 @@
                 return this.civicQuestionsCompleted
                         && this.createdCIVicAccount === 1
                         && this.CIViCUsername != '' && this.CIViCUsername !== null
-                        && this.chosenCurationActivity != '' && this.chosenCurationActivity !== null
-                        && this.signedUpForPractice === 1;
+                        // && this.chosenCurationActivity != '' && this.chosenCurationActivity !== null
+                        // && this.signedUpForPractice === 1;
             }
         }
     
