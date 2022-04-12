@@ -13,6 +13,13 @@ USER root
 
 WORKDIR /srv/app
 
+RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+ && docker-php-ext-configure gd --with-jpeg --with-freetype \
+ && docker-php-ext-install -j$(nproc) gd
+
 COPY ./composer.lock ./composer.json /srv/app/
 COPY ./database/seeds ./database/seeds
 COPY ./database/factories ./database/factories
