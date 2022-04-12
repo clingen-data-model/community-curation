@@ -1,154 +1,195 @@
+<?php
+    $blue = 'rgb(0,74,173)';
+    $highlights = [
+        'actionability' => [
+            '#f7941d',
+            '#f8a94a'
+        ],
+        'baseline' => [
+            '#e74c3c',
+            '#eb7063'
+        ],
+        'dosage' => [
+            '#ee3882',
+            '#f1609b'
+        ],
+        'gene' => [
+            'rgb(20,168,158)',
+            '#42b8b0'
+        ],
+        'somatic' => [
+            '#980f84',
+            '#ae3f9c'
+        ],
+        'variant' => [
+            '#8cc63f',
+            '#a3d166'
+        ],
+    ];
+
+    [$highlight, $hlLighter] = $highlights[$type];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{$curationActivity}}</title>
     <style>
-        :root {
-            --blue: rgb(0,74,173);
-        }
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: montserrat, times, sans-serif;
             margin: 0;
+            font-kerning: none;
         }
-        .actionability {
-            --highlight: #f7941d;
-            --highlight-lighter: #f8a94a;
-        }
-        .baseline {
-            --highlight: #e74c3c;
-            --highlight-lighter: #eb7063;
-        }
-        .dosage {
-            --highlight: #ee3882;
-            --highlight-lighter: #f1609b;
-        }
-        .gene {
-            --highlight: rgb(20,168,158);
-            --highlight-lighter: #42b8b0;
-        }
-        .somatic {
-            --highlight: #980f84;
-            --highlight-lighter: #ae3f9c;
-        }
-        .variant {
-            --highlight: #8cc63f;
-            --highlight-lighter: #a3d166;
+        div {
+            {{-- border: solid 1px #f0f; --}}
         }
         h1 {
-            color: var(--blue);
             text-transform: uppercase;
             font-weight: bold;
-            font-size: 
+            color: {{$blue}};
+            margin: .125in;
+            font-size: 30pt;
         }
+
+        .serif {
+            font-family: lora;
+            font-style: italic;
+            font-weight: normal;
+            font-size: 30px;
+        }
+
         .boundary {
-            position: relative;
-            box-sizing: border-box;
-            width: 11in;
-            background: repeating-linear-gradient(-45deg, var(--highlight), var(--highlight) 20px, var(--highlight-lighter) 20px, var(--highlight-lighter) 40px);
-            padding: .375in;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: repeating-linear-gradient(-45deg, {{$highlight}}, {{$highlight}} 20px, {{$hlLighter}} 20px, {{$hlLighter}} 40px);
         }
         .container {
+            margin: .375in;
             position: relative;
             box-sizing: border-box;
-            width: 10.25in;
-            height: 7.75in;
-            padding: .125in;
             background-color: #f6faf7;
             text-align:center;
+            height: 8.25in;
         }
         .logo-image {
             margin: auto;
+            margin-top: 10pt;
             display: block;
         }
-        .flex {
-            display: flex;
-            margin: auto;
-        }
-        .name {
+
+        .recipient {
             width: 90%;
             
             margin: auto;
-            margin-bottom: .25in;
-            border-bottom: solid 4px;
-            border-color: var(--highlight);
-            padding-bottom: .05in;
+            margin-bottom: .5in;
+            border-bottom: solid 4px #f0f;
+            border-color: {{$highlight}};
             
-            color: var(--blue);
+            color: {{$blue}};
             font-size: 60px;
             font-weight: bold;
+            border-color: {{$highlight}};
         }
-        .sig-container {
-            width: 38%;
+
+        .sig-and-date {
+            width: 7.75in; 
+            margin: auto;
+            margin-top: .375in; 
+            text: center;
+            overflow: hidden;
+            {{-- border: solid 2px purple; --}}
+        },
+        .sig-block {
+            width: 100px;
+            float: left;
         }
-        .seal {
-            margin-left: .5in;
-            margin-right: .5in;
-        }
-        .serif {
-            font-family: serif;
-            font-weight: normal;
-            font-size: 32px;
+        .sig-and-date div.seal{
+            width: 1.5in;
         }
         .sig {
-            color: var(--blue);
-            margin-bottom: .125in;
-            border-bottom: 5px solid;
+            font-family: opensans;
+            font-weight: bold;
+            display: block;
+            color: {{$blue}};
+
+            margin-bottom: 5pt;
+            border-bottom: 5px solid {{$blue}};
             padding-bottom: .05in;
+            
             font-size: 24px;
         }
         .sig-label {
+            padding-top: 10pt;
             text-transform: uppercase;
-            font-size: 16px;
+            display: block;
+            font-size: 12pt;
             font-weight: bold;
-            color:  var(--highlight);
+            color:  {{$highlight}};
+        }
+
+        .type-logo {
+            position:absolute;
+            background: #f0f; 
+            top: .75in; 
+            right: .75in;
+            width: 1.5in; 
         }
         .email-container {
             position: absolute;
-            bottom: .25in;
+            bottom: .75in;
+            left: 0;
             width: 100%;
         }
         .email {
+            text-align: center;
+            width: 6in;
+            margin: auto;
             font-weight: bold;
             font-size: 18px;
-            color: var(--blue);
-        }
-        .type-logo {
-            position: absolute; 
-            top: .125in; 
-            right: .125in;
-            width: 150px;
+            color: {{$blue}};
         }
     </style>
 </head>
 <body class="{{$type}}">
     <div class="boundary">
         <div class="container center">
-            <img src="/images/certificates/{{$type}}-logo.png" alt="" class="type-logo">
-            <img src="/images/certificates/clingen-logo.png" alt="ClinGen Logo" class="logo-image">
-            
-            <h1>Certificate of completion</h1>
-            <div class="serif" style="margin-bottom: .25in">This certifies that</div>
-            
-            <div class="name">{{$name}}</div>
+            <img src="/images/certificates/logo-clinical-genome-logo-vector.svg" alt="ClinGen Logo" class="logo-image">
+            <br>
+            <h1 style="margin-bottom: 10pt">Certificate of completion</h1>
+            <div class="serif" style="margin: 20pt">This certifies that</div>
+            <div class="recipient">{{$name}}</div>
 
+            <br>
             <div class="serif">has successfully completed <br> ClinGen {{$curationActivity}} Curation Training</div>
 
-            <div class="flex" style="width: 80%; margin-top: .375in;">
-                <div class="sig-container">
-                    <div class="sig">C3 WG</div>
+            <div class="sig-and-date">
+                {{-- Not sure why, but the first element always has a right margin on it --}}
+                <div class="sig-block" style="width: 0px;"></div>
+                
+                <div class="sig-block" style="width: 2.5in">
+                    <div class="sig" style="font-style: italic; font-family: lora">C3 WG</div>
                     <div class="sig-label">ClinGen Community<br>Curation Working <br>Group</div>
                 </div>
-                <img src="/images/certificates/seal.png" alt="seal" class="seal">
-                <div class="sig-container">
-                    <div class="sig">{{$date->format('m/d/Y')}}</div>
+                <div class="sig-block" style="width: 1.5in">
+                    <img src="/images/certificates/seal.jpg" alt="seal">
+                </div>
+                <div class="sig-block" style="width: 2.5in">
+                    <div class="sig">{{$date->format('F d, Y')}}</div>
                     <div class="sig-label">Training Date</div>
                 </div>
             </div>
-            <div class="email-container">
-                <div class="email">volunteer@clinicalgenome.org</div>
-            </div>
         </div>
+    </div>
+    <div class="email-container">
+        <div class="email">volunteer@clinicalgenome.org</div>
+    </div>
+    <div class="type-logo">
+        <img src="/images/certificates/{{$type}}-logo.jpg" alt="curation activity logo" class="type-logo">
     </div>
 </body>
 </html>

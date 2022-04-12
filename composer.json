@@ -29,6 +29,7 @@
         "laravel/ui": "^3.0",
         "league/html-to-markdown": "^4.9",
         "lorisleiva/laravel-actions": "^2.4",
+        "mpdf/mpdf": "^8.0",
         "predis/predis": "^1.1",
         "rap2hpoutre/laravel-log-viewer": "^1.2",
         "sirs/dbimport": "2.0.x-dev",
