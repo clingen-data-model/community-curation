@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateUploadRequest;
-use App\Http\Requests\CuratorUploadIndexRequest;
-use App\Http\Resources\UploadResource;
 use App\Upload;
 use Illuminate\Http\Request;
+use App\Actions\DocumentCreate;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UploadResource;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CreateUploadRequest;
+use App\Http\Requests\CuratorUploadIndexRequest;
 
 class CuratorUploadController extends Controller
 {
+    public function __construct(private DocumentCreate $documentCreate)
+    {
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -67,18 +74,12 @@ class CuratorUploadController extends Controller
             return response()->json(['error' => 'You do not have permission to create a document for another user.'], 403);
         }
 
-        $path = $request->file->store('public/curator_uploads');
 
-        $originalFileName = $request->file->getClientOriginalName();
+        $data = $request->only(['user_id', 'upload_category_id', 'name', 'notes']);
+        $data['filepath'] = $request->file->store('public/curator_uploads');
+        $data['originalFileName'] = $request->file->getClientOriginalName();
 
-        $upload = Upload::create([
-            'user_id' => $request->user_id,
-            'name' => $request->name ?? $originalFileName,
-            'file_name' => $originalFileName,
-            'file_path' => $path,
-            'upload_category_id' => $request->upload_category_id,
-            'notes' => $request->notes,
-        ]);
+        $upload = $this->documentCreate->handle(...$data);
         $upload->load('category');
 
         return new UploadResource($upload);
