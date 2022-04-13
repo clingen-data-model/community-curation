@@ -28,7 +28,13 @@
     ];
 
     [$highlight, $hlLighter] = $highlights[$type];
-
+    $nameFontSize = '60px';
+    if (strlen($name) > 25) {
+        $nameFontSize = '50px';
+    }
+    if (strlen($name) > 33) {
+        $nameFontSize = '40px';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -41,9 +47,7 @@
             font-family: montserrat, times, sans-serif;
             margin: 0;
             font-kerning: none;
-        }
-        div {
-            {{-- border: solid 1px #f0f; --}}
+            color: #333;
         }
         h1 {
             text-transform: uppercase;
@@ -91,7 +95,7 @@
             border-color: {{$highlight}};
             
             color: {{$blue}};
-            font-size: 60px;
+            font-size: {{$nameFontSize}};
             font-weight: bold;
             border-color: {{$highlight}};
         }
@@ -134,7 +138,6 @@
 
         .type-logo {
             position:absolute;
-            background: #f0f; 
             top: .75in; 
             right: .75in;
             width: 1.5in; 
@@ -162,6 +165,7 @@
             <br>
             <h1 style="margin-bottom: 10pt">Certificate of completion</h1>
             <div class="serif" style="margin: 20pt">This certifies that</div>
+            <br>
             <div class="recipient">{{$name}}</div>
 
             <br>
