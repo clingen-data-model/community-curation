@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration\Training;
 
 use App\Jobs\InviteVolunteersToTrainingSession;
 use App\Notifications\TrainingSessionInviteEmail;
