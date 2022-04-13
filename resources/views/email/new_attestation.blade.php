@@ -1,6 +1,8 @@
 <p>Dear {{$recipient->name}},</p>
 
-<p>Thank you for completing your initial training as a ClinGen community volunteer.</>
+<p>Thank you for completing your initial training as a ClinGen community volunteer.</p>
+
+<p>You can download your training certificate from your documents tab in the <a href=""></a>.</p>
 
 <p>In order to progress to curation, we require you to attest to your training.</p>
 
