@@ -51,8 +51,6 @@ class TrainingCertificateGenerate
         $storagePath = storage_path('app/'.$relativePath);
         $this->converter->WriteHTML($view->render());
         $this->converter->output($storagePath, \Mpdf\Output\Destination::FILE);
-
-
         
         return $this->documentCreate
             ->handle(
@@ -73,7 +71,6 @@ class TrainingCertificateGenerate
     
     }
     
-    
     private function setupMpdf(): Mpdf
     {
         $defaultConfig = (new ConfigVariables())->getDefaults();
@@ -86,18 +83,18 @@ class TrainingCertificateGenerate
         
         $defaultFontConfig = (new FontVariables())->getDefaults();
         $fontdata = $defaultFontConfig['fontdata'] + [
-            'opensans' => [
-                'R' => '/OpenSans-Medium.ttf',
-                'I' => '/OpenSans-MediumItalic.ttf',
-                'B' => '/OpenSans-Bold.ttf'
-            ],
             'lora' => [
                 'R' => '/Lora-Regular.ttf',
-                'I' => '/Lora-MediumItalic.ttf'
+                'I' => '/Lora-Italic.ttf'
             ],
             'montserrat' => [
                 'R' => '/Montserrat-Regular.ttf',
                 'B' => '/Montserrat-ExtraBold.ttf'
+            ],
+            'opensans' => [
+                'R' => '/OpenSans-Medium.ttf',
+                'I' => '/OpenSans-MediumItalic.ttf',
+                'B' => '/OpenSans-Bold.ttf'
             ],
             'pacifico' => [
                 'R' => '/Pacifico-Regular.ttf',
@@ -112,7 +109,8 @@ class TrainingCertificateGenerate
             'tempDir' => storage_path('/mpdf_temp'),
             'useKerning' => true
         ]);
-        $mpdf->showImageErrors = false;
+        $mpdf->showImageErrors = true;
+        $mpdf->setBasePath('http://localhost:8080');
 
         if (!file_exists(storage_path('/mpdf_temp'))) {
             mkdir(storage_path('/mpdf_temp'));
