@@ -35,6 +35,10 @@ class Upload extends Model
                 $upload->uploader_id = \Auth::user()->id;
             }
         });
+
+        static::forceDeleted(function ($upload) {
+            unlink(storage_path('/app/'.$upload->file_path));
+        });
     }
 
     public function user()

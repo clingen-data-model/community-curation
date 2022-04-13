@@ -5,10 +5,9 @@ namespace App\Providers;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\Registered;
+use Lab404\Impersonate\Events\LeaveImpersonation;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
-use Lab404\Impersonate\Events\LeaveImpersonation;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -45,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\TrainingCompleted::class => [
             \App\Listeners\CreateAttestationForCompletedTraining::class,
             \App\Listeners\SetVolunteerStatusToTrained::class,
+            \App\Actions\TrainingCertificateGenerate::class,
         ],
 
         \App\Events\Volunteers\ConvertedToComprehensive::class => [
