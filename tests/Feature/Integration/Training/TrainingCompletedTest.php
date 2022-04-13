@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration\Training;
 
 use App\Attestation;
 use App\CurationActivity;
@@ -63,4 +63,19 @@ class TrainingCompletedTest extends TestCase
             'volunteer_status_id' => config('volunteers.statuses.trained'),
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function certificate_created_when_volunteer_marked_trained()
+    {
+        $userAptitude = $this->volunteer->userAptitudes()->first();
+        $userAptitude->update(['trained_at' => '2019-11-01']);
+
+        $this->assertDatabaseHas('uploads', [
+            'user_id' => $this->volunteer->id,
+            'upload_category_id' => config('project.upload-categories.training-certificate'),
+        ]);
+    }
+    
 }

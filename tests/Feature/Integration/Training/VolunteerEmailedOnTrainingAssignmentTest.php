@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration\Training;
 
-use App\Notifications\AttestationCreatedNotification;
+use App\Notifications\TrainingAssignedNotification;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Notification;
@@ -11,7 +11,7 @@ use Tests\TestCase;
 /**
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
-class VolunteerEmailedOnAttestationCreatedTest extends TestCase
+class VolunteerEmailedOnTrainingAssignmentTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -26,14 +26,14 @@ class VolunteerEmailedOnAttestationCreatedTest extends TestCase
                         ->states('comprehensive', 'volunteer')
                         ->create([]);
 
-        $volunteer->attestations()
+        $volunteer->userAptitudes()
             ->create([
                 'aptitude_id' => 1,
             ]);
 
         Notification::assertSentTo(
             $volunteer,
-            AttestationCreatedNotification::class,
+            TrainingAssignedNotification::class,
             function ($notification, $channels) {
                 return true;
             }
