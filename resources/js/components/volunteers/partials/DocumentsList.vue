@@ -39,7 +39,7 @@
                     <dt class="col-md-2">Date uploaded:</dt>
                     <dd class="col-md-10">{{currentDocument.created_at | formatDate('YYYY-MM-DD')}}</dd>
 
-                    <dt class="col-md-2">Uploaded by:</dt>
+                    <dt class="col-md-2" v-if="currentDocument.uploader">Uploaded by:</dt>
                     <dd class="col-md-10">{{(currentDocument.uploader) ? getUploaderName(currentDocument.uploader) : '--'}}</dd>
 
                     <dt class="col-md-2">Notes:</dt>
@@ -168,6 +168,9 @@
                 }
             },
             getUploaderName(uploader) {
+                if (uploader === null) {
+                    return 'system';
+                }
                 if (this.user.isVolunteer() && uploader.id != this.user.id) {
                     return 'Coordinator';
                 }
