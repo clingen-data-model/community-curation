@@ -325,6 +325,13 @@ class User extends Authenticatable implements IsNotable
             ->where('volunteer_status_id', config('volunteers.active'));
     }
 
+    public function scopeIsTrained($query)
+    {
+        return $query->whereHas('userAptitudes', function ($q) {
+            $q->trained();
+        });
+    }
+
     public function scopeComprehensive($query)
     {
         // dump(config('project.volunteer_types.comprehensive'));
