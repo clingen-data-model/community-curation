@@ -17,7 +17,7 @@
             'rgb(20,168,158)',
             '#42b8b0'
         ],
-        'somatic' => [
+        'somatic-variant' => [
             '#980f84',
             '#ae3f9c'
         ],

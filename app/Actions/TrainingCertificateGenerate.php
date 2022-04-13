@@ -6,9 +6,9 @@ use App\User;
 use Mpdf\Mpdf;
 use App\Upload;
 use Carbon\Carbon;
-use Dompdf\Dompdf;
 use Ramsey\Uuid\Uuid;
 use App\CurationActivity;
+use Illuminate\Support\Str;
 use Mpdf\Config\FontVariables;
 use App\Actions\DocumentCreate;
 use Mpdf\Config\ConfigVariables;
@@ -62,13 +62,18 @@ class TrainingCertificateGenerate
     public function handle(User $user, string $type, Carbon $date): Upload
     {
         $activitiesByName = CurationActivity::all()->keyBy(function ($ca) {
-            return strtolower($ca->name);
+            return strtolower(Str::kebab($ca->name));
         });
+
+        if (!$activitiesByName->keys()->contains($type)) {
+            throw new \Exception('valid types include '.$activitiesByName->keys()->join(', ', ', or '));
+        }
+
         $data = [
             // 'name' => $user->name, 
             'name' => 'Jane Doe', 
             'type' => $type, 
-            'curationActivity' => $activitiesByName[$type]->legacy_name,
+            'curationActivity' => $activitiesByName->get($type)->legacy_name,
             'date' => $date
         ];
         $view = View::make('certificate', $data);

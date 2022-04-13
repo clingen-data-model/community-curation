@@ -130,16 +130,17 @@ Route::get('certificate', function (Request $request) {
     $user = App\User::where(['first_name' => 'marwa'])->first();
     $type = $request->type;
     $date = \Carbon\Carbon::now();
-    if ($request->html) {
-        return \Illuminate\Support\Facades\View::make('certificate', ['name' => '$user->name', 'type' => $type, 'date' => $date, 'curationActivity' => 'GENE FARTS'])->render();
-    }
     
-    $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
-            ->handle($user, $type, $date);
-
-    if (file_exists($upload->file_path)) {
-        return response(file_get_contents($upload->file_path), 200, ['Content-Type' => 'application/pdf'] );
+    try {
+        $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
+                ->handle($user, $type, $date);
+    
+        if (file_exists($upload->file_path)) {
+            return response(file_get_contents($upload->file_path), 200, ['Content-Type' => 'application/pdf'] );
+        }
+        return $upload->file_path.' does not exist';
+    } catch (\Exception $e) {
+        return $e->getMessage();
     }
-    return $upload->file_path.' does not exist';
     //   return \Storage::download();
 });
