@@ -110,7 +110,7 @@ class TrainingCertificateGenerate
             'useKerning' => true
         ]);
         $mpdf->showImageErrors = true;
-        $mpdf->setBasePath('http://localhost:8080');
+        $mpdf->setBasePath(url('/'));
 
         if (!file_exists(storage_path('/mpdf_temp'))) {
             mkdir(storage_path('/mpdf_temp'));
