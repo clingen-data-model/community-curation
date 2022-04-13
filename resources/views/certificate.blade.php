@@ -172,7 +172,7 @@
                 <div class="sig-block" style="width: 0px;"></div>
                 
                 <div class="sig-block" style="width: 2.5in">
-                    <div class="sig" style="font-style: italic; font-family: lora">C3 WG</div>
+                    <div class="sig" style="font-style: italic; font-family: pacifico">C3 WG</div>
                     <div class="sig-label">ClinGen Community<br>Curation Working <br>Group</div>
                 </div>
                 <div class="sig-block" style="width: 1.5in">

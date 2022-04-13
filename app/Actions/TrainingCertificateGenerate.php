@@ -24,6 +24,7 @@ class TrainingCertificateGenerate
             base_path('fonts/Lora'),
             base_path('fonts/Montserrat'),
             base_path('fonts/OpenSans'),
+            base_path('fonts/Pacifico'),
         ]));
         
         $defaultFontConfig = (new FontVariables())->getDefaults();
@@ -40,6 +41,9 @@ class TrainingCertificateGenerate
             'montserrat' => [
                 'R' => '/Montserrat-Regular.ttf',
                 'B' => '/Montserrat-ExtraBold.ttf'
+            ],
+            'pacifico' => [
+                'R' => '/Pacifico-Regular.ttf',
             ]
         ];
         
