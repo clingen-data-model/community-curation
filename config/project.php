@@ -50,5 +50,7 @@ return [
         'variant-curation-training-logbook' => 5,
         'employer-attestation-letter' => 6,
         'other' => 7,
+        'accreditation-documents' => 8,
+        'training-certificate' => 9,
     ],
 ];
