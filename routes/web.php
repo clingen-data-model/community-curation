@@ -126,21 +126,24 @@ Route::post('apply/{responseId?}', [ApplicationController::class, 'store'])
     ->name('application.store');
 
 
-Route::get('certificate', function (Request $request) {
-    $user = App\User::where(['first_name' => 'marwa'])->first();
-    $type = $request->type;
-    $date = \Carbon\Carbon::now();
+// Route::get('certificate', function (Request $request) {
+//     $user = App\User::findOrFail($request->user_id ? $request->user_id : 1);
+//     $type = $request->type;
+//     $date = \Carbon\Carbon::now();
     
-    try {
-        $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
-                ->handle($user, $type, $date);
+//     try {
+//         $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
+//                 ->handle($user, $type, $date);
+
+//         $storagePath = storage_path('/app/'.$upload->file_path);
+
+        
     
-        if (file_exists($upload->file_path)) {
-            return response(file_get_contents($upload->file_path), 200, ['Content-Type' => 'application/pdf'] );
-        }
-        return $upload->file_path.' does not exist';
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
-    //   return \Storage::download();
-});
+//         if (file_exists($storagePath)) {
+//             return response(file_get_contents($storagePath), 200, ['Content-Type' => 'application/pdf'] );
+//         }
+//         return $upload->file_path.' does not exist';
+//     } catch (\InvalidArgumentException $e) {
+//         return $e->getMessage();
+//     }
+// });
