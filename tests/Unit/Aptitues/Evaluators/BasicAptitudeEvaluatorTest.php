@@ -2,23 +2,27 @@
 
 namespace Tests\Unit\Aptitues\Evaluators;
 
-use App\Aptitudes\Evaluators\BasicAptitudeEvaluator;
-use App\Attestation;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
+use App\Attestation;
+use App\CurationActivity;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Aptitudes\Evaluators\BasicAptitudeEvaluator;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * @group aptitudes
  */
 class BasicAptitudeEvaluatorTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function setup(): void
     {
         parent::setup();
+        $this->seed();
+        $this->setupRole('volunteer');
         $this->volunteer = factory(User::class)->states('volunteer', 'baseline')->create();
         $this->userApt = $this->volunteer->userAptitudes->first();
     }
