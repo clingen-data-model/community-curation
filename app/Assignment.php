@@ -40,12 +40,6 @@ class Assignment extends Model
     {
         parent::boot();
 
-        static::updated(function ($model) {
-            if ($model->isDirty('trained_at') && (!isset($model->getOriginal()['trained_at']) || is_null($model->getOriginal()['trained_at']))) {
-                Event::dispatch(new TrainingCompleted($model));
-            }
-        });
-
         static::deleting(function ($model) {
             if ($model->subAssignments->count() > 0) {
                 $model->subAssignments->each->delete();

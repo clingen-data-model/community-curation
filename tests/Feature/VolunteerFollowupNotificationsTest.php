@@ -26,9 +26,10 @@ class VolunteerFollowupNotificationsTest extends TestCase
     public function setup(): void
     {
         parent::setup();
+        Carbon::setTestNow(Carbon::today());
         //Create 90 day volunteer
-        $this->volunteer90 = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
-        $this->otherVol90 = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
+        $this->volunteer90 = factory(User::class)->states('active-volunteer', 'comprehensive')->create([]);
+        $this->otherVol90 = factory(User::class)->states('active-volunteer', 'comprehensive')->create([]);
 
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($this->volunteer90, $curationActivity->curationGroups->first());
@@ -39,8 +40,8 @@ class VolunteerFollowupNotificationsTest extends TestCase
         $this->rsp->finalize();
 
         // create 6 month volunteer
-        $this->volunteer6m = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
-        $this->otherVol6m = factory(User::class)->states('volunteer', 'comprehensive')->create([]);
+        $this->volunteer6m = factory(User::class)->states('active-volunteer', 'comprehensive')->create([]);
+        $this->otherVol6m = factory(User::class)->states('active-volunteer', 'comprehensive')->create([]);
 
         $curationActivity = CurationActivity::all()->first();
         AssignVolunteerToAssignable::dispatch($this->volunteer6m, $curationActivity->curationGroups->first());
@@ -57,6 +58,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     public function comprehensive_volunteers_emailed_90_days_after_ep_assignment()
     {
         Notification::fake();
+
         Carbon::setTestNow(Carbon::now()->addDays(90));
 
         $this->artisan('volunteers:notify-followup');

@@ -35,6 +35,6 @@ class CreateAttestationForCompletedTraining
             'assignment_id' => $userAptitude->assignment_id,
         ]);
 
-        $userAptitude->update(['attestation_id' => $attestation->id]);
+        $userAptitude->fresh()->update(['attestation_id' => $attestation->id]);
     }
 }
