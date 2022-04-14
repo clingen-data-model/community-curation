@@ -69,6 +69,7 @@ class TrainingCompletedTest extends TestCase
      */
     public function certificate_created_when_volunteer_marked_trained()
     {
+        $this->actingAs($this->volunteer);
         $userAptitude = $this->volunteer->userAptitudes()->first();
         $userAptitude->update(['trained_at' => '2019-11-01']);
 
@@ -76,6 +77,8 @@ class TrainingCompletedTest extends TestCase
             'user_id' => $this->volunteer->id,
             'upload_category_id' => config('project.upload-categories.training-certificate'),
         ]);
+
+        $this->assertEquals(1, $this->volunteer->uploads->count());
     }
     
 }
