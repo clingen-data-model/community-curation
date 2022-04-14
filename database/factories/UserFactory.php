@@ -26,7 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
-        // 'country_id' => Country::all()->random()->id,
+        'country_id' => Country::all()->random()->id,
         'timezone' => 'America/New_York',
         'hypothesis_id' => Arr::random([null, uniqid(10)]),
     ];
@@ -40,6 +40,16 @@ $factory->state(User::class, 'volunteer', function (Faker $faker) {
     ];
 });
 $factory->afterCreatingState(User::class, 'volunteer', function ($user, $faker) {
+    $user->syncRoles(['volunteer']);
+});
+
+$factory->state(User::class, 'active-volunteer', function () {
+    return [
+        'volunteer_type_id' => 1,
+        'volunteer_status_id' => config('volunteers.statuses.active')
+    ];
+});
+$factory->afterCreatingState(User::class, 'active-volunteer', function ($user, $faker) {
     $user->syncRoles(['volunteer']);
 });
 
