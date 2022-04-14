@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Upload;
 use Carbon\Carbon;
 use JsonException;
 use App\Contracts\IsNotable;
@@ -276,6 +277,12 @@ class User extends Authenticatable implements IsNotable
         return $this->belongsToMany(TrainingSession::class, 'training_session_user', 'user_id', 'training_session_id');
     }
 
+    public function uploads()
+    {
+        return $this->hasMany(Upload::class);
+    }
+    
+
     public function canImpersonate()
     {
         return $this->can('impersonate');
@@ -322,7 +329,7 @@ class User extends Authenticatable implements IsNotable
     public function scopeIsActiveVolunteer($query)
     {
         return $query->isVolunteer($query)
-            ->where('volunteer_status_id', config('volunteers.active'));
+            ->where('volunteer_status_id', config('volunteers.statuses.active'));
     }
 
     public function scopeIsTrained($query)
