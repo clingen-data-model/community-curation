@@ -4,9 +4,12 @@ namespace Tests;
 
 use App\User;
 use App\Aptitude;
+use App\CurationActivity;
+use Spatie\Permission\Models\Role;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Spatie\Permission\Models\Permission;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -28,16 +31,19 @@ abstract class TestCase extends BaseTestCase
 
     protected function createAdmin($data = [], $number = 1)
     {
+        $this->setupRole('admin');
         return $this->createUser($data, $number, ['admin']);
     }
-
+    
     protected function createProgrammer($data = [], $number = 1)
     {
+        $this->setupRole('programmer');
         return $this->createUser($data, $number, ['programmer']);
     }
 
     protected function createVolunteer($data = [], $number = 1)
     {
+        $this->setupRole('volunteer');
         return $this->createUser($data, $number, ['volunteer']);
     }
 
@@ -52,6 +58,24 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $users;
+    }
+
+    protected function setupCurationActivity($name)
+    {
+        return factory(CurationActivity::class)->create(['name' => $name]);
+    }
+
+    protected function setupRole($name, $permissions = [])
+    {
+        Role::create(['name' => $name]);
+        foreach($permissions as $perm) {
+            $this->setupPermission($perm);
+        }
+    }
+
+    protected function setupPermission($name) 
+    {
+        Permission::create(['name' => $name]);
     }
 
     protected function expectUnauthorized()
