@@ -24,6 +24,6 @@ class AssignBaselineActivty
      */
     public function handle(MarkedBaseline $event)
     {
-        AssignVolunteerToAssignable::dispatch($event->volunteer, CurationActivity::findByName('baseline'));
+        AssignVolunteerToAssignable::dispatch($event->volunteer, CurationActivity::findByName('Baseline'));
     }
 }
