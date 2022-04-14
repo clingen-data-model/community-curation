@@ -50,7 +50,7 @@ class CreateSurveyRspVolunteerThreeMonth1 extends Migration
             $table->foreign('survey_id')->references('id')->on('surveys')->onDelete('restrict');
             $table->index(['respondent_type']);
             $table->index(['survey_id']);
-            $table->index(['started_at', 'finalized_at', 'survey_id'], 'started_finalized_survey_index');
+            $table->index(['started_at', 'finalized_at', 'survey_id'], 'started_finalized_three_month_index');
         });
         $indexes = Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes('rsp_volunteer_three_month_1');
         if (!array_key_exists('rsp_volunteer_three_month_1_respondent_type_respondent_id_index', $indexes)) {
