@@ -6,7 +6,7 @@ use App\CurationGroup;
 use App\Note;
 use App\Services\Search\NotesSearchService;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -14,13 +14,20 @@ use Tests\TestCase;
  */
 class NotesControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function setup(): void
     {
         parent::setup();
+        $this->seed();
+
+        $this->setupCurationActivity('Rando');
+        $this->curationGroup = $this->setupCurationGroup('some group');
+        $this->user = $this->createAdmin();
+        $this->setupPermissions(['create notes', 'update notes', 'delete notes']);
+        $this->user->givePermissionTo(['create notes', 'update notes', 'delete notes']);
+
         $this->notes = factory(Note::class, 2)->create();
-        $this->user = factory(User::class)->states(['admin'])->create([]);
         $this->notes->merge(factory(Note::class, 2)->create(['notable_type' => User::class, 'notable_id' => $this->user->id]));
         $this->service = app()->make(NotesSearchService::class);
     }
@@ -55,25 +62,23 @@ class NotesControllerTest extends TestCase
     public function admin_can_store_a_new_note()
     {
         $this->withoutExceptionHandling();
-        $user = $this->createAdmin();
-        $curationGroup = CurationGroup::factory()->create([]);
 
         $response = $this->actingAs($this->user, 'api')
             ->json('POST', 'api/notes', [
                 'notable_type' => CurationGroup::class,
-                'notable_id' => $curationGroup->id,
+                'notable_id' => $this->curationGroup->id,
                 'content' => 'This is a test.',
             ])
             ->assertStatus(201)
             ->assertJson(['data' => [
                 'notable_type' => 'App\\CurationGroup',
-                'notable_id' => $curationGroup->id,
+                'notable_id' => $this->curationGroup->id,
                 'content' => 'This is a test.',
             ]]);
 
         $this->assertDatabaseHas('notes', [
             'notable_type' => CurationGroup::class,
-            'notable_id' => $curationGroup->id,
+            'notable_id' => $this->curationGroup->id,
             'content' => 'This is a test.',
         ]);
     }
@@ -83,10 +88,8 @@ class NotesControllerTest extends TestCase
      */
     public function validates_for_required_notable_content_before_store()
     {
-        $user = $this->createAdmin();
-        $curationGroup = CurationGroup::factory()->create([]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'api')
             ->json('POST', 'api/notes', [
             ])
             ->assertStatus(422)
@@ -103,7 +106,6 @@ class NotesControllerTest extends TestCase
     public function gets_an_existing_note()
     {
         $this->withoutExceptionHandling();
-        $use = $this->createAdmin();
         $curationGroup = CurationGroup::factory()->create([]);
 
         $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
@@ -119,7 +121,6 @@ class NotesControllerTest extends TestCase
      */
     public function it_can_update_an_existing_note()
     {
-        $use = $this->createAdmin();
         $curationGroup = CurationGroup::factory()->create([]);
 
         $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);
@@ -142,7 +143,6 @@ class NotesControllerTest extends TestCase
      */
     public function it_can_delete_a_note()
     {
-        $use = $this->createAdmin();
         $curationGroup = CurationGroup::factory()->create([]);
 
         $note = factory(Note::class)->create(['notable_type' => CurationGroup::class, 'notable_id' => $curationGroup->id]);

@@ -4,12 +4,14 @@ namespace Tests;
 
 use App\User;
 use App\Aptitude;
+use App\WorkingGroup;
+use App\CurationGroup;
 use App\CurationActivity;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Spatie\Permission\Models\Permission;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -65,17 +67,30 @@ abstract class TestCase extends BaseTestCase
         return factory(CurationActivity::class)->create(['name' => $name]);
     }
 
+    protected function setupCurationGroup($name)
+    {
+        $this->setupWorkingGroup($name);
+        return CurationGroup::factory()->create(['name' => $name]);
+    }
+
+    protected function setupWorkingGroup($name)
+    {
+        return factory(WorkingGroup::class)->create(['name' => $name]);
+    }
+
     protected function setupRole($name, $permissions = [])
     {
-        Role::create(['name' => $name]);
+        Role::firstOrCreate(['name' => $name]);
         foreach($permissions as $perm) {
             $this->setupPermission($perm);
         }
     }
 
-    protected function setupPermission($name) 
+    protected function setupPermissions($names) 
     {
-        Permission::create(['name' => $name]);
+        foreach($names as $name) {
+            Permission::firstOrCreate(['name' => $name]);
+        }
     }
 
     protected function expectUnauthorized()
