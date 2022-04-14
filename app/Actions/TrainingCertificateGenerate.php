@@ -109,7 +109,7 @@ class TrainingCertificateGenerate
             'tempDir' => storage_path('/mpdf_temp'),
             'useKerning' => true
         ]);
-        $mpdf->showImageErrors = true;
+        $mpdf->showImageErrors = false;
         $mpdf->setBasePath(url('/'));
 
         if (!file_exists(storage_path('/mpdf_temp'))) {
