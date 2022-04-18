@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use App\Services\Search\VolunteerSearchService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -13,11 +14,14 @@ use Tests\TestCase;
  */
 class VolunteerSearchServiceTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function setup(): void
     {
         parent::setup();
+        $this->seed();
+        $this->setupCurationActivity('Gene');
+        $this->setupWorkingGroup('Bob');
     }
 
     /**

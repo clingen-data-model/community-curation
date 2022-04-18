@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Search;
 use App\Note;
 use App\Services\Search\NotesSearchService;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -13,12 +13,17 @@ use Tests\TestCase;
  */
 class NotesSearchServiceTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function setup(): void
     {
         parent::setup();
+        $this->seed();
         $this->service = new NotesSearchService();
+        $this->setupUser();
+        $this->setupCurationActivity('bob');
+        $this->setupCurationGroup('bob');
+        $this->setupWorkingGroup('bob');
     }
 
     /**

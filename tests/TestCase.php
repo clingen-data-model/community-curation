@@ -18,7 +18,7 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use DatabaseTransactions;
 
-    private function createUser($data, $number, $roles = [])
+    private function createUser($data, $number = 1, $roles = [])
     {
         $users = factory(User::class, $number)
             ->states($roles)
@@ -29,6 +29,10 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $users;
+    }
+    protected function setupUser($data = [], $number = 1, $roles = [])
+    {
+        return $this->createUser($data, $number, $roles);
     }
 
     protected function createAdmin($data = [], $number = 1)
@@ -64,6 +68,9 @@ abstract class TestCase extends BaseTestCase
 
     protected function setupCurationActivity($name)
     {
+        if (CurationActivity::findByName($name)) {
+            return;
+        }
         return factory(CurationActivity::class)->create(['name' => $name]);
     }
 
