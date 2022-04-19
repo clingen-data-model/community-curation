@@ -126,24 +126,26 @@ Route::post('apply/{responseId?}', [ApplicationController::class, 'store'])
     ->name('application.store');
 
 
-// Route::get('certificate', function (Request $request) {
-//     $user = App\User::findOrFail($request->user_id ? $request->user_id : 1);
-//     $type = $request->type;
-//     $date = \Carbon\Carbon::now();
-    
-//     try {
-//         $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
-//                 ->handle($user, $type, $date);
-
-//         $storagePath = storage_path('/app/'.$upload->file_path);
-
+Route::group(['middleware' => ['auth', 'role:programmer']], function () {
+    Route::get('certificate', function (Request $request) {
+        $user = App\User::findOrFail($request->user_id ? $request->user_id : 1);
+        $type = $request->type;
+        $date = \Carbon\Carbon::now();
         
-    
-//         if (file_exists($storagePath)) {
-//             return response(file_get_contents($storagePath), 200, ['Content-Type' => 'application/pdf'] );
-//         }
-//         return $upload->file_path.' does not exist';
-//     } catch (\InvalidArgumentException $e) {
-//         return $e->getMessage();
-//     }
-// });
+        try {
+            $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
+                    ->handle($user, $type, $date);
+
+            $storagePath = storage_path('/app/'.$upload->file_path);
+
+            
+        
+            if (file_exists($storagePath)) {
+                return response(file_get_contents($storagePath), 200, ['Content-Type' => 'application/pdf'] );
+            }
+            return $upload->file_path.' does not exist';
+        } catch (\InvalidArgumentException $e) {
+            return $e->getMessage();
+        }
+    });
+});
