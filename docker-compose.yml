@@ -21,16 +21,6 @@ services:
             CONTAINER_ROLE: app
             CONTAINER_ENV: local
 
-    artisan:
-        image: ccdb-app
-        container_name: ccdb-artisan
-        volumes:
-            - .:/srv/app
-        entrypoint: [
-            "php",
-            "/srv/app/artisan"
-        ]
-
     scheduler:
         image: ccdb-app
         container_name: ccdb-scheduler
