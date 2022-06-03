@@ -69,12 +69,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @if (!Auth::guest() && !Auth::user()->hasRole('volunteer'))
+                        @if (!Auth::guest() && Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer']))
                             <li><a href="/volunteers" class="nav-link">Volunteers</a></li>
                             <li><a href="/trainings" class="nav-link">Trainings</a></li>
                             <li><a href="/curation-activities" class="nav-link">Activities</a></li>
                             <li><a href="/curation-groups" class="nav-link">Groups</a></li>
                             <li><a href="/reports" class="nav-link">Reports</a></li>
+                            @if(Auth::user()->hasRole('volunteer'))
+                                <li style="padding-left: .5rem; border-left: solid 1px #efefef; margin-left: .5rem;">
+                                    <a href="/volunteers/{{Auth::user()->id}}" class="nav-link">Your Profile</a>
+                                </li>
+                            @endif
                         @endif
                     </ul>
 

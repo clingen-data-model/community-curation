@@ -27,7 +27,6 @@ export default {
         showReminder: function () {
             return this.volunteer.hypothesis_id === null 
                     && this.volunteer.isBaseline();
-                    // && this.$store.state.user.isVolunteer();
         }
     },
     methods: {
