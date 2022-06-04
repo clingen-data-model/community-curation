@@ -82,7 +82,7 @@ let User = class {
     }
 
     isCurrentUser(user) {
-        return user.id = this.attributes.id;
+        return user.id == this.attributes.id;
     }
 }
 
