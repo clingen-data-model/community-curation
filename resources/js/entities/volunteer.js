@@ -31,7 +31,7 @@ let Volunteer = class {
     }
 
     isLoaded() {
-        const loaded = this.attributes !== null && typeof this.attributes !== 'undefined';
+        const loaded = (this.attributes !== null && typeof this.attributes !== 'undefined');
         return loaded;
     }
 
@@ -39,12 +39,14 @@ let Volunteer = class {
         if (this.isLoaded()) {
             return this.attributes.volunteer_type_id == 1;
         }
+        return false;
     }
 
     isComprehensive() {
         if (this.isLoaded()) {
             return this.attributes.volunteer_type_id == 2;
         }
+        return false;
     }
 
     isClingenMember() {
