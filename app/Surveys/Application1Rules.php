@@ -2,6 +2,7 @@
 
 namespace App\Surveys;
 
+use App\CurationGroup;
 use Illuminate\Support\Facades\Auth;
 
 class Application1Rules extends SurveyRules
@@ -38,5 +39,19 @@ class Application1Rules extends SurveyRules
         }
         return 0;
     }
-    
+
+    public function introductionBeforeShow()
+    {
+        $curationGroups = CurationGroup::query()
+        ->orderBy('name')
+        ->acceptingVolunteers()
+        ->select(['name'])
+        ->get()
+        ->pluck('name');
+
+        return [
+            'acceptingVolunteers' => $curationGroups,
+        ];
+    }
+
 }
