@@ -9,11 +9,25 @@
                     </p>
 
                     <p>
-                        Please tell us more about your interests, expertise, and desired level of involvement so we can pair you with an appropriate curation activity and/or Curation Group. 
-                    </p>   
+                        Please tell us more about your interests, expertise, and desired level of involvement so we can pair you with an appropriate curation activity and/or Curation Group.
+                    </p>
 
                     <p>
                         Background training within your assigned curation activity will be provided. These training sessions are held quarterly. Once you submit this form, you will be added to the list to be notified of the next training session(s).
+                    </p>
+
+                    <p>
+                        <em>
+                            Please be aware that Expert Panels may require review of a CV and/or specific skill sets before acceptance. Completion of training or a volunteer survey is not a guarantee of placement. There are limited openings, and once the capacity has been reached for interest, you may be asked to participate in one of ClinGen's other curation activities. The following expert panels are the groups that are accepting volunteers at this time. For questions, contact
+                            <a href="mailto:volunteer@clinicalgenome.org">volunteer@clinicalgenome.org</a>.
+
+                            <h5>Groups accepting volunteers</h5>
+                            <ul>
+                                @php foreach($acceptingVolunteers as $cg) { @endphp
+                                    <li>{{$cg}}
+                                @php } @endphp
+                            </ul>
+                        </em>
                     </p>
                 ]]>
             </content>
@@ -21,8 +35,8 @@
     </page>
 
     <page name="demographic" title="Demographic Questions">
-        <question-group name="name-grp" id="name-grp">      
-            <template source="surveys.first_last_name"></template>      
+        <question-group name="name-grp" id="name-grp">
+            <template source="surveys.first_last_name"></template>
             <question name="first_name" id="first_name" required="true" placeholder="First">
                 <question-text>First Name*</question-text>
             </question>
@@ -38,7 +52,7 @@
             <question-text>If you have an ORCID ID, please provide it:</question-text>
         </question>
 
-        <question-group name="address-group" id="address-group">            
+        <question-group name="address-group" id="address-group">
             <template source="surveys::containers.address_container"></template>
             <question name="street1" id="street1">
                 <question-text>Street</question-text>
@@ -77,7 +91,7 @@
             <options>
                 <data-source URI="App\Surveys\SurveyOptions@timezones"></data-source>
             </options>
-        </multiple-choice>        
+        </multiple-choice>
 
         <question name="hypothesis_id" id="hypothesis_id" validation-rules="unique:users,hypothesis_id">
             <question-text>
@@ -104,7 +118,7 @@
                 </option>
             </options>
         </multiple-choice>
-        
+
         <multiple-choice name="already_member_cgs" id="already_member_cgs" num-selectable="10" data-format="json">
             <question-text>
                 <![CDATA[In which expert panels are you currently a member? (Check all that apply)]]>
@@ -115,19 +129,19 @@
         </multiple-choice>
 
     </page>
-    
+
     <page name="education" title="Education and Certification Questions">
         <include source="questions/education_level.xml"></include>
 
         <question name="adv_cert" id="adv_cert" data-format="text" validation-rules="max:15000">
             <template source="questions.text.large_text"></template>
             <question-text>If you have an advanced genetic certification or fellowship (i.e. CGC or FACMG), please indicate:</question-text>
-        </question>        
+        </question>
 
         <include source="questions/self_description.xml"></include>
 
         <include source="questions/race_group.xml"></include>
-        
+
     </page>
 
     <page name="outreach" title="Outreach and Motivation Questions">
@@ -215,5 +229,5 @@
     </page>
 
     <include source="pages/priorities_page.xml"></include>
-    
+
 </survey>
