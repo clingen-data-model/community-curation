@@ -18,15 +18,8 @@
 
                     <p>
                         <em>
-                            Please be aware that Expert Panels may require review of a CV and/or specific skill sets before acceptance. Completion of training or a volunteer survey is not a guarantee of placement. There are limited openings, and once the capacity has been reached for interest, you may be asked to participate in one of ClinGen's other curation activities. The following expert panels are the groups that are accepting volunteers at this time. For questions, contact
+                            Please be aware that Expert Panels may require review of a CV and/or specific skill sets before acceptance. Completion of training or a volunteer survey is not a guarantee of placement. There are limited openings, and once the capacity has been reached, you may be asked to participate in one of ClinGen's other curation activities. For questions, contact
                             <a href="mailto:volunteer@clinicalgenome.org">volunteer@clinicalgenome.org</a>.
-
-                            <h5>Groups accepting volunteers</h5>
-                            <ul>
-                                @php foreach($acceptingVolunteers as $cg) { @endphp
-                                    <li>{{$cg}}
-                                @php } @endphp
-                            </ul>
                         </em>
                     </p>
                 ]]>
