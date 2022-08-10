@@ -52,7 +52,11 @@ let User = class {
     }
 
     isAdmin() {
-        return this.hasRole('admin');
+        return this.hasRole('admin') || this.hasRole('super-admin');
+    }
+
+    isAdminOrProgrammer() {
+        return this.isAdmin() || this.isProgrammer();
     }
 
     isProgrammer() {
@@ -75,6 +79,10 @@ let User = class {
             }
         }
         return null;
+    }
+
+    isCurrentUser(user) {
+        return user.id == this.attributes.id;
     }
 }
 

@@ -21,7 +21,12 @@
                     <input type="text" class="form-control" id="email" v-model="updatedVolunteer.email" placeholder="me@example.com">
                     <div class="text-muted">
                         <small>
-                            This is the email {{$store.state.user.isVolunteer() ? 'you' : 'the volunteer'}} will use to log in.
+                            This is the email 
+                            {{
+                                isPerson 
+                                ? 'you' 
+                                : 'the volunteer'
+                            }} will use to log in.
                         </small>
                     </div>
                     <validation-error :errors="errors.email"></validation-error>
@@ -176,6 +181,9 @@
             }
         },
         computed: {
+            isPerson () {
+                return this.$store.state.user.isVolunteer() || this.$store.state.user.isCurrentUser(this.volunteer)
+            },
             timezone: {
                 get: function () {
                     if (!this.updatedVolunteer.timezone || this.updatedVolunteer.timezone === null) { 

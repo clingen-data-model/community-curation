@@ -1,5 +1,5 @@
 version: "3"
-services: 
+services:
     app:
         build: .
         image: ccdb-app
@@ -20,44 +20,6 @@ services:
         environment:
             CONTAINER_ROLE: app
             CONTAINER_ENV: local
-
-    artisan:
-        image: ccdb-app
-        container_name: ccdb-artisan
-        volumes:
-            - .:/srv/app
-        entrypoint: [
-            "php",
-            "/srv/app/artisan"
-        ]
-
-    scheduler:
-        image: ccdb-app
-        container_name: ccdb-scheduler
-        sysctls: 
-            - net.ipv4.ip_unprivileged_port_start=0
-        depends_on: 
-            - app
-        volumes:
-            - .:/srv/app
-        environment:
-            CONTAINER_ROLE: scheduler
-            CONTAINER_ENV: local
-
-    queue:
-        image: ccdb-app
-        container_name: ccdb-queue
-        sysctls: 
-            - net.ipv4.ip_unprivileged_port_start=0
-        depends_on: 
-            - app
-        volumes:
-            - .:/srv/app
-        environment:
-            CONTAINER_ROLE: queue
-            CONTAINER_ENV: local      
-
-
 
     database:
         container_name: ccdb-db

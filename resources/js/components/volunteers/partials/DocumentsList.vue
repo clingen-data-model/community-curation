@@ -171,10 +171,10 @@
                 if (uploader === null) {
                     return 'system';
                 }
-                if (this.user.isVolunteer() && uploader.id != this.user.id) {
-                    return 'Coordinator';
+                if (this.user.isAdminOrProgrammer() || uploader.id  == this.user.id) {
+                    return uploader.name;
                 }
-                return uploader.name;
+                return 'Coordinator';
             }
         },
         mounted() {

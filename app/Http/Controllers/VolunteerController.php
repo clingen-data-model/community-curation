@@ -17,7 +17,7 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('volunteer')) {
+        if (Auth::user()->hasRole('volunteer') && !Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer'])) {
             return redirect('/volunteers/'.Auth::user()->id);
         }
 
@@ -53,7 +53,10 @@ class VolunteerController extends Controller
      */
     public function show(User $volunteer)
     {
-        if (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id) {
+        if (
+            (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id)
+            && (Auth::user()->hasRole('volunteer') && !Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer']))
+        ) {
             return redirect('/volunteers/'.Auth::user()->id);
         }
         $volunteer->load([

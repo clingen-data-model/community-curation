@@ -11,7 +11,7 @@
     {!! $trainingSession->invite_message !!}
 </blockquote>
 
-<p>If you have any questions or concerns, please contact us at <a href="mailto:volunteer@clinicalgeome.org">volunteer@clinicalgeome.org</a>.</p>
+<p>If you have any questions or concerns, please contact us at <a href="mailto:volunteer@clinicalgenome.org">volunteer@clinicalgenome.org</a>.</p>
  
 <p>Thank you for your participation,</p>
  

@@ -4,8 +4,8 @@
     <div class="component-container">
         <div class="alert alert-info" v-if="!hasPriorities">
             <div v-if="volunteer.isBaseline()">
-                {{ ($store.state.user.isVolunteer()) ? 'You are' : 'This volunteer is' }}
-                currently a baseline volunteer.  If {{ ($store.state.user.isVolunteer()) ? 'You wish' : 'the volunteer wishes' }}
+                {{ isPerson ? 'You are' : 'This volunteer is' }}
+                currently a baseline volunteer.  If {{ isPerson ? 'You wish' : 'the volunteer wishes' }}
                 to become a comprehensive volunteer please <a :href="'/app-user/'+this.volunteer.id+'/survey/priorities1/new'">set priorities</a>
                 to start that process.
             </div>
@@ -115,6 +115,9 @@
                     return null
                 }
                 return '/surveys-by-id/'+this.volunteer.latest_priorities[0].survey_id+'/responses/'+this.volunteer.latest_priorities[0].response_id
+            },
+            isPerson () {
+                return this.$store.state.user.isVolunteer() || this.$store.state.user.isCurrentUser(this.volunteer)
             }
         },
     }
