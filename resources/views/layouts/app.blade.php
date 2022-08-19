@@ -18,28 +18,28 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
-    
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link 
-        rel="preload stylesheet" 
-        href="https://fonts.googleapis.com/css?family=Nunito&display=swap" 
-        as="style" 
+    <link
+        rel="preload stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito&display=swap"
+        as="style"
         onload="this.rel = 'stylesheet'"
     >
-    <link 
-        rel="preload stylesheet" 
-        href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" 
-        as="style" 
+    <link
+        rel="preload stylesheet"
+        href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap"
+        as="style"
         onload="this.rel = 'stylesheet'"
     >
-    
-    
+
+
     <!-- Styles -->
-    <link 
-        rel="preload stylesheet" 
-        href="{{ mix('css/app.css') }}" 
-        as="style" 
+    <link
+        rel="preload stylesheet"
+        href="{{ mix('css/app.css') }}"
+        as="style"
         onload="this.rel = 'stylesheet'"
     >
 
@@ -140,11 +140,11 @@
         <main class="py-4 container">
             @yield('content')
         </main>
-        
+
         <alerts></alerts>
 
         @include('partials.impersonate')
-    
+
         <footer class="bg-white pt-4 mt-3 pb-2 border-top w-100">
             <div class="container">
                 <div class="d-flex justify-content-between">
@@ -153,7 +153,7 @@
                     </div>
                     <ul class="list-inline">
                         <li class="list-inline-item"><a href="/faq" target="faq">FAQ</a></li>
-                        <li class="list-inline-item"><a href="https://clinicalgenome.org/working-groups/c3/" target="clinicalgenome">About Community Curation</a></li>
+                        <li class="list-inline-item"><a href="https://clinicalgenome.org/working-groups/clingen-community-curation-c3/" target="clinicalgenome">About Community Curation</a></li>
                     </ul>
                 </div>
                 @if(\Auth::user() && (\Auth::user()->hasRole('programmer') || \Auth::user()->isImpersonated() && \Auth::user()->impersonatedBy->hasRole('programmer')))
@@ -161,7 +161,7 @@
                     <button class="btn btn-xs btn-light border" v-on:click="refreshUser">
                         <b-icon icon="arrow-clockwise"></b-icon>
                         Refresh session user
-                    </button>        
+                    </button>
                 </div>
                 @endif
             </div>
