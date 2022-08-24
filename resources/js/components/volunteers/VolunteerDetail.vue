@@ -8,7 +8,7 @@
             </div>
             <button class="btn btn-dark btn-sm" @click="findVolunteer">Reload volunteer</button>
         </div>
-        
+
         <div class="card loading text-center" v-if="loading && !volunteer.name">
             <div class="card-header">Loading volunteer...</div>
         </div>
@@ -25,12 +25,12 @@
             </div>
             <div class="card-body">
 
-                <only-volunteer>
+                <only-this-volunteer :volunteer="volunteer">
                     <demographic-info :volunteer="volunteer" @updated="handleUpdate"></demographic-info>
-                </only-volunteer>
+                </only-this-volunteer>
 
                 <non-volunteer>
-                    <volunteer-status-alert 
+                    <volunteer-status-alert
                         :volunteer="volunteer"
                         @updatestatus="showStatusForm = true"
                         @updatevolunteer="findVolunteer"
@@ -73,22 +73,22 @@
             ></status-form>
         </b-modal>
         <b-modal title="Convert Volunteer to Comprehensive?" hide-footer v-model="showVolunteerTypeForm">
-            <p>You are about to convert this volunteer from Baseline to Comprehensive.</p>  
+            <p>You are about to convert this volunteer from Baseline to Comprehensive.</p>
             <p>If you confirm the volunteer will be notified and instructed prioritize Curation Activities and Curation Groups.</p>
             <button class="btn btn-default" @click="showVolunteerTypeForm = false">Cancel</button>
             <button class="btn btn-primary" @click="convertVolunteerToComprehensive">Convert</button>
         </b-modal>
 
-        <b-modal 
-            v-model="showImpersonatingProgress" 
-            hide-footer 
-            hide-header 
-            no-close-on-backdrop 
-            no-close-on-escape 
-            hide-header-close 
+        <b-modal
+            v-model="showImpersonatingProgress"
+            hide-footer
+            hide-header
+            no-close-on-backdrop
+            no-close-on-escape
+            hide-header-close
         >
             <h3 class="text-center">Impersonating {{ volunteer.name }}.</h3>
-            <p class="text-center"> 
+            <p class="text-center">
                 The page will reload in a moment...
             </p>
         </b-modal>
@@ -197,6 +197,6 @@
                 this.findVolunteer()
             }
         }
-    
+
 }
 </script>

@@ -7,6 +7,8 @@ window.Vue.component('non-volunteer', () =>
     import ( /* webpackChunkName: "global-components" */ './components/NonVolunteer'));
 window.Vue.component('only-volunteer', () =>
     import ( /* webpackChunkName: "global-components" */ './components/OnlyVolunteer'));
+window.Vue.component('only-this-volunteer', () =>
+    import ( /* webpackChunkName: "global-components" */ './components/OnlyThisVolunteer'));
 window.Vue.component('user-can', () =>
     import ( /* webpackChunkName: "global-components" */ './components/UserCan'));
 

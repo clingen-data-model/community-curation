@@ -9,7 +9,7 @@
                     A ClinGen staff member will contact you shortly about your curation activity assignment.
                 </only-volunteer>
                 <non-volunteer>
-                    <button 
+                    <button
                         class="btn btn-lg btn-primary"
                         @click="showAssignmentForm = true"
                     >
@@ -49,7 +49,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button 
+                <button
                     class="btn btn btn-default border btn-xs"
                     @click="showAssignmentForm = true"
                     :disabled="volunteer.volunteer_status_id == $store.state.configs.volunteers.statuses.retired"
@@ -59,8 +59,8 @@
                 </button>
             </div>
             <b-modal v-model="showAssignmentForm" hide-header hide-footer v-if="$store.state.user.isAdminOrProgrammer()" size="lg">
-                <assignment-form 
-                    :volunteer="volunteer" 
+                <assignment-form
+                    :volunteer="volunteer"
                     @saved="$emit('updatevolunteer')"
                     @assignmentsupdated="$emit('updatevolunteer')"
                 ></assignment-form>

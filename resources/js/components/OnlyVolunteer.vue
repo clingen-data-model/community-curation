@@ -1,7 +1,7 @@
 
 
 <template>
-    <div v-if="user.isVolunteer()">
+    <div v-if="user.isOnlyVolunteer()">
         <slot></slot>
     </div>
 </template>

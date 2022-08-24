@@ -1,5 +1,5 @@
 <template>
-    <div v-if="user.notVolunteer()">
+    <div v-if="user.isAdmin()">
         <slot></slot>
     </div>
 </template>

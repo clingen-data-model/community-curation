@@ -16,7 +16,7 @@
                 <!-- <b-icon-arrow-repeat class="float-right"></b-icon-arrow-repeat> -->
                 Assignments
             </h5>
-            
+
             <div class="position-relative">
                 <table class="table table-sm table-bordered mb-1">
                     <thead>
@@ -39,7 +39,7 @@
                                         @assignmentsupdated="$emit('assignmentsupdated')"
                                     ></status-badge>
                                 </div>
-                                <secondary-aptitude-control 
+                                <secondary-aptitude-control
                                     :assignment="assignment"
                                     @trainingcompleted="$emit('saved')"
                                     @assignAptitude="createAptitudeTraining($event, assignment)"
@@ -55,9 +55,9 @@
                                 </div>
 
                                 <div v-else>
-                                    <curation-group-cell 
+                                    <curation-group-cell
                                         v-if="assignment.assignable.curation_activity_type_id == 1"
-                                        :assignment="assignment" 
+                                        :assignment="assignment"
                                         :curation-groups="getCurationGroupsForCurationActivity(assignment.assignable.id)"
                                         :volunteer="volunteer"
                                         @save="saveNewAssignment('App\\CurationGroup', $event)"
@@ -65,7 +65,7 @@
                                         @unassign="removeAssignment($event)"
                                     ></curation-group-cell>
 
-                                    <gene-group-selector 
+                                    <gene-group-selector
                                         v-if="assignment.assignable.curation_activity_type_id == 2"
                                         :assignment="assignment"
                                         :volunteer="volunteer"
@@ -99,7 +99,7 @@
     import getAllCurationGroups from '../../resources/curation_groups/get_all_curation_groups'
     import getAllAptitudes from '../../resources/aptitudes/get_all_aptitudes'
     import deleteAssignment from '../../resources/assignments/delete_assignment'
-    
+
     import CurationGroupCell from './CurationGroupCell'
     import GeneGroupSelector from './GeneGroupSelector'
     import PrioritiesList from '../volunteers/partials/PrioritiesList'
@@ -161,7 +161,7 @@
         computed: {
             unassignedCurationGroups: function () {
                 const assignedPanels = Object.values(this.volunteer.assignments.map(ac => ac.sub_assignments)).flat().map(subAss => subAss.assignable);
-                return this.curationGroups.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)  
+                return this.curationGroups.filter(ep => assignedPanels.map(ep => ep.id).indexOf(ep.id) == -1)
             },
             geneticEvidenceAptitude: function () {
                 return this.aptitudes.find(item => item.name === 'Baseline, Genetic Evidence');
@@ -231,6 +231,6 @@
             this.fetchCurationGroups();
             this.fetchAptitudes();
         }
-    
+
 }
 </script>

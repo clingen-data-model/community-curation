@@ -47,8 +47,16 @@ let User = class {
         return this.hasRole('volunteer');
     }
 
+    isOnlyVolunteer() {
+        return this.isVolunteer() && !this.isAdmin();
+    }
+
     notVolunteer() {
         return !this.isVolunteer();
+    }
+
+    isThisVolunteer(volunteer) {
+        return this.isVolunteer && this.id == volunteer.id;
     }
 
     isAdmin() {

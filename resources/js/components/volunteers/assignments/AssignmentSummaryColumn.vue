@@ -3,12 +3,12 @@
         <div
             v-if="asn.hasSubAssignments()"
         >
-            <ul 
+            <ul
                 class="list-unstyled"
             >
                 <li v-for="subAsn in asn.sub_assignments" :key="subAsn.id">
                     <small>
-                        
+
                         <span v-if="subAsn.assignable.url">
                             <a :href="subAsn.assignable.url" target="curation-group" title="curation group info page">
                                 {{subAsn.assignable.name}}
@@ -20,7 +20,7 @@
                         </span>
 
                         <div class="float-right">
-                            <a 
+                            <a
                                 v-if="subAsn.assignable.protocol_path"
                                 :href="`/genes/${subAsn.assignable.symbol}/protocol`"
                                 class="float-right"
@@ -70,7 +70,7 @@
                     <small>You will be assigned to a {{subAssignmentType}} shortly.</small>
                 </only-volunteer>
                 <non-volunteer>
-                    <button 
+                    <button
                         @click="$emit('manageAssignments')"
                         class="btn btn-xs btn-primary"
                     >
