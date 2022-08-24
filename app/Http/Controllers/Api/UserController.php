@@ -53,7 +53,7 @@ class UserController extends Controller
         $impersonatable = collect();
         if (Auth::user()->canImpersonate()) {
             $impersonatable = Cache::remember('impersonatable-users', 60, function () {
-                return User::with('roles')->get()->filter(function ($user) {
+                return User::with('roles')->orderBy('first_name')->get()->filter(function ($user) {
                     return $user->canBeImpersonated();
                 });
             });
