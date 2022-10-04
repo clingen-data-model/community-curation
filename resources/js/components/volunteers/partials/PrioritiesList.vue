@@ -55,7 +55,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>        
+            </table>
             <div class="my-2 pb-2 border-bottom">
                 Willing to volunteer outside of preferences: <strong>{{volunteer.latest_priorities[0].outside_panel}}</strong>
             </div>
@@ -63,17 +63,33 @@
                 <a :href="prioritiesSurveyLink" class="btn btn-primary">
                     Set New Priorities
                 </a>
-                <!-- <non-volunteer>
-                    <a :href="responseLink">View complete response</a>
-                </non-volunteer> -->
+            </div>
+            <div v-if="volunteer.isBaseline()">
             </div>
         </div>
-
+        <div v-if="volunteer.isBaseline()">
+            <div v-if="user.isAdminOrProgrammer()">
+                <button class="btn btn-light btn-sm" @click="confirmMakeComprehensive = true">
+                    Make comprehensive
+                </button>
+            </div>
+        </div>
+        <comprehensive-convert-confirmation
+            :volunteer="volunteer"
+            v-model="confirmMakeComprehensive"
+            @saved="$emit('saved')"
+        />
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+    import ComprehensiveConvertConfirmation from '../ComprehensiveConvertConfirmation.vue'
+
     export default {
+        components: {
+            ComprehensiveConvertConfirmation
+        },
         props: {
             volunteer: {
                 required: true,
@@ -94,15 +110,17 @@
                     1: 'Yes',
                     0: 'No',
                     2: 'Maybe'
-                }
+                },
+                confirmMakeComprehensive: false
             }
         },
         computed: {
+            ...mapGetters({user: 'getUser'}),
             outsidePanel: function () {
                 if (!this.hasPriorities) {
                     return 'no priorities'
                 }
-                return this.outsidePanelOptions[this.volunteer.latest_priorities[0].outside_panel]                
+                return this.outsidePanelOptions[this.volunteer.latest_priorities[0].outside_panel]
             },
             prioritiesSurveyLink: function () {
                 return '/app-user/'+this.volunteer.id+'/survey/priorities1/new'

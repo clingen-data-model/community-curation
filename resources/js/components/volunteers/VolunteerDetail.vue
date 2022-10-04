@@ -14,13 +14,13 @@
         </div>
         <div class="card card-default" v-if="!loading || volunteer.name">
             <div class="card-header">
-                <non-volunteer>
+                <div v-if="user.isAdminOrProgrammer()">
                     <b-dropdown id="user-menu-dropdown" text="..." variant="light" no-caret class="float-right" right>
                         <b-dropdown-item @click="showStatusForm = true">Update Status</b-dropdown-item>
                         <b-dropdown-item @click="showVolunteerTypeForm = true" v-if="!volunteer.isComprehensive()">Make Comprehensive</b-dropdown-item>
                         <b-dropdown-item @click="impersonateVolunteer" v-if="$store.state.user.isProgrammer() || $store.state.user.isAdmin()">Impersonate this volunteer</b-dropdown-item>
                     </b-dropdown>
-                </non-volunteer>
+                </div>
                 <h3 class="mb-0">Volunteer - {{volunteer.name || 'loading...'}} <small>({{volunteer.id}})</small></h3>
             </div>
             <div class="card-body">
@@ -72,13 +72,11 @@
                 @no-change="showStatusForm = false"
             ></status-form>
         </b-modal>
-        <b-modal title="Convert Volunteer to Comprehensive?" hide-footer v-model="showVolunteerTypeForm">
-            <p>You are about to convert this volunteer from Baseline to Comprehensive.</p>
-            <p>If you confirm the volunteer will be notified and instructed prioritize Curation Activities and Curation Groups.</p>
-            <button class="btn btn-default" @click="showVolunteerTypeForm = false">Cancel</button>
-            <button class="btn btn-primary" @click="convertVolunteerToComprehensive">Convert</button>
-        </b-modal>
-
+        <comprehensive-convert-confirmation
+            :volunteer="volunteer"
+            v-model="showVolunteerTypeForm"
+            @saved="handleVolunteerConversion"
+        />
         <b-modal
             v-model="showImpersonatingProgress"
             hide-footer
@@ -99,7 +97,6 @@
 <script>
     import {mapGetters} from 'vuex'
     import findVolunteer from '../../resources/volunteers/find_volunteer'
-    import updateVolunteer from '../../resources/volunteers/update_volunteer'
     import impersonateUser from '../../resources/users/impersonate_user'
 
     import volunteerSummary from './partials/tabs/VolunteerSummary'
@@ -114,6 +111,7 @@
     import DocumentsCard from './partials/DocumentsCard'
     import TrainingsList from './partials/TrainingsList'
     import DemographicInfo from './partials/DemographicInfo'
+    import ComprehensiveConvertConfirmation from './ComprehensiveConvertConfirmation.vue'
 
     export default {
         props: {
@@ -138,7 +136,8 @@
             AttestationsList,
             SurveyResponses,
             TrainingsList,
-            DemographicInfo
+            DemographicInfo,
+            ComprehensiveConvertConfirmation
         },
         data() {
             return {
@@ -174,10 +173,9 @@
                 this.closeStatusWindow();
                 this.findVolunteer();
             },
-            convertVolunteerToComprehensive() {
-                updateVolunteer(this.volunteer.id, { volunteer_type_id: 2})
-                    .then(() => this.findVolunteer())
-                    .then(() => this.showVolunteerTypeForm = false);
+            handleVolunteerConversion() {
+                this.findVolunteer()
+                this.showVolunteerTypeForm = false
             },
             handleUpdate(updatedVolunteer) {
                 if (updatedVolunteer) {

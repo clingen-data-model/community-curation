@@ -9,7 +9,12 @@
         <hr>
         <div>
             <h5>Volunteer Priorities</h5>
-            <priorities-list :volunteer="volunteer" :disable-set-new="true" :disable-view-complete="true"></priorities-list>
+            <priorities-list
+                :volunteer="volunteer"
+                :disable-set-new="true"
+                :disable-view-complete="true"
+                @saved="$emit('saved')"
+            />
         </div>
         <div class="mt-4">
             <h5>
