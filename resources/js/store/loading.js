@@ -9,6 +9,7 @@ const state = {
 
 const getters = {
     loading(state) {
+        console.log(state.requestCount);
         return state.requestCount > 0
     },
     apiLoading(state, apiKey) {
