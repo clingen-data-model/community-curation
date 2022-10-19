@@ -30,7 +30,9 @@ class DatabaseSeeder extends Seeder
         $this->call(MotivationsTableSeeder::class);
         $this->call(SelfDescriptionsTableSeeder::class);
         $this->call(AptitudesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
-        $this->call(FaqsTableSeeder::class);
+        if (app()->environment('local')) {
+            $this->call(UsersTableSeeder::class);
+            $this->call(FaqsTableSeeder::class);
+        }
     }
 }
