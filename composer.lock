@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d749bfe8fb474652bcaac45a1817289",
+    "content-hash": "58e0dc6e2668e82e8aa8e2b49d7ea983",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -8868,64 +8868,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
-        },
-        {
-            "name": "yugen/laravel-db-mail-log",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yugen/laravel-db-mail-log.git",
-                "reference": "6f9e3c32ad413a6e8de9bdf55f824b564c53187c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yugen/laravel-db-mail-log/zipball/6f9e3c32ad413a6e8de9bdf55f824b564c53187c",
-                "reference": "6f9e3c32ad413a6e8de9bdf55f824b564c53187c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.33"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^3.8"
-            },
-            "default-branch": true,
-            "type": "package",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Yugen\\DbMailLog\\DbMailLogProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Yugen\\DbMailLog\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "TJ Ward",
-                    "email": "jward3@email.unc.edu",
-                    "role": "developer"
-                }
-            ],
-            "description": "Log your outgoing mail to the database so you can see what's sent",
-            "homepage": "https://github.com/yugen/laravel-db-mail-log",
-            "keywords": [
-                "laravel",
-                "mail",
-                "storage"
-            ],
-            "support": {
-                "issues": "https://github.com/yugen/laravel-db-mail-log/issues",
-                "source": "https://github.com/yugen/laravel-db-mail-log/tree/master"
-            },
-            "time": "2020-06-02T21:30:41+00:00"
         }
     ],
     "packages-dev": [
@@ -11767,8 +11709,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "sirs/dbimport": 20,
-        "yugen/laravel-db-mail-log": 20
+        "sirs/dbimport": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

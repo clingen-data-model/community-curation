@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\CrudPanel;
-use Yugen\DbMailLog\DbMailLogProvider;
+use App\DbMailLog\DbMailLogProvider;
 
 /**
  * Class EmailCrudController.
