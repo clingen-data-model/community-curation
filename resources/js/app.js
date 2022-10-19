@@ -18,35 +18,16 @@ import getAllCurationGroups from './resources/curation_groups/get_all_curation_g
 import moment from 'moment-timezone'
 window.moment = moment;
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
 import './register_bootstrapvue_plugins.js'
 import './register_components.js';
 import './register_filters.js';
 
-import QueryStringFromParams from './http/query_string_from_params'
-
 import store from './store/index'
 import { mapActions, mapGetters } from 'vuex'
-
-function evaluate(el, binding, vnode) {
-    console.log(binding);
-}
 
 window.clearSessionStorage = function() {
     sessionStorage.clear();
 }
-
-
 
 window.axios.interceptors.request.use(function(config) {
     store.commit('addRequest');
