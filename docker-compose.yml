@@ -7,6 +7,7 @@ services:
             - "13309:3306"
         volumes:
             - .docker/mysql/data:/var/lib/mysql
+            - .docker/mysql/db-init:/docker-entrypoint-initdb.d
         environment:
             - MYSQL_DATABASE=${DB_DATABASE}
             - MYSQL_ROOT_PASSWORD=root
@@ -30,6 +31,7 @@ services:
         volumes:
             - .:/srv/app
         env_file: .docker.env
+        user: ${DOCKER_USER}:0
         environment:
             CONTAINER_ROLE: app
             CONTAINER_ENV: local

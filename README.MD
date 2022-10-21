@@ -5,19 +5,17 @@ The ClinGen Community Curation Database (CCDB) is a workflow management tool tha
 ## Installation
 ### Prerequisites
 You must have the following to stand up the application locally
-* PHP 8.0
-* Composer
 * Docker
 
 The stand up a local instance of the application
 1. Clone this repository
 2. cd into the directory
-3. `composer install`
-3. `cp .env.example .env`
-4. `php artisan key:generate`
-5. `php artisan passport:keys`
-3. `docker-compose up -d --build`
-4. Confirm that the `.docker/data` directory exists (it can take a few minutes for the database to be setup).  When it does run `docker-compose exec app php artisan migrate --seed`
+4. `cp .env.example .env`
+5. `docker-compose up -d --build`
+3. `docker-compose exec app composer install`
+6. `docker-compose exec app php artisan key:generate`
+7. Confirm that the `.docker/data` directory exists (it can take a few minutes for the database to be setup).  When it does run `docker-compose exec app php artisan migrate --seed`
+8. `docker-compose exec app php artisan migrate --seed --database=testing` to set up the testing db.
 
 The development server is available at http://localhost:8080
 
