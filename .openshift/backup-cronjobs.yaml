@@ -57,11 +57,28 @@ spec:
             - |
               set -Eeu -o pipefail;
               date;
+              echo Backing up all
               mysqldump -u root -h ${MYSQL_HOST:-mysql} --quick \
                     --comments --dump-date --all-databases --lock-all-tables  \
                     --column-statistics=0 --flush-privileges --flush-logs \
-                | gzip > "$BACKUP_PATH"/$(date +"%Y-%m-%d-%H-%M-%S.sql.gz") \
-                && date
+                | gzip > "$BACKUP_PATH"/CCDB-ALL.$(date +"%Y-%m-%d-%H-%M-%S.sql.gz")
+              date
+              echo "Backing up individual database(s)"
+              for db in $(
+                echo show databases |
+                mysql -u root -B -N |
+                grep -Evw '(information_schema|performance_schema|sys)'
+              )
+              do
+                echo Backing up $db
+                mysqldump -u root -h ${MYSQL_HOST:-mysql} --quick \
+                    --comments --dump-date --lock-all-tables  \
+                    --column-statistics=0 --flush-privileges --flush-logs \
+                    "$db" \
+                  | gzip > "${BACKUP_PATH}"/"$db".$(date +"%Y-%m-%d-%H-%M-%S.sql.gz")
+                date
+              done
+              echo "Success!"
             env:
             - name: BACKUP_PATH
               value: /backups
