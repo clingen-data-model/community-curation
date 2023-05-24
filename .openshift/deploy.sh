@@ -8,4 +8,6 @@ php artisan config:cache
 php artisan route:cache
 php artisan event:cache
 php artisan storage:link
-php artisan notify:deployed
+
+# FIXME- the notification uses a hard-coded user id that is not currently active
+# php artisan notify:deployed
