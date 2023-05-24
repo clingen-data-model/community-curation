@@ -39,6 +39,8 @@ class NotifyDeployed extends Command
      */
     public function handle()
     {
-        User::find(1)->notify(new Deployed());
+        User::whereHas("roles", function ($q) { $q->where("name", "programmer"); })->each(function ($user) {
+            $user->notify(new Deployed());
+        });
     }
 }
