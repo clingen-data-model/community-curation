@@ -39,8 +39,11 @@ class NotifyDeployed extends Command
      */
     public function handle()
     {
+        # FIXME : failed if user with id 1 is not active...
+        /*
         User::whereHas("roles", function ($q) { $q->where("name", "programmer"); })->each(function ($user) {
             $user->notify(new Deployed());
         });
+         */
     }
 }
