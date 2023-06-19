@@ -20,3 +20,4 @@ certs/*
 configstore/update-notifier-npm.json
 psysh/psysh_history
 .docker/mysql/data
+.docker/mysql/db-init/*.sql.gz
