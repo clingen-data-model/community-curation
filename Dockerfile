@@ -38,6 +38,8 @@ COPY .docker/start.sh /usr/local/bin/start
 
 COPY . /srv/app
 
+ENV HOME=/srv/app
+
 RUN chgrp -R 0 /srv/app \
     && chmod -R g+w /srv/app \
     && chmod g+x /srv/app/.openshift/deploy.sh \
