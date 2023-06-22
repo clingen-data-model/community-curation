@@ -70,6 +70,6 @@ class AssignVolunteerToAssignable
                                 ->assignableIs(get_class($parentAssignable), $parentAssignable->id)
                                 ->first();
 
-        return optional($parentAssignment)->id;
+        return $parentAssignment?->id;
     }
 }
