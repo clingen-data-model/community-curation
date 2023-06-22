@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmailLogTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -27,4 +27,4 @@ class CreateEmailLogTable extends Migration
         Schema::connection(config('db_email_log.database-connection'))
             ->dropIfExists(config('db_email_log.table_name'));
     }
-}
+};

@@ -3,7 +3,7 @@
 use Database\Seeders\VolunteerStatusesTableSeeder;
 use Illuminate\Database\Migrations\Migration;
 
-class AddOnHoldVolunteerStatus extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -24,4 +24,4 @@ class AddOnHoldVolunteerStatus extends Migration
     public function down()
     {
     }
-}
+};

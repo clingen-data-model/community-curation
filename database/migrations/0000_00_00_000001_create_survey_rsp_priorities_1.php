@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSurveyRspPriorities1 extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -75,4 +75,4 @@ class CreateSurveyRspPriorities1 extends Migration
         $s = \Sirs\Surveys\Models\Survey::where('name', 'priorities1')->where('version', '1');
         $s->delete();
     }
-}
+};

@@ -3,7 +3,7 @@
 use App\UserAptitude;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateBaselineUserAptitudes extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -27,4 +27,4 @@ class UpdateBaselineUserAptitudes extends Migration
     {
         //
     }
-}
+};
