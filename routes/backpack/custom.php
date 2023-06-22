@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\App;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -8,10 +9,10 @@ use Illuminate\Support\Facades\Route;
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
 
-Route::prefix(config('backpack.base.route_prefix', 'admin'))->middleware('web', config('backpack.base.middleware_key', 'admin'))->namespace('App\Http\Controllers\Admin')->group(function () { // custom admin routes
-Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-    Route::get('/survey-definitions', 'SurveyDefinitionController@index');
-    Route::get('/survey-definitions/{slug}', 'SurveyDefinitionController@show');
+Route::prefix(config('backpack.base.route_prefix', 'admin'))->middleware('web', config('backpack.base.middleware_key', 'admin'))->group(function () { // custom admin routes
+Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+    Route::get('/survey-definitions', [App\Http\Controllers\Admin\SurveyDefinitionController::class, 'index']);
+    Route::get('/survey-definitions/{slug}', [App\Http\Controllers\Admin\SurveyDefinitionController::class, 'show']);
 
     Route::crud('/user', 'UserCrudController');
     Route::crud('/working-group', 'WorkingGroupCrudController');
