@@ -11,14 +11,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 class PriorityFactory extends Factory
 {
     use WithFaker;
-
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Priority::class;
-
     /**
      * Define the model's default state.
      *
