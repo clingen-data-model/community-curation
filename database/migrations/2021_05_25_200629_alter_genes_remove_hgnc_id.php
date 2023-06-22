@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class AlterGenesRemoveHgncId extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -28,4 +28,4 @@ class AlterGenesRemoveHgncId extends Migration
             $table->string('hgnc_id')->after('symbol');
         });
     }
-}
+};

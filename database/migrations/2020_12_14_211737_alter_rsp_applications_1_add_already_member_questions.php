@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class AlterRspApplications1AddAlreadyMemberQuestions extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -30,4 +30,4 @@ class AlterRspApplications1AddAlreadyMemberQuestions extends Migration
             $table->$table->dropColumn('already_member_cgs');
         });
     }
-}
+};

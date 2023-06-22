@@ -5,7 +5,7 @@ use App\VolunteerType;
 use Database\Seeders\AptitudesTableSeeder;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateBaselineAptitudeAttributes extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -31,4 +31,4 @@ class UpdateBaselineAptitudeAttributes extends Migration
         Aptitude::withoutGlobalScopes()->find(7)->update(['is_active' => 1, 'is_primary' => 1]);
         Aptitude::find(8)->update(['is_primary' => 0]);
     }
-}
+};
