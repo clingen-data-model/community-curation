@@ -30,7 +30,7 @@ class CurationGroupDeleteTest extends TestCase
 
         $this->curationGroup->delete();
 
-        $this->assertDeleted('priorities', [
+        $this->assertModelMissing('priorities', [
             'id' => $priority->id,
         ]);
     }
