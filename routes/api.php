@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::group([
-//         'namespace' => 'Api',
+//,
 //     ], function () {
 Route::resource('curation-groups', CurationGroupController::class)->only(['index', 'show']);
 Route::resource('curation-groups', CurationGroupController::class)->only(['index', 'show']);
