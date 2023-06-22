@@ -22,9 +22,9 @@ class UserAptitude extends Model
         'granted_at',
     ];
 
-    public $dates = [
-        'trained_at',
-        'granted_at',
+    protected $casts = [
+        'trained_at' => 'datetime',
+        'granted_at' => 'datetime',
     ];
 
     private $evaluator;
