@@ -27,10 +27,10 @@ class CurationGroupFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->word(),
             'curation_activity_id' => CurationActivity::select('id')->get()->random()->id,
             'working_group_id' => WorkingGroup::select('id')->get()->random()->id,
-            'accepting_volunteers' => $this->faker->boolean,
+            'accepting_volunteers' => $this->faker->boolean(),
         ];
     }
 }

@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Campaign::class, function (Faker $faker) {
     return [
-        'name' => $faker->unique()->word,
+        'name' => $faker->unique()->word(),
     ];
 });

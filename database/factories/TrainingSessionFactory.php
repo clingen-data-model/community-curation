@@ -15,7 +15,7 @@ $factory->define(TrainingSession::class, function (Faker $faker) {
     return [
         'topic_type' => CurationActivity::class,
         'topic_id' => CurationActivity::select('id')->get()->random()->id,
-        'url' => $faker->url,
+        'url' => $faker->url(),
         'starts_at' => $start,
         'ends_at' => $end,
         'notes' => $faker->paragraph(1),

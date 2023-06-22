@@ -49,15 +49,15 @@ class CreateTestVolunteer extends Command
     private function makeResponse()
     {
         $response = Survey::where('slug', 'application1')->first()->getNewResponse(null);
-        $response->applicant_name = $this->faker->name;
-        $response->institution = $this->faker->company;
-        $response->street1 = $this->faker->streetName;
+        $response->applicant_name = $this->faker->name();
+        $response->institution = $this->faker->company();
+        $response->street1 = $this->faker->streetName();
         $response->street2 = null;
-        $response->city = $this->faker->city;
-        $response->state = $this->faker->state;
+        $response->city = $this->faker->city();
+        $response->state = $this->faker->state();
         $response->country_id = $this->randomModelId(Country::class);
-        $response->zip = $this->faker->word;
-        $response->email = $this->faker->email;
+        $response->zip = $this->faker->word();
+        $response->email = $this->faker->email();
         $response->timezone = 1;
         $response->highest_ed = rand(1, 6);
         $response->ad_campaign = json_encode([1, 2]);
