@@ -150,7 +150,7 @@ class ApplicationTest extends TestCase
         ]);
 
         $user = User::where('email', 'test@test.com')->first();
-        $this->assertEquals('App\User', $rsp->fresh()->respondent_type);
+        $this->assertEquals(\App\User::class, $rsp->fresh()->respondent_type);
         $this->assertEquals($user->id, $rsp->fresh()->respondent_id);
         $this->assertEquals($user->orcid_id, $rsp->fresh()->orcid_id);
         $this->assertEquals($user->street1, $rsp->street1);

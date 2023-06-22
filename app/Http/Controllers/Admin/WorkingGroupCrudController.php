@@ -28,7 +28,7 @@ class WorkingGroupCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\WorkingGroup');
+        $this->crud->setModel(\App\WorkingGroup::class);
         $this->crud->setRoute(config('backpack.base.route_prefix').'/working-group');
         $this->crud->setEntityNameStrings('working group', 'working groups');
 

@@ -62,7 +62,7 @@ class VolunteerSearchService extends UserSearchService
         } else {
             $query->whereHas('assignments', function ($q) use ($value) {
                 $q->where([
-                    'assignable_type' => 'App\CurationGroup',
+                    'assignable_type' => \App\CurationGroup::class,
                     'assignable_id' => $value,
                 ]);
             });
@@ -76,7 +76,7 @@ class VolunteerSearchService extends UserSearchService
         } else {
             $query->whereHas('assignments', function ($q) use ($value) {
                 $q->where([
-                    'assignable_type' => 'App\CurationActivity',
+                    'assignable_type' => \App\CurationActivity::class,
                     'assignable_id' => $value,
                 ]);
             });
@@ -87,7 +87,7 @@ class VolunteerSearchService extends UserSearchService
     {
         $query->whereHas('assignments', function ($q) use ($value) {
             $q->where([
-                'assignable_type' => 'App\Gene',
+                'assignable_type' => \App\Gene::class,
                 'assignable_id' => $value,
             ]);
         });

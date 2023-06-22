@@ -66,7 +66,7 @@ class NotesControllerTest extends TestCase
             ])
             ->assertStatus(201)
             ->assertJson(['data' => [
-                'notable_type' => 'App\\CurationGroup',
+                'notable_type' => \App\CurationGroup::class,
                 'notable_id' => $curationGroup->id,
                 'content' => 'This is a test.',
             ]]);

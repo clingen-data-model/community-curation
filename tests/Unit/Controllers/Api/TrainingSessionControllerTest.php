@@ -143,7 +143,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     {
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
-                'topic_type' => 'App\User',
+                'topic_type' => \App\User::class,
             ]);
         $response->assertStatus(422);
 
