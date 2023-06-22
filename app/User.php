@@ -98,17 +98,14 @@ class User extends Authenticatable implements IsNotable
      * @var array
      */
     protected $casts = [
+        'last_logged_in_at' => 'datetime',
+        'last_logged_out_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'already_member_cgs' => 'array',
     ];
 
     protected $appends = [
         'name',
-    ];
-
-    protected $dates = [
-        'last_logged_in_at',
-        'last_logged_out_at',
     ];
 
     public static function boot()
