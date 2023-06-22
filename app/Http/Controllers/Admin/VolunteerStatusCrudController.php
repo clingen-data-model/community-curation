@@ -28,7 +28,7 @@ class VolunteerStatusCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\VolunteerStatus');
+        $this->crud->setModel(\App\VolunteerStatus::class);
         $this->crud->setRoute(config('backpack.base.route_prefix').'/volunteer-status');
         $this->crud->setEntityNameStrings('volunteer status', 'volunteer statuses');
 

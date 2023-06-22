@@ -35,7 +35,7 @@ class AttestationSignedTest extends TestCase
         $this->attestation->update(['signed_at' => Carbon::now()]);
 
         $this->assertDatabaseHas('assignments', [
-            'assignable_type' => 'App\CurationActivity',
+            'assignable_type' => \App\CurationActivity::class,
             'assignable_id' => config('project.curation-activities.baseline'),
             'user_id' => $this->volunteer->id,
             'assignment_status_id' => config('project.assignment-statuses.trained'),

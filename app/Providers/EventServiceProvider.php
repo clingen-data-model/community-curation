@@ -95,6 +95,6 @@ class EventServiceProvider extends ServiceProvider
         if (! isset($this->listen['Illuminate\Mail\Events\MessageSent'])) {
             $this->listen['Illuminate\Mail\Events\MessageSent'] = [];
         }
-        $this->listen['Illuminate\Mail\Events\MessageSent'] = ['App\Listeners\LogSentMessage'];
+        $this->listen['Illuminate\Mail\Events\MessageSent'] = [\App\Listeners\LogSentMessage::class];
     }
 }

@@ -36,7 +36,7 @@ class CurationGroupController extends Controller
                             ]);
         $curationGroup->assignments = $curationGroup->assignments->map(function ($ass) use ($curationGroup) {
             $ass->user_aptitude = $ass->volunteer->userAptitudes->filter(function ($ua) use ($curationGroup) {
-                return $ua->aptitude->subject_type = 'App\\CurationActivity'
+                return $ua->aptitude->subject_type = \App\CurationActivity::class
                                                 && $ua->aptitude->subject_id = $curationGroup->curation_activity_id;
             })->first();
 

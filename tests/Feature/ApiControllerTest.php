@@ -40,7 +40,7 @@ class ApiControllerTest extends TestCase
      */
     public function returns_404_if_model_hidden_from_api()
     {
-        config(['api.hidden-models' => ['\\App\\User']]);
+        config(['api.hidden-models' => [\App\User::class]]);
 
         $this->actingAs($this->user, 'api');
         $this->call('GET', '/api/user')
