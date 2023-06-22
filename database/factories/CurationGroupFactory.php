@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\CurationActivity;
-use App\CurationGroup;
 use App\WorkingGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 class CurationGroupFactory extends Factory
 {
     use WithFaker;
+
     /**
      * Define the model's default state.
      *

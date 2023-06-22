@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\CurationGroup;
-use App\CustomSurvey;
 use App\VolunteerType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
