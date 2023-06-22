@@ -10,7 +10,7 @@ class VolunteerControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         \DB::statement('SET FOREIGN_KEY_CHECKS = 0');

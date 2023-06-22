@@ -14,7 +14,7 @@ class AttestationControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->programmer = factory(User::class)->states(['programmer'])->create([]);
