@@ -38,7 +38,7 @@ Auth::routes();
 Route::redirect('/', '/volunteers');
 Route::redirect('/home', '/volunteers');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::middleware('auth')->group(function () {
     Route::get('required-info', [RequiredInfoController::class, 'edit'])
         ->name('reqired-info.edit');
 
@@ -49,12 +49,12 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('required-info.bypass');
 });
 
-Route::group(['middleware' => ['auth', 'required-info']], function () {
+Route::middleware('auth', 'required-info')->group(function () {
     Route::impersonate();
 
     Route::resource('volunteers', VolunteerController::class)->only(['show', 'index']);
 
-    Route::group(['middleware' => ['can:list trainings']], function () {
+    Route::middleware('can:list trainings')->group(function () {
         Route::resource('trainings', TrainingController::class)->only(['show', 'index']);
         Route::resource('training-sessions', TrainingController::class)->only(['show', 'index']);
     });
@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
     Route::resource('attestations', AttestationController::class)
         ->only('show', 'edit', 'update');
 
-    Route::group(['middleware' => ['can:run reports']], function () {
+    Route::middleware('can:run reports')->group(function () {
         Route::get('reports', [ReportController::class, 'index'])
             ->name('report-index');
 
@@ -123,7 +123,7 @@ Route::get('apply/{responseId?}', [ApplicationController::class, 'show'])
 Route::post('apply/{responseId?}', [ApplicationController::class, 'store'])
     ->name('application.store');
 
-Route::group(['middleware' => ['auth', 'role:programmer']], function () {
+Route::middleware('auth', 'role:programmer')->group(function () {
     Route::get('certificate', function (Request $request) {
         $user = App\User::findOrFail($request->user_id ? $request->user_id : 1);
         $type = $request->type;

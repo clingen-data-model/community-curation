@@ -36,9 +36,7 @@ Route::resource('curation-groups', CurationGroupController::class)->only(['index
 Route::resource('curation-groups', CurationGroupController::class)->only(['index', 'show']);
 Route::get('curation-activities', [CurationActivitiesController::class, 'index'])->name('curation-activities-index');
 
-Route::group([
-    'middleware' => 'auth:api',
-], function () {
+Route::middleware('auth:api')->group(function () {
     Route::resource('applicaitons', ApplicationController::class)
         ->only(['index', 'show']);
 
@@ -49,7 +47,7 @@ Route::group([
         ->only(['store', 'update']);
 
     Route::resource('training-sessions', TrainingSessionController::class);
-    Route::group(['middleware' => ['role:admin|programmer|super-admin']], function () {
+    Route::middleware('role:admin|programmer|super-admin')->group(function () {
         Route::resource('training-sessions/{id}/attendees', TrainingSessionAttendeeController::class)->only(['index', 'store', 'destroy']);
         Route::get('training-sessions/{id}/trainable-volunteers', [TrainingSessionAttendeeController::class, 'trainableVolunteers'])
             ->name('training-sessions.trainable-volunteers');
