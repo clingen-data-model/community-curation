@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\CurationGroup;
-use App\Priority;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 class PriorityFactory extends Factory
 {
     use WithFaker;
+
     /**
      * Define the model's default state.
      *
