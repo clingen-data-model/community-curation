@@ -47,10 +47,10 @@ class PriorityFactory extends Factory
             'user_id' => $user->id,
             'curation_activity_id' => $activityId,
             'curation_group_id' => $panelId,
-            'activity_experience' => $this->faker->boolean,
-            'activity_experience_details' => $this->faker->sentence,
-            'effort_experience' => $this->faker->boolean,
-            'effort_experience_details' => $this->faker->sentence,
+            'activity_experience' => $this->faker->boolean(),
+            'activity_experience_details' => $this->faker->sentence(),
+            'effort_experience' => $this->faker->boolean(),
+            'effort_experience_details' => $this->faker->sentence(),
             'prioritization_round' => 1,
         ];
     }

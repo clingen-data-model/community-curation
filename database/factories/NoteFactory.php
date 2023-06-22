@@ -16,7 +16,7 @@ $factory->define(Note::class, function (Faker $faker) {
     return [
         'notable_type' => CurationGroup::class,
         'notable_id' => $groups->random()->id,
-        'content' => $faker->paragraph,
+        'content' => $faker->paragraph(),
         'created_by_id' => User::all()->random()->id,
     ];
 });
