@@ -16,7 +16,7 @@ class TrainingCompletedTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->volunteer = factory(User::class)->states('volunteer', 'comprehensive')->create();
