@@ -24,6 +24,7 @@ use Lab404\Impersonate\Services\ImpersonateManager;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\LogOptions;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
@@ -44,6 +45,11 @@ class User extends Authenticatable implements IsNotable
     use TraitsIsNotable;
 
     protected $revisionCreationsEnabled = true;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     protected $allPermissions;
 
