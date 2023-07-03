@@ -58,10 +58,12 @@ spec:
               set -Eeu -o pipefail;
               date;
               echo Backing up all
+              BACKUP_FILE="$BACKUP_PATH"/CCDB-ALL.$(date +"%Y-%m-%d-%H-%M-%S.sql.gz")
               mysqldump -u root -h ${MYSQL_HOST:-mysql} --quick \
                     --comments --dump-date --all-databases --lock-all-tables  \
                     --column-statistics=0 --flush-privileges --flush-logs \
-                | gzip > "$BACKUP_PATH"/CCDB-ALL.$(date +"%Y-%m-%d-%H-%M-%S.sql.gz")
+                | gzip > "$BACKUP_FILE"
+              ln -srf "$BACKUP_FILE" "${BACKUP_PATH}/CCDB-ALL.sql.gz"
               date
               echo "Backing up individual database(s)"
               for db in $(
@@ -71,11 +73,13 @@ spec:
               )
               do
                 echo Backing up $db
+                BACKUP_FILE="${BACKUP_PATH}"/"$db".$(date +"%Y-%m-%d-%H-%M-%S.sql.gz")
                 mysqldump -u root -h ${MYSQL_HOST:-mysql} --quick \
                     --comments --dump-date --lock-all-tables  \
                     --column-statistics=0 --flush-privileges --flush-logs \
                     "$db" \
-                  | gzip > "${BACKUP_PATH}"/"$db".$(date +"%Y-%m-%d-%H-%M-%S.sql.gz")
+                  | gzip > "$BACKUP_FILE"
+                ln -srf "$BACKUP_FILE" "${BACKUP_PATH}/${db}.sql.gz"
                 date
               done
               echo "Success!"
@@ -103,4 +107,63 @@ spec:
           restartPolicy: OnFailure
           terminationGracePeriodSeconds: 30
   schedule: 40 */6 * * *
+  successfulJobsHistoryLimit: 4
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup-s3
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            run: db-backup
+        spec:
+          containers:
+          - command:
+            - bash
+            - -c
+            - |
+              set -Eeu -o pipefail;
+              IFS=$'\n\t'
+               
+              FILE=$(readlink -f $FILE_TO_UPLOAD)
+              BASENAME=$(basename "$FILE")
+              resource="/${BUCKET}/${BASENAME}"
+              contentType="application/octet-stream"
+              dateValue=`date -R`
+              stringToSign="PUT\n\n${contentType}\n${dateValue}\n${resource}"
+              signature=`echo -en "${stringToSign}" | openssl sha1 -hmac "${S3SECRET}" -binary | base64`
+              curl -X PUT -T "$FILE" \
+                -H "Host: ${BUCKET}.s3.amazonaws.com" \
+                -H "Date: ${dateValue}" \
+                -H "Content-Type: ${contentType}" \
+                -H "Authorization: AWS ${S3KEY}:${signature}" \
+                "https://${BUCKET}.s3.amazonaws.com/$BASENAME"
+              date
+              echo "Success!"
+            env:
+            - name: FILE_TO_UPLOAD
+              value: /backups/sampledb.sql.gz
+            envFrom:
+            - secretRef:
+                name: s3-credentials
+            image: mysql:8.0
+            imagePullPolicy: IfNotPresent
+            name: mysql-backup-s3
+            volumeMounts:
+            - mountPath: /backups
+              name: backups-dir
+              subPath: mysql
+          volumes:
+          - name: backups-dir
+            persistentVolumeClaim:
+              claimName: backups
+          restartPolicy: OnFailure
+          terminationGracePeriodSeconds: 30
+  schedule: 40 3 * 1 *
   successfulJobsHistoryLimit: 4
