@@ -7,7 +7,7 @@ use App\DbMailLog\Listeners\StoreMailInDatabase;
 use App\DbMailLog\Models\Email;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Mail\Events\SentMessage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -50,6 +50,6 @@ class DbMailLogProvider extends ServiceProvider
 
     private function registerMailLogging()
     {
-        Event::listen(MessageSent::class, StoreMailInDatabase::class);
+        Event::listen(SentMessage::class, StoreMailInDatabase::class);
     }
 }
