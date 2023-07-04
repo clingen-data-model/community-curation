@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Mail\Events\SentMessage;
 
 class LogSentMessage
 {
@@ -20,7 +20,7 @@ class LogSentMessage
      *
      * @return void
      */
-    public function handle(MessageSent $event)
+    public function handle(SentMessage $event)
     {
         $messageInfo = [
             'to' => $event->message->getTo(),
