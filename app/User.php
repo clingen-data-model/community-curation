@@ -22,9 +22,9 @@ use JsonException;
 use Lab404\Impersonate\Models\Impersonate;
 use Lab404\Impersonate\Services\ImpersonateManager;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Activitylog\LogOptions;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
