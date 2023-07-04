@@ -3,7 +3,7 @@
 namespace App\DbMailLog\Listeners;
 
 use App\DbMailLog\DbMailLogProvider;
-use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Mail\Events\SentMessage;
 
 class StoreMailInDatabase
 {
@@ -22,7 +22,7 @@ class StoreMailInDatabase
      *
      * @return void
      */
-    public function handle(MessageSent $event)
+    public function handle(SentMessage $event)
     {
         $email = DbMailLogProvider::getEmailInstance([
             'from' => $event->message->getFrom(),

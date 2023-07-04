@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Events\SentMessage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+//forcd git
 
 class DbMailLogProvider extends ServiceProvider
 {
