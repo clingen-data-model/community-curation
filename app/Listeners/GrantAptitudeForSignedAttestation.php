@@ -18,9 +18,6 @@ class GrantAptitudeForSignedAttestation
 
     /**
      * Handle the event.
-     *
-     * @param  AttestatioSigned  $event
-     * @return void
      */
     public function handle(AttestationSigned $event): void
     {

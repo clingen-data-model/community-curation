@@ -11,8 +11,6 @@ class TrainingSessionTest extends TestCase
 
     /**
      * A basic unit test example.
-     *
-     * @return void
      */
     public function testExample(): void
     {

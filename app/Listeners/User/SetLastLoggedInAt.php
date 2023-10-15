@@ -19,8 +19,6 @@ class SetLastLoggedInAt
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(Login $event): void
     {

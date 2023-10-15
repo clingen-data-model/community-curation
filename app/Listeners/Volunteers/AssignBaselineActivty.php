@@ -19,8 +19,6 @@ class AssignBaselineActivty
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(MarkedBaseline $event): void
     {

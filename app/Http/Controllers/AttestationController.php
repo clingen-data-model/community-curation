@@ -34,8 +34,6 @@ class AttestationController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function edit(Attestation $attestation): View
     {
@@ -52,7 +50,6 @@ class AttestationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Attestation  $attestation
      * @return \Illuminate\Http\Response
      */

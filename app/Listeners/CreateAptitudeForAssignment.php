@@ -18,8 +18,6 @@ class CreateAptitudeForAssignment
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(AssignmentCreated $event): void
     {

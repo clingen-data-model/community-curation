@@ -18,8 +18,6 @@ class NotifyAttestationCreated
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(AttestationCreated $event): void
     {

@@ -13,8 +13,6 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -25,8 +23,6 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -64,8 +60,6 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
 
     /**
      * Get the validation attributes that apply to the request.
-     *
-     * @return array
      */
     public function attributes(): array
     {
@@ -79,8 +73,6 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
 
     /**
      * Get the validation messages that apply to the request.
-     *
-     * @return array
      */
     public function messages(): array
     {

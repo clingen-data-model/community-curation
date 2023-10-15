@@ -18,8 +18,6 @@ class NotifyTrainingAssigned
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(TrainingCreated $event): void
     {

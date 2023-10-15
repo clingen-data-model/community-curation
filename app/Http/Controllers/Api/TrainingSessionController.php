@@ -40,7 +40,6 @@ class TrainingSessionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(TrainingSessionRequest $request)
@@ -58,7 +57,6 @@ class TrainingSessionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function show(string $id)
@@ -72,8 +70,6 @@ class TrainingSessionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function update(TrainingSessionRequest $request, string $id)

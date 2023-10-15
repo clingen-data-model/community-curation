@@ -17,8 +17,6 @@ class setHypothesisIdFromBaselineAttestation
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(AttestationSigned $event): void
     {

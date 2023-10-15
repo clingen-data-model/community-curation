@@ -17,8 +17,6 @@ class ClearImpersonateSessionData
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(LeaveImpersonation $event): void
     {

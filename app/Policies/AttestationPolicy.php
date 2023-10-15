@@ -12,8 +12,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can view any attestations.
-     *
-     * @return mixed
      */
     public function viewAny(User $user): bool
     {
@@ -22,8 +20,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can view the attestation.
-     *
-     * @return mixed
      */
     public function view(User $user, Attestation $attestation): bool
     {
@@ -36,8 +32,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can create attestations.
-     *
-     * @return mixed
      */
     public function create(User $user): bool
     {
@@ -46,8 +40,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can update the attestation.
-     *
-     * @return mixed
      */
     public function update(User $user, Attestation $attestation): bool
     {
@@ -60,8 +52,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can delete the attestation.
-     *
-     * @return mixed
      */
     public function delete(User $user, Attestation $attestation): bool
     {
@@ -70,8 +60,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can restore the attestation.
-     *
-     * @return mixed
      */
     public function restore(User $user, Attestation $attestation): bool
     {
@@ -80,8 +68,6 @@ class AttestationPolicy
 
     /**
      * Determine whether the user can permanently delete the attestation.
-     *
-     * @return mixed
      */
     public function forceDelete(User $user, Attestation $attestation): bool
     {

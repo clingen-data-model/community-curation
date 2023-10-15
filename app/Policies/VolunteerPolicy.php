@@ -11,8 +11,6 @@ class VolunteerPolicy extends UserPolicy
 
     /**
      * Determine whether the user can view the app user.
-     *
-     * @return mixed
      */
     public function view(User $user, User $volunteer): bool
     {
@@ -25,8 +23,6 @@ class VolunteerPolicy extends UserPolicy
 
     /**
      * Determine whether the user can create app users.
-     *
-     * @return mixed
      */
     public function create(User $user): bool
     {
@@ -35,8 +31,6 @@ class VolunteerPolicy extends UserPolicy
 
     /**
      * Determine whether the user can update the app user.
-     *
-     * @return mixed
      */
     public function update(User $user, User $volunteer): bool
     {

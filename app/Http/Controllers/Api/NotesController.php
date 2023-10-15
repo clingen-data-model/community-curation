@@ -35,7 +35,6 @@ class NotesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(NoteCreateRequest $request)
@@ -62,7 +61,6 @@ class NotesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
@@ -78,7 +76,6 @@ class NotesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Note  $notes
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Note $note): Response
     {

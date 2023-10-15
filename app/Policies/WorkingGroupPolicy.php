@@ -12,8 +12,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can view any working groups.
-     *
-     * @return mixed
      */
     public function viewAny(User $user): bool
     {
@@ -22,8 +20,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can view the working group.
-     *
-     * @return mixed
      */
     public function view(User $user, WorkingGroup $workingGroup): bool
     {
@@ -32,8 +28,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can create working groups.
-     *
-     * @return mixed
      */
     public function create(User $user): bool
     {
@@ -42,8 +36,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can update the working group.
-     *
-     * @return mixed
      */
     public function update(User $user, WorkingGroup $workingGroup): bool
     {
@@ -52,8 +44,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can delete the working group.
-     *
-     * @return mixed
      */
     public function delete(User $user, WorkingGroup $workingGroup): bool
     {
@@ -62,8 +52,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can restore the working group.
-     *
-     * @return mixed
      */
     public function restore(User $user, WorkingGroup $workingGroup): bool
     {
@@ -72,8 +60,6 @@ class WorkingGroupPolicy
 
     /**
      * Determine whether the user can permanently delete the working group.
-     *
-     * @return mixed
      */
     public function forceDelete(User $user, WorkingGroup $workingGroup): bool
     {

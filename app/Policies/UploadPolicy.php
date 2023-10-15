@@ -12,8 +12,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can view any uploads.
-     *
-     * @return mixed
      */
     public function viewAny(User $user): bool
     {
@@ -22,8 +20,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can view the upload.
-     *
-     * @return mixed
      */
     public function view(User $user, Upload $upload): bool
     {
@@ -40,8 +36,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can create uploads.
-     *
-     * @return mixed
      */
     public function create(User $user): bool
     {
@@ -64,8 +58,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can update the upload.
-     *
-     * @return mixed
      */
     public function update(User $user, Upload $upload): bool
     {
@@ -82,8 +74,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can delete the upload.
-     *
-     * @return mixed
      */
     public function delete(User $user, Upload $upload): bool
     {
@@ -100,8 +90,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can restore the upload.
-     *
-     * @return mixed
      */
     public function restore(User $user, Upload $upload): bool
     {
@@ -118,8 +106,6 @@ class UploadPolicy
 
     /**
      * Determine whether the user can permanently delete the upload.
-     *
-     * @return mixed
      */
     public function forceDelete(User $user, Upload $upload): bool
     {

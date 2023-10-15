@@ -17,8 +17,6 @@ class SetVolunteerStatusToTrained
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(TrainingCompleted $event): void
     {

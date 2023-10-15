@@ -19,9 +19,6 @@ class NotifyConversionToComprehensive
 
     /**
      * Handle the event.
-     *
-     * @param  VolunteersConvertedToComprehensive  $event
-     * @return void
      */
     public function handle(ConvertedToComprehensive $event): void
     {
