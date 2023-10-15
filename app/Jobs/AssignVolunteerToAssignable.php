@@ -66,9 +66,9 @@ class AssignVolunteerToAssignable
     {
         $parentAssignable = $this->assignable->getParentAssignable();
         $parentAssignment = $this->volunteer
-                                ->assignments()
-                                ->assignableIs(get_class($parentAssignable), $parentAssignable->id)
-                                ->first();
+            ->assignments()
+            ->assignableIs(get_class($parentAssignable), $parentAssignable->id)
+            ->first();
 
         return $parentAssignment?->id;
     }

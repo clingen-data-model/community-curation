@@ -13,9 +13,9 @@ trait StoresResponsePriorities
         }
 
         $prioritizationRound = Priority::selectRaw('max(prioritization_round) as prioritization_round')
-                                ->where('user_id', $this->response->respondent_id)
-                                ->get()
-                                ->first()->prioritization_round ?? 0;
+            ->where('user_id', $this->response->respondent_id)
+            ->get()
+            ->first()->prioritization_round ?? 0;
         $prioritizationRound++;
 
         foreach ([1, 2, 3] as $num) {

@@ -42,9 +42,9 @@ class UserAptitudeTest extends TestCase
     {
         $vol = factory(User::class)->states(['volunteer', 'baseline'])->create();
         $userApt = $vol->userAptitudes()
-                            ->create([
-                                'aptitude_id' => 2,
-                            ]);
+            ->create([
+                'aptitude_id' => 2,
+            ]);
 
         $listenerCalled = false;
         Event::listen(TrainingCompleted::class, function ($event) use (&$listenerCalled) {

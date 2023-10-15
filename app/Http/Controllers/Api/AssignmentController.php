@@ -38,8 +38,8 @@ class AssignmentController extends Controller
 
         AssignVolunteerToAssignable::dispatch($volunteer, $assignable);
         $newAssignment = Assignment::orderBy('id', 'desc')
-                            ->limit(1)
-                            ->first();
+            ->limit(1)
+            ->first();
         $newAssignment->load(['volunteer', 'assignable', 'status']);
         // return $newAssignment;
 

@@ -40,8 +40,8 @@ class CleanBlankApplications extends Command
     public function handle()
     {
         $empties = Application::where('created_at', '<', Carbon::now()->subMinutes(config('session.lifetime')))
-        ->noUserData()
-        ->get();
+            ->noUserData()
+            ->get();
 
         $empties->each(function ($app) {
             $app->forceDelete();

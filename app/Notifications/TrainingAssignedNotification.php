@@ -43,14 +43,14 @@ class TrainingAssignedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                    ->subject('Training Assignment Notification.')
-                    ->view(
-                        'email.training_assigned',
-                        [
-                            'userAptitude' => $this->userAptitude,
-                            'recipient' => $notifiable,
-                        ]
-                    );
+            ->subject('Training Assignment Notification.')
+            ->view(
+                'email.training_assigned',
+                [
+                    'userAptitude' => $this->userAptitude,
+                    'recipient' => $notifiable,
+                ]
+            );
     }
 
     /**

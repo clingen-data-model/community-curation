@@ -59,8 +59,8 @@ class CustomTrainingEmail extends Notification
         $subject = $this->subject;
         if (! $subject) {
             $subject = 'A note about your ClinGen volunteer training on '.$this->trainingSession->starts_at
-                        ->addSeconds($timezone->getOffset($this->trainingSession->starts_at))
-                        ->format('l, F j, Y \a\t g:i a');
+                ->addSeconds($timezone->getOffset($this->trainingSession->starts_at))
+                ->format('l, F j, Y \a\t g:i a');
         }
 
         $mail = (new MailMessage())

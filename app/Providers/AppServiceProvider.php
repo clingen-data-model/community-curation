@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(AttestationFormResolverContract::class, AttestationFormResolver::class);
 
         app()->bind(\Box\Spout\Writer\XLSX\Writer::class, function () {
-            return  \Box\Spout\Writer\Common\Creator\WriterEntityFactory::createXLSXWriter();
+            return \Box\Spout\Writer\Common\Creator\WriterEntityFactory::createXLSXWriter();
         });
 
         app()->bind(VolunteerRequestContract::class, function () {

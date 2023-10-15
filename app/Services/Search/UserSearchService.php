@@ -20,7 +20,7 @@ class UserSearchService implements ModelSearchService
     public function search($params): Collection
     {
         return $this->buildQuery($params)
-                ->get();
+            ->get();
     }
 
     public function buildQuery($params): Builder
@@ -88,8 +88,8 @@ class UserSearchService implements ModelSearchService
     {
         $query->where(function ($q) use ($searchTerm) {
             $q->where('first_name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('last_name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('email', 'like', '%'.$searchTerm.'%');
+                ->orWhere('last_name', 'like', '%'.$searchTerm.'%')
+                ->orWhere('email', 'like', '%'.$searchTerm.'%');
         });
     }
 }

@@ -210,7 +210,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         $attributes['ends_at'] = $startsAt->clone()->addHour()->format('Y-m-d H:i:s');
 
         $response = $this->actingAs($this->createProgrammer(), 'api')
-                        ->json('PUT', '/api/training-sessions/'.$trainingSession->id, $attributes);
+            ->json('PUT', '/api/training-sessions/'.$trainingSession->id, $attributes);
 
         $this->assertDatabaseHas('training_sessions', [
             'id' => $trainingSession->id,

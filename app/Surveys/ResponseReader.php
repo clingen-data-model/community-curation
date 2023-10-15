@@ -26,9 +26,9 @@ class ResponseReader
 
             if ($question->hasOptions()) {
                 $options = collect($question->getOptionsForResponseValue($model->{$question->name}))
-                            ->transform(function ($option) {
-                                return $option->label;
-                            });
+                    ->transform(function ($option) {
+                        return $option->label;
+                    });
                 $data[$question->name]['value'] = $options;
             }
         }

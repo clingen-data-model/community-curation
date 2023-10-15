@@ -83,10 +83,10 @@ class AssignmentsReportTest extends TestCase
 
         $vol = $this->volunteers->get(1)->fresh();
         $testRow = $report->get('all')
-                    ->filter(function ($row) use ($vol) {
-                        return $row['email'] == $vol->email;
-                    })
-                    ->first();
+            ->filter(function ($row) use ($vol) {
+                return $row['email'] == $vol->email;
+            })
+            ->first();
 
         $this->assertEquals(
             [
@@ -124,10 +124,10 @@ class AssignmentsReportTest extends TestCase
 
         $vol = $this->volunteers->get(2)->fresh();
         $testRow = $report->get('all')
-                    ->filter(function ($row) use ($vol) {
-                        return $row['email'] == $vol->email;
-                    })
-                    ->first();
+            ->filter(function ($row) use ($vol) {
+                return $row['email'] == $vol->email;
+            })
+            ->first();
 
         $this->assertEquals(
             [

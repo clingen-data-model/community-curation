@@ -103,9 +103,9 @@ class SendFollowupNotifications extends Command
     private function sendFollowup1($days, $survey, $url)
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays($days))
-                        ->whereDoesntHave($survey, function ($q) {
-                            $q->whereNotNull('finalized_at');
-                        });
+            ->whereDoesntHave($survey, function ($q) {
+                $q->whereNotNull('finalized_at');
+            });
 
         $recipients = $recipientQuery->get();
 
@@ -117,9 +117,9 @@ class SendFollowupNotifications extends Command
     private function sendFollowup2($days, $survey, $url)
     {
         $recipientQuery = $this->buildRecipientQuery(Carbon::today()->subDays($days))
-                            ->whereDoesntHave($survey, function ($q) {
-                                $q->whereNotNull('finalized_at');
-                            });
+            ->whereDoesntHave($survey, function ($q) {
+                $q->whereNotNull('finalized_at');
+            });
 
         $recipients = $recipientQuery->get();
         $this->noteNotificaitonSent($survey, 'second-followup', $recipients);

@@ -20,8 +20,8 @@ class ApplicationReportGenerator implements ReportGenerator
     {
         $this->volunteerSearchService = $volunteerSearchService;
         $this->query = Application::query()
-                        ->hasRespondent()
-                        ->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
+            ->hasRespondent()
+            ->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
     }
 
@@ -80,61 +80,61 @@ class ApplicationReportGenerator implements ReportGenerator
 
             return [
                 'personal' => $introColumns
-                                    ->merge([
-                                        'institution' => $app->respondent->institution,
-                                        'orcid_id' => $app->respondent->orcid_id,
-                                        'hypothesis_id' => $app->hypothesis_id,
-                                        'street1' => $app->respondent->street1,
-                                        'street2' => $app->respondent->street2,
-                                        'city' => $app->respondent->city,
-                                        'state' => $app->respondent->state,
-                                        'zip' => $app->respondent->zip,
-                                        'country' => ($app->respondent->country) ? $app->respondent->country->name : null,
-                                        'timezone' => $app->respondent->timezone,
-                                    ])->merge($outroColumns),
+                    ->merge([
+                        'institution' => $app->respondent->institution,
+                        'orcid_id' => $app->respondent->orcid_id,
+                        'hypothesis_id' => $app->hypothesis_id,
+                        'street1' => $app->respondent->street1,
+                        'street2' => $app->respondent->street2,
+                        'city' => $app->respondent->city,
+                        'state' => $app->respondent->state,
+                        'zip' => $app->respondent->zip,
+                        'country' => ($app->respondent->country) ? $app->respondent->country->name : null,
+                        'timezone' => $app->respondent->timezone,
+                    ])->merge($outroColumns),
 
                 'professional' => $introColumns
-                                    ->merge([
-                                        'volunteer_id' => $app->respondent_id,
-                                        'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
-                                        'heighest_ed_other' => $app->highest_ed_other,
-                                        'advanced_certification' => $app->adv_cert,
-                                        'self_description' => $app->self_desc ? $app->self_desc : '',
-                                        'self_description_other' => $app->self_desc_other,
-                                        'already_clingen_member' => $app->respondent->already_clingen_member,
-                                        'already_member_cgs' => $app->respondent->memberGroups->pluck('name')->join(', '),
-                                    ])->merge($outroColumns),
+                    ->merge([
+                        'volunteer_id' => $app->respondent_id,
+                        'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
+                        'heighest_ed_other' => $app->highest_ed_other,
+                        'advanced_certification' => $app->adv_cert,
+                        'self_description' => $app->self_desc ? $app->self_desc : '',
+                        'self_description_other' => $app->self_desc_other,
+                        'already_clingen_member' => $app->respondent->already_clingen_member,
+                        'already_member_cgs' => $app->respondent->memberGroups->pluck('name')->join(', '),
+                    ])->merge($outroColumns),
 
                 'demographic' => $introColumns
-                                    ->merge($this->getQuestionColumns('race_ethnicity', $app))
-                                    ->merge(['other' => $app->race_ethnicity_other_detail])
-                                    ->merge($outroColumns),
+                    ->merge($this->getQuestionColumns('race_ethnicity', $app))
+                    ->merge(['other' => $app->race_ethnicity_other_detail])
+                    ->merge($outroColumns),
 
                 'outreach' => $introColumns
-                                    ->merge($this->getQuestionColumns('ad_campaign', $app))
-                                    ->merge(['other' => $app->ad_campaign_other])
-                                    ->merge($outroColumns),
+                    ->merge($this->getQuestionColumns('ad_campaign', $app))
+                    ->merge(['other' => $app->ad_campaign_other])
+                    ->merge($outroColumns),
 
                 'motivation' => $introColumns
-                                    ->merge($this->getQuestionColumns('motivation', $app))
-                                    ->merge(['other' => $app->motivation_other])
-                                    ->merge($outroColumns),
+                    ->merge($this->getQuestionColumns('motivation', $app))
+                    ->merge(['other' => $app->motivation_other])
+                    ->merge($outroColumns),
 
                 'goals' => $introColumns
-                                    ->merge($this->getQuestionColumns('goals', $app))
-                                    ->merge(['other' => $app->goals_other])
-                                    ->merge($outroColumns),
+                    ->merge($this->getQuestionColumns('goals', $app))
+                    ->merge(['other' => $app->goals_other])
+                    ->merge($outroColumns),
 
                 'interests' => $introColumns
-                                    ->merge($this->getQuestionColumns('interests', $app))
-                                    ->merge($outroColumns),
+                    ->merge($this->getQuestionColumns('interests', $app))
+                    ->merge($outroColumns),
 
                 'ccdb' => $introColumns
-                                    ->merge([
-                                        'baseline/comprehensive' => $app->volunteer_type,
-                                    ])
-                                    ->merge($this->getPriorityData($app))
-                                    ->merge($outroColumns),
+                    ->merge([
+                        'baseline/comprehensive' => $app->volunteer_type,
+                    ])
+                    ->merge($this->getPriorityData($app))
+                    ->merge($outroColumns),
             ];
         });
     }

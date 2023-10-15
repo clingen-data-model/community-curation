@@ -73,8 +73,8 @@ class ApplicationTest extends TestCase
         Session::put('application-response', $rsp);
 
         $this->call('GET', 'apply/'.$rsp->id)
-             ->assertStatus(200)
-             ->assertSee('response_id: '.$rsp->id);
+            ->assertStatus(200)
+            ->assertSee('response_id: '.$rsp->id);
 
         $this->assertEquals(session()->get('application-response')->id, $rsp->id);
     }

@@ -164,7 +164,7 @@ class VolunteerCrudController extends CrudController
             'type' => 'integer',
             'name' => 'id',
         ])
-        ->makeFirstColumn();
+            ->makeFirstColumn();
 
         $this->crud->addColumns([
             [

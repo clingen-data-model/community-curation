@@ -131,7 +131,7 @@ Route::middleware('auth', 'role:programmer')->group(function () {
 
         try {
             $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
-                    ->handle($user, $type, $date);
+                ->handle($user, $type, $date);
 
             $storagePath = storage_path('/app/'.$upload->file_path);
 

@@ -27,16 +27,16 @@ class VolunteerMetricsController extends Controller
         $params = $request->all();
 
         $query = $this->volunteerSearchQuery($params, 'volunteer_status_id')
-                    ->union($this->volunteerSearchQuery($params, 'volunteer_type_id'))
-                    ->union($this->applicationSearchQuery($params, 'highest_ed'))
-                    ->union($this->applicationSearchQuery($params, 'self_desc'))
-                    ->union($this->applicationSearchQuery($params, 'race_ethnicity'));
+            ->union($this->volunteerSearchQuery($params, 'volunteer_type_id'))
+            ->union($this->applicationSearchQuery($params, 'highest_ed'))
+            ->union($this->applicationSearchQuery($params, 'self_desc'))
+            ->union($this->applicationSearchQuery($params, 'race_ethnicity'));
 
         $counts = $query->get()
-                    ->groupBy('label')
-                    ->map(function ($group) {
-                        return $group->pluck('count', 'key');
-                    });
+            ->groupBy('label')
+            ->map(function ($group) {
+                return $group->pluck('count', 'key');
+            });
 
         $counts = $this->formatData($counts);
 

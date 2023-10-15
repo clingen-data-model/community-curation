@@ -34,8 +34,8 @@ class TrainingSessionAttendeeController extends Controller
             },
             'assignments.userAptitudes',
         ])
-        ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
-        ->get();
+            ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
+            ->get();
         $alreadyMemberCgIds = $attendees->pluck('already_member_cgs')->flatten()->unique()->sort();
         $curationGroups = CurationGroup::find($alreadyMemberCgIds);
 
@@ -73,8 +73,8 @@ class TrainingSessionAttendeeController extends Controller
             },
             'assignments.userAptitudes',
         ])
-         ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
-         ->get();
+            ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
+            ->get();
 
         return TrainingSessionAttendeeResource::collection($attendees);
     }
@@ -106,28 +106,28 @@ class TrainingSessionAttendeeController extends Controller
     {
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $volunteerQuery = User::isVolunteer()
-                        ->select('first_name', 'last_name', 'id', 'volunteer_status_id', 'email', 'already_clingen_member', 'already_member_cgs')
-                        ->whereNotIn('id', $trainingSession->attendees->pluck('id'))
-                        ->whereHas('userAptitudes', function ($q) use ($trainingSession) {
-                            $q->needsTraining()
-                                ->whereHas('aptitude', function ($qu) use ($trainingSession) {
-                                    $qu->forSubject($trainingSession->topic_type, $trainingSession->topic_id);
-                                });
-                        })
-                        ->with([
-                            'assignments' => function ($q) use ($trainingSession) {
-                                $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
-                                    ->select('created_at as date_assigned', 'user_id', 'id', 'assignable_type', 'assignable_id', 'assignment_status_id');
-                            },
-                            'assignments.status',
-                            'volunteerStatus',
-                        ])
-                        ->withCount([
-                            'trainingSessions' => function ($q) use ($trainingSession) {
-                                $q->topicIs($trainingSession->topic)
-                                    ->past();
-                            },
-                        ]);
+            ->select('first_name', 'last_name', 'id', 'volunteer_status_id', 'email', 'already_clingen_member', 'already_member_cgs')
+            ->whereNotIn('id', $trainingSession->attendees->pluck('id'))
+            ->whereHas('userAptitudes', function ($q) use ($trainingSession) {
+                $q->needsTraining()
+                    ->whereHas('aptitude', function ($qu) use ($trainingSession) {
+                        $qu->forSubject($trainingSession->topic_type, $trainingSession->topic_id);
+                    });
+            })
+            ->with([
+                'assignments' => function ($q) use ($trainingSession) {
+                    $q->assignableIs($trainingSession->topic_type, $trainingSession->topic_id)
+                        ->select('created_at as date_assigned', 'user_id', 'id', 'assignable_type', 'assignable_id', 'assignment_status_id');
+                },
+                'assignments.status',
+                'volunteerStatus',
+            ])
+            ->withCount([
+                'trainingSessions' => function ($q) use ($trainingSession) {
+                    $q->topicIs($trainingSession->topic)
+                        ->past();
+                },
+            ]);
 
         $volunteers = $volunteerQuery->get();
 
@@ -157,10 +157,10 @@ class TrainingSessionAttendeeController extends Controller
         $trainingSession = TrainingSession::findOrFail($trainingSessionId);
         $safeBody = $parsedown->parse($htmlToMarkdown->convert($request->body));
         $attachments = collect($request->attachments)
-                        ->map(function ($file) {
-                            return MailAttachment::createFromUploadedFile($file);
-                        })
-                        ->toArray();
+            ->map(function ($file) {
+                return MailAttachment::createFromUploadedFile($file);
+            })
+            ->toArray();
 
         $recipients = User::find(explode(',', $request->recipients));
 

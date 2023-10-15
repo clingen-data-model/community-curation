@@ -45,10 +45,10 @@ class Assignment extends Model
 
             if ($model->assignable->aptitudes) {
                 $model->volunteer->userAptitudes()
-                        ->whereIn('aptitude_id', $model->assignable->aptitudes->pluck('id'))
-                        ->get()
-                        ->each
-                        ->delete();
+                    ->whereIn('aptitude_id', $model->assignable->aptitudes->pluck('id'))
+                    ->get()
+                    ->each
+                    ->delete();
             }
         });
     }
@@ -127,7 +127,7 @@ class Assignment extends Model
     public function scopeAssignableIs($query, $type, $id)
     {
         return $query->assignableType($type)
-                ->where('assignable_id', $id);
+            ->where('assignable_id', $id);
     }
 
     public function newCollection(array $models = [])

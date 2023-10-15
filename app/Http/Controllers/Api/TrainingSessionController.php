@@ -21,8 +21,8 @@ class TrainingSessionController extends Controller
     public function index(Request $request)
     {
         $query = TrainingSession::query()
-                    ->with('topic')
-                    ->orderBy('starts_at');
+            ->with('topic')
+            ->orderBy('starts_at');
 
         if ($request->scopes) {
             foreach ($request->scopes as $scope) {
@@ -108,6 +108,6 @@ class TrainingSessionController extends Controller
         }
 
         return (new TrainingSessionInviteEmail($trainingSession))
-                    ->toMail(Auth::user());
+            ->toMail(Auth::user());
     }
 }

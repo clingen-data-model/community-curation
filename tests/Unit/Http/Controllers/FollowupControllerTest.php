@@ -45,7 +45,7 @@ class FollowupControllerTest extends TestCase
     public function volunteer_can_see_their_own_response()
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
-                ->getNewResponse($this->volunteer);
+            ->getNewResponse($this->volunteer);
 
         $this->actingAs($this->volunteer)
             ->call('GET', $this->getUrl($rsp->id))
@@ -58,7 +58,7 @@ class FollowupControllerTest extends TestCase
     public function volunteer_redirected_to_response_if_exists_and_id_not_given()
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
-                ->getNewResponse($this->volunteer);
+            ->getNewResponse($this->volunteer);
 
         $this->actingAs($this->volunteer)
             ->call('GET', $this->getUrl())
@@ -71,7 +71,7 @@ class FollowupControllerTest extends TestCase
     public function volunteer_cannot_view_another_volunteers_resonse()
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
-                ->getNewResponse($this->volunteer);
+            ->getNewResponse($this->volunteer);
         $rsp->save();
 
         $vol2 = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
@@ -87,7 +87,7 @@ class FollowupControllerTest extends TestCase
     public function volunteer_cannot_update_a_finalized_response()
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
-                ->getNewResponse($this->volunteer);
+            ->getNewResponse($this->volunteer);
         $rsp->finalize();
 
         $url = $this->getUrl($rsp->id);
@@ -109,7 +109,7 @@ class FollowupControllerTest extends TestCase
     public function volunteer_cannot_update_another_volunteers_response()
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
-                ->getNewResponse($this->volunteer);
+            ->getNewResponse($this->volunteer);
         $rsp->save();
 
         $vol2 = factory(User::class)->states(['volunteer', 'comprehensive'])->create([]);

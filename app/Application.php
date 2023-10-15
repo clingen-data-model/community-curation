@@ -51,18 +51,18 @@ class Application extends Model
     public function scopeNoUserData($query)
     {
         return $query->whereNull('respondent_id')
-                ->whereNull('first_name')
-                ->whereNull('last_name')
-                ->whereNull('institution')
-                ->whereNull('orcid_id')
-                ->whereNull('street1')
-                ->whereNull('street2')
-                ->whereNull('city')
-                ->whereNull('state')
-                ->whereNull('zip')
-                ->whereNull('country_id')
-                ->whereNull('email')
-                ->whereNull('hypothesis_id');
+            ->whereNull('first_name')
+            ->whereNull('last_name')
+            ->whereNull('institution')
+            ->whereNull('orcid_id')
+            ->whereNull('street1')
+            ->whereNull('street2')
+            ->whereNull('city')
+            ->whereNull('state')
+            ->whereNull('zip')
+            ->whereNull('country_id')
+            ->whereNull('email')
+            ->whereNull('hypothesis_id');
     }
 
     public function scopeHasRespondent($query)
@@ -70,7 +70,7 @@ class Application extends Model
         return $query->whereHasMorph('respondent', [User::class], function ($query) {
             $query->whereNull('deleted_at');
         })
-        ->whereNotNull('respondent_type')
-        ->whereNotNull('respondent_id');
+            ->whereNotNull('respondent_type')
+            ->whereNotNull('respondent_id');
     }
 }

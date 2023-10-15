@@ -23,7 +23,7 @@ class CurationGroupSearchService extends AbstractModelSearchService
     public function buildQuery($params): Builder
     {
         $query = CurationGroup::query()
-                    ->select(['curation_groups.*']);
+            ->select(['curation_groups.*']);
         // $query = CurationGroup::query()
         //             ->select(['curation_groups.*']);
         foreach ($params as $key => $value) {

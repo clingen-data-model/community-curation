@@ -111,8 +111,8 @@ class TrainingSession extends Model
             $this->starts_at->toDateTime(),
             $this->ends_at->toDateTime()
         )
-        ->description($this->description)
-        ->address($this->url);
+            ->description($this->description)
+            ->address($this->url);
     }
 
     public function getIcsString()

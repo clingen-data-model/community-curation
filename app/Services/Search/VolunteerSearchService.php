@@ -101,10 +101,10 @@ class VolunteerSearchService extends UserSearchService
 
         $query->where(function ($q) use ($searchTerm) {
             $q->where('first_name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('last_name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('email', 'like', '%'.$searchTerm.'%')
-            ->orWhere('volunteer_statuses.name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('volunteer_types.name', 'like', '%'.$searchTerm.'%');
+                ->orWhere('last_name', 'like', '%'.$searchTerm.'%')
+                ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                ->orWhere('volunteer_statuses.name', 'like', '%'.$searchTerm.'%')
+                ->orWhere('volunteer_types.name', 'like', '%'.$searchTerm.'%');
         });
     }
 }

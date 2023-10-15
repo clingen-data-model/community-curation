@@ -217,17 +217,17 @@ class User extends Authenticatable implements IsNotable
     public function structuredAssignments()
     {
         return $this->assignments()
-                ->curationActivity()
-                ->with([
-                    'status',
-                    'assignable',
-                    'subAssignments',
-                    'subAssignments.assignable',
-                    // 'userAptitudes',             // moved to VolunteerController@show for more efficient index listing
-                    // 'userAptitudes.aptitude',    // moved to VolunteerController@show for more efficient index listing
-                    // 'userAptitudes.attestation', // moved to VolunteerController@show for more efficient index listing
-                    // 'assignable.aptitudes',      // moved to VolunteerController@show for more efficient index listing
-                ]);
+            ->curationActivity()
+            ->with([
+                'status',
+                'assignable',
+                'subAssignments',
+                'subAssignments.assignable',
+                // 'userAptitudes',             // moved to VolunteerController@show for more efficient index listing
+                // 'userAptitudes.aptitude',    // moved to VolunteerController@show for more efficient index listing
+                // 'userAptitudes.attestation', // moved to VolunteerController@show for more efficient index listing
+                // 'assignable.aptitudes',      // moved to VolunteerController@show for more efficient index listing
+            ]);
     }
 
     public function attestations()
@@ -353,12 +353,12 @@ class User extends Authenticatable implements IsNotable
     public function scopeIsLoggedIn($query)
     {
         return $query->where('last_logged_in_at', '<=', Carbon::now())
-                    ->where(function ($q) {
-                        $q->whereColumn('last_logged_out_at', '<=', 'last_logged_in_at')
-                            ->orWhere(function ($qu) {
-                                $qu->WhereNull('last_logged_out_at');
-                            });
+            ->where(function ($q) {
+                $q->whereColumn('last_logged_out_at', '<=', 'last_logged_in_at')
+                    ->orWhere(function ($qu) {
+                        $qu->WhereNull('last_logged_out_at');
                     });
+            });
     }
 
     public function hasPermissionTo($permString)

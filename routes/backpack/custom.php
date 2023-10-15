@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 // Routes you generate using Backpack\Generators will be placed here.
 
 Route::prefix(config('backpack.base.route_prefix', 'admin'))->middleware('web', config('backpack.base.middleware_key', 'admin'))->group(function () { // custom admin routes
-Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+    Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
     Route::get('/survey-definitions', [App\Http\Controllers\Admin\SurveyDefinitionController::class, 'index']);
     Route::get('/survey-definitions/{slug}', [App\Http\Controllers\Admin\SurveyDefinitionController::class, 'show']);
 

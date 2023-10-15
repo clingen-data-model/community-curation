@@ -88,18 +88,18 @@ class AssignmentReportGenerator implements ReportGenerator
                                                         ? $assignment->attestations->first()->signed_at
                                                         : null,
                         'assigned_curation_group' => $volunteer->assignments
-                                                        ->filter(function ($item) use ($assignment) {
-                                                            return $item->assignable_type == CurationGroup::class
-                                                                && $item->assignable->curation_activity_id == $assignment->assignable_id;
-                                                        })
-                                                        ->pluck('assignable.name')
-                                                        ->join(",\n"),
+                            ->filter(function ($item) use ($assignment) {
+                                return $item->assignable_type == CurationGroup::class
+                                    && $item->assignable->curation_activity_id == $assignment->assignable_id;
+                            })
+                            ->pluck('assignable.name')
+                            ->join(",\n"),
                         'assigned_gene' => $volunteer->assignments
-                                                        ->filter(function ($item) {
-                                                            return $item->assignable_type == Gene::class;
-                                                        })
-                                                        ->pluck('assignable.name')
-                                                        ->join(",\n"),
+                            ->filter(function ($item) {
+                                return $item->assignable_type == Gene::class;
+                            })
+                            ->pluck('assignable.name')
+                            ->join(",\n"),
                         'already_clingen_member' => $volunteer->already_clingen_member,
                         'already_member_cgs' => $volunteer->memberGroups->pluck('name')->join(', '),
                     ]

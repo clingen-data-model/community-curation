@@ -44,8 +44,8 @@ abstract class TestCase extends BaseTestCase
     protected function makeVolunteer($data = [], $number = 1)
     {
         $users = factory(User::class, $number)
-                ->states(['volunteer'])
-                ->make($data);
+            ->states(['volunteer'])
+            ->make($data);
 
         if ($users->count() == 1) {
             return $users->first();

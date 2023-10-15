@@ -22,18 +22,18 @@ class CurationGroupController extends Controller
     public function show($id)
     {
         $curationGroup = CurationGroup::findOrFail($id)
-                            ->load([
-                                'curationActivity',
-                                'workingGroup',
-                                'assignments',
-                                'assignments.parent',
-                                'assignments.status',
-                                'assignments.volunteer',
-                                'assignments.volunteer.volunteerStatus',
-                                'assignments.volunteer.country',
-                                'assignments.volunteer.userAptitudes',
-                                'assignments.volunteer.application.selfDescription',
-                            ]);
+            ->load([
+                'curationActivity',
+                'workingGroup',
+                'assignments',
+                'assignments.parent',
+                'assignments.status',
+                'assignments.volunteer',
+                'assignments.volunteer.volunteerStatus',
+                'assignments.volunteer.country',
+                'assignments.volunteer.userAptitudes',
+                'assignments.volunteer.application.selfDescription',
+            ]);
         $curationGroup->assignments = $curationGroup->assignments->map(function ($ass) use ($curationGroup) {
             $ass->user_aptitude = $ass->volunteer->userAptitudes->filter(function ($ua) use ($curationGroup) {
                 return $ua->aptitude->subject_type = \App\CurationActivity::class

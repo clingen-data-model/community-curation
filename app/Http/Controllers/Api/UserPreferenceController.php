@@ -70,7 +70,7 @@ class UserPreferenceController extends Controller
     public function update(Request $request, $userId, $preferenceName)
     {
         $user = User::findOrFail($userId)
-                    ->setPreference($preferenceName, $request->value);
+            ->setPreference($preferenceName, $request->value);
 
         $user->load('roles', 'permissions', 'preferences');
 

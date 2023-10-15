@@ -19,13 +19,13 @@ class NotesSearchService implements ModelSearchService
     public function search($params): Collection
     {
         return $this->buildQuery($params)
-                    ->get();
+            ->get();
     }
 
     public function buildQuery($params): Builder
     {
         $query = Note::query()
-                    ->select(['notes.*']);
+            ->select(['notes.*']);
 
         foreach ($params as $key => $value) {
             if ($key == 'select') {

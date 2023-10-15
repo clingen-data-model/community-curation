@@ -42,14 +42,14 @@ class AttestationCreatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                    ->subject('You have a new attestation')
-                    ->view(
-                        'email.new_attestation',
-                        [
-                            'attestation' => $this->attestation,
-                            'recipient' => $notifiable,
-                        ]
-                    );
+            ->subject('You have a new attestation')
+            ->view(
+                'email.new_attestation',
+                [
+                    'attestation' => $this->attestation,
+                    'recipient' => $notifiable,
+                ]
+            );
     }
 
     /**

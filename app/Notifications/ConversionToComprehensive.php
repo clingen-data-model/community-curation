@@ -43,8 +43,8 @@ class ConversionToComprehensive extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                ->subject('You are now a ClinGen Community Curation comprehensive volunteer')
-                ->view('email.conversion_to_comprehensive', ['volunteer' => $notifiable]);
+            ->subject('You are now a ClinGen Community Curation comprehensive volunteer')
+            ->view('email.conversion_to_comprehensive', ['volunteer' => $notifiable]);
     }
 
     /**

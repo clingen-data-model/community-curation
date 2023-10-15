@@ -20,24 +20,24 @@ class SurveyDefinitionController extends Controller
         $survey = class_survey()::findBySlug($slug);
 
         $questions = collect($survey->document->questions)
-                        ->map(function ($q) {
-                            $data = [
-                                'question' => trim(preg_replace('/\n                /', '', $q->questionText)),
-                                'name' => $q->variableName,
-                                'data-type' => $q->dataFormat,
-                                'required' => $q->required,
-                                'validationRules' => $q->validationRules,
-                            ];
+            ->map(function ($q) {
+                $data = [
+                    'question' => trim(preg_replace('/\n                /', '', $q->questionText)),
+                    'name' => $q->variableName,
+                    'data-type' => $q->dataFormat,
+                    'required' => $q->required,
+                    'validationRules' => $q->validationRules,
+                ];
 
-                            if ($q->hasOptions()) {
-                                $data['options'] = $q->options->map(function ($opt) {
-                                    return $opt->label;
-                                });
-                                $data['single/multiple'] = $q->numSelectable > 1 ? 'multiple' : 'single';
-                            }
+                if ($q->hasOptions()) {
+                    $data['options'] = $q->options->map(function ($opt) {
+                        return $opt->label;
+                    });
+                    $data['single/multiple'] = $q->numSelectable > 1 ? 'multiple' : 'single';
+                }
 
-                            return $data;
-                        });
+                return $data;
+            });
 
         return $questions;
     }

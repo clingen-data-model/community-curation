@@ -23,8 +23,8 @@ class VolunteerEmailedOnTrainingAssignmentTest extends TestCase
         Notification::fake();
 
         $volunteer = factory(User::class)
-                        ->states('comprehensive', 'volunteer')
-                        ->create([]);
+            ->states('comprehensive', 'volunteer')
+            ->create([]);
 
         $volunteer->userAptitudes()
             ->create([

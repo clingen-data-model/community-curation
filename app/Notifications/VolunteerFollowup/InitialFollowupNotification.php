@@ -43,13 +43,13 @@ class InitialFollowupNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                    ->view(
-                        'email.volunteers.followups.initial_notification',
-                        [
-                            'volunteer' => $notifiable,
-                            'url' => $this->surveyUrl,
-                        ]
-                    );
+            ->view(
+                'email.volunteers.followups.initial_notification',
+                [
+                    'volunteer' => $notifiable,
+                    'url' => $this->surveyUrl,
+                ]
+            );
     }
 
     /**

@@ -195,16 +195,16 @@ class AssignmentTest extends TestCase
     {
         Carbon::setTestNow('2020-01-01 01:01:01');
         $ca = CurationActivity::query()
-                ->geneType()
-                ->get()->random();
+            ->geneType()
+            ->get()->random();
         $apt = $ca->getPrimaryAptitude();
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
 
         $aptitudes = $volunteer->fresh()
-                        ->userAptitudes()
-                        ->where('aptitude_id', $apt->id)
-                        ->get();
+            ->userAptitudes()
+            ->where('aptitude_id', $apt->id)
+            ->get();
 
         $this->assertEquals(1, $aptitudes->count());
 

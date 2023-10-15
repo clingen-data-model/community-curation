@@ -43,13 +43,13 @@ class FollowupReminder2 extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                    ->view(
-                        'email.volunteers.followups.reminder_2',
-                        [
-                            'volunteer' => $notifiable,
-                            'url' => $this->surveyUrl,
-                        ]
-                    );
+            ->view(
+                'email.volunteers.followups.reminder_2',
+                [
+                    'volunteer' => $notifiable,
+                    'url' => $this->surveyUrl,
+                ]
+            );
     }
 
     /**
