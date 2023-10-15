@@ -44,7 +44,7 @@ class TrainingCertificateGenerate
             'curationActivity' => $activitiesByName->get($type)->legacy_name,
             'date' => $date,
         ];
-        $view = View::make('certificate', $data);
+        $view = view('certificate', $data);
 
         $relativePath = 'training_certificates/'.Uuid::uuid4()->toString().'.pdf';
         $storagePath = storage_path('app/'.$relativePath);
