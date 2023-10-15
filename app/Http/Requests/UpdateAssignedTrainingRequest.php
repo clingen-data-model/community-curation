@@ -11,7 +11,7 @@ class UpdateAssignedTrainingRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,14 +21,14 @@ class UpdateAssignedTrainingRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'trained_at' => 'required|date',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'required' => 'A date completed is required.',

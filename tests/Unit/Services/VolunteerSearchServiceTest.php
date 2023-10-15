@@ -23,7 +23,7 @@ class VolunteerSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_is_instantiable()
+    public function it_is_instantiable(): void
     {
         $search = new VolunteerSearchService();
 
@@ -33,7 +33,7 @@ class VolunteerSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_can_filter_by_is_logged_in()
+    public function it_can_filter_by_is_logged_in(): void
     {
         $volunteers = $this->createVolunteer([], 10);
         $volunteers->first()->update(['last_logged_in_at' => Carbon::now()->addHours(-1), 'last_logged_out_at' => Carbon::now()->addHours(-2)]);

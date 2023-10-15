@@ -26,7 +26,7 @@ class BasicAptitudeEvaluatorTest extends TestCase
     /**
      * @test
      */
-    public function user_aptitude_not_granted_when_trained_at_is_null()
+    public function user_aptitude_not_granted_when_trained_at_is_null(): void
     {
         $this->assertFalse((new BasicAptitudeEvaluator($this->userApt))->meetsCriteria());
     }
@@ -34,7 +34,7 @@ class BasicAptitudeEvaluatorTest extends TestCase
     /**
      * @test
      */
-    public function user_aptitude_not_granted_if_attestation_id_is_null()
+    public function user_aptitude_not_granted_if_attestation_id_is_null(): void
     {
         $userApt = $this->volunteer->userAptitudes->first();
         $userApt->update([
@@ -47,7 +47,7 @@ class BasicAptitudeEvaluatorTest extends TestCase
     /**
      * @test
      */
-    public function user_aptitude_not_granted_if_attestation_exists_but_not_signed()
+    public function user_aptitude_not_granted_if_attestation_exists_but_not_signed(): void
     {
         $userApt = $this->volunteer->userAptitudes->first();
         $attestation = factory(Attestation::class)->create([
@@ -65,7 +65,7 @@ class BasicAptitudeEvaluatorTest extends TestCase
     /**
      * @test
      */
-    public function user_aptitude_granted_if_attestation_exists_and_signed()
+    public function user_aptitude_granted_if_attestation_exists_and_signed(): void
     {
         $userApt = $this->volunteer->userAptitudes->first();
         $attestation = factory(Attestation::class)->create([

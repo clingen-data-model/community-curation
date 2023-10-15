@@ -24,7 +24,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('list users');
     }
@@ -34,7 +34,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function view(User $user, User $model)
+    public function view(User $user, User $model): bool
     {
         return $user->hasPermissionTo('list users');
     }
@@ -44,7 +44,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasPermissionTo('create users');
     }
@@ -54,7 +54,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function update(User $user, User $model)
+    public function update(User $user, User $model): bool
     {
         return $user->hasPermissionTo('update users');
     }
@@ -64,7 +64,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user, User $model): bool
     {
         return $user->hasPermissionTo('delete users');
     }
@@ -74,7 +74,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function restore(User $user, User $model)
+    public function restore(User $user, User $model): bool
     {
         return $user->hasPermissionTo('delete users');
     }
@@ -84,7 +84,7 @@ class UserPolicy
      *
      * @return mixed
      */
-    public function forceDelete(User $user, User $model)
+    public function forceDelete(User $user, User $model): bool
     {
         return $user->hasPermissionTo('delete users');
     }

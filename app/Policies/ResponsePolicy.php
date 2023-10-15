@@ -19,7 +19,7 @@ class ResponsePolicy
     {
     }
 
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return true;
     }
@@ -34,7 +34,7 @@ class ResponsePolicy
         return true;
     }
 
-    public function view(User $user, Response $response)
+    public function view(User $user, Response $response): bool
     {
         return true;
     }

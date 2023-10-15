@@ -38,7 +38,7 @@ class CreateTestVolunteer extends Command
      *
      * @return mixed
      */
-    public function handle(\Faker\Generator $faker)
+    public function handle(\Faker\Generator $faker): void
     {
         $this->faker = $faker;
         $response = $this->makeResponse();

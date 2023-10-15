@@ -21,7 +21,7 @@ class CreateAptitudeForAssignment
      *
      * @return void
      */
-    public function handle(AssignmentCreated $event)
+    public function handle(AssignmentCreated $event): void
     {
         if (! is_subclass_of($event->assignment->assignable, AptitudeSubjectContract::class)) {
             return;

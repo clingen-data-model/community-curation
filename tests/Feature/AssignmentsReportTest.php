@@ -77,7 +77,7 @@ class AssignmentsReportTest extends TestCase
     /**
      * @test
      */
-    public function rows_have_all_relevant_data()
+    public function rows_have_all_relevant_data(): void
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
@@ -118,7 +118,7 @@ class AssignmentsReportTest extends TestCase
     /**
      * @test
      */
-    public function includes_gene_assignments()
+    public function includes_gene_assignments(): void
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
@@ -157,7 +157,7 @@ class AssignmentsReportTest extends TestCase
     /**
      * @test
      */
-    public function first_sheet_of_report_has_all_volunteers()
+    public function first_sheet_of_report_has_all_volunteers(): void
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
@@ -171,7 +171,7 @@ class AssignmentsReportTest extends TestCase
     /**
      * @test
      */
-    public function includes_a_sheet_for_each_curation_activity()
+    public function includes_a_sheet_for_each_curation_activity(): void
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
@@ -181,7 +181,7 @@ class AssignmentsReportTest extends TestCase
     /**
      * @test
      */
-    public function curation_activity_rows_only_include_rows_for_that_curation_activity()
+    public function curation_activity_rows_only_include_rows_for_that_curation_activity(): void
     {
         $report = app()->make(AssignmentReportGenerator::class)->generate([]);
 
@@ -197,7 +197,7 @@ class AssignmentsReportTest extends TestCase
     /**
      * @test
      */
-    public function assignments_report_endpoint_returns_an_xlsx_file()
+    public function assignments_report_endpoint_returns_an_xlsx_file(): void
     {
         $user = factory(User::class)->create([]);
         $user->assignRole('programmer');

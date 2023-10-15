@@ -24,7 +24,7 @@ class AssignmentControllerTest extends TestCase
     /**
      * @test
      */
-    public function store_validates_request()
+    public function store_validates_request(): void
     {
         $response = $this->actingAs($this->user, 'api')
             ->json('POST', '/api/assignments', []);
@@ -54,7 +54,7 @@ class AssignmentControllerTest extends TestCase
     /**
      * @test
      */
-    public function stores_new_assignment()
+    public function stores_new_assignment(): void
     {
         $response = $this->actingAs($this->user, 'api')
             ->withoutExceptionHandling()

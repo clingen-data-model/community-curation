@@ -30,7 +30,7 @@ class TrainingSessionInviteEmailTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_sent_notification_when_invited_to_future_training_session()
+    public function volunteer_sent_notification_when_invited_to_future_training_session(): void
     {
         Notification::fake();
         // $this->trainingSession->attendees()->syncWithoutDetaching([$this->vol1->id, $this->vol2->id]);
@@ -42,7 +42,7 @@ class TrainingSessionInviteEmailTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_not_sent_notification_when_invited_to_past_training_session()
+    public function volunteer_not_sent_notification_when_invited_to_past_training_session(): void
     {
         Notification::fake();
         $this->trainingSession->update(['starts_at' => Carbon::now()->subMinute(1)]);

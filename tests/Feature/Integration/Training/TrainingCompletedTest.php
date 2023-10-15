@@ -26,7 +26,7 @@ class TrainingCompletedTest extends TestCase
     /**
      * @test
      */
-    public function attestation_created_for_training_when_completed_and_related_to_user_aptitude()
+    public function attestation_created_for_training_when_completed_and_related_to_user_aptitude(): void
     {
         $userAptitude = $this->volunteer->userAptitudes()->first();
 
@@ -53,7 +53,7 @@ class TrainingCompletedTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_updated_to_trained_when_first_training_complete()
+    public function volunteer_updated_to_trained_when_first_training_complete(): void
     {
         $userAptitude = $this->volunteer->userAptitudes()->first();
         $userAptitude->update(['trained_at' => '2019-11-01']);
@@ -67,7 +67,7 @@ class TrainingCompletedTest extends TestCase
     /**
      * @test
      */
-    public function certificate_created_when_volunteer_marked_trained()
+    public function certificate_created_when_volunteer_marked_trained(): void
     {
         $this->actingAs($this->volunteer);
         $userAptitude = $this->volunteer->userAptitudes()->first();

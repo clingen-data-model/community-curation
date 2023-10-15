@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('curation_groups', function (Blueprint $table) {
             $table->bigInteger('working_group_id')->unsigned()->nullable()->after('curation_activity_id');
@@ -24,7 +24,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('curation_groups', function (Blueprint $table) {
             $table->dropForeign(['working_group_id']);

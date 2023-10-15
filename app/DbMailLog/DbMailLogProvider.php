@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 
 class DbMailLogProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if (! class_exists('CreateEmailLogTable')) {
             $timestamp = date('Y_m_d_His', time());
@@ -28,7 +28,7 @@ class DbMailLogProvider extends ServiceProvider
         $this->registerMailLogging();
     }
 
-    public function register()
+    public function register(): void
     {
     }
 

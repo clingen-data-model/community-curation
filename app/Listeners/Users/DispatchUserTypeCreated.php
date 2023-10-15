@@ -22,7 +22,7 @@ class DispatchUserTypeCreated
      *
      * @return void
      */
-    public function handle(UserCreated $event)
+    public function handle(UserCreated $event): void
     {
         if (is_null($event->user->volunteer_type_id)) {
             return;

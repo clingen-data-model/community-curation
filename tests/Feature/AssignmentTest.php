@@ -25,7 +25,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function baseline_volunteers_cannot_be_assigned_to_a_CurationActivity()
+    public function baseline_volunteers_cannot_be_assigned_to_a_CurationActivity(): void
     {
         $baselineVolunteer = factory(User::class)->states(['volunteer', 'baseline'])->create(['volunteer_type_id' => 1]);
         $this->curationActivity = CurationActivity::query()->first();
@@ -38,7 +38,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function comprehensive_volunteers_can_be_assigned_to_a_CurationActivity()
+    public function comprehensive_volunteers_can_be_assigned_to_a_CurationActivity(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->random();
@@ -52,7 +52,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function comprehensive_volunteers_can_only_be_assigned_to_a_CurationActivity_once()
+    public function comprehensive_volunteers_can_only_be_assigned_to_a_CurationActivity_once(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
@@ -66,7 +66,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function curation_groups_can_be_assigned_without_a_parent_assignment()
+    public function curation_groups_can_be_assigned_without_a_parent_assignment(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationGroup = CurationGroup::all()->first();
@@ -79,7 +79,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function curation_group_assignment_has_ca_assignment_as_parent_if_exists()
+    public function curation_group_assignment_has_ca_assignment_as_parent_if_exists(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
@@ -101,7 +101,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function gene_assignment_has_a_baseline_assignment_parent_if_exists()
+    public function gene_assignment_has_a_baseline_assignment_parent_if_exists(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::where('name', 'Baseline')->first();
@@ -123,7 +123,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function assignmentCreated_event_dispatched_when_assignment_created()
+    public function assignmentCreated_event_dispatched_when_assignment_created(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
@@ -138,7 +138,7 @@ class AssignmentTest extends TestCase
      *
      * @group userAptitudes
      */
-    public function can_get_related_userAptitudes()
+    public function can_get_related_userAptitudes(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         $curationActivity = CurationActivity::all()->first();
@@ -150,7 +150,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function can_scope_model_query_to_only_genes()
+    public function can_scope_model_query_to_only_genes(): void
     {
         $curationActivity = factory(CurationActivity::class)->create([]);
         $gene = factory(Gene::class)->create([]);
@@ -168,7 +168,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_status_set_to_active_on_first_group_assignment()
+    public function volunteer_status_set_to_active_on_first_group_assignment(): void
     {
         $curationActivity = factory(CurationActivity::class)->create([]);
         $gene = factory(Gene::class)->create([]);
@@ -191,7 +191,7 @@ class AssignmentTest extends TestCase
     /**
      * @test
      */
-    public function deletes_user_aptitudes_related_to_assignment_when_deleting()
+    public function deletes_user_aptitudes_related_to_assignment_when_deleting(): void
     {
         Carbon::setTestNow('2020-01-01 01:01:01');
         $ca = CurationActivity::query()

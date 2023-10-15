@@ -11,7 +11,7 @@ class AssignmentUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // if (\Auth::guest()) {
         //     return false;
@@ -27,7 +27,7 @@ class AssignmentUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'assignment_status_id' => [

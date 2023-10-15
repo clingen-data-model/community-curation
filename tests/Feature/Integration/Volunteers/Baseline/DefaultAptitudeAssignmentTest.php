@@ -17,7 +17,7 @@ class DefaultAptitudeAssignmentTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_assigned_genetic_evidence_aptitude_when_assigned_to_baseline_ca()
+    public function volunteer_assigned_genetic_evidence_aptitude_when_assigned_to_baseline_ca(): void
     {
         $geneticEvidenceAptitude = Aptitude::find(config('aptitudes.baseline-genetic-evidence'));
         $this->assertUserAssignedTo($this->user, $geneticEvidenceAptitude);

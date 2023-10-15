@@ -19,7 +19,7 @@ class VolunteerAdminTest extends TestCase
     /**
      * @test
      */
-    public function can_create_new_volunteer()
+    public function can_create_new_volunteer(): void
     {
         $data = [
             'first_name' => 'Test',
@@ -39,7 +39,7 @@ class VolunteerAdminTest extends TestCase
     /**
      * @test
      */
-    public function can_update_volunteer()
+    public function can_update_volunteer(): void
     {
         $this->markTestSkipped('Works in browser but can not figure out why dummy volunteer not found.');
         $volunteer = $this->createVolunteer();
@@ -59,7 +59,7 @@ class VolunteerAdminTest extends TestCase
     /**
      * @test
      */
-    public function validates_presence_of_volunteer_type_and_status()
+    public function validates_presence_of_volunteer_type_and_status(): void
     {
         $data = [
             'first_name' => 'Hubert',

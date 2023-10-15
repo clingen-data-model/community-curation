@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('genes', function (Blueprint $table) {
             $table->string('hypothesis_group_url')->nullable()->after('hypothesis_group');
@@ -23,7 +23,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('genes', function (Blueprint $table) {
             $table->dropColumn('hypothesis_group_url');

@@ -24,7 +24,7 @@ class TrainingAssignedOnCurationAssignmentTest extends TestCase
     /**
      * @test
      */
-    public function training_assigned_for_curationActivity_when_volunteer_assigned_to_curationActivity()
+    public function training_assigned_for_curationActivity_when_volunteer_assigned_to_curationActivity(): void
     {
         $curationActivity = CurationActivity::find(1);
         AssignVolunteerToAssignable::dispatch($this->volunteer, $curationActivity);

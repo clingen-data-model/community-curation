@@ -20,7 +20,7 @@ class setHypothesisIdFromBaselineAttestation
      *
      * @return void
      */
-    public function handle(AttestationSigned $event)
+    public function handle(AttestationSigned $event): void
     {
         if (! in_array($event->attestation->aptitude_id, config('aptitudes.baseline'))) {
             return;

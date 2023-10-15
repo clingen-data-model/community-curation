@@ -16,7 +16,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // only allow updates if the user is logged in
         // return Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin']);
@@ -28,7 +28,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $volunteer = null;
         if (request()->has('id')) {
@@ -67,7 +67,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
      *
      * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'first_name' => 'first and last name',
@@ -82,7 +82,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'required' => 'A :attribute is required',

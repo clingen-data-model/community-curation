@@ -28,7 +28,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_returns_all_notes_if_no_params()
+    public function index_returns_all_notes_if_no_params(): void
     {
         $response = $this->actingAs($this->user, 'api')
             ->json('GET', '/api/notes')
@@ -40,7 +40,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_returns_filtered_notes_if_params_given()
+    public function index_returns_filtered_notes_if_params_given(): void
     {
         $response = $this->actingAs($this->user, 'api')
             ->json('GET', '/api/notes?notable_type=App\\User&notable_id='.$this->user->id);
@@ -52,7 +52,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_store_a_new_note()
+    public function admin_can_store_a_new_note(): void
     {
         $this->withoutExceptionHandling();
         $user = $this->createAdmin();
@@ -81,7 +81,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function validates_for_required_notable_content_before_store()
+    public function validates_for_required_notable_content_before_store(): void
     {
         $user = $this->createAdmin();
         $curationGroup = CurationGroup::factory()->create([]);
@@ -100,7 +100,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function gets_an_existing_note()
+    public function gets_an_existing_note(): void
     {
         $this->withoutExceptionHandling();
         $use = $this->createAdmin();
@@ -117,7 +117,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_update_an_existing_note()
+    public function it_can_update_an_existing_note(): void
     {
         $use = $this->createAdmin();
         $curationGroup = CurationGroup::factory()->create([]);
@@ -140,7 +140,7 @@ class NotesControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_delete_a_note()
+    public function it_can_delete_a_note(): void
     {
         $use = $this->createAdmin();
         $curationGroup = CurationGroup::factory()->create([]);

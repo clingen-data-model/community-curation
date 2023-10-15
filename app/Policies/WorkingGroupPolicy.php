@@ -15,7 +15,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('list working-groups');
     }
@@ -25,7 +25,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function view(User $user, WorkingGroup $workingGroup)
+    public function view(User $user, WorkingGroup $workingGroup): bool
     {
         return $user->hasPermissionTo('list working-groups');
     }
@@ -35,7 +35,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasPermissionTo('create working-groups');
     }
@@ -45,7 +45,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function update(User $user, WorkingGroup $workingGroup)
+    public function update(User $user, WorkingGroup $workingGroup): bool
     {
         return $user->hasPermissionTo('update working-groups');
     }
@@ -55,7 +55,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, WorkingGroup $workingGroup)
+    public function delete(User $user, WorkingGroup $workingGroup): bool
     {
         return $user->hasPermissionTo('delete working-groups');
     }
@@ -65,7 +65,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function restore(User $user, WorkingGroup $workingGroup)
+    public function restore(User $user, WorkingGroup $workingGroup): bool
     {
         return $user->hasPermissionTo('delete working-groups');
     }
@@ -75,7 +75,7 @@ class WorkingGroupPolicy
      *
      * @return mixed
      */
-    public function forceDelete(User $user, WorkingGroup $workingGroup)
+    public function forceDelete(User $user, WorkingGroup $workingGroup): bool
     {
         return $user->hasPermissionTo('delete working-groups');
     }

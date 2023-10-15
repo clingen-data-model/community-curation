@@ -23,7 +23,7 @@ class BaselineVolunteerAssignedToBaselineTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_assigned_baseline_ca_when_given_type_baseline()
+    public function volunteer_assigned_baseline_ca_when_given_type_baseline(): void
     {
         $this->assertNotNull($this->volunteer->assignments()->first());
         $this->assertEquals(CurationActivity::findByName('baseline'), $this->volunteer->assignments()->first()->assignable);

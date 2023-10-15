@@ -10,7 +10,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('rsp_application_1', function ($table) {
             $table->integer('already_clingen_member')->nullable()->after('volunteer_type');
@@ -23,7 +23,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('rsp_application_1', function ($table) {
             $table->$table->dropColumn('already_clingen_member');

@@ -27,7 +27,7 @@ class UserPreferenceControllerTest extends TestCase
     /**
      * @test
      */
-    public function stores_and_returns_new_user_preference_entry()
+    public function stores_and_returns_new_user_preference_entry(): void
     {
         $this->actingAs($this->volunteer, 'api')
             ->call('PUT', '/api/users/'.$this->volunteer->id.'/preferences/'.$this->preference->name, ['value' => true])
@@ -50,7 +50,7 @@ class UserPreferenceControllerTest extends TestCase
     /**
      * @test
      */
-    public function updates_and_returns_new_preference_entry()
+    public function updates_and_returns_new_preference_entry(): void
     {
         $this->volunteer->setPreference($this->preference->name, 1);
 

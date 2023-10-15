@@ -31,7 +31,7 @@ class AttestationControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_on_attestation_can_view_attestation()
+    public function volunteer_on_attestation_can_view_attestation(): void
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->volunteer)
@@ -42,7 +42,7 @@ class AttestationControllerTest extends TestCase
     /**
      * @test
      */
-    public function other_volunteer_cannot_view_attestation()
+    public function other_volunteer_cannot_view_attestation(): void
     {
         $this->actingAs($this->otherOtherVolunteer)
             ->call('GET', '/attestations/'.$this->attestation->id)
@@ -52,7 +52,7 @@ class AttestationControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_on_attestation_can_edit_attestation()
+    public function volunteer_on_attestation_can_edit_attestation(): void
     {
         $this->actingAs($this->volunteer)
             ->call('GET', '/attestations/'.$this->attestation->id.'/edit')
@@ -62,7 +62,7 @@ class AttestationControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_update_attesation_for_volunteer()
+    public function admin_can_update_attesation_for_volunteer(): void
     {
         $this->actingAs($this->admin)
             ->call('PUT', '/attestations/'.$this->attestation->id, ['signed_at' => Carbon::now(), 'signature' => 1])
@@ -72,7 +72,7 @@ class AttestationControllerTest extends TestCase
     /**
      * @test
      */
-    public function other_volunteer_cannot_update_attestation()
+    public function other_volunteer_cannot_update_attestation(): void
     {
         $this->actingAs($this->otherVolunteer)
             ->call('PUT', '/attestations/'.$this->attestation->id, ['signed_at' => Carbon::now(), 'signature' => 1])
@@ -82,7 +82,7 @@ class AttestationControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_on_attestation_can_update_attestation()
+    public function volunteer_on_attestation_can_update_attestation(): void
     {
         $data = ['signed_at' => Carbon::today()->format('Y-m-d H:i:s'), 'signature' => 1];
         $this->actingAs($this->volunteer)

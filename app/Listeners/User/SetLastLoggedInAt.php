@@ -22,7 +22,7 @@ class SetLastLoggedInAt
      *
      * @return void
      */
-    public function handle(Login $event)
+    public function handle(Login $event): void
     {
         $user = Auth::user();
         $user->update(['last_logged_in_at' => Carbon::now()]);

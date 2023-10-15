@@ -20,7 +20,7 @@ class CertificateGeneratonTest extends TestCase
     /**
      * @test
      */
-    public function action_generates_a_certificate_and_stores_as_upload()
+    public function action_generates_a_certificate_and_stores_as_upload(): void
     {
         $action = app()->make(TrainingCertificateGenerate::class);
         $upload = $action->handle(

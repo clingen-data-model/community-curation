@@ -20,7 +20,7 @@ class ClearImpersonateSessionData
      *
      * @return void
      */
-    public function handle(LeaveImpersonation $event)
+    public function handle(LeaveImpersonation $event): void
     {
         session()->forget('app_impersonate_required_info_bypass');
     }

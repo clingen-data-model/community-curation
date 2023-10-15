@@ -14,7 +14,7 @@ class VolunteerPolicy extends UserPolicy
      *
      * @return mixed
      */
-    public function view(User $user, User $volunteer)
+    public function view(User $user, User $volunteer): bool
     {
         if (parent::view($user, $volunteer)) {
             return true;
@@ -28,7 +28,7 @@ class VolunteerPolicy extends UserPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return true;
     }
@@ -38,7 +38,7 @@ class VolunteerPolicy extends UserPolicy
      *
      * @return mixed
      */
-    public function update(User $user, User $volunteer)
+    public function update(User $user, User $volunteer): bool
     {
         if (parent::update($user, $volunteer)) {
             return true;

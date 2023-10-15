@@ -29,7 +29,7 @@ class VolunteerControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_returns_list_of_all_volunteers()
+    public function index_returns_list_of_all_volunteers(): void
     {
         $this->withoutExceptionHandling();
         $this->volunteers->map(function ($v) {
@@ -48,7 +48,7 @@ class VolunteerControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_lists_only_volunteers()
+    public function index_lists_only_volunteers(): void
     {
         $coordinator = factory(User::class)->states('coordinator')->create();
 
@@ -61,7 +61,7 @@ class VolunteerControllerTest extends TestCase
     /**
      * @test
      */
-    public function show_returns_single_volunteer()
+    public function show_returns_single_volunteer(): void
     {
         $response = $this->actingAs(factory(User::class)->state('admin')->create(), 'api')
             ->call('GET', '/api/volunteers/'.$this->volunteers->first()->id);

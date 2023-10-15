@@ -24,7 +24,7 @@ class CurationGroupSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function instantiates_a_search_service()
+    public function instantiates_a_search_service(): void
     {
         $this->assertInstanceOf(ModelSearchService::class, $this->service);
     }
@@ -32,7 +32,7 @@ class CurationGroupSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function returns_all_groups_if_no_filters_given()
+    public function returns_all_groups_if_no_filters_given(): void
     {
         // Assumption: we have curation groups b/c of seeding
         $all = $this->service->search([]);
@@ -43,7 +43,7 @@ class CurationGroupSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function filters_group_by_curation_activity_id()
+    public function filters_group_by_curation_activity_id(): void
     {
         $searchGroups = $this->service->search(['curation_activity_id' => config('project.curation-activities.gene')]);
         $testGroups = CurationGroup::where('curation_activity_id', config('project.curation-activities.gene'))->get();
@@ -55,7 +55,7 @@ class CurationGroupSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function filters_group_by_working_group_id()
+    public function filters_group_by_working_group_id(): void
     {
         $searchGroups = $this->service->search(['working_group_id' => 1]);
         $testGroups = CurationGroup::where('working_group_id', 1)->get();
@@ -67,7 +67,7 @@ class CurationGroupSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function filters_group_by_accepting_volunteers()
+    public function filters_group_by_accepting_volunteers(): void
     {
         $searchGroups = $this->service->search(['accepting_volunteers' => 1]);
         $testGroups = CurationGroup::where('accepting_volunteers', 1)->get();
@@ -79,7 +79,7 @@ class CurationGroupSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function filters_based_on_search_term()
+    public function filters_based_on_search_term(): void
     {
         $wg = factory(WorkingGroup::class)->create(['name' => 'monkeys']);
         $ca = factory(CurationActivity::class)->create(['name' => 'Monkey']);

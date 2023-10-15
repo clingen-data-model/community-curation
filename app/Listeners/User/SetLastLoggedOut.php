@@ -21,7 +21,7 @@ class SetLastLoggedOut
      *
      * @return void
      */
-    public function handle(Logout $event)
+    public function handle(Logout $event): void
     {
         $event->user->update(['last_logged_out_at' => Carbon::now()]);
     }

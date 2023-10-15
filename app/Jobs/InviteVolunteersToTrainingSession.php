@@ -34,7 +34,7 @@ class InviteVolunteersToTrainingSession
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->trainingSession->attendees()->syncWithoutDetaching($this->volunteers->pluck('id'));
         if ($this->trainingSession->isUpcoming()) {

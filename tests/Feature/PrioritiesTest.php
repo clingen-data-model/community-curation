@@ -23,7 +23,7 @@ class PrioritiesTest extends TestCase
     /**
      * @test
      */
-    public function can_reach_priorities_survey_with_a_respondent()
+    public function can_reach_priorities_survey_with_a_respondent(): void
     {
         $this->call('GET', '/app-user/'.$this->user->id.'/survey/priorities1/new')
             ->assertStatus(302);
@@ -38,7 +38,7 @@ class PrioritiesTest extends TestCase
     /**
      * @test
      */
-    public function redirects_to_thank_you_on_finalized()
+    public function redirects_to_thank_you_on_finalized(): void
     {
         $cA = CurationActivity::select('id')->get()->random();
         $ep = CurationGroup::factory()->create(['curation_activity_id' => $cA->id]);
@@ -55,7 +55,7 @@ class PrioritiesTest extends TestCase
     /**
      * @test
      **/
-    public function stores_priorities_with_new_priority_round()
+    public function stores_priorities_with_new_priority_round(): void
     {
         Priority::factory(1)->create(['prioritization_round' => 1, 'user_id' => $this->user->id, 'curation_activity_id' => 5]);
 

@@ -46,7 +46,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function other_volunteer_cannot_upload_file_for_volunteer()
+    public function other_volunteer_cannot_upload_file_for_volunteer(): void
     {
         // $this->withoutExceptionHandling();
 
@@ -61,7 +61,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_upload_file_for_volunteer()
+    public function admin_can_upload_file_for_volunteer(): void
     {
         $this->actingAs($this->admin, 'api')
             ->call('POST', static::URL, [
@@ -76,7 +76,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_uploaded_file_stored_in_curator_uploads()
+    public function volunteer_uploaded_file_stored_in_curator_uploads(): void
     {
         $this->withoutExceptionHandling();
 
@@ -95,7 +95,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function upload_model_created_with_path_to_file()
+    public function upload_model_created_with_path_to_file(): void
     {
         $this->withoutExceptionHandling();
         $this->dummyFile = UploadedFile::fake()->create('document.pdf', 400);
@@ -119,7 +119,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function upload_can_be_associated_with_category()
+    public function upload_can_be_associated_with_category(): void
     {
         $this->withoutExceptionHandling();
 
@@ -147,7 +147,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function other_volunteer_cant_see_volunteers_upload()
+    public function other_volunteer_cant_see_volunteers_upload(): void
     {
         // $this->withoutExceptionHandling();
         $category = factory(UploadCategory::class)->create();
@@ -164,7 +164,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_can_see_their_own_uploads_with_file_url_and_category()
+    public function volunteer_can_see_their_own_uploads_with_file_url_and_category(): void
     {
         $category = factory(UploadCategory::class)->create();
         $upload = factory(Upload::class)->create([
@@ -188,7 +188,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function other_volunteer_cannot_download_files_for_volunteer()
+    public function other_volunteer_cannot_download_files_for_volunteer(): void
     {
         $category = factory(UploadCategory::class)->create();
         $upload = factory(Upload::class)->create([
@@ -204,7 +204,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_can_download_their_own_file()
+    public function volunteer_can_download_their_own_file(): void
     {
         $this->withoutExceptionHandling();
         $category = factory(UploadCategory::class)->create();
@@ -229,7 +229,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_download_volunteer_file()
+    public function admin_can_download_volunteer_file(): void
     {
         $category = factory(UploadCategory::class)->create();
 
@@ -253,7 +253,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function other_volunteer_cannot_update_volunteers_upload()
+    public function other_volunteer_cannot_update_volunteers_upload(): void
     {
         $upload = $this->makeUpload();
 
@@ -267,7 +267,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_can_update_own_upload()
+    public function volunteer_can_update_own_upload(): void
     {
         $upload = $this->makeUpload();
 
@@ -286,7 +286,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function user_id_cannot_be_updated()
+    public function user_id_cannot_be_updated(): void
     {
         $upload = $this->makeUpload();
 
@@ -306,7 +306,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_update_volunteer_upload()
+    public function admin_can_update_volunteer_upload(): void
     {
         $upload = $this->makeUpload();
 
@@ -325,7 +325,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function only_admin_can_delete_uploads()
+    public function only_admin_can_delete_uploads(): void
     {
         $filepath = Storage::put('public/curator_uploads', $this->dummyFile);
         $upload = factory(Upload::class)->create([
@@ -352,7 +352,7 @@ class CuratorUploadControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_can_be_filtered_and_withed()
+    public function index_can_be_filtered_and_withed(): void
     {
         $category = factory(UploadCategory::class)->create([]);
         $this->withoutExceptionHandling();

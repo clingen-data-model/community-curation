@@ -15,7 +15,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         $user->hasPermissionTo('list volunteer-types');
     }
@@ -25,7 +25,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function view(User $user, VolunteerType $volunteerType)
+    public function view(User $user, VolunteerType $volunteerType): bool
     {
         $user->hasPermissionTo('list volunteer-types');
     }
@@ -35,7 +35,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         $user->hasPermissionTo('create volunteer-types');
     }
@@ -45,7 +45,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function update(User $user, VolunteerType $volunteerType)
+    public function update(User $user, VolunteerType $volunteerType): bool
     {
         $user->hasPermissionTo('update volunteer-types');
     }
@@ -55,7 +55,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function delete(User $user, VolunteerType $volunteerType)
+    public function delete(User $user, VolunteerType $volunteerType): bool
     {
         $user->hasPermissionTo('delete volunteer-types');
     }
@@ -65,7 +65,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function restore(User $user, VolunteerType $volunteerType)
+    public function restore(User $user, VolunteerType $volunteerType): bool
     {
         $user->hasPermissionTo('delete volunteer-types');
     }
@@ -75,7 +75,7 @@ class VolunteerStatusType
      *
      * @return mixed
      */
-    public function forceDelete(User $user, VolunteerType $volunteerType)
+    public function forceDelete(User $user, VolunteerType $volunteerType): bool
     {
         $user->hasPermissionTo('delete volunteer-types');
     }

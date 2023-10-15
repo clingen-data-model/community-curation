@@ -22,7 +22,7 @@ class GrantAptitudeForSignedAttestation
      * @param  AttestatioSigned  $event
      * @return void
      */
-    public function handle(AttestationSigned $event)
+    public function handle(AttestationSigned $event): void
     {
         $attestation = $event->attestation;
 

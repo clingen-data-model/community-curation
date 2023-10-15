@@ -13,7 +13,7 @@ class CustomSurveyFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'curation_group_id' => CurationGroup::factory()->create()->id,

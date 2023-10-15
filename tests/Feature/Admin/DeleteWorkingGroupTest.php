@@ -22,7 +22,7 @@ class DeleteWorkingGroupTest extends TestCase
     /**
      * @test
      */
-    public function checks_for_eps_before_deleting_working_group()
+    public function checks_for_eps_before_deleting_working_group(): void
     {
         $ep = CurationGroup::factory()->make();
         $this->wg->curationGroups()->save($ep);

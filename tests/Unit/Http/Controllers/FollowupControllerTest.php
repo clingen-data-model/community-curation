@@ -22,7 +22,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function unauthenticated_users_redirected_to_login()
+    public function unauthenticated_users_redirected_to_login(): void
     {
         $this->call('GET', $this->getUrl())
             ->assertRedirect();
@@ -31,7 +31,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function authenticated_users_can_start_a_response()
+    public function authenticated_users_can_start_a_response(): void
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->volunteer)
@@ -42,7 +42,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_can_see_their_own_response()
+    public function volunteer_can_see_their_own_response(): void
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
             ->getNewResponse($this->volunteer);
@@ -55,7 +55,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_redirected_to_response_if_exists_and_id_not_given()
+    public function volunteer_redirected_to_response_if_exists_and_id_not_given(): void
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
             ->getNewResponse($this->volunteer);
@@ -68,7 +68,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_cannot_view_another_volunteers_resonse()
+    public function volunteer_cannot_view_another_volunteers_resonse(): void
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
             ->getNewResponse($this->volunteer);
@@ -84,7 +84,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_cannot_update_a_finalized_response()
+    public function volunteer_cannot_update_a_finalized_response(): void
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
             ->getNewResponse($this->volunteer);
@@ -106,7 +106,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function volunteer_cannot_update_another_volunteers_response()
+    public function volunteer_cannot_update_another_volunteers_response(): void
     {
         $rsp = class_survey()::findBySlug('volunteer-three-month1')
             ->getNewResponse($this->volunteer);
@@ -123,7 +123,7 @@ class FollowupControllerTest extends TestCase
     /**
      * @test
      */
-    public function loads_correct_survey()
+    public function loads_correct_survey(): void
     {
         $this->actingAs($this->volunteer)
             ->call('GET', $this->getUrl(null, 'volunteer-three-month1'))

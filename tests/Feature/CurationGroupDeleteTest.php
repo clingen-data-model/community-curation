@@ -22,7 +22,7 @@ class CurationGroupDeleteTest extends TestCase
     /**
      * @test
      */
-    public function deletes_all_priorities_for_curation_group()
+    public function deletes_all_priorities_for_curation_group(): void
     {
         $priority = Priority::factory()->create([
             'curation_group_id' => $this->curationGroup->id,
@@ -38,7 +38,7 @@ class CurationGroupDeleteTest extends TestCase
     /**
      * @test
      */
-    public function deletes_all_assignments_to_curation_group()
+    public function deletes_all_assignments_to_curation_group(): void
     {
         $assignment = Assignment::factory()->create([
             'assignable_type' => CurationGroup::class,
@@ -55,7 +55,7 @@ class CurationGroupDeleteTest extends TestCase
     /**
      * @test
      */
-    public function deletes_all_custom_survecys_for_curation_group()
+    public function deletes_all_custom_survecys_for_curation_group(): void
     {
         $customSurvey = CustomSurvey::factory()->create([
             'curation_group_id' => $this->curationGroup->id,

@@ -24,7 +24,7 @@ class NotesSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_can_be_instantiated()
+    public function it_can_be_instantiated(): void
     {
         $this->assertInstanceOf(NotesSearchService::class, $this->service);
     }
@@ -32,7 +32,7 @@ class NotesSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_all_notes_when_no_parameters_given()
+    public function it_returns_all_notes_when_no_parameters_given(): void
     {
         $notes = factory(Note::class, 3)->create([
             'notable_type' => CurationGroup::class,
@@ -44,7 +44,7 @@ class NotesSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_can_filter_results_by_notable_type()
+    public function it_can_filter_results_by_notable_type(): void
     {
         $note = factory(Note::class)->create([
             'notable_type' => CurationGroup::class,
@@ -60,7 +60,7 @@ class NotesSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_can_filter_by_notable_type_and_id()
+    public function it_can_filter_by_notable_type_and_id(): void
     {
         factory(Note::class)->create([
             'notable_type' => CurationGroup::class,
@@ -82,7 +82,7 @@ class NotesSearchServiceTest extends TestCase
     /**
      * @test
      */
-    public function filtering_by_content_does_like_search()
+    public function filtering_by_content_does_like_search(): void
     {
         $otherNotes = factory(Note::class, 3)->create([]);
         $note = factory(Note::class)->create(['content' => 'this is a test of cucumbers and cats']);

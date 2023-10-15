@@ -19,7 +19,7 @@ class ApiControllerTest extends TestCase
     /**
      * @test
      */
-    public function redirects_to_login_if_guest()
+    public function redirects_to_login_if_guest(): void
     {
         $this->call('GET', '/api/users')
             ->assertRedirect('/login');
@@ -28,7 +28,7 @@ class ApiControllerTest extends TestCase
     /**
      * @test
      */
-    public function returns_404_if_model_not_found()
+    public function returns_404_if_model_not_found(): void
     {
         $this->actingAs($this->user, 'api');
         $this->call('GET', '/api/non-existant-model-class')
@@ -38,7 +38,7 @@ class ApiControllerTest extends TestCase
     /**
      * @test
      */
-    public function returns_404_if_model_hidden_from_api()
+    public function returns_404_if_model_hidden_from_api(): void
     {
         config(['api.hidden-models' => [\App\User::class]]);
 
@@ -50,7 +50,7 @@ class ApiControllerTest extends TestCase
     /**
      * @test
      */
-    public function returns_list_if_available_model_provided_without_id()
+    public function returns_list_if_available_model_provided_without_id(): void
     {
         $this->actingAs($this->user, 'api');
         $this->call('GET', '/api/volunteer-types')
@@ -72,7 +72,7 @@ class ApiControllerTest extends TestCase
     /**
      * @test
      */
-    public function returns_item_if_model_and_id_given()
+    public function returns_item_if_model_and_id_given(): void
     {
         $this->actingAs($this->user, 'api');
         $this->call('GET', '/api/volunteer-types/1')

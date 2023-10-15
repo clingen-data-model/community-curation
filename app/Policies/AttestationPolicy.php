@@ -15,7 +15,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('list attestations');
     }
@@ -25,7 +25,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function view(User $user, Attestation $attestation)
+    public function view(User $user, Attestation $attestation): bool
     {
         if ($user->hasPermissionTo('list attestations')) {
             return true;
@@ -39,7 +39,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasPermissionTo('create attestations');
     }
@@ -49,7 +49,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function update(User $user, Attestation $attestation)
+    public function update(User $user, Attestation $attestation): bool
     {
         if ($user->hasPermissionTo('update attestations')) {
             return true;
@@ -63,7 +63,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, Attestation $attestation)
+    public function delete(User $user, Attestation $attestation): bool
     {
         return $user->hasPermissionTo('delete attestations');
     }
@@ -73,7 +73,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function restore(User $user, Attestation $attestation)
+    public function restore(User $user, Attestation $attestation): bool
     {
         return $user->hasPermissionTo('create attestations');
     }
@@ -83,7 +83,7 @@ class AttestationPolicy
      *
      * @return mixed
      */
-    public function forceDelete(User $user, Attestation $attestation)
+    public function forceDelete(User $user, Attestation $attestation): bool
     {
         return $user->hasPermissionTo('delete attestations');
     }

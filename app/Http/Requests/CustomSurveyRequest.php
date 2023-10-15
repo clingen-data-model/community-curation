@@ -13,7 +13,7 @@ class CustomSurveyRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +23,7 @@ class CustomSurveyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $customSurvey = new CustomSurvey();
         if ($this->route('id')) {
@@ -41,7 +41,7 @@ class CustomSurveyRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.not_regex' => 'The custom survey name may not include any of the following characters: [ ] { } | \ ” % ~ # < >',

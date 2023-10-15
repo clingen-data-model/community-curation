@@ -15,7 +15,7 @@ class ConversionToComprehensiveTest extends TestCase
     /**
      * @test
      */
-    public function does_not_send_notification_if_not_baseline()
+    public function does_not_send_notification_if_not_baseline(): void
     {
         Notification::fake();
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create([]);
@@ -28,7 +28,7 @@ class ConversionToComprehensiveTest extends TestCase
     /**
      * @test
      */
-    public function Volunteer_notified_of_conversion_via_email()
+    public function Volunteer_notified_of_conversion_via_email(): void
     {
         $volunteer = factory(User::class)->states(['volunteer', 'baseline'])->create([]);
         Notification::fake();

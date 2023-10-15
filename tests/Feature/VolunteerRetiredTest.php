@@ -29,7 +29,7 @@ class VolunteerRetiredTest extends TestCase
     /**
      * @test
      */
-    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_retired()
+    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_retired(): void
     {
         $this->volunteer->update(['volunteer_status_id' => config('volunteers.statuses.retired')]);
 
@@ -50,7 +50,7 @@ class VolunteerRetiredTest extends TestCase
     /**
      * @test
      */
-    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_declined()
+    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_declined(): void
     {
         $this->volunteer->update(['volunteer_status_id' => config('volunteers.statuses.declined')]);
 
@@ -71,7 +71,7 @@ class VolunteerRetiredTest extends TestCase
     /**
      * @test
      */
-    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_unresponsive()
+    public function assignment_statuses_set_to_retired_when_volunteer_status_set_to_unresponsive(): void
     {
         $this->volunteer->update(['volunteer_status_id' => config('volunteers.statuses.unresponsive')]);
 

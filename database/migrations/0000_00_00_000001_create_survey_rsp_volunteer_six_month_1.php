@@ -10,7 +10,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('rsp_volunteer_six_month_1', function (Blueprint $table) {
             $table->increments('id')->unsigned();
@@ -59,7 +59,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('rsp_volunteer_six_month_1');
         $s = \Sirs\Surveys\Models\Survey::where('name', 'volunteer_six_month1')->where('version', '1');

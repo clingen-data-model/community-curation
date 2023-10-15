@@ -15,7 +15,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('list curation-groups');
     }
@@ -25,7 +25,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function view(User $user, CurationGroup $curationGroup)
+    public function view(User $user, CurationGroup $curationGroup): bool
     {
         return $user->hasPermissionTo('list curation-groups');
     }
@@ -35,7 +35,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasPermissionTo('create curation-groups');
     }
@@ -45,7 +45,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function update(User $user, CurationGroup $curationGroup)
+    public function update(User $user, CurationGroup $curationGroup): bool
     {
         return $user->hasPermissionTo('update curation-groups');
     }
@@ -55,7 +55,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, CurationGroup $curationGroup)
+    public function delete(User $user, CurationGroup $curationGroup): bool
     {
         return $user->hasPermissionTo('delete curation-groups');
     }
@@ -65,7 +65,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function restore(User $user, CurationGroup $curationGroup)
+    public function restore(User $user, CurationGroup $curationGroup): bool
     {
         return $user->hasPermissionTo('delete curation-groups');
     }
@@ -75,7 +75,7 @@ class CurationGroupPolicy
      *
      * @return mixed
      */
-    public function forceDelete(User $user, CurationGroup $curationGroup)
+    public function forceDelete(User $user, CurationGroup $curationGroup): bool
     {
         return $user->hasPermissionTo('delete curation-groups');
     }

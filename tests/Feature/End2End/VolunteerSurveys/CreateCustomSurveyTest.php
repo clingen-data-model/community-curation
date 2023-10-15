@@ -26,7 +26,7 @@ class CreateCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function superadmin_can_create_custom_volunteer_survey()
+    public function superadmin_can_create_custom_volunteer_survey(): void
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->superAdmin, 'api')
@@ -46,7 +46,7 @@ class CreateCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function validates_required_attributes()
+    public function validates_required_attributes(): void
     {
         $response = $this->actingAs($this->superAdmin, 'api')
             ->json('POST', '/admin/custom-survey', [
@@ -64,7 +64,7 @@ class CreateCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function validates_present_data()
+    public function validates_present_data(): void
     {
         $cs = CustomSurvey::factory()->create();
 
@@ -84,7 +84,7 @@ class CreateCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function validates_name_does_not_contain_url_special_characters()
+    public function validates_name_does_not_contain_url_special_characters(): void
     {
         $cs = CustomSurvey::factory()->create();
 

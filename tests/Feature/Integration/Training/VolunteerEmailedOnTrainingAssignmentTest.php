@@ -18,7 +18,7 @@ class VolunteerEmailedOnTrainingAssignmentTest extends TestCase
     /**
      * @test
      */
-    public function notification_sent_to_volunteer_when_training_assigned()
+    public function notification_sent_to_volunteer_when_training_assigned(): void
     {
         Notification::fake();
 

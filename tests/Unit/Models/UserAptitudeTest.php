@@ -24,7 +24,7 @@ class UserAptitudeTest extends TestCase
     /**
      * @test
      */
-    public function userAptitude_can_get_its_related_assignment()
+    public function userAptitude_can_get_its_related_assignment(): void
     {
         $vol = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         AssignVolunteerToAssignable::dispatch($vol, CurationActivity::find(1));
@@ -38,7 +38,7 @@ class UserAptitudeTest extends TestCase
     /**
      * @test
      */
-    public function disptatches_TrainingCompletedEvent_when_trained_at_changed_from_null()
+    public function disptatches_TrainingCompletedEvent_when_trained_at_changed_from_null(): void
     {
         $vol = factory(User::class)->states(['volunteer', 'baseline'])->create();
         $userApt = $vol->userAptitudes()

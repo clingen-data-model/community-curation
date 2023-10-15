@@ -30,7 +30,7 @@ class AttestationSignedTest extends TestCase
     /**
      * @test
      */
-    public function assignment_status_set_to_trained_when_attestation_signed()
+    public function assignment_status_set_to_trained_when_attestation_signed(): void
     {
         $this->attestation->update(['signed_at' => Carbon::now()]);
 
@@ -45,7 +45,7 @@ class AttestationSignedTest extends TestCase
     /**
      * @test
      */
-    public function user_aptitude_marked_granted_when_attestation_signed()
+    public function user_aptitude_marked_granted_when_attestation_signed(): void
     {
         $this->attestation->update(['signed_at' => Carbon::now()]);
 
@@ -55,7 +55,7 @@ class AttestationSignedTest extends TestCase
     /**
      * @test
      */
-    public function hypothesis_id_added_to_user_when_attestation_signed()
+    public function hypothesis_id_added_to_user_when_attestation_signed(): void
     {
         $this->attestation->update(['signed_at' => Carbon::now(), 'data' => ['hypothesis_id' => 'porkypiney']]);
 

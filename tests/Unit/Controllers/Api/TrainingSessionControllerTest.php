@@ -25,7 +25,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function index_returns_all_upcoming_training_sessions()
+    public function index_returns_all_upcoming_training_sessions(): void
     {
         $future = factory(TrainingSession::class, 3)->states('future')->create()->sortBy('starts_at');
         $future->load('topic');
@@ -43,7 +43,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function index_returns_past_events_if_requested()
+    public function index_returns_past_events_if_requested(): void
     {
         $past = factory(TrainingSession::class, 3)->states('past')->create()->sortBy('starts_at');
         $past->load('topic');
@@ -60,7 +60,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function admin_and_programmer_can_store_new_training_sessions()
+    public function admin_and_programmer_can_store_new_training_sessions(): void
     {
         $admin = $this->createAdmin();
         $startsAt = Carbon::now()->addWeeks(4);
@@ -101,7 +101,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function volunteers_cannot_store_new_training_sessions()
+    public function volunteers_cannot_store_new_training_sessions(): void
     {
         $startsAt = Carbon::now()->addWeeks(4);
         $response = $this->actingAs($this->createVolunteer(), 'api')
@@ -120,7 +120,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function it_validates_required_fields()
+    public function it_validates_required_fields(): void
     {
         // $this->withoutExceptionHandling();
         $response = $this->actingAs($this->createAdmin(), 'api')
@@ -139,7 +139,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function it_validates_valid_topic_types()
+    public function it_validates_valid_topic_types(): void
     {
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
@@ -153,7 +153,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function it_validates_dates()
+    public function it_validates_dates(): void
     {
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
@@ -178,7 +178,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function it_validates_for_a_valid_url()
+    public function it_validates_for_a_valid_url(): void
     {
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('POST', '/api/training-sessions', [
@@ -201,7 +201,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function an_admin_or_programmer_can_update_a_trainingSesssion()
+    public function an_admin_or_programmer_can_update_a_trainingSesssion(): void
     {
         $startsAt = Carbon::now();
         $trainingSession = factory(TrainingSession::class)->create(['starts_at' => $startsAt, 'ends_at' => $startsAt->clone()->addHour()]);
@@ -231,7 +231,7 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function an_admin_or_programmer_can_delete_a_training_session()
+    public function an_admin_or_programmer_can_delete_a_training_session(): void
     {
         $trainingSession = factory(TrainingSession::class)->create();
 

@@ -26,7 +26,7 @@ class DispatchAssignmentTypeEvent
      *
      * @return void
      */
-    public function handle(AssignmentCreated $event)
+    public function handle(AssignmentCreated $event): void
     {
         if ($event->assignment->assignable_type != CurationActivity::class) {
             $this->dispatcher->dispatch(new GroupAssignmentCreated($event->assignment));

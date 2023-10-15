@@ -55,7 +55,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function comprehensive_volunteers_emailed_90_days_after_ep_assignment()
+    public function comprehensive_volunteers_emailed_90_days_after_ep_assignment(): void
     {
         Notification::fake();
 
@@ -69,7 +69,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function comprehensive_volunteers_emailed_182_days_after_ep_assignment()
+    public function comprehensive_volunteers_emailed_182_days_after_ep_assignment(): void
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(182));
@@ -82,7 +82,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function initial_notification_renders_correct_view_with_correct_url()
+    public function initial_notification_renders_correct_view_with_correct_url(): void
     {
         $mailable90 = (new InitialFollowupNotification(url('/volunteer-three-month')))->toMail($this->volunteer90);
         $this->assertEquals('email.volunteers.followups.initial_notification', $mailable90->view);
@@ -96,7 +96,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function sends_remind_1_97_days_after_ep_assignment_if_not_yet_responded()
+    public function sends_remind_1_97_days_after_ep_assignment_if_not_yet_responded(): void
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(97));
@@ -111,7 +111,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function sends_remind_1_189_days_after_ep_assignment_if_not_yet_responded()
+    public function sends_remind_1_189_days_after_ep_assignment_if_not_yet_responded(): void
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(189));
@@ -126,7 +126,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function remind_1_renders_correct_view_with_correct_url()
+    public function remind_1_renders_correct_view_with_correct_url(): void
     {
         $mailable90 = (new FollowupReminder1(url('/volunteer-three-month')))->toMail($this->volunteer90);
         $this->assertEquals('email.volunteers.followups.reminder_1', $mailable90->view);
@@ -140,7 +140,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function sends_remind_2_111_days_after_ep_assignment_if_not_yet_responded()
+    public function sends_remind_2_111_days_after_ep_assignment_if_not_yet_responded(): void
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(111));
@@ -155,7 +155,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function sends_remind_2_203_days_after_ep_assignment_if_not_yet_responded()
+    public function sends_remind_2_203_days_after_ep_assignment_if_not_yet_responded(): void
     {
         Notification::fake();
         Carbon::setTestNow(Carbon::now()->addDays(203));
@@ -170,7 +170,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function remind_2_renders_correct_view_with_correct_url()
+    public function remind_2_renders_correct_view_with_correct_url(): void
     {
         $mailable90 = (new FollowupReminder2(url('/volunteer-three-month')))->toMail($this->volunteer90);
         $this->assertEquals('email.volunteers.followups.reminder_2', $mailable90->view);
@@ -184,7 +184,7 @@ class VolunteerFollowupNotificationsTest extends TestCase
     /**
      * @test
      */
-    public function run_actual_comand_to_see_output()
+    public function run_actual_comand_to_see_output(): void
     {
         Carbon::setTestNow(Carbon::now()->addDays(203));
         $this->artisan('volunteers:notify-followup');

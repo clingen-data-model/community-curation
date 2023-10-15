@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create(config('db_mail_log.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -22,7 +22,7 @@ return new class extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::connection(config('db_email_log.database-connection'))
             ->dropIfExists(config('db_email_log.table_name'));

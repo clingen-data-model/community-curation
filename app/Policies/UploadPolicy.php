@@ -15,7 +15,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('list uploads');
     }
@@ -25,7 +25,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function view(User $user, Upload $upload)
+    public function view(User $user, Upload $upload): bool
     {
         if ($user->hasPermissionTo('list uploads')) {
             return true;
@@ -43,7 +43,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return true;
     }
@@ -67,7 +67,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function update(User $user, Upload $upload)
+    public function update(User $user, Upload $upload): bool
     {
         if ($user->hasPermissionTo('update uploads')) {
             return true;
@@ -85,7 +85,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, Upload $upload)
+    public function delete(User $user, Upload $upload): bool
     {
         if ($user->hasPermissionTo('delete uploads')) {
             return true;
@@ -103,7 +103,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function restore(User $user, Upload $upload)
+    public function restore(User $user, Upload $upload): bool
     {
         if ($user->hasPermissionTo('delete uploads')) {
             return true;
@@ -121,7 +121,7 @@ class UploadPolicy
      *
      * @return mixed
      */
-    public function forceDelete(User $user, Upload $upload)
+    public function forceDelete(User $user, Upload $upload): bool
     {
         if ($user->hasPermissionTo('delete uploads')) {
             return true;

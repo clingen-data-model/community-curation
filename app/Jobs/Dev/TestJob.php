@@ -27,7 +27,7 @@ class TestJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         \Log::info('This was a job that should have been sent to the queue. and you can tell if it was because the CONTAINER_ROLE is '.env('CONTAINER_ROLE'));
     }

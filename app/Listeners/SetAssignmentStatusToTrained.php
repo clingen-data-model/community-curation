@@ -20,7 +20,7 @@ class SetAssignmentStatusToTrained
      *
      * @return void
      */
-    public function handle(AttestationSigned $event)
+    public function handle(AttestationSigned $event): void
     {
         $assignment = $event->attestation->assignment;
 

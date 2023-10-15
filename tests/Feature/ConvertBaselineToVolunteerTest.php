@@ -16,7 +16,7 @@ class ConvertBaselineToVolunteerTest extends TestCase
     /**
      * @test
      */
-    public function can_convert_to_comprehensive_volunteer()
+    public function can_convert_to_comprehensive_volunteer(): void
     {
         $admin = $this->createAdmin();
         $this->actingAs($admin, 'api')

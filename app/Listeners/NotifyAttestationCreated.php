@@ -21,7 +21,7 @@ class NotifyAttestationCreated
      *
      * @return void
      */
-    public function handle(AttestationCreated $event)
+    public function handle(AttestationCreated $event): void
     {
         $event->attestation
             ->user

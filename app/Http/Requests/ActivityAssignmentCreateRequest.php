@@ -12,7 +12,7 @@ class ActivityAssignmentCreateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // TODO: restrict to only users with Assignment creation permissions
         return true;
@@ -23,7 +23,7 @@ class ActivityAssignmentCreateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'user_id' => 'required|exists:users,id',

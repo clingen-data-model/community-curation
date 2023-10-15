@@ -27,7 +27,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function volunteer_can_not_invite_attendees()
+    public function volunteer_can_not_invite_attendees(): void
     {
         // $this->withoutExceptionHandling();
         $this->actingAs($this->createVolunteer(), 'api')
@@ -38,7 +38,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function admin_can_invite_attendees()
+    public function admin_can_invite_attendees(): void
     {
         $this->withoutExceptionHandling();
         $response = $this->actingAs($this->createAdmin(), 'api')
@@ -68,7 +68,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function admin_or_programmer_can_get_list_of_attendees_for_a_training_session()
+    public function admin_or_programmer_can_get_list_of_attendees_for_a_training_session(): void
     {
         $this->trainingSession->attendees()->sync([$this->vol1->id, $this->vol3->id]);
 
@@ -92,7 +92,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function admin_can_remove_attendee_from_training_session()
+    public function admin_can_remove_attendee_from_training_session(): void
     {
         $this->trainingSession->attendees()->sync([$this->vol1->id, $this->vol2->id, $this->vol3->id]);
 
@@ -108,7 +108,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function gets_trainableVolunteers_for_training_session()
+    public function gets_trainableVolunteers_for_training_session(): void
     {
         $volunteers = $this->createVolunteer(['volunteer_type_id' => 2], 3);
         $volunteers->slice(0, 2)->each(function ($vol) {
@@ -135,7 +135,7 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function sends_custom_email_to_attendees()
+    public function sends_custom_email_to_attendees(): void
     {
         $this->trainingSession->attendees()->sync([$this->vol1->id, $this->vol3->id]);
 

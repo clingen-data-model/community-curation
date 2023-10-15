@@ -26,7 +26,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function a_new_application_can_be_started_by_a_guest()
+    public function a_new_application_can_be_started_by_a_guest(): void
     {
         $this->withoutExceptionHandling();
         $this->call('GET', '/apply')
@@ -49,7 +49,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function session_is_updated_when_application_is_saved()
+    public function session_is_updated_when_application_is_saved(): void
     {
         $this->call('GET', '/apply')
             ->assertStatus(200);
@@ -65,7 +65,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function shows_specific_response_if_id_provided()
+    public function shows_specific_response_if_id_provided(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->save();
@@ -82,7 +82,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function guest_cannot_view_or_update_response_that_is_not_in_their_session()
+    public function guest_cannot_view_or_update_response_that_is_not_in_their_session(): void
     {
         $rsp1 = $this->survey->getNewResponse(null);
         $rsp1->save();
@@ -101,7 +101,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function user_cannot_access_response_of_another_respondent()
+    public function user_cannot_access_response_of_another_respondent(): void
     {
         $u1 = $this->createVolunteer();
         $u2 = $this->createVolunteer();
@@ -125,7 +125,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function creates_a_new_volunteer_user_on_finalized_and_sets_as_respondent()
+    public function creates_a_new_volunteer_user_on_finalized_and_sets_as_respondent(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
@@ -164,7 +164,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function stores_Hypothesis_username_if_entered()
+    public function stores_Hypothesis_username_if_entered(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
@@ -194,7 +194,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function removes_response_from_session_if_baseline()
+    public function removes_response_from_session_if_baseline(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
@@ -210,7 +210,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function redirects_to_thank_you_if_baseline()
+    public function redirects_to_thank_you_if_baseline(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
@@ -228,7 +228,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function stores_priorities()
+    public function stores_priorities(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
@@ -270,7 +270,7 @@ class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function system_sends_volunteer_an_email_when_they_completed_their_application()
+    public function system_sends_volunteer_an_email_when_they_completed_their_application(): void
     {
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
@@ -294,7 +294,7 @@ class ApplicationTest extends TestCase
      *
      * @group already-member-flag
      */
-    public function copies_already_member_response_values_to_user_on_application_finalized()
+    public function copies_already_member_response_values_to_user_on_application_finalized(): void
     {
         $epJson = json_encode([1, 2]);
         $rsp = $this->survey->getNewResponse(null);

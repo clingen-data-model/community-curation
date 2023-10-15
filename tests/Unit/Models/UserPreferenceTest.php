@@ -34,7 +34,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function casts_int_value_to_int_on_set()
+    public function casts_int_value_to_int_on_set(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'integer']);
         $this->assertCastsValueToPrefDataFormat($pref, '1');
@@ -43,7 +43,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function casts_str_value_to_str_on_set()
+    public function casts_str_value_to_str_on_set(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'string']);
         $this->assertCastsValueToPrefDataFormat($pref, 1);
@@ -52,7 +52,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function casts_float_value_to_float_on_set()
+    public function casts_float_value_to_float_on_set(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'float']);
         $this->assertCastsValueToPrefDataFormat($pref, 1, 'double');
@@ -61,7 +61,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function casts_bool_value_on_set()
+    public function casts_bool_value_on_set(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'boolean']);
         $this->assertCastsValueToPrefDataFormat($pref, 1);
@@ -70,7 +70,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function casts_array_and_json_encodes_value_on_set()
+    public function casts_array_and_json_encodes_value_on_set(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'array']);
         $up = new UserPreference([
@@ -86,7 +86,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function casts_object_and_json_encodes_value_on_set()
+    public function casts_object_and_json_encodes_value_on_set(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'object']);
         $up = new UserPreference([
@@ -102,7 +102,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function json_decodes_array_value_on_get()
+    public function json_decodes_array_value_on_get(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'array']);
         $up = new UserPreference(['preference_id' => $pref->id, 'value' => [1, 2, 3]]);
@@ -112,7 +112,7 @@ class UserPreferenceTest extends TestCase
     /**
      * @test
      */
-    public function json_decodes_object_value_on_get()
+    public function json_decodes_object_value_on_get(): void
     {
         $pref = factory(Preference::class)->create(['data_type' => 'object']);
         $value = (object) ['a' => 1, 'b' => 2, 'c' => 3];

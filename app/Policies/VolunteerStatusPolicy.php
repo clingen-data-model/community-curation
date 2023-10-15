@@ -15,7 +15,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         $user->hasPermissionTo('list volunteer-status');
     }
@@ -25,7 +25,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function view(User $user, VolunteerStatus $volunteerStatus)
+    public function view(User $user, VolunteerStatus $volunteerStatus): bool
     {
         $user->hasPermissionTo('list volunteer-status');
     }
@@ -35,7 +35,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         $user->hasPermissionTo('create volunteer-status');
     }
@@ -45,7 +45,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function update(User $user, VolunteerStatus $volunteerStatus)
+    public function update(User $user, VolunteerStatus $volunteerStatus): bool
     {
         $user->hasPermissionTo('update volunteer-status');
     }
@@ -55,7 +55,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, VolunteerStatus $volunteerStatus)
+    public function delete(User $user, VolunteerStatus $volunteerStatus): bool
     {
         $user->hasPermissionTo('delete volunteer-status');
     }
@@ -65,7 +65,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function restore(User $user, VolunteerStatus $volunteerStatus)
+    public function restore(User $user, VolunteerStatus $volunteerStatus): bool
     {
         $user->hasPermissionTo('delete volunteer-status');
     }
@@ -75,7 +75,7 @@ class VolunteerStatusPolicy
      *
      * @return mixed
      */
-    public function forceDelete(User $user, VolunteerStatus $volunteerStatus)
+    public function forceDelete(User $user, VolunteerStatus $volunteerStatus): bool
     {
         $user->hasPermissionTo('delete volunteer-status');
     }

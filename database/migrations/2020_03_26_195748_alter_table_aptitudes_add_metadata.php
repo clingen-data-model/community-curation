@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('aptitudes', function (Blueprint $table) {
             $table->boolean('is_primary')->default(1)->after('volunteer_type_id');
@@ -24,7 +24,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('aptitudes', function (Blueprint $table) {
             //

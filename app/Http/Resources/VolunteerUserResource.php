@@ -12,7 +12,7 @@ class VolunteerUserResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         $array = parent::toArray($request);
         unset($array['email_verified_at']);

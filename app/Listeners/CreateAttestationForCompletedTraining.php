@@ -21,7 +21,7 @@ class CreateAttestationForCompletedTraining
      *
      * @return void
      */
-    public function handle(TrainingCompleted $event)
+    public function handle(TrainingCompleted $event): void
     {
         $userAptitude = $event->userAptitude;
 

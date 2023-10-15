@@ -17,7 +17,7 @@ class VolunteerMetricsControllerTest extends TestCase
     /**
      * @test
      */
-    public function an_authenticated_user_can_reach_the_metrics_controller()
+    public function an_authenticated_user_can_reach_the_metrics_controller(): void
     {
         $this->withoutExceptionHandling();
         $this->actingAs($this->admin, 'api')

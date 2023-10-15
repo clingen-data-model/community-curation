@@ -12,7 +12,7 @@ class PriorityResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         $data = parent::toArray($request);
         $data['curation_activity'] = new DefaultResource($this->whenLoaded('curationActivity'));

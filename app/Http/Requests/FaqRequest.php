@@ -12,7 +12,7 @@ class FaqRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::user()->hasAnyPermission('create faq', 'update faq');
     }
@@ -22,7 +22,7 @@ class FaqRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'question' => 'required',

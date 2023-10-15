@@ -20,7 +20,7 @@ class SetVolunteerStatusToTrained
      *
      * @return void
      */
-    public function handle(TrainingCompleted $event)
+    public function handle(TrainingCompleted $event): void
     {
         if ($event->userAptitude->user->volunteer_status_id == config('volunteers.statuses.applied')) {
             $event->userAptitude->user->update(['volunteer_status_id' => config('volunteers.statuses.trained')]);

@@ -21,7 +21,7 @@ class RetireAssignments
      * @param  Retired  $event
      * @return void
      */
-    public function handle(VolunteerStatusChanged $event)
+    public function handle(VolunteerStatusChanged $event): void
     {
         $event->volunteer
             ->assignments

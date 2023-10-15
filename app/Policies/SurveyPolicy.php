@@ -19,12 +19,12 @@ class SurveyPolicy
     {
     }
 
-    public function viewAny(User $user, Survey $survey)
+    public function viewAny(User $user, Survey $survey): bool
     {
         return true;
     }
 
-    public function view(User $user, Survey $survey)
+    public function view(User $user, Survey $survey): bool
     {
         return true;
     }

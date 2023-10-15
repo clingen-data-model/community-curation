@@ -13,7 +13,7 @@ class TrainingSessionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // return Auth::user()->can('create trainings');
         return true;
@@ -25,7 +25,7 @@ class TrainingSessionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'topic_type' => [
@@ -43,7 +43,7 @@ class TrainingSessionRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'topic_id.required' => 'A topic is required.',
@@ -56,7 +56,7 @@ class TrainingSessionRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'starts_at' => 'start date and time',

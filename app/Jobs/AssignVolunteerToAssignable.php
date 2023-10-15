@@ -41,7 +41,7 @@ class AssignVolunteerToAssignable
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if (
             $this->volunteer->volunteer_type_id === config('volunteers.types.baseline')

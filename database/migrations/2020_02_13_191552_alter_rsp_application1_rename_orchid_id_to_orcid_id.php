@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if (Schema::hasColumn('rsp_application_1', 'orchid_id')) {
             Schema::table('rsp_application_1', function (Blueprint $table) {
@@ -25,7 +25,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         if (Schema::hasColumn('rsp_application_1', 'orcid_id')) {
             Schema::table('rsp_application_1', function (Blueprint $table) {

@@ -22,7 +22,7 @@ class TakeCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function returns_404_if_custom_survey_with_name_not_found()
+    public function returns_404_if_custom_survey_with_name_not_found(): void
     {
         $this->call('GET', '/apply/group/beans')
             ->assertStatus(404);
@@ -31,7 +31,7 @@ class TakeCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function returns_200_if_custom_survey_with_name_found()
+    public function returns_200_if_custom_survey_with_name_found(): void
     {
         $this->call('GET', '/apply/group/'.$this->cs->name)
             ->assertOk();
@@ -40,7 +40,7 @@ class TakeCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function sets_custom_survey_id_in_hidden_field()
+    public function sets_custom_survey_id_in_hidden_field(): void
     {
         $this->call('GET', '/apply/group/'.$this->cs->name)
             ->assertSee('<input type="hidden" name="custom_survey_id" value="'.$this->cs->id.'">', false);
@@ -49,7 +49,7 @@ class TakeCustomSurveyTest extends TestCase
     /**
      * @test
      */
-    public function stores_custom_survey_data_to_application_response()
+    public function stores_custom_survey_data_to_application_response(): void
     {
         $this->withoutExceptionHandling();
         $response = $this->call(

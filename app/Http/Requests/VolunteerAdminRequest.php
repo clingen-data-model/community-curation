@@ -13,7 +13,7 @@ class VolunteerAdminRequest extends VolunteerRequest implements VolunteerRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::user()->isAdminOrHigher();
     }
@@ -23,7 +23,7 @@ class VolunteerAdminRequest extends VolunteerRequest implements VolunteerRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
         $rules['volunteer_type_id'] = 'sometimes|required|exists:volunteer_types,id';

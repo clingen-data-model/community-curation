@@ -23,7 +23,7 @@ class NotifyConversionToComprehensive
      * @param  VolunteersConvertedToComprehensive  $event
      * @return void
      */
-    public function handle(ConvertedToComprehensive $event)
+    public function handle(ConvertedToComprehensive $event): void
     {
         $event->volunteer->notify(new ConversionToComprehensive($event->volunteer));
     }

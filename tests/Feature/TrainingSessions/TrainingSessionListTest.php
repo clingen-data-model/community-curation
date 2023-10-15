@@ -15,7 +15,7 @@ class TrainingSessionListTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function guests_do_not_see_trainings_link()
+    public function guests_do_not_see_trainings_link(): void
     {
         $this->call('GET', '/volunteers')
             ->assertDontSee('<a href="/trainings" class="nav-link">Trainings</a>');
@@ -24,7 +24,7 @@ class TrainingSessionListTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function admin_and_programmer_can_see_link_in_nav()
+    public function admin_and_programmer_can_see_link_in_nav(): void
     {
         $admin = $this->createAdmin();
         // dd($admin->roles->toArray());
@@ -40,7 +40,7 @@ class TrainingSessionListTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function volunteer_does_not_see_link_in_nav()
+    public function volunteer_does_not_see_link_in_nav(): void
     {
         $this->actingAs($this->createVolunteer())
             ->call('GET', '/volunteers')
@@ -50,7 +50,7 @@ class TrainingSessionListTest extends TrainingSessionTestCase
     /**
      * @test
      */
-    public function volunteer_redirected_to_their_detail_when_visiting_trainings()
+    public function volunteer_redirected_to_their_detail_when_visiting_trainings(): void
     {
         // $this->withoutExceptionHandling();
         $this->actingAs($this->createVolunteer())

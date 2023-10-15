@@ -81,7 +81,7 @@ class SendFollowupNotifications extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->followups as $value) {
             extract($value);

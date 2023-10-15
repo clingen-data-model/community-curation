@@ -16,7 +16,7 @@ class PriorityFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $panels = CurationGroup::all()->groupBy('curation_activity_id');
 

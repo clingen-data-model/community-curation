@@ -25,7 +25,7 @@ class LastLoginCaptureTest extends TestCase
     /**
      * @test
      */
-    public function sets_last_logged_in_at_date()
+    public function sets_last_logged_in_at_date(): void
     {
         Auth::loginUsingId($this->user->id);
 

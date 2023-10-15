@@ -30,7 +30,7 @@ class CreateVolunteerFromApplication
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $user = User::create([
             'first_name' => $this->response->first_name,

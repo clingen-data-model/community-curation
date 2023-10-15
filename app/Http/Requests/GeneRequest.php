@@ -12,7 +12,7 @@ class GeneRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // only allow updates if the user is logged in
         return Auth::user()->can('update genes');
@@ -23,7 +23,7 @@ class GeneRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'symbol' => 'required|max:255',
@@ -39,7 +39,7 @@ class GeneRequest extends FormRequest
      *
      * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];
@@ -50,7 +50,7 @@ class GeneRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'regex' => 'HGNC IDs must be given in the form "HGNC:1234".',

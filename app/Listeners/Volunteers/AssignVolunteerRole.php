@@ -21,7 +21,7 @@ class AssignVolunteerRole
      *
      * @return void
      */
-    public function handle(Created $event)
+    public function handle(Created $event): void
     {
         $event->volunteer->assignRole('volunteer');
     }

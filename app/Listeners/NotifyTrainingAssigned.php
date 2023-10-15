@@ -21,7 +21,7 @@ class NotifyTrainingAssigned
      *
      * @return void
      */
-    public function handle(TrainingCreated $event)
+    public function handle(TrainingCreated $event): void
     {
         $userAptitude = $event->userAptitude;
 

@@ -37,7 +37,7 @@ class NotifyDeployed extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         // FIXME : failed if user with id 1 is not active...
         /*

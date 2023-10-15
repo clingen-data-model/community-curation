@@ -21,7 +21,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function programmer_can_impersonate_anyone_whos_not_a_programmer()
+    public function programmer_can_impersonate_anyone_whos_not_a_programmer(): void
     {
         $prog = factory(User::class)->states('programmer')->create();
         $prog2 = factory(User::class)->states('programmer')->create([]);
@@ -41,7 +41,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function admin_cannot_impersonate_programmer()
+    public function admin_cannot_impersonate_programmer(): void
     {
         $admin = factory(User::class)->states('admin')->create([]);
         $prog = factory(User::class)->states('programmer')->create([]);
@@ -53,7 +53,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function admin_cannot_impersonate_another_admin()
+    public function admin_cannot_impersonate_another_admin(): void
     {
         $admin1 = factory(User::class)->states('admin')->create([]);
         $admin2 = factory(User::class)->states('admin')->create([]);
@@ -64,7 +64,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function admin_can_impersonate_coordinator_or_volunteer()
+    public function admin_can_impersonate_coordinator_or_volunteer(): void
     {
         $admin = factory(User::class)->state('admin')->create([]);
 
@@ -79,7 +79,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function scopesUsersToVolunteers()
+    public function scopesUsersToVolunteers(): void
     {
         \DB::statement('SET FOREIGN_KEY_CHECKS=0');
         \DB::table('users')->delete();
@@ -96,7 +96,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function gets_latest_priorities_relation()
+    public function gets_latest_priorities_relation(): void
     {
         $volunteer1 = factory(User::class)->states('volunteer', 'comprehensive')->create();
         $firstPriorities = Priority::factory(3)->create([
@@ -116,7 +116,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function has_nullable_fillable_orcid_id()
+    public function has_nullable_fillable_orcid_id(): void
     {
         $volunteer = factory(User::class)->create(['orcid_id' => null]);
         $volunteer->update(['orcid_id' => 'test']);
@@ -129,7 +129,7 @@ class UserTest extends TestCase
      *
      * @group notes
      */
-    public function implements_notable_trait()
+    public function implements_notable_trait(): void
     {
         $volunteer = $this->createVolunteer();
         $this->assertInstanceOf(IsNotable::class, $volunteer);
@@ -140,7 +140,7 @@ class UserTest extends TestCase
      *
      * @group login
      */
-    public function can_scope_to_logged_in_users()
+    public function can_scope_to_logged_in_users(): void
     {
         $user = $this->createVolunteer();
         $volunteer = $this->createVolunteer(['last_logged_in_at' => Carbon::now()->addHours(-2)]);
@@ -156,7 +156,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function status_set_to_applied_on_created_if_not_set_and_volunteer_type_not_null()
+    public function status_set_to_applied_on_created_if_not_set_and_volunteer_type_not_null(): void
     {
         $user = factory(User::class)->states(['volunteer', 'comprehensive'])->make([
             'volunteer_status_id' => null,
@@ -172,7 +172,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function soft_deletes_related_application_survey_response_when_user_deleted()
+    public function soft_deletes_related_application_survey_response_when_user_deleted(): void
     {
         $user = $this->createVolunteer();
         $survey = class_survey()::find(1);
@@ -196,7 +196,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function setAlreadyMemberCgsAttribute_accepts_null_value()
+    public function setAlreadyMemberCgsAttribute_accepts_null_value(): void
     {
         $user = $this->makeVolunteer()->first();
         $user->already_member_cgs = null;
@@ -209,7 +209,7 @@ class UserTest extends TestCase
      *
      * @group already-member-flag
      */
-    public function getAlreadyMemberCurationGroups_returns_empty_collection_when_already_member_cgs_is_null()
+    public function getAlreadyMemberCurationGroups_returns_empty_collection_when_already_member_cgs_is_null(): void
     {
         $user = $this->makeVolunteer()->first();
         $user->already_member_cgs = null;
@@ -223,7 +223,7 @@ class UserTest extends TestCase
      *
      * @group already-member-flag
      */
-    public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_cgs()
+    public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_cgs(): void
     {
         $eps = CurationGroup::factory(2)->create();
         $user = $this->makeVolunteer()->first();
