@@ -3,7 +3,6 @@
 namespace App\Listeners\Volunteers;
 
 use App\Events\Volunteers\ConvertedToComprehensive;
-use App\Events\VolunteersConvertedToComprehensive;
 use App\Notifications\ConversionToComprehensive;
 
 class NotifyConversionToComprehensive

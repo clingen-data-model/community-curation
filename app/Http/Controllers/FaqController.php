@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Faq;
+use Illuminate\View\View;
 
 class FaqController extends Controller
 {

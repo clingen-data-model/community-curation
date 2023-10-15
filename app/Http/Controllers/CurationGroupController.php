@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\CurationGroup;
 use App\Services\Search\VolunteerSearchService;
+use Illuminate\View\View;
 
 class CurationGroupController extends Controller
 {

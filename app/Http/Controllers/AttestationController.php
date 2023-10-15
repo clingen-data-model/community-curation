@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Attestation;
 use App\Contracts\AttestationFormResolver;
 use App\Http\Requests\UpdateAttestationRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class AttestationController extends Controller
 {

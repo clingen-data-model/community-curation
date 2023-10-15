@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\CurationActivity;
+use Illuminate\View\View;
 
 class CurationActivityController extends Controller
 {

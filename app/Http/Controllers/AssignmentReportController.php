@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
 use App\Services\Reports\AssignmentReportGenerator;
 use App\Services\Reports\AssignmentReportWriter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AssignmentReportController extends Controller
 {

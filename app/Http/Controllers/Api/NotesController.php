@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NoteCreateRequest;
 use App\Http\Requests\NoteUpdateRequest;
@@ -10,6 +9,7 @@ use App\Http\Resources\NotesResource;
 use App\Note;
 use App\Services\Search\NotesSearchService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
