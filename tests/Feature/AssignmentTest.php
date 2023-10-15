@@ -199,7 +199,7 @@ class AssignmentTest extends TestCase
             ->get()->random();
         $apt = $ca->getPrimaryAptitude();
         $volunteer = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
-        AssignVolunteerToAssignable::dispatchNow($volunteer, $ca);
+        AssignVolunteerToAssignable::dispatchSync($volunteer, $ca);
 
         $aptitudes = $volunteer->fresh()
             ->userAptitudes()
