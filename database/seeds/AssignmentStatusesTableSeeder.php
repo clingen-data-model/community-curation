@@ -12,7 +12,7 @@ class AssignmentStatusesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         AssignmentStatus::unguard();
         foreach (config('project.assignment-statuses') as $name => $id) {

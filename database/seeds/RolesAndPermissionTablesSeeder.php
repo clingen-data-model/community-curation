@@ -13,7 +13,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         app()['cache']->forget('spatie.permission.cache');
         app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();

@@ -12,7 +12,7 @@ class InterestsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $items = [
             1 => 'Cardiovascular',

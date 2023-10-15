@@ -12,7 +12,7 @@ class UploadCategoriesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         seedFromConfig('project.upload-categories', UploadCategory::class);
     }

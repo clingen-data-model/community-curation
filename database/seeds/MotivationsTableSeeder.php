@@ -12,7 +12,7 @@ class MotivationsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $motivations = [
             1 => 'I want to be involved with ClinGen.',

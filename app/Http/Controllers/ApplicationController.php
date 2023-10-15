@@ -51,7 +51,7 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = null)
+    public function show(Request $request, int $id = null)
     {
         $response = $this->responseResolver->resolve($request, $id);
 

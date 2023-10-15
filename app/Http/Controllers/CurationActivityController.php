@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\CurationActivity;
 
 class CurationActivityController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $curationActivities = CurationActivity::all();
 

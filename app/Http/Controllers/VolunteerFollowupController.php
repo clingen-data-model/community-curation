@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,12 +49,12 @@ class VolunteerFollowupController
         throw new AuthorizationException('You do not have permission to update this survey response');
     }
 
-    public function sixMonth()
+    public function sixMonth(): RedirectResponse
     {
         return redirect('volunteer-followup/volunteer-six-month1');
     }
 
-    public function threeMonth()
+    public function threeMonth(): RedirectResponse
     {
         return redirect('volunteer-followup/volunteer-three-month1');
     }

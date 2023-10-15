@@ -12,7 +12,7 @@ class CampaignsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $campaigns = [
             1 => 'CCG 2019',

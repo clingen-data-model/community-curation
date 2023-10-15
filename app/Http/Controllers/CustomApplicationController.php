@@ -61,7 +61,7 @@ class CustomApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $name, $id = null)
+    public function show(Request $request, $name, int $id = null)
     {
         $customSurvey = CustomSurvey::findByNameOrFail($name);
         $response = $this->responseResolver->resolve($request, $id);

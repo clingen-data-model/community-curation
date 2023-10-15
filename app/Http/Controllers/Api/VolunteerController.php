@@ -67,7 +67,7 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $volunteer = User::findOrFail($id);
         $volunteer->load([
@@ -98,7 +98,7 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         throw new NotImplementedException();
     }
@@ -110,7 +110,7 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(VolunteerRequestContract $request, $id)
+    public function update(VolunteerRequestContract $request, int $id)
     {
         $volunteer = User::findOrFail($id);
         if (! $this->policy->update(\Auth::user(), $volunteer)) {
@@ -128,7 +128,7 @@ class VolunteerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         throw new NotImplementedException();
     }

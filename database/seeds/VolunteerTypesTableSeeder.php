@@ -12,7 +12,7 @@ class VolunteerTypesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         VolunteerType::unguard();
         foreach (config('volunteers.types') as $name => $id) {

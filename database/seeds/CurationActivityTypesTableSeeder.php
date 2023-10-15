@@ -12,7 +12,7 @@ class CurationActivityTypesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         foreach (config('project.curation-activity-types') as $name => $id) {
             CurationActivityType::updateOrCreate(compact('id'), compact('name'));

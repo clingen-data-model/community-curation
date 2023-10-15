@@ -22,7 +22,7 @@ class StoreMailInDatabase
      *
      * @return void
      */
-    public function handle(SentMessage $event)
+    public function handle(SentMessage $event): void
     {
         $email = DbMailLogProvider::getEmailInstance([
             'from' => $event->message->getFrom(),

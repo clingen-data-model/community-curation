@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         User::unguard();
         $programmer = User::firstOrCreate(['id' => 1], [

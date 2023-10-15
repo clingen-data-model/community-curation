@@ -12,7 +12,7 @@ class VolunteerStatusesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         foreach (config('volunteers.statuses') as $name => $id) {
             VolunteerStatus::updateOrCreate(compact('id'), compact('id', 'name'));

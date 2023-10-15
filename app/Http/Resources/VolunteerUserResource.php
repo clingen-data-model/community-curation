@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class VolunteerUserResource extends JsonResource
@@ -12,7 +13,7 @@ class VolunteerUserResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
         unset($array['email_verified_at']);

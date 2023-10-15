@@ -40,7 +40,7 @@ class CustomSurveyCrudController extends CrudController
      *
      * @return void
      */
-    protected function setupListOperation()
+    protected function setupListOperation(): void
     {
         // CRUD::setFromDb(); // columns
 
@@ -84,7 +84,7 @@ class CustomSurveyCrudController extends CrudController
      *
      * @return void
      */
-    protected function setupCreateOperation()
+    protected function setupCreateOperation(): void
     {
         CRUD::setValidation(CustomSurveyRequest::class);
 
@@ -120,7 +120,7 @@ class CustomSurveyCrudController extends CrudController
      *
      * @return void
      */
-    protected function setupUpdateOperation()
+    protected function setupUpdateOperation(): void
     {
         $this->setupCreateOperation();
     }

@@ -29,7 +29,7 @@ class ApplicationCompletedMail extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         $mailable = $this->subject('ClinGen - Completed Volunteer Survey')
             ->view('email.application_completed')

@@ -12,7 +12,7 @@ class VolunteersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         factory(Volunteer::class, 10)->create();
     }

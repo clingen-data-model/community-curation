@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Attestation;
 use App\Contracts\AttestationFormResolver;
 use App\Http\Requests\UpdateAttestationRequest;
@@ -36,7 +37,7 @@ class AttestationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Attestation $attestation)
+    public function edit(Attestation $attestation): View
     {
         if (! Auth::user()->can('view', $attestation)) {
             abort(403);

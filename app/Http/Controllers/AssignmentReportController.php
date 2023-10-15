@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Services\Reports\AssignmentReportGenerator;
 use App\Services\Reports\AssignmentReportWriter;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class AssignmentReportController extends Controller
         $this->generator = $generator;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $filePath = storage_path('app/reports/assignments-report-'.Carbon::now()->format('Y-m-d_H:i:s').'.xlsx');
 

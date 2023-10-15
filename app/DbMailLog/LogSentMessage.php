@@ -20,7 +20,7 @@ class LogSentMessage
      *
      * @return void
      */
-    public function handle(SentMessage $event)
+    public function handle(SentMessage $event): void
     {
         $messageInfo = [
             'to' => $event->message->getTo(),

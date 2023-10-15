@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\CurationGroup;
 use App\Services\Search\VolunteerSearchService;
 
@@ -14,7 +15,7 @@ class CurationGroupController extends Controller
         $this->volunteerSearch = $volunteerSearch;
     }
 
-    public function index()
+    public function index(): View
     {
         return view('curation-groups.index');
     }

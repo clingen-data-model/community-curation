@@ -18,7 +18,7 @@ class FollowupReminder2 extends Notification
      * @param  string  $surveyUrl URL for volunteer to complete survey
      * @return void
      */
-    public function __construct($surveyUrl)
+    public function __construct(string $surveyUrl)
     {
         $this->surveyUrl = $surveyUrl;
     }

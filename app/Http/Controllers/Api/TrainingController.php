@@ -40,7 +40,7 @@ class TrainingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         throw new NotImplementedException();
     }
@@ -51,7 +51,7 @@ class TrainingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         throw new NotImplementedException();
     }
@@ -62,7 +62,7 @@ class TrainingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAssignedTrainingRequest $request, $id)
+    public function update(UpdateAssignedTrainingRequest $request, int $id)
     {
         $userAptitude = UserAptitude::find($id);
 
@@ -77,7 +77,7 @@ class TrainingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         throw new NotImplementedException();
     }

@@ -61,7 +61,7 @@ class TrainingSessionController extends Controller
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(string $id)
     {
         $trainingSession = TrainingSession::findOrFail($id);
         $trainingSession->load('topic');
@@ -76,7 +76,7 @@ class TrainingSessionController extends Controller
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TrainingSessionRequest $request, $id)
+    public function update(TrainingSessionRequest $request, string $id)
     {
         $trainingSession = TrainingSession::findOrFail($id);
 

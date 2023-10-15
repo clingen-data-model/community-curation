@@ -13,7 +13,7 @@ class FaqsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $faqs = [
             'How do I get my login credentials?' => 'Your login credentials will be sent to you by email.',

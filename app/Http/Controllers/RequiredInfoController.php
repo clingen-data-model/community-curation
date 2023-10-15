@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use App\Country;
 use App\Http\Requests\RequiredUserInfoRequest;
 use App\Surveys\SurveyOptions;
@@ -24,7 +25,7 @@ class RequiredInfoController extends Controller
         return view('users.required_info_form', compact('user', 'countries', 'timezones'));
     }
 
-    public function update(RequiredUserInfoRequest $request)
+    public function update(RequiredUserInfoRequest $request): RedirectResponse
     {
         $user = User::find($request->user_id);
 
@@ -37,7 +38,7 @@ class RequiredInfoController extends Controller
         return redirect('/');
     }
 
-    public function bypass()
+    public function bypass(): RedirectResponse
     {
         session()->put('app_impersonate_required_info_bypass', true);
 

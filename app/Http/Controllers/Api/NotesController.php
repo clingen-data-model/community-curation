@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NoteCreateRequest;
 use App\Http\Requests\NoteUpdateRequest;
@@ -79,7 +80,7 @@ class NotesController extends Controller
      * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Note $note)
+    public function destroy(Note $note): Response
     {
         if (! Auth::user()->can('delete notes')) {
             throw new UnauthorizedException('User does not have permission to delete notes.');
