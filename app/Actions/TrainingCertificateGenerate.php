@@ -7,7 +7,6 @@ use App\Events\TrainingCompleted;
 use App\Upload;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Lorisleiva\Actions\Concerns\AsJob;
 use Lorisleiva\Actions\Concerns\AsListener;
