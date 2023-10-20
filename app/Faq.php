@@ -3,6 +3,8 @@
 namespace App;
 
 // use App\Traits\TranscodesHtmlToMarkdown;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Request;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,7 +39,7 @@ class Faq extends Model
 
     public function uploadMultipleFilesToDisk($value, $attribute_name, $disk, $destination_path)
     {
-        $request = \Request::instance();
+        $request = Request::instance();
         if (! is_array($this->{$attribute_name})) {
             $attribute_value = json_decode($this->{$attribute_name}, true) ?? [];
         } else {
@@ -49,7 +51,7 @@ class Faq extends Model
         // delete it from the disk and from the db
         if ($files_to_clear) {
             foreach ($files_to_clear as $key => $filename) {
-                \Storage::disk($disk)->delete($filename);
+                Storage::disk($disk)->delete($filename);
                 $attribute_value = array_where($attribute_value, function ($value, $key) use ($filename) {
                     return $value != $filename;
                 });

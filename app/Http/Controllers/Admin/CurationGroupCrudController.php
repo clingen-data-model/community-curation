@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
 use App\CurationActivity;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\CurationGroup;
@@ -115,15 +116,15 @@ class CurationGroupCrudController extends CrudController
 
         $this->crud->removeColumn(['url']);
 
-        if (! \Auth::user()->can('create', CurationGroup::class)) {
+        if (! Auth::user()->can('create', CurationGroup::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (! \Auth::user()->can('update curation-groups')) {
+        if (! Auth::user()->can('update curation-groups')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (! \Auth::user()->can('delete curation-groups')) {
+        if (! Auth::user()->can('delete curation-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }

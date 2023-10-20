@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\VolunteerTypeRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\VolunteerTypeRequest as UpdateRequest;
@@ -46,15 +47,15 @@ class VolunteerTypeCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        if (! \Auth::user()->can('create', VolunteerType::class)) {
+        if (! Auth::user()->can('create', VolunteerType::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (! \Auth::user()->can('update volunteer-types')) {
+        if (! Auth::user()->can('update volunteer-types')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (! \Auth::user()->can('delete volunteer-types')) {
+        if (! Auth::user()->can('delete volunteer-types')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }

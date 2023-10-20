@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
 use App\Http\Requests\Contracts\VolunteerRequestContract;
 use App\Http\Requests\VolunteerAdminRequest;
@@ -48,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         app()->bind(VolunteerRequestContract::class, function () {
-            if (\Auth::user() && \Auth::user()->isAdminOrHigher()) {
+            if (Auth::user() && Auth::user()->isAdminOrHigher()) {
                 return $this->app->make(VolunteerAdminRequest::class);
             }
 

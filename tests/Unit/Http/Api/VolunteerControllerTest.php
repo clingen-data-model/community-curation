@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Api;
 
+use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -13,9 +14,9 @@ class VolunteerControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        \DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        \DB::table('users')->delete();
-        \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::table('users')->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         $this->volunteers = factory(User::class, 5)->states('volunteer')->create();
     }

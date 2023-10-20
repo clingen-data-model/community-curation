@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use App\Scopes\CuratorUploadScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,8 +32,8 @@ class Upload extends Model
         static::addGlobalScope(new CuratorUploadScope());
 
         static::creating(function ($upload) {
-            if (! $upload->uploader_id && \Auth::user()) {
-                $upload->uploader_id = \Auth::user()->id;
+            if (! $upload->uploader_id && Auth::user()) {
+                $upload->uploader_id = Auth::user()->id;
             }
         });
 

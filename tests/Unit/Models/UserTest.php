@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use Illuminate\Support\Facades\DB;
 use App\Contracts\IsNotable;
 use App\CurationGroup;
 use App\Priority;
@@ -81,9 +82,9 @@ class UserTest extends TestCase
      */
     public function scopesUsersToVolunteers(): void
     {
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        \DB::table('users')->delete();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('users')->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         $admin = factory(User::class)->create();
         $admin->roles()->sync([]);

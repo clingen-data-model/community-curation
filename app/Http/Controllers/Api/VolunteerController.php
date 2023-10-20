@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Contracts\VolunteerRequestContract;
@@ -109,7 +110,7 @@ class VolunteerController extends Controller
     public function update(VolunteerRequestContract $request, int $id)
     {
         $volunteer = User::findOrFail($id);
-        if (! $this->policy->update(\Auth::user(), $volunteer)) {
+        if (! $this->policy->update(Auth::user(), $volunteer)) {
             return response('Unauthorized', 403);
         }
 

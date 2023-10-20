@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Event;
 use App\Events\AttestationCreated;
 use App\Events\AttestationSigned;
 use Illuminate\Database\Eloquent\Model;
@@ -38,7 +39,7 @@ class Attestation extends Model
 
         static::updated(function ($model) {
             if ($model->isDirty('signed_at') && (! isset($model->getOriginal()['signed_at']) || is_null($model->getOriginal()['signed_at']))) {
-                \Event::dispatch(new AttestationSigned($model));
+                Event::dispatch(new AttestationSigned($model));
             }
         });
     }

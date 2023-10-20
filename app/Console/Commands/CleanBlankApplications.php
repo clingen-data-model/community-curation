@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Facades\Log;
 use App\Application;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -46,6 +47,6 @@ class CleanBlankApplications extends Command
         });
 
         $this->info('Deleted '.$empties->count().' empty applications');
-        \Log::info('Deleted '.$empties->count().' empty applications');
+        Log::info('Deleted '.$empties->count().' empty applications');
     }
 }
