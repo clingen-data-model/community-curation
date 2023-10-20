@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Country;
 use App\Http\Requests\RequiredUserInfoRequest;
 use App\Surveys\SurveyOptions;
 use App\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class RequiredInfoController extends Controller
 {

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Country;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\UserRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\UserRequest as UpdateRequest;
 use App\Surveys\SurveyOptions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 

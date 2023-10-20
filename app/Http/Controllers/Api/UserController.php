@@ -8,7 +8,6 @@ use App\Http\Resources\UserResource;
 use App\Services\Search\UserSearchService;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller

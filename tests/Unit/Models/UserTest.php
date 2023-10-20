@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Models;
 
-use Illuminate\Support\Facades\DB;
 use App\Contracts\IsNotable;
 use App\CurationGroup;
 use App\Priority;
@@ -10,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 /**

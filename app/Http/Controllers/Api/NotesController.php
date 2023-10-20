@@ -10,7 +10,6 @@ use App\Note;
 use App\Services\Search\NotesSearchService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
 class NotesController extends Controller

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\CurationActivity;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\CurationGroup;

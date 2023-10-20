@@ -3,12 +3,12 @@
 namespace App;
 
 // use App\Traits\TranscodesHtmlToMarkdown;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Request;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class Faq extends Model

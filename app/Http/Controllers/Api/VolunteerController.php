@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Auth;
 use App\Exceptions\NotImplementedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Contracts\VolunteerRequestContract;

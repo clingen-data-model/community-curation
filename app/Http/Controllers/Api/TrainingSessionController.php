@@ -9,7 +9,6 @@ use App\Notifications\TrainingSessionInviteEmail;
 use App\TrainingSession;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TrainingSessionController extends Controller
 {

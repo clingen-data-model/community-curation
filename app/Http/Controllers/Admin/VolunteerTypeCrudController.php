@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\VolunteerTypeRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\VolunteerTypeRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\VolunteerType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
+use Illuminate\Http\Request;
 
 /**
  * Class VolunteerTypeCrudController.

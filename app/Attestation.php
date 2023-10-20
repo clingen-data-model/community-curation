@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Event;
 use App\Events\AttestationCreated;
 use App\Events\AttestationSigned;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Event;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class Attestation extends Model

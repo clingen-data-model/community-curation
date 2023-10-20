@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Mail\Events\SentMessage;
+use Illuminate\Support\Facades\Log;
 
 class LogSentMessage
 {

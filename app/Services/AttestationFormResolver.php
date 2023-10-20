@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
 use App\Attestation;
 use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
 use Exception;
+use Illuminate\Support\Str;
 
 class AttestationFormResolver implements AttestationFormResolverContract
 {

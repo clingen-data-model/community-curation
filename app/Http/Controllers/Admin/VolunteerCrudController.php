@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Country;
 use App\Http\Requests\VolunteerAdminRequest as StoreRequest;
 use App\Http\Requests\VolunteerAdminRequest as UpdateRequest;
@@ -13,6 +11,7 @@ use App\VolunteerStatus;
 use App\VolunteerType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
+use Illuminate\Http\Request;
 
 /**
  * Class VolunteerCrudController.

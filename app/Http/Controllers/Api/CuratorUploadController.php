@@ -10,7 +10,6 @@ use App\Http\Resources\UploadResource;
 use App\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class CuratorUploadController extends Controller

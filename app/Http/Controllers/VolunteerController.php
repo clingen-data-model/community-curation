@@ -6,7 +6,6 @@ use App\Exceptions\NotImplementedException;
 use App\Http\Resources\VolunteerUserResource;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class VolunteerController extends Controller
 {

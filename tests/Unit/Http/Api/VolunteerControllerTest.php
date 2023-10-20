@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Http\Api;
 
-use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class VolunteerControllerTest extends TestCase

@@ -2,10 +2,10 @@
 
 namespace App\Console;
 
-use Illuminate\Support\Facades\Log;
 use App\Jobs\Dev\TestJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
