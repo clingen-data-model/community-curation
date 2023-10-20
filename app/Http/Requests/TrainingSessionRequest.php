@@ -32,8 +32,13 @@ class TrainingSessionRequest extends FormRequest
                     }
                 },
             ],
-            'topic_id' => 'required',
-            'url' => 'required|url',
+            'topic_id' => [
+                'required',
+            ],
+            'url' => [
+                'required',
+                'url',
+            ],
             'starts_at' => ['required', 'date'],
             'ends_at' => ['required', 'date', 'after:starts_at'],
         ];

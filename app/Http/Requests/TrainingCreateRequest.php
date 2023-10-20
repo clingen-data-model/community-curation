@@ -20,9 +20,18 @@ class TrainingCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
-            'aptitude_id' => 'required|exists:aptitudes,id',
-            'assignment_id' => 'nullable|exists:assignments,id',
+            'user_id' => [
+                'required',
+                'exists:users,id',
+            ],
+            'aptitude_id' => [
+                'required',
+                'exists:aptitudes,id',
+            ],
+            'assignment_id' => [
+                'nullable',
+                'exists:assignments,id',
+            ],
         ];
     }
 }

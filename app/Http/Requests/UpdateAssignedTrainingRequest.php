@@ -20,7 +20,10 @@ class UpdateAssignedTrainingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'trained_at' => 'required|date',
+            'trained_at' => [
+                'required',
+                'date',
+            ],
         ];
     }
 

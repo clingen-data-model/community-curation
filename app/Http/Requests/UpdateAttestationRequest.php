@@ -20,7 +20,9 @@ class UpdateAttestationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'signature' => 'required',
+            'signature' => [
+                'required',
+            ],
         ];
     }
 }

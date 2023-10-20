@@ -21,7 +21,11 @@ class WorkingGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:5|max:255',
+            'name' => [
+                'required',
+                'min:5',
+                'max:255',
+            ],
         ];
     }
 }

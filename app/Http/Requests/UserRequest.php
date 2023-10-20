@@ -22,8 +22,16 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|min:2|max:255',
-            'last_name' => 'required|min:2|max:255',
+            'first_name' => [
+                'required',
+                'min:2',
+                'max:255',
+            ],
+            'last_name' => [
+                'required',
+                'min:2',
+                'max:255',
+            ],
             'email' => ['required', 'min:6', 'max:255'],
             'email' => ['required', 'min:6', 'max:255', Rule::unique('users', 'email')->ignore(request()->route('id'))],
         ];

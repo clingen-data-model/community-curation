@@ -20,8 +20,12 @@ class CustomTrainingEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => 'required',
-            'recipients' => 'required',
+            'body' => [
+                'required',
+            ],
+            'recipients' => [
+                'required',
+            ],
         ];
     }
 }

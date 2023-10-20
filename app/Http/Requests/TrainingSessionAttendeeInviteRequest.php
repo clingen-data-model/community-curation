@@ -20,7 +20,9 @@ class TrainingSessionAttendeeInviteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attendee_ids' => 'required',
+            'attendee_ids' => [
+                'required',
+            ],
         ];
     }
 }

@@ -22,7 +22,10 @@ class ActivityAssignmentCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => [
+                'required',
+                'exists:users,id',
+            ],
             'assignable_id' => [
                 'required',
             ],

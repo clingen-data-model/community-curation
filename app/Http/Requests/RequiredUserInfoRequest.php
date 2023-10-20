@@ -22,8 +22,14 @@ class RequiredUserInfoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
-            'country_id' => 'required|exists:countries,id',
+            'user_id' => [
+                'required',
+                'exists:users,id',
+            ],
+            'country_id' => [
+                'required',
+                'exists:countries,id',
+            ],
             'timezone' => [
                 'required',
                 Rule::in(collect((new SurveyOptions())->timezones())->pluck('id')),

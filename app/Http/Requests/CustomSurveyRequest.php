@@ -27,8 +27,14 @@ class CustomSurveyRequest extends FormRequest
         }
 
         return [
-            'curation_group_id' => 'required|exists:curation_groups,id',
-            'volunteer_type_id' => 'required|exists:volunteer_types,id',
+            'curation_group_id' => [
+                'required',
+                'exists:curation_groups,id',
+            ],
+            'volunteer_type_id' => [
+                'required',
+                'exists:volunteer_types,id',
+            ],
             'name' => [
                 'required',
                 'not_regex:/[\[\]{}\|\\/\~#<>\\\]/',

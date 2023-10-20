@@ -21,10 +21,23 @@ class CurationGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:5|max:255',
-            'working_group_id' => 'nullable|exists:working_groups,id',
-            'curation_activity_id' => 'required|exists:curation_activities,id',
-            'url' => 'nullable|url',
+            'name' => [
+                'required',
+                'min:5',
+                'max:255',
+            ],
+            'working_group_id' => [
+                'nullable',
+                'exists:working_groups,id',
+            ],
+            'curation_activity_id' => [
+                'required',
+                'exists:curation_activities,id',
+            ],
+            'url' => [
+                'nullable',
+                'url',
+            ],
         ];
     }
 

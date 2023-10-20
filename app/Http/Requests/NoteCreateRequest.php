@@ -21,9 +21,15 @@ class NoteCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'notable_type' => 'required',
-            'notable_id' => 'required',
-            'content' => 'required',
+            'notable_type' => [
+                'required',
+            ],
+            'notable_id' => [
+                'required',
+            ],
+            'content' => [
+                'required',
+            ],
         ];
     }
 }
