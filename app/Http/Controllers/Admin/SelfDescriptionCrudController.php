@@ -34,7 +34,7 @@ class SelfDescriptionCrudController extends CrudController
 
         $this->crud->removeButton('delete');
         $this->crud
-            ->orderBy('active', 'desc')
+            ->orderByDesc('active')
             ->orderBy('name');
     }
 

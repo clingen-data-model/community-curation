@@ -36,7 +36,7 @@ class AssignmentController extends Controller
         $assignable = ($request->assignable_type)::find($request->assignable_id);
 
         AssignVolunteerToAssignable::dispatch($volunteer, $assignable);
-        $newAssignment = Assignment::orderBy('id', 'desc')
+        $newAssignment = Assignment::orderByDesc('id')
             ->limit(1)
             ->first();
         $newAssignment->load(['volunteer', 'assignable', 'status']);

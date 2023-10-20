@@ -32,7 +32,7 @@ class InterestCrudController extends CrudController
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
         $this->crud->removeButton('delete');
         $this->crud
-            ->orderBy('active', 'desc')
+            ->orderByDesc('active')
             ->orderBy('name');
     }
 

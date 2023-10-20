@@ -69,7 +69,7 @@ class CampaignCrudController extends CrudController
         $this->crud->removeButton('delete');
         $this->crud
             ->orderBy('display_order')
-            ->orderBy('active', 'desc')
+            ->orderByDesc('active')
             ->orderBy('name');
     }
 

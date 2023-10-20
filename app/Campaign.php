@@ -37,7 +37,7 @@ class Campaign extends Model
         parent::boot();
 
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderBy('display_order', 'asc');
+            $builder->orderBy('display_order');
         });
 
         static::saved(function ($model) {

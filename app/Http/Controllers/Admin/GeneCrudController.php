@@ -32,7 +32,7 @@ class GeneCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix').'/gene');
         $this->crud->setEntityNameStrings('gene', 'genes');
         $this->crud
-            ->orderBy('symbol', 'asc');
+            ->orderBy('symbol');
 
         $this->configureFields();
         $this->configureColumns();
