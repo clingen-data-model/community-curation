@@ -30,7 +30,7 @@ abstract class AbstractReportWriter implements ReportWriter
             $value = $item;
             if (is_object($item)) {
                 $value = $item->toString();
-                if (in_array(get_class($item), [Carbon::class, IlluminateCarbon::class, DateTime::class])) {
+                if (in_array($item::class, [Carbon::class, IlluminateCarbon::class, DateTime::class])) {
                     $value = $item->format('Y-m-d');
                 }
             }

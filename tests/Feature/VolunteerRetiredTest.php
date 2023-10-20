@@ -35,13 +35,13 @@ class VolunteerRetiredTest extends TestCase
 
         $this->assertDatabaseHas('assignments', [
             'user_id' => $this->volunteer->id,
-            'assignable_type' => get_class($this->activity),
+            'assignable_type' => $this->activity::class,
             'assignable_id' => $this->activity->id,
             'assignment_status_id' => config('project.assignment-statuses.retired'),
         ]);
         $this->assertDatabaseHas('assignments', [
             'user_id' => $this->volunteer->id,
-            'assignable_type' => get_class($this->curationGroup),
+            'assignable_type' => $this->curationGroup::class,
             'assignable_id' => $this->curationGroup->id,
             'assignment_status_id' => config('project.assignment-statuses.retired'),
         ]);
@@ -56,13 +56,13 @@ class VolunteerRetiredTest extends TestCase
 
         $this->assertDatabaseHas('assignments', [
             'user_id' => $this->volunteer->id,
-            'assignable_type' => get_class($this->activity),
+            'assignable_type' => $this->activity::class,
             'assignable_id' => $this->activity->id,
             'assignment_status_id' => config('project.assignment-statuses.retired'),
         ]);
         $this->assertDatabaseHas('assignments', [
             'user_id' => $this->volunteer->id,
-            'assignable_type' => get_class($this->curationGroup),
+            'assignable_type' => $this->curationGroup::class,
             'assignable_id' => $this->curationGroup->id,
             'assignment_status_id' => config('project.assignment-statuses.retired'),
         ]);
@@ -77,13 +77,13 @@ class VolunteerRetiredTest extends TestCase
 
         $this->assertDatabaseHas('assignments', [
             'user_id' => $this->volunteer->id,
-            'assignable_type' => get_class($this->activity),
+            'assignable_type' => $this->activity::class,
             'assignable_id' => $this->activity->id,
             'assignment_status_id' => config('project.assignment-statuses.retired'),
         ]);
         $this->assertDatabaseHas('assignments', [
             'user_id' => $this->volunteer->id,
-            'assignable_type' => get_class($this->curationGroup),
+            'assignable_type' => $this->curationGroup::class,
             'assignable_id' => $this->curationGroup->id,
             'assignment_status_id' => config('project.assignment-statuses.retired'),
         ]);

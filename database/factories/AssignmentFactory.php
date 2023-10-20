@@ -33,7 +33,7 @@ class AssignmentFactory extends Factory
 
         return [
             'user_id' => $user->id,
-            'assignable_type' => get_class($panel),
+            'assignable_type' => $panel::class,
             'assignable_id' => $panel->id,
         ];
     }

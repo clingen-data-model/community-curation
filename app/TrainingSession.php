@@ -58,7 +58,7 @@ class TrainingSession extends Model
         $topicType = CurationActivity::class;
         if (is_object($topic) && $topic instanceof Model) {
             $topicId = $topic->id;
-            $topicType = get_class($topic);
+            $topicType = $topic::class;
         }
 
         return $query->where([

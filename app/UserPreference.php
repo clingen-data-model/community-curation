@@ -75,7 +75,7 @@ class UserPreference extends Model
 
     public function scopeForPreference($query, $preference)
     {
-        if (is_object($preference) && get_class($preference) == Preference::class) {
+        if (is_object($preference) && $preference::class == Preference::class) {
             return $query->where('preference_id', $preference->id);
         }
         if (is_numeric($preference)) {
