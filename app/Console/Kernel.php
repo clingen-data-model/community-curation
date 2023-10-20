@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        if (env('TEST_SCHEDULER')) {
+        if (config('settings.test_scheduler')) {
             $schedule->call(function () {
                 Log::info('testing scheduler');
                 TestJob::dispatch();
