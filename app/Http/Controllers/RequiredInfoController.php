@@ -17,7 +17,7 @@ class RequiredInfoController extends Controller
         $user = $request->user();
 
         if (! is_null($user->country_id) && ! is_null($user->timezone) && $user->timezone != 'UTC') {
-            return redirect('/');
+            return redirect()->to('/');
         }
 
         $countries = Country::all();
@@ -36,13 +36,13 @@ class RequiredInfoController extends Controller
         ]);
         $request->session()->flash('success', 'Your information has been updated.  Thanks!');
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     public function bypass(Request $request): RedirectResponse
     {
         $request->session()->put('app_impersonate_required_info_bypass', true);
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 }

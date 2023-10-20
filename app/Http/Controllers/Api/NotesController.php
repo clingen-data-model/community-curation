@@ -84,6 +84,6 @@ class NotesController extends Controller
         }
         $note->delete();
 
-        return response('successfully deleted', 200);
+        return response('successfully deleted');
     }
 }

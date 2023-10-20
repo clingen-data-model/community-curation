@@ -40,7 +40,7 @@ class VolunteerMetricsController extends Controller
 
         $counts = $this->formatData($counts);
 
-        return response($counts->toJson(), 200, ['Content-Type' => 'text/json']);
+        return response($counts->toJson())->withHeaders(['Content-Type' => 'text/json']);
     }
 
     private function formatData($counts): Collection

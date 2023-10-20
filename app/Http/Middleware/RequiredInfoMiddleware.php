@@ -17,7 +17,7 @@ class RequiredInfoMiddleware
         $response = $next($request);
 
         if (! $request->session()->get('app_impersonate_required_info_bypass') && ! $request->user()->hasRequiredInfo()) {
-            return redirect('/required-info');
+            return redirect()->to('/required-info');
         }
 
         return $response;

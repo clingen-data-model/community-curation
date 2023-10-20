@@ -136,7 +136,7 @@ Route::middleware('auth', 'role:programmer')->group(function () {
             $storagePath = storage_path('/app/'.$upload->file_path);
 
             if (file_exists($storagePath)) {
-                return response(file_get_contents($storagePath), 200, ['Content-Type' => 'application/pdf']);
+                return response(file_get_contents($storagePath))->withHeaders(['Content-Type' => 'application/pdf']);
             }
 
             return $upload->file_path.' does not exist';

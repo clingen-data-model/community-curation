@@ -51,12 +51,12 @@ class VolunteerFollowupController
 
     public function sixMonth(): RedirectResponse
     {
-        return redirect('volunteer-followup/volunteer-six-month1');
+        return redirect()->to('volunteer-followup/volunteer-six-month1');
     }
 
     public function threeMonth(): RedirectResponse
     {
-        return redirect('volunteer-followup/volunteer-three-month1');
+        return redirect()->to('volunteer-followup/volunteer-three-month1');
     }
 
     protected function getResponse($respondent, $surveySlug, $responseId)

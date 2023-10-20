@@ -11,6 +11,6 @@ class SurveyByIdController extends Controller
     {
         $surveySlug = class_survey()::find($surveyId)->slug;
 
-        return redirect(route('surveys.responses.show', [$surveySlug, $responseId]));
+        return redirect()->route('surveys.responses.show', [$surveySlug, $responseId]);
     }
 }

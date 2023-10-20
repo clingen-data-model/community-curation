@@ -59,12 +59,12 @@ class Handler extends ExceptionHandler
             if ($exception instanceof AuthorizationException) {
                 Session::flash('error', 'Not authorized.');
 
-                return redirect('/');
+                return redirect()->to('/');
             }
             if ($exception instanceof UnauthorizedException) {
                 Session::flash('error', 'Not authorized.');
 
-                return redirect('/');
+                return redirect()->to('/');
             }
         }
 
