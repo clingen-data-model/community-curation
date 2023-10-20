@@ -61,12 +61,12 @@ class CuratorUploadController extends Controller
      */
     public function store(CreateUploadRequest $request)
     {
-        if (! Auth::user()->can('create', Upload::class)) {
+        if (! $request->user()->can('create', Upload::class)) {
             return response()->json(['error' => 'You do not have permission to create a document.'], 403);
         }
 
-        if (Auth::user()->id !== (int) $request->user_id
-            && ! Auth::user()->can('createForOthers', Upload::class)
+        if ($request->user()->id !== (int) $request->user_id
+            && ! $request->user()->can('createForOthers', Upload::class)
         ) {
             return response()->json(['error' => 'You do not have permission to create a document for another user.'], 403);
         }
@@ -86,24 +86,24 @@ class CuratorUploadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
         $upload = Upload::findOrFail($id);
         $upload->load('category');
 
-        if (Auth::user()->id !== $upload->user_id && ! Auth::user()->can('list uploads')) {
+        if ($request->user()->id !== $upload->user_id && ! $request->user()->can('list uploads')) {
             return response('', 403);
         }
 
         return new UploadResource($upload);
     }
 
-    public function getFile($id)
+    public function getFile(Request $request, $id)
     {
         $upload = Upload::findOrFail($id);
         $upload->load('category');
 
-        if (! Auth::user()->can('view', $upload)) {
+        if (! $request->user()->can('view', $upload)) {
             return response('', 403);
         }
 
@@ -122,7 +122,7 @@ class CuratorUploadController extends Controller
     public function update(Request $request, int $id)
     {
         $upload = Upload::find($id);
-        if (! Auth::user()->can('update', $upload)) {
+        if (! $request->user()->can('update', $upload)) {
             return response(null, 403);
         }
 
@@ -135,10 +135,10 @@ class CuratorUploadController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): Response
+    public function destroy(Request $request, int $id): Response
     {
         $upload = Upload::find($id);
-        if (! Auth::user()->can('delete', $upload)) {
+        if (! $request->user()->can('delete', $upload)) {
             return response(null, 403);
         }
 

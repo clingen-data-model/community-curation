@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Country;
 use App\Http\Requests\VolunteerAdminRequest as StoreRequest;
@@ -119,23 +120,23 @@ class VolunteerCrudController extends CrudController
         $this->crud->setValidation(UpdateRequest::class);
     }
 
-    public function setupListOperation()
+    public function setupListOperation(Request $request)
     {
-        if (! Auth::user()->can('create users')) {
+        if (! $request->user()->can('create users')) {
             $this->crud->RemoveButton('create');
         }
 
         // remove update button so we don't have to support member eps in multiple places.
-        // if (!Auth::user()->can('update users')) {
+        // if (!$request->user()->can('update users')) {
         //     $this->crud->RemoveButtonFromStack('update', 'line');
         // }
         $this->crud->removeButton('update');
 
-        if (! Auth::user()->can('delete users')) {
+        if (! $request->user()->can('delete users')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
 
-        if (Auth::user()->canImpersonate()) {
+        if ($request->user()->canImpersonate()) {
             $this->crud->addButtonFromView('line', 'impersonate-users', 'impersonate_user', 'end'); // add a button; possible types are: view, model_functiona
         }
 

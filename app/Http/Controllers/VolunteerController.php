@@ -15,10 +15,10 @@ class VolunteerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (Auth::user()->hasRole('volunteer') && ! Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer'])) {
-            return redirect('/volunteers/'.Auth::user()->id);
+        if ($request->user()->hasRole('volunteer') && ! $request->user()->hasAnyRole(['admin', 'super-admin', 'programmer'])) {
+            return redirect('/volunteers/'.$request->user()->id);
         }
 
         return view('volunteers.index');
@@ -49,13 +49,13 @@ class VolunteerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(User $volunteer)
+    public function show(Request $request, User $volunteer)
     {
         if (
-            (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id)
-            && (Auth::user()->hasRole('volunteer') && ! Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer']))
+            ($request->user()->hasRole('volunteer') && $request->user()->id !== $volunteer->id)
+            && ($request->user()->hasRole('volunteer') && ! $request->user()->hasAnyRole(['admin', 'super-admin', 'programmer']))
         ) {
-            return redirect('/volunteers/'.Auth::user()->id);
+            return redirect('/volunteers/'.$request->user()->id);
         }
         $volunteer->load([
             'volunteerStatus',

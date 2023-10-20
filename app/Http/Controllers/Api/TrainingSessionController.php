@@ -95,7 +95,7 @@ class TrainingSessionController extends Controller
         TrainingSession::findOrFail($id)->delete();
     }
 
-    public function inviteEmailPreview($id)
+    public function inviteEmailPreview(Request $request, $id)
     {
         if ($id == 'null') {
             $trainingSession = TrainingSession::createDummy();
@@ -104,6 +104,6 @@ class TrainingSessionController extends Controller
         }
 
         return (new TrainingSessionInviteEmail($trainingSession))
-            ->toMail(Auth::user());
+            ->toMail($request->user());
     }
 }

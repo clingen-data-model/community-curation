@@ -107,10 +107,10 @@ class VolunteerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(VolunteerRequestContract $request, int $id)
+    public function update(Request $request, VolunteerRequestContract $request, int $id)
     {
         $volunteer = User::findOrFail($id);
-        if (! $this->policy->update(Auth::user(), $volunteer)) {
+        if (! $this->policy->update($request->user(), $volunteer)) {
             return response('Unauthorized', 403);
         }
 

@@ -44,7 +44,7 @@ class ApplicationReportController extends Controller
         $data->put('metadata', $this->getMetadata($filterParams));
 
         if (! $data->has('personal')) {
-            session()->flash('warning', 'Nothing matched your filters.');
+            $request->session()->flash('warning', 'Nothing matched your filters.');
 
             return redirect()->back();
         }

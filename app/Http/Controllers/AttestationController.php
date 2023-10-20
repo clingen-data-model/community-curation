@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Attestation;
 use App\Contracts\AttestationFormResolver;
 use App\Http\Requests\UpdateAttestationRequest;
@@ -23,9 +24,9 @@ class AttestationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Attestation $attestation)
+    public function show(Request $request, Attestation $attestation)
     {
-        if (! Auth::user()->can('view', $attestation)) {
+        if (! $request->user()->can('view', $attestation)) {
             abort(403);
         }
 
@@ -35,9 +36,9 @@ class AttestationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attestation $attestation): View
+    public function edit(Request $request, Attestation $attestation): View
     {
-        if (! Auth::user()->can('view', $attestation)) {
+        if (! $request->user()->can('view', $attestation)) {
             abort(403);
         }
 
@@ -56,7 +57,7 @@ class AttestationController extends Controller
     public function update(UpdateAttestationRequest $request, $id)
     {
         $attestation = Attestation::findOrFail($id);
-        if (! Auth::user()->can('update', $attestation)) {
+        if (! $request->user()->can('update', $attestation)) {
             return abort(403);
         }
 
@@ -65,7 +66,7 @@ class AttestationController extends Controller
             'data' => $request->except('_method', '_token'),
         ]);
 
-        session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');
+        $request->session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');
 
         return redirect('/volunteers/'.$attestation->user_id);
     }

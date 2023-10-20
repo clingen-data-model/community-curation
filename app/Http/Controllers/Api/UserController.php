@@ -42,16 +42,16 @@ class UserController extends Controller
         return new CurrentUserResource($user);
     }
 
-    public function impersonatableUsers()
+    public function impersonatableUsers(Request $request)
     {
-        $userModel = Auth::user();
+        $userModel = $request->user();
         $userModel->load(['roles']);
         $user = $userModel->toArray();
         $user['permissions'] = $userModel->getAllPermissions()->toArray();
         $user['panel_summary'] = $userModel->panel_summary;
 
         $impersonatable = collect();
-        if (Auth::user()->canImpersonate()) {
+        if ($request->user()->canImpersonate()) {
             $impersonatable = Cache::remember('impersonatable-users', 60, function () {
                 return User::with('roles')->orderBy('first_name')->get()->filter(function ($user) {
                     return $user->canBeImpersonated();

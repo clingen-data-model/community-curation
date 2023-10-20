@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\WorkingGroupRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
@@ -22,7 +23,7 @@ class WorkingGroupCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation { destroy as traitDestroy; }
 
-    public function setup()
+    public function setup(Request $request)
     {
         /*
         |--------------------------------------------------------------------------
@@ -46,15 +47,15 @@ class WorkingGroupCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        if (! Auth::user()->can('create', WorkingGroup::class)) {
+        if (! $request->user()->can('create', WorkingGroup::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (! Auth::user()->can('update working-groups')) {
+        if (! $request->user()->can('update working-groups')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (! Auth::user()->can('delete working-groups')) {
+        if (! $request->user()->can('delete working-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }

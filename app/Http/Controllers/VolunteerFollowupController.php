@@ -15,11 +15,11 @@ class VolunteerFollowupController
     {
         $this->setPreviousLocation($request);
 
-        $respondent = Auth::user();
+        $respondent = $request->user();
         $response = $this->getResponse($respondent, $surveySlug, $responseId);
 
         if ($respondent->id == $response->respondent_id
-            || Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin'])) {
+            || $request->user()->hasAnyRole(['programmer', 'super-admin', 'admin'])) {
             $control = new SurveyControlService($request, $response);
 
             return $control->showPage();
@@ -30,12 +30,12 @@ class VolunteerFollowupController
 
     public function store(Request $request, $surveySlug, $id = null)
     {
-        $respondent = Auth::user();
+        $respondent = $request->user();
         $response = $this->getResponse($respondent, $surveySlug, $id);
 
         if (
             $respondent->id == $response->respondent_id
-            || Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin'])
+            || $request->user()->hasAnyRole(['programmer', 'super-admin', 'admin'])
         ) {
             if ($response->finalized_at) {
                 throw new AuthorizationException('You can not update a finalized followup survey response');

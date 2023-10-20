@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Country;
 use App\Http\Requests\RequiredUserInfoRequest;
 use App\Surveys\SurveyOptions;
@@ -11,9 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class RequiredInfoController extends Controller
 {
-    public function edit()
+    public function edit(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->user();
 
         if (! is_null($user->country_id) && ! is_null($user->timezone) && $user->timezone != 'UTC') {
             return redirect('/');
@@ -33,14 +34,14 @@ class RequiredInfoController extends Controller
             'timezone' => $request->timezone,
             'country_id' => $request->country_id,
         ]);
-        session()->flash('success', 'Your information has been updated.  Thanks!');
+        $request->session()->flash('success', 'Your information has been updated.  Thanks!');
 
         return redirect('/');
     }
 
-    public function bypass(): RedirectResponse
+    public function bypass(Request $request): RedirectResponse
     {
-        session()->put('app_impersonate_required_info_bypass', true);
+        $request->session()->put('app_impersonate_required_info_bypass', true);
 
         return redirect('/');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Country;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\UserRequest as StoreRequest;
@@ -27,7 +28,7 @@ class UserCrudController extends CrudController
 
     private $includeVolunteers = false;
 
-    public function setup()
+    public function setup(Request $request)
     {
         /*
         |--------------------------------------------------------------------------
@@ -156,19 +157,19 @@ class UserCrudController extends CrudController
             'model' => Role::class,
         ]);
 
-        if (! Auth::user()->can('create users')) {
+        if (! $request->user()->can('create users')) {
             $this->crud->RemoveButton('create');
         }
 
-        if (! Auth::user()->can('update users')) {
+        if (! $request->user()->can('update users')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (! Auth::user()->can('delete users')) {
+        if (! $request->user()->can('delete users')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
 
-        if (Auth::user()->canImpersonate()) {
+        if ($request->user()->canImpersonate()) {
             $this->crud->addButtonFromView('line', 'impersonate-users', 'impersonate_user', 'end'); // add a button; possible types are: view, model_functiona
         }
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use App\Campaign;
 use App\Http\Requests\CampaignRequest as StoreRequest;
 use App\Http\Requests\CampaignRequest as UpdateRequest;
@@ -89,11 +89,11 @@ class CampaignCrudController extends CrudController
         $this->crud->set('reorder.max_level', 1);
     }
 
-    public function saveReorder()
+    public function saveReorder(Request $request)
     {
         $this->crud->hasAccessOrFail('reorder');
 
-        $allEntries = Request::input('tree');
+        $allEntries = $request->input('tree');
 
         DB::beginTransaction();
         foreach ($allEntries as $idx => $entry) {

@@ -40,7 +40,7 @@ class NotesController extends Controller
     public function store(NoteCreateRequest $request)
     {
         $data = $request->all();
-        $data['created_by_id'] = Auth::user()->id;
+        $data['created_by_id'] = $request->user()->id;
         $note = Note::create($data);
         $note->load('creator');
 
@@ -77,9 +77,9 @@ class NotesController extends Controller
      *
      * @param  \App\Note  $notes
      */
-    public function destroy(Note $note): Response
+    public function destroy(Request $request, Note $note): Response
     {
-        if (! Auth::user()->can('delete notes')) {
+        if (! $request->user()->can('delete notes')) {
             throw new UnauthorizedException('User does not have permission to delete notes.');
         }
         $note->delete();
