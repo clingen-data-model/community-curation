@@ -3,6 +3,7 @@
 namespace App;
 
 // use App\Traits\TranscodesHtmlToMarkdown;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Request;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -52,7 +53,7 @@ class Faq extends Model
         if ($files_to_clear) {
             foreach ($files_to_clear as $key => $filename) {
                 Storage::disk($disk)->delete($filename);
-                $attribute_value = array_where($attribute_value, function ($value, $key) use ($filename) {
+                $attribute_value = Arr::where($attribute_value, function ($value, $key) use ($filename) {
                     return $value != $filename;
                 });
             }

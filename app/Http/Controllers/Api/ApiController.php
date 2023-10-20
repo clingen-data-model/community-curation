@@ -48,7 +48,7 @@ class ApiController extends Controller
 
     private function resolveClassName($classString)
     {
-        $className = '\\App\\'.ucfirst(camel_case(Str::singular($classString)));
+        $className = '\\App\\'.ucfirst(Str::camel(Str::singular($classString)));
 
         if (! class_exists($className)) {
             abort(404, 'We couldn\'t find what you were looking for.');
