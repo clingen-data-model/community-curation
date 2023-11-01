@@ -1,4 +1,5 @@
-window.Vue = require('vue');
+import Vue from 'vue';
+window.Vue = Vue;
 
 window.Vue.filter('ucfirst', s => {
     if (typeof s !== 'string') return ''

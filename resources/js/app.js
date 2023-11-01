@@ -1,16 +1,19 @@
-require('./bootstrap');
+import './bootstrap';
 
-require('sirs-skiptrigger')
-require('mutually-exclusive')
+import 'sirs-skiptrigger'
+import 'mutually-exclusive'
 
 /**
  * require blank scss file to force include of style-loader and css-loader
  */
-require('../sass/blank.scss')
+import '../sass/blank.scss'
 
-window.datepicker = require('bootstrap-datepicker');
-window.timepicker = require('timepicker');
-window.Vue = require('vue');
+import datepicker from 'bootstrap-datepicker';
+window.datepicker = datepicker;
+import timepicker from 'timepicker';
+window.timepicker = timepicker;
+import Vue from 'vue';
+window.Vue = Vue;
 
 import getAllCurationActivities from './resources/curation_activities/get_all_curation_activities'
 import getAllCurationGroups from './resources/curation_groups/get_all_curation_groups'
