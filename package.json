@@ -1,15 +1,11 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
         "export-configs": "php artisan config:export",
-        "prod": "php artisan config:export; npm run production",
-        "production": "mix --production",
-        "test": "mocha-webpack --webpack-config=node_modules/laravel-mix/setup/webpack.config.js --require tests/Js/setup.js tests/Js/**/*.spec.js"
+        "prod": "php artisan config:export; npm run build",
+        "test": "mocha-webpack --webpack-config=node_modules/laravel-mix/setup/webpack.config.js --require tests/Js/setup.js tests/Js/**/*.spec.js",
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
