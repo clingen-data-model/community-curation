@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import GroupVolunteerInfo from '../GroupVolunteerInfo'
+import GroupVolunteerInfo from '../GroupVolunteerInfo.vue'
 
 export default {
     components: {

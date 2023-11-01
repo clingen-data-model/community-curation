@@ -34,7 +34,7 @@
     </div>
 </template>
 <script>
-    import TrainingAndAttestationControl from '../assignments/TrainingAndAttestationControl'
+    import TrainingAndAttestationControl from '../assignments/TrainingAndAttestationControl.vue'
 
     export default {
         components: {

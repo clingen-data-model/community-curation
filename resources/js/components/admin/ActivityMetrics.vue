@@ -14,7 +14,7 @@
 <script>
 import getUsers from '../../resources/users/get_users'
 import moment from 'moment-timezone'
-import MetricBox from './MetricBox'
+import MetricBox from './MetricBox.vue'
 
 export default {
     components: {

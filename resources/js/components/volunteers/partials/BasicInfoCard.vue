@@ -69,9 +69,9 @@
 <script>
     import getAllCountries from '../../../resources/volunteers/get_all_countries'
 
-    import AlreadyMemberNotice from './AlreadyMemberNotice'
-    import BasicInfoForm from './BasicInfoForm'
-    import HypothesisReminder from './HypothesisReminder'
+    import AlreadyMemberNotice from './AlreadyMemberNotice.vue'
+    import BasicInfoForm from './BasicInfoForm.vue'
+    import HypothesisReminder from './HypothesisReminder.vue'
 
     export default {
         components: {

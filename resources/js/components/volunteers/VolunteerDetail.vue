@@ -99,18 +99,18 @@
     import findVolunteer from '../../resources/volunteers/find_volunteer'
     import impersonateUser from '../../resources/users/impersonate_user'
 
-    import volunteerSummary from './partials/tabs/VolunteerSummary'
-    import SurveyResponses from './partials/tabs/SurveyResponses'
+    import volunteerSummary from './partials/tabs/VolunteerSummary.vue'
+    import SurveyResponses from './partials/tabs/SurveyResponses.vue'
 
-    import AttestationsList from './partials/AttestationsList';
-    import volunteerStatusAlert from './partials/VolunteerStatusAlert'
-    import ApplicationData from './partials/ApplicationData'
-    import PrioritiesList from './partials/PrioritiesList'
-    import StatusForm from './partials/StatusForm'
+    import AttestationsList from './partials/AttestationsList.vue';
+    import volunteerStatusAlert from './partials/VolunteerStatusAlert.vue'
+    import ApplicationData from './partials/ApplicationData.vue'
+    import PrioritiesList from './partials/PrioritiesList.vue'
+    import StatusForm from './partials/StatusForm.vue'
     import Volunteer from '../../entities/volunteer'
-    import DocumentsCard from './partials/DocumentsCard'
-    import TrainingsList from './partials/TrainingsList'
-    import DemographicInfo from './partials/DemographicInfo'
+    import DocumentsCard from './partials/DocumentsCard.vue'
+    import TrainingsList from './partials/TrainingsList.vue'
+    import DemographicInfo from './partials/DemographicInfo.vue'
     import ComprehensiveConvertConfirmation from './ComprehensiveConvertConfirmation.vue'
 
     export default {

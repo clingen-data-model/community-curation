@@ -25,7 +25,7 @@
     </span>
 </template>
 <script>
-import AssignmentStatusInput from '../volunteers/partials/AssignmentStatusInput';
+import AssignmentStatusInput from '../volunteers/partials/AssignmentStatusInput.vue';
 import updateAssignment from '../../resources/assignments/update_assignment'
 
 export default {

@@ -35,7 +35,7 @@
 </template>
 <script>
 import { all as getAllNotes, destroy as destroyNote } from '../../resources/notes'
-import NoteForm from './NoteForm'
+import NoteForm from './NoteForm.vue'
 
 export default {
     components: {

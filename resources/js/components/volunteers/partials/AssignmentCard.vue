@@ -69,9 +69,9 @@
 </template>
 
 <script>
-    import AssignmentStatusForm from './AssignmentStatusForm';
+    import AssignmentStatusForm from './AssignmentStatusForm.vue';
     import UserAptitudeCollection from '../../../collections/user_aptitude_collection'
-    import AssignmentSummaryColumn from '../assignments/AssignmentSummaryColumn'
+    import AssignmentSummaryColumn from '../assignments/AssignmentSummaryColumn.vue'
 
     export default {
         components: {

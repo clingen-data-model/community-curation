@@ -83,7 +83,7 @@ import {mapMutations} from 'vuex'
 import getAttendees from '../../resources/training_sessions/attendees/get_attendees'
 import markTrainingComplete from '../../resources/trainings/mark_training_complete'
 
-import AttendeeEmailForm from './AttendeeEmailForm'
+import AttendeeEmailForm from './AttendeeEmailForm.vue'
 
 export default {
     components: {
