@@ -25,7 +25,6 @@
         "jquery": "^3.5.1",
         "jsdom": "^15.2.1",
         "jsdom-global": "^3.0.2",
-        "laravel-mix": "^6.0.12",
         "lodash": "^4.17.19",
         "material-design-icons": "^3.0.1",
         "mini-css-extract-plugin": "^0.11.0",
@@ -44,11 +43,13 @@
         "vue": "^2.7.0",
         "vue-chartjs": "^3.5.0",
         "vue-date-pick": "^1.4.1",
-        
         "vuex": "^3.1.1",
         "webpack-manifest-plugin": "^2.2.0",
         "webpack-merge": "^5.1.2",
-        "postcss": "^8.2.8"
+        "postcss": "^8.2.8",
+        "vite": "^3.0.2",
+        "laravel-vite-plugin": "^0.6.0",
+        "@vitejs/plugin-vue2": "^1.1.2"
     },
     "dependencies": {
         "@babel/preset-env": "^7.11.0",
