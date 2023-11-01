@@ -36,17 +36,12 @@
 
 
     <!-- Styles -->
-    <link
-        rel="preload stylesheet"
-        href="{{ mix('css/app.css') }}"
-        as="style"
-        onload="this.rel = 'stylesheet'"
-    >
+    @vite('resources/css/app.css')
 
     <noscript>
         {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito&display=swap"> --}}
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        @vite('resources/css/app.css')
     </noscript>
 
     @stack('styles')
@@ -169,7 +164,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ mix('/js/app.js') }}" defer></script>
+    @vite('resources/js/app.js')
 
 </body>
 </html>
