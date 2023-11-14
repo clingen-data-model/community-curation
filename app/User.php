@@ -9,6 +9,7 @@ use App\Contracts\IsNotable;
 use App\Events\Users\UserCreated;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
@@ -510,4 +511,14 @@ class User extends Authenticatable implements IsNotable
 
         return $preference->default;
     }
+
+    // Laravel-ActivityLog options
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+    // Laravel-Permission always return 'web' guard
+    protected function getDefaultGuardName(): string { return 'web'; }
+
 }
