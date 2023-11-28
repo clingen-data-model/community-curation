@@ -20,8 +20,8 @@
 </template>
 
 <script>
-    import AssignmentCard from '../AssignmentCard.vue'
-    import BasicInfoCard from '../BasicInfoCard.vue'
+    import AssignmentCard from '../AssignmentCard'
+    import BasicInfoCard from '../BasicInfoCard'
 
     export default {
         components: {

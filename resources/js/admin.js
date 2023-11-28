@@ -1,7 +1,6 @@
-import './bootstrap';
+require('./bootstrap');
 
-import Vue from 'vue';
-window.Vue = Vue;
+window.Vue = require('vue');
 
 import LoggedInUsersList from './components/admin/LoggedInUsersList'
 window.Vue.component('logged-in-users-list', LoggedInUsersList);

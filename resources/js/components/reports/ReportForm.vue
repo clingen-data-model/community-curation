@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-import VolunteerFilters from '../volunteers/VolunteerFilters.vue'
+import VolunteerFilters from '../volunteers/VolunteerFilters'
 import queryStringFromParams from '../../http/query_string_from_params'
 import moment from 'moment'
 

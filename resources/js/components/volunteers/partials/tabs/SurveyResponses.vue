@@ -36,7 +36,7 @@
     </div>
 </template>
 <script>
-    import SurveyData from '../SurveyData.vue'
+    import SurveyData from '../SurveyData'
 
     export default {
         components: {

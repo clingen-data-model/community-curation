@@ -1,5 +1,4 @@
-import Vue from 'vue';
-window.Vue = Vue;
+window.Vue = require('vue');
 
 /**
  * Import all bootstrap view

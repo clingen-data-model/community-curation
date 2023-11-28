@@ -85,7 +85,7 @@ import destroyTrainingSession from '../../resources/training_sessions/destroy';
 import createTrainingSession from '../../resources/training_sessions/create';
 import updateTrainingSession from '../../resources/training_sessions/update';
 
-import TrainingSessionForm from '../training_sessions/TrainingSessionForm.vue'
+import TrainingSessionForm from '../training_sessions/TrainingSessionForm'
 import TrainingSession from '../../entities/training_session'
 
 export default {

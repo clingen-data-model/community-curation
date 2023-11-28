@@ -105,14 +105,14 @@
     import getAllAptitudes from '../../resources/aptitudes/get_all_aptitudes'
     import deleteAssignment from '../../resources/assignments/delete_assignment'
 
-    import CurationGroupCell from './CurationGroupCell.vue'
-    import GeneGroupSelector from './GeneGroupSelector.vue'
-    import PrioritiesList from '../volunteers/partials/PrioritiesList.vue'
-    import TrainingAndAttestationControl from './TrainingAndAttestationControl.vue'
-    import StatusBadge from './StatusBadge.vue'
-    import AssignActivityButton from './AssignActivityButton.vue'
-    import AssignBaselineButton from './AssignBaselineButton.vue'
-    import SecondaryAptitudeControl from '../aptitudes/SecondaryAptitudeControl.vue'
+    import CurationGroupCell from './CurationGroupCell'
+    import GeneGroupSelector from './GeneGroupSelector'
+    import PrioritiesList from '../volunteers/partials/PrioritiesList'
+    import TrainingAndAttestationControl from './TrainingAndAttestationControl'
+    import StatusBadge from './StatusBadge'
+    import AssignActivityButton from './AssignActivityButton'
+    import AssignBaselineButton from './AssignBaselineButton'
+    import SecondaryAptitudeControl from '../aptitudes/SecondaryAptitudeControl'
 
     export default {
         props: {

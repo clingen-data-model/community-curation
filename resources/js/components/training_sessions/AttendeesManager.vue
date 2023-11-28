@@ -136,14 +136,14 @@
 </template>
 <script>
 import moment from 'moment'
-import InvitedAttendees from './InvitedAttendees.vue'
+import InvitedAttendees from './InvitedAttendees'
 import inviteAttendees from '../../resources/training_sessions/attendees/invite'
 import getTrainableVolunteers from '../../resources/training_sessions/attendees/get_trainable_volunteers'
 import {mapMutations} from 'vuex'
 import updateVolunteer from '../../resources/volunteers/update_volunteer'
-import StatusBadge from '../assignments/StatusBadge.vue'
+import StatusBadge from '../assignments/StatusBadge'
 import copyToClipboard from '../../browser/copyToClipboard'
-import AttendeeEmailForm from './AttendeeEmailForm.vue'
+import AttendeeEmailForm from './AttendeeEmailForm'
 
 export default {
     components: {

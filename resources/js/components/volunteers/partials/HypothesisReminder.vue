@@ -11,7 +11,7 @@
     </only-this-volunteer>
 </template>
 <script>
-import HypothesisLink from '../../HypothesisLink.vue'
+import HypothesisLink from '../../HypothesisLink'
 
 export default {
     components: {

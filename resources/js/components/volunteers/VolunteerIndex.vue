@@ -182,8 +182,8 @@
     import getAllVolunteerStatuses from '../../resources/volunteers/get_all_volunteer_statuses';
     import getAllVolunteerTypes from '../../resources/volunteers/get_all_volunteer_types';
 
-    import AssignmentBriefList from './../assignments/AssignmentBriefList.vue'
-    import AssignmentsReportButton from '../reports/AssignmentsReportButton.vue'
+    import AssignmentBriefList from './../assignments/AssignmentBriefList'
+    import AssignmentsReportButton from '../reports/AssignmentsReportButton'
 
     import { randomBytes } from 'crypto';
 

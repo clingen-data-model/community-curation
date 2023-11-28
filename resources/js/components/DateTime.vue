@@ -8,8 +8,8 @@
 </template>
 <script>
 import moment from 'moment'
-import TimePicker from './forms/inputs/TimePicker.vue'
-import DatePicker from './forms/inputs/DatePicker.vue'
+import TimePicker from './forms/inputs/TimePicker'
+import DatePicker from './forms/inputs/DatePicker'
 
 export default {
     components: {

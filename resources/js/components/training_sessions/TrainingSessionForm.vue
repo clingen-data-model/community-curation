@@ -74,10 +74,10 @@
 <script>
 import moment from 'moment'
 import TrainingSession from '../../entities/training_session'
-import DateTime from '../DateTime.vue'
+import DateTime from '../DateTime'
 import getAllCurationActivities from '../../resources/curation_activities/get_all_curation_activities'
 import getBaselineActivities from '../../resources/curation_activities/getBaselineActivities'
-import InviteEmailPreview from './InviteEmailPreview.vue'
+import InviteEmailPreview from './InviteEmailPreview'
 
 export default {
     components: {

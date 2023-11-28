@@ -22,7 +22,7 @@
 </template>
 <script>
     import {mapState, mapMutations} from 'vuex';
-    import notice from './Notice.vue'
+    import notice from './Notice'
 
     export default {
         components: {

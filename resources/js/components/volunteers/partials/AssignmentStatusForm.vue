@@ -33,7 +33,7 @@
 
 <script>
     import updateAssignment from '../../../resources/assignments/update_assignment'
-    import AssignmentStatusInput from './AssignmentStatusInput.vue'
+    import AssignmentStatusInput from './AssignmentStatusInput'
 import { Promise } from 'q';
 
     export default {

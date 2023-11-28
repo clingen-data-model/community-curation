@@ -26,7 +26,7 @@
 </template>
 <script>
 import moment from 'moment';
-import AttestationQuestion from './AttestationQuestion.vue'
+import AttestationQuestion from './AttestationQuestion'
 
 export default {
     components: {

@@ -115,9 +115,9 @@
 </template>
 <script>
 import updateTrainingSession from '../../resources/training_sessions/update';
-import TrainingSessionForm from './TrainingSessionForm.vue'
-import AttendeesManager from './AttendeesManager.vue'
-import InviteEmailPreview from './InviteEmailPreview.vue'
+import TrainingSessionForm from './TrainingSessionForm'
+import AttendeesManager from './AttendeesManager'
+import InviteEmailPreview from './InviteEmailPreview'
 import moment from 'moment'
 import TrainingSession from '../../entities/training_session'
 

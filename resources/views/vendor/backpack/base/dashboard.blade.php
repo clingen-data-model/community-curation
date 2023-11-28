@@ -1,7 +1,7 @@
 @extends(backpack_view('blank'))
 
 @section('before_styles')
-    @vite('resources/js/app.js')
+    <script src="{{ mix('/js/app.js') }}" defer></script>
     <style>
         body {
           font-size: 14px !important;

@@ -64,7 +64,7 @@
 </template>
 <script>
 import getAllGenes from '../../resources/genes/get_all_genes'
-import StatusBadge from './StatusBadge.vue'
+import StatusBadge from './StatusBadge'
 
 export default {
     components: {

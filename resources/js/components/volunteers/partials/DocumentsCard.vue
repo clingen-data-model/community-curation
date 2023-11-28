@@ -16,8 +16,8 @@
 </template>
 
 <script>
-    import DocumentUploader from './DocumentUploader.vue';
-    import DocumentsList from './DocumentsList.vue';
+    import DocumentUploader from './DocumentUploader';
+    import DocumentsList from './DocumentsList';
 
     export default {
         components: {

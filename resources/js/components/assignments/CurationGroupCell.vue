@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import StatusBadge from './StatusBadge.vue'
+    import StatusBadge from './StatusBadge'
 
     export default {
         components: {
