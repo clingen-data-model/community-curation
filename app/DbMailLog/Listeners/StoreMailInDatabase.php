@@ -3,22 +3,13 @@
 namespace App\DbMailLog\Listeners;
 
 use App\DbMailLog\DbMailLogProvider;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class StoreMailInDatabase
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *
