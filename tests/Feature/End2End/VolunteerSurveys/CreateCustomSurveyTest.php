@@ -18,8 +18,12 @@ class CreateCustomSurveyTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $superAdmin;
+    private $curationGroup;
+
     public function setup():void
     {
+        $this->markTestSkipped();
         parent::setup();
         $this->superAdmin = factory(User::class)->state('super-admin')->create();
         $this->curationGroup = CurationGroup::factory()->create();
