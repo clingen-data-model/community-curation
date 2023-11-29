@@ -12,7 +12,7 @@
         "url": "https://github.com/yugen/surveys"
     }],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "backpack/crud": "^5.0",
         "barryvdh/laravel-elfinder": "^0.5.2",
         "box/spout": "^3.1",
