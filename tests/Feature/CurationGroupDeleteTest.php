@@ -13,6 +13,8 @@ class CurationGroupDeleteTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $curationGroup;
+
     public function setup():void
     {
         parent::setup();
@@ -30,9 +32,7 @@ class CurationGroupDeleteTest extends TestCase
 
         $this->curationGroup->delete();
 
-        $this->assertDeleted('priorities', [
-            'id' => $priority->id
-        ]);
+        $this->assertNull(Priority::find($priority->id));
     }
     
     /**
