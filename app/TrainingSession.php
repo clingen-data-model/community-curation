@@ -25,9 +25,9 @@ class TrainingSession extends Model
         'notes',
     ];
 
-    public $dates = [
-        'starts_at',
-        'ends_at',
+    protected $casts = [
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
     protected $revisionCreationsEnabled = true;
