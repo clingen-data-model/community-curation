@@ -21,9 +21,6 @@ class Attestation extends Model
         'signed_at',
         'data',
     ];
-    protected $dates = [
-        'signed_at',
-    ];
 
     protected $dispatchesEvents = [
         'created' => AttestationCreated::class,
@@ -31,6 +28,7 @@ class Attestation extends Model
 
     protected $casts = [
         'data' => 'array',
+        'signed_at' => 'datetime',
     ];
 
     public static function boot()

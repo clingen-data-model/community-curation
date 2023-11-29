@@ -25,9 +25,9 @@ class Campaign extends Model
         'ends_at',
         'display_order'
     ];
-    protected $dates = [
-        'starts_at',
-        'ends_at',
+    protected $casts = [
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
     protected static function boot()
