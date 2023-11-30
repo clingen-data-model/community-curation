@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Controllers\Api;
 
+use App\User;
+use App\TrainingSession;
 use App\Jobs\AssignVolunteerToAssignable;
 use App\Notifications\CustomTrainingEmail;
-use App\TrainingSession;
-use App\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Feature\TrainingSessions\TrainingSessionTestCase;
 
 /**
@@ -17,11 +18,17 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
 {
     use DatabaseTransactions;
 
+    private $trainingSession, $vol1, $vol2, $vol3, $sortedVolunteers;
+
     public function setup(): void
     {
         parent::setup();
         $this->trainingSession = factory(TrainingSession::class)->create();
-        [$this->vol1, $this->vol2, $this->vol3] = factory(User::class, 3)->states(['volunteer'])->create();
+        $sortedVolunteers = factory(User::class, 3)
+                                ->states(['volunteer'])
+                                ->create()
+                                ->sortBy(['last_name', 'first_name', 'id']);
+        [$this->vol1, $this->vol2, $this->vol3] = $sortedVolunteers;
     }
 
     /**
@@ -72,21 +79,15 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
     {
         $this->trainingSession->attendees()->sync([$this->vol1->id, $this->vol3->id]);
 
-        $this->actingAs($this->createAdmin(), 'api')
+        $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('GET', '/api/training-sessions/'.$this->trainingSession->id.'/attendees/')
-            ->assertStatus(200)
-            ->assertJson([
-                'data' => [
-                    [
-                        'id' => $this->vol1->id,
-                        'first_name' => $this->vol1->first_name,
-                    ],
-                    [
-                        'id' => $this->vol3->id,
-                        'first_name' => $this->vol3->first_name,
-                    ],
-                ],
-            ]);
+            ->assertStatus(200);
+
+        $responseVolunteerIds = collect(json_decode($response->getContent())->data)->pluck('id');
+
+        $this->assertContains($this->vol1->id, $responseVolunteerIds);
+        $this->assertContains($this->vol3->id, $responseVolunteerIds);
+        $this->assertNotContains($this->vol2->id, $responseVolunteerIds);
     }
 
     /**
@@ -110,26 +111,24 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
      */
     public function gets_trainableVolunteers_for_training_session()
     {
+        // Create three volunteers
         $volunteers = $this->createVolunteer(['volunteer_type_id' => 2], 3);
-        $volunteers->slice(0, 2)->each(function ($vol) {
-            AssignVolunteerToAssignable::dispatch($vol, $this->trainingSession->topic);
-        });
+        
+        // Assign the first two
+        $volunteers->slice(0, 2)
+            ->each(function ($vol) {
+                AssignVolunteerToAssignable::dispatch($vol, $this->trainingSession->topic);
+            });
 
         $response = $this->actingAs($this->createAdmin(), 'api')
             ->json('GET', '/api/training-sessions/'.$this->trainingSession->id.'/trainable-volunteers')
             ->assertStatus(200);
-        $response->assertJson([
-                'data' => [
-                    [
-                        'id' => $volunteers->get(0)->id,
-                        'first_name' => $volunteers->get(0)->first_name,
-                    ],
-                    [
-                        'id' => $volunteers->get(1)->id,
-                        'first_name' => $volunteers->get(1)->first_name,
-                    ],
-                ],
-            ]);
+
+        $responseVolunteerIds = collect(json_decode($response->getContent())->data)->pluck('id');
+
+        $this->assertContains($volunteers->get(0)->id, $responseVolunteerIds);
+        $this->assertContains($volunteers->get(1)->id, $responseVolunteerIds);
+        $this->assertNotContains($volunteers->get(2)->id, $responseVolunteerIds);
     }
 
     /**
