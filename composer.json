@@ -13,7 +13,8 @@
     }],
     "require": {
         "php": "^8.2",
-        "backpack/crud": "^5.0",
+        "backpack/crud": "^6.0",
+        "backpack/theme-coreuiv2": "^1.2",
         "barryvdh/laravel-elfinder": "^0.5.2",
         "box/spout": "^3.1",
         "doctrine/dbal": "^3.0",
@@ -38,7 +39,6 @@
         "spatie/laravel-permission": "^6.0"
     },
     "require-dev": {
-        "backpack/generators": "^3.0",
         "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.5",
         "fakerphp/faker": "^1.9.1",
@@ -92,6 +92,7 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "post-install-cmd": ["php artisan storage:link --quiet"]
     }
 }

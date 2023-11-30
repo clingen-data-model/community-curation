@@ -1,4 +1,4 @@
-@extends(backpack_view('blank'))
+<!-- @extends(backpack_view('blank')) -->
 
 @section('before_styles')
     <script src="{{ mix('/js/app.js') }}" defer></script>
