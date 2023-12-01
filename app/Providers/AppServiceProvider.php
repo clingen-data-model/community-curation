@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Blade;
+use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
+use App\Http\Requests\Contracts\VolunteerRequestContract;
+use App\Http\Requests\VolunteerAdminRequest;
 use App\Http\Requests\VolunteerRequest;
+use App\Services\AttestationFormResolver;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Lorisleiva\Actions\Facades\Actions;
-use App\Services\AttestationFormResolver;
-use App\Http\Requests\VolunteerAdminRequest;
-use App\Http\Requests\Contracts\VolunteerRequestContract;
-use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
 
 class AppServiceProvider extends ServiceProvider
 {

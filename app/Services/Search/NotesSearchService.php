@@ -41,6 +41,7 @@ class NotesSearchService implements ModelSearchService
                     $query->where(function ($q) use ($value) {
                         $q->where('content', 'LIKE', '%'.$value.'%');
                     });
+
                     continue;
                 }
                 $query->where($key, $value);

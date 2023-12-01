@@ -87,25 +87,25 @@ class CurationGroupCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->setColumnDetails('curation_activity_id', [
-                'label' => 'Curation Activity', // Table column heading
-                'type' => 'select',
-                'name' => 'curation_activity_id', // the column that contains the ID of that connected entity;
-                'entity' => 'curationActivity', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => CurationActivity::class, // foreign key model
+            'label' => 'Curation Activity', // Table column heading
+            'type' => 'select',
+            'name' => 'curation_activity_id', // the column that contains the ID of that connected entity;
+            'entity' => 'curationActivity', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model' => CurationActivity::class, // foreign key model
         ]);
         $this->crud->setColumnDetails('working_group_id', [
-                'label' => 'Working Group', // Table column heading
-                'type' => 'select',
-                'name' => 'working_group_id', // the column that contains the ID of that connected entity;
-                'entity' => 'workingGroup', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => WorkingGroup::class, // foreign key model
+            'label' => 'Working Group', // Table column heading
+            'type' => 'select',
+            'name' => 'working_group_id', // the column that contains the ID of that connected entity;
+            'entity' => 'workingGroup', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model' => WorkingGroup::class, // foreign key model
         ]);
         $this->crud->addColumn([
-                'label' => 'Accepting Volunters',
-                'type' => 'boolean',
-                'name' => 'accepting_volunteers',
+            'label' => 'Accepting Volunters',
+            'type' => 'boolean',
+            'name' => 'accepting_volunteers',
         ]);
         $this->crud->addColumn([
             'label' => 'ID',
@@ -115,15 +115,15 @@ class CurationGroupCrudController extends CrudController
 
         $this->crud->removeColumn(['url']);
 
-        if (!\Auth::user()->can('create', CurationGroup::class)) {
+        if (! \Auth::user()->can('create', CurationGroup::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (!\Auth::user()->can('update curation-groups')) {
+        if (! \Auth::user()->can('update curation-groups')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!\Auth::user()->can('delete curation-groups')) {
+        if (! \Auth::user()->can('delete curation-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }

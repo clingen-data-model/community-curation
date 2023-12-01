@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 class VolunteerMetricsController extends Controller
 {
     protected $volunteerSearch;
+
     protected $applicationSearch;
 
     public function __construct(VolunteerSearchService $volunteerSearch, ApplicationSearchService $applicationSearch)

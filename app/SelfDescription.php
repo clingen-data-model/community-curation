@@ -3,10 +3,10 @@
 namespace App;
 
 use App\Traits\HasOtherOption;
-use Illuminate\Support\Facades\Cache;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Support\Facades\Cache;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class SelfDescription extends Model
@@ -32,7 +32,6 @@ class SelfDescription extends Model
         });
         static::deleted(function ($model) {
             Cache::forget('surveys:datasource:App\Surveys\SurveyOptions@adCampaigns');
-        });        
+        });
     }
-
 }

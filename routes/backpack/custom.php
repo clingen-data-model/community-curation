@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Route;
 // Routes you generate using Backpack\Generators will be placed here.
 
 Route::group([
-    'prefix'     => config('backpack.base.route_prefix', 'admin'),
+    'prefix' => config('backpack.base.route_prefix', 'admin'),
     'middleware' => ['web', config('backpack.base.middleware_key', 'admin')],
-    'namespace'  => 'App\Http\Controllers\Admin',
+    'namespace' => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
-    Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
+Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('/survey-definitions', 'SurveyDefinitionController@index');
     Route::get('/survey-definitions/{slug}', 'SurveyDefinitionController@show');
 

@@ -3,8 +3,8 @@
 namespace App\Actions;
 
 use App\User;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Lorisleiva\Actions\Concerns\AsCommand;
 use App\Actions\TrainingCertificateGenerate;
 use Carbon\Carbon;
@@ -20,22 +20,24 @@ class TrainingCertificateGenerateForExisting
 
     private $since = null;
     private $limit = null;
+
     private $offset = null;
+
     private $dryRun = false;
+
     private $dryRunQuiet = false;
 
     public function __construct(private TrainingCertificateGenerate $certGen)
     {
     }
 
-
     public function handle(): void
     {
         $query = User::with([
-                'userAptitudes',
-                'userAptitudes.aptitude',
-                'userAptitudes.aptitude.subject'
-            ])
+            'userAptitudes',
+            'userAptitudes.aptitude',
+            'userAptitudes.aptitude.subject',
+        ])
             ->isTrained();
 
         if ($this->limit) {
@@ -54,6 +56,7 @@ class TrainingCertificateGenerateForExisting
                     }
                     if ($this->dryRun) {
                         $this->dumpCertParams($volunteer, $userApt);
+
                         return;
                     }
                     $this->generateCert($volunteer, $userApt);
@@ -80,6 +83,7 @@ class TrainingCertificateGenerateForExisting
     private function setLimit($limit)
     {
         $this->limit = ($limit > 0) ? $limit : null;
+
         return $this;
     }
 
@@ -89,20 +93,19 @@ class TrainingCertificateGenerateForExisting
         return $this;
     }
 
-
     private function setDryRun($dryRun)
     {
         $this->dryRun = $dryRun;
+
         return $this;
     }
 
     private function setDryRunQuiet($dryRunQuiet)
     {
         $this->dryRunQuiet = $dryRunQuiet;
+
         return $this;
     }
-
-
 
     private function generateCert($volunteer, $userApt)
     {
@@ -118,9 +121,7 @@ class TrainingCertificateGenerateForExisting
         dump([
             'user' => $volunteer->name,
             'date' => $userApt->trained_at->format('Y-m-d'),
-            'type' => Str::kebab($userApt->aptitude->subject->name)
+            'type' => Str::kebab($userApt->aptitude->subject->name),
         ]);
     }
-
-
 }

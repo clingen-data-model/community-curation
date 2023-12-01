@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands\Volunteers;
 
-use App\User;
-use Carbon\Carbon;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\VolunteerFollowup\FollowupReminder1;
 use App\Notifications\VolunteerFollowup\FollowupReminder2;
 use App\Notifications\VolunteerFollowup\InitialFollowupNotification;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class SendFollowupNotifications extends Command
 {
@@ -53,7 +53,6 @@ class SendFollowupNotifications extends Command
      * @var array
      */
     private $followupsSent = [];
-    
 
     /**
      * Create a new command instance.
@@ -131,6 +130,7 @@ class SendFollowupNotifications extends Command
     private function buildRecipientQuery(Carbon $date)
     {
         $statuses = config('projects.volunteer-statuses');
+
         return User::isVolunteer()
             ->isActiveVolunteer()
             ->whereHas('assignments', function ($q) use ($date) {

@@ -2,19 +2,17 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
-use Tests\TestCase;
-use App\WorkingGroup;
 use App\CurationGroup;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
+use App\WorkingGroup;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class DeleteWorkingGroupTest extends TestCase
 {
     use DatabaseTransactions;
-    
-    public function setup():void
+
+    public function setup(): void
     {
         parent::setup();
         $this->user = factory(User::class)->states('admin')->create();
@@ -34,6 +32,4 @@ class DeleteWorkingGroupTest extends TestCase
             ->assertStatus(422)
             ->assertJson(['error' => 'This working group has curation groups associated with it. You must delete those curation groups before you can delete the working group.']);
     }
-    
-    
 }

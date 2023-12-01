@@ -14,6 +14,7 @@ class Attestation extends Model
     use SoftDeletes;
 
     public $revisionCreationEnabled = true;
+
     protected $fillable = [
         'aptitude_id',
         'user_id',
@@ -21,6 +22,7 @@ class Attestation extends Model
         'signed_at',
         'data',
     ];
+
     protected $dates = [
         'signed_at',
     ];
@@ -38,7 +40,7 @@ class Attestation extends Model
         parent::boot();
 
         static::updated(function ($model) {
-            if ($model->isDirty('signed_at') && (!isset($model->getOriginal()['signed_at']) || is_null($model->getOriginal()['signed_at']))) {
+            if ($model->isDirty('signed_at') && (! isset($model->getOriginal()['signed_at']) || is_null($model->getOriginal()['signed_at']))) {
                 \Event::dispatch(new AttestationSigned($model));
             }
         });
@@ -76,6 +78,6 @@ class Attestation extends Model
 
     public function isSigned()
     {
-        return !is_null($this->signed_at);
+        return ! is_null($this->signed_at);
     }
 }

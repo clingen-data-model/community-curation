@@ -14,6 +14,7 @@ class UserPreferenceControllerTest extends TestCase
     use DatabaseTransactions;
 
     private $preference;
+
     private $volunteer;
 
     public function setup(): void
@@ -36,7 +37,7 @@ class UserPreferenceControllerTest extends TestCase
                     'preference_id' => $this->preference->id,
                     'name' => $this->preference->name,
                     'value' => 1,
-               ],
+                ],
             ]);
 
         $this->assertDatabaseHas('user_preferences', [
@@ -61,7 +62,7 @@ class UserPreferenceControllerTest extends TestCase
                     'preference_id' => $this->preference->id,
                     'name' => $this->preference->name,
                     'value' => 2,
-               ],
+                ],
             ]);
 
         $this->assertDatabaseHas('user_preferences', [

@@ -5,12 +5,10 @@ namespace Tests\Feature\Integration\Volunteers\Baseline;
 use App\Aptitude;
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DefaultAptitudeAssignmentTest extends TestCase
 {
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->user = factory(User::class)->states(['volunteer', 'baseline'])->create();

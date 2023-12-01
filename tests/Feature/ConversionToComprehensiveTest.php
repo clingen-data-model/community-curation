@@ -42,8 +42,7 @@ class ConversionToComprehensiveTest extends TestCase
 
                 return in_array('mail', $channels)
                     && $notification->volunteer->email == $volunteer->email
-                    && $rendered == view('email.conversion_to_comprehensive', ['volunteer' => $volunteer])
-                ;
+                    && $rendered == view('email.conversion_to_comprehensive', ['volunteer' => $volunteer]);
             }
         );
     }

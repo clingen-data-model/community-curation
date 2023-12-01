@@ -2,11 +2,11 @@
 
 namespace App\Actions;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Surveys\ResponseReader;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsCommand;
 use Lorisleiva\Actions\Concerns\AsController;
@@ -21,19 +21,18 @@ class SurveyDataExport
     public function __construct(private ResponseReader $reader)
     {
     }
-    
 
     public function handle($class, $limit = null)
     {
         $responses = $class::with('volunteer')->get();
         $rows = $this->getRows($responses);
-        
+
         $filepath = storage_path('app/reports/'.Str::snake(preg_replace('/\\\/', '', $class)).'_'.Carbon::now()->format('Y-m-d').'.csv');
 
         $fh = fopen($filepath, 'w');
         fputcsv($fh, array_keys($rows[0]));
         foreach ($rows as $idx => $row) {
-            if ($limit && $idx+1 > $limit) {
+            if ($limit && $idx + 1 > $limit) {
                 break;
             }
             fputcsv($fh, $row);
@@ -52,7 +51,6 @@ class SurveyDataExport
 
         return response()->download($filepath, $filename);
     }
-    
 
     public function asCommand(Command $command)
     {
@@ -67,6 +65,4 @@ class SurveyDataExport
             return $this->reader->resolveResponseArray($rsp);
         });
     }
-    
-        
 }

@@ -42,11 +42,11 @@ class ResponseReader
         $returnValue = [
             'name' => $model->volunteer->name,
             'email' => $model->volunteer->email,
-            'date' => $model->finalized_at
+            'date' => $model->finalized_at,
         ];
         foreach ($structured as $key => $value) {
             $resolvedValue = null;
-            if (!is_null($value['value'])) {
+            if (! is_null($value['value'])) {
                 $resolvedValue = $value['value'];
                 if (is_object($value['value']) && ($value['value'] instanceof Collection)) {
                     $resolvedValue = $value['value']->join(', ');
@@ -54,6 +54,7 @@ class ResponseReader
             }
             $returnValue[$key] = $resolvedValue;
         }
+
         return $returnValue;
     }
 }

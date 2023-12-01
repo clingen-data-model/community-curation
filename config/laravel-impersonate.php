@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     /**
      * The session key used to store the original user id.
      */

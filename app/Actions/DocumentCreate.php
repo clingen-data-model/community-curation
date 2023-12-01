@@ -3,7 +3,6 @@
 namespace App\Actions;
 
 use App\Upload;
-use Lorisleiva\Actions\ActionRequest;
 
 class DocumentCreate
 {
@@ -20,5 +19,4 @@ class DocumentCreate
 
         return $upload;
     }
-    
 }

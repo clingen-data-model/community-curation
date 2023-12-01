@@ -25,9 +25,8 @@ class AssignVolunteerToAssignable
     /**
      * Create a new job instance.
      *
-     * @param App\User                         $volunteer  user to assign
-     * @param App\Contracts\AssignableContract $assignable Assignable to assign
-     *
+     * @param  App\User  $volunteer  user to assign
+     * @param  App\Contracts\AssignableContract  $assignable Assignable to assign
      * @return void
      */
     public function __construct(User $volunteer, AssignableContract $assignable, $assignmentDate = null)
@@ -46,7 +45,7 @@ class AssignVolunteerToAssignable
     {
         if (
             $this->volunteer->volunteer_type_id === config('volunteers.types.baseline')
-            && !$this->assignable->canBeAssignedToBaseline()
+            && ! $this->assignable->canBeAssignedToBaseline()
         ) {
             throw new InvalidAssignmentException('Baseline volunteers can not be assigned to curations');
         }

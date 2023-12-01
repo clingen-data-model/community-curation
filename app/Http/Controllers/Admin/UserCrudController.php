@@ -56,12 +56,11 @@ class UserCrudController extends CrudController
             }
         );
 
-        if (!$this->includeVolunteers) {
+        if (! $this->includeVolunteers) {
             $this->crud->addClause('whereHas', 'roles', function ($query) {
                 $query->whereIn('name', ['programmer', 'super-admin', 'admin', 'coordinator']);
             });
         }
-
 
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
@@ -85,7 +84,7 @@ class UserCrudController extends CrudController
             'orcid_id',
             'hypothesis_id',
             'already_clingen_member',
-            'already_member_cgs'
+            'already_member_cgs',
         ]);
 
         $this->crud->addFields([
@@ -145,7 +144,7 @@ class UserCrudController extends CrudController
             'orcid_id',
             'already_clingen_member',
             'already_member_cgs',
-            'timezone'
+            'timezone',
         ]);
 
         $this->crud->addColumn([
@@ -154,18 +153,18 @@ class UserCrudController extends CrudController
             'label' => 'Roles',
             'entity' => 'roles',
             'attribute' => 'name',
-            'model' => Role::class
+            'model' => Role::class,
         ]);
 
-        if (!Auth::user()->can('create users')) {
+        if (! Auth::user()->can('create users')) {
             $this->crud->RemoveButton('create');
         }
 
-        if (!Auth::user()->can('update users')) {
+        if (! Auth::user()->can('update users')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!Auth::user()->can('delete users')) {
+        if (! Auth::user()->can('delete users')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
 

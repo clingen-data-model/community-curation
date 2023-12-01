@@ -38,7 +38,7 @@ class UserAptitude extends Model
         parent::boot();
 
         static::updated(function ($model) {
-            if ($model->isDirty('trained_at') && (!isset($model->getOriginal()['trained_at']) || is_null($model->getOriginal()['trained_at']))) {
+            if ($model->isDirty('trained_at') && (! isset($model->getOriginal()['trained_at']) || is_null($model->getOriginal()['trained_at']))) {
                 Event::dispatch(new TrainingCompleted($model));
             }
         });
@@ -103,7 +103,7 @@ class UserAptitude extends Model
 
     public function isGranted()
     {
-        if (!is_null($this->granted_at)) {
+        if (! is_null($this->granted_at)) {
             return true;
         }
 

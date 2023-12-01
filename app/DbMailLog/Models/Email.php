@@ -2,20 +2,21 @@
 
 namespace App\DbMailLog\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use App\DbMailLog\Contracts\Email as EmailContract;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class Email extends Model implements EmailContract
 {
     protected $guarded = [];
+
     protected $casts = [
         'from' => 'array',
         'sender' => 'array',
         'to' => 'array',
         'cc' => 'array',
         'bcc' => 'array',
-        'reply_to' => 'array'
+        'reply_to' => 'array',
     ];
 
     public function __construct(array $attributes = [])

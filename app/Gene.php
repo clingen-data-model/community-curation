@@ -35,7 +35,7 @@ class Gene extends Model implements AssignableContract
         $disk = 'public';
         $destination_path = 'gene_protocols';
 
-        if (is_null($value) && !empty($this->attributes['protocol_path'])) {
+        if (is_null($value) && ! empty($this->attributes['protocol_path'])) {
             $this->attributes['protocol_path'] = $value;
             $this->protocol_filename = null;
 

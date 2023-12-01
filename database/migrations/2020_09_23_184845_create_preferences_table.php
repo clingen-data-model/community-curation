@@ -14,7 +14,7 @@ class CreatePreferencesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('preferences')) {
+        if (! Schema::hasTable('preferences')) {
             Schema::create('preferences', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name')->unique();

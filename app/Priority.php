@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Priority extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'priority_order',
         'user_id',

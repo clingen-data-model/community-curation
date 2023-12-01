@@ -1,9 +1,6 @@
 <?php
 
-use App\User;
 use App\UserAptitude;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class UpdateBaselineUserAptitudes extends Migration
@@ -16,10 +13,9 @@ class UpdateBaselineUserAptitudes extends Migration
     public function up()
     {
         UserAptitude::withTrashed()->where('aptitude_id', 7)
-            ->each(function($ua) { 
-                $ua->update(['aptitude_id'=>8]);
-            })
-            ;    
+            ->each(function ($ua) {
+                $ua->update(['aptitude_id' => 8]);
+            });
     }
 
     /**

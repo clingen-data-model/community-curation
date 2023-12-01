@@ -23,13 +23,13 @@ class CreateAptitudeForAssignment
      */
     public function handle(AssignmentCreated $event)
     {
-        if (!is_subclass_of($event->assignment->assignable, AptitudeSubjectContract::class)) {
+        if (! is_subclass_of($event->assignment->assignable, AptitudeSubjectContract::class)) {
             return;
         }
 
         $basicTraining = $event->assignment->assignable->getPrimaryAptitude();
 
-        if (!$basicTraining) {
+        if (! $basicTraining) {
             return;
         }
 

@@ -14,7 +14,7 @@ class RequiredInfoController extends Controller
     {
         $user = Auth::user();
 
-        if (!is_null($user->country_id) && !is_null($user->timezone) && $user->timezone != 'UTC') {
+        if (! is_null($user->country_id) && ! is_null($user->timezone) && $user->timezone != 'UTC') {
             return redirect('/');
         }
 

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Campaign;
+use App\Http\Requests\CampaignRequest as StoreRequest;
+use App\Http\Requests\CampaignRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 use Backpack\CRUD\CrudPanel;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\CampaignRequest as StoreRequest;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use App\Http\Requests\CampaignRequest as UpdateRequest;
-use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
 /**
  * Class CampaignCrudController.
@@ -20,6 +20,7 @@ class CampaignCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+
     // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use ReorderOperation;
 
@@ -45,7 +46,7 @@ class CampaignCrudController extends CrudController
         $this->crud->addColumns([
             [
                 'name' => 'display_order',
-                'type' => 'integer'
+                'type' => 'integer',
             ],
             [
                 'name' => 'starts_at',
@@ -92,7 +93,7 @@ class CampaignCrudController extends CrudController
         $this->crud->hasAccessOrFail('reorder');
 
         $allEntries = \Request::input('tree');
-        
+
         DB::beginTransaction();
         foreach ($allEntries as $idx => $entry) {
             dump($entry['item_id']);
@@ -101,13 +102,11 @@ class CampaignCrudController extends CrudController
             }
             Campaign::find($entry['item_id'])
                 ->update([
-                    'display_order' => $idx
+                    'display_order' => $idx,
                 ]);
         }
         DB::commit();
 
         return 'success for '.count($allEntries).' items';
-
-
     }
 }

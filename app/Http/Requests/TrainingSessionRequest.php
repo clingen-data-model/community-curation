@@ -29,13 +29,13 @@ class TrainingSessionRequest extends FormRequest
     {
         return [
             'topic_type' => [
-                    'required',
-                    function ($attribute, $value, $fail) {
-                        if (!in_array(TrainingTopicContract::class, class_implements($value))) {
-                            $fail('The topic type is not valid.');
-                        }
-                    },
-                ],
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (! in_array(TrainingTopicContract::class, class_implements($value))) {
+                        $fail('The topic type is not valid.');
+                    }
+                },
+            ],
             'topic_id' => 'required',
             'url' => 'required|url',
             'starts_at' => ['required', 'date'],

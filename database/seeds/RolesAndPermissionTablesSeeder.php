@@ -109,7 +109,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
         $actions = $actions ?? ['list', 'create', 'update', 'delete'];
         foreach ($actions as $action) {
             $perm = $action.' '.$entity;
-            if (!$role->hasPermissionTo($perm)) {
+            if (! $role->hasPermissionTo($perm)) {
                 $role->givePermissionTo($perm);
             }
         }
@@ -126,7 +126,7 @@ class RolesAndPermissionTablesSeeder extends Seeder
 
     protected function givePermissionToRole($role, $perm)
     {
-        if (!$role->hasPermissionTo($perm)) {
+        if (! $role->hasPermissionTo($perm)) {
             $role->givePermissionTo($perm);
         }
     }

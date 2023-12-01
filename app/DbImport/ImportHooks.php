@@ -13,7 +13,7 @@ class ImportHooks
 
     public static function afterImport()
     {
-        if (!User::where('email', 'sirs@unc.edu')->get()->first()) {
+        if (! User::where('email', 'sirs@unc.edu')->get()->first()) {
             $user = factory(\App\User::class)->create([
                 'name' => 'Sirs Programmer',
                 'email' => 'sirs@unc.edu',

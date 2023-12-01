@@ -26,8 +26,8 @@ class VolunteerAdminRequest extends VolunteerRequest implements VolunteerRequest
     public function rules()
     {
         $rules = parent::rules();
-        $rules["volunteer_type_id"] = 'sometimes|required|exists:volunteer_types,id';
-        $rules["volunteer_status_id"] = 'sometimes|required|exists:volunteer_statuses,id';
+        $rules['volunteer_type_id'] = 'sometimes|required|exists:volunteer_types,id';
+        $rules['volunteer_status_id'] = 'sometimes|required|exists:volunteer_statuses,id';
         $rules['timezone'] = ['sometimes', 'nullable', Rule::in(timezone_identifiers_list())];
         $rules['country_id'] = 'sometimes|nullable|exists:countries,id';
 

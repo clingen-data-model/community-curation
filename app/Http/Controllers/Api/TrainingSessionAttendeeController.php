@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
-use Parsedown;
 use App\CurationGroup;
-use App\TrainingSession;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\DefaultResource;
-use League\HTMLToMarkdown\HtmlConverter;
-use App\Notifications\CustomTrainingEmail;
 use App\Exceptions\NotImplementedException;
-use App\Jobs\InviteVolunteersToTrainingSession;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomTrainingEmailRequest;
-use App\Http\Resources\AvailableTraineesResource;
-use App\Notifications\ValueObjects\MailAttachment;
-use App\Http\Resources\TrainingSessionAttendeeResource;
 use App\Http\Requests\TrainingSessionAttendeeInviteRequest;
+use App\Http\Resources\AvailableTraineesResource;
+use App\Http\Resources\TrainingSessionAttendeeResource;
+use App\Jobs\InviteVolunteersToTrainingSession;
+use App\Notifications\CustomTrainingEmail;
+use App\Notifications\ValueObjects\MailAttachment;
+use App\TrainingSession;
+use App\User;
+use League\HTMLToMarkdown\HtmlConverter;
+use Parsedown;
 
 class TrainingSessionAttendeeController extends Controller
 {
@@ -39,14 +38,16 @@ class TrainingSessionAttendeeController extends Controller
         ->get();
         $alreadyMemberCgIds = $attendees->pluck('already_member_cgs')->flatten()->unique()->sort();
         $curationGroups = CurationGroup::find($alreadyMemberCgIds);
- 
+
         $attendees = $attendees->map(function ($a) use ($curationGroups) {
-            if (!$a->already_member_cgs) {
+            if (! $a->already_member_cgs) {
                 $a->already_member_groups = null;
+
                 return $a;
             }
- 
+
             $a->already_member_groups = $curationGroups->whereIn('id', $a->already_member_cgs);
+
             return $a;
         });
 
@@ -56,8 +57,7 @@ class TrainingSessionAttendeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(TrainingSessionAttendeeInviteRequest $request, $trainingSessionId)
@@ -72,7 +72,7 @@ class TrainingSessionAttendeeController extends Controller
                     ->select('created_at as date_assigned', 'user_id', 'id');
             },
             'assignments.userAptitudes',
-         ])
+        ])
          ->select('first_name', 'last_name', 'users.id', 'email', 'already_clingen_member', 'already_member_cgs')
          ->get();
 
@@ -82,8 +82,7 @@ class TrainingSessionAttendeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -136,12 +135,14 @@ class TrainingSessionAttendeeController extends Controller
         $curationGroups = CurationGroup::find($alreadyMemberCgIds);
 
         $volunteers = $volunteers->map(function ($v) use ($curationGroups) {
-            if (!$v->already_member_cgs) {
+            if (! $v->already_member_cgs) {
                 $v->already_member_groups = null;
+
                 return $v;
             }
 
             $v->already_member_groups = $curationGroups->whereIn('id', $v->already_member_cgs);
+
             return $v;
         });
 

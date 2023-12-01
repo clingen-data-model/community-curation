@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Priority;
 use App\Assignment;
-use Tests\TestCase;
-use App\CustomSurvey;
 use App\CurationGroup;
+use App\CustomSurvey;
+use App\Priority;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CurationGroupDeleteTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->curationGroup = CurationGroup::factory()->create();
@@ -25,16 +25,16 @@ class CurationGroupDeleteTest extends TestCase
     public function deletes_all_priorities_for_curation_group()
     {
         $priority = Priority::factory()->create([
-            'curation_group_id' => $this->curationGroup->id
+            'curation_group_id' => $this->curationGroup->id,
         ]);
 
         $this->curationGroup->delete();
 
         $this->assertDeleted('priorities', [
-            'id' => $priority->id
+            'id' => $priority->id,
         ]);
     }
-    
+
     /**
      * @test
      */
@@ -42,13 +42,13 @@ class CurationGroupDeleteTest extends TestCase
     {
         $assignment = Assignment::factory()->create([
             'assignable_type' => CurationGroup::class,
-            'assignable_id' => $this->curationGroup->id
+            'assignable_id' => $this->curationGroup->id,
         ]);
 
         $this->curationGroup->delete();
 
         $this->assertSoftDeleted('assignments', [
-            'id' => $assignment->id
+            'id' => $assignment->id,
         ]);
     }
 
@@ -58,15 +58,13 @@ class CurationGroupDeleteTest extends TestCase
     public function deletes_all_custom_survecys_for_curation_group()
     {
         $customSurvey = CustomSurvey::factory()->create([
-            'curation_group_id' => $this->curationGroup->id
+            'curation_group_id' => $this->curationGroup->id,
         ]);
 
         $this->curationGroup->delete();
 
         $this->assertSoftDeleted('custom_surveys', [
-            'id' => $customSurvey->id
+            'id' => $customSurvey->id,
         ]);
     }
-    
-    
 }

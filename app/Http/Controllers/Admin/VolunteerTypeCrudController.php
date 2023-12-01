@@ -17,6 +17,7 @@ use Backpack\CRUD\CrudPanel;
 class VolunteerTypeCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -45,15 +46,15 @@ class VolunteerTypeCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        if (!\Auth::user()->can('create', VolunteerType::class)) {
+        if (! \Auth::user()->can('create', VolunteerType::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (!\Auth::user()->can('update volunteer-types')) {
+        if (! \Auth::user()->can('update volunteer-types')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!\Auth::user()->can('delete volunteer-types')) {
+        if (! \Auth::user()->can('delete volunteer-types')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }

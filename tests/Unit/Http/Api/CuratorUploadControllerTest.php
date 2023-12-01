@@ -13,6 +13,7 @@ use Tests\TestCase;
 
 /**
  * @group uploads
+ *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
@@ -21,11 +22,15 @@ class CuratorUploadControllerTest extends TestCase
     use DatabaseTransactions;
 
     const UPLOAD_PATH = 'public/curator_uploads/';
+
     const URL = '/api/curator-uploads';
 
     private $volunteer;
+
     private $admin;
+
     private $dummyFile;
+
     private $otherVolunteer;
 
     public function setUp(): void
@@ -353,9 +358,9 @@ class CuratorUploadControllerTest extends TestCase
         $this->withoutExceptionHandling();
         $this->makeUpload();
         $this->makeUpload([
-                        'user_id' => $this->volunteer,
-                        'upload_category_id' => $category->id,
-                    ]);
+            'user_id' => $this->volunteer,
+            'upload_category_id' => $category->id,
+        ]);
         $this->makeUpload(['user_id' => $this->otherVolunteer->id]);
 
         $this->actingAs($this->admin, 'api')
@@ -381,8 +386,7 @@ class CuratorUploadControllerTest extends TestCase
             ])
             ->assertJsonMissing([
                 'user_id' => $this->otherVolunteer->id,
-            ])
-            ;
+            ]);
     }
 
     private function makeUpload($data = null)

@@ -55,22 +55,22 @@ class VolunteerCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        $this->crud->modifyField('volunteer_type_id',[
-                'label' => 'Volunteer Type',
-                'type' => 'select2',
-                'name' => 'volunteer_type_id',
-                'entity' => 'volunteerType',
-                'model' => VolunteerType::class,
-                'attribute' => 'name',
+        $this->crud->modifyField('volunteer_type_id', [
+            'label' => 'Volunteer Type',
+            'type' => 'select2',
+            'name' => 'volunteer_type_id',
+            'entity' => 'volunteerType',
+            'model' => VolunteerType::class,
+            'attribute' => 'name',
         ]);
 
         $this->crud->modifyField('volunteer_status_id', [
-                'label' => 'Volunteer Status',
-                'type' => 'select2',
-                'name' => 'volunteer_status_id',
-                'entity' => 'volunteerStatus',
-                'model' => VolunteerStatus::class,
-                'attribute' => 'name',
+            'label' => 'Volunteer Status',
+            'type' => 'select2',
+            'name' => 'volunteer_status_id',
+            'entity' => 'volunteerStatus',
+            'model' => VolunteerStatus::class,
+            'attribute' => 'name',
         ]);
 
         $this->crud->modifyField(
@@ -120,7 +120,7 @@ class VolunteerCrudController extends CrudController
 
     public function setupListOperation()
     {
-        if (!\Auth::user()->can('create users')) {
+        if (! \Auth::user()->can('create users')) {
             $this->crud->RemoveButton('create');
         }
 
@@ -130,7 +130,7 @@ class VolunteerCrudController extends CrudController
         // }
         $this->crud->removeButton('update');
 
-        if (!\Auth::user()->can('delete users')) {
+        if (! \Auth::user()->can('delete users')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
 

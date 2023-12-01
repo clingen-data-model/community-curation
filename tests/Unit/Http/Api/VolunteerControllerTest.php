@@ -64,8 +64,7 @@ class VolunteerControllerTest extends TestCase
     public function show_returns_single_volunteer()
     {
         $response = $this->actingAs(factory(User::class)->state('admin')->create(), 'api')
-                        ->call('GET', '/api/volunteers/'.$this->volunteers->first()->id)
-                        ;
+                        ->call('GET', '/api/volunteers/'.$this->volunteers->first()->id);
         $response->assertJson(['data' => [
             'id' => $this->volunteers->first()->id,
             'name' => $this->volunteers->first()->name,

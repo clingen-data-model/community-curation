@@ -16,7 +16,7 @@ class BasicAptitudeEvaluator implements AptitudeEvaluatorContract
         if (is_null($this->userAptitude->trained_at)) {
             return false;
         }
-        if (!$this->hasSignedAttestation()) {
+        if (! $this->hasSignedAttestation()) {
             return false;
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -28,8 +28,8 @@ class UserRequest extends FormRequest
         return [
             'first_name' => 'required|min:2|max:255',
             'last_name' => 'required|min:2|max:255',
-            'email' => ['required','min:6','max:255'],
-            'email' => ['required','min:6','max:255', Rule::unique('users', 'email')->ignore(request()->route('id'))],
+            'email' => ['required', 'min:6', 'max:255'],
+            'email' => ['required', 'min:6', 'max:255', Rule::unique('users', 'email')->ignore(request()->route('id'))],
         ];
     }
 

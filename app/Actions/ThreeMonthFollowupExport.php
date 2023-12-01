@@ -9,7 +9,7 @@ use Lorisleiva\Actions\Concerns\AsController;
 class ThreeMonthFollowupExport
 {
     use AsController;
-    
+
     public function __construct(private SurveyDataExport $dataExport)
     {
     }
@@ -23,7 +23,7 @@ class ThreeMonthFollowupExport
 
         return response()->download($filepath, $filename);
     }
-    
+
     public function authorize(ActionRequest $request): bool
     {
         return $request->user()->can('run reports');

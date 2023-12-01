@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
+use App\CurationActivity;
 use App\CurationGroup;
 use App\WorkingGroup;
-use App\CurationActivity;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class CurationGroupFactory extends Factory
 {
@@ -30,8 +30,7 @@ class CurationGroupFactory extends Factory
             'name' => $this->faker->word,
             'curation_activity_id' => CurationActivity::select('id')->get()->random()->id,
             'working_group_id' => WorkingGroup::select('id')->get()->random()->id,
-            'accepting_volunteers' => $this->faker->boolean
+            'accepting_volunteers' => $this->faker->boolean,
         ];
     }
 }
-

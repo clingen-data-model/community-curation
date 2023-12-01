@@ -26,7 +26,7 @@ class VolunteerAdminTest extends TestCase
             'last_name' => 'Tester',
             'email' => uniqid().'-email@beans.com',
             'volunteer_type_id' => 1,
-            'volunteer_status_id' => 1
+            'volunteer_status_id' => 1,
         ];
         $this->withoutExceptionHandling();
         $this->actingAs($this->user)
@@ -65,11 +65,10 @@ class VolunteerAdminTest extends TestCase
             'first_name' => 'Hubert',
             'email' => uniqid().'@example.com',
             'volunteer_type_id' => null,
-            'volunteer_status_id' => null
+            'volunteer_status_id' => null,
         ];
         $response = $this->actingAs($this->user)
             ->call('post', '/admin/volunteer', $data);
         $response->assertSessionHasErrors(['volunteer_type_id', 'volunteer_status_id']);
     }
-    
 }

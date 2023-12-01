@@ -3,10 +3,8 @@
 namespace App\Services\Search;
 
 use App\CurationGroup;
-use Illuminate\Support\Collection;
-use App\Contracts\ModelSearchService;
 use Illuminate\Database\Eloquent\Builder;
-use App\Services\Search\AbstractModelSearchService;
+use Illuminate\Support\Collection;
 
 class CurationGroupSearchService extends AbstractModelSearchService
 {
@@ -52,10 +50,10 @@ class CurationGroupSearchService extends AbstractModelSearchService
 
     private function filterBySearchTerm($searchTerm, $query)
     {
-        if (!$this->joinsTable($query, 'curation_activities')) {
+        if (! $this->joinsTable($query, 'curation_activities')) {
             $query->leftJoin('curation_activities', 'curation_groups.curation_activity_id', '=', 'curation_activities.id');
         }
-        if (!$this->joinsTable($query, 'working_groups')) {
+        if (! $this->joinsTable($query, 'working_groups')) {
             $query->leftJoin('working_groups', 'curation_groups.working_group_id', '=', 'working_groups.id');
         }
         $query->select('curation_groups.*');
@@ -73,7 +71,7 @@ class CurationGroupSearchService extends AbstractModelSearchService
         $sortDir = (isset($params['sortDesc']) && $params['sortDesc'] === 'true') ? 'desc' : 'asc';
         if ($sortField == 'curation_activity.name') {
             $query->addSelect('curation_activities.name as curation_activities.name');
-            if (!$this->joinsTable($query, 'curation_activities')) {
+            if (! $this->joinsTable($query, 'curation_activities')) {
                 $query->leftJoin('curation_activities', 'curation_groups.curation_activity_id', '=', 'curation_activities.id');
             }
             $query->orderBy('curation_activities.name', $sortDir);
@@ -82,7 +80,7 @@ class CurationGroupSearchService extends AbstractModelSearchService
         }
         if ($sortField == 'working_group.name') {
             $query->addSelect('working_groups.name as working_groups.name');
-            if (!$this->joinsTable($query, 'working_groups')) {
+            if (! $this->joinsTable($query, 'working_groups')) {
                 $query->leftJoin('working_groups', 'curation_groups.working_group_id', '=', 'working_groups.id');
             }
             $query->orderBy('working_groups.name', $sortDir);

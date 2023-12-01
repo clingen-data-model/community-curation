@@ -34,8 +34,7 @@ class NotesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(NoteCreateRequest $request)
@@ -51,8 +50,7 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Note $notes
-     *
+     * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
     public function show(Note $note)
@@ -63,9 +61,8 @@ class NotesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Note                $notes
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
     public function update(NoteUpdateRequest $request, Note $note)
@@ -79,13 +76,12 @@ class NotesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Note $notes
-     *
+     * @param  \App\Note  $notes
      * @return \Illuminate\Http\Response
      */
     public function destroy(Note $note)
     {
-        if (!Auth::user()->can('delete notes')) {
+        if (! Auth::user()->can('delete notes')) {
             throw new UnauthorizedException('User does not have permission to delete notes.');
         }
         $note->delete();

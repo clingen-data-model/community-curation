@@ -18,8 +18,7 @@ class RetireAssignments
     /**
      * Handle the event.
      *
-     * @param Retired $event
-     *
+     * @param  Retired  $event
      * @return void
      */
     public function handle(VolunteerStatusChanged $event)

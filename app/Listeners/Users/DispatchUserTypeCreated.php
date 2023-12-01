@@ -4,8 +4,6 @@ namespace App\Listeners\Users;
 
 use App\Events\Users\UserCreated;
 use App\Events\Volunteers\Created;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class DispatchUserTypeCreated
 {
@@ -22,7 +20,6 @@ class DispatchUserTypeCreated
     /**
      * Handle the event.
      *
-     * @param  UserCreated  $event
      * @return void
      */
     public function handle(UserCreated $event)

@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Aptitude;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**

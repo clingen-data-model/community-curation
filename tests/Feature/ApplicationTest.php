@@ -291,6 +291,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @test
+     *
      * @group already-member-flag
      */
     public function copies_already_member_response_values_to_user_on_application_finalized()

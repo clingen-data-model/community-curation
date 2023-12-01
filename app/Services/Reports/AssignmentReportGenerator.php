@@ -2,12 +2,12 @@
 
 namespace App\Services\Reports;
 
-use App\Gene;
-use App\CurationGroup;
-use App\CurationActivity;
 use App\Contracts\ReportGenerator;
-use Illuminate\Support\Collection;
+use App\CurationActivity;
+use App\CurationGroup;
+use App\Gene;
 use App\Services\Search\VolunteerSearchService;
+use Illuminate\Support\Collection;
 
 class AssignmentReportGenerator implements ReportGenerator
 {
@@ -59,7 +59,7 @@ class AssignmentReportGenerator implements ReportGenerator
             'ca_assignments' => $volunteer->assignments->isCurationActivity()->count(),
             'survey_completion_date' => ($volunteer->application) ? $volunteer->application->finalized_at : null,
         ];
-        
+
         if ($volunteer->assignments->count() == 0) {
             return collect([array_merge(
                 $base,
@@ -79,34 +79,33 @@ class AssignmentReportGenerator implements ReportGenerator
                 return array_merge(
                     $base,
                     [
-                            'curation_activity_id'      => $assignment->assignable->id,
-                            'curation_activity'         => $assignment->assignable->name,
-                            'training_completion_date'  => ($assignment->userAptitudes->first())
-                                                            ? $assignment->userAptitudes->first()->trained_at
-                                                            : null,
-                            'attestation_date'          => ($assignment->attestations->first())
-                                                            ? $assignment->attestations->first()->signed_at
-                                                            : null,
-                            'assigned_curation_group'   => $volunteer->assignments
-                                                            ->filter(function ($item) use ($assignment) {
-                                                                return $item->assignable_type == CurationGroup::class
-                                                                    && $item->assignable->curation_activity_id == $assignment->assignable_id;
-                                                            })
-                                                            ->pluck('assignable.name')
-                                                            ->join(",\n"),
-                            'assigned_gene'             => $volunteer->assignments
-                                                            ->filter(function ($item) use ($assignment) {
-                                                                return $item->assignable_type == Gene::class;
-                                                            })
-                                                            ->pluck('assignable.name')
-                                                            ->join(",\n"),
-                            'already_clingen_member'    => $volunteer->already_clingen_member,
-                            'already_member_cgs'        => $volunteer->memberGroups->pluck('name')->join(', ')
-                        ]
+                        'curation_activity_id' => $assignment->assignable->id,
+                        'curation_activity' => $assignment->assignable->name,
+                        'training_completion_date' => ($assignment->userAptitudes->first())
+                                                        ? $assignment->userAptitudes->first()->trained_at
+                                                        : null,
+                        'attestation_date' => ($assignment->attestations->first())
+                                                        ? $assignment->attestations->first()->signed_at
+                                                        : null,
+                        'assigned_curation_group' => $volunteer->assignments
+                                                        ->filter(function ($item) use ($assignment) {
+                                                            return $item->assignable_type == CurationGroup::class
+                                                                && $item->assignable->curation_activity_id == $assignment->assignable_id;
+                                                        })
+                                                        ->pluck('assignable.name')
+                                                        ->join(",\n"),
+                        'assigned_gene' => $volunteer->assignments
+                                                        ->filter(function ($item) {
+                                                            return $item->assignable_type == Gene::class;
+                                                        })
+                                                        ->pluck('assignable.name')
+                                                        ->join(",\n"),
+                        'already_clingen_member' => $volunteer->already_clingen_member,
+                        'already_member_cgs' => $volunteer->memberGroups->pluck('name')->join(', '),
+                    ]
                 );
             });
     }
-    
 
     private function getVolunteers($filterParams)
     {
@@ -121,7 +120,8 @@ class AssignmentReportGenerator implements ReportGenerator
                 'assignments.attestations',
                 'application',
             ],
-            ], $filterParams);
+        ], $filterParams);
+
         return $this->searchService->search($params);
     }
 }
