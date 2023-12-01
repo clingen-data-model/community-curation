@@ -59,9 +59,9 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
         ]);
 
         $response->assertJson(['data' => [
-                ['id' => $this->vol1->id, 'first_name' => $this->vol1->first_name],
-                ['id' => $this->vol2->id, 'first_name' => $this->vol2->first_name],
-            ],
+            ['id' => $this->vol1->id, 'first_name' => $this->vol1->first_name],
+            ['id' => $this->vol2->id, 'first_name' => $this->vol2->first_name],
+        ],
         ]);
     }
 
@@ -119,17 +119,17 @@ class TrainingSessionAttendeeControllerTest extends TrainingSessionTestCase
             ->json('GET', '/api/training-sessions/'.$this->trainingSession->id.'/trainable-volunteers')
             ->assertStatus(200);
         $response->assertJson([
-                'data' => [
-                    [
-                        'id' => $volunteers->get(0)->id,
-                        'first_name' => $volunteers->get(0)->first_name,
-                    ],
-                    [
-                        'id' => $volunteers->get(1)->id,
-                        'first_name' => $volunteers->get(1)->first_name,
-                    ],
+            'data' => [
+                [
+                    'id' => $volunteers->get(0)->id,
+                    'first_name' => $volunteers->get(0)->first_name,
                 ],
-            ]);
+                [
+                    'id' => $volunteers->get(1)->id,
+                    'first_name' => $volunteers->get(1)->first_name,
+                ],
+            ],
+        ]);
     }
 
     /**

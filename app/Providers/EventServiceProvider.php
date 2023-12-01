@@ -5,9 +5,9 @@ namespace App\Providers;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\Registered;
-use Lab404\Impersonate\Events\LeaveImpersonation;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Lab404\Impersonate\Events\LeaveImpersonation;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -92,7 +92,7 @@ class EventServiceProvider extends ServiceProvider
 
     private function registerMailLogging()
     {
-        if (!isset($this->listen['Illuminate\Mail\Events\MessageSent'])) {
+        if (! isset($this->listen['Illuminate\Mail\Events\MessageSent'])) {
             $this->listen['Illuminate\Mail\Events\MessageSent'] = [];
         }
         $this->listen['Illuminate\Mail\Events\MessageSent'] = ['App\Listeners\LogSentMessage'];

@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\User;
-use App\Priority;
 use App\CurationGroup;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Priority;
+use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class PriorityFactory extends Factory
 {
@@ -29,20 +29,21 @@ class PriorityFactory extends Factory
         $panels = CurationGroup::all()->groupBy('curation_activity_id');
 
         $user = User::all()->random();
-        if (!$user) {
+        if (! $user) {
             $user = factory(User::class)->states(['volunteer', 'comprehensive'])->create();
         }
         $activityId = $this->faker->numberBetween(1, 5);
         $panels = $panels->where('curation_activity_id', $activityId);
         $panel = $panels->first();
-        if (!$panel) {
+        if (! $panel) {
             $panel = CurationGroup::factory()->create([
-                'curation_activity_id' => $activityId
+                'curation_activity_id' => $activityId,
             ]);
         }
         $panelId = $panel->id;
+
         return [
-            'priority_order' => $this->faker->numberBetween(1,3),
+            'priority_order' => $this->faker->numberBetween(1, 3),
             'user_id' => $user->id,
             'curation_activity_id' => $activityId,
             'curation_group_id' => $panelId,
@@ -50,7 +51,7 @@ class PriorityFactory extends Factory
             'activity_experience_details' => $this->faker->sentence,
             'effort_experience' => $this->faker->boolean,
             'effort_experience_details' => $this->faker->sentence,
-            'prioritization_round' => 1
-         ];
-        }
+            'prioritization_round' => 1,
+        ];
+    }
 }

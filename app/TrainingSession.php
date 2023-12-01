@@ -91,11 +91,11 @@ class TrainingSession extends Model
 
     public function getIcsFilePath()
     {
-        if (!file_exists(storage_path('/app/calendar_ics'))) {
+        if (! file_exists(storage_path('/app/calendar_ics'))) {
             mkdir(storage_path('/app/calendar_ics'));
         }
         $filepath = storage_path('app/calendar_ics/'.$this->generateEventUid().'.ics');
-        if (!file_exists($filepath) || filectime($filepath) < $this->updated_at->timestamp) {
+        if (! file_exists($filepath) || filectime($filepath) < $this->updated_at->timestamp) {
             $fh = fopen($filepath, 'w');
             fwrite($fh, $this->getIcsString());
             fclose($fh);
@@ -173,7 +173,7 @@ class TrainingSession extends Model
 
     public static function createDummy($data = null)
     {
-        if (!$data) {
+        if (! $data) {
             $data = [
                 'starts_at' => Carbon::now(),
                 'ends_at' => Carbon::now(),

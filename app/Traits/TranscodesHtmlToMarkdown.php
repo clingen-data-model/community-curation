@@ -29,7 +29,7 @@ trait TranscodesHtmlToMarkdown
 
     private function getConverter()
     {
-        if (!$this->converter) {
+        if (! $this->converter) {
             $this->converter = new HtmlConverter(['strip tags' => true, 'remove_nodes' => 'script']);
         }
 
@@ -38,7 +38,7 @@ trait TranscodesHtmlToMarkdown
 
     protected function getParsedown()
     {
-        if (!$this->parsedown) {
+        if (! $this->parsedown) {
             $this->parsedown = new Parsedown();
             $this->parsedown->setSafeMode(true);
         }

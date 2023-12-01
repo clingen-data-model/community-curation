@@ -1,26 +1,26 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Actions\SixMonthFollowupExport;
-use App\Http\Controllers\FaqController;
 use App\Actions\ThreeMonthFollowupExport;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ApplicationReportController;
+use App\Http\Controllers\AssignmentReportController;
+use App\Http\Controllers\AttestationController;
+use App\Http\Controllers\CurationActivityController;
+use App\Http\Controllers\CurationGroupController;
+use App\Http\Controllers\CustomApplicationController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\GeneProtocolController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RequiredInfoController;
+use App\Http\Controllers\SurveyByIdController;
 use App\Http\Controllers\ThankYouController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\VolunteerController;
-use App\Http\Controllers\SurveyByIdController;
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\AttestationController;
-use App\Http\Controllers\GeneProtocolController;
-use App\Http\Controllers\RequiredInfoController;
-use App\Http\Controllers\CurationGroupController;
-use App\Http\Controllers\AssignmentReportController;
-use App\Http\Controllers\CurationActivityController;
-use App\Http\Controllers\ApplicationReportController;
-use App\Http\Controllers\CustomApplicationController;
 use App\Http\Controllers\VolunteerFollowupController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,11 +74,9 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
 
         Route::get('reports/three-month-followup', ThreeMonthFollowupExport::class);
         Route::get('reports/six-month-followup', SixMonthFollowupExport::class);
-
     });
     Route::get('applications-report', [ApplicationReportController::class, 'index'])
         ->name('appication-report');
-
 
     Route::get('volunteer-followup/{survey}/{responseId?}', [VolunteerFollowupController::class, 'show'])
         ->name('volunteer-followup.show');
@@ -125,24 +123,22 @@ Route::get('apply/{responseId?}', [ApplicationController::class, 'show'])
 Route::post('apply/{responseId?}', [ApplicationController::class, 'store'])
     ->name('application.store');
 
-
 Route::group(['middleware' => ['auth', 'role:programmer']], function () {
     Route::get('certificate', function (Request $request) {
         $user = App\User::findOrFail($request->user_id ? $request->user_id : 1);
         $type = $request->type;
         $date = \Carbon\Carbon::now();
-        
+
         try {
             $upload = (app()->make(App\Actions\TrainingCertificateGenerate::class))
                     ->handle($user, $type, $date);
 
             $storagePath = storage_path('/app/'.$upload->file_path);
 
-            
-        
             if (file_exists($storagePath)) {
-                return response(file_get_contents($storagePath), 200, ['Content-Type' => 'application/pdf'] );
+                return response(file_get_contents($storagePath), 200, ['Content-Type' => 'application/pdf']);
             }
+
             return $upload->file_path.' does not exist';
         } catch (\InvalidArgumentException $e) {
             return $e->getMessage();

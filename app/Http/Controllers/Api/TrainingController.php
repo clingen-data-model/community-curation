@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\UserAptitude;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\DefaultResource;
 use App\Exceptions\NotImplementedException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\TrainingCreateRequest;
 use App\Http\Requests\UpdateAssignedTrainingRequest;
+use App\Http\Resources\DefaultResource;
+use App\UserAptitude;
 
 class TrainingController extends Controller
 {
@@ -25,8 +24,7 @@ class TrainingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(TrainingCreateRequest $request)
@@ -39,8 +37,7 @@ class TrainingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -51,8 +48,7 @@ class TrainingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -63,8 +59,7 @@ class TrainingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateAssignedTrainingRequest $request, $id)
@@ -79,8 +74,7 @@ class TrainingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

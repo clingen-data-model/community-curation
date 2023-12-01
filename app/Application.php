@@ -10,6 +10,7 @@ class Application extends Model
     use SoftDeletes;
 
     protected $table = 'rsp_application_1';
+
     protected $fillable = [];
 
     public function respondent()

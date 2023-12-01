@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Volunteer3MonthSurvey extends Model
 {
     protected $table = 'rsp_volunteer_three_month_1';
+
     protected $fillable = [];
 
     public function survey()

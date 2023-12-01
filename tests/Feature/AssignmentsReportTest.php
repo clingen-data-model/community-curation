@@ -36,8 +36,7 @@ class AssignmentsReportTest extends TestCase
         $this->volunteers->slice(0, 2)->each(function ($volunteer) {
             AssignVolunteerToAssignable::dispatch($volunteer, $this->curationActivities->get(3));
         });
-        $this->volunteers->first()->update(['already_clingen_member' => 1, 'already_member_cgs' => ["23", "41"]]);
-
+        $this->volunteers->first()->update(['already_clingen_member' => 1, 'already_member_cgs' => ['23', '41']]);
 
         AssignVolunteerToAssignable::dispatch($this->volunteers->first(), $this->curationActivities->get(1));
         AssignVolunteerToAssignable::dispatch($this->volunteers->first(), $this->curationActivities->get(2));
@@ -50,7 +49,7 @@ class AssignmentsReportTest extends TestCase
         AssignVolunteerToAssignable::dispatch($this->volunteers->last(), $this->curationActivities->get(6));
         AssignVolunteerToAssignable::dispatch($this->volunteers->last(), $this->genes->first());
         AssignVolunteerToAssignable::dispatch($this->volunteers->last(), $this->genes->last());
-        
+
         $this->date = Carbon::now();
 
         $appRsp = class_survey()::findBySlug('application1')->getNewResponse($this->volunteers->get(1));
@@ -110,7 +109,7 @@ class AssignmentsReportTest extends TestCase
                                             .$this->curationGroups->get(3)->last()->name,
                 'assigned_gene' => null, //$this->genes->first()->symbol.",\n".$this->genes->last()->symbol
                 'already_clingen_member' => $vol->already_clingen_member,
-                'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', ')
+                'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', '),
             ],
             $testRow
         );
@@ -149,12 +148,11 @@ class AssignmentsReportTest extends TestCase
                 'assigned_curation_group' => '',
                 'assigned_gene' => $this->genes->first()->symbol.",\n".$this->genes->last()->symbol,
                 'already_clingen_member' => $vol->already_clingen_member,
-                'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', ')
+                'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', '),
             ],
             $testRow
         );
     }
-    
 
     /**
      * @test

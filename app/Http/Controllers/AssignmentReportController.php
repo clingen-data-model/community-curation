@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class AssignmentReportController extends Controller
 {
     private $writer;
+
     private $generator;
 
     public function __construct(AssignmentReportWriter $writer, AssignmentReportGenerator $generator)

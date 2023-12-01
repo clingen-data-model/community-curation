@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSurveyRspApplication1 extends Migration
 {
@@ -81,7 +81,7 @@ class CreateSurveyRspApplication1 extends Migration
             $table->index(['started_at', 'finalized_at', 'survey_id'], 'started_finalized_survey_index');
         });
         $indexes = Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes('rsp_application_1');
-        if (!array_key_exists('rsp_application_1_respondent_type_respondent_id_index', $indexes)) {
+        if (! array_key_exists('rsp_application_1_respondent_type_respondent_id_index', $indexes)) {
             Schema::table('rsp_application_1', function (Blueprint $table) {
                 $table->index(['respondent_type', 'respondent_id']);
             });
@@ -89,10 +89,10 @@ class CreateSurveyRspApplication1 extends Migration
 
         Illuminate\Database\Eloquent\Model::unguard();
         \Sirs\Surveys\Models\Survey::firstOrCreate([
-            "name"=>"Application1",
-            "version"=>"1",
-            "file_name"=>"resources/surveys/application.xml",
-            "response_table"=>"rsp_application_1"
+            'name' => 'Application1',
+            'version' => '1',
+            'file_name' => 'resources/surveys/application.xml',
+            'response_table' => 'rsp_application_1',
         ]);
     }
 

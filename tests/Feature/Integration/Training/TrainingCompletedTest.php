@@ -80,5 +80,4 @@ class TrainingCompletedTest extends TestCase
 
         $this->assertEquals(1, $this->volunteer->uploads->count());
     }
-    
 }

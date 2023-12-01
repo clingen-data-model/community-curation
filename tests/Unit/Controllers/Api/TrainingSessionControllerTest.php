@@ -221,11 +221,11 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         $freshTraining = $trainingSession->fresh();
 
         $response->assertJson(['data' => [
-                                            'id' => $freshTraining->id,
-                                            'starts_at' => $startsAt->format('Y-m-d\TH:i:s\Z'),
-                                            'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z'),
-                                        ],
-                            ]);
+            'id' => $freshTraining->id,
+            'starts_at' => $startsAt->format('Y-m-d\TH:i:s\Z'),
+            'ends_at' => $startsAt->clone()->addHour()->format('Y-m-d\TH:i:s\Z'),
+        ],
+        ]);
     }
 
     /**

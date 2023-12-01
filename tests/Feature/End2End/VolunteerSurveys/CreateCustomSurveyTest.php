@@ -2,14 +2,12 @@
 
 namespace Tests\Feature\End2End\VolunteerSurveys;
 
-use App\User;
-use Tests\TestCase;
-use App\CustomSurvey;
 use App\CurationGroup;
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\CustomSurvey;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 /**
  * @group custom-surveys
@@ -18,7 +16,7 @@ class CreateCustomSurveyTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->superAdmin = factory(User::class)->state('super-admin')->create();
@@ -35,13 +33,13 @@ class CreateCustomSurveyTest extends TestCase
             ->json('POST', '/admin/custom-survey', [
                 'curation_group_id' => $this->curationGroup->id,
                 'volunteer_type_id' => 2,
-                'name' => $this->curationGroup->name
+                'name' => $this->curationGroup->name,
             ]);
 
         $this->assertDatabaseHas('custom_surveys', [
             'curation_group_id' => $this->curationGroup->id,
             'volunteer_type_id' => 2,
-            'name' => Str::kebab($this->curationGroup->name)
+            'name' => Str::kebab($this->curationGroup->name),
         ]);
     }
 
@@ -54,7 +52,7 @@ class CreateCustomSurveyTest extends TestCase
             ->json('POST', '/admin/custom-survey', [
                 'curation_group_id' => null,
                 'volunteer_type_id' => null,
-                'name' => null
+                'name' => null,
             ]);
         $response->assertStatus(422);
 
@@ -74,7 +72,7 @@ class CreateCustomSurveyTest extends TestCase
             ->json('POST', '/admin/custom-survey', [
                 'curation_group_id' => 99999,
                 'volunteer_type_id' => 99999,
-                'name' => $cs->name
+                'name' => $cs->name,
             ]);
         $response->assertStatus(422);
 
@@ -92,11 +90,10 @@ class CreateCustomSurveyTest extends TestCase
 
         $response = $this->actingAs($this->superAdmin, 'api')
             ->json('POST', '/admin/custom-survey', [
-                'name' => 'test/me'
+                'name' => 'test/me',
             ]);
         $response->assertStatus(422);
 
         $response->assertJsonFragment(['The custom survey name may not include any of the following characters: [ ] { } | \ ” % ~ # < >']);
     }
-    
 }

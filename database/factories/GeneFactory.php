@@ -9,6 +9,6 @@ $factory->define(Gene::class, function (Faker $faker) {
     return [
         'symbol' => $faker->randomLetter().$faker->randomLetter().$faker->randomLetter().$faker->randomLetter(),
         'protocol_path' => null,
-        'hypothesis_group' => null
+        'hypothesis_group' => null,
     ];
 });

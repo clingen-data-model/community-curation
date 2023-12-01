@@ -11,7 +11,9 @@ use Illuminate\Support\Collection;
 class ApplicationReportGenerator implements ReportGenerator
 {
     protected $applicationQuestions;
+
     protected $volunteerSearchService;
+
     protected $query;
 
     public function __construct(VolunteerSearchService $volunteerSearchService)
@@ -64,7 +66,7 @@ class ApplicationReportGenerator implements ReportGenerator
     {
         $countries = Country::all()->pluck('name', 'id');
 
-        return $data->map(function ($app) use ($countries) {
+        return $data->map(function ($app) {
             $introColumns = collect([
                 'volunteer_id' => $app->respondent_id,
                 'first_name' => $app->first_name,
@@ -73,34 +75,34 @@ class ApplicationReportGenerator implements ReportGenerator
             ]);
             $outroColumns = collect([
                 'date_completed' => $app->finalized_at,
-                'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No',
+                'imported_from_google_sheets' => ! is_null($app->imported_survey_data) ? 'Yes' : 'No',
             ]);
 
             return [
                 'personal' => $introColumns
                                     ->merge([
-                                            'institution' => $app->respondent->institution,
-                                            'orcid_id' => $app->respondent->orcid_id,
-                                            'hypothesis_id' => $app->hypothesis_id,
-                                            'street1' => $app->respondent->street1,
-                                            'street2' => $app->respondent->street2,
-                                            'city' => $app->respondent->city,
-                                            'state' => $app->respondent->state,
-                                            'zip' => $app->respondent->zip,
-                                            'country' => ($app->respondent->country) ? $app->respondent->country->name : null,
-                                            'timezone' => $app->respondent->timezone,
+                                        'institution' => $app->respondent->institution,
+                                        'orcid_id' => $app->respondent->orcid_id,
+                                        'hypothesis_id' => $app->hypothesis_id,
+                                        'street1' => $app->respondent->street1,
+                                        'street2' => $app->respondent->street2,
+                                        'city' => $app->respondent->city,
+                                        'state' => $app->respondent->state,
+                                        'zip' => $app->respondent->zip,
+                                        'country' => ($app->respondent->country) ? $app->respondent->country->name : null,
+                                        'timezone' => $app->respondent->timezone,
                                     ])->merge($outroColumns),
 
                 'professional' => $introColumns
                                     ->merge([
-                                            'volunteer_id' => $app->respondent_id,
-                                            'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
-                                            'heighest_ed_other' => $app->highest_ed_other,
-                                            'advanced_certification' => $app->adv_cert,
-                                            'self_description' => $app->self_desc ? $app->self_desc : '',
-                                            'self_description_other' => $app->self_desc_other,
-                                            'already_clingen_member' => $app->respondent->already_clingen_member,
-                                            'already_member_cgs' => $app->respondent->memberGroups->pluck('name')->join(', ')
+                                        'volunteer_id' => $app->respondent_id,
+                                        'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
+                                        'heighest_ed_other' => $app->highest_ed_other,
+                                        'advanced_certification' => $app->adv_cert,
+                                        'self_description' => $app->self_desc ? $app->self_desc : '',
+                                        'self_description_other' => $app->self_desc_other,
+                                        'already_clingen_member' => $app->respondent->already_clingen_member,
+                                        'already_member_cgs' => $app->respondent->memberGroups->pluck('name')->join(', '),
                                     ])->merge($outroColumns),
 
                 'demographic' => $introColumns
@@ -145,7 +147,7 @@ class ApplicationReportGenerator implements ReportGenerator
         // }
         $priorities = $app->respondent->latestPriorities->values();
 
-        for ($i = 0; $i < 3; ++$i) {
+        for ($i = 0; $i < 3; $i++) {
             if ($priorities) {
                 $data = array_merge($data, [
                     'curation_activity_priority_'.($i + 1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,

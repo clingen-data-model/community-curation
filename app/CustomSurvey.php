@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Venturecraft\Revisionable\RevisionableTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class CustomSurvey extends Model
 {
@@ -26,7 +26,7 @@ class CustomSurvey extends Model
         'curation_group_id' => 'integer',
         'volunteer_type_id' => 'integer',
     ];
-    
+
     public $appends = [
         'survey_url',
     ];
@@ -37,8 +37,6 @@ class CustomSurvey extends Model
 
     /**
      * Get the curationGroup that owns the CustomSurvey
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function curationGroup(): BelongsTo
     {
@@ -47,8 +45,6 @@ class CustomSurvey extends Model
 
     /**
      * Get the volunteerType that owns the CustomSurvey
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function volunteerType(): BelongsTo
     {
@@ -63,8 +59,7 @@ class CustomSurvey extends Model
     /**
      * DOMAIN
      */
-
-    public function getSurveyUrlAttribute(): String
+    public function getSurveyUrlAttribute(): string
     {
         return url('/apply/group/'.$this->name);
     }

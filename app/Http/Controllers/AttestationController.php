@@ -6,7 +6,6 @@ use App\Attestation;
 use App\Contracts\AttestationFormResolver;
 use App\Http\Requests\UpdateAttestationRequest;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AttestationController extends Controller
@@ -25,7 +24,7 @@ class AttestationController extends Controller
      */
     public function show(Attestation $attestation)
     {
-        if (!Auth::user()->can('view', $attestation)) {
+        if (! Auth::user()->can('view', $attestation)) {
             abort(403);
         }
 
@@ -39,7 +38,7 @@ class AttestationController extends Controller
      */
     public function edit(Attestation $attestation)
     {
-        if (!Auth::user()->can('view', $attestation)) {
+        if (! Auth::user()->can('view', $attestation)) {
             abort(403);
         }
 
@@ -52,21 +51,20 @@ class AttestationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Attestation         $attestation
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Attestation  $attestation
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateAttestationRequest $request, $id)
     {
         $attestation = Attestation::findOrFail($id);
-        if (!Auth::user()->can('update', $attestation)) {
+        if (! Auth::user()->can('update', $attestation)) {
             return abort(403);
         }
 
         $attestation->update([
             'signed_at' => Carbon::now(),
-            'data' => $request->except('_method', '_token'), 
+            'data' => $request->except('_method', '_token'),
         ]);
 
         session()->flash('success', 'Attestation for '.$attestation->aptitude->name.' completed.');

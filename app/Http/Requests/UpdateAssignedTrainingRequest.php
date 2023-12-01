@@ -24,7 +24,7 @@ class UpdateAssignedTrainingRequest extends FormRequest
     public function rules()
     {
         return [
-            'trained_at' => 'required|date'
+            'trained_at' => 'required|date',
         ];
     }
 
@@ -35,5 +35,4 @@ class UpdateAssignedTrainingRequest extends FormRequest
             'date' => 'This must be a valid date.',
         ];
     }
-    
 }

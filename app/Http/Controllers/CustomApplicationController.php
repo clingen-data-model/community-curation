@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\CustomSurvey;
-use Illuminate\Http\Request;
-use App\Surveys\ResponseObjectResolver;
 use App\Surveys\ApplicationControlService;
+use App\Surveys\ResponseObjectResolver;
+use Illuminate\Http\Request;
 
 class CustomApplicationController extends Controller
 {
@@ -15,8 +15,6 @@ class CustomApplicationController extends Controller
     {
         $this->responseResolver = $responseResolver;
     }
-
-    
 
     /**
      * Display a listing of the resource.
@@ -60,8 +58,7 @@ class CustomApplicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $name, $id = null)
@@ -69,7 +66,7 @@ class CustomApplicationController extends Controller
         $customSurvey = CustomSurvey::findByNameOrFail($name);
         $response = $this->responseResolver->resolve($request, $id);
         $response->custom_survey_id = $customSurvey->id;
-        
+
         $service = new ApplicationControlService($request, $response);
 
         return $service->showPage();

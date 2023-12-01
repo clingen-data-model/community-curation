@@ -8,7 +8,7 @@ trait StoresResponsePriorities
 {
     private function storePriorities()
     {
-        if (!$this->response->{'curation_activity_1'}) {
+        if (! $this->response->{'curation_activity_1'}) {
             return;
         }
 
@@ -16,7 +16,7 @@ trait StoresResponsePriorities
                                 ->where('user_id', $this->response->respondent_id)
                                 ->get()
                                 ->first()->prioritization_round ?? 0;
-        ++$prioritizationRound;
+        $prioritizationRound++;
 
         foreach ([1, 2, 3] as $num) {
             if ($this->response->{'curation_activity_'.$num}) {

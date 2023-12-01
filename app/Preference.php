@@ -26,9 +26,10 @@ class Preference extends Model
     public static function findByName($name)
     {
         $preference = static::nameIs($name)->first();
-        if (!$preference) {
+        if (! $preference) {
             throw new InvalidArgumentException('Unknown preference name: '.$name);
         }
+
         return $preference;
     }
 
@@ -36,7 +37,7 @@ class Preference extends Model
     {
         $value = ($value == 'int') ? 'integer' : $value;
 
-        if (!in_array($value, $this->validDataTypes)) {
+        if (! in_array($value, $this->validDataTypes)) {
             throw new InvalidArgumentException('Bad data type given for preference: '.$value);
         }
 

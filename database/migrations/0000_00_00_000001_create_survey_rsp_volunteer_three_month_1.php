@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateSurveyRspVolunteerThreeMonth1 extends Migration
 {
@@ -53,7 +53,7 @@ class CreateSurveyRspVolunteerThreeMonth1 extends Migration
             $table->index(['started_at', 'finalized_at', 'survey_id'], 'started_finalized_survey_index');
         });
         $indexes = Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes('rsp_volunteer_three_month_1');
-        if (!array_key_exists('rsp_volunteer_three_month_1_respondent_type_respondent_id_index', $indexes)) {
+        if (! array_key_exists('rsp_volunteer_three_month_1_respondent_type_respondent_id_index', $indexes)) {
             Schema::table('rsp_volunteer_three_month_1', function (Blueprint $table) {
                 $table->index(['respondent_type', 'respondent_id']);
             });
@@ -61,10 +61,10 @@ class CreateSurveyRspVolunteerThreeMonth1 extends Migration
 
         Illuminate\Database\Eloquent\Model::unguard();
         \Sirs\Surveys\Models\Survey::firstOrCreate([
-            "name"=>"volunteer_three_month1",
-            "version"=>"1",
-            "file_name"=>"resources/surveys/three_month_volunteer_followup.xml",
-            "response_table"=>"rsp_volunteer_three_month_1"
+            'name' => 'volunteer_three_month1',
+            'version' => '1',
+            'file_name' => 'resources/surveys/three_month_volunteer_followup.xml',
+            'response_table' => 'rsp_volunteer_three_month_1',
         ]);
     }
 

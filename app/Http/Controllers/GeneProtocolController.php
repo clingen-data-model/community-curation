@@ -10,11 +10,11 @@ class GeneProtocolController extends Controller
     public function show($symbol)
     {
         $gene = Gene::where('symbol', $symbol)->first();
-        if (!$gene) {
+        if (! $gene) {
             throw new ModelNotFoundException('The gene '.$symbol.' could not be found.');
         }
 
-        if (!$gene->protocol_path) {
+        if (! $gene->protocol_path) {
             session()->flash('error', 'Protocol file not found for gene '.$symbol.'.');
 
             return redirect()->back();

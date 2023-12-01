@@ -31,7 +31,7 @@ class Upload extends Model
         static::addGlobalScope(new CuratorUploadScope());
 
         static::creating(function ($upload) {
-            if (!$upload->uploader_id && \Auth::user()) {
+            if (! $upload->uploader_id && \Auth::user()) {
                 $upload->uploader_id = \Auth::user()->id;
             }
         });

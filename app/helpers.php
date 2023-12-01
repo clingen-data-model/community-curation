@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-if (!function_exists('renderQuery')) {
+if (! function_exists('renderQuery')) {
     function renderQuery($query)
     {
         $treated = preg_replace('/\?/', '"%s"', $query->toSql());
@@ -11,15 +11,15 @@ if (!function_exists('renderQuery')) {
     }
 }
 
-if (!function_exists('seedFromConfig')) {
+if (! function_exists('seedFromConfig')) {
     function seedFromConfig($config, $modelClass)
     {
         Model::unguard();
         $items = config($config);
         foreach ($items as $slug => $id) {
             $modelClass::updateOrCreate([
-              'id' => $id,
-              'name' => ucfirst(preg_replace('/-/', ' ', $slug)),
+                'id' => $id,
+                'name' => ucfirst(preg_replace('/-/', ' ', $slug)),
             ]);
         }
     }

@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\CurationGroup;
 use App\Http\Requests\CustomSurveyRequest;
 use App\VolunteerType;
-use Attribute;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class CustomSurveyCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class CustomSurveyCrudController extends CrudController
@@ -30,7 +29,7 @@ class CustomSurveyCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\CustomSurvey::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/custom-survey');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/custom-survey');
         CRUD::setEntityNameStrings('custom survey', 'custom surveys');
     }
 
@@ -38,6 +37,7 @@ class CustomSurveyCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -49,23 +49,22 @@ class CustomSurveyCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
-
         $this->crud->addColumn([
             'type' => 'select',
             'label' => 'Curation Group',
             'name' => 'curation_group_id',
             'model' => CurationGroup::class,
             'attribute' => 'name',
-            'entity' => 'curationGroup'
-         ]);
+            'entity' => 'curationGroup',
+        ]);
         $this->crud->addColumn([
             'type' => 'select',
             'label' => 'Volunteer Type',
             'name' => 'volunteer_type_id',
             'model' => VolunteerType::class,
             'attribute' => 'name',
-            'entity' => 'volunteerType'
-         ]);
+            'entity' => 'volunteerType',
+        ]);
         $this->crud->addColumn([
             'name' => 'survey_url',
             'label' => 'URL',
@@ -73,8 +72,8 @@ class CustomSurveyCrudController extends CrudController
             'wrapper' => [
                 'href' => function ($crud, $col, $entry, $related_key) {
                     return $entry->survey_url;
-                }
-            ]
+                },
+            ],
         ]);
     }
 
@@ -82,6 +81,7 @@ class CustomSurveyCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -101,7 +101,7 @@ class CustomSurveyCrudController extends CrudController
             'name' => 'curation_group_id',
             'model' => CurationGroup::class,
             'attribute' => 'name',
-            'entity' => 'curationGroup'
+            'entity' => 'curationGroup',
         ]);
         CRUD::modifyField('volunteer_type_id', [
             'type' => 'select2',
@@ -109,7 +109,7 @@ class CustomSurveyCrudController extends CrudController
             'model' => VolunteerType::class,
             'entity' => 'volunteerType',
             'attribute' => 'name',
-            'relation_type' => 'belongsTo'
+            'relation_type' => 'belongsTo',
         ]);
     }
 
@@ -117,6 +117,7 @@ class CustomSurveyCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
@@ -131,17 +132,17 @@ class CustomSurveyCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'group_name',
             'label' => 'Curation group',
-            'type' => 'text'
+            'type' => 'text',
         ]);
         $this->crud->addColumn([
             'name' => 'volunteer_type_name',
             'label' => 'Volunteer Type',
-            'type' => 'text'
+            'type' => 'text',
         ]);
         $this->crud->addColumn([
             'name' => 'survey_url',
             'label' => 'URL',
-            'type' => 'link'
+            'type' => 'link',
         ]);
     }
 }

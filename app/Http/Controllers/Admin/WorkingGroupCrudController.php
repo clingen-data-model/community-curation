@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\WorkingGroup;
-// VALIDATION: change the requests to match your own file names if you need form validation
-use Backpack\CRUD\CrudPanel;
-use Prologue\Alerts\Facades\Alert;
-use Illuminate\Support\Facades\Redirect;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\WorkingGroupRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\WorkingGroupRequest as UpdateRequest;
+use App\WorkingGroup;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\CrudPanel;
 
 /**
  * Class WorkingGroupCrudController.
@@ -47,15 +45,15 @@ class WorkingGroupCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        if (!\Auth::user()->can('create', WorkingGroup::class)) {
+        if (! \Auth::user()->can('create', WorkingGroup::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (!\Auth::user()->can('update working-groups')) {
+        if (! \Auth::user()->can('update working-groups')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!\Auth::user()->can('delete working-groups')) {
+        if (! \Auth::user()->can('delete working-groups')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }
@@ -76,11 +74,10 @@ class WorkingGroupCrudController extends CrudController
         $curationGroupCount = $wg->curationGroups()->count();
         if ($curationGroupCount > 0) {
             $message = 'This working group has curation groups associated with it. You must delete those curation groups before you can delete the working group.';
+
             return response(['error' => $message], 422);
         }
 
         return $this->traitDestroy($id);
-
-
     }
 }

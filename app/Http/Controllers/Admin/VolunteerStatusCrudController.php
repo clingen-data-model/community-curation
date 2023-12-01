@@ -45,15 +45,15 @@ class VolunteerStatusCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        if (!\Auth::user()->can('create', VolunteerStatus::class)) {
+        if (! \Auth::user()->can('create', VolunteerStatus::class)) {
             $this->crud->RemoveButton('create');
         }
 
-        if (!\Auth::user()->can('update volunteer-statuses')) {
+        if (! \Auth::user()->can('update volunteer-statuses')) {
             $this->crud->RemoveButtonFromStack('update', 'line');
         }
 
-        if (!\Auth::user()->can('delete volunteer-statuses')) {
+        if (! \Auth::user()->can('delete volunteer-statuses')) {
             $this->crud->RemoveButtonFromStack('delete', 'line');
         }
     }

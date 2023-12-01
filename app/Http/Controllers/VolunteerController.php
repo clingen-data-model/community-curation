@@ -17,7 +17,7 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('volunteer') && !Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer'])) {
+        if (Auth::user()->hasRole('volunteer') && ! Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer'])) {
             return redirect('/volunteers/'.Auth::user()->id);
         }
 
@@ -47,15 +47,14 @@ class VolunteerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Volunteer $volunteer
-     *
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
     public function show(User $volunteer)
     {
         if (
             (Auth::user()->hasRole('volunteer') && Auth::user()->id !== $volunteer->id)
-            && (Auth::user()->hasRole('volunteer') && !Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer']))
+            && (Auth::user()->hasRole('volunteer') && ! Auth::user()->hasAnyRole(['admin', 'super-admin', 'programmer']))
         ) {
             return redirect('/volunteers/'.Auth::user()->id);
         }
@@ -84,8 +83,7 @@ class VolunteerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Volunteer $volunteer
-     *
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
     public function edit(User $volunteer)
@@ -96,8 +94,7 @@ class VolunteerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Volunteer $volunteer
-     *
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $volunteer)
@@ -108,8 +105,7 @@ class VolunteerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Volunteer $volunteer
-     *
+     * @param  \App\Volunteer  $volunteer
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $volunteer)

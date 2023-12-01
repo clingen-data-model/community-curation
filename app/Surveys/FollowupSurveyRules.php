@@ -6,7 +6,7 @@ class FollowupSurveyRules extends SurveyRules
 {
     public function getRedirectUrl()
     {
-        if (!session()->get('survey-previous')) {
+        if (! session()->get('survey-previous')) {
             return '/';
         }
 

@@ -36,7 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => (!is_null(env('LOG_SLACK_WEBHOOK_URL'))) ? ['daily', 'slack'] : ['single'],
+            'channels' => (! is_null(env('LOG_SLACK_WEBHOOK_URL'))) ? ['daily', 'slack'] : ['single'],
             'ignore_exceptions' => false,
         ],
 
@@ -92,7 +92,7 @@ return [
         'mail' => [
             'driver' => 'daily',
             'path' => storage_path('logs/mail.log'),
-            'level' => 'debug'
+            'level' => 'debug',
         ],
     ],
 

@@ -32,7 +32,7 @@ class MotivationsTableSeeder extends Seeder
             Motivation::updateOrCreate(['id' => $id], [
                 'id' => $id,
                 'name' => $name,
-                ]);
+            ]);
         }
         Motivation::reguard();
     }

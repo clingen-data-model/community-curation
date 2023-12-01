@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $pageSize = ($request->has('perPage') && !is_null($request->perPage)) ? $request->perPage : 25;
+        $pageSize = ($request->has('perPage') && ! is_null($request->perPage)) ? $request->perPage : 25;
 
         $query = $this->searchService->buildQuery($request->all());
 

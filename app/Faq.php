@@ -29,7 +29,7 @@ class Faq extends Model
 
     public function setScreenshotsAttribute($value)
     {
-        if (!file_exists(storage_path('app/public/faqs'))) {
+        if (! file_exists(storage_path('app/public/faqs'))) {
             mkdir(storage_path('app/public/faqs'));
         }
         $this->uploadMultipleFilesToDisk($value, 'screenshots', 'public', 'faqs');
@@ -38,7 +38,7 @@ class Faq extends Model
     public function uploadMultipleFilesToDisk($value, $attribute_name, $disk, $destination_path)
     {
         $request = \Request::instance();
-        if (!is_array($this->{$attribute_name})) {
+        if (! is_array($this->{$attribute_name})) {
             $attribute_value = json_decode($this->{$attribute_name}, true) ?? [];
         } else {
             $attribute_value = $this->{$attribute_name};

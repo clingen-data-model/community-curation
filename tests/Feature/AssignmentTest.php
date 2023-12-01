@@ -135,6 +135,7 @@ class AssignmentTest extends TestCase
 
     /**
      * @test
+     *
      * @group userAptitudes
      */
     public function can_get_related_userAptitudes()

@@ -126,6 +126,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     *
      * @group notes
      */
     public function implements_notable_trait()
@@ -136,6 +137,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     *
      * @group login
      */
     public function can_scope_to_logged_in_users()
@@ -204,6 +206,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     *
      * @group already-member-flag
      */
     public function getAlreadyMemberCurationGroups_returns_empty_collection_when_already_member_cgs_is_null()
@@ -217,6 +220,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     *
      * @group already-member-flag
      */
     public function getAlreadyMemberCurationGroups_returns_curation_group_models_for_already_member_cgs()

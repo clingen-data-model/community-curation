@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\CustomSurvey;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CustomSurveyRequest extends FormRequest
 {
@@ -34,10 +34,10 @@ class CustomSurveyRequest extends FormRequest
             'curation_group_id' => 'required|exists:curation_groups,id',
             'volunteer_type_id' => 'required|exists:volunteer_types,id',
             'name' => [
-                        'required',
-                        'not_regex:/[\[\]{}\|\\/\~#<>\\\]/',
-                        Rule::unique('custom_surveys')->ignore($customSurvey->id)
-                    ]
+                'required',
+                'not_regex:/[\[\]{}\|\\/\~#<>\\\]/',
+                Rule::unique('custom_surveys')->ignore($customSurvey->id),
+            ],
         ];
     }
 
@@ -47,5 +47,4 @@ class CustomSurveyRequest extends FormRequest
             'name.not_regex' => 'The custom survey name may not include any of the following characters: [ ] { } | \ ” % ~ # < >',
         ];
     }
-    
 }

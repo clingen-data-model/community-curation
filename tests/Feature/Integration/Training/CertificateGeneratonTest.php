@@ -4,22 +4,19 @@ namespace Tests\Feature\Integration\Training;
 
 use App\Actions\TrainingCertificateGenerate;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CertificateGeneratonTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setup();
         $this->volunteer = $this->createVolunteer();
     }
-    
+
     /**
      * @test
      */
@@ -40,7 +37,4 @@ class CertificateGeneratonTest extends TestCase
 
         $this->assertFileExists(storage_path('/app/'.$upload->file_path));
     }
-
-    
-    
 }

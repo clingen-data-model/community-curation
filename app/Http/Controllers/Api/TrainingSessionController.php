@@ -30,7 +30,7 @@ class TrainingSessionController extends Controller
             }
         }
 
-        if (!$request->scopes || !in_array('past', $request->scopes)) {
+        if (! $request->scopes || ! in_array('past', $request->scopes)) {
             $query->future();
         }
 
@@ -40,8 +40,7 @@ class TrainingSessionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(TrainingSessionRequest $request)
@@ -59,8 +58,7 @@ class TrainingSessionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param string $id
-     *
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,9 +72,8 @@ class TrainingSessionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string                   $id
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function update(TrainingSessionRequest $request, $id)

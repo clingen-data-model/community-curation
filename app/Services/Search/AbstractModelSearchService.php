@@ -11,7 +11,7 @@ abstract class AbstractModelSearchService implements ModelSearchService
     abstract public function buildQuery($params): Builder;
 
     abstract public function search($params): Collection;
- 
+
     protected function joinsTable($query, $table)
     {
         if (is_null($query->getQuery()->joins)) {
@@ -22,8 +22,7 @@ abstract class AbstractModelSearchService implements ModelSearchService
                 return true;
             }
         }
+
         return false;
-
     }
-
 }

@@ -2,30 +2,29 @@
 
 namespace App;
 
-use App\Upload;
-use Carbon\Carbon;
-use JsonException;
 use App\Contracts\IsNotable;
 use App\Events\Users\UserCreated;
+use App\Events\Volunteers\ConvertedToComprehensive;
+use App\Events\Volunteers\MarkedBaseline;
+use App\Events\Volunteers\MarkedDeclined;
+use App\Events\Volunteers\MarkedUnresponsive;
 use App\Events\Volunteers\Retired;
-use Laravel\Passport\HasApiTokens;
+use App\Traits\IsNotable as TraitsIsNotable;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use App\Events\Volunteers\MarkedBaseline;
-use App\Events\Volunteers\MarkedDeclined;
+use JsonException;
 use Lab404\Impersonate\Models\Impersonate;
-use Spatie\Activitylog\Traits\LogsActivity;
-use App\Traits\IsNotable as TraitsIsNotable;
-use App\Events\Volunteers\MarkedUnresponsive;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Venturecraft\Revisionable\RevisionableTrait;
-use App\Events\Volunteers\ConvertedToComprehensive;
 use Lab404\Impersonate\Services\ImpersonateManager;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
  * User model class.
@@ -121,7 +120,7 @@ class User extends Authenticatable implements IsNotable
             }
 
             // if creating volunteer and no status set assign status applied
-            if (!is_null($model->volunteer_type_id) && is_null($model->volunteer_status_id)) {
+            if (! is_null($model->volunteer_type_id) && is_null($model->volunteer_status_id)) {
                 $model->volunteer_status_id = config('project.volunteer-statuses.applied');
             }
         });
@@ -161,12 +160,12 @@ class User extends Authenticatable implements IsNotable
             }
         });
     }
-    
+
     public static function findByEmail($email)
     {
         return static::where('email', $email)->first();
     }
-    
+
     public function volunteerType()
     {
         return $this->belongsTo(VolunteerType::class);
@@ -281,7 +280,6 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->hasMany(Upload::class);
     }
-    
 
     public function canImpersonate()
     {
@@ -320,7 +318,6 @@ class User extends Authenticatable implements IsNotable
     /**
      * SCOPES
      */
-
     public function scopeIsVolunteer($query)
     {
         return $query->role('volunteer');
@@ -349,7 +346,6 @@ class User extends Authenticatable implements IsNotable
     {
         return $query->where('volunteer_type_id', config('project.volunteer_types.baseline'));
     }
-    
 
     public function scopeIsLoggedIn($query)
     {
@@ -434,7 +430,7 @@ class User extends Authenticatable implements IsNotable
 
         try {
             $cgIds = $this->already_member_cgs;
-            if (!$cgIds) {
+            if (! $cgIds) {
                 return collect();
             }
 

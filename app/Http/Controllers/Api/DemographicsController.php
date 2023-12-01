@@ -13,7 +13,7 @@ class DemographicsController extends Controller
         $volunteer = User::findOrFail($id);
 
         $application = $volunteer->application;
-        if (!$application) {
+        if (! $application) {
             $application = $volunteer->application()->create();
         }
 
@@ -21,7 +21,7 @@ class DemographicsController extends Controller
         $questionNames = array_keys($survey->document->getQuestions());
 
         foreach ($request->all() as $key => $value) {
-            if (!in_array($key, $questionNames)) {
+            if (! in_array($key, $questionNames)) {
                 abort(422, 'Variable '.$key.' not found in application definition');
             }
             if ($value !== null) {

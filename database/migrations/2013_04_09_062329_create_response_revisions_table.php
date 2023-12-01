@@ -21,7 +21,7 @@ class CreateResponseRevisionsTable extends Migration
             $table->text('new_value')->nullable();
             $table->timestamps();
 
-            $table->index(array('response_id', 'response_table'));
+            $table->index(['response_id', 'response_table']);
         });
     }
 

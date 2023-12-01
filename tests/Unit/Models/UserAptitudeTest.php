@@ -14,6 +14,7 @@ use Tests\TestCase;
 /**
  * @group training
  * @group userAptitudes
+ *
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class UserAptitudeTest extends TestCase

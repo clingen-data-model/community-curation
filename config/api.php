@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'hidden-models' => []
+    'hidden-models' => [],
 ];

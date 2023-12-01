@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomSurvey;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Surveys\ResponseObjectResolver;
 use App\Surveys\ApplicationControlService;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Surveys\ResponseObjectResolver;
+use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
@@ -15,10 +12,8 @@ class ApplicationController extends Controller
 
     public function __construct(ResponseObjectResolver $responseResolver)
     {
-        $this->responseResolver= $responseResolver;
+        $this->responseResolver = $responseResolver;
     }
-
-    
 
     /**
      * Display a listing of the resource.
@@ -53,8 +48,7 @@ class ApplicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id = null)

@@ -2,19 +2,17 @@
 
 namespace App;
 
-use App\Events\AssignmentCreated;
-use App\Events\TrainingCompleted;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Database\Eloquent\Model;
 use App\Collections\AssignmentCollection;
+use App\Events\AssignmentCreated;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Assignment extends Model
 {
     use SoftDeletes;
-    Use RevisionableTrait;
+    use RevisionableTrait;
     use HasFactory;
 
     protected $revisionCreationsEnabled = true;

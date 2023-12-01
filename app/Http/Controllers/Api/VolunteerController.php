@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 class VolunteerController extends Controller
 {
     protected $searchService;
+
     protected $policy;
 
     public function __construct(VolunteerSearchService $searchService, VolunteerPolicy $policy)
@@ -29,7 +30,7 @@ class VolunteerController extends Controller
      */
     public function index(Request $request)
     {
-        $pageSize = ($request->has('perPage') && !is_null($request->perPage)) ? $request->perPage : 25;
+        $pageSize = ($request->has('perPage') && ! is_null($request->perPage)) ? $request->perPage : 25;
 
         $query = $this->searchService->buildQuery($request->all());
 
@@ -63,8 +64,7 @@ class VolunteerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -95,8 +95,7 @@ class VolunteerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -107,15 +106,14 @@ class VolunteerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(VolunteerRequestContract $request, $id)
     {
         $volunteer = User::findOrFail($id);
-        if (!$this->policy->update(\Auth::user(), $volunteer)) {
+        if (! $this->policy->update(\Auth::user(), $volunteer)) {
             return response('Unauthorized', 403);
         }
 
@@ -127,8 +125,7 @@ class VolunteerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

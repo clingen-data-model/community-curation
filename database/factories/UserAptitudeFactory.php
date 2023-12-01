@@ -9,6 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(UserAptitude::class, function (Faker $faker) {
     $aptitude = Aptitude::all()->random();
+
     return [
         'user_id' => factory(User::class)->create([]),
         'aptitude_id' => ($aptitude) ? $aptitude->id : factory(Aptitude::class)->create([]),

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTrainingSessionUserTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateTrainingSessionUserTable extends Migration
             $table->unsignedBigInteger('training_session_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
-            
+
             $table->foreign('training_session_id')->references('id')->on('training_sessions')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

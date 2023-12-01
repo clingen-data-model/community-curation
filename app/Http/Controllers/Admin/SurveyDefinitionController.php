@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class SurveyDefinitionController extends Controller
 {
@@ -15,7 +14,6 @@ class SurveyDefinitionController extends Controller
             return url('/admin/survey-definitions/'.$svy->slug);
         });
     }
-    
 
     public function show($slug)
     {
@@ -37,6 +35,7 @@ class SurveyDefinitionController extends Controller
                                 });
                                 $data['single/multiple'] = $q->numSelectable > 1 ? 'multiple' : 'single';
                             }
+
                             return $data;
                         });
 

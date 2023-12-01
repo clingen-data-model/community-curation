@@ -44,8 +44,7 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Exception
@@ -56,7 +55,7 @@ class Handler extends ExceptionHandler
             return response('Not implemented', 501);
         }
 
-        if (!$request->expectsJson()) {
+        if (! $request->expectsJson()) {
             if ($exception instanceof AuthorizationException) {
                 Session::flash('error', 'Not authorized.');
 

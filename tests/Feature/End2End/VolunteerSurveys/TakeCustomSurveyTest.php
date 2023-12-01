@@ -2,12 +2,9 @@
 
 namespace Tests\Feature\End2End\VolunteerSurveys;
 
-use Tests\TestCase;
-use App\Application;
 use App\CustomSurvey;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 /**
  * @group custom-surveys
@@ -15,8 +12,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class TakeCustomSurveyTest extends TestCase
 {
     use DatabaseTransactions;
-    
-    public function setup():void
+
+    public function setup(): void
     {
         parent::setup();
         $this->cs = CustomSurvey::factory()->create();
@@ -60,7 +57,7 @@ class TakeCustomSurveyTest extends TestCase
             '/apply/group/'.$this->cs->name,
             [
                 'custom_survey_id' => $this->cs->id,
-                'nav' => 'next'
+                'nav' => 'next',
             ]
         );
 
@@ -68,7 +65,7 @@ class TakeCustomSurveyTest extends TestCase
             'custom_survey_id' => $this->cs->id,
             'volunteer_type' => $this->cs->volunteer_type_id,
             'panel_1' => $this->cs->curation_group_id,
-            'curation_activity_1' => $this->cs->curationGroup->curationActivity->id
+            'curation_activity_1' => $this->cs->curationGroup->curationActivity->id,
         ]);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\User;
 use App\Country;
+use App\User;
+use Faker\Generator as Faker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Faker\Generator as Faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ $factory->define(User::class, function (Faker $faker) {
 $factory->state(User::class, 'volunteer', function (Faker $faker) {
     return [
         'volunteer_type_id' => 1,
-        'volunteer_status_id' => 1
+        'volunteer_status_id' => 1,
     ];
 });
 $factory->afterCreatingState(User::class, 'volunteer', function ($user, $faker) {
@@ -46,7 +46,7 @@ $factory->afterCreatingState(User::class, 'volunteer', function ($user, $faker) 
 $factory->state(User::class, 'active-volunteer', function () {
     return [
         'volunteer_type_id' => 1,
-        'volunteer_status_id' => config('volunteers.statuses.active')
+        'volunteer_status_id' => config('volunteers.statuses.active'),
     ];
 });
 $factory->afterCreatingState(User::class, 'active-volunteer', function ($user, $faker) {
@@ -55,13 +55,13 @@ $factory->afterCreatingState(User::class, 'active-volunteer', function ($user, $
 
 $factory->state(User::class, 'baseline', function (Faker $faker) {
     return [
-        'volunteer_type_id' => 1
+        'volunteer_type_id' => 1,
     ];
 });
 
 $factory->state(User::class, 'comprehensive', function (Faker $faker) {
     return [
-        'volunteer_type_id' => 2
+        'volunteer_type_id' => 2,
     ];
 });
 
@@ -69,7 +69,7 @@ $factory->state(User::class, 'comprehensive', function (Faker $faker) {
 $factory->state(User::class, 'programmer', function (Faker $faker) {
     return [
         'volunteer_type_id' => null,
-        'volunteer_status_id' => null
+        'volunteer_status_id' => null,
     ];
 });
 $factory->afterCreatingState(User::class, 'programmer', function ($user, $faker) {
@@ -80,7 +80,7 @@ $factory->afterCreatingState(User::class, 'programmer', function ($user, $faker)
 $factory->state(User::class, 'admin', function (Faker $faker) {
     return [
         'volunteer_type_id' => null,
-        'volunteer_status_id' => null
+        'volunteer_status_id' => null,
     ];
 });
 $factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
@@ -90,7 +90,7 @@ $factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
 $factory->state(User::class, 'super-admin', function (Faker $faker) {
     return [
         'volunteer_type_id' => null,
-        'volunteer_status_id' => null
+        'volunteer_status_id' => null,
     ];
 });
 $factory->afterCreatingState(User::class, 'super-admin', function ($user, $faker) {
@@ -101,7 +101,7 @@ $factory->afterCreatingState(User::class, 'super-admin', function ($user, $faker
 $factory->state(User::class, 'coordinator', function (Faker $faker) {
     return [
         'volunteer_type_id' => null,
-        'volunteer_status_id' => null
+        'volunteer_status_id' => null,
     ];
 });
 $factory->afterCreatingState(User::class, 'coordinator', function ($user, $faker) {

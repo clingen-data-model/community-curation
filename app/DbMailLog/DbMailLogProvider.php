@@ -2,14 +2,14 @@
 
 namespace App\DbMailLog;
 
-use Exception;
+use App\DbMailLog\Contracts\Email as EmailContract;
+use App\DbMailLog\Listeners\StoreMailInDatabase;
 use App\DbMailLog\Models\Email;
-use Illuminate\Support\Facades\Event;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use App\DbMailLog\Listeners\StoreMailInDatabase;
-use App\DbMailLog\Contracts\Email as EmailContract;
 
 class DbMailLogProvider extends ServiceProvider
 {

@@ -26,7 +26,7 @@ class CustomSurveyFactory extends Factory
         return [
             'curation_group_id' => CurationGroup::factory()->create()->id,
             'volunteer_type_id' => factory(VolunteerType::class)->create()->id,
-            'name' => uniqid()
+            'name' => uniqid(),
         ];
     }
 }

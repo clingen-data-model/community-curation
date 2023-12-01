@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Country extends Model
 {

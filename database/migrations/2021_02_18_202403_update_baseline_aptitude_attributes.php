@@ -2,8 +2,6 @@
 
 use App\Aptitude;
 use App\VolunteerType;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Database\Seeders\AptitudesTableSeeder;
 use Illuminate\Database\Migrations\Migration;
 

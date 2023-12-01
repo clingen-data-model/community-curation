@@ -39,8 +39,7 @@ class CustomTrainingEmail extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -51,15 +50,14 @@ class CustomTrainingEmail extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $timezone = new CarbonTimeZone($notifiable->timezone);
         $subject = $this->subject;
-        if (!$subject) {
+        if (! $subject) {
             $subject = 'A note about your ClinGen volunteer training on '.$this->trainingSession->starts_at
                         ->addSeconds($timezone->getOffset($this->trainingSession->starts_at))
                         ->format('l, F j, Y \a\t g:i a');
@@ -91,8 +89,7 @@ class CustomTrainingEmail extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)
