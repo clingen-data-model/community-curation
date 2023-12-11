@@ -29,8 +29,6 @@ class DeleteWorkingGroupTest extends TestCase
      */
     public function checks_for_eps_before_deleting_working_group()
     {
-        // $this->markTestSkipped('does this have to do with backpack?');
-
         $ep = CurationGroup::factory()->make();
         $this->wg->curationGroups()->save($ep);
 

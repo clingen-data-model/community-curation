@@ -7,13 +7,21 @@
         "laravel"
     ],
     "license": "MIT",
-    "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/yugen/surveys"
-    }],
+    "repositories": {
+        "backpack": {
+            "type": "composer",
+            "url": "https://repo.backpackforlaravel.com/"
+        },
+        "surveys": {
+            "type": "vcs",
+            "url": "https://github.com/yugen/surveys"
+        }
+    },
     "require": {
         "php": "^8.2",
         "backpack/crud": "^6.0",
+        "backpack/editable-columns": "*",
+        "backpack/pro": "^2.0",
         "backpack/theme-coreuiv2": "^1.2",
         "barryvdh/laravel-elfinder": "^0.5.2",
         "box/spout": "^3.1",
@@ -93,6 +101,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "post-install-cmd": ["php artisan storage:link --quiet"]
+        "post-install-cmd": [
+            "php artisan storage:link --quiet"
+        ]
     }
 }

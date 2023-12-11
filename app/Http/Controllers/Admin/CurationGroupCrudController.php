@@ -49,8 +49,7 @@ class CurationGroupCrudController extends CrudController
 
         $this->crud->modifyField('curation_activity_id', [
             'label' => 'Curation Activity',
-            'type' => 'select',
-            'entity' => 'curationActivity',
+            'type' => 'select2',
             'name' => 'curation_activity_id',
             'attribute' => 'name',
             'model' => CurationActivity::class,
@@ -63,12 +62,11 @@ class CurationGroupCrudController extends CrudController
         ]);
 
         $this->crud->modifyField('working_group_id', [
-            'label' => 'Working Group',
             'type' => 'select2',
             'name' => 'working_group_id',
-            'entity' => 'workingGroup',
-            'attribute' => 'name',
+            'label' => 'Working Group',
             'model' => WorkingGroup::class,
+            'attribute' => 'name',
         ]);
 
         $this->crud->with('curationActivity');

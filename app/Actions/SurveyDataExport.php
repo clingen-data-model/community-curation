@@ -27,10 +27,16 @@ class SurveyDataExport
     {
         $responses = $class::with('volunteer')->get();
         $rows = $this->getRows($responses);
+
         
         $filepath = storage_path('app/reports/'.Str::snake(preg_replace('/\\\/', '', $class)).'_'.Carbon::now()->format('Y-m-d').'.csv');
-
         $fh = fopen($filepath, 'w');
+        
+        if (count($rows) == 0) {
+            fputcsv($fh, ['No followup survey data to export.']);
+            return $filepath;
+        }
+        
         fputcsv($fh, array_keys($rows[0]));
         foreach ($rows as $idx => $row) {
             if ($limit && $idx+1 > $limit) {
