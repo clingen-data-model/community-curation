@@ -23,7 +23,6 @@ class CreateCustomSurveyTest extends TestCase
 
     public function setup():void
     {
-        $this->markTestSkipped();
         parent::setup();
         $this->superAdmin = factory(User::class)->state('super-admin')->create();
         $this->curationGroup = CurationGroup::factory()->create();

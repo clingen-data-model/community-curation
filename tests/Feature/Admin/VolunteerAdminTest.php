@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use Tests\TestCase;
+use Spatie\Permission\Models\Permission;
 
 /**
  * @group volunteers
@@ -14,7 +15,6 @@ class VolunteerAdminTest extends TestCase
 
     public function setup(): void
     {
-        $this->markTestSkipped();
         parent::setup();
         $this->user = $this->createAdmin();
     }
@@ -24,6 +24,7 @@ class VolunteerAdminTest extends TestCase
      */
     public function can_create_new_volunteer()
     {
+        // dd($this->user->getAllPermissions()->filter(fn($p) => preg_match('/volunteer/', $p))->pluck('name'));
         $data = [
             'first_name' => 'Test',
             'last_name' => 'Tester',
@@ -42,15 +43,16 @@ class VolunteerAdminTest extends TestCase
     /**
      * @test
      */
-    public function can_update_volunteer()
+    public function fuck_can_update_volunteer()
     {
         $this->markTestSkipped('Works in browser but can not figure out why dummy volunteer not found.');
         $volunteer = $this->createVolunteer();
 
         $data = [
             'first_name' => 'Hubert',
-            'email' => uniqid().'hubert-email@example.com',
+            'email' => uniqid().'@example.com',
         ];
+
         $this->withoutExceptionHandling();
         $this->actingAs($this->user)
             ->call('put', '/admin/volunteer/'.$volunteer->id, $data)

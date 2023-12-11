@@ -35,9 +35,6 @@ class VolunteerCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix').'/volunteer');
         $this->crud->setEntityNameStrings('volunteer', 'volunteers');
 
-        $this->crud->allowAccess(['list', 'create', 'delete', 'show']);
-        $this->crud->denyAccess(['update']);
-
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
@@ -55,22 +52,24 @@ class VolunteerCrudController extends CrudController
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-        $this->crud->modifyField('volunteer_type_id',[
-                'label' => 'Volunteer Type',
-                'type' => 'select2',
-                'name' => 'volunteer_type_id',
-                'entity' => 'volunteerType',
-                'model' => VolunteerType::class,
-                'attribute' => 'name',
-        ]);
 
+        $this->crud->field('volunteer_type_id')
+            ->type('relationship')
+            ->label('Volunteer Type');
+
+        $this->crud->modifyField('volunteer_type_id', [
+            'type' => 'select2',
+            'name' => 'volunteer_type_id',
+            'model' => VolunteerType::class,
+            'label' => "Volunteer Type",
+            'attribute' => 'name'
+        ]);
         $this->crud->modifyField('volunteer_status_id', [
-                'label' => 'Volunteer Status',
-                'type' => 'select2',
-                'name' => 'volunteer_status_id',
-                'entity' => 'volunteerStatus',
-                'model' => VolunteerStatus::class,
-                'attribute' => 'name',
+            'type' => 'select2',
+            'model' => VolunteerStatus::class,
+            'label' => 'Volunteer Status',
+            'name' => 'volunteerStatus',
+            'attribute' => 'name',
         ]);
 
         $this->crud->modifyField(
@@ -78,7 +77,6 @@ class VolunteerCrudController extends CrudController
             [
                 'type' => 'select2',
                 'name' => 'country_id',
-                'entity' => 'country',
                 'attribute' => 'name',
                 'model' => Country::class,
             ]
@@ -106,6 +104,7 @@ class VolunteerCrudController extends CrudController
         $this->crud->removeFields(['password', 'last_logged_in_at', 'last_logged_out_at']);
 
         $this->crud->with('roles');
+
     }
 
     protected function setupCreateOperation()
@@ -170,12 +169,14 @@ class VolunteerCrudController extends CrudController
             [
                 'label' => 'Type',
                 'type' => 'relationship',
-                'name' => 'volunteerType',
+                'name' => 'VolunteerType',
+                'relation_type' => 'bleongsTo',
             ],
             [
                 'label' => 'Status',
                 'type' => 'relationship',
                 'name' => 'volunteerStatus',
+                'relation_type' => 'bleongsTo',
             ],
         ]);
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Faq;
 use App\Http\Requests\FaqRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\FaqRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
@@ -63,9 +62,6 @@ class FaqCrudController extends CrudController
 
         $this->crud->modifyField('answer', [
             'type' => 'ckeditor',
-            'options' => [
-                'removePlugins' => 'image,maximize,oembed',
-            ],
         ]);
 
         $this->crud->removeColumn('screenshots');

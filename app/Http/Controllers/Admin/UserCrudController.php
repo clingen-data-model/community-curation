@@ -93,7 +93,6 @@ class UserCrudController extends CrudController
                 'label' => 'Roles',
                 'type' => 'select2_multiple',
                 'name' => 'roles',
-                'entity' => 'roles',
                 'attribute' => 'name',
                 'model' => Role::class,
                 'pivot' => true,
@@ -102,7 +101,6 @@ class UserCrudController extends CrudController
                 'label' => 'Additonal Permissions',
                 'type' => 'select2_multiple',
                 'name' => 'permissions',
-                'entity' => 'Permissions',
                 'attribute' => 'name',
                 'model' => Permission::class,
                 'pivot' => true,
@@ -176,11 +174,11 @@ class UserCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        $this->crud->setValidation(StoreRequest::class);
+        // $this->crud->setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
-        $this->crud->setValidation(UpdateRequest::class);
+        // $this->crud->setValidation(UpdateRequest::class);
     }
 }
