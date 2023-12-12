@@ -22,6 +22,7 @@ configstore/update-notifier-npm.json
 psysh/psysh_history
 .docker/mysql/data
 .docker/mysql/db-init/*.sql.gz
+.docker/mysql/db-init/init-testing.sql
 
 # things that php tools may add when HOME=/srv/app
 .cache
