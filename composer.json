@@ -20,7 +20,6 @@
     "require": {
         "php": "^8.2",
         "backpack/crud": "^6.0",
-        "backpack/editable-columns": "*",
         "backpack/pro": "^2.0",
         "backpack/theme-coreuiv2": "^1.2",
         "barryvdh/laravel-elfinder": "^0.5.2",
