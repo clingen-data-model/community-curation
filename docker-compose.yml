@@ -58,6 +58,7 @@ services:
             - "${APP_PORT:-8011}:8080"
         volumes:
             - .:/srv/app
+            - .docker/nginx:/etc/nginx/conf.d
         user: ${DOCKER_USER:-501:20}
         entrypoint:
             - /usr/sbin/nginx
