@@ -40,6 +40,9 @@ services:
             - redis:redis
         volumes:
             - .:/srv/app
+            - type: bind
+              source: ./.docker/xdebug-settings.ini
+              target: /etc/php/8.2/fpm/conf.d/99-xdebug.ini
         environment:
             HOME: /srv/app
             DB_HOST: ${DOCKER_NAME:-ccdb}-db
