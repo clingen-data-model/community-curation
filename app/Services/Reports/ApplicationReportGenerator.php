@@ -7,10 +7,12 @@ use App\Contracts\ReportGenerator;
 use App\Country;
 use App\Services\Search\VolunteerSearchService;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ApplicationReportGenerator implements ReportGenerator
 {
     protected $applicationQuestions;
+    protected $applicationQuestionResponses;
     protected $volunteerSearchService;
     protected $query;
 
@@ -21,6 +23,16 @@ class ApplicationReportGenerator implements ReportGenerator
                         ->hasRespondent()
                         ->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
+        $this->applicationQuestionResponses = [];
+        foreach ($this->applicationQuestions as $question) {
+            if (!$question->hasOptions()) {
+                continue;
+            }
+            $this->applicationQuestionResponses[$question->getName()] = [];
+            foreach ($question->getOptions() as $option) {
+                $this->applicationQuestionResponses[$question->getName()][$option->value] = $option->label;
+            }
+        }
     }
 
     public function generate($filterParams = []): Collection
@@ -29,11 +41,12 @@ class ApplicationReportGenerator implements ReportGenerator
             $this->filterByVolunteer($filterParams);
         }
 
+        Log::info('Application Report Query: '.$this->query->toSql());
         $applications = $this->query->get();
+        Log::info('finished query');
 
-        $questionDefs = class_survey()::findBySlug('application1')->getQuestions();
-        $rawData = $applications->map(function ($application) use ($questionDefs) {
-            foreach ($questionDefs as $definition) {
+        $rawData = $applications->map(function ($application) {
+            foreach ($this->applicationQuestions as $definition) {
                 $qName = $definition->getName();
                 $response = $this->getReadableResponse($application->{$qName}, $definition);
                 $application->{$qName} = $response ? $response : '';
@@ -41,6 +54,7 @@ class ApplicationReportGenerator implements ReportGenerator
 
             return $application;
         });
+        Log::info('finished mapping readable responses');
 
         $tidyData = $this->tidyUpData($rawData);
         $data = collect();
@@ -49,6 +63,7 @@ class ApplicationReportGenerator implements ReportGenerator
                 $data->put($group, $tidyData->pluck($group));
             }
         }
+        Log::info('finished tidying up data');
 
         return $data;
     }
@@ -176,20 +191,25 @@ class ApplicationReportGenerator implements ReportGenerator
 
     private function getReadableResponse($responseValue, $questionDef)
     {
-        $readableValue = $responseValue;
+        if (is_null($responseValue)) {
+            return '';
+        }
+
         if ($questionDef->hasOptions()) {
-            $readableValue = array_map(
-                function ($optionBlock) {
-                    return $optionBlock->label;
-                },
-                $questionDef->getOptionsForResponseValue($responseValue)
-            );
+            $qName = $questionDef->getName();
             if ($questionDef->numSelectable == 1) {
-                $readableValue = isset($readableValue[0]) ? $readableValue[0] : '';
+                return $this->applicationQuestionResponses[$qName][$responseValue] ?? '';
+            } else {
+                return array_map(
+                    function ($responseItem) use ($qName) {
+                        return $this->applicationQuestionResponses[$qName][$responseItem] ?? '';
+                    },
+                    json_decode($responseValue) ?? []
+                );
             }
         }
 
-        return $readableValue;
+        return $responseValue;
     }
 
     private function filterByVolunteer($params)
