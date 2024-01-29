@@ -38,8 +38,17 @@ class GenerateApplicationsReport extends Command
     public function handle()
     {
         $this->info('Generating report...');
-        $this->info($this->option('report'));
+        $reportPath = $this->option('report') ?? 'application-report-'.now()->format('Y-m-d_His').'.xlsx';
+        $this->info($reportPath);
         $this->info($this->option('start_date'));
         $this->info($this->option('end_date'));
+
+        // TODO add start/end constraints to generator
+
+        $data = $this->generator->generate();
+
+        $this->writer
+            ->setPath($reportPath)
+            ->writeData($data);
     }
 }
