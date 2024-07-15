@@ -26,7 +26,7 @@ class StoreMailInDatabase
             'cc' => $this->addressesToHash($event->message->getCc()),
             'bcc' => $this->addressesToHash($event->message->getBcc()),
             'subject' => $event->message->getSubject(),
-            'body' => $event->message->getTextBody(),
+            'body' => $event->message->getHtmlBody() ?? $event->message->getTextBody(),
         ]);
         $email->save();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Mail\Events\MessageSent;
 
 class LogSentMessage
@@ -26,9 +27,9 @@ class LogSentMessage
             'to' => $event->message->getTo(),
             'from' => $event->message->getFrom(),
             'subject' => $event->message->getSubject(),
-            'body' => $event->message->getBody(),
+            'body' => $event->message->getHtmlBody() ?? $event->message->getTextBody(),
         ];
 
-        \Log::channel('mail')->info('Email sent', $messageInfo);
+        Log::channel('mail')->info('Email sent', $messageInfo);
     }
 }
