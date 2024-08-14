@@ -9,6 +9,7 @@ use App\Http\Requests\UserRequest as UpdateRequest;
 use App\Surveys\SurveyOptions;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\CrudPanel;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -24,8 +25,6 @@ class UserCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
-    private $includeVolunteers = false;
 
     public function setup()
     {
@@ -44,24 +43,17 @@ class UserCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->addFilter(
-            [
-                'type' => 'simple',
-                'name' => 'include_volunteers',
-                'label' => 'Show Volunteers',
-            ],
-            false,
-            function ($value) {
-                $this->includeVolunteers = $value;
-            }
-        );
-
-        if (!$this->includeVolunteers) {
-            $this->crud->addClause('whereHas', 'roles', function ($query) {
-                $query->whereIn('name', ['programmer', 'super-admin', 'admin', 'coordinator']);
+        CRUD::filter('active')
+            ->type('simple')
+            ->label('Show Volunteers')
+            ->whenActive(function() {
+                // noop
+            })
+            ->else(function() {
+                $this->crud->addClause('whereHas', 'roles', function($query) {
+                    $query->whereIn('name', ['programmer', 'super-admin', 'admin', 'coordinator']);
+                });
             });
-        }
-
 
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
