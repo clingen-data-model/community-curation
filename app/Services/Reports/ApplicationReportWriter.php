@@ -27,7 +27,7 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
         $this->writer = $writer;
     }
 
-    public function writeData(Collection $data)
+    public function writeData(Collection $data): static
     {
         $sheets = $this->initializeSheets($data->first());
 
@@ -37,7 +37,20 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
                 $this->getWriter()->addRow($this->createRow($values));
             }
         });
-        $this->getWriter()->close();
+
+        return $this;
+    }
+
+    public function addMetadata($metadata): static
+    {
+        $sheet = $this->writer->addNewSheetAndMakeItCurrent();
+        $sheet->setName('metadata');
+        $this->getWriter()->addRow($this->buildHeader($metadata));
+        $metadata->each(function ($row) {
+            $this->getWriter()->addRow($this->createRow($row->toArray()));
+        });
+
+        return $this;
     }
 
     private function initializeSheets($firstRow)

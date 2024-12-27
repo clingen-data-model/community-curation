@@ -15,12 +15,23 @@ abstract class AbstractReportWriter implements ReportWriter
 {
     protected $writer;
 
-    abstract public function writeData(Collection $data);
+    abstract public function writeData(Collection $data): static;
+
+    public function addMetadata(Collection $data): static
+    {
+        return $this;
+    }
 
     public function setPath($path): ReportWriter
     {
         $this->getWriter()->openToFile($path);
 
+        return $this;
+    }
+
+    public function closeWriter(): static
+    {
+        $this->getWriter()->close();
         return $this;
     }
 
