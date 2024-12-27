@@ -16,7 +16,7 @@ class AssignmentReportWriter extends AbstractReportWriter implements ReportWrite
         $this->writer = $writer;
     }
 
-    public function writeData(Collection $data)
+    public function writeData(Collection $data): static
     {
         foreach ($data as $sheetName => $sheetData) {
             $sheet = $this->getCurrentSheet();
@@ -33,5 +33,7 @@ class AssignmentReportWriter extends AbstractReportWriter implements ReportWrite
         }
 
         $this->getWriter()->close();
+
+        return $this;
     }
 }
