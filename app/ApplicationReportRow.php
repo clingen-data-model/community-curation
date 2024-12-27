@@ -19,9 +19,23 @@ class ApplicationReportRow extends Model
     ];
 
     protected $casts = [
-        'data' => 'array',
+        // 'data' => 'array',
         'finalized_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    // Using mutator instead of `casts` b/c MySQL JSON column does maintain key order
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = json_encode($value);
+    }
+
+    // Using accessor instead of `casts` b/c MySQL JSON column does maintain key order
+    public function getDataAttribute()
+    {
+        return json_decode($this->attributes['data'], true);
+    }
+
+
 }
