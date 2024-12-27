@@ -9,6 +9,17 @@ use Illuminate\Support\Collection;
 
 class ApplicationReportWriter extends AbstractReportWriter implements ReportWriter
 {
+    const SHEET_NAMES = [
+        'personal',
+        'professional',
+        'demographic',
+        'outreach',
+        'motivation',
+        'goals',
+        'interests',
+        'ccdb',
+    ];
+
     protected $writer;
 
     public function __construct(XlsxWriter $writer)
@@ -18,25 +29,27 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
 
     public function writeData(Collection $data)
     {
-        $sheetNames = $data->keys();
-        foreach ($sheetNames as $idx => $sheetName) {
-            $sheetData = $data->get($sheetName);
-            // dd($sheetData);
-            $sheet = $this->getCurrentSheet();
-            $sheet->setName($sheetName);
+        $sheets = $this->initializeSheets($data->first());
 
-            $this->getWriter()->addRow($this->buildHeader($sheetData), (new StyleBuilder())->setFontBold()->build());
-
-            foreach ($sheetData->toArray() as $rowData) {
-                $row = $this->createRow($rowData);
-                $this->getWriter()->addRow($row);
+        $data->each(function ($row) use ($sheets) {
+            foreach ($row as $key => $values) {
+                $this->setCurrentSheet($sheets[$key]);
+                $this->getWriter()->addRow($this->createRow($values));
             }
-
-            if ($idx + 1 < $sheetNames->count()) {
-                $this->addNewSheetAndMakeItCurrent();
-            }
-        }
-
+        });
         $this->getWriter()->close();
+    }
+
+    private function initializeSheets($firstRow)
+    {
+        $sheets = array_map(function ($sheetName) use ($firstRow) {
+            $sheet = $this->writer->addNewSheetAndMakeItCurrent();
+            $sheet->setName($sheetName);
+            $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])), (new StyleBuilder())->setFontBold()->build());
+
+            return [$sheetName, $sheet];
+        }, self::SHEET_NAMES);
+        
+        return array_combine(array_column($sheets, 0), array_column($sheets, 1));
     }
 }
