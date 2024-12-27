@@ -63,14 +63,20 @@ class ApplicationReportRowCreate
 
   private function makeSnapshot($app):Collection
   {
+    $identifiers  = collect([
+      'volunteer_id' => $app->respondent_id,
+      'first_name' => $app->first_name,
+      'last_name' => $app->last_name,
+      'email' => $app->email,
+    ]);
+
+    $metadata = collect([
+      'date_completed' => $app->finalized_at,
+      'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No',
+    ]);
+
     return collect([
-      'identifiers' => collect([
-        'volunteer_id' => $app->respondent_id,
-        'first_name' => $app->first_name,
-        'last_name' => $app->last_name,
-        'email' => $app->email,
-      ]),
-      'personal' => collect([
+      'personal' => $identifiers->merge(collect([
         'institution' => $app->respondent->institution,
         'orcid_id' => $app->respondent->orcid_id,
         'hypothesis_id' => $app->hypothesis_id,
@@ -81,8 +87,8 @@ class ApplicationReportRowCreate
         'zip' => $app->respondent->zip,
         'country' => ($app->respondent->country) ? $app->respondent->country->name : null,
         'timezone' => $app->respondent->timezone,
-      ]),
-      'professional' => collect([
+      ]))->merge($metadata),
+      'professional' => $identifiers->merge(collect([
         'volunteer_id' => $app->respondent_id,
         'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
         'heighest_ed_other' => $app->highest_ed_other,
@@ -91,17 +97,13 @@ class ApplicationReportRowCreate
         'self_description_other' => $app->self_desc_other,
         'already_clingen_member' => $app->respondent->already_clingen_member,
         'already_member_cgs' => $app->respondent->memberGroups->pluck('name')->join(', ')
-      ]),
-      'demographic' => collect($this->getQuestionColumns('race_ethnicity', $app))->merge(['other' => $app->race_ethnicity_other_detail]),
-      'outreach' => collect($this->getQuestionColumns('ad_campaign', $app))->merge(['other' => $app->ad_campaign_other]),
-      'motivation' => collect($this->getQuestionColumns('motivation', $app))->merge(['other' => $app->motivation_other]),
-      'goals' => collect($this->getQuestionColumns('goals', $app))->merge(['other' => $app->goals_other]),
-      'interests' => collect($this->getQuestionColumns('interests', $app)),
-      'ccdb' => collect(['baseline/comprehensive' => $app->volunteer_type,])->merge($this->getPriorityData($app)),
-      'response_metadata' => collect([
-        'date_completed' => $app->finalized_at,
-        'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No',
-      ])
+      ]))->merge($metadata),
+      'demographic' => $identifiers->merge(collect($this->getQuestionColumns('race_ethnicity', $app))->merge(['other' => $app->race_ethnicity_other_detail]))->merge($metadata),
+      'outreach' => $identifiers->merge(collect($this->getQuestionColumns('ad_campaign', $app))->merge(['other' => $app->ad_campaign_other]))->merge($metadata),
+      'motivation' => $identifiers->merge(collect($this->getQuestionColumns('motivation', $app))->merge(['other' => $app->motivation_other]))->merge($metadata),
+      'goals' => $identifiers->merge(collect($this->getQuestionColumns('goals', $app))->merge(['other' => $app->goals_other]))->merge($metadata),
+      'interests' => $identifiers->merge(collect($this->getQuestionColumns('interests', $app)))->merge($metadata),
+      'ccdb' => $identifiers->merge(collect(['baseline/comprehensive' => $app->volunteer_type,])->merge($this->getPriorityData($app)))->merge($metadata),
     ]);
   }
 
