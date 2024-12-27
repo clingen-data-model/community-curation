@@ -29,28 +29,10 @@ class ApplicationReportGenerator implements ReportGenerator
             $this->filterByVolunteer($filterParams);
         }
 
-        $reportRows = $this->query->get();
+        $data = $this->query->select('data')->get()->pluck('data');
 
-        $outputData = collect([
-            'personal' => collect(),
-            'professional' => collect(),
-            'demographic' => collect(),
-            'outreach' => collect(),
-            'motivation' => collect(),
-            'goals' => collect(),
-            'interests' => collect(),
-            'ccdb' => collect(),
-        ]);
-        $reportRows->each(function ($rowRecord) use ($outputData) {
-            $identifiers = collect($rowRecord->data['identifiers']);
-            $metadata = collect($rowRecord->data['response_metadata']);
+        return $data;
 
-            $outputData = $outputData->mapWithKeys(function ($collection, $key) use ($identifiers, $metadata, $rowRecord) {
-                return [$key => $collection->push($identifiers->merge($rowRecord->data[$key], $metadata))];
-            });
-        });
-
-        return $outputData;
     }
 
     public function addConstraint(callable $func)
