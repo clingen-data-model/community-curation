@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->morphs('application');
             $table->integer('version')->default(1);
-            $table->jsonb('data');
+            $table->longText('data'); //Use text to maintain key order
             $table->datetime('finalized_at');
             $table->timestamps();
             
