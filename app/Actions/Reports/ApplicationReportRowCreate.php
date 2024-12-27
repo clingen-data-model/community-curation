@@ -6,17 +6,18 @@ use App\Country;
 use App\Application;
 use App\ApplicationReportRow;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class ApplicationReportRowCreate
 {
   private array $questionDefs;
-  private array $applicationQuestions;
 
   public function __construct()
   {
-    $survey = class_survey()::findBySlug('application1');
+    $survey = Cache::remember('survey_application1', 60*10, function () {
+      return class_survey()::findBySlug('application1');
+    });
     $this->questionDefs = $survey->getQuestions();
-    $this->applicationQuestions = $survey->getQuestions();
   }
 
   public function handle(Application $application)
@@ -132,7 +133,7 @@ class ApplicationReportRowCreate
   private function getQuestionColumns($questionName, Application $app)
   {
       $data = [];
-      foreach ($this->applicationQuestions[$questionName]->getOptions() as $option) {
+      foreach ($this->questionDefs[$questionName]->getOptions() as $option) {
           $data[$option->label] = '';
           if (is_array($app->{$questionName})) {
               $data[$option->label] = in_array($option->label, $app->{$questionName}) ? 1 : 0;
