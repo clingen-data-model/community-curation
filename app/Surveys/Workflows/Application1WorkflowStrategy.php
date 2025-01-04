@@ -2,10 +2,12 @@
 
 namespace App\Surveys\Workflows;
 
-use App\Jobs\CreateVolunteerFromApplication;
+use App\Application;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationCompletedMail;
 use App\Traits\StoresResponsePriorities;
-use Illuminate\Support\Facades\Mail;
+use App\Actions\ApplicationReportRowCreate;
+use App\Jobs\CreateVolunteerFromApplication;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
 /**
@@ -39,5 +41,6 @@ class Application1WorkflowStrategy extends SurveyResponseWorkflowStrategy
     public function finalized()
     {
         Mail::to($this->response->email)->send(new ApplicationCompletedMail($this->response));
+        (new ApplicationReportRowCreate)->handle(Application::find($this->response->id));
     }
 } // END class SurveyResponseTypeWorkflowStrategy

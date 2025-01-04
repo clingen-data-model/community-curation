@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\Dev\TestJob;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         if (env('TEST_SCHEDULER')) {
             $schedule->call(function () {
-                \Log::info('testing scheduler');
+                Log::info('testing scheduler');
                 TestJob::dispatch();
             })->everyMinute();
         }

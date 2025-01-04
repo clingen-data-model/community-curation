@@ -9,6 +9,17 @@ use Illuminate\Support\Collection;
 
 class ApplicationReportWriter extends AbstractReportWriter implements ReportWriter
 {
+    const SHEET_NAMES = [
+        'personal',
+        'professional',
+        'demographic',
+        'outreach',
+        'motivation',
+        'goals',
+        'interests',
+        'ccdb',
+    ];
+
     protected $writer;
 
     public function __construct(XlsxWriter $writer)
@@ -16,27 +27,42 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
         $this->writer = $writer;
     }
 
-    public function writeData(Collection $data)
+    public function writeData(Collection $data): static
     {
-        $sheetNames = $data->keys();
-        foreach ($sheetNames as $idx => $sheetName) {
-            $sheetData = $data->get($sheetName);
-            // dd($sheetData);
-            $sheet = $this->getCurrentSheet();
+        $sheets = $this->initializeSheets($data->first());
+
+        $data->each(function ($row) use ($sheets) {
+            foreach ($row as $key => $values) {
+                $this->setCurrentSheet($sheets[$key]);
+                $this->getWriter()->addRow($this->createRow($values));
+            }
+        });
+
+        return $this;
+    }
+
+    public function addMetadata($metadata): static
+    {
+        $sheet = $this->writer->addNewSheetAndMakeItCurrent();
+        $sheet->setName('metadata');
+        $this->getWriter()->addRow($this->buildHeader($metadata));
+        $metadata->each(function ($row) {
+            $this->getWriter()->addRow($this->createRow($row->toArray()));
+        });
+
+        return $this;
+    }
+
+    private function initializeSheets($firstRow)
+    {
+        $sheets = array_map(function ($sheetName) use ($firstRow) {
+            $sheet = $this->writer->addNewSheetAndMakeItCurrent();
             $sheet->setName($sheetName);
+            $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])), (new StyleBuilder())->setFontBold()->build());
 
-            $this->getWriter()->addRow($this->buildHeader($sheetData), (new StyleBuilder())->setFontBold()->build());
-
-            foreach ($sheetData->toArray() as $rowData) {
-                $row = $this->createRow($rowData);
-                $this->getWriter()->addRow($row);
-            }
-
-            if ($idx + 1 < $sheetNames->count()) {
-                $this->addNewSheetAndMakeItCurrent();
-            }
-        }
-
-        $this->getWriter()->close();
+            return [$sheetName, $sheet];
+        }, self::SHEET_NAMES);
+        
+        return array_combine(array_column($sheets, 0), array_column($sheets, 1));
     }
 }
