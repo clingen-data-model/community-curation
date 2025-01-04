@@ -6,6 +6,7 @@ use App\Contracts\ReportWriter;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ApplicationReportWriter extends AbstractReportWriter implements ReportWriter
 {
@@ -20,6 +21,7 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
     {
         $sheetNames = $data->keys();
         foreach ($sheetNames as $idx => $sheetName) {
+            Log::info('TIMEPOINT Writing sheet: '.$sheetName);
             $sheetData = $data->get($sheetName);
             // dd($sheetData);
             $sheet = $this->getCurrentSheet();
@@ -38,5 +40,6 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
         }
 
         $this->getWriter()->close();
+        Log::info('TIMEPOINT closed writer');
     }
 }

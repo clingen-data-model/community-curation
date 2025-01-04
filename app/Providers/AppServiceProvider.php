@@ -11,6 +11,8 @@ use App\Services\AttestationFormResolver;
 use App\Http\Requests\VolunteerAdminRequest;
 use App\Http\Requests\Contracts\VolunteerRequestContract;
 use App\Contracts\AttestationFormResolver as AttestationFormResolverContract;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -57,6 +59,17 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return $this->app->make(VolunteerRequest::class);
+        });
+
+        DB::listen(function($query) {
+            Log::info(
+                $query->sql,
+                [
+                    'db_query' => 'db_query',
+                    'bindings' => $query->bindings,
+                    'time' => $query->time
+                ]
+            );
         });
     }
 }

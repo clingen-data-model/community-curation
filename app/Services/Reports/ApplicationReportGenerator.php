@@ -18,6 +18,7 @@ class ApplicationReportGenerator implements ReportGenerator
 
     public function __construct(VolunteerSearchService $volunteerSearchService)
     {
+        Log::info('TIMEPOINT constructing ApplicationReportGenerator');
         $this->volunteerSearchService = $volunteerSearchService;
         $this->query = Application::query()
                         ->hasRespondent()
@@ -33,6 +34,7 @@ class ApplicationReportGenerator implements ReportGenerator
                 $this->applicationQuestionResponses[$question->getName()][$option->value] = $option->label;
             }
         }
+        Log::info('TIMEPOINT finished constructing ApplicationReportGenerator');
     }
 
     public function generate($filterParams = []): Collection
@@ -41,9 +43,9 @@ class ApplicationReportGenerator implements ReportGenerator
             $this->filterByVolunteer($filterParams);
         }
 
-        Log::info('Application Report Query: '.$this->query->toSql());
+        Log::info('TIMEPOINT Application Report Query: '.$this->query->toSql());
         $applications = $this->query->get();
-        Log::info('finished query');
+        Log::info('TIMEPOINT finished query');
 
         $rawData = $applications->map(function ($application) {
             foreach ($this->applicationQuestions as $definition) {
@@ -54,7 +56,7 @@ class ApplicationReportGenerator implements ReportGenerator
 
             return $application;
         });
-        Log::info('finished mapping readable responses');
+        Log::info('TIMEPOINT finished mapping readable responses');
 
         $tidyData = $this->tidyUpData($rawData);
         $data = collect();
@@ -63,7 +65,7 @@ class ApplicationReportGenerator implements ReportGenerator
                 $data->put($group, $tidyData->pluck($group));
             }
         }
-        Log::info('finished tidying up data');
+        Log::info('TIMEPOINT finished tidying up data');
 
         return $data;
     }
