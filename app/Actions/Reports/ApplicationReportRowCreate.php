@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Reports;
 
 use App\Country;
 use App\Application;

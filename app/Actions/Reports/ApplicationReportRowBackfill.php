@@ -1,9 +1,9 @@
 <?php
-namespace App\Actions;
+namespace App\Actions\Reports;
 
 use App\Application;
 use Lorisleiva\Actions\Concerns\AsCommand;
-use App\Actions\ApplicationReportRowCreate;
+use App\Actions\Reports\ApplicationReportRowCreate;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 

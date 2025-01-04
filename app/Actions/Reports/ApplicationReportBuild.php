@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Actions\Reports;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;

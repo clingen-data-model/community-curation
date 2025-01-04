@@ -5,7 +5,7 @@ namespace App\Console;
 use App\Jobs\Dev\TestJob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Console\Scheduling\Schedule;
-use App\Actions\ApplicationReportRowBackfill;
+use App\Actions\Reports\ApplicationReportRowBackfill;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
