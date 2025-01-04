@@ -21,7 +21,7 @@ class ApplicationReportGenerator implements ReportGenerator
         $this->volunteerSearchService = $volunteerSearchService;
         $this->query = Application::query()
                         ->hasRespondent()
-                        ->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
+                        ->with('user', 'user.country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')->finalized();
         $this->applicationQuestions = class_survey()::findBySlug('application1')->getQuestions();
         $this->applicationQuestionResponses = [];
         foreach ($this->applicationQuestions as $question) {
@@ -41,9 +41,9 @@ class ApplicationReportGenerator implements ReportGenerator
             $this->filterByVolunteer($filterParams);
         }
 
-        Log::info('Application Report Query: '.$this->query->toSql());
+        Log::info('TIMEPOINT Application Report Query');
         $applications = $this->query->get();
-        Log::info('finished query');
+        Log::info('TIMEPOINT finished query');
 
         $rawData = $applications->map(function ($application) {
             foreach ($this->applicationQuestions as $definition) {
@@ -54,7 +54,7 @@ class ApplicationReportGenerator implements ReportGenerator
 
             return $application;
         });
-        Log::info('finished mapping readable responses');
+        Log::info('TIMEPOINT finished mapping readable responses');
 
         $tidyData = $this->tidyUpData($rawData);
         $data = collect();
@@ -63,7 +63,7 @@ class ApplicationReportGenerator implements ReportGenerator
                 $data->put($group, $tidyData->pluck($group));
             }
         }
-        Log::info('finished tidying up data');
+        Log::info('TIMEPOINT finished tidying up data');
 
         return $data;
     }
@@ -77,9 +77,8 @@ class ApplicationReportGenerator implements ReportGenerator
 
     private function tidyUpData(Collection $data): Collection
     {
-        $countries = Country::all()->pluck('name', 'id');
+        return $data->map(function ($app) {
 
-        return $data->map(function ($app) use ($countries) {
             $introColumns = collect([
                 'volunteer_id' => $app->respondent_id,
                 'first_name' => $app->first_name,
@@ -91,7 +90,7 @@ class ApplicationReportGenerator implements ReportGenerator
                 'imported_from_google_sheets' => !is_null($app->imported_survey_data) ? 'Yes' : 'No',
             ]);
 
-            return [
+            $response = [
                 'personal' => $introColumns
                                     ->merge([
                                             'institution' => $app->respondent->institution,
@@ -149,26 +148,25 @@ class ApplicationReportGenerator implements ReportGenerator
                                     ->merge($this->getPriorityData($app))
                                     ->merge($outroColumns),
             ];
+            return $response;
         });
     }
 
     private function getPriorityData($app)
     {
         $data = [];
-        // if (!$app->respondent) {
-        //     dd($app->toArray());
-        // }
+
         $priorities = $app->respondent->latestPriorities->values();
 
-        for ($i = 0; $i < 3; ++$i) {
-            if ($priorities) {
+        if ($priorities) {
+            for ($i = 0; $i < 3; ++$i) {
                 $data = array_merge($data, [
-                    'curation_activity_priority_'.($i + 1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,
-                    'curation_group_priority'.($i + 1) => ($priorities->get($i) && $priorities->get($i)->curationGroup) ? $priorities->get($i)->curationGroup->name : null,
-                    'priority_'.($i + 1).'_activity_experience' => $priorities->get($i) ? $priorities->get($i)->activity_experience : null,
-                    'priority_'.($i + 1).'_activity_experience_details' => ($priorities->get($i) && $priorities->get($i)->activity_experience == 1) ? $priorities->get($i)->activity_experience_details : null,
-                    'priority_'.($i + 1).'_effort_experience' => $priorities->get($i) ? $priorities->get($i)->effort_experience : null,
-                    'priority_'.($i + 1).'_effort_experience_details' => ($priorities->get($i) && $priorities->get($i)->effort_experience == 1) ? $priorities->get($i)->effort_experience_details : null,
+                    'curation_activity_priority_'.($i + 1) => $priorities->get($i)?->curationActivity?->name,
+                    'curation_group_priority'.($i + 1) => $priorities->get($i)?->curationGroup?->name,
+                    'priority_'.($i + 1).'_activity_experience' => $priorities->get($i)?->activity_experience,
+                    'priority_'.($i + 1).'_activity_experience_details' => $priorities->get($i)?->activity_experience_details,
+                    'priority_'.($i + 1).'_effort_experience' => $priorities->get($i)?->effort_experience,
+                    'priority_'.($i + 1).'_effort_experience_details' => $priorities->get($i)?->effort_experience_details,
                 ]);
             }
         }

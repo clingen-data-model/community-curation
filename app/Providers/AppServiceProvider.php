@@ -58,5 +58,6 @@ class AppServiceProvider extends ServiceProvider
 
             return $this->app->make(VolunteerRequest::class);
         });
+
     }
 }

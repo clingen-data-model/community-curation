@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\Reports\ApplicationReportGenerator;
 use App\Services\Reports\ApplicationReportWriter;
+use Illuminate\Support\Facades\Log;
 
 class GenerateApplicationsReport extends Command
 {
@@ -37,6 +38,7 @@ class GenerateApplicationsReport extends Command
      */
     public function handle()
     {
+        Log::info('TIMEPOINT starting report generation');
         $this->info('Generating report...');
         $reportPath = $this->option('report') ?? 'application-report-'.now()->format('Y-m-d_His').'.xlsx';
         $this->info($reportPath);
@@ -59,8 +61,10 @@ class GenerateApplicationsReport extends Command
 
         $data = $this->generator->generate();
 
+        Log::info('TIMEPOINT starting write');
         $this->writer
             ->setPath($reportPath)
             ->writeData($data);
+        Log::info('TIMEPOINT finishing write');
     }
 }
