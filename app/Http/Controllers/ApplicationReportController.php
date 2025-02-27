@@ -22,7 +22,7 @@ class ApplicationReportController extends Controller
 
     public function index(Request $request)
     {
-        $filePath = storage_path('app/reports/application-report-'.Carbon::now()->format('Y-m-d_H:i:s').'.xlsx');
+        $filePath = storage_path('app/reports/application-report-'.Carbon::now()->format('Y-m-d_His').'.xlsx');
 
         if ($request->start_date) {
             $this->generator
