@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Reports\ApplicationReportGenerator;
-use App\Services\Reports\ApplicationReportWriter;
-use ApplicationReportBuild;
-use Carbon\Carbon;
+use App\Actions\Reports\ApplicationReportBuild;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ApplicationReportController extends Controller
 {

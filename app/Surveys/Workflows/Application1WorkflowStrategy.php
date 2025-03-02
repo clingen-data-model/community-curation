@@ -6,7 +6,7 @@ use App\Application;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationCompletedMail;
 use App\Traits\StoresResponsePriorities;
-use App\Actions\ApplicationReportRowCreate;
+use App\Actions\Reports\ApplicationReportRowCreate;
 use App\Jobs\CreateVolunteerFromApplication;
 use Sirs\Surveys\SurveyResponseWorkflowStrategy;
 
