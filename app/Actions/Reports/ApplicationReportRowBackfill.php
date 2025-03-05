@@ -39,7 +39,7 @@ class ApplicationReportRowBackfill
     if (!$this->rows) {
       $this->rows = Application::query()
         ->hasRespondent()
-        ->with('user', 'country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')
+        ->with('user', 'user.country', 'user.priorities', 'user.priorities.curationActivity', 'user.priorities.curationGroup')
         ->finalized()
         ->get();
     }

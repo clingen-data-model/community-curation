@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\VolunteerRequest;
 use Illuminate\Support\ServiceProvider;
 use Lorisleiva\Actions\Facades\Actions;
@@ -47,12 +48,12 @@ class AppServiceProvider extends ServiceProvider
 
         app()->bind(AttestationFormResolverContract::class, AttestationFormResolver::class);
 
-        app()->bind(\Box\Spout\Writer\XLSX\Writer::class, function () {
-            return  \Box\Spout\Writer\Common\Creator\WriterEntityFactory::createXLSXWriter();
+        app()->bind(\OpenSpout\Writer\XLSX\Writer::class, function () {
+            return new \OpenSpout\Writer\XLSX\Writer();
         });
 
         app()->bind(VolunteerRequestContract::class, function () {
-            if (\Auth::user() && \Auth::user()->isAdminOrHigher()) {
+            if (Auth::user() && Auth::user()->isAdminOrHigher()) {
                 return $this->app->make(VolunteerAdminRequest::class);
             }
 

@@ -3,8 +3,8 @@
 namespace App\Services\Reports;
 
 use App\Contracts\ReportWriter;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
 use Illuminate\Support\Collection;
 
 class ApplicationReportWriter extends AbstractReportWriter implements ReportWriter
@@ -55,10 +55,12 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
 
     private function initializeSheets($firstRow)
     {
-        $sheets = array_map(function ($sheetName) use ($firstRow) {
+        $headerStyle = new Style();
+        $headerStyle->setFontBold();
+        $sheets = array_map(function ($sheetName) use ($firstRow, $headerStyle) {
             $sheet = $this->writer->addNewSheetAndMakeItCurrent();
             $sheet->setName($sheetName);
-            $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])), (new StyleBuilder())->setFontBold()->build());
+            $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])), $headerStyle);
 
             return [$sheetName, $sheet];
         }, self::SHEET_NAMES);
