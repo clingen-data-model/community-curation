@@ -48,6 +48,7 @@ class AssignmentReportGenerator implements ReportGenerator
     private function convertToRow($volunteer)
     {
         $base = [
+            'volunteer_id' => $volunteer->id,
             'email' => $volunteer->email,
             'first_name' => $volunteer->first_name,
             'last_name' => $volunteer->last_name,
@@ -59,7 +60,7 @@ class AssignmentReportGenerator implements ReportGenerator
             'ca_assignments' => $volunteer->assignments->isCurationActivity()->count(),
             'survey_completion_date' => ($volunteer->application) ? $volunteer->application->finalized_at : null,
         ];
-        
+
         if ($volunteer->assignments->count() == 0) {
             return collect([array_merge(
                 $base,
@@ -106,7 +107,7 @@ class AssignmentReportGenerator implements ReportGenerator
                 );
             });
     }
-    
+
 
     private function getVolunteers($filterParams)
     {
