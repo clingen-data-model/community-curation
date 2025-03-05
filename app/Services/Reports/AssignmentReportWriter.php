@@ -3,8 +3,8 @@
 namespace App\Services\Reports;
 
 use App\Contracts\ReportWriter;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\XLSX\Writer as XlsxWriter;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
 use Illuminate\Support\Collection;
 
 class AssignmentReportWriter extends AbstractReportWriter implements ReportWriter
@@ -22,7 +22,9 @@ class AssignmentReportWriter extends AbstractReportWriter implements ReportWrite
             $sheet = $this->getCurrentSheet();
             $sheet->setName($sheetName);
 
-            $this->addRow($this->buildHeader($sheetData), (new StyleBuilder())->setFontBold()->build());
+            $headerStyle = new Style();
+            $headerStyle->setFontBold();
+            $this->addRow($this->buildHeader($sheetData), $headerStyle);
 
             foreach ($sheetData->toArray() as $rowData) {
                 $row = $this->createRow($rowData);

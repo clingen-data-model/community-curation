@@ -3,8 +3,10 @@
 namespace App\Services\Reports;
 
 use App\Contracts\ReportWriter;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Writer\WriterAbstract;
+use OpenSpout\Writer\XLSX\Writer as XLSXWriter;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Writer\AbstractWriter;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Carbon as IlluminateCarbon;
@@ -46,43 +48,30 @@ abstract class AbstractReportWriter implements ReportWriter
                 }
             }
 
-            return WriterEntityFactory::createCell($value);
+            return Cell::fromValue($value);
         }, $array);
-    }
-
-    protected function getHeaderCells($data)
-    {
-        return collect($data->first())->keys()
-            ->transform(function ($heading) {
-                return WriterEntityFactory::createCell(preg_replace('/_/', ' ', Str::title($heading)));
-            })
-            ->toArray();
     }
 
     protected function buildHeader($data)
     {
-        return WriterEntityFactory::createRow($this->getHeaderCells($data));
+        return Row::fromValues(
+            collect($data->first())->keys()
+                ->transform(function ($heading) {
+                    return preg_replace('/_/', ' ', Str::title($heading));
+                })
+                ->toArray()
+            );
     }
 
-    public function getWriter(): WriterAbstract
+    public function getWriter(): AbstractWriter
     {
         return $this->writer;
     }
 
-    // protected function addRow($data, $rowStyle = null)
-    // {
-    //     return $this->getWriter()->addRow($data, $rowStyle);
-    // }
-
     protected function createRow($data)
     {
-        return WriterEntityFactory::createRow($this->arrayToCells($data));
+        return new Row($this->arrayToCells($data));
     }
-
-    // protected function addNewSheetAndMakeItCurrent()
-    // {
-    //     $this->getWriter()->addNewSheetAndMakeItCurrent();
-    // }
 
     public function __call($name, $arguments)
     {

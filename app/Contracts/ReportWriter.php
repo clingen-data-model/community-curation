@@ -2,8 +2,7 @@
 
 namespace App\Contracts;
 
-use Box\Spout\Writer\Common\Entity\Sheet;
-use Box\Spout\Writer\WriterAbstract;
+use OpenSpout\Writer\AbstractWriter;
 use Illuminate\Support\Collection;
 
 interface ReportWriter
@@ -17,5 +16,5 @@ interface ReportWriter
 
     // public function getCurrentSheet():Sheet;
     // public function addRow
-    public function getWriter(): WriterAbstract;
+    public function getWriter(): AbstractWriter;
 }
