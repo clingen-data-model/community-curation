@@ -3,7 +3,6 @@
 namespace App\Services\Reports;
 
 use App\Contracts\ReportWriter;
-use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
 use Illuminate\Support\Collection;
 
@@ -18,20 +17,22 @@ class AssignmentReportWriter extends AbstractReportWriter implements ReportWrite
 
     public function writeData(Collection $data): static
     {
-        foreach ($data as $sheetName => $sheetData) {
+        if (!$data['all']->isEmpty()) {
             $sheet = $this->getCurrentSheet();
-            $sheet->setName($sheetName);
+            foreach ($data as $sheetName => $sheetData) {
+                if ($sheet->getName() !== 'Sheet1') {
+                    $sheet = $this->addNewSheetAndMakeItCurrent();
+                }
+                $sheet->setName($sheetName);
 
-            $headerStyle = new Style();
-            $headerStyle->setFontBold();
-            $this->addRow($this->buildHeader($sheetData), $headerStyle);
+                $this->addRow($this->buildHeader($data['all']));
 
-            foreach ($sheetData->toArray() as $rowData) {
-                $row = $this->createRow($rowData);
-                $this->addRow($row);
+                foreach ($sheetData->toArray() as $rowData) {
+                    $row = $this->createRow($rowData);
+                    $this->addRow($row);
+                }
+
             }
-
-            $this->addNewSheetAndMakeItCurrent();
         }
 
         $this->getWriter()->close();

@@ -3,7 +3,7 @@
 namespace App\Services\Reports;
 
 use App\Contracts\ReportWriter;
-use OpenSpout\Writer\XLSX\Writer as XLSXWriter;
+use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Writer\AbstractWriter;
@@ -37,30 +37,18 @@ abstract class AbstractReportWriter implements ReportWriter
         return $this;
     }
 
-    protected function arrayToCells($array)
-    {
-        return array_map(function ($item) {
-            $value = $item;
-            if (is_object($item)) {
-                $value = $item->toString();
-                if (in_array(get_class($item), [Carbon::class, IlluminateCarbon::class, DateTime::class])) {
-                    $value = $item->format('Y-m-d');
-                }
-            }
-
-            return Cell::fromValue($value);
-        }, $array);
-    }
-
     protected function buildHeader($data)
     {
+        $headerStyle = new Style();
+        $headerStyle->setFontBold();
         return Row::fromValues(
             collect($data->first())->keys()
                 ->transform(function ($heading) {
                     return preg_replace('/_/', ' ', Str::title($heading));
                 })
-                ->toArray()
-            );
+                ->toArray(),
+            $headerStyle
+        );
     }
 
     public function getWriter(): AbstractWriter
@@ -70,7 +58,16 @@ abstract class AbstractReportWriter implements ReportWriter
 
     protected function createRow($data)
     {
-        return new Row($this->arrayToCells($data));
+        return new Row(
+            collect($data)
+                ->transform(function ($item) {
+                    if (is_object($item) && in_array(get_class($item), [Carbon::class, IlluminateCarbon::class, DateTime::class])) {
+                        return Cell::fromValue($item->format('Y-m-d'));
+                    }
+                    return Cell::fromValue($item);
+                })
+                ->toArray()
+            );
     }
 
     public function __call($name, $arguments)

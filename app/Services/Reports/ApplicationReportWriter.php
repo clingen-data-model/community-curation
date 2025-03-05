@@ -3,7 +3,6 @@
 namespace App\Services\Reports;
 
 use App\Contracts\ReportWriter;
-use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
 use Illuminate\Support\Collection;
 
@@ -55,19 +54,17 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
 
     private function initializeSheets($firstRow)
     {
-        $headerStyle = new Style();
-        $headerStyle->setFontBold();
         $sheet = $this->writer->getCurrentSheet();
-        $sheets = array_map(function ($sheetName) use ($sheet, $firstRow, $headerStyle) {
+        $sheets = array_map(function ($sheetName) use ($sheet, $firstRow) {
             if ($sheet->getName() != 'Sheet1') {
                 $sheet = $this->writer->addNewSheetAndMakeItCurrent();
             }
             $sheet->setName($sheetName);
-            $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])), $headerStyle);
+            $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])));
 
             return [$sheetName, $sheet];
         }, self::SHEET_NAMES);
-        
+
         return array_combine(array_column($sheets, 0), array_column($sheets, 1));
     }
 }
