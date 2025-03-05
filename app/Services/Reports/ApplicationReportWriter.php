@@ -57,8 +57,11 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
     {
         $headerStyle = new Style();
         $headerStyle->setFontBold();
-        $sheets = array_map(function ($sheetName) use ($firstRow, $headerStyle) {
-            $sheet = $this->writer->addNewSheetAndMakeItCurrent();
+        $sheet = $this->writer->getCurrentSheet();
+        $sheets = array_map(function ($sheetName) use ($sheet, $firstRow, $headerStyle) {
+            if ($sheet->getName() != 'Sheet1') {
+                $sheet = $this->writer->addNewSheetAndMakeItCurrent();
+            }
             $sheet->setName($sheetName);
             $this->getWriter()->addRow($this->buildHeader(collect([$firstRow[$sheetName]])), $headerStyle);
 
