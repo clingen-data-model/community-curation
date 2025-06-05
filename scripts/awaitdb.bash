@@ -5,6 +5,7 @@ IFS=$'\n\t'
 
 for WAITSECONDS in 2 2 2 4 4 4 8 8 8 16 16 16
 do
+  echo "attempting to connect to database"
   php artisan healthcheck:db && exit 0
   echo "Not yet connected to db... waiting $WAITSECONDS"
   sleep $WAITSECONDS
