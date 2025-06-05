@@ -38,8 +38,7 @@ class DbHealthCheck extends Command
     public function handle()
     {
         try {
-            \DB::connection()->getPdo();
-            $this->info('Database is up and running.');
+            $this->info('Database '. \DB::connection()->getDatabaseName() .' is up and running.');
         } catch (\Exception $e) {
             $this->error('Database is down.');
             return 1;

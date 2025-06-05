@@ -2,27 +2,26 @@
 
 namespace App\Actions\Reports;
 
-use App\Country;
 use App\Application;
 use App\ApplicationReportRow;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 
 class ApplicationReportRowCreate
 {
   private array $questionDefs;
 
-  public function __construct()
+  private function questionDefinitions(): array
   {
-    $survey = Cache::remember('survey_application1', 60*10, function () {
-      return class_survey()::findBySlug('application1');
-    });
-    $this->questionDefs = $survey->getQuestions();
+      if (!isset($this->questionDefs)) {
+          $survey = class_survey()::findBySlug('application1');
+          $this->questionDefs = $survey->getQuestions();
+      }
+      return $this->questionDefs;
   }
 
   public function handle(Application $application)
   {
-      foreach ($this->questionDefs as $definition) {
+      foreach ($this->questionDefinitions() as $definition) {
           $qName = $definition->getName();
           $response = $this->getReadableResponse($application->{$qName}, $definition);
           $application->{$qName} = $response ? $response : '';
@@ -133,7 +132,7 @@ class ApplicationReportRowCreate
   private function getQuestionColumns($questionName, Application $app)
   {
       $data = [];
-      foreach ($this->questionDefs[$questionName]->getOptions() as $option) {
+      foreach ($this->questionDefinitions()[$questionName]->getOptions() as $option) {
           $data[$option->label] = '';
           if (is_array($app->{$questionName})) {
               $data[$option->label] = in_array($option->label, $app->{$questionName}) ? 1 : 0;
