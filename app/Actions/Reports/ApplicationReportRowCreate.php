@@ -90,8 +90,8 @@ class ApplicationReportRowCreate
       ]))->merge($metadata),
       'professional' => $identifiers->merge(collect([
         'volunteer_id' => $app->respondent_id,
-        'heighest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
-        'heighest_ed_other' => $app->highest_ed_other,
+        'highest_ed' => ($app->highest_ed) ? $app->highest_ed : '',
+        'highest_ed_other' => $app->highest_ed_other,
         'advanced_certification' => $app->adv_cert,
         'self_description' => $app->self_desc ? $app->self_desc : '',
         'self_description_other' => $app->self_desc_other,
