@@ -46,6 +46,7 @@
                 <label for="name" class="col-sm-3 col-form-label">hypothes.is username</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="hypothesis-id-field" v-model="updatedVolunteer.hypothesis_id" placeholder="my-hypothesis-username">
+                    <validation-error :errors="errors.hypothesis_id"></validation-error>
                 </div>
             </div>
 
