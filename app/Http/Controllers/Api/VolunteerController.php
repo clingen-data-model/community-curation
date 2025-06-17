@@ -10,6 +10,7 @@ use App\Policies\VolunteerPolicy;
 use App\Services\Search\VolunteerSearchService;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class VolunteerController extends Controller
 {
@@ -118,6 +119,14 @@ class VolunteerController extends Controller
         if (!$this->policy->update(\Auth::user(), $volunteer)) {
             return response('Unauthorized', 403);
         }
+
+        $request->validate([
+            'hypothesis_id' => [
+                'required',
+                Rule::unique('users', 'hypothesis_id')->ignore($id),
+            ],
+            // other validation rules...
+        ]);
 
         $volunteer->update($request->all());
 
