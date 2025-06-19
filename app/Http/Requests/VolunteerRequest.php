@@ -90,7 +90,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
     {
         return [
             'required' => 'A :attribute is required',
-            'hypothesis_id.unique' => 'It looks like you already have a record in CCDB. To prevent duplication, if you want to add a new activity, please email volunteer@clinicalgenome.org'
+            'hypothesis_id.unique' => 'It looks like you already have a record in the CCDB. To prevent duplication, if you want to add a new activity, please email volunteer@clinicalgenome.org'
         ];
     }
 }
