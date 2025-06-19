@@ -48,7 +48,10 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
                 'email:rfc,dns',
                 ($volunteer)
                     ? (new Unique('users', 'email'))->ignore($volunteer->id)
-                    : (new Unique('users', 'email')),
+                    : (new Unique('users', 'email')),                
+            ],
+            'hypothesis_id' => [
+                Rule::unique('users', 'hypothesis_id')->ignore($volunteer->id),
             ],
             'country_id' => 'sometimes|required|exists:countries,id',
             'timezone' => [
@@ -74,6 +77,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
             'last_name' => 'first and last name',
             'country_id' => 'country',
             'timezone' => 'closest city',
+            'hypothesis_id' => 'Hypothesis ID',
         ];
     }
 
@@ -86,6 +90,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
     {
         return [
             'required' => 'A :attribute is required',
+            'hypothesis_id.unique' => 'It looks like you already have a record in CCDB. To prevent duplication, if you want to add a new activity, please email volunteer@clinicalgenome.org'
         ];
     }
 }
