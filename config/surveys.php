@@ -34,6 +34,7 @@ return [
         'curation_activity_2.different' => 'You have already selected this curation activity',
         'curation_activity_3.different' => 'You have already selected this curation activity',
         'volunteer_type.required' => 'Please indicate the level at which you\'d like to volunteer',
+        'hypothesis_id.unique' => 'It looks like you already have a record in CCDB. To prevent duplication, if you want to add a new activity, please email volunteer@clinicalgenome.org',
         // 'required' => 'required*'
         // 'my_field.validation_rule' => 'My custom mssage',
     ],
