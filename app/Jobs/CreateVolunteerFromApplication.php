@@ -32,31 +32,36 @@ class CreateVolunteerFromApplication
      */
     public function handle()
     {
-        $user = User::create([
-            'first_name' => $this->response->first_name,
-            'last_name' => $this->response->last_name,
-            'email' => $this->response->email,
-            'orcid_id' => $this->response->orcid_id,
-            'institution' => $this->response->institution,
-            'password' => Hash::make(uniqid()),
-            'street1' => $this->response->street1,
-            'street2' => $this->response->street2,
-            'city' => $this->response->city,
-            'state' => $this->response->state,
-            'zip' => $this->response->zip,
-            'country_id' => $this->response->country_id,
-            'volunteer_type_id' => $this->response->volunteer_type,
-            'volunteer_status_id' => 1,
-            'hypothesis_id' => $this->response->hypothesis_id,
-            'timezone' => $this->response->timezone,
-            'already_clingen_member' => $this->response->already_clingen_member,
-            'already_member_cgs' => is_string($this->response->already_member_cgs)
-                                        ? json_decode($this->response->already_member_cgs)
-                                        : $this->response->already_member_cgs,
-        ]);
-        // $user->assignRole('volunteer');  // responsibility delegated to AssignVolunteerRole listener
-        $user->created_at = $this->response->finalized_at;
-        $user->save();
+        $user = User::where('email', $this->response->email)->first();
+        if (!$user) {
+            $user = User::create([
+                'first_name' => $this->response->first_name,
+                'last_name' => $this->response->last_name,
+                'email' => $this->response->email,
+                'orcid_id' => $this->response->orcid_id,
+                'institution' => $this->response->institution,
+                'password' => Hash::make(uniqid()),
+                'street1' => $this->response->street1,
+                'street2' => $this->response->street2,
+                'city' => $this->response->city,
+                'state' => $this->response->state,
+                'zip' => $this->response->zip,
+                'country_id' => $this->response->country_id,
+                'volunteer_type_id' => $this->response->volunteer_type,
+                'volunteer_status_id' => 1,
+                'hypothesis_id' => $this->response->hypothesis_id,
+                'timezone' => $this->response->timezone,
+                'already_clingen_member' => $this->response->already_clingen_member,
+                'already_member_cgs' => is_string($this->response->already_member_cgs)
+                                            ? json_decode($this->response->already_member_cgs)
+                                            : $this->response->already_member_cgs,
+            ]);
+            $user->created_at = $this->response->finalized_at;
+            $user->save();
+        } else {
+            // Log or handle the already-existing case, in case user double clicking due to slow internet connection
+            Log::info("User already exists: " . $user->email);
+        }
         $this->response->respondent_type = User::class;
         $this->response->respondent_id = $user->id;
     }
