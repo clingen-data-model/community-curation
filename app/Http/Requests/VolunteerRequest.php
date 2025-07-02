@@ -51,7 +51,8 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
                     : (new Unique('users', 'email')),                
             ],
             'hypothesis_id' => [
-                Rule::unique('users', 'hypothesis_id')->ignore($volunteer->id),
+                'nullable',
+                Rule::unique('users', 'hypothesis_id')->ignore(optional($volunteer)->id),
             ],
             'country_id' => 'sometimes|required|exists:countries,id',
             'timezone' => [
