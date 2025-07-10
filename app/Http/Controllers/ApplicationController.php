@@ -42,7 +42,7 @@ class ApplicationController extends Controller
     public function store(Request $request, $id = null)
     {
         $request->validate([
-            'email' => 'required|email|unique:users,email',
+            'email' => 'sometimes|email|unique:users,email',
         ]);
 
         $survey = class_survey()::findBySlug('application1');
