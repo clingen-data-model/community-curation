@@ -18,7 +18,7 @@ class ApplicationController extends Controller
         $this->responseResolver= $responseResolver;
     }
 
-    
+
 
     /**
      * Display a listing of the resource.
@@ -41,10 +41,6 @@ class ApplicationController extends Controller
      */
     public function store(Request $request, $id = null)
     {
-        $request->validate([
-            'email' => 'sometimes|email|unique:users,email',
-        ]);
-
         $survey = class_survey()::findBySlug('application1');
         $survey->getSurveyDocument()->validate();
 
