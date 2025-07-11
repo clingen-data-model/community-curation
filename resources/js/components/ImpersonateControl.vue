@@ -5,6 +5,7 @@
             title="Impersonate another user" 
             v-model="showSelector"
             @ok="impersonateSelected"
+            @show="handleModalShow"
         >
                 <select name="impersonate_id" 
                     v-model="selectedUser"
@@ -52,6 +53,12 @@ export default {
 
     },
     methods: {
+        async handleModalShow() {
+            if (!this.users.length) {
+                this.users = await getImpersonatableUsers();
+            }
+        },
+
         impersonateSelected() {
             this.$emit('impersonated');
             this.showProgress = true;
@@ -62,8 +69,5 @@ export default {
             this.users = await getImpersonatableUsers();
         }
     },
-    mounted() {
-        this.getImpersonatableUsers();
-    }
 }
 </script>

@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -44,21 +45,44 @@ class UserController extends Controller
 
     public function impersonatableUsers()
     {
-        $userModel = Auth::user();
-        $userModel->load(['roles']);
-        $user = $userModel->toArray();
-        $user['permissions'] = $userModel->getAllPermissions()->toArray();
-        $user['panel_summary'] = $userModel->panel_summary;
+        $currentUser = Auth::user();
 
-        $impersonatable = collect();
-        if (Auth::user()->canImpersonate()) {
-            $impersonatable = Cache::remember('impersonatable-users', 60, function () {
-                return User::with('roles')->orderBy('first_name')->get()->filter(function ($user) {
-                    return $user->canBeImpersonated();
-                });
-            });
+        if (!$currentUser || !$currentUser->canImpersonate()) {
+            return response()->json([]);
         }
 
-        return $impersonatable;
+        return Cache::remember('impersonatable-users:' . $currentUser->id, 60, function () use ($currentUser) {
+            // Eager load all users with their roles in one query
+            return User::with('roles')
+                ->orderBy('first_name')
+                ->get()
+                ->filter(function ($user) use ($currentUser) {
+                    // Run the same logic from canBeImpersonated(), inline
+                    if ($user->hasRole('programmer')) {
+                        return false;
+                    }
+
+                    if ($currentUser->hasRole('programmer')) {
+                        return true;
+                    }
+
+                    if ($currentUser->hasRole('admin') && $user->hasAnyRole(['programmer', 'super-admin'])) {
+                        return false;
+                    }
+
+                    if ($currentUser->roles->intersect($user->roles)->isNotEmpty()) {
+                        return false;
+                    }
+
+                    return true;
+                })
+                ->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->full_name ?? trim("{$user->first_name} {$user->last_name}"),
+                    ];
+                })
+                ->values();
+        });
     }
 }
