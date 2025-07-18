@@ -48,7 +48,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
                 'email:rfc,dns',
                 ($volunteer)
                     ? (new Unique('users', 'email'))->ignore($volunteer->id)
-                    : (new Unique('users', 'email')),                
+                    : (new Unique('users', 'email')),
             ],
             'hypothesis_id' => [
                 'nullable',
@@ -91,7 +91,7 @@ class VolunteerRequest extends FormRequest implements VolunteerRequestContract
     {
         return [
             'required' => 'A :attribute is required',
-            'hypothesis_id.unique' => 'It looks like you already have a record in the CCDB. To prevent duplication, if you want to add a new activity, please email volunteer@clinicalgenome.org'
+            'hypothesis_id.unique' => 'It looks like there is already a record in the CCDB with this Hypothes.is ID. To prevent duplication, if you want to add a new activity, please email volunteer@clinicalgenome.org'
         ];
     }
 }
