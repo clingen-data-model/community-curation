@@ -49,8 +49,11 @@ class TrainingSessionInviteEmail extends Notification
      */
     public function toMail($notifiable)
     {
+        $tz = new CarbonTimeZone($notifiable->timezone);
+
         return (new MailMessage())
-            ->subject($this->trainingSession->title)
+            ->subject($this->trainingSession->title . ' - ' . 
+                $this->trainingSession->starts_at->addSeconds($tz->getOffset($this->trainingSession->starts_at))->format('F j, Y \a\t g:i a') . ' ' . strtoupper($tz->getAbbr()))
             ->attach($this->trainingSession->getIcsFilePath(), [
                 'as' => Str::snake($this->trainingSession->title).'.ics',
                 'mime' => 'text/calendar',
@@ -58,7 +61,7 @@ class TrainingSessionInviteEmail extends Notification
             ->view('email.training_session_invite', [
                 'trainingSession' => $this->trainingSession,
                 'volunteer' => $notifiable,
-                'timezone' => new CarbonTimeZone($notifiable->timezone),
+                'timezone' => $tz,
             ]);
     }
 
