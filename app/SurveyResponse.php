@@ -7,6 +7,11 @@ use Sirs\Surveys\Revisions\Revision;
 
 class SurveyResponse extends SirsResponse
 {
+
+    protected $casts = [
+        'finalized_at' => 'datetime',
+    ];
+
     public function getDataAttributes()
     {
         $data = [];
