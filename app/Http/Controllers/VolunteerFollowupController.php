@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Sirs\Surveys\SurveyControlService;
+use Illuminate\Support\Carbon;
 
 class VolunteerFollowupController
 {
@@ -16,6 +17,9 @@ class VolunteerFollowupController
 
         $respondent = Auth::user();
         $response = $this->getResponse($respondent, $surveySlug, $responseId);
+        if ($response && is_string($response->finalized_at)) {
+            $response->finalized_at = Carbon::parse($response->finalized_at);
+        }
 
         if ($respondent->id == $response->respondent_id
             || Auth::user()->hasAnyRole(['programmer', 'super-admin', 'admin'])) {
