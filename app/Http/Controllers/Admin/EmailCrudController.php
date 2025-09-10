@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\CrudPanel;
 use App\DbMailLog\DbMailLogProvider;
@@ -28,24 +27,58 @@ class EmailCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(DbMailLogProvider::getEmailLogEntryClass());
-        $this->crud->setRoute(config('backpack.base.route_prefix').'/email');
-        $this->crud->setEntityNameStrings('email', 'email');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/email');
+        $this->crud->setEntityNameStrings('email', 'emails');
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
         $this->crud->allowAccess('show');
-        $this->crud->denyAccess('update');
-        $this->crud->denyAccess('delete');
-        $this->crud->denyAccess('create');
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        $this->crud->denyAccess(['update', 'delete', 'create']);
 
-        $this->crud->removeColumns(['cc', 'bcc', 'reply_to', 'sender', 'body']);
-        $this->crud->setColumnsDetails(['from','to'], ['type' => 'json_email']);
-        $this->crud->addColumn(['type' => 'datetime', 'name' => 'created_at', 'label' => 'Sent'])->makeFirstColumn();
+        // Define columns manually so we can control searchability
+        $this->crud->addColumn([
+            'name'  => 'created_at',
+            'type'  => 'datetime',
+            'label' => 'Sent',
+        ])->makeFirstColumn();
+
+        $this->crud->addColumn([
+            'name'  => 'subject',
+            'type'  => 'text',
+            'label' => 'Subject',
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhere('subject', 'like', "%{$searchTerm}%");
+            },
+        ]);
+
+        $this->crud->addColumn([
+            'name'  => 'from',
+            'type'  => 'json_email',
+            'label' => 'From',
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhereRaw('LOWER(`from`) LIKE LOWER(?)', ["%{$searchTerm}%"]);
+            },
+        ]);
+
+        $this->crud->addColumn([
+            'name'  => 'to',
+            'type'  => 'json_email',
+            'label' => 'To',
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhereRaw('LOWER(`to`) LIKE LOWER(?)', ["%{$searchTerm}%"]);
+            },
+        ]);
+
+        // Body: hidden from table, but searchable
+        $this->crud->addColumn([
+            'name'              => 'body',
+            'type'              => 'textarea',
+            'label'             => 'Body',
+            'visibleInTable'    => false,
+            'visibleInModal'    => false,
+            'visibleInExport'   => false,
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhereRaw('LOWER(`body`) LIKE LOWER(?)', ["%{$searchTerm}%"]);
+            },
+        ]);
 
         $this->crud->orderBy('created_at', 'DESC');
     }
