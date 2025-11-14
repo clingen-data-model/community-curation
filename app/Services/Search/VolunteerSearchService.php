@@ -46,6 +46,12 @@ class VolunteerSearchService extends UserSearchService
             if ($key == 'gene_id') {
                 $this->filterByGene($value, $query);
             }
+
+            if ($key == 'highest_ed') {
+                $query->with(['application' => function ($q) {
+                    $q->select('respondent_type', 'respondent_id', 'survey_id', 'highest_ed');
+                }]);
+            }
         }
 
         $query->with($with);

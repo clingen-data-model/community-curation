@@ -138,6 +138,9 @@
                     <template v-slot:cell(email)="{item}">
                         <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                     </template>
+                    <template v-slot:cell(application.highest_ed.value)="{ item }">
+                        <span>{{ item.application.highest_ed.value.join(', ') }}</span>
+                    </template>
                     <template v-slot:cell(assignments)="{item}">
                         <assignment-brief-list 
                             :assignments="item.assignments"
@@ -209,22 +212,18 @@
                         key: 'first_name',
                         label: 'First',
                         sortable: true,
-                        key: 'first_name',
                     },
                     {
                         key: 'last_name',
                         label: 'Last',
                         sortable: true,
-                        key: 'last_name',
                     },
                     {
                         key: 'email',
                         label: 'Email',
                         sortable: true,
-                        key: 'email'
                     },
                     {
-                        key: 'type',
                         label: 'Type',
                         sortable: false,
                         key: 'volunteer_type.name'
@@ -233,6 +232,11 @@
                         label: 'Status',
                         sortable: false,
                         key: 'volunteer_status.name'
+                    },
+                    {
+                        key: 'application.highest_ed.value',
+                        label: 'Highest Ed',
+                        sortable: false,
                     },
                     {
                         key: 'assignments',
@@ -261,8 +265,7 @@
             fields() {
                 let fields = JSON.parse(JSON.stringify(this.tableFields));
                 if (this.filters.curation_activity_id == -1) {
-                    // fields.splice(fields.findIndex(item => item.key == 'volunteer_status.name'), 1)
-                    fields.splice(fields.findIndex(item => item.key == 'volunteer_type.name'), 1)
+                    fields.splice(fields.findIndex(item => item.key == 'volunteer_type.name'), 1)                    
                     fields.push({
                         label: 'Priorities',
                         sortable: false,
@@ -273,7 +276,7 @@
                         sortable: false,
                         key: 'created_at',
                         sortable: true
-                    })
+                    });
                 }
                 return fields;
             },
@@ -331,8 +334,9 @@
                     this.filters.curation_group_id = null;
                 }
             },
-            volunteerProvider (context, callback) {
-                // this.loadingVolunteers = true;
+            volunteerProvider (context, callback) {                
+                context.highest_ed = 1;
+                
                 if (this.filters.curation_activity_id == -1) {
                     context.with = [
                         'priorities',
