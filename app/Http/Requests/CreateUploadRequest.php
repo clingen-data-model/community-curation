@@ -25,10 +25,17 @@ class CreateUploadRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'file' => 'required|file',
+            'file' => 'required|file|max:2048',
             'user_id' => 'required|exists:users,id',
             'upload_category_id' => 'nullable|exists:upload_categories,id',
             'notes' => 'nullable|max:65535',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'file.max' => 'The selected file is too large. The maximum file size is 2 MB.',
         ];
     }
 }

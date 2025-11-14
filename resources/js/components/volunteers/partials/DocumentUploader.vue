@@ -18,6 +18,7 @@
                 <label class="col-sm-2" for="file-field">File:</label>
                 <div class="col-sm-10">
                     <input type="file" ref="uploadField" class="form-control-file" id="file-field" @change="prepopulateName()" :disabled="uploading">
+                    <small class="form-text text-muted">Maximum file size: 2 MB. Files larger than this cannot be uploaded.</small>
                     <validation-error :errors="errors.file"></validation-error>
                 </div>
             </div>
