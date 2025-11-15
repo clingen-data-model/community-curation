@@ -28,7 +28,7 @@ class SurveyOptions
 
     public function curationActivities()
     {
-        return CurationActivity::select('id', 'name')->comprehensive()->get();
+        return CurationActivity::select('id', 'name')->comprehensive()->whereHas('curationGroups', function ($q) { $q->acceptingVolunteers(); })->get();
     }
 
     public function acceptingCurationGroups()
