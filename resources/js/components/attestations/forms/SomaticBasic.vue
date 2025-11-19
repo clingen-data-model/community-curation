@@ -58,18 +58,6 @@
 
             <question-block>
                 <div slot="question-text">
-                        I have watched the "CIViC - Adding Source Suggestions" video.
-                </div>
-                <radio-group 
-                    slot="answer-block" 
-                    name="watchedCIVicAddingSourceSuggestions"
-                    v-model="watchedCIVicAddingSourceSuggestions"
-                    :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                    ></radio-group>
-            </question-block>
-
-            <question-block>
-                <div slot="question-text">
                         I have read the “Somatic cancer variant curation and harmonization through consensus minimum variant level data” pape.
                 </div>
                 <radio-group 
@@ -104,29 +92,15 @@
 
         <question-block class="mb-4">
             <div slot="question-text">
-                I have chosen a curation activity. (Please list your choice below)
+                Which CDWG (task forces) or SC-VCEP would you like to participate in? <span class="font-italic">Check the SVCEP Groups <a href="https://clinicalgenome.org/working-groups/clinical-domain/somatic-cancer-cdwg/" target="_blank">here</a>.</span>
             </div>
             <div slot="answer-block" class="form-inline">
-                <input type="text" name="chosenCurationActivity" v-model="chosenCurationActivity" class="form-control form-control-sm">
+                <input type="text" name="scvcepGroupPreference" v-model="scvcepGroupPreference" class="form-control form-control-sm" size="50" max="200">
             </div>
+            
         </question-block>
 
-        <question-block>
-            <div slot="question-text">
-                I have signed up for a practice curation assignment in CIViC: 
-                <a href="https://docs.google.com/spreadsheets/d/1vBDR3xVaKgkOSW_7VTO8Mxe2wo1WCJV1mbT3nO1lCM4/edit#gid=0"  target="practice-session">
-                    https://docs.google.com/spreadsheets/d/1vBDR3xVaKgkOSW_7VTO8Mxe2wo1WCJV1mbT3nO1lCM4/edit#gid=0
-                </a>
-            </div>
-            <radio-group
-                slot="answer-block"
-                name="signedUpForPractice"
-                v-model="signedUpForPractice"
-                :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                ></radio-group>
-        </question-block>
-
-        <br>
+        <br />
         
         <div slot="signature-text">I, {{attestation.user.name}}, attest that as of {{signedAt}} I have completed all the elements of the Somatic Cancer Training.</div>
     </attestation-form>
@@ -148,12 +122,10 @@
                 watchedCIVicGettingStarted: null,
                 watchedCIVicAddingEvidence: null,
                 watchedCIVicEditingEntities: null,
-                watchedCIVicAddingSourceSuggestions: null,
                 readCurationAndHarmonization: null,
                 createdCIVicAccount: null,
                 CIViCUsername: null,
-                chosenCurationActivity: null,
-                signedUpForPractice: null,
+                scvcepGroupPreference: null,
 
                 signedAt: moment().format('YYYY-MM-DD') 
             }
@@ -164,7 +136,6 @@
                     return this.watchedCIVicGettingStarted == 1
                         && this.watchedCIVicAddingEvidence == 1
                         && this.watchedCIVicEditingEntities == 1
-                        && this.watchedCIVicAddingSourceSuggestions == 1
                         && this.readCurationAndHarmonization == 1;
                 } else {
                     return true;
@@ -174,8 +145,7 @@
                 return this.civicQuestionsCompleted
                         && this.createdCIVicAccount === 1
                         && this.CIViCUsername != '' && this.CIViCUsername !== null
-                        && this.chosenCurationActivity != '' && this.chosenCurationActivity !== null
-                        && this.signedUpForPractice === 1;
+                        && this.scvcepGroupPreference != '' && this.scvcepGroupPreference !== null
             }
         }
     
