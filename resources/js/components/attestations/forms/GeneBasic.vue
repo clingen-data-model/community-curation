@@ -19,7 +19,7 @@
         </attestation-question>
 
         <div slot="signature-text">
-            I, {{attestation.user.name}}, attest that as of {{today}} I have completed all the elements of the Gene Disease Validity Training. *
+            I, {{attestation.user.name}}, attest that as of {{today}} I have completed all the elements of the Gene-Disease Validity Training. *
         </div>
     </attestation-form>
 </template>
@@ -60,7 +60,7 @@
                         required: true
                     },
                     {
-                        question: "I have watched the Gene curation classifications video and understand the ClinGen Gene-Disease Validity classification system. *",
+                        question: "I have watched the gene curation classifications video and understand the ClinGen Gene-Disease Validity classification system. *",
                         name: "watched_gene_curation_classificaitons",
                         value: null,
                         required: true

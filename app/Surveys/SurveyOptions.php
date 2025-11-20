@@ -60,9 +60,19 @@ class SurveyOptions
         return Campaign::select('id', 'name')->withoutOther()->get();
     }
 
+    public function activeAdCampaigns()
+    {
+        return Campaign::select('id', 'name')->where('active', 1)->withoutOther()->get();
+    }
+
     public function motivations()
     {
         return Motivation::select('id', 'name')->withoutOther()->get();
+    }
+
+    public function activeMotivations()
+    {
+        return Motivation::select('id', 'name')->where('active', 1)->withoutOther()->get();
     }
 
     public function interests()
@@ -73,5 +83,10 @@ class SurveyOptions
     public function goals()
     {
         return Goal::select('id', 'name')->withoutOther()->get();
+    }
+
+    public function activeGoals()
+    {
+        return Goal::select('id', 'name')->where('active', 1)->withoutOther()->get();
     }
 }

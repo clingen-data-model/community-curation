@@ -146,7 +146,7 @@
                     <![CDATA[How did you find out about the ClinGen volunteer efforts? (Check all that apply)*]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@adCampaigns"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@activeAdCampaigns"></data-source>
                     <option name="ad_campaign_other" show="ad_campaign_other_detail">
                         <value>100</value>
                         <label>Other</label>
@@ -163,7 +163,7 @@
                     <![CDATA[What motivated you to volunteer in ClinGen curation efforts? (Check all that apply)*]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@motivations"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@activeMotivations"></data-source>
                     <option name="motivation_other" show="motivation_other_detail">
                         <value>100</value>
                         <label>Other</label>
@@ -180,7 +180,7 @@
                     <![CDATA[What would you like to accomplish by volunteering with ClinGen? Do you have any specific goals? (Check all that apply)]]>
                 </question-text>
                 <options>
-                    <data-source URI="App\Surveys\SurveyOptions@goals"></data-source>
+                    <data-source URI="App\Surveys\SurveyOptions@activeGoals"></data-source>
                     <option name="goals_other" show="goals_other_detail">
                         <value>100</value>
                         <label>Other</label>

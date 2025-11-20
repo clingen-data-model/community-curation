@@ -82,6 +82,12 @@
             <td class="btn-group-toggle">
             </td>
         </tr>
+        <tr>
+            <td colspan="3" class="text-left">
+                <strong>Note:</strong> Baseline curation training is separate from Comprehensive curation. Baseline curation training is NOT required for Comprehensive curation. For more information see this link: <a href="https://www.clinicalgenome.org/working-groups/clingen-community-curation-c3/" target="_blank">https://www.clinicalgenome.org/working-groups/clingen-community-curation-c3/</a>
+            </td>
+        </tr>
+
     </tbody>
 </table>
 @include('surveys::error', ['question'=>$renderable])

@@ -4,7 +4,7 @@
 
         <question-block>
             <div slot="question-text">
-                I have read through the slides entitled "An Introduction to the ClinGen Actionability Working Group" and understand how clinical actionability is described and assessed by ClinGen. *
+                I have read through the slides entitled "An Introduction to the ClinGen Actionability Working Group" and understand how Clinical Actionability is described and assessed by ClinGen. *
             </div>
             <radio-group
                 slot="answer-block"
