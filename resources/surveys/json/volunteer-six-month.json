@@ -1,0 +1,106 @@
+{
+    "title": "ClinGen Follow-up Survey for Volunteer Curators - 6 months",
+    "showProgressBar": "top",
+    "pages": [
+        {
+            "name": "intro",
+            "elements": [
+                {
+                    "type": "html",
+                    "name": "intro_html",
+                    "html": "<p>Thank you for volunteering to participate in ClinGen community curation. In order to better understand the needs and experiences of our volunteers, we would greatly appreciate your feedback on this survey. It should take ~10-15 minutes.</p><p>Thank you!<br><a href=\"mailto:volunteer@clinicalgenome.org\">volunteer@clinicalgenome.org</a></p>"
+                }
+            ]
+        },
+        {
+            "name": "survey",
+            "elements": [
+                {
+                    "type": "text",
+                    "name": "number_of_curation_topics",
+                    "title": "Number of curations or topics assigned:",
+                    "isRequired": true,
+                    "inputType": "number"
+                },
+                {
+                    "type": "text",
+                    "name": "number_deferred",
+                    "title": "Number of curations or topics deferred:",
+                    "isRequired": true,
+                    "inputType": "number"
+                },
+                {
+                    "type": "comment",
+                    "name": "why_deferred",
+                    "title": "If any curations or topics were deferred, how many and why?",
+                    "visibleIf": "{number_deferred} > 0",
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "time_spent",
+                    "title": "The estimated time commitment was 8-10 hours per month, did you spend:",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "More than 8-10 hours/month" },
+                        { "value": 2, "text": "Less than 8-10 hours/month" },
+                        { "value": 3, "text": "Approximately 8-10 hours/month" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "enjoying_curation_group",
+                    "title": "Are you enjoying curating for your ClinGen Curation Group? Why or why not?",
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "plan_to_continue",
+                    "title": "Do you plan to continue volunteering your time to curate for your EP/WG?",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" },
+                        { "value": 2, "text": "Not Sure" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "why_discontinue",
+                    "title": "If you do not plan to continue volunteering to curate, how come?",
+                    "visibleIf": "{plan_to_continue} = 0 or {plan_to_continue} = 2",
+                    "isRequired": true
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "join_addtional_ep",
+                    "title": "Would you like to join an additional Working Group or Curation Group?",
+                    "description": "Note that this may require additional training and double the amount of time spent volunteering per month.",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" },
+                        { "value": 2, "text": "Maybe" }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "supported_by_work",
+                    "title": "Are your volunteer efforts supported by your current work environment? Is it aligned, in support of, or in conflict?",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "It is aligned with my current work" },
+                        { "value": 2, "text": "It is in support of my current work" },
+                        { "value": 3, "text": "It is in conflict with my current work" },
+                        { "value": 4, "text": "It has no relationship to my current work" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "other_comments",
+                    "title": "Please provide us with any other comments or feedback (if you would like to make any changes to your status and participation within a curation group please contact volunteer@clinicalgenome.org)."
+                }
+            ]
+        }
+    ]
+}

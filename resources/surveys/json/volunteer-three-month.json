@@ -1,0 +1,214 @@
+{
+    "title": "ClinGen Follow-up Survey for Volunteer Curators - 3 months",
+    "showProgressBar": "top",
+    "pages": [
+        {
+            "name": "intro",
+            "elements": [
+                {
+                    "type": "html",
+                    "name": "intro_html",
+                    "html": "<p>Thank you for volunteering to participate in ClinGen community curation. In order to better understand the needs and experiences of our volunteers, we would greatly appreciate your feedback on this survey. Your answers will be viewable only to yourself and ClinGen Community Curation Working Group administration staff. It should take ~10-15 minutes.</p><p>Thank you!<br><a href=\"mailto:volunteer@clinicalgenome.org\">volunteer@clinicalgenome.org</a></p>"
+                }
+            ]
+        },
+        {
+            "name": "page1",
+            "elements": [
+                {
+                    "type": "tagbox",
+                    "name": "curation_effort",
+                    "title": "What curation effort(s) are you currently volunteering for? (Optional)",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/curation-activities",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "tagbox",
+                    "name": "curation_groups",
+                    "title": "Which ClinGen Curation Group (EP) or Working Group (WG) have you been assigned? (Optional)",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/curation-groups",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "highest_ed",
+                    "title": "What is your highest level of education?",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "Some high school education" },
+                        { "value": 2, "text": "High school diploma" },
+                        { "value": 3, "text": "Bachelor's degree" },
+                        { "value": 4, "text": "Master's degree" },
+                        { "value": 5, "text": "M.D." },
+                        { "value": 6, "text": "Ph.D." },
+                        { "value": 100, "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "highest_ed_other",
+                    "title": "Please specify:",
+                    "visibleIf": "{highest_ed} = 100"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "satisfaction",
+                    "title": "How satisfied were you with the communication provided by the Community Curation team?",
+                    "choices": [
+                        { "value": 5, "text": "Extremely satisfied" },
+                        { "value": 4, "text": "Satisfied" },
+                        { "value": 3, "text": "Not satisfied or dissatisfied" },
+                        { "value": 2, "text": "Dissatisfied" },
+                        { "value": 1, "text": "Extremely dissatisfied" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "dissatified_feedback",
+                    "title": "If dissatisfied with communication, please provide feedback:"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "training_clear",
+                    "title": "Were the training materials required for your specific curation effort understandable and clear?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "training_clear_details",
+                    "title": "Please explain:",
+                    "visibleIf": "{training_clear} = 0"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "training_sufficient",
+                    "title": "Were the training materials and training sessions provided by the ClinGen Community Curation effort sufficient to assist with your curations?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "training_sufficient_details",
+                    "title": "Please explain:",
+                    "visibleIf": "{training_sufficient} = 0"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "seek_adtl_trng",
+                    "title": "Did you seek additional information and/or training through your EP or WG, or on your own?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "seek_adtl_trng_details",
+                    "title": "Please explain and note whether it was specific to the ClinGen curation framework, the disease area, or something else.",
+                    "visibleIf": "{seek_adtl_trng} = 1"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "rcmd_atdl_trng",
+                    "title": "Would you recommend any additional training to volunteers prior to assigning them to EPs or WGs?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "rcmd_adtl_trng_detail",
+                    "title": "Please explain:",
+                    "visibleIf": "{rcmd_atdl_trng} = 1"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "assigned_curation",
+                    "title": "Have you been assigned to or performed a curation?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "hours_spent",
+                    "title": "The estimated time commitment was 8-10 hours per month, do you spend:",
+                    "choices": [
+                        { "value": 1, "text": "More than 8-10 hours per month" },
+                        { "value": 2, "text": "Less than 8-10 hours per month" },
+                        { "value": 3, "text": "Approximately 8-10 hours per month" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "feedback_helpful",
+                    "title": "If you have received feedback from members of your EP or WG, was it helpful? Please provide details."
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "plan_to_continue",
+                    "title": "Do you plan to continue to be an active member of your EP or WG?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" },
+                        { "value": 2, "text": "Maybe" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "plan_to_continue_details",
+                    "title": "Please provide details (e.g. unable to commit time, dissatisfied with EP/WG).",
+                    "visibleIf": "{plan_to_continue} = 0 or {plan_to_continue} = 2"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "transfer",
+                    "title": "Are you interested in transferring to a different curation activity (e.g. variant, actionability)?",
+                    "choices": [
+                        { "value": 0, "text": "No, I would like to stay in my curation group." },
+                        { "value": 1, "text": "Yes, I would like to transfer to a different curation group." },
+                        { "value": 2, "text": "Maybe" }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "join_adtl",
+                    "title": "Are you interested in joining an additional curation group/activity?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" },
+                        { "value": 2, "text": "Maybe" }
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "recommend",
+                    "title": "Would you recommend volunteering for ClinGen Community Curation efforts (e.g. friends, colleagues, etc)?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" },
+                        { "value": 2, "text": "Maybe" }
+                    ]
+                },
+                {
+                    "type": "comment",
+                    "name": "other_feedback",
+                    "title": "Please provide us with any other comments or feedback (if you would like to make any changes to your status and participation within a curation group please contact volunteer@clinicalgenome.org)."
+                }
+            ]
+        }
+    ]
+}
