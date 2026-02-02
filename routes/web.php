@@ -83,9 +83,6 @@ Route::group(['middleware' => ['auth', 'required-info']], function () {
     Route::get('volunteer-followup/{survey}/{responseId?}', [VolunteerFollowupController::class, 'show'])
         ->name('volunteer-followup.show');
 
-    Route::post('volunteer-followup/{survey}/{responseId?}', [VolunteerFollowupController::class, 'store'])
-        ->name('volunteer-followup.store');
-
     Route::get('volunteer-three-month/{responseId?}', [VolunteerFollowupController::class, 'threeMonth'])
         ->name('volunteer-three-month.show');
 
