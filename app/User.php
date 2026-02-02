@@ -200,6 +200,18 @@ class User extends Authenticatable implements IsNotable
         return $this->morphOne(Volunteer6MonthSurvey::class, 'respondent');
     }
 
+    public function volunteer3MonthSurveyJson()
+    {
+        return $this->morphOne(SurveyJsonResponse::class, 'respondent')
+            ->where('survey_slug', 'volunteer-three-month1');
+    }
+
+    public function volunteer6MonthSurveyJson()
+    {
+        return $this->morphOne(SurveyJsonResponse::class, 'respondent')
+            ->where('survey_slug', 'volunteer-six-month1');
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class);
