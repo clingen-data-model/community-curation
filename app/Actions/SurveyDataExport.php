@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\SurveyJsonResponse;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Surveys\ResponseReader;
@@ -21,22 +22,34 @@ class SurveyDataExport
     public function __construct(private ResponseReader $reader)
     {
     }
-    
 
-    public function handle($class, $limit = null)
+    public function handle($class, $limit = null, $surveySlug = null)
     {
         $responses = $class::with('volunteer')->get();
+
+        if ($surveySlug) {
+            $jsonResponses = SurveyJsonResponse::with('volunteer')
+                ->where('survey_slug', $surveySlug)
+                ->get();
+
+            $existingRespondentIds = $responses->pluck('respondent_id')->toArray();
+            $jsonResponses = $jsonResponses->reject(function ($r) use ($existingRespondentIds) {
+                return in_array($r->respondent_id, $existingRespondentIds);
+            });
+
+            $responses = $responses->concat($jsonResponses);
+        }
+
         $rows = $this->getRows($responses);
 
-        
         $filepath = storage_path('app/reports/'.Str::snake(preg_replace('/\\\/', '', $class)).'_'.Carbon::now()->format('Y-m-d').'.csv');
         $fh = fopen($filepath, 'w');
-        
+
         if (count($rows) == 0) {
             fputcsv($fh, ['No followup survey data to export.']);
             return $filepath;
         }
-        
+
         fputcsv($fh, array_keys($rows[0]));
         foreach ($rows as $idx => $row) {
             if ($limit && $idx+1 > $limit) {
@@ -58,7 +71,6 @@ class SurveyDataExport
 
         return response()->download($filepath, $filename);
     }
-    
 
     public function asCommand(Command $command)
     {
@@ -73,6 +85,4 @@ class SurveyDataExport
             return $this->reader->resolveResponseArray($rsp);
         });
     }
-    
-        
 }

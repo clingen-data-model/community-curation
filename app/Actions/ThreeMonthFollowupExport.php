@@ -9,21 +9,25 @@ use Lorisleiva\Actions\Concerns\AsController;
 class ThreeMonthFollowupExport
 {
     use AsController;
-    
+
     public function __construct(private SurveyDataExport $dataExport)
     {
     }
 
     public function handle()
     {
-        $filepath = $this->dataExport->handle(Volunteer3MonthSurvey::class);
+        $filepath = $this->dataExport->handle(
+            Volunteer3MonthSurvey::class,
+            null,
+            'volunteer-three-month1'
+        );
 
         $pathparts = explode('/', $filepath);
         $filename = array_pop($pathparts);
 
         return response()->download($filepath, $filename);
     }
-    
+
     public function authorize(ActionRequest $request): bool
     {
         return $request->user()->can('run reports');
