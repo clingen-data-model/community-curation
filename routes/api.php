@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\UserPreferenceController;
 use App\Http\Controllers\Api\TrainingSessionController;
 use App\Http\Controllers\Api\VolunteerMetricsController;
 use App\Http\Controllers\Api\CurationActivitiesController;
+use App\Http\Controllers\Api\SurveyController;
 use App\Http\Controllers\Api\TrainingSessionAttendeeController;
 
 /*
@@ -35,6 +36,9 @@ use App\Http\Controllers\Api\TrainingSessionAttendeeController;
         Route::resource('curation-groups', CurationGroupController::class)->only(['index', 'show']);
         Route::resource('curation-groups', CurationGroupController::class)->only(['index', 'show']);
         Route::get('curation-activities', [CurationActivitiesController::class, 'index'])->name('curation-activities-index');
+
+        Route::get('surveys/choices/{type}', [SurveyController::class, 'choices'])
+            ->name('surveys.choices');
 
         Route::group([
             'middleware' => 'auth:api',
@@ -87,6 +91,13 @@ use App\Http\Controllers\Api\TrainingSessionAttendeeController;
                 ->name('timezones');
 
             Route::resource('notes', NotesController::class)->except(['create', 'edit']);
+
+            Route::get('surveys/{slug}/definition', [SurveyController::class, 'definition'])
+                ->name('surveys.definition');
+            Route::get('surveys/{slug}/response', [SurveyController::class, 'getResponse'])
+                ->name('surveys.response');
+            Route::post('surveys/{slug}/response', [SurveyController::class, 'saveResponse'])
+                ->name('surveys.response.save');
 
             /*
              * Catch-all route for generic API read exposure
