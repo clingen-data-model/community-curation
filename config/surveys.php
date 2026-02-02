@@ -42,7 +42,7 @@ return [
     'bindings' => [
         'models' => [
             'Survey' => App\Survey::class,
-            'Response' => App\SurveyResponse::class,
+            'Response' => App\LegacySurveyResponse::class,
         ],
     ],
 ];

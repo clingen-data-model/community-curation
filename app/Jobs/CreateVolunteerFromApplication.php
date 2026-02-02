@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\SurveyResponse;
+use App\LegacySurveyResponse;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,7 +21,7 @@ class CreateVolunteerFromApplication
      *
      * @return void
      */
-    public function __construct(SurveyResponse $response)
+    public function __construct(LegacySurveyResponse $response)
     {
         $this->response = $response;
     }

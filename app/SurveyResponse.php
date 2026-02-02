@@ -2,38 +2,42 @@
 
 namespace App;
 
-use Sirs\Surveys\Models\Response as SirsResponse;
-use Sirs\Surveys\Revisions\Revision;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SurveyResponse extends SirsResponse
+class SurveyResponse extends Model
 {
+    use SoftDeletes;
+
+    protected $table = 'survey_responses';
+
+    protected $fillable = [
+        'survey_slug',
+        'respondent_id',
+        'response_data',
+        'last_page',
+        'started_at',
+        'finalized_at',
+    ];
 
     protected $casts = [
+        'response_data' => 'array',
+        'started_at' => 'datetime',
         'finalized_at' => 'datetime',
     ];
 
-    public function getDataAttributes()
+    public function respondent()
     {
-        $data = [];
-        $data['id'] = $this->id;
-        $data['respondent'] = ($this->respondent) ? $this->respondent->full_name.' - id: '.$this->respondent->id : null;
-        $dataCols = $this->getDataAttributeNames();
-        foreach ($dataCols as $column) {
-            $data[$column] = $this->{$column};
+        return $this->belongsTo(User::class, 'respondent_id');
+    }
+
+    public function __get($key)
+    {
+        $responseData = $this->getAttributeValue('response_data');
+        if (is_array($responseData) && array_key_exists($key, $responseData)) {
+            return $responseData[$key];
         }
 
-        return $data;
-    }
-
-    public function revisionHistory()
-    {
-        // return $this->morphMany('\Venturecraft\Revisionable\Revision', 'revisionable');
-        return $this->hasMany(Revision::class, 'response_id')
-            ->where('response_table', '=', $this->getTable());
-    }
-
-    public function scopeFinalized($query)
-    {
-        return $query->whereNotNull('finalized');
+        return parent::__get($key);
     }
 }
