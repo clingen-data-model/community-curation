@@ -140,6 +140,12 @@ window.Vue.component('faq-list', () =>
     import ( /* webpackChunkName: "faq-list" */ './components/faq/FaqList'));
 
 /**
+ * Surveys
+ */
+window.Vue.component('survey-form', () =>
+    import ( /* webpackChunkName: "survey-form" */ './components/surveys/SurveyForm'));
+
+/**
  * Admin
  */
 window.Vue.component('logged-in-users-list', () =>
