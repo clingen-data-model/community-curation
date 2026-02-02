@@ -159,12 +159,12 @@ class User extends Authenticatable implements IsNotable
             }
         });
     }
-    
+
     public static function findByEmail($email)
     {
         return static::where('email', $email)->first();
     }
-    
+
     public function volunteerType()
     {
         return $this->belongsTo(VolunteerType::class);
@@ -198,6 +198,18 @@ class User extends Authenticatable implements IsNotable
     public function volunteer6MonthSurvey()
     {
         return $this->morphOne(Volunteer6MonthSurvey::class, 'respondent');
+    }
+
+    public function volunteer3MonthSurveyJson()
+    {
+        return $this->hasOne(SurveyResponse::class, 'respondent_id')
+            ->where('survey_slug', 'volunteer-three-month.1');
+    }
+
+    public function volunteer6MonthSurveyJson()
+    {
+        return $this->hasOne(SurveyResponse::class, 'respondent_id')
+            ->where('survey_slug', 'volunteer-six-month.1');
     }
 
     public function country()
@@ -279,7 +291,7 @@ class User extends Authenticatable implements IsNotable
     {
         return $this->hasMany(Upload::class);
     }
-    
+
 
     public function canImpersonate()
     {
@@ -347,7 +359,7 @@ class User extends Authenticatable implements IsNotable
     {
         return $query->where('volunteer_type_id', config('project.volunteer_types.baseline'));
     }
-    
+
 
     public function scopeIsLoggedIn($query)
     {

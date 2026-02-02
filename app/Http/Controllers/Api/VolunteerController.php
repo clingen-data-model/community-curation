@@ -86,6 +86,8 @@ class VolunteerController extends Controller
             'priorities.curationGroup',
             'volunteer3MonthSurvey',
             'volunteer6MonthSurvey',
+            'volunteer3MonthSurveyJson',
+            'volunteer6MonthSurveyJson',
         ]);
         $volunteer->member_groups = $volunteer->member_groups;
 
