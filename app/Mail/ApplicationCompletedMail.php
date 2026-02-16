@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Sirs\Surveys\Contracts\SurveyResponse;
 
 class ApplicationCompletedMail extends Mailable
 {
@@ -19,7 +18,7 @@ class ApplicationCompletedMail extends Mailable
      *
      * @return void
      */
-    public function __construct(SurveyResponse $response)
+    public function __construct($response)
     {
         $this->response = $response;
     }

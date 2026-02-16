@@ -11,6 +11,8 @@ class ResponseReader
     private static $slugToFile = [
         'volunteer-three-month1' => 'volunteer-three-month',
         'volunteer-six-month1' => 'volunteer-six-month',
+        'application1' => 'application',
+        'priorities1' => 'priorities',
     ];
 
     public function __construct()

@@ -7,6 +7,9 @@
             <survey-form
                 survey-slug="{{ $slug }}"
                 redirect-url="{{ $redirectUrl ?? '/' }}"
+                @if(isset($prefillData))
+                :prefill-data='@json($prefillData)'
+                @endif
             ></survey-form>
         </div>
     </div>

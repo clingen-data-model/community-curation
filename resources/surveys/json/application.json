@@ -1,0 +1,525 @@
+{
+    "title": "ClinGen Volunteer Application",
+    "showProgressBar": "top",
+    "pages": [
+        {
+            "name": "introduction",
+            "elements": [
+                {
+                    "type": "html",
+                    "name": "intro_html",
+                    "html": "<p>Thank you for your interest in volunteering as a curator for ClinGen.</p><p style=\"font-weight:bold\">NOTE: If you have already taken this survey and wish to add another curation activity or training, please email <a href=\"mailto:volunteer@clinicalgenome.org\">volunteer@clinicalgenome.org</a>. DO NOT RETAKE THIS SURVEY!</p><p>Please tell us more about your interests, expertise, and desired level of involvement so we can pair you with an appropriate curation activity and/or Curation Group.</p><p>Background training within your assigned curation activity will be provided. These training sessions are held quarterly. Once you submit this form, you will be added to the list to be notified of the next training session(s).</p><p><em>Please be aware that Expert Panels may require review of a CV and/or specific skill sets before acceptance. Completion of training or a volunteer survey is not a guarantee of placement. There are limited openings, and once the capacity has been reached, you may be asked to participate in one of ClinGen's other curation activities. For questions, contact <a href=\"mailto:volunteer@clinicalgenome.org\">volunteer@clinicalgenome.org</a>.</em></p>"
+                }
+            ]
+        },
+        {
+            "name": "demographic",
+            "title": "Demographic Questions",
+            "elements": [
+                {
+                    "type": "text",
+                    "name": "first_name",
+                    "title": "First Name",
+                    "isRequired": true,
+                    "placeholder": "First"
+                },
+                {
+                    "type": "text",
+                    "name": "last_name",
+                    "title": "Last Name",
+                    "isRequired": true,
+                    "placeholder": "Last"
+                },
+                {
+                    "type": "text",
+                    "name": "institution",
+                    "title": "Institution",
+                    "isRequired": true
+                },
+                {
+                    "type": "text",
+                    "name": "orcid_id",
+                    "title": "If you have an ORCID ID, please provide it:"
+                },
+                {
+                    "type": "text",
+                    "name": "street1",
+                    "title": "Street"
+                },
+                {
+                    "type": "text",
+                    "name": "street2",
+                    "title": "Street 2"
+                },
+                {
+                    "type": "text",
+                    "name": "city",
+                    "title": "City"
+                },
+                {
+                    "type": "text",
+                    "name": "state",
+                    "title": "State"
+                },
+                {
+                    "type": "text",
+                    "name": "zip",
+                    "title": "Zip"
+                },
+                {
+                    "type": "dropdown",
+                    "name": "country_id",
+                    "title": "Country",
+                    "isRequired": true,
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/countries",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "text",
+                    "name": "email",
+                    "title": "Email address",
+                    "isRequired": true,
+                    "inputType": "email",
+                    "validators": [
+                        {
+                            "type": "email"
+                        }
+                    ]
+                },
+                {
+                    "type": "dropdown",
+                    "name": "timezone",
+                    "title": "Which city is closest to you? <small>(This will help us determine your time zone.)</small>",
+                    "isRequired": true,
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/timezones",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "text",
+                    "name": "hypothesis_id",
+                    "title": "If you have a <a href=\"https://hypothes.is\" target=\"hypothes.is\">hypothes.is</a> account, please enter your <a href=\"https://hypothes.is\" target=\"hypothes.is\">hypothes.is</a> username:"
+                },
+                {
+                    "type": "html",
+                    "name": "hr_separator",
+                    "html": "<hr>"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "already_clingen_member",
+                    "title": "Are you currently a member of a ClinGen expert panel?",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 0, "text": "No" },
+                        { "value": 1, "text": "Yes" }
+                    ]
+                },
+                {
+                    "type": "tagbox",
+                    "name": "already_member_cgs",
+                    "title": "In which expert panels are you currently a member? (Check all that apply)",
+                    "visibleIf": "{already_clingen_member} = 1",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/curation-groups",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "education",
+            "title": "Education and Certification Questions",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "highest_ed",
+                    "title": "What is your highest level of education?",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "Some high school education" },
+                        { "value": 2, "text": "High school diploma" },
+                        { "value": 3, "text": "Bachelor's degree" },
+                        { "value": 4, "text": "Master's degree" },
+                        { "value": 5, "text": "M.D." },
+                        { "value": 6, "text": "Ph.D." },
+                        { "value": 100, "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "highest_ed_other",
+                    "title": "Please specify:",
+                    "visibleIf": "{highest_ed} = 100"
+                },
+                {
+                    "type": "comment",
+                    "name": "adv_cert",
+                    "title": "If you have an advanced genetic certification or fellowship (i.e. CGC or FACMG), please indicate:"
+                },
+                {
+                    "type": "dropdown",
+                    "name": "self_desc",
+                    "title": "I am a... (choose one that most accurately describes yourself)",
+                    "isRequired": true,
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/self-descriptions",
+                        "valueName": "id",
+                        "titleName": "name"
+                    },
+                    "choices": [
+                        { "value": 100, "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "self_desc_other",
+                    "title": "Please specify:",
+                    "visibleIf": "{self_desc} = 100"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "race_ethnicity",
+                    "title": "What is your race/ethnicity?",
+                    "description": "ClinGen strives to be a diverse and inclusive organization. We're asking you about your race and ethnicity so that we can evaluate our efforts to include people with various racial and ethnic identities. The options come from the NIH Racial and Ethnic Categories and Definitions for NIH Diversity Programs.",
+                    "choices": [
+                        { "value": "American Indian or Alaska Native", "text": "American Indian or Alaska Native" },
+                        { "value": "Asian", "text": "Asian" },
+                        { "value": "Black or African American", "text": "Black or African American" },
+                        { "value": "Hispanic or Latino", "text": "Hispanic or Latino" },
+                        { "value": "Native Hawaiian or Other Pacific Islander", "text": "Native Hawaiian or Other Pacific Islander" },
+                        { "value": "White", "text": "White" },
+                        { "value": "Other", "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "race_ethnicity_other_detail",
+                    "title": "Please specify:",
+                    "visibleIf": "{race_ethnicity} contains 'Other'"
+                }
+            ]
+        },
+        {
+            "name": "outreach",
+            "title": "Outreach and Motivation Questions",
+            "elements": [
+                {
+                    "type": "checkbox",
+                    "name": "ad_campaign",
+                    "title": "How did you find out about the ClinGen volunteer efforts? (Check all that apply)",
+                    "isRequired": true,
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/ad-campaigns",
+                        "valueName": "id",
+                        "titleName": "name"
+                    },
+                    "choices": [
+                        { "value": 100, "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "ad_campaign_other_detail",
+                    "title": "Please specify:",
+                    "visibleIf": "{ad_campaign} contains 100"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "motivation",
+                    "title": "What motivated you to volunteer in ClinGen curation efforts? (Check all that apply)",
+                    "isRequired": true,
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/motivations",
+                        "valueName": "id",
+                        "titleName": "name"
+                    },
+                    "choices": [
+                        { "value": 100, "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "motivation_other_detail",
+                    "title": "Please specify:",
+                    "visibleIf": "{motivation} contains 100"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "goals",
+                    "title": "What would you like to accomplish by volunteering with ClinGen? Do you have any specific goals? (Check all that apply)",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/goals",
+                        "valueName": "id",
+                        "titleName": "name"
+                    },
+                    "choices": [
+                        { "value": 100, "text": "Other" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "goals_other_detail",
+                    "title": "Please specify:",
+                    "visibleIf": "{goals} contains 100"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "interests",
+                    "title": "Are there any genes and/or disease areas you are particularly interested in? (Check all that apply)",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/interests",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "commitment",
+            "title": "Level of Commitment",
+            "visibleIf": "{custom_survey_id} empty",
+            "elements": [
+                {
+                    "type": "html",
+                    "name": "commitment_table_html",
+                    "html": "<p>There are two levels at which you can volunteer: <strong>Baseline</strong> and <strong>Comprehensive</strong>. Please review the table below and decide what level of commitment is right for you.</p><table class=\"table table-bordered\"><thead><tr><th></th><th>Baseline</th><th>Comprehensive</th></tr></thead><tbody><tr><td><strong>Training</strong></td><td>Online training modules</td><td>Online training modules + live training sessions</td></tr><tr><td><strong>Curation Group Membership</strong></td><td>No</td><td>Yes - assigned to a curation group</td></tr><tr><td><strong>Time Commitment</strong></td><td>Flexible</td><td>8-10 hours/month</td></tr><tr><td><strong>Duration</strong></td><td>Flexible</td><td>Minimum 1 year</td></tr></tbody></table>"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "volunteer_type",
+                    "title": "Please select your preferred level of commitment:",
+                    "isRequired": true,
+                    "choices": [
+                        { "value": 1, "text": "Baseline" },
+                        { "value": 2, "text": "Comprehensive" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "notes",
+                    "visible": false
+                },
+                {
+                    "type": "text",
+                    "name": "imported_survey_data",
+                    "visible": false
+                }
+            ]
+        },
+        {
+            "name": "priorities",
+            "title": "Volunteer Prioritization and Group Interest",
+            "visibleIf": "{volunteer_type} = 2 and {custom_survey_id} empty",
+            "elements": [
+                {
+                    "type": "html",
+                    "name": "priorities_intro_html",
+                    "html": "<p>You have chosen to become an active member of a curation group. In order to best place your efforts, we ask if you would please choose a curation activity and curation group of interest. Further, please indicate any prior experience and willingness to participate in more than one. <strong>Note, you are not obligated to participate in more than one, as each curation activity will have its own training session(s) and each will require the 8-10 hours/month.</strong></p><p>To learn more about each curation activity see: <a href=\"https://www.clinicalgenome.org/curation-activities/\" target=\"volunteer-info-ca\">https://www.clinicalgenome.org/curation-activities/</a>.</p><p>For more information on current curation groups accepting volunteers see: <a href=\"https://www.clinicalgenome.org/working-groups/c3/\" target=\"volunteer-info-wg\">https://www.clinicalgenome.org/working-groups/c3/</a></p>"
+                },
+                {
+                    "type": "html",
+                    "name": "first_choice_header",
+                    "html": "<h4>First Choice</h4>"
+                },
+                {
+                    "type": "dropdown",
+                    "name": "curation_activity_1",
+                    "title": "Curation Activity",
+                    "isRequired": true,
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/curation-activities",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "name": "panel_1",
+                    "title": "Curation Group",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/accepting-curation-groups",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "effort_experience_1",
+                    "title": "Do you have any prior curation experience with this curation group domain?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "effort_experience_1_detail",
+                    "title": "Details",
+                    "visibleIf": "{effort_experience_1} = 1"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "activity_experience_1",
+                    "title": "Do you have any previous experience with the type of curation activity?",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "activity_experience_1_detail",
+                    "title": "Details",
+                    "visibleIf": "{activity_experience_1} = 1"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "additional_priority",
+                    "title": "Are you interested/able to work on more than one curation activity? Please note that this would likely increase your time commitment.",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" },
+                        { "value": 2, "text": "Possibly" }
+                    ]
+                },
+                {
+                    "type": "html",
+                    "name": "second_choice_header",
+                    "html": "<h4 class=\"border-bottom\">Second Choice</h4>",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2"
+                },
+                {
+                    "type": "dropdown",
+                    "name": "curation_activity_2",
+                    "title": "Curation Activity",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/curation-activities",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "name": "panel_2",
+                    "title": "Curation Group",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/accepting-curation-groups",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "effort_experience_2",
+                    "title": "Do you have any prior curation experience with this curation group domain?",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "effort_experience_2_detail",
+                    "title": "Details",
+                    "visibleIf": "{effort_experience_2} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "activity_experience_2",
+                    "title": "Do you have any previous experience with the type of curation activity?",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "activity_experience_2_detail",
+                    "title": "Details",
+                    "visibleIf": "{activity_experience_2} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+                },
+                {
+                    "type": "html",
+                    "name": "third_choice_header",
+                    "html": "<h4 class=\"border-bottom\">Third Choice</h4>",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2"
+                },
+                {
+                    "type": "dropdown",
+                    "name": "curation_activity_3",
+                    "title": "Curation Activity",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/curation-activities",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "name": "panel_3",
+                    "title": "Curation Group",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choicesByUrl": {
+                        "url": "/api/surveys/choices/accepting-curation-groups",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "effort_experience_3",
+                    "title": "Do you have any prior curation experience with this curation group domain?",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "effort_experience_3_detail",
+                    "title": "Details",
+                    "visibleIf": "{effort_experience_3} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "activity_experience_3",
+                    "title": "Do you have any previous experience with the type of curation activity?",
+                    "visibleIf": "{additional_priority} = 1 or {additional_priority} = 2",
+                    "choices": [
+                        { "value": 1, "text": "Yes" },
+                        { "value": 0, "text": "No" }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "activity_experience_3_detail",
+                    "title": "Details",
+                    "visibleIf": "{activity_experience_3} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "outside_panel",
+                    "title": "If you indicated a preference for a certain curation group, or to work within a certain disease area (e.g. cancer, neurodevelopmental disorders, cardiovascular diseases, etc.), would you still be willing to volunteer if there were no available opportunities in this area?",
+                    "choices": [
+                        { "value": 1, "text": "Yes - I am willing to volunteer with any available ClinGen group" },
+                        { "value": 0, "text": "No - I am only interested in the group(s) I previously indicated" },
+                        { "value": 2, "text": "Maybe - please contact me with other options, and I will decide based on what is available" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

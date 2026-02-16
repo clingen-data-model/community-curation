@@ -2,9 +2,10 @@
 
 namespace App\Jobs;
 
-use App\LegacySurveyResponse;
+use App\SurveyResponse;
 use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +22,7 @@ class CreateVolunteerFromApplication
      *
      * @return void
      */
-    public function __construct(LegacySurveyResponse $response)
+    public function __construct(SurveyResponse $response)
     {
         $this->response = $response;
     }
@@ -35,6 +36,11 @@ class CreateVolunteerFromApplication
     {
         $user = User::where('email', $this->response->email)->first();
         if (!$user) {
+            $alreadyMemberCgs = $this->response->already_member_cgs;
+            if (is_string($alreadyMemberCgs)) {
+                $alreadyMemberCgs = json_decode($alreadyMemberCgs);
+            }
+
             $user = User::create([
                 'first_name' => $this->response->first_name,
                 'last_name' => $this->response->last_name,
@@ -53,9 +59,7 @@ class CreateVolunteerFromApplication
                 'hypothesis_id' => $this->response->hypothesis_id,
                 'timezone' => $this->response->timezone,
                 'already_clingen_member' => $this->response->already_clingen_member,
-                'already_member_cgs' => is_string($this->response->already_member_cgs)
-                                            ? json_decode($this->response->already_member_cgs)
-                                            : $this->response->already_member_cgs,
+                'already_member_cgs' => $alreadyMemberCgs,
             ]);
             $user->created_at = $this->response->finalized_at;
             $user->save();
@@ -65,5 +69,6 @@ class CreateVolunteerFromApplication
         }
         $this->response->respondent_type = User::class;
         $this->response->respondent_id = $user->id;
+        $this->response->save();
     }
 }

@@ -125,29 +125,31 @@ class MigrateSurveyDataToJson extends Migration
 
     public function up()
     {
-        $this->migrateTable(
-            'rsp_application_1',
-            'application.1',
-            $this->applicationDataColumns
-        );
+        DB::transaction(function () {
+            $this->migrateTable(
+                'rsp_application_1',
+                'application.1',
+                $this->applicationDataColumns
+            );
 
-        $this->migrateTable(
-            'rsp_priorities_1',
-            'priorities.1',
-            $this->prioritiesDataColumns
-        );
+            $this->migrateTable(
+                'rsp_priorities_1',
+                'priorities.1',
+                $this->prioritiesDataColumns
+            );
 
-        $this->migrateTable(
-            'rsp_volunteer_three_month_1',
-            'volunteer-three-month.1',
-            $this->threeMonthDataColumns
-        );
+            $this->migrateTable(
+                'rsp_volunteer_three_month_1',
+                'volunteer-three-month.1',
+                $this->threeMonthDataColumns
+            );
 
-        $this->migrateTable(
-            'rsp_volunteer_six_month_1',
-            'volunteer-six-month.1',
-            $this->sixMonthDataColumns
-        );
+            $this->migrateTable(
+                'rsp_volunteer_six_month_1',
+                'volunteer-six-month.1',
+                $this->sixMonthDataColumns
+            );
+        });
     }
 
     public function down()
@@ -163,34 +165,37 @@ class MigrateSurveyDataToJson extends Migration
             return;
         }
 
-        $rows = DB::table($sourceTable)->get();
+        DB::table($sourceTable)->orderBy('id')->chunk(500, function ($rows) use ($surveySlug, $dataColumns) {
+            $inserts = [];
+            foreach ($rows as $row) {
+                $responseData = [];
+                foreach ($dataColumns as $col) {
+                    $value = $row->$col ?? null;
 
-        foreach ($rows as $row) {
-            $responseData = [];
-            foreach ($dataColumns as $col) {
-                $value = $row->$col ?? null;
-
-                if (!is_null($value) && in_array($col, ['curation_effort', 'curation_groups'])) {
-                    $decoded = json_decode($value, true);
-                    if (json_last_error() === JSON_ERROR_NONE) {
-                        $value = $decoded;
+                    if (!is_null($value) && in_array($col, ['curation_effort', 'curation_groups'])) {
+                        $decoded = json_decode($value, true);
+                        if (json_last_error() === JSON_ERROR_NONE) {
+                            $value = $decoded;
+                        }
                     }
+
+                    $responseData[$col] = $value;
                 }
 
-                $responseData[$col] = $value;
+                $inserts[] = [
+                    'survey_slug' => $surveySlug,
+                    'respondent_id' => $row->respondent_id,
+                    'response_data' => json_encode($responseData),
+                    'last_page' => $row->last_page ?? null,
+                    'started_at' => $row->started_at ?? null,
+                    'finalized_at' => $row->finalized_at ?? null,
+                    'created_at' => $row->created_at ?? null,
+                    'updated_at' => $row->updated_at ?? null,
+                    'deleted_at' => $row->deleted_at ?? null,
+                ];
             }
 
-            DB::table('survey_responses')->insert([
-                'survey_slug' => $surveySlug,
-                'respondent_id' => $row->respondent_id,
-                'response_data' => json_encode($responseData),
-                'last_page' => $row->last_page,
-                'started_at' => $row->started_at,
-                'finalized_at' => $row->finalized_at,
-                'created_at' => $row->created_at,
-                'updated_at' => $row->updated_at,
-                'deleted_at' => $row->deleted_at,
-            ]);
-        }
+            DB::table('survey_responses')->insert($inserts);
+        });
     }
 }

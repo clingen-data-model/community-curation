@@ -41,6 +41,10 @@ export default {
             type: String,
             default: '/',
         },
+        prefillData: {
+            type: Object,
+            default: null,
+        },
     },
     data() {
         return {
@@ -50,7 +54,13 @@ export default {
             finalized: false,
             surveyModel: null,
             responseId: null,
+            isGuest: false,
         };
+    },
+    computed: {
+        localStorageKey() {
+            return `survey-progress-${this.surveySlug}`;
+        },
     },
     async mounted() {
         try {
@@ -66,6 +76,9 @@ export default {
                 this.finalized = true;
             }
 
+            // Detect guest mode: no existing server response and no response ID
+            this.isGuest = !existingResponse || (!existingResponse.id && !existingResponse.finalized_at);
+
             this.surveyModel = new Model(definition);
 
             if (existingResponse && existingResponse.response_data) {
@@ -73,6 +86,16 @@ export default {
                 this.surveyModel.data = existingResponse.response_data;
                 if (existingResponse.last_page) {
                     this.surveyModel.currentPageNo = this.surveyModel.getPageIndexByName(existingResponse.last_page);
+                }
+            } else if (this.isGuest) {
+                // Restore progress from localStorage for guests
+                this.restoreFromLocalStorage();
+            }
+
+            // Apply prefill data (for custom surveys)
+            if (this.prefillData) {
+                for (const [key, value] of Object.entries(this.prefillData)) {
+                    this.surveyModel.setValue(key, value);
                 }
             }
 
@@ -107,12 +130,22 @@ export default {
                     finalize: true,
                 });
                 this.completed = true;
+                // Clear localStorage on successful submission
+                if (this.isGuest) {
+                    localStorage.removeItem(this.localStorageKey);
+                }
             } catch (err) {
                 console.error('Failed to submit survey:', err);
                 this.error = 'Failed to submit your response. Please try again.';
             }
         },
         async onPageChanged(sender) {
+            if (this.isGuest) {
+                // Save progress to localStorage for guests
+                this.saveToLocalStorage(sender);
+                return;
+            }
+
             try {
                 await window.axios.post(`/api/surveys/${this.surveySlug}/response`, {
                     response_data: sender.data,
@@ -121,6 +154,35 @@ export default {
                 });
             } catch (err) {
                 console.error('Failed to save progress:', err);
+            }
+        },
+        saveToLocalStorage(sender) {
+            try {
+                localStorage.setItem(this.localStorageKey, JSON.stringify({
+                    response_data: sender.data,
+                    last_page: sender.currentPage ? sender.currentPage.name : null,
+                }));
+            } catch (err) {
+                console.error('Failed to save progress to localStorage:', err);
+            }
+        },
+        restoreFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(this.localStorageKey);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.response_data) {
+                        this.surveyModel.data = parsed.response_data;
+                    }
+                    if (parsed.last_page) {
+                        const pageIndex = this.surveyModel.getPageIndexByName(parsed.last_page);
+                        if (pageIndex >= 0) {
+                            this.surveyModel.currentPageNo = pageIndex;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to restore progress from localStorage:', err);
             }
         },
     },
