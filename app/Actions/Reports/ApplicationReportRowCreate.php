@@ -4,6 +4,8 @@ namespace App\Actions\Reports;
 
 use App\Application;
 use App\ApplicationReportRow;
+use App\SurveyJsonResponse;
+use App\Surveys\ResponseReader;
 use Illuminate\Support\Collection;
 
 class ApplicationReportRowCreate
@@ -41,6 +43,128 @@ class ApplicationReportRowCreate
       ApplicationReportRow::updateOrCreate(['application_type'=>get_class($application), 'application_id' => $application->id], $data);
 
       return $snapshot;
+  }
+
+  public function handleJson(SurveyJsonResponse $response)
+  {
+      $reader = new ResponseReader();
+      $readable = $reader->resolveReadable($response);
+
+      $respondent = $response->respondent;
+
+      $identifiers = collect([
+          'volunteer_id' => $response->respondent_id,
+          'first_name' => $response->first_name,
+          'last_name' => $response->last_name,
+          'email' => $response->email,
+      ]);
+
+      $metadata = collect([
+          'date_completed' => $response->finalized_at,
+          'imported_from_google_sheets' => !is_null($response->imported_survey_data) ? 'Yes' : 'No',
+      ]);
+
+      $snapshot = collect([
+          'personal' => $identifiers->merge(collect([
+              'institution' => $respondent ? $respondent->institution : $response->institution,
+              'orcid_id' => $respondent ? $respondent->orcid_id : $response->orcid_id,
+              'hypothesis_id' => $response->hypothesis_id,
+              'street1' => $respondent ? $respondent->street1 : $response->street1,
+              'street2' => $respondent ? $respondent->street2 : $response->street2,
+              'city' => $respondent ? $respondent->city : $response->city,
+              'state' => $respondent ? $respondent->state : $response->state,
+              'zip' => $respondent ? $respondent->zip : $response->zip,
+              'country' => ($respondent && $respondent->country) ? $respondent->country->name : null,
+              'timezone' => $respondent ? $respondent->timezone : $response->timezone,
+          ]))->merge($metadata),
+          'professional' => $identifiers->merge(collect([
+              'volunteer_id' => $response->respondent_id,
+              'highest_ed' => $this->resolveJsonChoiceLabel($readable, 'highest_ed'),
+              'highest_ed_other' => $response->highest_ed_other,
+              'advanced_certification' => $response->adv_cert,
+              'self_description' => $this->resolveJsonChoiceLabel($readable, 'self_desc'),
+              'self_description_other' => $response->self_desc_other,
+              'already_clingen_member' => $respondent ? $respondent->already_clingen_member : $response->already_clingen_member,
+              'already_member_cgs' => $respondent && method_exists($respondent, 'memberGroups') ? $respondent->memberGroups->pluck('name')->join(', ') : '',
+          ]))->merge($metadata),
+          'demographic' => $identifiers->merge($this->getJsonCheckboxColumns($readable, 'race_ethnicity'))->merge(['other' => $response->race_ethnicity_other_detail])->merge($metadata),
+          'outreach' => $identifiers->merge($this->getJsonCheckboxColumns($readable, 'ad_campaign'))->merge(['other' => $response->ad_campaign_other_detail])->merge($metadata),
+          'motivation' => $identifiers->merge($this->getJsonCheckboxColumns($readable, 'motivation'))->merge(['other' => $response->motivation_other_detail])->merge($metadata),
+          'goals' => $identifiers->merge($this->getJsonCheckboxColumns($readable, 'goals'))->merge(['other' => $response->goals_other_detail])->merge($metadata),
+          'interests' => $identifiers->merge($this->getJsonCheckboxColumns($readable, 'interests'))->merge($metadata),
+          'ccdb' => $identifiers->merge(collect([
+              'baseline/comprehensive' => $this->resolveJsonChoiceLabel($readable, 'volunteer_type'),
+          ])->merge($this->getJsonPriorityData($response)))->merge($metadata),
+      ]);
+
+      $data = [
+          'application_id' => $response->id,
+          'application_type' => get_class($response),
+          'user_id' => $response->respondent_id,
+          'finalized_at' => $response->finalized_at,
+          'version' => 1,
+          'data' => $snapshot->toArray(),
+      ];
+
+      ApplicationReportRow::updateOrCreate(
+          ['application_type' => get_class($response), 'application_id' => $response->id],
+          $data
+      );
+
+      return $snapshot;
+  }
+
+  private function resolveJsonChoiceLabel($readable, $fieldName)
+  {
+      if (!isset($readable[$fieldName])) {
+          return '';
+      }
+      $value = $readable[$fieldName]['value'] ?? '';
+      if (is_array($value)) {
+          return implode(', ', $value);
+      }
+      return $value ?: '';
+  }
+
+  private function getJsonCheckboxColumns($readable, $fieldName)
+  {
+      $data = [];
+      if (!isset($readable[$fieldName])) {
+          return $data;
+      }
+      $value = $readable[$fieldName]['value'] ?? [];
+      if (is_array($value)) {
+          foreach ($value as $label) {
+              $data[$label] = 1;
+          }
+      }
+      return $data;
+  }
+
+  private function getJsonPriorityData(SurveyJsonResponse $response)
+  {
+      $data = [];
+      $respondent = $response->respondent;
+      if (!$respondent) {
+          return $data;
+      }
+
+      $priorities = $respondent->latestPriorities->values();
+
+      for ($i = 0; $i < 3; ++$i) {
+          if ($priorities) {
+              $data = array_merge($data, [
+                  'curation_activity_priority_'.($i + 1) => $priorities->get($i) ? $priorities->get($i)->curationActivity->name : null,
+                  'curation_group_priority'.($i + 1) => ($priorities->get($i) && $priorities->get($i)->curationGroup) ? $priorities->get($i)->curationGroup->name : null,
+                  'priority_'.($i + 1).'_activity_experience' => $priorities->get($i) ? $priorities->get($i)->activity_experience : null,
+                  'priority_'.($i + 1).'_activity_experience_details' => ($priorities->get($i) && $priorities->get($i)->activity_experience == 1) ? $priorities->get($i)->activity_experience_details : null,
+                  'priority_'.($i + 1).'_effort_experience' => $priorities->get($i) ? $priorities->get($i)->effort_experience : null,
+                  'priority_'.($i + 1).'_effort_experience_details' => ($priorities->get($i) && $priorities->get($i)->effort_experience == 1) ? $priorities->get($i)->effort_experience_details : null,
+              ]);
+          }
+      }
+
+      return $data;
   }
 
   private function getReadableResponse($responseValue, $questionDef)

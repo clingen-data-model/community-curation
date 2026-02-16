@@ -39,6 +39,12 @@ use App\Http\Controllers\Api\TrainingSessionAttendeeController;
 
         Route::get('surveys/choices/{type}', [SurveyController::class, 'choices'])
             ->name('surveys.choices');
+        Route::get('surveys/{slug}/definition', [SurveyController::class, 'definition'])
+            ->name('surveys.definition');
+        Route::get('surveys/{slug}/response', [SurveyController::class, 'getResponse'])
+            ->name('surveys.response');
+        Route::post('surveys/{slug}/response', [SurveyController::class, 'saveResponse'])
+            ->name('surveys.response.save');
 
         Route::group([
             'middleware' => 'auth:api',
@@ -91,13 +97,6 @@ use App\Http\Controllers\Api\TrainingSessionAttendeeController;
                 ->name('timezones');
 
             Route::resource('notes', NotesController::class)->except(['create', 'edit']);
-
-            Route::get('surveys/{slug}/definition', [SurveyController::class, 'definition'])
-                ->name('surveys.definition');
-            Route::get('surveys/{slug}/response', [SurveyController::class, 'getResponse'])
-                ->name('surveys.response');
-            Route::post('surveys/{slug}/response', [SurveyController::class, 'saveResponse'])
-                ->name('surveys.response.save');
 
             /*
              * Catch-all route for generic API read exposure
