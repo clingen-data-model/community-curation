@@ -1,0 +1,161 @@
+name: priorities
+title: Volunteer Prioritization and Group Interest
+visibleIf: "{volunteer_type} = 2 and {custom_survey_id} empty"
+elements:
+    - type: html
+      name: priorities_intro_html
+      html: '<p>You have chosen to become an active member of a curation group. In order to best place your efforts, we ask if you would please choose a curation activity and curation group of interest. Further, please indicate any prior experience and willingness to participate in more than one. <strong>Note, you are not obligated to participate in more than one, as each curation activity will have its own training session(s) and each will require the 8-10 hours/month.</strong></p><p>To learn more about each curation activity see: <a href="https://www.clinicalgenome.org/curation-activities/" target="volunteer-info-ca">https://www.clinicalgenome.org/curation-activities/</a>.</p><p>For more information on current curation groups accepting volunteers see: <a href="https://www.clinicalgenome.org/working-groups/c3/" target="volunteer-info-wg">https://www.clinicalgenome.org/working-groups/c3/</a></p>'
+    - type: html
+      name: first_choice_header
+      html: <h4>First Choice</h4>
+    - type: dropdown
+      name: curation_activity_1
+      title: Curation Activity
+      isRequired: true
+      choicesByUrl:
+          url: /api/surveys/choices/curation-activities
+          valueName: id
+          titleName: name
+    - type: dropdown
+      name: panel_1
+      title: Curation Group
+      choicesByUrl:
+          url: /api/surveys/choices/accepting-curation-groups
+          valueName: id
+          titleName: name
+    - type: radiogroup
+      name: effort_experience_1
+      title: Do you have any prior curation experience with this curation group domain?
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+    - type: text
+      name: effort_experience_1_detail
+      title: Details
+      visibleIf: "{effort_experience_1} = 1"
+    - type: radiogroup
+      name: activity_experience_1
+      title: Do you have any previous experience with the type of curation activity?
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+    - type: text
+      name: activity_experience_1_detail
+      title: Details
+      visibleIf: "{activity_experience_1} = 1"
+    - type: radiogroup
+      name: additional_priority
+      title: Are you interested/able to work on more than one curation activity? Please note that this would likely increase your time commitment.
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+          - value: 2
+            text: Possibly
+    - type: html
+      name: second_choice_header
+      html: <h4 class="border-bottom">Second Choice</h4>
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+    - type: dropdown
+      name: curation_activity_2
+      title: Curation Activity
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choicesByUrl:
+          url: /api/surveys/choices/curation-activities
+          valueName: id
+          titleName: name
+    - type: dropdown
+      name: panel_2
+      title: Curation Group
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choicesByUrl:
+          url: /api/surveys/choices/accepting-curation-groups
+          valueName: id
+          titleName: name
+    - type: radiogroup
+      name: effort_experience_2
+      title: Do you have any prior curation experience with this curation group domain?
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+    - type: text
+      name: effort_experience_2_detail
+      title: Details
+      visibleIf: "{effort_experience_2} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+    - type: radiogroup
+      name: activity_experience_2
+      title: Do you have any previous experience with the type of curation activity?
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+    - type: text
+      name: activity_experience_2_detail
+      title: Details
+      visibleIf: "{activity_experience_2} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+    - type: html
+      name: third_choice_header
+      html: <h4 class="border-bottom">Third Choice</h4>
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+    - type: dropdown
+      name: curation_activity_3
+      title: Curation Activity
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choicesByUrl:
+          url: /api/surveys/choices/curation-activities
+          valueName: id
+          titleName: name
+    - type: dropdown
+      name: panel_3
+      title: Curation Group
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choicesByUrl:
+          url: /api/surveys/choices/accepting-curation-groups
+          valueName: id
+          titleName: name
+    - type: radiogroup
+      name: effort_experience_3
+      title: Do you have any prior curation experience with this curation group domain?
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+    - type: text
+      name: effort_experience_3_detail
+      title: Details
+      visibleIf: "{effort_experience_3} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+    - type: radiogroup
+      name: activity_experience_3
+      title: Do you have any previous experience with the type of curation activity?
+      visibleIf: "{additional_priority} = 1 or {additional_priority} = 2"
+      choices:
+          - value: 1
+            text: Yes
+          - value: 0
+            text: No
+    - type: text
+      name: activity_experience_3_detail
+      title: Details
+      visibleIf: "{activity_experience_3} = 1 and ({additional_priority} = 1 or {additional_priority} = 2)"
+    - type: radiogroup
+      name: outside_panel
+      title: If you indicated a preference for a certain curation group, or to work within a certain disease area (e.g. cancer, neurodevelopmental disorders, cardiovascular diseases, etc.), would you still be willing to volunteer if there were no available opportunities in this area?
+      choices:
+          - value: 1
+            text: Yes - I am willing to volunteer with any available ClinGen group
+          - value: 0
+            text: No - I am only interested in the group(s) I previously indicated
+          - value: 2
+            text: Maybe - please contact me with other options, and I will decide based on what is available

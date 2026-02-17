@@ -1,0 +1,27 @@
+type: panel
+name: highest_education
+elements:
+    - type: radiogroup
+      name: highest_ed
+      title: What is your highest level of education?
+      isRequired: true
+      choices:
+          - value: 1
+            text: Some high school education
+          - value: 2
+            text: High school diploma
+          - value: 3
+            text: Bachelor's degree
+          - value: 4
+            text: Master's degree
+          - value: 5
+            text: M.D.
+          - value: 6
+            text: Ph.D.
+          - value: 100
+            text: Other
+    - type: text
+      name: highest_ed_other
+      title: "Please specify:"
+      visibleIf: "{highest_ed} = 100"
+      requiredIf: "{highest_ed} = 100"

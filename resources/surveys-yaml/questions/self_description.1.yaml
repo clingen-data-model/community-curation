@@ -1,0 +1,18 @@
+type: panel
+name: self_description
+elements:
+    - type: dropdown
+      name: self_desc
+      title: I am a... (choose one that most accurately describes yourself)
+      isRequired: true
+      choicesByUrl:
+          url: /api/surveys/choices/self-descriptions
+          valueName: id
+          titleName: name
+      choices:
+          - value: 100
+            text: Other
+    - type: text
+      name: self_desc_other
+      title: "Please specify:"
+      visibleIf: "{self_desc} = 100"

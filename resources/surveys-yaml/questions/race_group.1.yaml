@@ -1,0 +1,40 @@
+type: panel
+name: race_group
+elements:
+    - type: checkbox
+      name: race_ethnicity
+      title: What is your race/ethnicity?
+      description: |
+          <details>
+          <summary>More info about this question</summary>
+          <h5>Why are we asking this question?</h5>
+          <p>
+            ClinGen strives to be a diverse and inclusive organization. We're asking you about
+            your race and ethnicity so that we can evaluate our efforts to include people with
+            various racial and ethnic identities.
+          </p>
+          <h5>About the options</h5>
+          <p>
+              ClinGen is a National Institutes of Health (NIH)-funded organization. The options below come from the NIH
+              <a target="nih" href="https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html">Racial and Ethnic Categories and Definitions for NIH Diversity Programs and for Other Reporting Purposes</a>.
+              We understand that these options do not capture the diversity of racial and ethnic identities in the US, let alone around the world. Please choose the options that best describes you.
+          </p>
+      choices:
+          - value: American Indian or Alaska Native
+            text: American Indian or Alaska Native
+          - value: Asian
+            text: Asian
+          - value: Black or African American
+            text: Black or African American
+          - value: Hispanic or Latino
+            text: Hispanic or Latino
+          - value: Native Hawaiian or Other Pacific Islander
+            text: Native Hawaiian or Other Pacific Islander
+          - value: White
+            text: White
+          - value: Other
+            text: Other
+    - type: text
+      name: race_ethnicity_other_detail
+      title: "Please specify:"
+      visibleIf: "{race_ethnicity} contains 'Other'"

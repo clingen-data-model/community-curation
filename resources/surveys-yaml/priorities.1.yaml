@@ -1,0 +1,4 @@
+title: Volunteer Prioritization and Group Interest
+showProgressBar: top
+pages:
+  - !include 'pages/priorities.1.yaml'
