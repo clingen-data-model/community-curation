@@ -1,77 +1,73 @@
 <?php
 
-use Dotenv\Dotenv;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Auth\Access\AuthorizationException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| The first thing we will do is create a new Laravel application instance
-| which serves as the "glue" for all the components of Laravel, and is
-| the IoC container for the system binding all of the various parts.
-|
-*/
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        // Global middleware (replaces Kernel::$middleware)
+        $middleware->append([
+            \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+            \App\Http\Middleware\TrimStrings::class,
+            \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+            \App\Http\Middleware\TrustProxies::class,
+            \Illuminate\Http\Middleware\HandleCors::class,
+        ]);
 
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
+        // Web group additions (core group items are auto-included in L11)
+        $middleware->web(append: [
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+        ]);
+        // Replace VerifyCsrfToken for L11 compatibility
+        $middleware->web(replace: [
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class => \App\Http\Middleware\VerifyCsrfToken::class,
+        ]);
 
-/*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-|
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
-|
-*/
+        // Middleware aliases (replaces Kernel::$routeMiddleware)
+        $middleware->alias([
+            'auth'               => \App\Http\Middleware\Authenticate::class,
+            'guest'              => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'required-info'      => \App\Http\Middleware\RequiredInfoMiddleware::class,
+            'role'               => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission'         => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        ]);
 
-$app->singleton(
-    Illuminate\Contracts\Http\Kernel::class,
-    App\Http\Kernel::class
-);
+        // Middleware priority (replaces Kernel::$middlewarePriority)
+        $middleware->priority([
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\Authenticate::class,
+            \Illuminate\Routing\Middleware\ThrottleRequests::class,
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\Auth\Middleware\Authorize::class,
+            \App\Http\Middleware\RequiredInfoMiddleware::class,
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        // Replaces Handler::$dontReport
+        $exceptions->dontReport([
+            \App\Exceptions\NotImplementedException::class,
+        ]);
 
-$app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
-);
+        // Replaces Handler::render()
+        $exceptions->render(function (\App\Exceptions\NotImplementedException $e) {
+            return response('Not implemented', 501);
+        });
 
-$app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
-);
-
-// /**
-//  * This sets the storage_path to the environment variable if set
-//  */
-// if (file_exists(__DIR__.'/../.env')) {
-//     Dotenv::create(__DIR__.'/..')->load();
-// }
-
-// if (env('APP_STORAGE_PATH')) {
-//     // get the current working directory b/c it could be frigging anywhere
-//     $cwd = getcwd();
-//     // change to the base path so we can handle paths relative to the location of .env
-//     chdir(base_path());
-//     // Get the real path in the .env
-//     $storagePath = realpath(base_path(env('APP_STORAGE_PATH', 'storage')));
-//     // change back to original working directory
-//     chdir($cwd);
-
-//     $app->useStoragePath($storagePath);
-// }
-
-/*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-|
-| This script returns the application instance. The instance is given to
-| the calling script so we can separate the building of the instances
-| from the actual running of the application and sending responses.
-|
-*/
-
-return $app;
+        $exceptions->render(function (AuthorizationException|UnauthorizedException $e, $request) {
+            if (!$request->expectsJson()) {
+                session()->flash('error', 'Not authorized.');
+                return redirect('/');
+            }
+        });
+    })
+    ->create();
