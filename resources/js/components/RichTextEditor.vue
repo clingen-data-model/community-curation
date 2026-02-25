@@ -7,7 +7,7 @@
             :config="mergedConfig"
             @ready="prefill"
         ></ckeditor>
-        <div class="text-muted mt-2">To ensure links work correctly in emails, please use the <img class="border" src="/images/link-icon.png" /> icon in the menu bar</div>
+        <div class="text-muted mt-2">To ensure links work correctly in emails, please use the <img class="border" :src="'/images/link-icon.png'" /> icon in the menu bar</div>
     </div>
 </template>
 <script>

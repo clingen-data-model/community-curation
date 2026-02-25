@@ -18,19 +18,8 @@
         onload="this.onload=null;this.rel='stylesheet'"
     >
 
-    <!-- Styles -->
-    <link 
-        rel="preload" 
-        href="{{ mix('css/app.css') }}" 
-        as="style" 
-        onload="this.onload=null;this.rel='stylesheet'"
-    >
-
-    <noscript>
-        {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito&display=swap"> --}}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    </noscript>
+    <!-- Styles & Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     @stack('styles')
 </head>
@@ -98,8 +87,6 @@
             </div>
         </main>
     </div>
-
-    <script src="{{ mix('/js/app.js') }}"></script>
 
     <!-- Scripts -->
     @stack('scripts')

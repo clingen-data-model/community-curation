@@ -1,10 +1,5 @@
-window.Vue = require('vue');
-
-/**
- * Import all bootstrap view
- */
-// import {BootstrapVue} from 'bootstrap-vue';
-// window.Vue.use(BootstrapVue);
+import Vue from 'vue';
+window.Vue = Vue;
 
 /**
  * Import Plugins

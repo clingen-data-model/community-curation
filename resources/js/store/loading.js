@@ -52,3 +52,9 @@ const mutations = {
         state.apiRequestCounts[apiKey]--
     }
 }
+
+export default {
+    state,
+    getters,
+    mutations,
+}
