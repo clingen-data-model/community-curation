@@ -15,7 +15,7 @@ import getAllCurationGroups from './resources/curation_groups/get_all_curation_g
 import moment from 'moment-timezone'
 window.moment = moment;
 
-import './register_bootstrapvue_plugins.js'
+import './register_plugins.js'
 import './register_components.js';
 import './register_filters.js';
 

@@ -4,6 +4,10 @@
 @import 'bootstrap/scss/bootstrap';
 // //BootstrapVue
 @import 'bootstrap-vue/dist/bootstrap-vue.css';
+// PrimeVue 2 (alongside Bootstrap Vue during migration)
+@import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
+@import 'primevue/resources/primevue.css';
+@import 'primeicons/primeicons.css';
 // Sirs-Surveys
 @import './sirs-surveys.scss';
 @import './alert.scss';

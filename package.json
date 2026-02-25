@@ -29,6 +29,8 @@
         "moxios": "^0.4.0",
         "mutually-exclusive": "^1.0.1",
         "popper.js": "^1.12",
+        "primeicons": "^6.0.1",
+        "primevue": "^2.10.4",
         "sass": "^1.22.3",
         "sirs-skiptrigger": "^1.1.2",
         "timepicker": "^1.11.15",
