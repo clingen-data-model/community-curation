@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <volunteer-index></volunteer-index>
+    <div data-component="volunteer-index"></div>
 @endsection

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <curation-activity-detail :initial-group="{{$curationActivity}}"></curation-activity-detail>
+    <div data-component="curation-activity-detail"
+         data-initial-group="{{$curationActivity}}"></div>
 @endsection

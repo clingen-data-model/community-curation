@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <curation-group-list></curation-group-list>
+    <div data-component="curation-group-list"></div>
 @endsection

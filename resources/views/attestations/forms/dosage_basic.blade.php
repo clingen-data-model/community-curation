@@ -1,5 +1,6 @@
 @extends('layouts.attestation_form')
 
 @section('attestation')
-    <dosage-basic-form :attestation="{{$attestation}}"></dosage-basic-form>
+    <div data-component="dosage-basic-form"
+         data-attestation="{{$attestation}}"></div>
 @endsection

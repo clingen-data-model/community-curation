@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <training-session-list></training-session-list>
+    <div data-component="training-session-list"></div>
 @endsection

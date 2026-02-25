@@ -6,7 +6,7 @@
             <h4>Reports</h4>
         </div>
         <div class="card-body">
-            <report-form></report-form>
+            <div data-component="report-form"></div>
         </div>
     </div>
 @endsection

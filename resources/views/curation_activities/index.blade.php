@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <b-card title="Curation Activities">
-        <curation-activity-list :initial-activities="{{$curationActivities}}"></curation-activity-list>
-    </b-card>
+    <div class="card">
+        <div class="card-header"><h4>Curation Activities</h4></div>
+        <div class="card-body">
+            <div data-component="curation-activity-list"
+                 data-initial-activities="{{$curationActivities}}"></div>
+        </div>
+    </div>
 @endsection

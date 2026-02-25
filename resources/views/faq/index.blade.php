@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <faq-list :faqs="{{$faqs}}"></faq-list>
+    <div data-component="faq-list"
+         data-faqs="{{$faqs}}"></div>
 @endsection

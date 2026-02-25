@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <volunteer-detail :id="{{$volunteerId}}" :initial-volunteer="{{$volunteerJson}}"></volunteer-detail>
+    <div data-component="volunteer-detail"
+         data-id="{{$volunteerId}}"
+         data-initial-volunteer="{{$volunteerJson}}"></div>
 @endSection

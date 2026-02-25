@@ -34,17 +34,14 @@
         onload="this.rel = 'stylesheet'"
     >
 
-
     <!-- Styles & Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     @stack('styles')
 </head>
 <body>
-    <div id="app" :class="{loading: loading}">
-        @if(config('app.env') == 'demo')
-        <demo-warning></demo-warning>
-        @endif
+    <div id="app">
+        <div data-component="demo-warning"></div>
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -81,7 +78,7 @@
                             </li>
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -103,7 +100,7 @@
                                        onclick="
                                             event.preventDefault();
                                             document.getElementById('logout-form').submit();
-                                            window.clearSessionStorage();
+                                            window.clearSessionStorage && window.clearSessionStorage();
                                         "
                                     >
                                         {{ __('Logout') }}
@@ -116,21 +113,21 @@
                             </li>
                         @endguest
                         <li class="nav-item" style="margin-right: -46px">
-                            <help-button></help-button>
+                            <div data-component="help-button"></div>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
         @include('partials.no-mail')
-        <global-progress></global-progress>
+        <div data-component="global-progress"></div>
 
         @include('partials.messages')
         <main class="py-4 container">
             @yield('content')
         </main>
 
-        <alerts></alerts>
+        <div data-component="alerts"></div>
 
         @include('partials.impersonate')
 
@@ -147,16 +144,14 @@
                 </div>
                 @if(\Auth::user() && (\Auth::user()->hasRole('programmer') || \Auth::user()->isImpersonated() && \Auth::user()->impersonatedBy->hasRole('programmer')))
                 <div class="mt-3 border-top pt-3 d-flex flex-row-reverse">
-                    <button class="btn btn-xs btn-light border" v-on:click="refreshUser">
-                        <b-icon icon="arrow-clockwise"></b-icon>
-                        Refresh session user
+                    <button class="btn btn-xs btn-light border" onclick="window.refreshUser && window.refreshUser()">
+                        &#8635; Refresh session user
                     </button>
                 </div>
                 @endif
             </div>
         </footer>
     </div>
-
 
 </body>
 </html>

@@ -20,10 +20,15 @@ import './register_components.js';
 import './register_filters.js';
 
 import store from './store/index'
-import { mapActions, mapGetters } from 'vuex'
 
+// Expose globally for onclick handlers in Blade templates (no root Vue instance owns these)
 window.clearSessionStorage = function() {
     sessionStorage.clear();
+}
+
+window.refreshUser = function() {
+    sessionStorage.removeItem('user');
+    store.dispatch('fetchUser');
 }
 
 window.axios.interceptors.request.use(function(config) {
@@ -43,40 +48,32 @@ window.axios.interceptors.response.use(
     }
 );
 
-if (document.getElementById('app')) {
-    const app = new window.Vue({
-        el: '#app',
-        store: store,
-        data: {
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-        },
-        computed: {
-            infoMessages() {
-                console.log('getInfoMessages');
-                return this.$store.state.messages.info
-            },
-            loading() {
-                return this.$store.getters.loading;
-            }
-        },
-        methods: {
-            ...mapActions([
-                'fetchUser',
-            ]),
-            clearSessionStorage() {
-                window.clearSessionStorage();
-            },
-            refreshUser() {
-                console.log('refreshUser');
-                sessionStorage.removeItem('user');
-                this.fetchUser();
-            }
-        },
-        mounted() {
-            this.fetchUser();
+// Toggle .loading class on #app via store — no root Vue instance needed
+store.watch(
+    state => state.requestCount > 0,
+    loading => {
+        const appEl = document.getElementById('app');
+        if (appEl) appEl.classList.toggle('loading', loading);
+    }
+);
+
+// Fetch user on page load
+store.dispatch('fetchUser');
+
+// Mount all [data-component] elements using precompiled render functions.
+// Each element's data-component attribute names a globally registered Vue component.
+// Additional data-* attributes are passed as camelCase props (JSON-parsed where possible).
+document.querySelectorAll('[data-component]').forEach(el => {
+    const componentName = el.dataset.component;
+    const props = {};
+    Object.entries(el.dataset).forEach(([key, value]) => {
+        if (key !== 'component') {
+            try { props[key] = JSON.parse(value); }
+            catch { props[key] = value; }
         }
     });
-}
+    new Vue({ render: h => h(componentName, { props }), store }).$mount(el);
+});
 
 
 function clearChildren(el) {

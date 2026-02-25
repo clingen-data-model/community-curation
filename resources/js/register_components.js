@@ -149,3 +149,5 @@ window.Vue.component('activity-metrics', () =>
     import ( /* webpackChunkName: "activity-metrics" */ './components/admin/ActivityMetrics'));
 window.Vue.component('global-metrics', () =>
     import ( /* webpackChunkName: "global-metrics" */ './components/admin/GlobalMetrics'));
+window.Vue.component('admin-dashboard', () =>
+    import ( /* webpackChunkName: "admin-dashboard" */ './components/admin/AdminDashboard'));
