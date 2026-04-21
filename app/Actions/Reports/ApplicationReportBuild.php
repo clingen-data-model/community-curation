@@ -16,38 +16,35 @@ final class ApplicationReportBuild
     ) {
     }
 
-    public function handle(array $params): string {
-      $filePath = storage_path('app/reports/application-report-'.Carbon::now()->format('Y-m-d_H:i:s').'.xlsx');
+    public function handle(array $params): ?string
+    {
+        $filePath = storage_path('app/reports/application-report-'.Carbon::now()->format('Y-m-d_H-i-s').'.xlsx');
 
-      if (isset($params['start_date'])) {
-          $this->generator
-              ->addConstraint(function ($q) use ($params) {
-                  $q->where('finalized_at', '>=', $params['start_date']);
-              });
-      }
+        if (isset($params['start_date'])) {
+            $this->generator->addConstraint(function ($q) use ($params) {
+                $q->where('finalized_at', '>=', $params['start_date']);
+            });
+        }
 
-      if (isset($params['end_date'])) {
-          $this->generator
-              ->addConstraint(function ($q) use ($params) {
-                  $q->where('finalized_at', '<=', $params['end_date']);
-              });
-      }
+        if (isset($params['end_date'])) {
+            $this->generator->addConstraint(function ($q) use ($params) {
+                $q->where('finalized_at', '<=', $params['end_date']);
+            });
+        }
 
-      $data = $this->generator->generate($params);
+        $firstRow = $this->generator->firstRow($params);
 
-      if ($data->count() == 0) {
-          session()->flash('warning', 'Nothing matched your filters.');
+        if (! $firstRow) {
+            return null;
+        }
 
-          return redirect()->back();
-      }
+        $this->writer
+            ->setPath($filePath)
+            ->writeRows($this->generator->streamRows($params), $firstRow)
+            ->addMetadata($this->getMetadata($params))
+            ->closeWriter();
 
-      $this->writer
-          ->setPath($filePath)
-          ->writeData($data)
-          ->addMetadata($this->getMetadata($params))
-          ->closeWriter();
-
-      return $filePath;
+        return $filePath;
     }
 
     private function getMetadata($filterParams): Collection

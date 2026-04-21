@@ -21,6 +21,7 @@ class VolunteerSearchService extends UserSearchService
 
     public function buildQuery($params): Builder
     {
+        $forReport = $params['for_report'] ?? false;
         $with = [
             'volunteerType',
             'volunteerStatus',
@@ -47,14 +48,16 @@ class VolunteerSearchService extends UserSearchService
                 $this->filterByGene($value, $query);
             }
 
-            if ($key == 'highest_ed') {
+            if ($key == 'highest_ed' && ! $forReport) {
                 $query->with(['application' => function ($q) {
                     $q->select('respondent_type', 'respondent_id', 'survey_id', 'highest_ed');
                 }]);
             }
         }
 
-        $query->with($with);
+        if (! $forReport) {
+            $query->with($with);
+        }
 
         return $query;
     }
@@ -107,10 +110,10 @@ class VolunteerSearchService extends UserSearchService
 
         $query->where(function ($q) use ($searchTerm) {
             $q->where('first_name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('last_name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('email', 'like', '%'.$searchTerm.'%')
-            ->orWhere('volunteer_statuses.name', 'like', '%'.$searchTerm.'%')
-            ->orWhere('volunteer_types.name', 'like', '%'.$searchTerm.'%');
+                ->orWhere('last_name', 'like', '%'.$searchTerm.'%')
+                ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                ->orWhere('volunteer_statuses.name', 'like', '%'.$searchTerm.'%')
+                ->orWhere('volunteer_types.name', 'like', '%'.$searchTerm.'%');
         });
     }
 }

@@ -13,8 +13,14 @@ class ApplicationReportController extends Controller
 
     public function index(Request $request)
     {
+        $filePath = $this->buildReport->handle($request->all());
+
+        if (! $filePath) {
+            return redirect()->back()->with('warning', 'Nothing matched your filters.');
+        }
+
         return response()
-            ->download($this->buildReport->handle($request->all()))
+            ->download($filePath)
             ->deleteFileAfterSend();
     }
 }

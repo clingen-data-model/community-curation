@@ -28,6 +28,10 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
 
     public function writeData(Collection $data): static
     {
+        if ($data->isEmpty()) {
+            return $this;
+        }
+
         $sheets = $this->initializeSheets($data->first());
 
         $data->each(function ($row) use ($sheets) {
@@ -37,6 +41,18 @@ class ApplicationReportWriter extends AbstractReportWriter implements ReportWrit
             }
         });
 
+        return $this;
+    }
+
+    public function writeRows(iterable $rows, array $firstRow): static
+    {
+        $sheets = $this->initializeSheets($firstRow);
+        foreach ($rows as $row) {
+            foreach ($row as $key => $values) {
+                $this->setCurrentSheet($sheets[$key]);
+                $this->getWriter()->addRow($this->createRow($values));
+            }
+        }
         return $this;
     }
 
