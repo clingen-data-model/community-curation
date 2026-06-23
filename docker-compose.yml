@@ -36,9 +36,6 @@ services:
             - redis
         expose:
             - "9000"
-        links:
-            - db:db
-            - redis:redis
         volumes:
             - .:/srv/app
         init: true
