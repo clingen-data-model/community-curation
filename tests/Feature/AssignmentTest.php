@@ -160,8 +160,9 @@ class AssignmentTest extends TestCase
         AssignVolunteerToAssignable::dispatch($volunteer, $ep);
         AssignVolunteerToAssignable::dispatch($volunteer, $gene);
 
-        $this->assertEquals($gene->id, Assignment::gene()->first()->assignable_id);
-        $this->assertEquals(Gene::class, Assignment::gene()->first()->assignable_type);
+        $geneAssignment = $volunteer->fresh()->assignments->where('assignable_type', Gene::class)->first();
+        $this->assertEquals($gene->id, $geneAssignment->assignable_id);
+        $this->assertEquals(Gene::class, $geneAssignment->assignable_type);
     }
 
     /**

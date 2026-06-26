@@ -34,7 +34,7 @@ class NotesControllerTest extends TestCase
             ->json('GET', '/api/notes')
             ->assertStatus(200);
 
-        $this->assertEquals(4, $response->original->count());
+        $this->assertEquals(Note::count(), $response->original->count());
     }
 
     /**

@@ -31,13 +31,9 @@ class Gene extends Model implements AssignableContract
 
     public function setProtocolPathAttribute($value)
     {
-        $attribute_name = 'protocol_path';
-        $disk = 'public';
-        $destination_path = 'gene_protocols';
-
-        if (is_null($value) && !empty($this->attributes['protocol_path'])) {
-            $this->attributes['protocol_path'] = $value;
-            $this->protocol_filename = null;
+        if (is_null($value)) {
+            $this->attributes['protocol_path'] = null;
+            $this->attributes['protocol_filename'] = null;
 
             return;
         }
@@ -50,7 +46,7 @@ class Gene extends Model implements AssignableContract
 
         $this->protocol_filename = $value->getClientOriginalName();
 
-        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+        $this->uploadFileToDisk($value, 'protocol_path', 'public', 'gene_protocols');
     }
 
     public function getNameAttribute()

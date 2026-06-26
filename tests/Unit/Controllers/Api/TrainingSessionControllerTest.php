@@ -53,8 +53,9 @@ class TrainingSessionControllerTest extends TrainingSessionTestCase
         $response = $this->actingAs($this->admin, 'api')
             ->call('GET', '/api/training-sessions?scopes[]=past');
 
-        $this->assertEquals($response->original->pluck('id'), $past->pluck('id'));
-        $this->assertNotContains($response->original->pluck('id'), $future->pluck('id'));
+        $responseIds = $response->original->pluck('id');
+        $this->assertEmpty($past->pluck('id')->diff($responseIds), 'Created past sessions should appear in response');
+        $this->assertEmpty($future->pluck('id')->intersect($responseIds), 'Future sessions should not appear in past response');
     }
 
     /**

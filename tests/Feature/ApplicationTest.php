@@ -21,6 +21,7 @@ class ApplicationTest extends TestCase
     {
         parent::setUp();
         $this->survey = class_survey()::findBySlug('application1');
+        $this->email = 'test_'.uniqid().'@test.com';
     }
 
     /**
@@ -130,7 +131,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->orcid_id = '123';
         $rsp->volunteer_type = 1;
         $rsp->institution = 'Monkey Biz U';
@@ -144,12 +145,12 @@ class ApplicationTest extends TestCase
         $this->assertDatabaseHas('users', [
             'first_name' => 'billy',
             'last_name' => 'pilgrim',
-            'email' => 'test@test.com',
+            'email' => $this->email,
             'orcid_id' => '123',
             'institution' => 'Monkey Biz U',
         ]);
 
-        $user = User::where('email', 'test@test.com')->first();
+        $user = User::where('email', $this->email)->first();
         $this->assertEquals('App\User', $rsp->fresh()->respondent_type);
         $this->assertEquals($user->id, $rsp->fresh()->respondent_id);
         $this->assertEquals($user->orcid_id, $rsp->fresh()->orcid_id);
@@ -169,7 +170,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->orcid_id = '123';
         $rsp->volunteer_type = 1;
         $rsp->institution = 'Monkey Biz U';
@@ -184,7 +185,7 @@ class ApplicationTest extends TestCase
         $this->assertDatabaseHas('users', [
             'first_name' => 'billy',
             'last_name' => 'pilgrim',
-            'email' => 'test@test.com',
+            'email' => $this->email,
             'orcid_id' => '123',
             'institution' => 'Monkey Biz U',
             'hypothesis_id' => 'beans',
@@ -199,7 +200,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->volunteer_type = 1;
         $rsp->finalize();
 
@@ -215,7 +216,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->volunteer_type = 1;
         $rsp->save();
 
@@ -233,7 +234,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->volunteer_type = 2;
         $rsp->curation_activity_1 = 1;
         $rsp->panel_1 = 1;
@@ -275,7 +276,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->save();
 
         $mail = new ApplicationCompletedMail($rsp);
@@ -299,7 +300,7 @@ class ApplicationTest extends TestCase
         $rsp = $this->survey->getNewResponse(null);
         $rsp->first_name = 'billy';
         $rsp->last_name = 'pilgrim';
-        $rsp->email = 'test@test.com';
+        $rsp->email = $this->email;
         $rsp->already_clingen_member = 1;
         $rsp->already_member_cgs = $epJson;
         $rsp->save();

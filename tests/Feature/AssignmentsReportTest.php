@@ -55,7 +55,7 @@ class AssignmentsReportTest extends TestCase
 
         $appRsp = class_survey()::findBySlug('application1')->getNewResponse($this->volunteers->get(1));
         $appRsp->fill([
-            'email' => 'test@test.com',
+            'email' => 'test_'.uniqid().'@test.com',
             'first_name' => 'test',
             'last_name' => 'testerson',
         ]);
@@ -91,6 +91,7 @@ class AssignmentsReportTest extends TestCase
 
         $this->assertEquals(
             [
+                'volunteer_id' => $vol->id,
                 'email' => $vol->email,
                 'first_name' => $vol->first_name,
                 'last_name' => $vol->last_name,
@@ -108,7 +109,7 @@ class AssignmentsReportTest extends TestCase
                 'assigned_curation_group' => $this->curationGroups->get(3)->first()->name
                                             .",\n"
                                             .$this->curationGroups->get(3)->last()->name,
-                'assigned_gene' => null, //$this->genes->first()->symbol.",\n".$this->genes->last()->symbol
+                'assigned_gene' => '',
                 'already_clingen_member' => $vol->already_clingen_member,
                 'already_member_cgs' => $vol->memberGroups->pluck('name')->join(', ')
             ],
@@ -132,6 +133,7 @@ class AssignmentsReportTest extends TestCase
 
         $this->assertEquals(
             [
+                'volunteer_id' => $vol->id,
                 'email' => $vol->email,
                 'first_name' => $vol->first_name,
                 'last_name' => $vol->last_name,

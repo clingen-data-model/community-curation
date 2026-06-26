@@ -33,11 +33,12 @@ class AssignmentControllerTest extends TestCase
         $response->assertSee('The user id field is required');
         $response->assertSee('The assignable type field is required');
 
+        $nonExistentUserId = \App\User::max('id') + 1000;
         $response = $this->actingAs($this->user, 'api')
             ->json('POST', '/api/assignments', [
                 'assignable_type' => 'test',
                 'assignable_id' => 1,
-                'user_id' => 1000,
+                'user_id' => $nonExistentUserId,
             ]);
         $response->assertSee('The selected assignable type is invalid.');
         $response->assertSee('The selected user id is invalid.');
@@ -56,6 +57,8 @@ class AssignmentControllerTest extends TestCase
      */
     public function stores_new_assignment()
     {
+        $countBefore = CurationActivity::find(1)->assignments->count();
+
         $response = $this->actingAs($this->user, 'api')
             ->withoutExceptionHandling()
             ->json('POST', '/api/assignments', [
@@ -73,6 +76,6 @@ class AssignmentControllerTest extends TestCase
             'user_id' => $this->volunteer->id,
         ]);
 
-        $this->assertEquals(1, CurationActivity::find(1)->assignments->count());
+        $this->assertEquals($countBefore + 1, CurationActivity::find(1)->fresh()->assignments->count());
     }
 }

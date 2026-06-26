@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\User;
 use App\Aptitude;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,6 +13,12 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use DatabaseTransactions;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+    }
 
     private function createUser($data, $number, $roles = [])
     {

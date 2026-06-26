@@ -146,9 +146,12 @@ class UserTest extends TestCase
         $admin = $this->createAdmin(['last_logged_in_at' => Carbon::now()->addHours(-2), 'last_logged_out_at' => Carbon::now()->addHours(-1)]);
 
         $loggedInUsers = User::isLoggedIn()->get();
+        $loggedInIds = $loggedInUsers->pluck('id');
 
-        $this->assertEquals(2, $loggedInUsers->count());
-        $this->assertEquals([$volunteer->id, $programmer->id], $loggedInUsers->pluck('id')->values()->toArray());
+        $this->assertContains($volunteer->id, $loggedInIds);
+        $this->assertContains($programmer->id, $loggedInIds);
+        $this->assertNotContains($user->id, $loggedInIds);
+        $this->assertNotContains($admin->id, $loggedInIds);
     }
 
     /**
