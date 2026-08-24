@@ -139,7 +139,18 @@
                         <a :href="'/volunteers/'+item.id">{{item.email}}</a>
                     </template>
                     <template v-slot:cell(application.highest_ed.value)="{ item }">
-                        <span>{{ item.application.highest_ed.value.join(', ') }}</span>
+                        <span
+                            v-if="
+                                item.application &&
+                                item.application.highest_ed &&
+                                item.application.highest_ed.value
+                            "
+                        >
+                            {{ item.application.highest_ed.value.join(', ') }}
+                        </span>
+                        <span v-else>
+                            -
+                        </span>
                     </template>
                     <template v-slot:cell(assignments)="{item}">
                         <assignment-brief-list 
