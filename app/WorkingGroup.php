@@ -2,13 +2,11 @@
 
 namespace App;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class WorkingGroup extends Model
 {
-    use CrudTrait;
     use RevisionableTrait;
 
     protected $fillable = [

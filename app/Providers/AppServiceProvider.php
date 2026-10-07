@@ -35,13 +35,6 @@ class AppServiceProvider extends ServiceProvider
 
         Actions::registerCommands('app/Actions');
 
-        if ($this->app->environment('production')) {
-            config(['backpack.base.skin' => 'skin-blue']);
-        }
-        if ($this->app->environment('local', 'demo')) {
-            config(['backpack.base.logo_lg' => '<b>ClinGen</b> - '.$this->app->environment()]);
-        }
-
         if (config('app.url_scheme')) {
             URL::forceScheme(config('app.url_scheme'));
         }

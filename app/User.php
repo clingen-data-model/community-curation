@@ -22,7 +22,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use App\Traits\IsNotable as TraitsIsNotable;
 use App\Events\Volunteers\MarkedUnresponsive;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Venturecraft\Revisionable\RevisionableTrait;
 use App\Events\Volunteers\ConvertedToComprehensive;
 use Lab404\Impersonate\Services\ImpersonateManager;
@@ -37,7 +36,6 @@ class User extends Authenticatable implements IsNotable
 {
     use RevisionableTrait;
     use Notifiable;
-    use CrudTrait;
     use Impersonate;
     use LogsActivity;
     use HasRoles;

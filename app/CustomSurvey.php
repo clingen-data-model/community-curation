@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +12,6 @@ class CustomSurvey extends Model
 {
     use HasFactory;
     use RevisionableTrait;
-    use CrudTrait;
     use SoftDeletes;
 
     public $fillable = [

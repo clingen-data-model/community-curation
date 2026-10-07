@@ -3,18 +3,12 @@
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-header">
-                    <div class="float-right" v-if="canEdit"><a href="admin/faq" class="btn btn-primary border btn-sm">Manage FAQs</a></div>
                     <h3>Frequently Asked Questions</h3>
                 </div>
                 <div class="card-body">
                     <dl>
                         <div v-for="faq in faqs" :key="faq.id">
                             <dt>
-                                <div class="float-right" v-if="canEdit">
-                                    <a :href="`admin/faq/${faq.id}/edit`" class="btn btn-default border btn-xs">
-                                        <b-icon-pencil></b-icon-pencil>
-                                    </a>
-                                </div>
                                 
                                 <!-- <h5 v-b-toggle="`faq-collapse-${faq.id}`">{{faq.question}}</h5> -->
                                 <h5>{{faq.question}}</h5>
@@ -66,11 +60,6 @@ export default {
             currentImage: {},
             modalSize: 'lg'
         }
-    },
-    computed: {
-        canEdit(){
-            return this.$store.state.user.isAdmin() || this.$store.state.user.isProgrammer();
-        },
     },
     methods: {
         showFullsizeImage(path) {

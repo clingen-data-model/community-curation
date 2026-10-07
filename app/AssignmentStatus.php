@@ -2,14 +2,12 @@
 
 namespace App;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 class AssignmentStatus extends Model
 {
     use RevisionableTrait;
-    use CrudTrait;
 
     protected $fillable = [
         'names',

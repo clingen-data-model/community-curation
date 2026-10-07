@@ -98,18 +98,6 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="/faq" class="dropdown-item" target="faq">FAQ</a>
-
-
-                                    @if(\Auth::user()->hasPermissionTo('administer'))
-                                        <a class="dropdown-item" href="/admin" target="admin">
-                                            Admin
-                                        </a>
-                                    @endif
-
-                                    @if(\Auth::user()->hasPermissionTo('view logs'))
-                                        <a class="dropdown-item" href="/admin/logs" target="logs">Logs</a>
-                                    @endif
-
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="
                                             event.preventDefault();

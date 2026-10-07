@@ -138,13 +138,3 @@ window.Vue.component('notes-list', () =>
  */
 window.Vue.component('faq-list', () =>
     import ( /* webpackChunkName: "faq-list" */ './components/faq/FaqList'));
-
-/**
- * Admin
- */
-window.Vue.component('logged-in-users-list', () =>
-    import ( /* webpackChunkName: "logged-in-users-list" */ './components/admin/LoggedInUsersList'));
-window.Vue.component('activity-metrics', () =>
-    import ( /* webpackChunkName: "activity-metrics" */ './components/admin/ActivityMetrics'));
-window.Vue.component('global-metrics', () =>
-    import ( /* webpackChunkName: "global-metrics" */ './components/admin/GlobalMetrics'));

@@ -5,15 +5,6 @@
                 <h3 class="mb-0">
                     <a :href="`${groupUrl}`">{{groupType}}</a> - {{group.name}}
                 </h3>
-                <div>
-                    <a 
-                        :href="`${adminBaseUrl}/${group.id}/edit`" 
-                        class="btn btn-primary btn-sm" 
-                        v-if="adminBaseUrl !== null"
-                    >
-                        Edit
-                    </a>
-                </div>
             </div>
         </template>
         <section class="lead">
@@ -84,7 +75,6 @@ export default {
             group: this.initalGroup,
             groupType: 'Curation Groups',
             groupUrl: '/curation-groups',
-            adminBaseUrl: '/admin/curation-group',
             assignmentStatusPath: 'status.name',
         }
     },

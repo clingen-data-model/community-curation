@@ -4,12 +4,10 @@ namespace App;
 
 use App\Contracts\AssignableContract;
 use App\Traits\AssignableTrait;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Gene extends Model implements AssignableContract
 {
-    use CrudTrait;
     use AssignableTrait;
 
     public $fillable = [
@@ -27,26 +25,6 @@ class Gene extends Model implements AssignableContract
     public function canBeAssignedToBaseline(): bool
     {
         return true;
-    }
-
-    public function setProtocolPathAttribute($value)
-    {
-        if (is_null($value)) {
-            $this->attributes['protocol_path'] = null;
-            $this->attributes['protocol_filename'] = null;
-
-            return;
-        }
-
-        if (app()->environment('testing')) {
-            $this->attributes['protocol_path'] = $value;
-
-            return;
-        }
-
-        $this->protocol_filename = $value->getClientOriginalName();
-
-        $this->uploadFileToDisk($value, 'protocol_path', 'public', 'gene_protocols');
     }
 
     public function getNameAttribute()

@@ -4,11 +4,9 @@ namespace App;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class Country extends Model
 {
-    use CrudTrait;
 
     protected $fillable = [
         'name',
