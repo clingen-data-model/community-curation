@@ -80,7 +80,7 @@ class CreateSurveyRspApplication1 extends Migration
             $table->index(['survey_id']);
             $table->index(['started_at', 'finalized_at', 'survey_id'], 'started_finalized_survey_index');
         });
-        $indexes = Schema::getConnection()->getDoctrineSchemaManager()->listTableIndexes('rsp_application_1');
+        $indexes = array_column(Schema::getIndexes('rsp_application_1'), null, 'name');
         if (!array_key_exists('rsp_application_1_respondent_type_respondent_id_index', $indexes)) {
             Schema::table('rsp_application_1', function (Blueprint $table) {
                 $table->index(['respondent_type', 'respondent_id']);

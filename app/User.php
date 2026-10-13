@@ -9,6 +9,7 @@ use App\Contracts\IsNotable;
 use App\Events\Users\UserCreated;
 use App\Events\Volunteers\Retired;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Contracts\OAuthenticatable;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -32,7 +33,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class User extends Authenticatable implements IsNotable
+class User extends Authenticatable implements IsNotable, OAuthenticatable
 {
     use RevisionableTrait;
     use Notifiable;

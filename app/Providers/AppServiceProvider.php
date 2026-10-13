@@ -22,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('command.survey.migration', function () {
+            return new \App\Console\Commands\CreateSurveyMigrationsFromDocument();
+        });
     }
 
     /**

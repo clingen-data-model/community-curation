@@ -26,7 +26,7 @@ services:
             - "host.docker.internal:host-gateway"
 
     app:
-        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-11.7-8.2:v1.1.6}
+        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-13.2-8.4:v1.1.11}
         container_name: ${DOCKER_NAME:-ccdb}-app
         entrypoint:
             - bash
@@ -53,7 +53,7 @@ services:
 
     nginx:
         container_name: ${DOCKER_NAME:-ccdb}-nginx
-        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-11.7-8.2:v1.1.6}
+        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-13.2-8.4:v1.1.11}
         depends_on:
             - app
         ports:
@@ -89,7 +89,7 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8036}:8025'
 
     scheduler:
-        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-11.7-8.2:v1.1.6}
+        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-13.2-8.4:v1.1.11}
         container_name: ${DOCKER_NAME:-ccdb}-scheduler
         depends_on:
             - app
@@ -114,7 +114,7 @@ services:
             - "host.docker.internal:host-gateway"
 
     queue:
-        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-11.7-8.2:v1.1.6}
+        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-13.2-8.4:v1.1.11}
         container_name: ${DOCKER_NAME:-ccdb}-queue
         depends_on:
             - app

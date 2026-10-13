@@ -17,6 +17,9 @@ return [
 
     'driver' => 'bcrypt',
 
+    // Preserve the existing login behavior when upgrading to Laravel 11.
+    'rehash_on_login' => false,
+
     /*
     |--------------------------------------------------------------------------
     | Bcrypt Options
