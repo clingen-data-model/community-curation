@@ -52,21 +52,17 @@ services:
         extra_hosts:
             - "host.docker.internal:host-gateway"
 
-    nginx:
-        container_name: ${DOCKER_NAME:-ccdb}-nginx
-        image: ${DOCKER_IMAGE:-ghcr.io/clingen-data-model/cgwi-php-13.7-8.5:v1.2.0}
+    caddy:
+        container_name: ${DOCKER_NAME:-ccdb}-caddy
+        image: caddy:2.10-alpine
         depends_on:
             - app
         ports:
             - "${APP_PORT:-8011}:8080"
         volumes:
-            - .:/srv/app
-        user: ${DOCKER_USER:-501:20}
-        init: true
-        entrypoint:
-            - /usr/sbin/nginx
-            - -g
-            - "daemon off;"
+            - ./public:/srv/app/public:ro
+            - ./storage/app/public:/srv/app/storage/app/public:ro
+            - ./.docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
 
     redis:
         container_name: ${DOCKER_NAME:-ccdb}-redis
